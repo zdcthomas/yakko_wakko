@@ -1,0 +1,11 @@
+{
+  "segments": [
+      "ssh", 
+      "cwd",      
+      "git", 
+      "hg", 
+      "jobs", 
+      "root",
+      "exit_code"
+   ]
+}

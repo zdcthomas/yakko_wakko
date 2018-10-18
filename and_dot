@@ -1,0 +1,9 @@
+#!/bin/bash
+cp ~/.vimrc .
+cp ~/.zshrc .
+cp ~/.bash_profile .
+cp -a  ~/.config/powerline-shell/. ./powerline-shell
+
+git add .
+git commit -m "Updated on $(date)"
+git push 

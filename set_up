@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cp ./.vimrc ~/.
+cp ./.zshrc ~/.
+cp ~/.bash_profile .
+cp -a ./powerline-shell/. ~/.config/powerline-shell/.
+
