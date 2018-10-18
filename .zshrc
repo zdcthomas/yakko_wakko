@@ -10,10 +10,10 @@ echo "                        ";
 
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+#export PATH=$HOME/bin:/usr/local/bin:$PAT
 
 # Path to your oh-my-zsh installation.
-#export ZSH="/Users/zacharythomas/.oh-my-zsh"
+export ZSH="/Users/zacharythomas/.oh-my-zsh"
 
 
 #this is a test
@@ -52,14 +52,14 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-#plugins=(
-#  git
-#  bundler
-#  osx
-#  rake
-#  rbenv
-#  ruby
-#)
+plugins=(
+  git
+  bundler
+  osx
+  rake
+  rbenv
+  ruby
+)
 #source $ZSH/oh-my-zsh.sh
 
 # User configuration
