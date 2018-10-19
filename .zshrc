@@ -1,3 +1,4 @@
+
 echo " ________  _________    ";
 echo "|\_____  \|\___   ___\  ";
 echo " \|___/  /\|___ \  \_|  ";
@@ -10,13 +11,10 @@ echo "                        ";
 
 
 # If you come from bash you might have to change your $PATH.
-#export PATH=$HOME/bin:/usr/local/bin:$PAT
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/zacharythomas/.oh-my-zsh"
-
-
-#this is a test
 
 
 # Set name of the theme to load. Optionally, if you set this to "random"
@@ -60,7 +58,7 @@ plugins=(
   rbenv
   ruby
 )
-#source $ZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -94,34 +92,14 @@ alias bye="rm -rf"
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
 alias reload='source ~/.zshrc'
 alias hmm='pry -r ./config/environment.rb'
-alias zrc="vim ~/.zshrc"
-alias l="ls -laFGgohq"
-alias gco="git checkout"
 
-
-function powerline_precmd() {
-    PS1="$(powerline-shell --shell zsh $?)"
-}
-
-function install_powerline_precmd() {
-  for s in "${precmd_functions[@]}"; do
-    if [ "$s" = "powerline_precmd" ]; then
-      return
-    fi
-  done
-  precmd_functions+=(powerline_precmd)
-}
-
-if [ "$TERM" != "linux" ]; then
-    install_powerline_precmd
-fi
-
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 for ver in $(rbenv whence yarn); do
   RBENV_VERSION="$ver" gem uninstall -ax yarn
   rm -f "$(rbenv prefix "$ver")/bin/yarn"
 done
-
 rbenv rehash
 
 function ask(){
