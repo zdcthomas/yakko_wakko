@@ -6,4 +6,3 @@ cp -a  ~/.config/powerline-shell/. ./powerline-shell
 
 git add .
 git commit -m "Updated on $(date)"
-git push 
