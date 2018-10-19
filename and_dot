@@ -1,4 +1,5 @@
 #!/bin/bash
+cp ~/.zshenv .
 cp ~/.vimrc .
 cp ~/.zshrc .
 cp ~/.bash_profile .

@@ -8,9 +8,6 @@ echo "    \|_______\|__|\|__| ";
 echo "                        ";
 
 
-
-
-
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
 alias reload='source ~/.zshrc'
 alias hmm='pry -r ./config/environment.rb'
@@ -35,9 +32,6 @@ function install_powerline_precmd() {
 if [ "$TERM" != "linux" ]; then
     install_powerline_precmd
 fi
-
-
-
 
 
 for ver in $(rbenv whence yarn); do
