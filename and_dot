@@ -3,6 +3,7 @@ cp ~/.zshenv .
 cp ~/.zshrc .
 cp ~/.vimrc .
 cp ~/.bash_profile .
+cp -a ~/.vim/. ./vim
 cp -a ~/.config/fish/. ./fish
 cp -a  ~/.config/powerline-shell/. ./powerline-shell
 

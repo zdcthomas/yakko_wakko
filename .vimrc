@@ -19,4 +19,4 @@ nnoremap ; :
 set incsearch                   " incremental searching
 set ignorecase                  " ignore case in searching
 
-
+set runtimepath^=~/.vim/bundle/ctrlp.vim
