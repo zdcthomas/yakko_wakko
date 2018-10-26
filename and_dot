@@ -1,4 +1,5 @@
 #!/bin/bash
+cp -a ~/.vim/. ./.vim/
 cp ~/.vimrc .
 cp ~/.bash_profile .
 cp -a ~/.config/fish/. ./fish
