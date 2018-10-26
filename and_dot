@@ -1,10 +1,7 @@
 #!/bin/bash
-cp ~/.zshenv .
-cp ~/.zshrc .
 cp ~/.vimrc .
 cp ~/.bash_profile .
 cp -a ~/.config/fish/. ./fish
-cp -a  ~/.config/powerline-shell/. ./powerline-shell
 
 git add .
 git commit -m "Updated on $(date)"
