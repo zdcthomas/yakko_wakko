@@ -10,7 +10,7 @@ set __fish_git_prompt_char_upstream_ahead '⤴'
 
 function fish_prompt
   set -g fish_prompt_pwd_dir_length 0
-  set_color blue
+  set_color normal
   
   set last_status $status
   
