@@ -1,3 +1,4 @@
+set nocp
 execute pathogen#infect()
 
 syntax on
