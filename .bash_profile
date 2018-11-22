@@ -26,3 +26,6 @@ make_rails(){
 
   code .
 }
+export PATH="$HOME/.jenv/bin:$PATH"
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
