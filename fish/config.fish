@@ -4,4 +4,11 @@ alias l="ls -laFGgohq"
 alias fsh='vim ~/.config/fish/'
 alias vrc='vim ~/.vimrc'
 alias tmc='vim ~/.tmux.conf'
-set PATH $HOME/.jenv/bin $PATH
+alias gco='git checkout'
+alias less='less -N'
+
+set homebrew /usr/local/bin /usr/local/sbin
+
+set PATH $HOME/.rbenv/bin $PATH
+set PATH $HOME/.rbenv/shims $PATH
+rbenv rehash >/dev/null ^&1

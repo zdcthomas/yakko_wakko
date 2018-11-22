@@ -18,7 +18,6 @@ function fish_prompt
     set __git_cb ":"(set_color green)(git branch ^/dev/null | grep \* | sed 's/* //')(set_color normal)""
   end
 
-
   echo -n (prompt_pwd)
   #echo -n $__git_cb
   echo -n (__fish_git_prompt)
