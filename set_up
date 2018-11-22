@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cp ./.vimrc ~/.
+cp -a ./.vim ~/.vim/
 cp ./.bash_profile ~/.
 cp -a ./fish/. ~/.config/fish
 
