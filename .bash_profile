@@ -1,11 +1,6 @@
-export PATH=/usr/local/bin:$PATH
-eval "$(rbenv init -)"
-export PS1="\w> \e[m"
-alias gitsave="git commit -v -a"
 shopt -s checkwinsize
-alias bye="rm -rf"
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
-
+alias la='ls -la'
 
 make_rails(){
   rails new $1 -T -d=postgresql --skip-turbolinks --skip-spring $2
@@ -26,3 +21,9 @@ make_rails(){
 
   code .
 }
+
+export PS1="\w> \e[m"
+alias gitsave="git commit -v -a"
+export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH=/usr/local/bin:$PATH
+eval "$(rbenv init -)"
