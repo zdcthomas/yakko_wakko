@@ -5,10 +5,18 @@
 - clean: ['~']
 
 - shell:
-  - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  - brew tap caskroom/cask
-  - brew tap caskroom/versions
+  - 
+    command: if [[ $(command -v brew) == "" ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; fi
+    description: Installing Homebrew if it isn't already installed
+  - 
+    command: if ! brew info cask &>/dev/null; then brew tap caskroom/cask; fi
+    description: Setting up brew cask
+  # - brew tap caskroom/versions
   - [git submodule update --init --recursive, Installing submodules]
+  - 
+    command: cd && brew bundle
+    quiet: false
+    description: Installing all brew packages
 
 - link:
     ~/yakko_wakko: ''
@@ -24,6 +32,3 @@
         force: true
         path: vim/*
         relink: true
-
-# - shell:
-#   - cd && brew bundle
