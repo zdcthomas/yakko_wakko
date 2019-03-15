@@ -24,11 +24,15 @@
     ~/.vimrc: vimrc
     ~/Brewfile: Brewfile
     ~/.config/:
-        glob: true
-        path: config/*
-        relink: true
+      glob: true
+      path: config/*
+      relink: true
     ~/.vim/:
-        glob: true
-        force: true
-        path: vim/*
-        relink: true
+      glob: true
+      force: true
+      path: vim/*
+      relink: true
+    # ~/Library/Application\ Support/Code/User/:
+    #   glob: true
+    #   path: vscode/*
+    #   relink: true
