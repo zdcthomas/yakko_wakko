@@ -1,21 +1,29 @@
+- defaults:
+    link:
+      relink: true
+
+- clean: ['~']
+
 - shell:
-  - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 
+  - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   - brew tap caskroom/cask
   - brew tap caskroom/versions
   - [git submodule update --init --recursive, Installing submodules]
 
-- defaults:
-  - link:
-    ~/.yakko_wakko: ''
+- link:
+    ~/yakko_wakko: ''
     ~/.bash_profile: bash_profile
     ~/.vimrc: vimrc
     ~/Brewfile: Brewfile
     ~/.config/:
-      glob: true
-      path: config/*
-      relink: true
+        glob: true
+        path: config/*
+        relink: true
     ~/.vim/:
-      glob: true
-      path: vim/*
-      relink: true
+        glob: true
+        force: true
+        path: vim/*
+        relink: true
 
+# - shell:
+#   - cd && brew bundle
