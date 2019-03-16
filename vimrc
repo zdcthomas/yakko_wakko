@@ -12,13 +12,17 @@ set expandtab                                                " use spaces, not t
 set backspace=indent,eol,start                               " backspace through everything in insert mode
 set autoindent
 set copyindent
-set number
+" set number
 set showmatch
 set smarttab
 set title
 set nobackup
 set noswapfile
 set nohlsearch
+set rnu
+if !&scrolloff
+    set scrolloff=3       " Show next 3 lines while scrolling.
+endif
 nnoremap ; :
 
 "" Searching
@@ -33,3 +37,13 @@ set ignorecase                  " ignore case in searching
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 let g:EasyMotion_smartcase = 1
+
+let g:netrw_banner = 0
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+let g:airline#extensions#tabline#enabled = 1
+
