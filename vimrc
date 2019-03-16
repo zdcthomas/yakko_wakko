@@ -32,3 +32,4 @@ set ignorecase                  " ignore case in searching
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
+let g:EasyMotion_smartcase = 1
