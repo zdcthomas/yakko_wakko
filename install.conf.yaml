@@ -21,14 +21,19 @@
 - link:
     ~/yakko_wakko: ''
     ~/.bash_profile: bash_profile
-    ~/.vimrc: vimrc
+    ~/.vimrc: 
+      path: vimrc
+      relink: true
+      force: true
     ~/Brewfile: Brewfile
     ~/.config/:
       glob: true
       path: config/*
       relink: true
+      create: true
     ~/.vim/:
       glob: true
+      create: true
       force: true
       path: vim/*
       relink: true

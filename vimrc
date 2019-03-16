@@ -1,9 +1,10 @@
 set nocp
-execute pathogen#infect()
+" execute pathogen#infect()
 
 syntax on
 colorscheme desert
 
+:let mapleader = " "
 set clipboard=unnamed 
 set nowrap                                                   " don't wrap lines
 set tabstop=2 shiftwidth=2                                   " a tab is two spaces (or set this to 4)
@@ -17,15 +18,17 @@ set smarttab
 set title
 set nobackup
 set noswapfile
+set nohlsearch
 nnoremap ; :
 
 "" Searching
 set incsearch                   " incremental searching
 set ignorecase                  " ignore case in searching
 
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-map <C-n> :NERDTreeToggle<CR>
-let NERDTreeShowLineNumbers=1
+" set runtimepath^=~/.vim/bundle/ctrlp.vim
+" map <C-n> :NERDTreeToggle<CR>
+" let NERDTreeShowLineNumbers=1
 
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
