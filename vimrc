@@ -12,13 +12,17 @@ set expandtab                                                " use spaces, not t
 set backspace=indent,eol,start                               " backspace through everything in insert mode
 set autoindent
 set copyindent
-set number
+" set number
 set showmatch
 set smarttab
 set title
 set nobackup
 set noswapfile
 set nohlsearch
+set rnu
+if !&scrolloff
+    set scrolloff=3       " Show next 3 lines while scrolling.
+endif
 nnoremap ; :
 
 "" Searching
