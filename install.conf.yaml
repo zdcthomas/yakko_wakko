@@ -1,0 +1,45 @@
+- defaults:
+    link:
+      relink: true
+      force: true
+      create: true
+
+- clean: ['~']
+
+- link:
+  #~/yakko_wakko: ''
+    ~/.bash_profile: bash_profile
+    ~/.vimrc: 
+      path: vimrc
+    ~/Brewfile: Brewfile
+    ~/.config/:
+      glob: true
+      path: config/*
+      create: true
+    ~/.vim/:
+      glob: true
+      path: vim/*
+    # ~/Library/Application\ Support/Code/User/:
+    #   glob: true
+    #   path: vscode/*
+    #   relink: true
+
+- shell:
+  - 
+    command: if [[ $(command -v brew) == "" ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; fi
+    description: Installing Homebrew if it isn't already installed
+    stdout: true
+  - 
+    command: if ! brew info cask &>/dev/null; then brew tap caskroom/cask; fi
+    description: Setting up brew cask
+    stdout: true
+  # - brew tap caskroom/versions
+  - 
+    command: git submodule update --init --recursive
+    description: Installing submodules
+  - 
+    command: cd && brew bundle
+    stdout: true
+    quiet: false
+    description: Installing all brew packages
+

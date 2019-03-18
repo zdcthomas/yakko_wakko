@@ -5,10 +5,9 @@ alias fsh='vim ~/.config/fish/'
 alias vrc='vim ~/.vimrc'
 alias tmc='vim ~/.tmux.conf'
 alias gco='git checkout'
-alias less='less -N'
-
-set homebrew /usr/local/bin /usr/local/sbin
-
-set PATH $HOME/.rbenv/bin $PATH
-set PATH $HOME/.rbenv/shims $PATH
-rbenv rehash >/dev/null ^&1
+alias gs='git status'
+alias ga='git add'
+alias t='todolist'
+alias nats="docker run -d -p 4222:4222 -p 6222:6222 -p 8222:8222 nats:latest"
+alias vim=nvim
+status --is-interactive; and source (rbenv init -|psub)

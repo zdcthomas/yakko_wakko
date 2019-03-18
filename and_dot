@@ -1,8 +1,0 @@
-#!/bin/bash
-cp -a ~/.vim/. ./.vim/
-cp ~/.vimrc .
-cp ~/.bash_profile .
-cp -a ~/.config/fish/. ./fish
-
-git add .
-git commit -m "Updated on $(date)"
