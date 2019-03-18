@@ -1,9 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/Users/zacharythomas/yakko_wakko/fish'
-let g:netrw_dirhist_2='/Users/zacharythomas/yakko_wakko/fish/functions'
-let g:netrw_dirhist_3='/Users/zacharythomas/yakko_wakko/fish'
-let g:netrw_dirhist_4='/Users/zacharythomas/ibotta/platform_dev'
-let g:netrw_dirhist_5='/Users/zacharythomas/.config/fish'
-let g:netrw_dirhist_6='/Users/zacharythomas/.config/fish/functions'
-let g:netrw_dirhist_7='/Users/zacharythomas/.config/fish'

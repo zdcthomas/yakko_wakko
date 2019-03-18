@@ -1,0 +1,93 @@
+{
+    "editor.tabSize": 2,
+    "editor.renderWhitespace": "all",
+    "editor.cursorBlinking": "expand",
+    "editor.fontLigatures": true,
+    "editor.minimap.renderCharacters": false,
+    "workbench.colorTheme": "Ayu Light Bordered",
+    "editor.acceptSuggestionOnEnter": "off",
+    "files.autoSave": "onFocusChange",
+    "search.useIgnoreFiles": false,
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
+    "editor.parameterHints": false,
+    "editor.dragAndDrop": false,
+    "window.openFilesInNewWindow": "on",
+    "zenMode.centerLayout": false,
+    "zenMode.hideTabs": false,
+    "debug.allowBreakpointsEverywhere": true,
+    "markdown.preview.breaks": true,
+    "breadcrumbs.enabled": true,
+    "workbench.startupEditor": "welcomePage",
+    "workbench.panel.defaultLocation": "right",
+    "terminal.integrated.cursorBlinking": true,
+    "vim.normalModeKeyBindings": [ 
+        {
+            "before": [";"],
+            "after": [":"]
+        }
+    ],
+    "[ruby]": {
+    
+},
+"ruby.specSaveFile": true,
+"editor.fontFamily": "Fira Code",
+"editor.fontWeight": "500",
+"window.zoomLevel": 0,
+"window.title": " ${dirty}~~~~~~~~${rootName}~~~~~~~~ ${dirty}",
+"vim.easymotion": true,
+"vim.useSystemClipboard": true,
+"vim.leader": "<space>",
+"vim.easymotionMarkerFontFamily": "Times new roman",
+"vim.easymotionMarkerFontSize": "16",
+"vim.easymotionMarkerHeight": 20,
+"vim.easymotionMarkerWidthPerChar": 12,
+"vim.visualModeKeyBindingsNonRecursive": [
+    {
+        "before": [
+            ">"
+        ],
+        "commands": [
+            "editor.action.indentLines"
+        ]
+    },
+    {
+        "before": [
+            "<"
+        ],
+        "commands": [
+            "editor.action.outdentLines"
+        ]
+    },
+{
+        "before": [
+            "p",
+        ],
+        "after": [
+            "p",
+            "g",
+            "v",
+            "y"
+        ]
+    }
+],
+"vim.easymotionKeys": "asdfjkl;qweruiopzxcvnm",
+"editor.cursorSmoothCaretAnimation": true,
+"zenMode.fullScreen": false,
+"editor.quickSuggestionsDelay": 7,
+"workbench.editor.highlightModifiedTabs": true,
+"workbench.editor.enablePreview": false,
+"vim.visualstar": true,
+"vim.debug.silent": true,
+"files.exclude": {
+    "**/.git": false
+},
+"search.exclude": {
+    ".git": true,
+    "**/.git": true,
+    "**/deps": true
+},
+"vim.neovimPath": "/usr/local/bin/nvim",
+"vim.enableNeovim": true
+}
