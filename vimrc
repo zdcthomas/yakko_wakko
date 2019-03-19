@@ -19,24 +19,25 @@ set title
 set nobackup
 set noswapfile
 set nohlsearch
-set rnu
+set nu rnu
 if !&scrolloff
-    set scrolloff=3       " Show next 3 lines while scrolling.
+    set scrolloff=5      " Show next 5 lines while scrolling.
 endif
 nnoremap ; :
 
 "" Searching
 set incsearch                   " incremental searching
 set ignorecase                  " ignore case in searching
+let g:EasyMotion_smartcase = 1
 
 " set runtimepath^=~/.vim/bundle/ctrlp.vim
 " map <C-n> :NERDTreeToggle<CR>
 " let NERDTreeShowLineNumbers=1
 
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
-let g:EasyMotion_smartcase = 1
+
+" easier window motions
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
