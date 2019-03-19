@@ -1,15 +1,13 @@
 set nocp
-" execute pathogen#infect()
 
 syntax on
 colorscheme desert
 
-:let mapleader = " "
 set clipboard=unnamed 
-set nowrap                                                   " don't wrap lines
-set tabstop=2 shiftwidth=2                                   " a tab is two spaces (or set this to 4)
-set expandtab                                                " use spaces, not tabs (optional)
-set backspace=indent,eol,start                               " backspace through everything in insert mode
+set nowrap                            " don't wrap lines
+set tabstop=2 shiftwidth=2            " a tab is two spaces (or set this to 4)
+set expandtab                         " use spaces, not tabs (optional)
+set backspace=indent,eol,start        " backspace through everything in insert mode
 set autoindent
 set copyindent
 " set number
@@ -19,21 +17,29 @@ set title
 set nobackup
 set noswapfile
 set nohlsearch
-set nu rnu
+set nu rnu                            " set abs number on current line, but relative everywhere else
+set lazyredraw                        " macros do not have to redraw the screen
+
 if !&scrolloff
-    set scrolloff=5      " Show next 5 lines while scrolling.
+    set scrolloff=5                   " Show next 5 lines while scrolling.
 endif
-nnoremap ; :
+
+" makes widmenu nice
+set wildmenu
+set wildmode=longest:full,full
+set cmdheight=1
 
 "" Searching
-set incsearch                   " incremental searching
-set ignorecase                  " ignore case in searching
+set incsearch                         " incremental searching
+set ignorecase                        " ignore case in searching
+
+
+" remaps for the sake of civility
+:let mapleader = " "
+nnoremap ; :
+
+" Easymotion stuff
 let g:EasyMotion_smartcase = 1
-
-" set runtimepath^=~/.vim/bundle/ctrlp.vim
-" map <C-n> :NERDTreeToggle<CR>
-" let NERDTreeShowLineNumbers=1
-
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
