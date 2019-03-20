@@ -1,7 +1,9 @@
 set nocp
 
 syntax on
-colorscheme desert
+
+colorscheme gruvbox
+set termguicolors
 
 set clipboard=unnamed 
 set nowrap                            " don't wrap lines
@@ -29,13 +31,16 @@ set wildmenu
 set wildmode=longest:full,full
 set cmdheight=1
 
-"" Searching
+" Searching
 set incsearch                         " incremental searching
 set ignorecase                        " ignore case in searching
 
+" color of selectable letter background
+hi link EasyMotionTarget Function
+hi link EasyMotionShade  Comment
 
 " remaps for the sake of civility
-:let mapleader = " "
+let mapleader = " "
 nnoremap ; :
 
 " Easymotion stuff
@@ -43,8 +48,10 @@ let g:EasyMotion_smartcase = 1
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
+
 " easier window motions
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+nnoremap <Leader>w <C-w>

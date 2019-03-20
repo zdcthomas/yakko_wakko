@@ -4,7 +4,7 @@
     "editor.cursorBlinking": "expand",
     "editor.fontLigatures": true,
     "editor.minimap.renderCharacters": false,
-    "workbench.colorTheme": "Ayu Light Bordered",
+    "workbench.colorTheme": "Solarized Light",
     "editor.acceptSuggestionOnEnter": "off",
     "files.autoSave": "onFocusChange",
     "search.useIgnoreFiles": false,
@@ -20,74 +20,81 @@
     "markdown.preview.breaks": true,
     "breadcrumbs.enabled": true,
     "workbench.startupEditor": "welcomePage",
-    "workbench.panel.defaultLocation": "right",
     "terminal.integrated.cursorBlinking": true,
     "vim.normalModeKeyBindings": [ 
         {
             "before": [";"],
             "after": [":"]
+        },
+        {
+            "before": [" ", "w","-"],
+            "commands": [":sp"]
+        },
+        {
+            "before": [" ", "w","|"],
+            "commands": [":vsp"]
         }
     ],
-    "[ruby]": {
-    
-},
-"ruby.specSaveFile": true,
-"editor.fontFamily": "Fira Code",
-"editor.fontWeight": "500",
-"window.zoomLevel": 0,
-"window.title": " ${dirty}~~~~~~~~${rootName}~~~~~~~~ ${dirty}",
-"vim.easymotion": true,
-"vim.useSystemClipboard": true,
-"vim.leader": "<space>",
-"vim.easymotionMarkerFontFamily": "Times new roman",
-"vim.easymotionMarkerFontSize": "16",
-"vim.easymotionMarkerHeight": 20,
-"vim.easymotionMarkerWidthPerChar": 12,
-"vim.visualModeKeyBindingsNonRecursive": [
+        "[ruby]": { },
+    "ruby.specSaveFile": true,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontWeight": "500",
+    "window.zoomLevel": 0,
+    "window.title": " ${dirty}~~~~~~~~${rootName}~~~~~~~~ ${dirty}",
+    "vim.easymotion": true,
+    "vim.useSystemClipboard": true,
+    "vim.leader": "<space>",
+    "vim.easymotionMarkerFontFamily": "Times new roman",
+    "vim.easymotionMarkerFontSize": "16",
+    "vim.easymotionMarkerHeight": 20,
+    "vim.easymotionMarkerWidthPerChar": 12,
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ]
+        },
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ]
+        },
     {
-        "before": [
-            ">"
-        ],
-        "commands": [
-            "editor.action.indentLines"
-        ]
+            "before": [
+                "p",
+            ],
+            "after": [
+                "p",
+                "g",
+                "v",
+                "y"
+            ]
+        }
+    ],
+    "vim.easymotionKeys": "asdfjkl;qweruiopzxcvnm",
+    "editor.cursorSmoothCaretAnimation": true,
+    "zenMode.fullScreen": false,
+    "editor.quickSuggestionsDelay": 7,
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.editor.enablePreview": false,
+    "vim.visualstar": true,
+    "vim.debug.silent": true,
+    "files.exclude": {
+        "**/.git": false
     },
-    {
-        "before": [
-            "<"
-        ],
-        "commands": [
-            "editor.action.outdentLines"
-        ]
+    "search.exclude": {
+        ".git": true,
+        "**/.git": true,
+        "**/deps": true
     },
-{
-        "before": [
-            "p",
-        ],
-        "after": [
-            "p",
-            "g",
-            "v",
-            "y"
-        ]
+    "vim.neovimPath": "/usr/local/bin/nvim",
+    "vim.enableNeovim": true,
+    "workbench.panel.defaultLocation": "right",
+    "bracketPairColorizer.highlightActiveScope": true
     }
-],
-"vim.easymotionKeys": "asdfjkl;qweruiopzxcvnm",
-"editor.cursorSmoothCaretAnimation": true,
-"zenMode.fullScreen": false,
-"editor.quickSuggestionsDelay": 7,
-"workbench.editor.highlightModifiedTabs": true,
-"workbench.editor.enablePreview": false,
-"vim.visualstar": true,
-"vim.debug.silent": true,
-"files.exclude": {
-    "**/.git": false
-},
-"search.exclude": {
-    ".git": true,
-    "**/.git": true,
-    "**/deps": true
-},
-"vim.neovimPath": "/usr/local/bin/nvim",
-"vim.enableNeovim": true
-}
