@@ -19,6 +19,11 @@
     ~/.vim/:
       glob: true
       path: vim/*
+    "~/Library/Application Support/Code/User/settings.json":
+      path: vscode/settings.json
+    "~/Library/Application Support/Code/User/snippets":
+      path: vscode/snippets
+
     # ~/Library/Application\ Support/Code/User/:
     #   glob: true
     #   path: vscode/*
