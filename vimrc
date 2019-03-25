@@ -55,3 +55,5 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap <Leader>w <C-w>
+nnoremap <Leader>w<Leader>l :vsp<CR>
+nnoremap <Leader>w<Leader>j :sp<CR>
