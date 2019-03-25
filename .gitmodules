@@ -22,3 +22,6 @@
 [submodule "vim/pack/zthomas/start/gruvbox"]
 	path = vim/pack/zthomas/start/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
+[submodule "vim/pack/zthomas/start/vim-elixir"]
+	path = vim/pack/zthomas/start/vim-elixir
+	url = https://github.com/elixir-editors/vim-elixir.git
