@@ -27,11 +27,11 @@
             "after": [":"]
         },
         {
-            "before": [" ", "w","-"],
+            "before": [" ", "w","j"],
             "commands": [":sp"]
         },
         {
-            "before": [" ", "w","|"],
+            "before": [" ", "w","l"],
             "commands": [":vsp"]
         }
     ],
