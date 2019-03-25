@@ -4,7 +4,7 @@
     "editor.cursorBlinking": "expand",
     "editor.fontLigatures": true,
     "editor.minimap.renderCharacters": false,
-    "workbench.colorTheme": "Gruvbox Dark Soft",
+    "workbench.colorTheme": "Gruvbox Light Soft",
     "editor.acceptSuggestionOnEnter": "off",
     "files.autoSave": "onFocusChange",
     "search.useIgnoreFiles": false,
