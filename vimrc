@@ -12,14 +12,14 @@ set expandtab                         " use spaces, not tabs (optional)
 set backspace=indent,eol,start        " backspace through everything in insert mode
 set autoindent
 set copyindent
-" set number
+set number
 set showmatch
 set smarttab
 set title
 set nobackup
 set noswapfile
 set nohlsearch
-set nu rnu                            " set abs number on current line, but relative everywhere else
+" set nu rnu                            " set abs number on current line, but relative everywhere else
 set lazyredraw                        " macros do not have to redraw the screen
 
 if !&scrolloff
@@ -70,6 +70,7 @@ let g:nnn#action = {
 "fzf stuff
 set rtp+=/usr/local/opt/fzf
 let g:fzf_buffers_jump = 1
-nnoremap <silent> <Leader>p :Files <CR>
+nnoremap <silent> <leader>p :Files <C-r>=expand("%:h")<CR>/<CR>
+" nnoremap <silent> <Leader>p :Files /../ <CR>
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>c :Commits<CR>
