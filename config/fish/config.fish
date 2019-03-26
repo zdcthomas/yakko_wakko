@@ -15,11 +15,3 @@ status --is-interactive; and source (rbenv init -|psub)
 status --is-interactive; and source (pyenv init -|psub)
 set -x ERL_AFLAGS "-kernel shell_history enabled"
 export NNN_TMPFILE="/tmp/nnn"
-function n --description 'support nnn quit and change directory'
-        nnn $argv
-
-        if test -e $NNN_TMPFILE
-                source $NNN_TMPFILE
-                rm $NNN_TMPFILE
-        end
-end
