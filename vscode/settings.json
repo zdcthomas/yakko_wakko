@@ -33,6 +33,10 @@
         {
             "before": [" ", "w","l"],
             "commands": [":vsp"]
+        },
+        {
+            "before": ["<Leader>","p","r","y"],
+            "commands": [":g/pry/d"]
         }
     ],
         "[ruby]": { },
