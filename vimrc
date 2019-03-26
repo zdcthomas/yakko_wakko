@@ -57,3 +57,12 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <Leader>w <C-w>
 nnoremap <Leader>w<Leader>l :vsp<CR>
 nnoremap <Leader>w<Leader>j :sp<CR>
+
+" NNN configuration
+let g:nnn#replace_netrw=1
+let g:nnn#set_default_mappings = 0
+nnoremap <leader>n :NnnPicker '%:p:h'<CR>
+let g:nnn#layout = { 'left': '~20%' }
+let g:nnn#action = {
+      \ '<c-t>': 'vsplit',
+      \ '<c-x>': 'split' }

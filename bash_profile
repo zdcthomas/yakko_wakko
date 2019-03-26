@@ -32,3 +32,14 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 export ERL_AFLAGS="-kernel shell_history enabled"
+export NNN_TMPFILE="/tmp/nnn"
+
+n()
+{
+        nnn "$@"
+
+        if [ -f $NNN_TMPFILE ]; then
+                . $NNN_TMPFILE
+                rm -f $NNN_TMPFILE > /dev/null
+        fi
+}
