@@ -66,3 +66,10 @@ let g:nnn#layout = { 'left': '~20%' }
 let g:nnn#action = {
       \ '<c-t>': 'vsplit',
       \ '<c-x>': 'split' }
+
+"fzf stuff
+set rtp+=/usr/local/opt/fzf
+let g:fzf_buffers_jump = 1
+nnoremap <silent> <Leader>p :Files <CR>
+nnoremap <silent> <Leader>b :Buffers<CR>
+nnoremap <silent> <Leader>c :Commits<CR>
