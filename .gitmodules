@@ -31,3 +31,6 @@
 [submodule "vim/pack/zthomas/start/fzf.vim"]
 	path = vim/pack/zthomas/start/fzf.vim
 	url = https://github.com/junegunn/fzf.vim.git
+[submodule "vim/pack/zthomas/start/vim-commentary"]
+	path = vim/pack/zthomas/start/vim-commentary
+	url = https://github.com/tpope/vim-commentary.git
