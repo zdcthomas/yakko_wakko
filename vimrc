@@ -70,7 +70,6 @@ let g:nnn#action = {
 "fzf stuff
 set rtp+=/usr/local/opt/fzf
 let g:fzf_buffers_jump = 1
-nnoremap <silent> <leader>p :Files <C-r>=expand("%:h")<CR>/<CR>
-" nnoremap <silent> <Leader>p :Files /../ <CR>
+nnoremap <silent> <Leader>p :Files<CR>
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>c :Commits<CR>
