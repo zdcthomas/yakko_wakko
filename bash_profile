@@ -24,6 +24,7 @@ make_rails(){
 
 export PS1="\w> \e[m"
 alias gitsave="git commit -v -a"
+alias vim='nvim'
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH=/usr/local/bin:$PATH
 eval "$(rbenv init -)"

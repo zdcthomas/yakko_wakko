@@ -34,3 +34,6 @@
 [submodule "vim/pack/zthomas/start/vim-commentary"]
 	path = vim/pack/zthomas/start/vim-commentary
 	url = https://github.com/tpope/vim-commentary.git
+[submodule "vim/pack/zthomas/start/vim-polyglot"]
+	path = vim/pack/zthomas/start/vim-polyglot
+	url = https://github.com/sheerun/vim-polyglot
