@@ -3,9 +3,9 @@ set nocp
 syntax on
 
 colorscheme gruvbox
-set termguicolors
 
 set clipboard=unnamed 
+set cursorline
 set nowrap                            " don't wrap lines
 set tabstop=2 shiftwidth=2            " a tab is two spaces (or set this to 4)
 set expandtab                         " use spaces, not tabs (optional)
@@ -19,17 +19,41 @@ set title
 set nobackup
 set noswapfile
 set nohlsearch
+" remaps for the sake of civility
+let mapleader = " "
+nnoremap ; :
+
 " set nu rnu                            " set abs number on current line, but relative everywhere else
-set lazyredraw                        " macros do not have to redraw the screen
 
 if !&scrolloff
-    set scrolloff=5                   " Show next 5 lines while scrolling.
+    set scrolloff=10                    " Show next 10 lines while scrolling.
 endif
 
-" makes widmenu nice
-set wildmenu
-set wildmode=longest:full,full
-set cmdheight=1
+if has('nvim')
+  set termguicolors
+  set lazyredraw                        " macros do not have to redraw the screen
+
+  nnoremap <leader>tl      :split +terminal<cr>
+  nnoremap <leader>tj      :vsplit +terminal<cr>
+  tnoremap <esc>          <c-\><c-n>
+
+  " makes widmenu nice
+  set wildmenu
+  set wildmode=longest:full,full
+  set cmdheight=1
+
+  " NNN configuration
+  let $NNN_TMPFILE="/tmp/nnn"
+  let g:nnn#command = 'nnn -l'
+  let g:nnn#replace_netrw=1
+  let g:nnn#set_default_mappings = 0
+  nnoremap <leader>n :NnnPicker '%:p:h'<CR>
+  let g:nnn#layout = { 'left': '~20%' }
+  let g:nnn#action = {
+      \ '<c-l>': 'vsplit',
+      \ '<c-j>': 'split' }
+
+endif
 
 " Searching
 set incsearch                         " incremental searching
@@ -39,9 +63,6 @@ set ignorecase                        " ignore case in searching
 hi link EasyMotionTarget Function
 hi link EasyMotionShade  Comment
 
-" remaps for the sake of civility
-let mapleader = " "
-nnoremap ; :
 
 " Easymotion stuff
 let g:EasyMotion_smartcase = 1
@@ -58,14 +79,6 @@ nnoremap <Leader>w <C-w>
 nnoremap <Leader>w<Leader>l :vsp<CR>
 nnoremap <Leader>w<Leader>j :sp<CR>
 
-" NNN configuration
-let g:nnn#replace_netrw=1
-let g:nnn#set_default_mappings = 0
-nnoremap <leader>n :NnnPicker '%:p:h'<CR>
-let g:nnn#layout = { 'left': '~20%' }
-let g:nnn#action = {
-      \ '<c-t>': 'vsplit',
-      \ '<c-x>': 'split' }
 
 "fzf stuff
 set rtp+=/usr/local/opt/fzf
