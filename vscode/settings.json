@@ -27,11 +27,11 @@
             "after": [":"]
         },
         {
-            "before": [" ", "w","j"],
+            "before": ["<Leader>", "w","<Leader>","j"],
             "commands": [":sp"]
         },
         {
-            "before": [" ", "w","l"],
+            "before": ["<Leader>", "w","<Leader>","l"],
             "commands": [":vsp"]
         },
         {
