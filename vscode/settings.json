@@ -95,7 +95,9 @@
     "search.exclude": {
         ".git": true,
         "**/.git": true,
-        "**/deps": true
+        "**/deps": true,
+        "**/_build": true,
+        "**/.elixir_ls": true
     },
     "vim.neovimPath": "/usr/local/bin/nvim",
     "vim.enableNeovim": true,
