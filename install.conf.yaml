@@ -3,6 +3,9 @@
       relink: true
       force: true
       create: true
+    shell:
+      stdout: true
+      quiet: false
 
 - clean: ['~']
 
@@ -30,30 +33,30 @@
     #   relink: true
 
 - shell:
-  - 
-    command: if [[ $(command -v brew) == "" ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; fi
-    description: Installing Homebrew if it isn't already installed
-    stdout: true
-  - 
-    command: if ! brew info cask &>/dev/null; then brew tap caskroom/cask; fi
-    description: Setting up brew cask
-    stdout: true
-  # - brew tap caskroom/versions
+  -
+    command: bash ./scripts/macos_setup.sh
+    description: Setting up mac defaults
+  -
+    command: bash ./scripts/brew_setup.sh
+    description: Setting up homebrew
+  # - 
+  #   command: if [[ $(command -v brew) == "" ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; fi
+  #   description: Installing Homebrew if it isn't already installed
+  # - 
+  #   command: if ! brew info cask &>/dev/null; then brew tap caskroom/cask; fi
+  #   description: Setting up brew cask
   - 
     command: git submodule update --init --recursive
     description: Installing submodules
   - 
-    command: cd && brew bundle
-    stdout: true
-    quiet: false
-    description: Installing all brew packages
-  -
     command: defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "~/yakko_wakko/iterm2"
-    stdout: true
-    quiet: false
     description: sets iterms preferences folder to the one in this repo
   -
     command: defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
-    stdout: true
-    quiet: false
     description: makes iterm listen to this folder for it's configuration
+  -
+    command: bash ./scripts/vscode_setup.sh
+    description: Install all VsCode Extensions
+  -
+    command: cd && brew bundle
+    description: Installing all brew packages

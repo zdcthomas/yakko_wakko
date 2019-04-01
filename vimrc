@@ -69,15 +69,14 @@ let g:EasyMotion_smartcase = 1
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
-
 " easier window motions
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-nnoremap <Leader>w <C-w>
 nnoremap <Leader>w<Leader>l :vsp<CR>
 nnoremap <Leader>w<Leader>j :sp<CR>
+nnoremap <tab>   <c-w>w               " Circular window nav
 
 
 "fzf stuff
