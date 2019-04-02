@@ -27,36 +27,22 @@
     "~/Library/Application Support/Code/User/snippets":
       path: vscode/snippets
 
-    # ~/Library/Application\ Support/Code/User/:
-    #   glob: true
-    #   path: vscode/*
-    #   relink: true
-
 - shell:
+  - 
+    command: git submodule update --init --recursive
+    description: Installing submodules
   -
     command: bash ./scripts/macos_setup.sh
     description: Setting up mac defaults
   -
     command: bash ./scripts/brew_setup.sh
     description: Setting up homebrew
-  # - 
-  #   command: if [[ $(command -v brew) == "" ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; fi
-  #   description: Installing Homebrew if it isn't already installed
-  # - 
-  #   command: if ! brew info cask &>/dev/null; then brew tap caskroom/cask; fi
-  #   description: Setting up brew cask
   - 
-    command: git submodule update --init --recursive
-    description: Installing submodules
-  - 
-    command: defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "~/yakko_wakko/iterm2"
-    description: sets iterms preferences folder to the one in this repo
-  -
-    command: defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
-    description: makes iterm listen to this folder for it's configuration
+    command: bash ./scripts/iterm_setup.sh
+    description: Configuring iterm
   -
     command: bash ./scripts/vscode_setup.sh
-    description: Install all VsCode Extensions
+    description: Installing all VsCode Extensions
   -
-    command: cd && brew bundle
+    command: brew bundle
     description: Installing all brew packages
