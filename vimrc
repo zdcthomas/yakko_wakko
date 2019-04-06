@@ -19,6 +19,8 @@ set title
 set nobackup
 set noswapfile
 set nohlsearch
+
+set mouse=a                           " This is controversial I know
 " remaps for the sake of civility
 let mapleader = " "
 nnoremap ; :
@@ -74,6 +76,12 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+nnoremap <Leader>wj <C-W><C-J>
+nnoremap <Leader>wk <C-W><C-K>
+nnoremap <Leader>wl <C-W><C-L>
+nnoremap <Leader>wh <C-W><C-H>
+
 nnoremap <Leader>w<Leader>l :vsp<CR>
 nnoremap <Leader>w<Leader>j :sp<CR>
 nnoremap <tab>   <c-w>w               " Circular window nav
