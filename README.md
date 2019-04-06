@@ -6,7 +6,7 @@ On a totally brand new machine, run:
 ```
 sudo softwareupdate -i -a
 xcode-select --install
-bash -c "`curl -fsSL https://raw.githubusercontent.com/zdcthomas/yakko_wakko/master/remote-install.sh`"
+bash -c "`curl -fsSL https://raw.githubusercontent.com/zdcthomas/yakko_wakko/master/remote_install.sh`"
 cd yakko_wakko/
 bash install
 ```
