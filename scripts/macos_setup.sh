@@ -13,9 +13,6 @@ xcode-select --install
 echo " === Set sidebar icon size to medium"
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
-echo " === Disable the “Are you sure you want to open this application?” dialog"
-defaults write com.apple.LaunchServices LSQuarantine -bool false
-
 echo " === Reveal IP address, hostname, OS version, etc. when clicking the clock
 in the login window "
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
