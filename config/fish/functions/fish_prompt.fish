@@ -27,7 +27,7 @@ end
 
 function fishy
   set_color blue 
-  echo -n ' >'
+  echo -n (date "+%l:%M %p") '>'
   set_color red
   echo -n '<'
   set_color green
