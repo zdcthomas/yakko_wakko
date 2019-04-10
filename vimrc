@@ -19,11 +19,16 @@ set title
 set nobackup
 set noswapfile
 set nohlsearch
-
 set mouse=a                           " This is controversial I know
+
 " remaps for the sake of civility
 let mapleader = " "
 nnoremap ; :
+
+imap <C-h> <C-o>h
+imap <C-j> <C-o>j
+imap <C-k> <C-o>k
+imap <C-l> <C-o>l
 
 " set nu rnu                            " set abs number on current line, but relative everywhere else
 
