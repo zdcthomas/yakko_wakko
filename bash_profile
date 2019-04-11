@@ -1,6 +1,7 @@
 shopt -s checkwinsize
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
 alias la='ls -la'
+set -o vi
 
 make_rails(){
   rails new $1 -T -d=postgresql --skip-turbolinks --skip-spring $2
