@@ -13,5 +13,8 @@ alias vim=nvim
 alias fuck_pg='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 status --is-interactive; and source (rbenv init -|psub)
 status --is-interactive; and source (pyenv init -|psub)
+status --is-interactive; and source (nodenv init -|psub)
+
+set -Ux fish_user_paths $HOME/.nodenv/bin $fish_user_paths
 set -x ERL_AFLAGS "-kernel shell_history enabled"
 export NNN_TMPFILE="/tmp/nnn"

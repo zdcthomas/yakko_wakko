@@ -118,4 +118,6 @@
     "vim.neovimPath": "/usr/local/bin/nvim",
     "vim.enableNeovim": true,
     "workbench.panel.defaultLocation": "right",
+    "terminal.integrated.rendererType": "canvas",
+    "terminal.external.osxExec": "ITerm2.app",
     }
