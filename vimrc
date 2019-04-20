@@ -19,11 +19,17 @@ set title
 set nobackup
 set noswapfile
 set nohlsearch
-set mouse=a                           " This is controversial I know
+set mouse=a                           " This is controversial, I know
+
+" vimrc hot reload
+command! Svrc source $MYVIMRC
+command! Vrc :vsp ~/.vimrc
+
 
 " remaps for the sake of civility
 let mapleader = " "
 nnoremap ; :
+nnoremap - :Explore<Cr>
 
 imap <C-h> <C-o>h
 imap <C-j> <C-o>j
@@ -42,7 +48,7 @@ if has('nvim')
 
   nnoremap <leader>tl      :split +terminal<cr>
   nnoremap <leader>tj      :vsplit +terminal<cr>
-  tnoremap <esc>          <c-\><c-n>
+  tnoremap <leader><Esc>          <c-\><c-n>
 
   " makes widmenu nice
   set wildmenu
@@ -51,13 +57,14 @@ if has('nvim')
 
   " NNN configuration
   let $NNN_TMPFILE="/tmp/nnn"
-  let g:nnn#command = 'nnn -l'
+  let g:nnn#command = 'nnn -ld'
   let g:nnn#replace_netrw=1
   let g:nnn#set_default_mappings = 0
   nnoremap <leader>n :NnnPicker '%:p:h'<CR>
   let g:nnn#layout = { 'left': '~20%' }
   let g:nnn#action = {
       \ '<c-l>': 'vsplit',
+      \ '<c-t>': 'tab split',
       \ '<c-j>': 'split' }
 
 endif
@@ -98,3 +105,16 @@ let g:fzf_buffers_jump = 1
 nnoremap <silent> <Leader>p :Files<CR>
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>c :Commits<CR>
+
+
+if exists('veonim')
+  Plug 'sheerun/vim-polyglot'
+  Plug 'tpope/vim-surround'
+
+  " extensions for web dev
+  let g:vscode_extensions = [
+    \'vscode.typescript-language-features',
+    \'vscode.css-language-features',
+    \'vscode.html-language-features',
+  \]
+endif

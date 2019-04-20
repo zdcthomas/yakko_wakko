@@ -18,3 +18,5 @@ status --is-interactive; and source (nodenv init -|psub)
 set -Ux fish_user_paths $HOME/.nodenv/bin $fish_user_paths
 set -x ERL_AFLAGS "-kernel shell_history enabled"
 export NNN_TMPFILE="/tmp/nnn"
+export EDITOR="vim"
+export NNN_USE_EDITOR=1
