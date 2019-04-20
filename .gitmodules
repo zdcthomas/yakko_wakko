@@ -16,9 +16,6 @@
 [submodule "vim/pack/zthomas/start/delimitMate"]
 	path = vim/pack/zthomas/start/delimitMate
 	url = https://github.com/Raimondi/delimitMate.git
-[submodule "vim/pack/zthomas/start/vim-vinegar"]
-	path = vim/pack/zthomas/start/vim-vinegar
-	url = https://github.com/tpope/vim-vinegar
 [submodule "vim/pack/zthomas/start/gruvbox"]
 	path = vim/pack/zthomas/start/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
