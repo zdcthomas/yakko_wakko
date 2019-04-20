@@ -42,6 +42,7 @@ if !&scrolloff
     set scrolloff=10                    " Show next 10 lines while scrolling.
 endif
 
+
 if has('nvim')
   set termguicolors
   set lazyredraw                        " macros do not have to redraw the screen
@@ -66,6 +67,15 @@ if has('nvim')
       \ '<c-l>': 'vsplit',
       \ '<c-t>': 'tab split',
       \ '<c-j>': 'split' }
+
+
+  " fugitive bindings
+  nnoremap <leader>gb :Gblame<Cr>
+  nnoremap <leader>gs :Gstatus<Cr>
+  nnoremap <leader>gc :Gcommit<Cr>
+  if executable('hub')
+    nnoremap <leader>hub :!hub browse<Cr>
+  endif
 
 endif
 
@@ -105,7 +115,6 @@ let g:fzf_buffers_jump = 1
 nnoremap <silent> <Leader>p :Files<CR>
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>c :Commits<CR>
-
 
 if exists('veonim')
   Plug 'sheerun/vim-polyglot'
