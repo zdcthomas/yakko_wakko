@@ -10,6 +10,10 @@ imap <C-j> <C-o>j
 imap <C-k> <C-o>k
 imap <C-l> <C-o>l
 
+" indent easily 
+xnoremap < <gv
+xnoremap > >gv
+
 " easier window motions
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -25,5 +29,5 @@ nnoremap <Leader>w<Leader>l :vsp<CR>
 nnoremap <Leader>w<Leader>j :sp<CR>
 "
  " Circular window nav
-nnoremap <tab>   <c-w>w              
+nnoremap <tab> gt
 
