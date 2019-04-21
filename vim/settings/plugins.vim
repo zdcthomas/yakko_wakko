@@ -16,6 +16,7 @@ nnoremap <silent> <Leader>c :Commits<CR>
 
 " fugitive 
 nnoremap <leader>gb :Gblame<Cr>
+nnoremap <leader>gd :Gdiff<Cr>
 nnoremap <leader>gs :Gstatus<Cr>
 nnoremap <leader>gc :Gcommit<Cr>
 if executable('hub')
@@ -23,7 +24,7 @@ if executable('hub')
 endif
 
 " NNN configuration
-let $NNN_TMPFILE="/tmp/nnn"
+" let $NNN_TMPFILE="/tmp/nnn"
 let g:nnn#command = 'nnn -ld'
 let g:nnn#replace_netrw=1
 let g:nnn#set_default_mappings = 0
