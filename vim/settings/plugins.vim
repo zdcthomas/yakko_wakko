@@ -38,6 +38,11 @@ let g:nnn#action = {
 
 " gitgutter
 set updatetime=100
+" reminder of keybindings
+" ]c  [c  next change, previous change
+" <Leader>hp preview hunk
+" <Leader>hu undo hunk
+" <Leader>hs stage hunk
 
 
 if exists('veonim')
@@ -51,5 +56,3 @@ if exists('veonim')
     \'vscode.html-language-features',
   \]
 endif
-
-
