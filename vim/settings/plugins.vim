@@ -27,12 +27,14 @@ let $NNN_TMPFILE="/tmp/nnn"
 let g:nnn#command = 'nnn -ld'
 let g:nnn#replace_netrw=1
 let g:nnn#set_default_mappings = 0
+nnoremap - :call nnn#pick('%:p:h', {'layout': 'enew', 'edit': 'tabnew'})<Cr>
 nnoremap <leader>n :NnnPicker '%:p:h'<CR>
 let g:nnn#layout = { 'left': '~20%' }
 let g:nnn#action = {
     \ '<c-l>': 'vsplit',
     \ '<c-t>': 'tab split',
     \ '<c-j>': 'split' }
+
 
 if exists('veonim')
   Plug 'sheerun/vim-polyglot'
