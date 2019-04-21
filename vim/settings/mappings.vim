@@ -1,13 +1,9 @@
-" vimrc hot reload
-command! Svrc source $MYVIMRC
-command! Vrc :vsp ~/.vimrc
-
 let mapleader = " "
 
 
 " remaps for the sake of civility
 nnoremap ; :
-nnoremap - :Explore<Cr>
+" nnoremap - :Explore<Cr>
 
 imap <C-h> <C-o>h
 imap <C-j> <C-o>j
