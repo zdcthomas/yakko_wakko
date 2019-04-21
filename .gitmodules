@@ -37,3 +37,6 @@
 [submodule "vim/pack/zthomas/start/vim-fugitive"]
 	path = vim/pack/zthomas/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule "vim/pack/zthomas/start/vim-gitgutter"]
+	path = vim/pack/zthomas/start/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter.git

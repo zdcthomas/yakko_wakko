@@ -25,7 +25,7 @@ endif
 
 " NNN configuration
 " let $NNN_TMPFILE="/tmp/nnn"
-let g:nnn#command = 'nnn -ld'
+let g:nnn#command = 'nnn -l'
 let g:nnn#replace_netrw=1
 let g:nnn#set_default_mappings = 0
 nnoremap - :call nnn#pick('%:p:h', {'layout': 'enew', 'edit': 'tabnew'})<Cr>
@@ -35,6 +35,9 @@ let g:nnn#action = {
     \ '<c-l>': 'vsplit',
     \ '<c-t>': 'tab split',
     \ '<c-j>': 'split' }
+
+" gitgutter
+set updatetime=100
 
 
 if exists('veonim')
@@ -48,3 +51,5 @@ if exists('veonim')
     \'vscode.html-language-features',
   \]
 endif
+
+
