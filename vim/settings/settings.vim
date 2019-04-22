@@ -19,6 +19,9 @@ set noswapfile
 set nohlsearch
 set mouse=a                           " This is controversial, I know
 
+" allows windows to remain different sizes
+set noequalalways
+
 " Searching
 set incsearch                         " incremental searching
 set ignorecase                        " ignore case in searching

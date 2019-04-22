@@ -14,6 +14,7 @@
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
+  nnoremap <silent> <Leader>F :Ag<CR>
 
   " fugitive 
   nnoremap <leader>gb :Gblame<Cr>
