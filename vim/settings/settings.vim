@@ -23,6 +23,10 @@ set mouse=a                           " This is controversial, I know
 " allows windows to remain different sizes
 set noequalalways
 
+" Split the _right_ way
+set splitright
+set splitbelow
+
 " Searching
 set incsearch                         " incremental searching
 set ignorecase                        " ignore case in searching

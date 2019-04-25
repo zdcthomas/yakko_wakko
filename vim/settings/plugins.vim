@@ -15,6 +15,8 @@
   nnoremap <silent> <Leader>b :Buffers<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
   nnoremap <silent> <Leader>F :Ag<CR>
+  nnoremap <silent> <Leader>: :Commands<CR>
+  nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
 
   " fugitive 
   nnoremap <leader>gb :Gblame<Cr>
