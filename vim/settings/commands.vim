@@ -1,6 +1,7 @@
 " vimrc hot reload
 command! Svrc source $MYVIMRC
-command! Vrc :vsp ~/.vim/settings/
+command! Vrc :tabnew ~/.vim/settings/settings.vim
+
 
 " function! s:IndObject(inner)
 "   let curline_num = line('.')
