@@ -25,8 +25,8 @@ nnoremap <Leader>wk <C-W><C-K>
 nnoremap <Leader>wl <C-W><C-L>
 nnoremap <Leader>wh <C-W><C-H>
 
-nnoremap <Leader>w<Leader>l :vsp<CR>
-nnoremap <Leader>w<Leader>j :sp<CR>
+nnoremap <Leader>w<Leader>l :vnew<CR>
+nnoremap <Leader>w<Leader>j :new<CR>
 "
  " Circular window nav
 nnoremap <tab> gt

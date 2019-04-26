@@ -33,6 +33,7 @@ eval "$(pyenv init -)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+export FZF_DEFAULT_COMMAND="fd --hidden --type f"
 export ERL_AFLAGS="-kernel shell_history enabled"
 export NNN_TMPFILE="/tmp/nnn"
 
