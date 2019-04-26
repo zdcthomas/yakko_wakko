@@ -2,6 +2,15 @@
 command! Svrc source $MYVIMRC
 command! Vrc :tabnew ~/.vim/settings/settings.vim
 
+function! AutoSave()
+  wall
+  echo "Autosaved!"
+endfunction
+
+autocmd BufLeave,FocusLost * call AutoSave()
+autocmd BufEnter * silent! e!
+
+
 
 " function! s:IndObject(inner)
 "   let curline_num = line('.')

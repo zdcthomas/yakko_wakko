@@ -20,8 +20,6 @@ set noswapfile
 set nohlsearch
 set mouse=a                           " This is controversial, I know
 
-" allows windows to remain different sizes
-set noequalalways
 
 " Split the _right_ way
 set splitright
