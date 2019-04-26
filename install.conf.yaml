@@ -12,6 +12,7 @@
 - link:
   #~/yakko_wakko: ''
     ~/.bash_profile: bash_profile
+    ~/.tmux.conf: tmux.conf
     ~/.vimrc: 
       path: vimrc
     ~/Brewfile: Brewfile
