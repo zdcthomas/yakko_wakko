@@ -25,6 +25,12 @@ nnoremap <Leader>wk <C-W><C-K>
 nnoremap <Leader>wl <C-W><C-L>
 nnoremap <Leader>wh <C-W><C-H>
 
+nnoremap <Leader>wJ :res -10<Cr>
+nnoremap <Leader>wK :res +10<Cr>
+nnoremap <Leader>wH :vertical resize +10<Cr>
+nnoremap <Leader>wL :vertical resize -10<Cr>
+
+
 nnoremap <Leader>w<Leader>l :vnew<CR>
 nnoremap <Leader>w<Leader>j :new<CR>
 "
