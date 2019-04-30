@@ -40,3 +40,6 @@
 [submodule "vim/pack/zthomas/start/vim-gitgutter"]
 	path = vim/pack/zthomas/start/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
+[submodule "vim/pack/zthomas/start/indentLine"]
+	path = vim/pack/zthomas/start/indentLine
+	url = https://github.com/Yggdroot/indentLine.git

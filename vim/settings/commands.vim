@@ -1,15 +1,15 @@
 " vimrc hot reload
 command! Svrc source $MYVIMRC
 command! Vrc :tabnew ~/.vim/settings/settings.vim
+command! Yf :let @+ = expand("%")
 
-function! AutoSave()
-  wall
-  echo "Autosaved!"
-endfunction
 
-autocmd BufLeave,FocusLost * call AutoSave()
-autocmd BufEnter * silent! e!
-
+augroup zthomas
+  autocmd!
+  autocmd BufLeave * silent! :wa
+  autocmd FocusGained * checktime
+  autocmd BufEnter * silent! e!
+augroup END
 
 
 " function! s:IndObject(inner)
