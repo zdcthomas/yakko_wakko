@@ -30,9 +30,13 @@ nnoremap <Leader>wK :res +10<Cr>
 nnoremap <Leader>wH :vertical resize +10<Cr>
 nnoremap <Leader>wL :vertical resize -10<Cr>
 
+nnoremap <Up> :res -10<Cr>
+nnoremap <Down> :res +10<Cr>
+nnoremap <Left> :vertical resize +10<Cr>
+nnoremap <Right> :vertical resize -10<Cr>
 
-nnoremap <Leader>w<Leader>l :vnew<CR>
-nnoremap <Leader>w<Leader>j :new<CR>
+nnoremap <Leader>w<Leader>l :vsp<CR>
+nnoremap <Leader>w<Leader>j :sp<CR>
 "
  " Circular window nav
 nnoremap <tab> gt

@@ -2,7 +2,7 @@
 SESSION=$USER
 
 tmux -2 new-session -d -s $SESSION
-tmux new-window -t $SESSION:1 -n 'Vim'
+tmux new-window -t $SESSION:1 -n $PWD
 tmux split-window -h
 tmux select-pane -t 0
 tmux send-keys "fish" C-m
