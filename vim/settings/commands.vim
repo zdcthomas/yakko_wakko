@@ -11,6 +11,26 @@ augroup zthomas
   autocmd BufEnter * silent! e!
 augroup END
 
+function! CleverTab()
+   if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+      return "\<Tab>"
+   else
+      return "\<C-N>"
+   endif
+endfunction
+
+function! CleverShiftTab()
+   if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+      return "\<s-Tab>"
+   else
+      return "\<C-P>"
+   endif
+endfunction
+
+inoremap <Tab> <C-R>=CleverTab()<CR>
+inoremap <s-tab> <C-R>=CleverShiftTab()<CR>
+
+
 
 " function! s:IndObject(inner)
 "   let curline_num = line('.')
