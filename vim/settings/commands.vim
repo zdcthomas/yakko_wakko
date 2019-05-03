@@ -9,6 +9,10 @@ augroup zthomas
   autocmd BufLeave * silent! :wa
   autocmd FocusGained * checktime
   autocmd BufEnter * silent! e!
+
+  " autocmd InsertEnter * let updaterestore=&updatetime | set updatetime=4000
+  " autocmd InsertLeave * let &updatetime=updaterestore
+  " autocmd CursorHoldI * stopinsert
 augroup END
 
 function! CleverTab()
