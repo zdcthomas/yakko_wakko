@@ -2,6 +2,7 @@
 command! Svrc source $MYVIMRC
 command! Vrc :tabnew ~/.vim/settings/settings.vim
 command! Yf :let @+ = expand("%")
+command! Test :! tmux select-pane -t 1; tmux send-keys "rspec " % C-m
 
 
 augroup zthomas
@@ -14,6 +15,12 @@ augroup zthomas
   " autocmd InsertLeave * let &updatetime=updaterestore
   " autocmd CursorHoldI * stopinsert
 augroup END
+
+" function! TestFile()
+"   let current_file=expand("@%")
+"   tmux select-pane -t 1; tmux send-keys "rspec " + current_file
+
+" endfunction
 
 function! CleverTab()
    if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'

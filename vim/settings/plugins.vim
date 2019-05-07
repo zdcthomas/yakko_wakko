@@ -45,7 +45,7 @@ Plug 'junegunn/vim-easy-align'
 
 call plug#end()
 
-" Easymotion 
+" =================================  EASYMOTION  ==========================================="
 ""  color of selectable letter background
 hi link EasyMotionTarget Function
 hi link EasyMotionShade  Comment
@@ -57,15 +57,17 @@ let g:EasyMotion_smartcase = 1
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
+" =================================  POLYGLOT ===========================================
+let g:vim_markdown_folding_disabled = 1
 
+" =================================  EASY ALIGN ===========================================
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-
-"fzf 
+" =================================  FZF  ==========================================="
 set rtp+=/usr/local/opt/fzf
 let g:fzf_buffers_jump = 1
 nnoremap <silent> <Leader>p :Files<CR>
@@ -79,7 +81,7 @@ nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-" " fugitive 
+" =================================  FUGITIVE ==========================================="
 " nnoremap <leader>gb :Gblame<Cr>
 " nnoremap <leader>gd :Gdiff<Cr>
 " nnoremap <leader>gs :Gstatus<Cr>
@@ -88,7 +90,8 @@ command! -bang -nargs=? -complete=dir Files
 "  nnoremap <leader>hub :!hub browse<Cr>
 " endif
 
-" NNN configuration
+
+" =================================  NNN   ==========================================="
 " let $NNN_TMPFILE="/tmp/nnn"
 let g:nnn#command = 'nnn -l'
 let g:nnn#replace_netrw=1
@@ -101,8 +104,9 @@ let g:nnn#action = {
    \ '<c-t>': 'tab split',
    \ '<c-j>': 'split' }
 
-" gitgutter
+" =================================  GITGUTTER  ===========================================
 set updatetime=100
+
 " reminder of keybindings
 " ]c  [c  next change, previous change
 " <Leader>hp preview hunk
