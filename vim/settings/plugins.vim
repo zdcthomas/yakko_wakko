@@ -71,18 +71,22 @@ let g:fzf_buffers_jump = 1
 nnoremap <silent> <Leader>p :Files<CR>
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>c :Commits<CR>
-nnoremap <silent> <Leader>F :Ag<CR>
+nnoremap <silent> <Leader>F :Rg
 nnoremap <silent> <Leader>: :Commands<CR>
 nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
 
-" fugitive 
-nnoremap <leader>gb :Gblame<Cr>
-nnoremap <leader>gd :Gdiff<Cr>
-nnoremap <leader>gs :Gstatus<Cr>
-nnoremap <leader>gc :Gcommit<Cr>
-if executable('hub')
- nnoremap <leader>hub :!hub browse<Cr>
-endif
+" preview for files
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+" " fugitive 
+" nnoremap <leader>gb :Gblame<Cr>
+" nnoremap <leader>gd :Gdiff<Cr>
+" nnoremap <leader>gs :Gstatus<Cr>
+" nnoremap <leader>gc :Gcommit<Cr>
+" if executable('hub')
+"  nnoremap <leader>hub :!hub browse<Cr>
+" endif
 
 " NNN configuration
 " let $NNN_TMPFILE="/tmp/nnn"

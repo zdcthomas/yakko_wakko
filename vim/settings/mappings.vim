@@ -26,10 +26,10 @@ nnoremap <Leader>wl <C-W><C-L>
 nnoremap <Leader>wh <C-W><C-H>
 
 " I usually prefer the arrow keys
-nnoremap <Leader>wJ :res -10<Cr>
-nnoremap <Leader>wK :res +10<Cr>
-nnoremap <Leader>wH :vertical resize +10<Cr>
-nnoremap <Leader>wL :vertical resize -10<Cr>
+nnoremap <Leader>wJ <C-W>J
+nnoremap <Leader>wK <C-W>K
+nnoremap <Leader>wH <C-W>H
+nnoremap <Leader>wL <C-W>L
 
 " We don't need no stinkin arrows
 nnoremap <Up> :res -10<Cr>
