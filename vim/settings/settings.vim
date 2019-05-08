@@ -10,6 +10,7 @@ set expandtab                         " use spaces, not tabs (optional)
 set backspace=indent,eol,start        " backspace through everything in insert mode
 set autoindent
 set autoread
+set autowriteall
 set copyindent
 set number
 set showmatch

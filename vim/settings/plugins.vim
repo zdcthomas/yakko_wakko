@@ -5,44 +5,34 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/z_plugins')
-" The current plugin manager
-Plug 'junegunn/vim-plug'
+  
+  Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
+  
+  Plug 'Yggdroot/indentLine'       " Display Indentation
+  
+  Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
+  
+  Plug 'easymotion/vim-easymotion' " great motion plugin
+  
+  Plug 'junegunn/fzf.vim'          " RTP and plugin for fzf finder
+  Plug '/usr/local/opt/fzf'
 
-"color scheme 
-Plug 'morhetz/gruvbox'
-
-" status line
-Plug 'vim-airline/vim-airline'
-
-" All Hail Tpope
-Plug 'tpope/vim-surround'
-" Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-commentary'
-
-Plug 'airblade/vim-gitgutter'
-
-" autocompletion of closing tags
-Plug 'Raimondi/delimitMate'
-
-" RTP and plugin for fzf finder
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
-
-Plug 'Yggdroot/indentLine'
-
-" file management
-Plug 'mcchrish/nnn.vim'
-
-" great motion plugin
-Plug 'easymotion/vim-easymotion'
-
-Plug 'terryma/vim-multiple-cursors'
-
-" autoloaded multiple language support
-Plug 'sheerun/vim-polyglot'
-
-Plug 'junegunn/vim-easy-align'
-
+  Plug 'junegunn/vim-easy-align'   " Eeasily align text on a specific character
+  
+  Plug 'junegunn/vim-plug'         " The current plugin manager
+  
+  Plug 'mcchrish/nnn.vim'          " file management
+  
+  Plug 'morhetz/gruvbox'           " color scheme
+  
+  Plug 'sheerun/vim-polyglot'      " autoloaded multiple language support
+  Plug 'terryma/vim-multiple-cursors'
+  
+  Plug 'tpope/vim-commentary'      " All Hail Tpope
+  
+  Plug 'tpope/vim-surround'        " Plug 'tpope/vim-fugitive'
+  
+  Plug 'vim-airline/vim-airline'   " status line
 call plug#end()
 
 " =================================  EASYMOTION  ==========================================="
@@ -57,8 +47,12 @@ let g:EasyMotion_smartcase = 1
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
+" =================================  AIRLINE  ===========================================
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'default'
+
 " =================================  POLYGLOT ===========================================
-let g:vim_markdown_folding_disabled = 1
+let g:polyglot_disabled = ['markdown']
 
 " =================================  EASY ALIGN ===========================================
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -73,7 +67,7 @@ let g:fzf_buffers_jump = 1
 nnoremap <silent> <Leader>p :Files<CR>
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>c :Commits<CR>
-nnoremap <silent> <Leader>F :Rg
+nnoremap <silent> <Leader>F :Rg 
 nnoremap <silent> <Leader>: :Commands<CR>
 nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
 
