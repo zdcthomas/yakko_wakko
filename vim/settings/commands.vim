@@ -2,7 +2,7 @@
 command! Svrc source $MYVIMRC
 command! Vrc :tabnew ~/.vim/settings/settings.vim
 command! Yf :let @+ = expand("%")
-command! Test :! tmux select-pane -t 1; tmux send-keys "rspec " % C-m
+command! Test :! tmux select-pane -R; tmux send-keys "rspec " % C-m
 
 
 augroup zthomas
