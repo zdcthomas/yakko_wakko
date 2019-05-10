@@ -33,6 +33,9 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'tpope/vim-surround'        " Plug 'tpope/vim-fugitive'
   
   Plug 'vim-airline/vim-airline'   " status line
+  Plug 'vim-airline/vim-airline-themes'
+
+  Plug 'moll/vim-bbye'
 call plug#end()
 
 " =================================  EASYMOTION  ==========================================="
@@ -40,16 +43,15 @@ call plug#end()
 hi link EasyMotionTarget Function
 hi link EasyMotionShade  Comment
 let g:EasyMotion_smartcase = 1
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_smartcase = 1
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
 " =================================  AIRLINE  ===========================================
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
+
+" =================================  AIRLINE  ===========================================
+nnoremap <Leader>q :Bdelete<CR>
 
 " =================================  POLYGLOT ===========================================
 let g:polyglot_disabled = ['markdown']
@@ -94,9 +96,9 @@ nnoremap - :call nnn#pick('%:p:h', {'layout': 'enew', 'edit': 'tabnew'})<Cr>
 nnoremap <leader>n :NnnPicker '%:p:h'<CR>
 let g:nnn#layout = { 'left': '~20%' }
 let g:nnn#action = {
-   \ '<c-l>': 'vsplit',
-   \ '<c-t>': 'tab split',
-   \ '<c-j>': 'split' }
+ \ '<c-l>': 'vsplit',
+ \ '<c-t>': 'tab split',
+ \ '<c-j>': 'split' }
 
 " =================================  GITGUTTER  ===========================================
 set updatetime=100

@@ -10,6 +10,9 @@ augroup zthomas
   autocmd BufLeave * silent! :wa
   autocmd FocusGained * checktime
   autocmd BufEnter * silent! e!
+  if has('nvim')
+    autocmd TextYankPost * 
+  endif
 
   " autocmd InsertEnter * let updaterestore=&updatetime | set updatetime=4000
   " autocmd InsertLeave * let &updatetime=updaterestore
