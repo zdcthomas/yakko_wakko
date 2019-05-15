@@ -1,0 +1,40 @@
+- defaults:
+    link:
+      relink: true
+      force: true
+      create: true
+    shell:
+      stdout: true
+      quiet: false
+
+- clean: ['~']
+
+- link:
+    # ~/yakko_wakko: ''
+    ~/.bash_profile: bash_profile
+    ~/.tmux.conf: tmux.conf
+    ~/.vimrc: 
+      path: vimrc
+    ~/Brewfile: Brewfile
+    ~/.config/:
+      glob: true
+      path: config/*
+      create: true
+    ~/.vim/:
+      glob: true
+      path: vim/*
+    # "~/Library/Application Support/Code/User/settings.json":
+    #   path: vscode/settings.json
+    # "~/Library/Application Support/Code/User/snippets":
+    #   path: vscode/snippets
+
+- shell:
+  - 
+    command: git submodule update --init --recursive
+    description: Installing submodules
+  -
+    command: bash ./scripts/brew_setup.sh
+    description: Setting up homebrew
+  -
+    command: brew bundle
+    description: Installing all brew packages
