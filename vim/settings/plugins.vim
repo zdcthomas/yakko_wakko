@@ -47,8 +47,8 @@ if &runtimepath =~ 'vim-easymotion'
   hi link EasyMotionTarget Function
   hi link EasyMotionShade  Comment
   let g:EasyMotion_smartcase = 1
-  map  <Leader><Leader>/ <Plug>(easymotion-sn)
-  omap <Leader><Leader>/ <Plug>(easymotion-tn)
+  map  / <Plug>(easymotion-sn)
+  omap / <Plug>(easymotion-tn)
 endif
 
 " =================================  AIRLINE  ===========================================
