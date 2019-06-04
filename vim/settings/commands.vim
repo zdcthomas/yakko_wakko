@@ -22,24 +22,24 @@ augroup END
 
 " endfunction
 
-function! CleverTab()
-   if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
-      return "\<Tab>"
-   else
-      return "\<C-N>"
-   endif
-endfunction
+" function! CleverTab()
+"    if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+"       return "\<Tab>"
+"    else
+"       return "\<C-N>"
+"    endif
+" endfunction
 
-function! CleverShiftTab()
-   if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
-      return "\<s-Tab>"
-   else
-      return "\<C-P>"
-   endif
-endfunction
+" function! CleverShiftTab()
+"    if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+"       return "\<s-Tab>"
+"    else
+"       return "\<C-P>"
+"    endif
+" endfunction
 
-inoremap <Tab> <C-R>=CleverTab()<CR>
-inoremap <s-tab> <C-R>=CleverShiftTab()<CR>
+" inoremap <Tab> <C-R>=CleverTab()<CR>
+" inoremap <s-tab> <C-R>=CleverShiftTab()<CR>
 
 
 

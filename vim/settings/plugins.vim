@@ -4,6 +4,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+
 call plug#begin('~/.vim/z_plugins')
   
   Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
@@ -25,12 +26,18 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'michaeljsmith/vim-indent-object'
   
-  Plug 'morhetz/gruvbox'           " color scheme
+  Plug 'gruvbox-community/gruvbox'          " color scheme
   
   Plug 'sheerun/vim-polyglot'      " autoloaded multiple language support
   Plug 'terryma/vim-multiple-cursors'
   
   Plug 'tpope/vim-commentary'      " All Hail Tpope
+  
+  Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
+
+  Plug 'chrisbra/Colorizer'
+
+  Plug 'mattn/emmet-vim'
   
   Plug 'tpope/vim-surround'        " Surround text with text
   " Plug 'tpope/vim-fugitive'
@@ -66,7 +73,6 @@ endif
 if &runtimepath =~ 'vim-polyglot'
   let g:polyglot_disabled = ['markdown']
 endif
-
 " =================================  EASY ALIGN ===========================================
 if &runtimepath =~ 'vim-easy-align'
   " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -128,3 +134,34 @@ if &runtimepath =~ 'vim-gitgutter'
   nnoremap <Leader>gs :GitGutterPreviewHunk<CR> 
 endif
 
+" =================================  COC  ===========================================
+if &runtimepath =~ 'coc'
+  " inoremap <silent><expr> <TAB>
+  "       \ pumvisible() ? coc#_select_confirm() :
+  "       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+  "       \ <SID>check_back_space() ? "\<TAB>" :
+  "       \ coc#refresh()
+
+  inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+
+  
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  let g:coc_snippet_next = '<tab>'
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+endif
