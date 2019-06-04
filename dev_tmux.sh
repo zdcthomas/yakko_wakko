@@ -12,6 +12,4 @@ tmux select-pane -t 1
 tmux send-keys "fish" C-m
 tmux resize-pane -R 80
 
-
 tmux -2 attach-session -t $SESSION
-
