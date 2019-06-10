@@ -20,3 +20,4 @@ set -Ux FZF_DEFAULT_COMMAND "fd --hidden --type f"
 export NNN_TMPFILE="/tmp/nnn"
 export EDITOR="vim"
 export NNN_USE_EDITOR=1
+fish_user_key_bindings
