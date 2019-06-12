@@ -18,6 +18,6 @@ status --is-interactive; and source (nodenv init -|psub)
 set -x ERL_AFLAGS "-kernel shell_history enabled"
 set -Ux FZF_DEFAULT_COMMAND "fd --hidden --type f"
 export NNN_TMPFILE="/tmp/nnn"
-export EDITOR="vim"
+# export EDITOR="vim"
 export NNN_USE_EDITOR=1
 fish_user_key_bindings
