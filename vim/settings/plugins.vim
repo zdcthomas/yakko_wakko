@@ -6,46 +6,63 @@ endif
 
 
 call plug#begin('~/.vim/z_plugins')
-  
-  Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
-  
-  Plug 'Yggdroot/indentLine'       " Display Indentation
-  
-  Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
-  
-  Plug 'easymotion/vim-easymotion' " great motion plugin
-  
-  Plug 'junegunn/fzf.vim'          " RTP and plugin for fzf finder
-  Plug '/usr/local/opt/fzf'
 
-  Plug 'junegunn/vim-easy-align'   " Eeasily align text on a specific character
-  
   Plug 'junegunn/vim-plug'         " The current plugin manager
-  
-  Plug 'mcchrish/nnn.vim'          " file management
+
+  "===================================  TYPING ====================================================
+  Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
+
+  Plug 'Yggdroot/indentLine'       " Display Indentation
+
+  Plug 'easymotion/vim-easymotion' " great motion plugin
 
   Plug 'michaeljsmith/vim-indent-object'
-  
-  Plug 'gruvbox-community/gruvbox'          " color scheme
-  
-  Plug 'sheerun/vim-polyglot'      " autoloaded multiple language support
-  Plug 'terryma/vim-multiple-cursors'
-  
+
+  Plug 'junegunn/vim-easy-align'   " Eeasily align text on a specific character
+
   Plug 'tpope/vim-commentary'      " All Hail Tpope
-  
+
+  Plug 'tpope/vim-surround'        " Surround text with text
+
+  Plug 'terryma/vim-multiple-cursors'
+
+
+  "===================================  FILE ========================================================
+  Plug 'mcchrish/nnn.vim'          " file management
+
+  Plug '/usr/local/opt/fzf'
+  Plug 'junegunn/fzf.vim'          " RTP and plugin for fzf finder
+
+  " =================================== GIT ===============================================
+  Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
+  " Plug 'tpope/vim-fugitive'
+
+
+  "===================================  LANGUAGE =======================================================
+  Plug 'sheerun/vim-polyglot'      " autoloaded multiple language support
+
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
 
   Plug 'chrisbra/Colorizer'
 
-  Plug 'mattn/emmet-vim'
-  
-  Plug 'tpope/vim-surround'        " Surround text with text
-  " Plug 'tpope/vim-fugitive'
-  
-  Plug 'vim-airline/vim-airline'   " Status line
+
+  "===================================  STATUS LINE ====================================================
+  Plug 'vim-airline/vim-airline'  
   Plug 'vim-airline/vim-airline-themes'
 
+
+  "===================================  WINDOW ============================================================
   Plug 'moll/vim-bbye'
+
+
+  "===================================  HTML ===============================================
+  Plug 'mattn/emmet-vim'
+
+
+  "===================================  COLOR SCHEMES =======================================================
+  Plug 'gruvbox-community/gruvbox'    
+  Plug 'sonph/onehalf'
+
 call plug#end()
 
 " =================================  EASYMOTION  ==========================================="
@@ -88,7 +105,7 @@ if &runtimepath =~ 'fzf.vim'
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
-  nnoremap <silent> <Leader>F :Rg 
+  nnoremap <silent> <Leader>F :Rg
   nnoremap <silent> <Leader>: :Commands<CR>
   nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
   " preview for files
@@ -131,7 +148,7 @@ if &runtimepath =~ 'vim-gitgutter'
   nnoremap <Leader>gu :GitGutterUndoHunk<CR>
   nnoremap <Leader>gn :GitGutterNextHunk<CR>
   nnoremap <Leader>gp :GitGutterPrevHunk<CR>
-  nnoremap <Leader>gs :GitGutterPreviewHunk<CR> 
+  nnoremap <Leader>gs :GitGutterPreviewHunk<CR>
 endif
 
 " =================================  COC  ===========================================
@@ -149,7 +166,7 @@ if &runtimepath =~ 'coc'
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 
-  
+
   function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
