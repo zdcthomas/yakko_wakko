@@ -21,7 +21,7 @@ set nobackup
 set noswapfile
 set nohlsearch
 set mouse=a                           " This is controversial, I know
-
+set nomodeline
 
 " Split the _right_ way
 set splitright

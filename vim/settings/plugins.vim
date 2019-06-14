@@ -61,7 +61,7 @@ call plug#begin('~/.vim/z_plugins')
 
   "===================================  COLOR SCHEMES =======================================================
   Plug 'gruvbox-community/gruvbox'    
-  Plug 'sonph/onehalf'
+  Plug 'sonph/onehalf', {'rtp': 'vim'}
 
 call plug#end()
 
