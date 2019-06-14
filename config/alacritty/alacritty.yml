@@ -321,7 +321,7 @@ shell:
   program: /usr/local/bin/fish
   args:
     - -c
-    - tmux attach
+    - tmux attach && fish
 
 # Startup directory
 #
