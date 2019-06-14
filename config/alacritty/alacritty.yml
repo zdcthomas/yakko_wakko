@@ -260,7 +260,7 @@ mouse:
   triple_click: { threshold: 300 }
 
   # If this is `true`, the cursor is temporarily hidden when typing.
-  hide_when_typing: false
+  hide_when_typing: true
 
   url:
     # URL launcher
@@ -319,8 +319,9 @@ live_config_reload: true
 #   - (Windows) powershell
 shell:
   program: /usr/local/bin/fish
-#  args:
-#    - --login
+  args:
+    - -c
+    - tmux attach
 
 # Startup directory
 #
