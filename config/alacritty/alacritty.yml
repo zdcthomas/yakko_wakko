@@ -317,8 +317,8 @@ live_config_reload: true
 # Default:
 #   - (Linux/macOS) /bin/bash --login
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
+shell:
+  program: /usr/local/bin/fish
 #  args:
 #    - --login
 
