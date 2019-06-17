@@ -1,9 +1,10 @@
 #!/bin/bash
 SESSION=$USER
 
-tmux -2 new-session -AD -s $SESSION
+tmux new-session -ADd -s $SESSION -n to-be-deleted
 WINDOW_NAME=$(echo $PWD | sed -E 's/.*\///')
 tmux new-window -n $WINDOW_NAME
+tmux kill-window -t to-be-deleted
 tmux split-window -h
 tmux select-pane -t 0
 tmux send-keys "fish" C-m

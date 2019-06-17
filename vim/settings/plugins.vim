@@ -9,7 +9,7 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'junegunn/vim-plug'         " The current plugin manager
 
-  "===================================  TYPING ====================================================
+  "=================================== TYPING ====================================================
   Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
 
   Plug 'Yggdroot/indentLine'       " Display Indentation
@@ -27,7 +27,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'terryma/vim-multiple-cursors'
 
 
-  "===================================  FILE ========================================================
+  "=================================== FILE ========================================================
   Plug 'mcchrish/nnn.vim'          " file management
 
   Plug '/usr/local/opt/fzf'
@@ -38,34 +38,37 @@ call plug#begin('~/.vim/z_plugins')
   " Plug 'tpope/vim-fugitive'
 
 
-  "===================================  LANGUAGE =======================================================
+  "=================================== LANGUAGE =======================================================
   Plug 'sheerun/vim-polyglot'      " autoloaded multiple language support
-
-  Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
 
   Plug 'chrisbra/Colorizer'
 
 
-  "===================================  STATUS LINE ====================================================
+  "=================================== COMPLETION =======================================================
+  Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
+
+
+  "=================================== STATUS LINE ====================================================
   Plug 'vim-airline/vim-airline'  
   Plug 'vim-airline/vim-airline-themes'
 
 
-  "===================================  WINDOW ============================================================
+  "=================================== WINDOW ============================================================
   Plug 'moll/vim-bbye'
 
+  Plug 'w0rp/ale'
 
-  "===================================  HTML ===============================================
+  "=================================== HTML ===============================================
   Plug 'mattn/emmet-vim'
 
 
-  "===================================  COLOR SCHEMES =======================================================
+  "=================================== COLOR SCHEMES =======================================================
   Plug 'gruvbox-community/gruvbox'    
   Plug 'sonph/onehalf', {'rtp': 'vim'}
 
 call plug#end()
 
-" =================================  EASYMOTION  ==========================================="
+" ================================= EASYMOTION  ==========================================="
 ""  color of selectable letter background
 if &runtimepath =~ 'vim-easymotion'
   hi link EasyMotionTarget Function
@@ -181,4 +184,16 @@ if &runtimepath =~ 'coc'
     endif
   endfunction
   nnoremap <silent> K :call <SID>show_documentation()<CR>
+endif
+
+
+" =================================  ALE  ===========================================
+if &runtimepath =~ 'ale'
+  nnoremap gd :ALEGoToDefinition<CR>
+  let g:ale_linters = {
+  \   'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck', 'xo'],
+  \}
+  let g:ale_linters_explicit = 1
+  let g:ale_lint_on_text_changed = 'never'
+  let g:ale_lint_on_enter = 0
 endif

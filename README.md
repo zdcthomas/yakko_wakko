@@ -21,3 +21,8 @@ bash install
 ***
 # What's the name?
 Ever watch [animaniacs](https://www.youtube.com/watch?v=CWnWwN1z_UM)?
+
+
+# What's it look like?
+
+![RICE](/images/rice.png)
