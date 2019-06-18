@@ -11,6 +11,8 @@ augroup zthomas
   autocmd FocusGained * checktime
   autocmd BufEnter * silent! e!
 
+  autocmd FocusGained * hi Normal ctermbg=none
+  autocmd FocusLost
   " autocmd InsertEnter * let updaterestore=&updatetime | set updatetime=4000
   " autocmd InsertLeave * let &updatetime=updaterestore
   " autocmd CursorHoldI * stopinsert

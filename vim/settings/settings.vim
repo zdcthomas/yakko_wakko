@@ -17,6 +17,7 @@ set number
 set showmatch
 set smarttab
 set title
+set termguicolors
 set nobackup
 set noswapfile
 set nohlsearch
