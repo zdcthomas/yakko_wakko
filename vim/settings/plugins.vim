@@ -9,7 +9,7 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'junegunn/vim-plug'         " The current plugin manager
 
-  "=================================== TYPING ====================================================
+  "=================================== TYPING =============================================
   Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
 
   Plug 'Yggdroot/indentLine'       " Display Indentation
@@ -27,33 +27,33 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'terryma/vim-multiple-cursors'
 
 
-  "=================================== FILE ========================================================
+  "=================================== FILE ================================================
   Plug 'mcchrish/nnn.vim'          " file management
 
   Plug '/usr/local/opt/fzf'
   Plug 'junegunn/fzf.vim'          " RTP and plugin for fzf finder
 
-  " =================================== GIT ===============================================
+  " =================================== GIT ================================================
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
   " Plug 'tpope/vim-fugitive'
 
 
-  "=================================== LANGUAGE =======================================================
+  "=================================== LANGUAGE ============================================
   Plug 'sheerun/vim-polyglot'      " autoloaded multiple language support
 
   Plug 'chrisbra/Colorizer'
 
 
-  "=================================== COMPLETION =======================================================
+  "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
 
 
-  "=================================== STATUS LINE ====================================================
+  "=================================== STATUS LINE =========================================
   Plug 'vim-airline/vim-airline'  
   Plug 'vim-airline/vim-airline-themes'
 
 
-  "=================================== WINDOW ============================================================
+  "=================================== WINDOW ==============================================
   Plug 'moll/vim-bbye'
 
   Plug 'w0rp/ale'
@@ -62,13 +62,14 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'mattn/emmet-vim'
 
 
-  "=================================== COLOR SCHEMES =======================================================
+  "=================================== COLOR SCHEMES ======================================
   Plug 'gruvbox-community/gruvbox'    
   Plug 'sonph/onehalf', {'rtp': 'vim'}
+  Plug 'dylanaraps/wal'
 
 call plug#end()
 
-" ================================= EASYMOTION  ==========================================="
+" ================================= EASYMOTION ===========================================
 ""  color of selectable letter background
 if &runtimepath =~ 'vim-easymotion'
   hi link EasyMotionTarget Function
@@ -78,22 +79,22 @@ if &runtimepath =~ 'vim-easymotion'
   omap / <Plug>(easymotion-tn)
 endif
 
-" =================================  AIRLINE  ===========================================
+" ================================= AIRLINE =============================================
 if &runtimepath =~ 'vim-airline'
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#tabline#formatter = 'default'
 endif
 
-" =================================  BBYE  ===========================================
+" ================================= BBYE ================================================
 if &runtimepath =~ 'vim-bbye'
   nnoremap <Leader>q :Bdelete<CR>
 endif
 
-" =================================  POLYGLOT ===========================================
+" ================================= POLYGLOT =============================================
 if &runtimepath =~ 'vim-polyglot'
   let g:polyglot_disabled = ['markdown']
 endif
-" =================================  EASY ALIGN ===========================================
+" ================================= EASY ALIGN ===========================================
 if &runtimepath =~ 'vim-easy-align'
   " Start interactive EasyAlign in visual mode (e.g. vipga)
   xmap ga <Plug>(EasyAlign)
@@ -101,7 +102,7 @@ if &runtimepath =~ 'vim-easy-align'
   nmap ga <Plug>(EasyAlign)
 endif
 
-" =================================  FZF  ==========================================="
+" ================================= FZF =================================================
 if &runtimepath =~ 'fzf.vim'
   set rtp+=/usr/local/opt/fzf
   let g:fzf_buffers_jump = 1
@@ -156,19 +157,12 @@ endif
 
 " =================================  COC  ===========================================
 if &runtimepath =~ 'coc'
-  " inoremap <silent><expr> <TAB>
-  "       \ pumvisible() ? coc#_select_confirm() :
-  "       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-  "       \ <SID>check_back_space() ? "\<TAB>" :
-  "       \ coc#refresh()
 
   inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-
 
   function! s:check_back_space() abort
     let col = col('.') - 1
@@ -189,7 +183,7 @@ endif
 
 " =================================  ALE  ===========================================
 if &runtimepath =~ 'ale'
-  nnoremap gd :ALEGoToDefinition<CR>
+  " nnoremap gd :ALEGoToDefinition<CR>
   let g:ale_linters = {
   \   'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck', 'xo'],
   \}

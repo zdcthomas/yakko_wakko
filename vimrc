@@ -13,4 +13,3 @@ if has('nvim')
 endif
 
 colorscheme gruvbox
-

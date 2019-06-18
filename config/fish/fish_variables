@@ -1,7 +1,9 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export EDITOR:vim
 SETUVAR --export FZF_DEFAULT_COMMAND:fd\x20\x2d\x2dhidden\x20\x2d\x2dtype\x20f
 SETUVAR --export FZF_FIND_FILE_COMMAND:fd\x20\x2d\x2dhidden
+SETUVAR --export TERM:xterm\x2d256color
 SETUVAR __fish_init_2_39_8:\x1d
 SETUVAR __fish_init_2_3_0:\x1d
 SETUVAR __fish_init_3_x:\x1d

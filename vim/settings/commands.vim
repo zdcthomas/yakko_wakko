@@ -10,9 +10,14 @@ augroup zthomas
   autocmd BufLeave * silent! :wa
   autocmd FocusGained * checktime
   autocmd BufEnter * silent! e!
+  autocmd VimEnter * hi Normal ctermbg=none
 
-  autocmd FocusGained * hi Normal ctermbg=none
-  autocmd FocusLost
+
+  " autocmd FocusGained * hi Normal ctermbg=none
+  " autocmd FocusGained * :colorscheme gruvbox
+  " autocmd FocusGained * :echom "FOCUS GAINED"
+  " autocmd FocusLost * :colorscheme default
+  " autocmd FocusLost * :echom "FOCUS LOST"
   " autocmd InsertEnter * let updaterestore=&updatetime | set updatetime=4000
   " autocmd InsertLeave * let &updatetime=updaterestore
   " autocmd CursorHoldI * stopinsert
