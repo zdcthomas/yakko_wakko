@@ -2,38 +2,64 @@ set nocp
 
 syntax on
 
+" uses system clipboard for copy pasting
 set clipboard=unnamed 
+
+" Highlight the current line (CAN ALSO SLOW THINGS DOWN)
 set cursorline
-set nowrap                            " don't wrap lines
-set tabstop=2 shiftwidth=2            " a tab is two spaces (or set this to 4)
-set expandtab                         " use spaces, not tabs (optional)
-set backspace=indent,eol,start        " backspace through everything in insert mode
+
+" don't wrap lines
+set nowrap                            
+
+" a tab is two spaces (or set this to 4)
+set tabstop=2 shiftwidth=2            
+
+" use spaces, not tabs (optional)
+set expandtab                         
+
+" backspace through everything in insert mode
+set backspace=indent,eol,start        
+
+" turns on line numbers
+set number
+
 set autoindent
 set autoread
 set autowriteall
 set copyindent
 set lazyredraw
-set number
+
+" Show the matching pair (bracket, paren, brace etc.)
 set showmatch
+
 set smarttab
 set title
+
 set termguicolors
+
+" Stops vim from saving weird swp files, I'm probably just bad at them though tbf
 set nobackup
 set noswapfile
+
 set nohlsearch
-set mouse=a                           " This is controversial, I know
+
+" This is controversial, I know (it's just mouse support)
+set mouse=a                           
+
 set nomodeline
 
 " Split the _right_ way
 set splitright
 set splitbelow
 
-" Searching
-set incsearch                         " incremental searching
-set ignorecase                        " ignore case in searching
+" incremental searching
+set incsearch                         
 
-" set nu rnu                            " set abs number on current line, but relative everywhere else
+" ignore case in searching
+set ignorecase                        
 
 if !&scrolloff
-    set scrolloff=10                    " Show next 10 lines while scrolling.
+    " Show next 10 lines while scrolling.
+    set scrolloff=10                    
 endif
+

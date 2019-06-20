@@ -67,6 +67,9 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'sonph/onehalf', {'rtp': 'vim'}
   Plug 'dylanaraps/wal'
 
+
+  " Plug 'mhinz/vim-startify'
+
 call plug#end()
 
 " ================================= EASYMOTION ===========================================
@@ -75,8 +78,23 @@ if &runtimepath =~ 'vim-easymotion'
   hi link EasyMotionTarget Function
   hi link EasyMotionShade  Comment
   let g:EasyMotion_smartcase = 1
-  map  / <Plug>(easymotion-sn)
-  omap / <Plug>(easymotion-tn)
+  map  <Leader><Leader>/ <Plug>(easymotion-sn)
+  omap <Leader><Leader>/ <Plug>(easymotion-tn)
+endif
+
+if &runtimepath =~ 'startify'
+  let g:startify_lists = [
+        \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+        \ { 'type': 'files',     'header': ['   MRU']            }]
+
+  let g:ascii = [
+        \ '        __',
+        \ '.--.--.|__|.--------.',
+        \ '|  |  ||  ||        |',
+        \ ' \___/ |__||__|__|__|',
+        \ ''
+        \]
+  let g:startify_custom_header = g:ascii
 endif
 
 " ================================= AIRLINE =============================================
@@ -109,7 +127,8 @@ if &runtimepath =~ 'fzf.vim'
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
-  nnoremap <silent> <Leader>F :Rg
+  " note: THERE'S SOME WHITESPACE AT THE END OF THIS LINE AND IT'S INTENTIONAL
+  nnoremap <silent> <Leader>F :Rg 
   nnoremap <silent> <Leader>: :Commands<CR>
   nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
   " preview for files
@@ -183,11 +202,18 @@ endif
 
 " =================================  ALE  ===========================================
 if &runtimepath =~ 'ale'
-  " nnoremap gd :ALEGoToDefinition<CR>
+  nnoremap <Leader>d :ALEGoToDefinition<CR>
   let g:ale_linters = {
   \   'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck', 'xo'],
   \}
-  let g:ale_linters_explicit = 1
+  " let g:ale_linters_explicit = 1
   let g:ale_lint_on_text_changed = 'never'
   let g:ale_lint_on_enter = 0
+endif
+
+if &runtimepath =~ 'gruvbox'
+  colorscheme gruvbox
+  if exists('$TMUX')
+    hi Normal guibg=NONE
+  endif
 endif
