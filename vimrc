@@ -11,5 +11,3 @@ call SourceFile("~/.vim/settings/plugins.vim")
 if has('nvim')
   call SourceFile("~/.vim/settings/nvim_settings.vim")
 endif
-
-colorscheme gruvbox
