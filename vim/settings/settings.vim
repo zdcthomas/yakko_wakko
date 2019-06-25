@@ -63,3 +63,4 @@ if !&scrolloff
     set scrolloff=10                    
 endif
 
+set fillchars=vert:│

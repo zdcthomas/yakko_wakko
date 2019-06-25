@@ -12,8 +12,8 @@ augroup zthomas
   autocmd BufEnter * silent! e!
   autocmd VimEnter * hi Normal ctermbg=none
   " transparency on cursorline
-  autocmd FocusGained * :set cursorline
-  autocmd FocusLost * :set nocursorline
+  " autocmd FocusGained * :set cursorline
+  " autocmd FocusLost * :set nocursorline
 
 
   " autocmd InsertEnter * let updaterestore=&updatetime | set updatetime=4000
