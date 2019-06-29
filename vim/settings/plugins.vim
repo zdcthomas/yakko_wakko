@@ -47,6 +47,7 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
 
+  Plug 'w0rp/ale'
 
   "=================================== STATUS LINE =========================================
   Plug 'vim-airline/vim-airline'  
@@ -56,17 +57,15 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== WINDOW ==============================================
   Plug 'moll/vim-bbye'
 
-  Plug 'w0rp/ale'
+  Plug 'junegunn/goyo.vim'
 
   "=================================== HTML ===============================================
   Plug 'mattn/emmet-vim'
-
 
   "=================================== COLOR SCHEMES ======================================
   Plug 'gruvbox-community/gruvbox'    
   Plug 'sonph/onehalf', {'rtp': 'vim'}
   Plug 'dylanaraps/wal'
-
 
   " Plug 'mhinz/vim-startify'
 
@@ -129,6 +128,7 @@ if &runtimepath =~ 'fzf.vim'
   nnoremap <silent> <Leader>c :Commits<CR>
   " note: THERE'S SOME WHITESPACE AT THE END OF THIS LINE AND IT'S INTENTIONAL
   nnoremap <silent> <Leader>F :Rg 
+  nnoremap <silent> <Leader>C :Colors<CR>
   nnoremap <silent> <Leader>: :Commands<CR>
   nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
   " preview for files
@@ -205,10 +205,11 @@ if &runtimepath =~ 'ale'
   nnoremap <Leader>d :ALEGoToDefinition<CR>
   let g:ale_linters = {
   \   'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck', 'xo'],
+  \   'elixir': ['credo', 'dialyxir', 'dogma', 'elixir-ls', 'mix'],
   \}
   let g:ale_linters_explicit = 1
-  let g:ale_lint_on_text_changed = 'never'
-  let g:ale_lint_on_enter = 0
+  " let g:ale_lint_on_text_changed = 'never'
+  let g:ale_lint_on_enter = 1
 endif
 
 if &runtimepath =~ 'gruvbox'
