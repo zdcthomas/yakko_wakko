@@ -11,19 +11,15 @@ augroup zthomas
   autocmd FocusGained * checktime
   autocmd BufEnter * silent! e!
   autocmd VimEnter * hi Normal ctermbg=none
+
+  " Highlighting active window
+  autocmd WinEnter * set number
+  autocmd WinLeave * set nonumber
+  autocmd WinEnter * set cul
+  autocmd WinLeave * set nocul
+
   " transparency on cursorline
   " autocmd FocusGained * :set cursorline
   " autocmd FocusLost * :set nocursorline
 
-
-  " autocmd InsertEnter * let updaterestore=&updatetime | set updatetime=4000
-  " autocmd InsertLeave * let &updatetime=updaterestore
-  " autocmd CursorHoldI * stopinsert
 augroup END
-
-" function! TestFile()
-"   let current_file=expand("@%")
-"   tmux select-pane -t 1; tmux send-keys "rspec " + current_file
-
-" endfunction
-
