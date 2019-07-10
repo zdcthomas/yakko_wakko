@@ -26,6 +26,7 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'terryma/vim-multiple-cursors'
 
+  Plug 'dhruvasagar/vim-table-mode'
 
   "=================================== FILE ================================================
   Plug 'mcchrish/nnn.vim'          " file management
@@ -207,7 +208,7 @@ if &runtimepath =~ 'ale'
   \   'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck', 'xo'],
   \   'elixir': ['credo', 'dialyxir', 'dogma', 'elixir-ls', 'mix'],
   \}
-  let g:ale_linters_explicit = 1
+  " let g:ale_linters_explicit = 1
   " let g:ale_lint_on_text_changed = 'never'
   let g:ale_lint_on_enter = 1
 endif
