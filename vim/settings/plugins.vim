@@ -28,8 +28,12 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'dhruvasagar/vim-table-mode'
 
+  Plug 'justinmk/vim-sneak'
+
   "=================================== FILE ================================================
-  Plug 'mcchrish/nnn.vim'          " file management
+  " Plug 'mcchrish/nnn.vim'          " file management
+  Plug 'francoiscabrol/ranger.vim'
+  Plug 'rbgrouleff/bclose.vim'
 
   Plug '/usr/local/opt/fzf'
   Plug 'junegunn/fzf.vim'          " RTP and plugin for fzf finder
@@ -218,4 +222,9 @@ if &runtimepath =~ 'gruvbox'
   if exists('$TMUX')
     hi Normal guibg=NONE
   endif
+endif
+
+if &runtimepath =~ 'ranger'
+  let g:ranger_replace_netrw = 1
+  let g:ranger_command_override = 'ranger --cmd "set show_hidden=true"'
 endif
