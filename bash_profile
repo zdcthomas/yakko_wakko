@@ -3,6 +3,9 @@ alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
 alias la='ls -la'
 set -o vi
 
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+
 make_rails(){
   rails new $1 -T -d=postgresql --skip-turbolinks --skip-spring $2
   cd $1
