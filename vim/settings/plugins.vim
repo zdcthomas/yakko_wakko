@@ -28,12 +28,10 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'dhruvasagar/vim-table-mode'
 
-  Plug 'justinmk/vim-sneak'
 
   "=================================== FILE ================================================
   " Plug 'mcchrish/nnn.vim'          " file management
   Plug 'francoiscabrol/ranger.vim'
-  Plug 'rbgrouleff/bclose.vim'
 
   Plug '/usr/local/opt/fzf'
   Plug 'junegunn/fzf.vim'          " RTP and plugin for fzf finder
@@ -52,7 +50,7 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
 
-  Plug 'w0rp/ale'
+  " Plug 'w0rp/ale'
 
   "=================================== STATUS LINE =========================================
   Plug 'vim-airline/vim-airline'  
@@ -109,6 +107,7 @@ endif
 
 " ================================= BBYE ================================================
 if &runtimepath =~ 'vim-bbye'
+  command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
   nnoremap <Leader>q :Bdelete<CR>
 endif
 
@@ -130,8 +129,9 @@ if &runtimepath =~ 'fzf.vim'
   let g:fzf_buffers_jump = 1
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
+  nnoremap <silent> <Leader>G :Lines<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
-  " note: THERE'S SOME WHITESPACE AT THE END OF THIS LINE AND IT'S INTENTIONAL
+  " note: THERE'S SOME WHITESPACE AT THE END OF \/THIS\/ LINE AND IT'S INTENTIONAL
   nnoremap <silent> <Leader>F :Rg 
   nnoremap <silent> <Leader>C :Colors<CR>
   nnoremap <silent> <Leader>: :Commands<CR>
@@ -212,8 +212,8 @@ if &runtimepath =~ 'ale'
   \   'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck', 'xo'],
   \   'elixir': ['credo', 'dialyxir', 'dogma', 'elixir-ls', 'mix'],
   \}
-  " let g:ale_linters_explicit = 1
-  " let g:ale_lint_on_text_changed = 'never'
+  let g:ale_linters_explicit = 1
+  let g:ale_lint_on_text_changed = 'never'
   let g:ale_lint_on_enter = 1
 endif
 
@@ -225,6 +225,9 @@ if &runtimepath =~ 'gruvbox'
 endif
 
 if &runtimepath =~ 'ranger'
+  let g:ranger_map_keys = 0
+  nnoremap <Leader>n :Ranger<CR>
+
   let g:ranger_replace_netrw = 1
   let g:ranger_command_override = 'ranger --cmd "set show_hidden=true"'
 endif

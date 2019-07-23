@@ -2,6 +2,8 @@ set nocp
 
 syntax on
 
+set hidden
+set shell=sh
 " uses system clipboard for copy pasting
 set clipboard=unnamed 
 
