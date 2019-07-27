@@ -12,7 +12,6 @@ alias nats="docker run -d -p 4222:4222 -p 6222:6222 -p 8222:8222 nats:latest"
 alias vim=nvim
 alias fuck_pg='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 alias fm='fzf | xargs rm -rfi'
-alias fc="cd (fd -t d | fzf --preview 'tree -aCt {}' )"
 status --is-interactive; and source (rbenv init -|psub)
 status --is-interactive; and source (pyenv init -|psub)
 status --is-interactive; and source (nodenv init -|psub)
@@ -27,8 +26,19 @@ export NNN_USE_EDITOR=1
 fish_user_key_bindings
 fish_vi_key_bindings
 
+direnv hook fish | source 
+
 function fco -d "Fuzzy-find and checkout a branch"
   git branch --all | grep -v HEAD | string trim | fzf | read -l result; and git checkout "$result"
+end
+
+function fc
+  set ol_dir (pwd)
+  cd
+  if set destination (fd -t d | fzf --preview 'tree -aCt {}' --reverse --margin=7%)
+    cd $destination
+  end
+  cd $ol_dir
 end
 
 function dev
@@ -37,7 +47,6 @@ function dev
   if set destination (fd -t d | fzf --preview 'tree -aCt {}' --reverse --margin=7%)
     cd $destination
     bash ~/yakko_wakko/dev_tmux.sh
-  else
-    cd $ol_dir
   end
+  cd $ol_dir
 end
