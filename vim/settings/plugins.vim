@@ -72,6 +72,7 @@ call plug#begin('~/.vim/z_plugins')
 
   " Plug 'mhinz/vim-startify'
 
+  Plug 'zdcthomas/vish'
 call plug#end()
 
 " ================================= EASYMOTION ===========================================
@@ -113,7 +114,7 @@ endif
 
 " ================================= POLYGLOT =============================================
 if &runtimepath =~ 'vim-polyglot'
-  let g:polyglot_disabled = ['markdown']
+  let g:polyglot_disabled = ['markdown', 'fish']
 endif
 " ================================= EASY ALIGN ===========================================
 if &runtimepath =~ 'vim-easy-align'
