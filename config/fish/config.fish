@@ -37,9 +37,10 @@ function fc
   cd
   if set destination (fd -t d | fzf --preview 'tree -aCt {}' --reverse --margin=7%)
     cd $destination
+  else
+    cd $ol_dir
   end
-  cd $ol_dir
-end
+end 
 
 function dev
   set ol_dir (pwd)

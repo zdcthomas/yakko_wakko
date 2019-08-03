@@ -1,7 +1,8 @@
-function! SencRightWithFile(text)
+function! SendRight(text)
   !tmux select-pane -R
   !tmux send-keys C-l
-  !tmux send-keys s:text % C-m
+  echo a:text
+  system("tmux send-keys" . a:text . "C-m")
 endfunction
 
 " vimrc hot reload
@@ -10,7 +11,11 @@ command! Vrc :tabnew ~/.vim/settings/settings.vim
 command! Yf :let @+ = expand("%")
 command! Test :SencRightWithFile("rspec " % C-m)
 command! Log :call SencRightWithFile("git log ") 
-nnoremap <Leader>gl :Log<Cr>
+command! -range GitBlame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n") 
+" nnoremap <Leader>gl :Log<Cr>
+nnoremap <Leader>gb :GitBlame<Cr>
+nnoremap <Leader>yf :Yf<Cr>
+vnoremap gb :GitBlame<Cr>
 
 
 augroup zthomas

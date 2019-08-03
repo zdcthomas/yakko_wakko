@@ -70,7 +70,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'sonph/onehalf', {'rtp': 'vim'}
   Plug 'dylanaraps/wal'
 
-  " Plug 'mhinz/vim-startify'
+  Plug 'mhinz/vim-startify'
 
   Plug 'zdcthomas/vish'
 call plug#end()
@@ -86,9 +86,11 @@ if &runtimepath =~ 'vim-easymotion'
 endif
 
 if &runtimepath =~ 'startify'
-  let g:startify_lists = [
-        \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-        \ { 'type': 'files',     'header': ['   MRU']            }]
+  let g:startify_lists = [{ 'type': 'dir',       'header': ['   MRU '. getcwd()] }]
+        " \ { 'type': 'files',     'header': ['   MRU']            }]
+
+  let g:startify_change_to_dir = 0
+  let g:startify_change_to_vcs_root = 1
 
   let g:ascii = [
         \ '        __',
@@ -98,6 +100,7 @@ if &runtimepath =~ 'startify'
         \ ''
         \]
   let g:startify_custom_header = g:ascii
+  let g:startify_disable_at_vimenter = 1
 endif
 
 " ================================= AIRLINE =============================================
