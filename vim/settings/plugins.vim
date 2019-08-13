@@ -30,22 +30,20 @@ call plug#begin('~/.vim/z_plugins')
 
 
   "=================================== FILE ================================================
-  " Plug 'mcchrish/nnn.vim'          " file management
-  Plug 'francoiscabrol/ranger.vim'
+  Plug 'francoiscabrol/ranger.vim' "File management
 
   Plug '/usr/local/opt/fzf'
   Plug 'junegunn/fzf.vim'          " RTP and plugin for fzf finder
 
   " =================================== GIT ================================================
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
-  " Plug 'tpope/vim-fugitive'
-
 
   "=================================== LANGUAGE ============================================
   Plug 'sheerun/vim-polyglot'      " autoloaded multiple language support
 
   Plug 'chrisbra/Colorizer'
 
+  Plug 'JamshedVesuna/vim-markdown-preview'
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
@@ -55,7 +53,6 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== STATUS LINE =========================================
   Plug 'vim-airline/vim-airline'  
   Plug 'vim-airline/vim-airline-themes'
-
 
   "=================================== WINDOW ==============================================
   Plug 'moll/vim-bbye'
@@ -72,7 +69,9 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'mhinz/vim-startify'
 
-  Plug 'zdcthomas/vish'
+  "=================================== PERSONAL PLUGINS ======================================
+  Plug 'zdcthomas/vish' "vim fish without the slow stuff
+
 call plug#end()
 
 " ================================= EASYMOTION ===========================================
@@ -117,7 +116,7 @@ endif
 
 " ================================= POLYGLOT =============================================
 if &runtimepath =~ 'vim-polyglot'
-  let g:polyglot_disabled = ['markdown', 'fish']
+  let g:polyglot_disabled = ['markdown', 'fish', 'json'] "Some of these are just so slow
 endif
 " ================================= EASY ALIGN ===========================================
 if &runtimepath =~ 'vim-easy-align'
@@ -234,4 +233,9 @@ if &runtimepath =~ 'ranger'
 
   let g:ranger_replace_netrw = 1
   let g:ranger_command_override = 'ranger --cmd "set show_hidden=true"'
+endif
+
+if &runtimepath =~ 'markdown'
+  let vim_markdown_preview_github=1
+
 endif

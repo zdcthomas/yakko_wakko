@@ -45,7 +45,12 @@ end
 function dev
   set ol_dir (pwd)
   cd
-  if set destination (fd -t d | fzf --preview 'tree -aCt {}' --reverse --margin=7%)
+  if count $argv > /dev/null
+    cd dev
+    git clone $argv
+    cd (echo $argv | awk -F "/" '{print $NF}' | sed 's/\.git//')
+    bash ~/yakko_wakko/dev_tmux.sh
+  else if set destination (fd -t d | fzf --preview 'tree -aCt {}' --reverse --margin=7%)
     cd $destination
     bash ~/yakko_wakko/dev_tmux.sh
   end
