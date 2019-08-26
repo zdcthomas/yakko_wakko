@@ -49,3 +49,5 @@ n()
                 rm -f $NNN_TMPFILE > /dev/null
         fi
 }
+
+export PATH="$HOME/.cargo/bin:$PATH"
