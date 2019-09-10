@@ -57,3 +57,10 @@ function dev
   end
   cd $ol_dir
 end
+
+
+function circle
+	set org_and_repo (git remote -v | grep push | awk '{print $2}' | sed 's/\.git//g' | sed 's/.*\.com\///g')
+  set branch (git branch | grep \* | cut -d ' ' -f2)
+  open https://circleci.com/gh/"$org_and_repo"/tree/"$branch"
+end

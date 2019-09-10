@@ -10,6 +10,8 @@ set clipboard=unnamed
 " Highlight the current line (CAN ALSO SLOW THINGS DOWN)
 set cursorline
 
+set concealcursor=nc
+
 " don't wrap lines
 set nowrap                            
 

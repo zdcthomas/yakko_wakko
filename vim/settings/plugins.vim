@@ -90,7 +90,6 @@ if &runtimepath =~ 'startify'
 
   let g:startify_change_to_dir = 0
   let g:startify_change_to_vcs_root = 1
-
   let g:ascii = [
         \ '        __',
         \ '.--.--.|__|.--------.',
@@ -98,6 +97,24 @@ if &runtimepath =~ 'startify'
         \ ' \___/ |__||__|__|__|',
         \ ''
         \]
+
+			" [
+			" \'             &&',
+			" \'           &&&&&',
+			" \'         &&&\/& &&&',
+			" \'        &&|,/  |/& &&',
+			" \'         &&/   /  /_&  &&',
+			" \'           \  {  |_____/_&',
+			" \'           {  / /          &&&',
+			" \'           `, \{___________/_&&',
+			" \'            } }{       \',
+			" \'            }{{         \____&',
+			" \'           {}{           `&\&&',
+			" \'           {{}             &&',
+			" \'     , -=-~{ .-^- _',
+			" \'           `}',
+			" \'            {',
+			" \]
   let g:startify_custom_header = g:ascii
   let g:startify_disable_at_vimenter = 1
 endif
@@ -116,7 +133,7 @@ endif
 
 " ================================= POLYGLOT =============================================
 if &runtimepath =~ 'vim-polyglot'
-  let g:polyglot_disabled = ['markdown', 'fish', 'json'] "Some of these are just so slow
+  let g:polyglot_disabled = ['markdown', 'fish', 'json', 'rails', 'ruby'] "Some of these are just so slow
 endif
 " ================================= EASY ALIGN ===========================================
 if &runtimepath =~ 'vim-easy-align'
