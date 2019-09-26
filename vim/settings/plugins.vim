@@ -28,6 +28,8 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'dhruvasagar/vim-table-mode'
 
+  Plug 'gyim/vim-boxdraw'          " Draw some boxes
+
 
   "=================================== FILE ================================================
   Plug 'francoiscabrol/ranger.vim' "File management
@@ -59,6 +61,7 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'junegunn/goyo.vim'
 
+  Plug 'segeljakt/vim-silicon'
   "=================================== HTML ===============================================
   Plug 'mattn/emmet-vim'
 

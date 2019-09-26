@@ -27,6 +27,7 @@ augroup zthomas
   " Highlighting active window
   autocmd WinEnter * set cul
   autocmd WinLeave * set nocul
+  autocmd FileType elixir :ab pry require IEx;IEx.pry
 
   " transparency on cursorline
   " autocmd FocusGained * :set cursorline

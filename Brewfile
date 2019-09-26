@@ -33,6 +33,7 @@ brew "readline"
 brew "redis", restart_service: true
 brew "ripgrep"
 brew "ruby-build"
+brew "rustup"
 brew "the_silver_searcher"
 brew "tmux"
 brew "tmux-xpanes"
