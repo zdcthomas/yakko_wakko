@@ -10,14 +10,14 @@ imap <C-j> <C-o>j
 imap <C-k> <C-o>k
 imap <C-l> <C-o>l
 
-" Indent easily 
+" Indent easily
 xnoremap < <gv
 xnoremap > >gv
 
-nnoremap H ^
-vnoremap H ^
-nnoremap L $
-vnoremap L $
+" nnoremap H ^
+" vnoremap H ^
+" nnoremap L $
+" vnoremap L $
 
 " Easier window motions
 nnoremap <C-J> <C-W><C-J>

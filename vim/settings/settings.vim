@@ -62,9 +62,10 @@ set incsearch
 " ignore case in searching
 set ignorecase                        
 
-if !&scrolloff
-    " Show next 10 lines while scrolling.
-    set scrolloff=10                    
-endif
+" if !&scrolloff
+"     " Show next 10 lines while scrolling.
+set scrolloff=20                    
+" endif
 
-set fillchars=vert:│
+set fillchars=vert:%
+
