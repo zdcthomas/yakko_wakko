@@ -28,38 +28,40 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'dhruvasagar/vim-table-mode'
 
+  Plug 'gyim/vim-boxdraw'          " Draw some boxes
+
+
   "=================================== FILE ================================================
-  Plug 'mcchrish/nnn.vim'          " file management
+  Plug 'francoiscabrol/ranger.vim' "File management
 
   Plug '/usr/local/opt/fzf'
   Plug 'junegunn/fzf.vim'          " RTP and plugin for fzf finder
 
   " =================================== GIT ================================================
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
-  " Plug 'tpope/vim-fugitive'
-
 
   "=================================== LANGUAGE ============================================
   Plug 'sheerun/vim-polyglot'      " autoloaded multiple language support
 
   Plug 'chrisbra/Colorizer'
 
+  Plug 'JamshedVesuna/vim-markdown-preview'
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
 
-  Plug 'w0rp/ale'
+  " Plug 'w0rp/ale'
 
   "=================================== STATUS LINE =========================================
   Plug 'vim-airline/vim-airline'  
   Plug 'vim-airline/vim-airline-themes'
-
 
   "=================================== WINDOW ==============================================
   Plug 'moll/vim-bbye'
 
   Plug 'junegunn/goyo.vim'
 
+  Plug 'segeljakt/vim-silicon'
   "=================================== HTML ===============================================
   Plug 'mattn/emmet-vim'
 
@@ -68,7 +70,10 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'sonph/onehalf', {'rtp': 'vim'}
   Plug 'dylanaraps/wal'
 
-  " Plug 'mhinz/vim-startify'
+  Plug 'mhinz/vim-startify'
+
+  "=================================== PERSONAL PLUGINS ======================================
+  Plug 'zdcthomas/vish' "vim fish without the slow stuff
 
 call plug#end()
 
@@ -83,10 +88,11 @@ if &runtimepath =~ 'vim-easymotion'
 endif
 
 if &runtimepath =~ 'startify'
-  let g:startify_lists = [
-        \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-        \ { 'type': 'files',     'header': ['   MRU']            }]
+  let g:startify_lists = [{ 'type': 'dir',       'header': ['   MRU '. getcwd()] }]
+        " \ { 'type': 'files',     'header': ['   MRU']            }]
 
+  let g:startify_change_to_dir = 0
+  let g:startify_change_to_vcs_root = 1
   let g:ascii = [
         \ '        __',
         \ '.--.--.|__|.--------.',
@@ -94,7 +100,26 @@ if &runtimepath =~ 'startify'
         \ ' \___/ |__||__|__|__|',
         \ ''
         \]
+
+			" [
+			" \'             &&',
+			" \'           &&&&&',
+			" \'         &&&\/& &&&',
+			" \'        &&|,/  |/& &&',
+			" \'         &&/   /  /_&  &&',
+			" \'           \  {  |_____/_&',
+			" \'           {  / /          &&&',
+			" \'           `, \{___________/_&&',
+			" \'            } }{       \',
+			" \'            }{{         \____&',
+			" \'           {}{           `&\&&',
+			" \'           {{}             &&',
+			" \'     , -=-~{ .-^- _',
+			" \'           `}',
+			" \'            {',
+			" \]
   let g:startify_custom_header = g:ascii
+  let g:startify_disable_at_vimenter = 1
 endif
 
 " ================================= AIRLINE =============================================
@@ -105,12 +130,13 @@ endif
 
 " ================================= BBYE ================================================
 if &runtimepath =~ 'vim-bbye'
+  command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
   nnoremap <Leader>q :Bdelete<CR>
 endif
 
 " ================================= POLYGLOT =============================================
 if &runtimepath =~ 'vim-polyglot'
-  let g:polyglot_disabled = ['markdown']
+  let g:polyglot_disabled = ['markdown', 'fish', 'json', 'rails', 'ruby'] "Some of these are just so slow
 endif
 " ================================= EASY ALIGN ===========================================
 if &runtimepath =~ 'vim-easy-align'
@@ -126,8 +152,9 @@ if &runtimepath =~ 'fzf.vim'
   let g:fzf_buffers_jump = 1
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
+  nnoremap <silent> <Leader>G :Lines<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
-  " note: THERE'S SOME WHITESPACE AT THE END OF THIS LINE AND IT'S INTENTIONAL
+  " note: THERE'S SOME WHITESPACE AT THE END OF \/THIS\/ LINE AND IT'S INTENTIONAL
   nnoremap <silent> <Leader>F :Rg 
   nnoremap <silent> <Leader>C :Colors<CR>
   nnoremap <silent> <Leader>: :Commands<CR>
@@ -208,8 +235,8 @@ if &runtimepath =~ 'ale'
   \   'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck', 'xo'],
   \   'elixir': ['credo', 'dialyxir', 'dogma', 'elixir-ls', 'mix'],
   \}
-  " let g:ale_linters_explicit = 1
-  " let g:ale_lint_on_text_changed = 'never'
+  let g:ale_linters_explicit = 1
+  let g:ale_lint_on_text_changed = 'never'
   let g:ale_lint_on_enter = 1
 endif
 
@@ -218,4 +245,17 @@ if &runtimepath =~ 'gruvbox'
   if exists('$TMUX')
     hi Normal guibg=NONE
   endif
+endif
+
+if &runtimepath =~ 'ranger'
+  let g:ranger_map_keys = 0
+  nnoremap <Leader>n :Ranger<CR>
+
+  let g:ranger_replace_netrw = 1
+  let g:ranger_command_override = 'ranger --cmd "set show_hidden=true"'
+endif
+
+if &runtimepath =~ 'markdown'
+  let vim_markdown_preview_github=1
+
 endif
