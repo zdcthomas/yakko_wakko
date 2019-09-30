@@ -2,11 +2,15 @@ set nocp
 
 syntax on
 
+set hidden
+set shell=sh
 " uses system clipboard for copy pasting
 set clipboard=unnamed 
 
 " Highlight the current line (CAN ALSO SLOW THINGS DOWN)
 set cursorline
+
+set concealcursor=nc
 
 " don't wrap lines
 set nowrap                            
@@ -58,9 +62,10 @@ set incsearch
 " ignore case in searching
 set ignorecase                        
 
-if !&scrolloff
-    " Show next 10 lines while scrolling.
-    set scrolloff=10                    
-endif
+" if !&scrolloff
+"     " Show next 10 lines while scrolling.
+set scrolloff=20                    
+" endif
 
-set fillchars=vert:│
+set fillchars=vert:%
+

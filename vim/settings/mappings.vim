@@ -10,9 +10,14 @@ imap <C-j> <C-o>j
 imap <C-k> <C-o>k
 imap <C-l> <C-o>l
 
-" Indent easily 
+" Indent easily
 xnoremap < <gv
 xnoremap > >gv
+
+" nnoremap H ^
+" vnoremap H ^
+" nnoremap L $
+" vnoremap L $
 
 " Easier window motions
 nnoremap <C-J> <C-W><C-J>
@@ -32,10 +37,10 @@ nnoremap <Leader>wH <C-W>H
 nnoremap <Leader>wL <C-W>L
 
 " We don't need no stinkin arrows
-nnoremap <Up> :res -10<Cr>
-nnoremap <Down> :res +10<Cr>
-nnoremap <Left> :vertical resize +10<Cr>
-nnoremap <Right> :vertical resize -10<Cr>
+nnoremap <Up> :res +5<Cr>
+nnoremap <Down> :res -5<Cr>
+nnoremap <Left> :vertical resize -5<Cr>
+nnoremap <Right> :vertical resize +5<Cr>
 
 " Easy window creation
 nnoremap <Leader>w<Leader>l :vsp<CR>
