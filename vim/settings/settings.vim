@@ -64,8 +64,9 @@ set ignorecase
 
 " if !&scrolloff
 "     " Show next 10 lines while scrolling.
-set scrolloff=20                    
+set scrolloff=10
 " endif
 
 set fillchars=vert:%
 
+set noequalalways
