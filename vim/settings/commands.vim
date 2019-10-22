@@ -25,8 +25,8 @@ augroup zthomas
   autocmd VimEnter * hi Normal ctermbg=none
 
   " Highlighting active window
-  autocmd WinEnter * set cul
-  autocmd WinLeave * set nocul
+  " autocmd WinEnter * set cul
+  " autocmd WinLeave * set nocul
   autocmd FileType elixir :ab pry require IEx;IEx.pry
 
   " transparency on cursorline

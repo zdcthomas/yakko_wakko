@@ -5,7 +5,7 @@ syntax on
 set hidden
 set shell=sh
 " uses system clipboard for copy pasting
-set clipboard=unnamed 
+set clipboard=unnamed
 
 " Highlight the current line (CAN ALSO SLOW THINGS DOWN)
 set cursorline
@@ -70,3 +70,7 @@ set scrolloff=10
 set fillchars=vert:%
 
 set noequalalways
+
+" I'm tryring this out mostly for end conditions in macros, but also, like,
+" I'm a big kid and can search backward on my own.
+set nowrapscan

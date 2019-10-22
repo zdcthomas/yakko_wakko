@@ -26,6 +26,7 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'terryma/vim-multiple-cursors'
 
+  "============== Lesser used ===============
   Plug 'dhruvasagar/vim-table-mode'
 
   Plug 'gyim/vim-boxdraw'          " Draw some boxes
@@ -45,12 +46,10 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'chrisbra/Colorizer'
 
-  Plug 'JamshedVesuna/vim-markdown-preview'
-
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
 
-  " Plug 'w0rp/ale'
+  " Plug 'dense-analysis/ale'
 
   "=================================== STATUS LINE =========================================
   Plug 'vim-airline/vim-airline'  
@@ -58,8 +57,6 @@ call plug#begin('~/.vim/z_plugins')
 
   "=================================== WINDOW ==============================================
   Plug 'moll/vim-bbye'
-
-  Plug 'junegunn/goyo.vim'
 
   Plug 'segeljakt/vim-silicon'
   "=================================== HTML ===============================================
@@ -94,30 +91,31 @@ if &runtimepath =~ 'startify'
   let g:startify_change_to_dir = 0
   let g:startify_change_to_vcs_root = 1
   let g:ascii = [
-        \ '        __',
-        \ '.--.--.|__|.--------.',
-        \ '|  |  ||  ||        |',
-        \ ' \___/ |__||__|__|__|',
-        \ ''
-        \]
+			\"             &&",
+			\"           &&&&&",
+			\"         &&&\/& &&&",
+			\"        &&|,/  |/& &&",
+			\"     *&_ &&/   /  /_&  &&",
+			\"    &_\\    \\  {  |_____/_&",
+			\"       \\_&_{*&/ /          &&&",
+			\"           `, \{__&_&____&_/_&&",
+			\"            } }{       \\'",
+			\"            }{{         \'_&__&",
+			\"           {}{           \\`&\&&",
+			\"           {{}            \'&&",
+			\"     , -=-~{ .-^- _",
+			\"           `}",
+			\"            {"
+			\]
 
-			" [
-			" \'             &&',
-			" \'           &&&&&',
-			" \'         &&&\/& &&&',
-			" \'        &&|,/  |/& &&',
-			" \'         &&/   /  /_&  &&',
-			" \'           \  {  |_____/_&',
-			" \'           {  / /          &&&',
-			" \'           `, \{___________/_&&',
-			" \'            } }{       \',
-			" \'            }{{         \____&',
-			" \'           {}{           `&\&&',
-			" \'           {{}             &&',
-			" \'     , -=-~{ .-^- _',
-			" \'           `}',
-			" \'            {',
-			" \]
+  " [
+  "       \ '        __',
+  "       \ '.--.--.|__|.--------.',
+  "       \ '|  |  ||  ||        |',
+  "       \ ' \___/ |__||__|__|__|',
+  "       \ ''
+  "       \]
+
   let g:startify_custom_header = g:ascii
   let g:startify_disable_at_vimenter = 1
 endif
