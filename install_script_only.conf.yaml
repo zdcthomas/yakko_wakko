@@ -10,7 +10,6 @@
 - clean: ['~']
 
 - link:
-    # ~/yakko_wakko: ''
     ~/.bash_profile: bash_profile
     ~/.tmux.conf: tmux.conf
     ~/.vimrc: 
@@ -23,10 +22,6 @@
     ~/.vim/:
       glob: true
       path: vim/*
-    # "~/Library/Application Support/Code/User/settings.json":
-    #   path: vscode/settings.json
-    # "~/Library/Application Support/Code/User/snippets":
-    #   path: vscode/snippets
 
 - shell:
   - 

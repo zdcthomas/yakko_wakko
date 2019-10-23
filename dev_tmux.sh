@@ -8,7 +8,7 @@ tmux kill-window -t to-be-deleted
 tmux split-window -h
 tmux select-pane -t 0
 tmux send-keys "fish" C-m
-tmux send-keys "vim -c :Startify" C-m
+tmux send-keys "vim" C-m
 tmux select-pane -t 1
 tmux send-keys "fish" C-m
 tmux resize-pane -R 80
