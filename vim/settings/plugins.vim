@@ -108,16 +108,7 @@ if &runtimepath =~ 'startify'
 			\"            {"
 			\]
 
-  " [
-  "       \ '        __',
-  "       \ '.--.--.|__|.--------.',
-  "       \ '|  |  ||  ||        |',
-  "       \ ' \___/ |__||__|__|__|',
-  "       \ ''
-  "       \]
-
   let g:startify_custom_header = g:ascii
-  let g:startify_disable_at_vimenter = 1
 endif
 
 " ================================= AIRLINE =============================================
