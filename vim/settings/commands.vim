@@ -8,12 +8,12 @@ function! TmuxSend(direction, command, text)
   silent execute full_command
 endfunction
 
-function! GitUntrackedChanges()
+function! GitUncommitedChanges()
   let flist = systemlist("git status --porcelain | sed 's/M //g'")
-  changes
   let list = []
   for f in flist
-    echom f
+    " git blame is the easiest comamnd I found that actually gives back line
+    " numbers.
     let command = "git blame " . f . " -nf 
           \ | grep 'Not Committed Yet' 
           \ | sed 's/^[0..9,a..z]* //g' 
@@ -23,16 +23,19 @@ function! GitUntrackedChanges()
     if len(split) != 0
       let dic = { "filename": split[0], "lnum": split[1] }
     else
+      " If the only change is a deletion, git blame won't pick it up, so
+      " instead we just have to put the file name in, this isn't ideal.
       let filename = trim(f)
       let dic = { "filename": filename}
     endif
     call add(list, dic)
   endfor
-  echo list
-
+  " This sets the quickfix list, with 'list' being a list of dictionaries that
+  " have filename, line number, model etc.
   call setqflist(list)
   copen
 endfunction
+nnoremap <Leader>gc :silent call GitUncommitedChanges()<Cr>
 
 " vimrc hot reload
 command! Svrc source $MYVIMRC
@@ -41,7 +44,6 @@ command! Yf :let @+ = expand("%")
 command! -range GitBlame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n") 
 nnoremap <Leader>gb :GitBlame<Cr>
 nnoremap <Leader>gb :GitBlame<Cr>
-nnoremap <Leader>gc :silent call GitUntrackedChanges()<Cr>
 nnoremap <Leader>yf :Yf<Cr>
 vnoremap gb :GitBlame<Cr>
 
