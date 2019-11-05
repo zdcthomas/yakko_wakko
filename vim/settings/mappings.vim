@@ -1,6 +1,5 @@
 let mapleader = " "
 
-
 " remaps for the sake of civility
 nnoremap ; :
 
