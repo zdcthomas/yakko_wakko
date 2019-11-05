@@ -8,8 +8,7 @@ endif
 call plug#begin('~/.vim/z_plugins')
 
   Plug 'junegunn/vim-plug'         " The current plugin manager
-
-  "=================================== TYPING =============================================
+"=================================== TYPING =============================================
   Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
 
   Plug 'Yggdroot/indentLine'       " Display Indentation
@@ -27,9 +26,9 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'terryma/vim-multiple-cursors'
 
   "============== Lesser used ===============
-  Plug 'dhruvasagar/vim-table-mode'
+  " Plug 'dhruvasagar/vim-table-mode'
 
-  Plug 'gyim/vim-boxdraw'          " Draw some boxes
+  " Plug 'gyim/vim-boxdraw'          " Draw some boxes
 
 
   "=================================== FILE ================================================
@@ -42,9 +41,8 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
 
   "=================================== LANGUAGE ============================================
-  Plug 'sheerun/vim-polyglot'      " autoloaded multiple language support
-
   Plug 'chrisbra/Colorizer'
+  Plug 'andys8/vim-elm-syntax'
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
@@ -68,7 +66,6 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'dylanaraps/wal'
 
   Plug 'mhinz/vim-startify'
-
   "=================================== PERSONAL PLUGINS ======================================
   Plug 'zdcthomas/vish' "vim fish without the slow stuff
 
@@ -125,7 +122,7 @@ endif
 
 " ================================= POLYGLOT =============================================
 if &runtimepath =~ 'vim-polyglot'
-  let g:polyglot_disabled = ['markdown', 'fish', 'json', 'rails', 'ruby'] "Some of these are just so slow
+  let g:polyglot_disabled = ['markdown', 'fish', 'json', 'rails', 'ruby', 'elm'] "Some of these are just so slow
 endif
 " ================================= EASY ALIGN ===========================================
 if &runtimepath =~ 'vim-easy-align'
@@ -142,7 +139,9 @@ if &runtimepath =~ 'fzf.vim'
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
   nnoremap <silent> <Leader>G :Lines<CR>
+  nnoremap <silent> <Leader>gf :GFiles?<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
+  " Maybe make this a thing that asks for input ||    ||
   " note: THERE'S SOME WHITESPACE AT THE END OF \/THIS\/ LINE AND IT'S INTENTIONAL
   nnoremap <silent> <Leader>F :Rg 
   nnoremap <silent> <Leader>C :Colors<CR>

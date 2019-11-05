@@ -1,7 +1,11 @@
-function! SendRight(text)
-  !tmux select-pane -R
-  !tmux send-keys C-l
-  echom system("tmux send-keys " . a:text, "C-m")
+function! TmuxSend(direction, command, text)
+  let to_send = a:command . " " . a:text
+  let full_command = "!tmux send-keys -t " . a:direction . " '" . to_send . "'" ." Enter"
+  silent echom full_command
+  " Thanks @Jimgerneer
+  let clear_command = "!tmux send-keys -t " . a:direction . " C-c". " Enter"
+  silent execute clear_command 
+  silent execute full_command
 endfunction
 
 " vimrc hot reload
@@ -24,13 +28,13 @@ augroup zthomas
   autocmd BufEnter * silent! e!
   autocmd VimEnter * hi Normal ctermbg=none
 
-  " Highlighting active window
-  " autocmd WinEnter * set cul
-  " autocmd WinLeave * set nocul
   autocmd FileType elixir :ab pry require IEx;IEx.pry
-
-  " transparency on cursorline
-  " autocmd FocusGained * :set cursorline
-  " autocmd FocusLost * :set nocursorline
+  autocmd FileType elixir :nnoremap <Leader>tl :call TmuxSend("right", "mix", "%")<Cr>
+  autocmd FileType ruby :ab pry require 'pry';binding.pry
+  autocmd FileType ruby :nnoremap <Leader>tl :call TmuxSend("right", "rspec", "%")<Cr>
+  autocmd FileType ruby :nnoremap <Leader>ttl :call TmuxSend("right", "rspec", expand("%") . ":" . line('.'))<Cr>
+  autocmd WinEnter * set colorcolumn=110
+  autocmd WinLeave * set colorcolumn=0
+  autocmd FileType yaml :set wrap
 
 augroup END
