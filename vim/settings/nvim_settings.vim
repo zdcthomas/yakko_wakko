@@ -1,9 +1,9 @@
 set termguicolors
 set lazyredraw                        " macros do not have to redraw the screen
 
-nnoremap <leader>tl      :split +terminal<cr>
+nnoremap <leader>t<Leader>l      :vsplit +terminal<cr>
 
-nnoremap <leader>tj      :vsplit +terminal<cr>
+nnoremap <leader>t<Leader>j      :split +terminal<cr>
 tnoremap <leader><Esc>          <c-\><c-n>
 
 " makes widmenu nice

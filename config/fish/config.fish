@@ -1,5 +1,9 @@
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
-alias la='ls -la'
+if type -q exa
+  alias la='exa -la'
+else
+  alias la='ls -la'
+end
 alias l="ls -laFGgohq"
 alias fsh='vim ~/.config/fish/'
 alias vrc='vim ~/.vim/settings/'
