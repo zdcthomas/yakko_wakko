@@ -43,6 +43,8 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== LANGUAGE ============================================
   Plug 'chrisbra/Colorizer'
   Plug 'andys8/vim-elm-syntax'
+  Plug 'elixir-editors/vim-elixir'
+  Plug 'tpope/vim-scriptease'
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
@@ -106,6 +108,12 @@ if &runtimepath =~ 'startify'
 			\]
 
   let g:startify_custom_header = g:ascii
+endif
+
+" ================================= INDENTLINE =============================================
+if &runtimepath =~ 'indent'
+  let g:indentLine_enabled = 0
+  nnoremap <Leader>it :IndentLinesToggle<Cr>
 endif
 
 " ================================= AIRLINE =============================================

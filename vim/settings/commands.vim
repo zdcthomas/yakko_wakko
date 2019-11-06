@@ -8,35 +8,38 @@ function! TmuxSend(direction, command, text)
   silent execute full_command
 endfunction
 
-function! GitUncommitedChanges()
-  let flist = systemlist("git status --porcelain | sed 's/M //g'")
+function! GitUnStagedChanges()
   let list = []
-  for f in flist
-    " git blame is the easiest comamnd I found that actually gives back line
-    " numbers.
-    let command = "git blame " . f . " -nf 
-          \ | grep 'Not Committed Yet' 
-          \ | sed 's/^[0..9,a..z]* //g' 
-          \ | sed 's/(.*//g' "
-    let blamed_lines = system(command)
-    let split = split(blamed_lines)
-    if len(split) != 0
-      let dic = { "filename": split[0], "lnum": split[1] }
-    else
-      " If the only change is a deletion, git blame won't pick it up, so
-      " instead we just have to put the file name in, this isn't ideal.
-      let filename = trim(f)
-      let dic = { "filename": filename}
-    endif
-    call add(list, dic)
-  endfor
-  " This sets the quickfix list, with 'list' being a list of dictionaries that
-  " have filename, line number, model etc.
-  call setqflist(list)
-  copen
+    let command = "git --no-pager diff --no-ext-diff --no-color -U0 
+          \ | sed 's/diff --git//g' 
+          \ | sed 's/a\\/.* //g' 
+          \ | sed 's/^ b/\\./' 
+          \ | sed '/index /d' 
+          \ | sed '/--- a/d' 
+          \ | sed '/+++ b/d' 
+          \ | sed '/^[+-]/d' 
+          \ | sed 's/^@@.*+/:/g' 
+          \ | sed 's/ @@ /|#|/g' 
+          \ | sed 's/,.*|#|/|#|/g' 
+          \ | sed 's/\\.\\/.*$/|+|&/g' 
+          \ | sed 's/^:/|-|/' "
+    let diffed = system(command)
+    let files = split(diffed, "|+|")
+    for f in files
+      let one_file_with_lines = split(f, "|-|")
+      let this_file = split(one_file_with_lines[0])[0]
+      let lines = one_file_with_lines[1:]
+      for l in lines
+        let [lnum, text] = split(l, "|#|")
+        let thingy = {"filename": this_file, "lnum": lnum, "text": text}
+        call add(list, thingy)
+      endfor
+    endfor
+    call setqflist(list)
+    copen
 endfunction
-nnoremap <Leader>gc :silent call GitUncommitedChanges()<Cr>
 
+nnoremap <Leader>gc :call GitUnStagedChanges()<Cr>
 " vimrc hot reload
 command! Svrc source $MYVIMRC
 command! Vrc :tabnew ~/.vim/settings/settings.vim
@@ -55,12 +58,14 @@ augroup zthomas
   autocmd BufEnter * silent! e!
   autocmd VimEnter * hi Normal ctermbg=none
 
-  autocmd FileType elixir :ab pry require IEx;IEx.pry
+  autocmd FileType elixir :ab bind require IEx;IEx.pry
   autocmd FileType elixir :nnoremap <Leader>tl :call TmuxSend("right", "mix", "%")<Cr>
-  autocmd FileType ruby :ab pry require 'pry';binding.pry
+  autocmd BufWritePost *.exs,*.ex silent :!mix format %
+  autocmd FileType ruby :ab bind require 'pry';binding.pry
   autocmd FileType ruby :nnoremap <Leader>tl :call TmuxSend("right", "rspec", "%")<Cr>
   autocmd FileType ruby :nnoremap <Leader>ttl :call TmuxSend("right", "rspec", expand("%") . ":" . line('.'))<Cr>
   autocmd WinEnter * set colorcolumn=110
   autocmd WinLeave * set colorcolumn=0
   autocmd FileType yaml :set wrap
+  autocmd FileType *.json :set conceallevel=0
 augroup END
