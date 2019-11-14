@@ -107,6 +107,7 @@ if &runtimepath =~ 'startify'
 			\"            {"
 			\]
 
+
   let g:startify_custom_header = g:ascii
 endif
 

@@ -10,6 +10,7 @@ endfunction
 
 function! GitUnStagedChanges()
   let list = []
+
     let command = "git --no-pager diff --no-ext-diff --no-color -U0 
           \ | sed 's/diff --git//g' 
           \ | sed 's/a\\/.* //g' 
@@ -19,7 +20,7 @@ function! GitUnStagedChanges()
           \ | sed '/+++ b/d' 
           \ | sed '/^[+-]/d' 
           \ | sed 's/^@@.*+/:/g' 
-          \ | sed 's/ @@ /|#|/g' 
+          \ | sed 's/ @@\\s*/|#|/g' 
           \ | sed 's/,.*|#|/|#|/g' 
           \ | sed 's/\\.\\/.*$/|+|&/g' 
           \ | sed 's/^:/|-|/' "

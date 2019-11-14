@@ -6,7 +6,9 @@ syntax on
 set hidden
 set shell=sh
 " uses system clipboard for copy pasting
-set clipboard=unnamed
+if has('clipboard')
+  set clipboard=unnamed
+endif
 
 " Highlight the current line (CAN ALSO SLOW THINGS DOWN)
 set cursorline
