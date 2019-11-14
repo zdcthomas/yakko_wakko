@@ -37,3 +37,7 @@ defaults write com.apple.dock autohide-delay -float 0
 
 echo " === Enable the WebKit Developer Tools in the Mac App Store"
 defaults write com.apple.appstore WebKitDeveloperExtras -bool true
+
+echo " === Reduce the standard key repeat rate"
+defaults write -g InitialKeyRepeat -int 5 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
