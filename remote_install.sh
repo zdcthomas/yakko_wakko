@@ -3,8 +3,9 @@ USER="zdcthomas"
 REPO="yakko_wakko"
 SOURCE="https://github.com/$USER/$REPO"
 TARBALL="$SOURCE/tarball/master"
-TARGET="$HOME/.dotfiles"
+TARGET="$HOME/$REPO"
 TAR_CMD="tar -xzv -C "$TARGET" --strip-components=1 --exclude='{.gitignore}'"
+INSTALL_CMD="bash install"
 
 is_executable() {
   type "$1" > /dev/null 2>&1
@@ -24,5 +25,7 @@ else
   echo "Installing dotfiles..."
   mkdir -p "$TARGET"
   eval "$CMD"
+  cd $TARGET
+  eval $INSTALL_CMD
 fi
 
