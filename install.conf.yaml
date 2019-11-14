@@ -31,19 +31,22 @@
 - shell:
   - 
     command: git submodule update --init --recursive
-    description: Installing submodules
+    description: Installing submodules...
   -
     command: bash ./scripts/macos_setup.sh
-    description: Setting up mac defaults
+    description: Setting up mac defaults...
   -
     command: bash ./scripts/brew_setup.sh
-    description: Setting up homebrew
+    description: Setting up homebrew...
   - 
     command: bash ./scripts/iterm_setup.sh
-    description: Configuring iterm
+    description: Configuring iterm...
   -
     command: bash ./scripts/vscode_setup.sh
-    description: Installing all VsCode Extensions
+    description: Installing all VsCode Extensions...
+  -
+    command: bash ./scripts/file_structure_setup.sh
+    description: Setting up directories...
   -
     command: brew bundle
-    description: Installing all brew packages
+    description: Installing all brew packages...
