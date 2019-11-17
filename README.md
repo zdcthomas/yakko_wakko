@@ -18,11 +18,15 @@ cd yakko_wakko/
 bash install
 ```
 ***
+# Before you fork!
+Give [this](https://www.anishathalye.com/2014/08/03/managing-your-dotfiles/#dotfiles-are-not-meant-to-be-forked) a read.
+It's sums up my thoughts pretty well on forking dotfiles. Dotfiles, to me, are the honed tools of your craft,
+they take time care and personal attention to set up, get right, and maintain, and while using someone else's 
+tools is fine at first, they should always just be a jumping off point.
+***
+# What's it look like?
+![RICE](/images/rice.png)
 ***
 # What's the name?
 Ever watch [animaniacs](https://www.youtube.com/watch?v=CWnWwN1z_UM)?
-
-
-# What's it look like?
-
-![RICE](/images/rice.png)
+***
