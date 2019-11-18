@@ -41,9 +41,11 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
 
   "=================================== LANGUAGE ============================================
+  " Plug 'andys8/vim-elm-syntax'
+  Plug 'Zaptic/elm-vim'
   Plug 'chrisbra/Colorizer'
-  Plug 'andys8/vim-elm-syntax'
   Plug 'elixir-editors/vim-elixir'
+  Plug 'rust-lang/rust.vim'
   Plug 'tpope/vim-scriptease'
 
   "=================================== COMPLETION ==========================================
@@ -81,6 +83,10 @@ if &runtimepath =~ 'vim-easymotion'
   let g:EasyMotion_smartcase = 1
   map  <Leader><Leader>/ <Plug>(easymotion-sn)
   omap <Leader><Leader>/ <Plug>(easymotion-tn)
+endif
+
+if &runtimepath =~ 'elm-vim'
+  let g:elm_setup_keybindings = 1
 endif
 
 if &runtimepath =~ 'startify'
@@ -133,6 +139,8 @@ endif
 if &runtimepath =~ 'vim-polyglot'
   let g:polyglot_disabled = ['markdown', 'fish', 'json', 'rails', 'ruby', 'elm'] "Some of these are just so slow
 endif
+
+
 " ================================= EASY ALIGN ===========================================
 if &runtimepath =~ 'vim-easy-align'
   " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -221,7 +229,11 @@ if &runtimepath =~ 'coc'
       call CocAction('doHover')
     endif
   endfunction
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  nnoremap <silent> gh :call CocAction('doHover')<Cr>
+  nmap <leader>rn <Plug>(coc-rename)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-marketplace', 'coc-elixir']
+  " nmap <silent> gd <Plug>(coc-definition)
 endif
 
 
@@ -232,15 +244,23 @@ if &runtimepath =~ 'ale'
   \   'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck', 'xo'],
   \   'elixir': ['credo', 'dialyxir', 'dogma', 'elixir-ls', 'mix'],
   \}
-  let g:ale_linters_explicit = 1
-  let g:ale_lint_on_text_changed = 'never'
-  let g:ale_lint_on_enter = 1
+  " let g:ale_linters_explicit = 1
+  " let g:ale_lint_on_text_changed = 'never'
+  " let g:ale_lint_on_enter = 1
+  let g:ale_completion_enabled = 1
+  let g:ale_set_ballons = 1
+  let g:ale_completion_delay = 10
+  set omnifunc=ale#completion#OmniFunc
 endif
 
 if &runtimepath =~ 'gruvbox'
+  colorscheme
+
   colorscheme gruvbox
   if exists('$TMUX')
-    hi Normal guibg=NONE
+    if has('nvim')
+      hi Normal guibg=NONE
+    endif
   endif
 endif
 

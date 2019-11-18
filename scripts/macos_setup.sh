@@ -13,6 +13,9 @@ xcode-select --install
 echo " === Set sidebar icon size to medium"
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
+echo "Auto hide menu bar"
+defaults write NSGlobalDomain _HIHideMenuBar -bool true
+
 echo " === Reveal IP address, hostname, OS version, etc. when clicking the clock
 in the login window "
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
@@ -39,5 +42,8 @@ echo " === Enable the WebKit Developer Tools in the Mac App Store"
 defaults write com.apple.appstore WebKitDeveloperExtras -bool true
 
 echo " === Reduce the standard key repeat rate"
-defaults write -g InitialKeyRepeat -int 5 # normal minimum is 15 (225 ms)
+defaults write -g InitialKeyRepeat -int 20 # normal minimum is 15 (225 ms)
 defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+
+echo " === Setting correct scroll direction"
+defaults write com.apple.swipescrolldirection -float 0

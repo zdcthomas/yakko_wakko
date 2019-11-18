@@ -12,7 +12,6 @@ misogi.ruby-rubocop
 ms-python.python
 ms-vsliveshare.vsliveshare
 noku.rails-run-spec-vscode
-PeterJausovec.vscode-docker
 pgourlain.erlang
 pureux.grueling-hare
 rebornix.ruby

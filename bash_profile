@@ -39,6 +39,7 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 export FZF_DEFAULT_COMMAND="fd --hidden --type f"
 export ERL_AFLAGS="-kernel shell_history enabled"
 export NNN_TMPFILE="/tmp/nnn"
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
 n()
 {
