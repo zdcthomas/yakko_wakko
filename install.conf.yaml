@@ -10,7 +10,6 @@
 - clean: ['~']
 
 - link:
-  #~/yakko_wakko: ''
     ~/.bash_profile: bash_profile
     ~/.tmux.conf: tmux.conf
     ~/.vimrc: 
@@ -48,5 +47,5 @@
     command: bash ./scripts/file_structure_setup.sh
     description: Setting up directories...
   -
-    command: brew bundle
-    description: Installing all brew packages...
+    command: bash ./scripts/npm_installations.sh
+    description: Setting up npm packages
