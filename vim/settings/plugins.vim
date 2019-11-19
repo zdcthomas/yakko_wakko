@@ -229,11 +229,11 @@ if &runtimepath =~ 'coc'
       call CocAction('doHover')
     endif
   endfunction
+  nnoremap <silent> gd <Plug>(coc-definition)
   nnoremap <silent> gh :call CocAction('doHover')<Cr>
   nmap <leader>rn <Plug>(coc-rename)
   nmap <silent> gy <Plug>(coc-type-definition)
   let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-marketplace', 'coc-elixir']
-  " nmap <silent> gd <Plug>(coc-definition)
 endif
 
 
