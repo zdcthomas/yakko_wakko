@@ -40,7 +40,8 @@ set -x ERL_AFLAGS "-kernel shell_history enabled"
 set -Ux FZF_DEFAULT_COMMAND "fd --hidden --type f"
 set -Ux TERM "xterm-256color"
 export NNN_TMPFILE="/tmp/nnn"
-set -Ux EDITOR vim
+set -Ux EDITOR nvim
+set -Ux VISUAL nvim
 set PATH $HOME/.cargo/bin $PATH
 export NNN_USE_EDITOR=1
 fish_user_key_bindings

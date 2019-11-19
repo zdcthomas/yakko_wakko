@@ -9,6 +9,6 @@
       }
     }
   },
-  "codeLens.enable": true,
-  "coc.preferences.formatOnSaveFiletypes": ["rust"]
+  "codeLens.enable": true, 
+  "coc.preferences.formatOnSaveFiletypes": ["elixir", "rust"]
 }
