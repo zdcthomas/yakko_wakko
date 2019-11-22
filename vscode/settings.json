@@ -17,6 +17,8 @@
     "breadcrumbs.enabled": true,
     "workbench.startupEditor": "welcomePage",
     "terminal.integrated.cursorBlinking": true,
+
+    "vscode-neovim.neovimPath": "/usr/local/bin/nvim",
     "vim.useCtrlKeys": true,
     "vim.insertModeKeyBindingsNonRecursive": [
         {
