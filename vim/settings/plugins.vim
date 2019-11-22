@@ -75,6 +75,38 @@ call plug#begin('~/.vim/z_plugins')
 
 call plug#end()
 
+" =================================  COC  ===========================================
+if &runtimepath =~ 'coc'
+
+  inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+  " Coc only does snippet and additional edit on confirm.
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  let g:coc_snippet_next = '<tab>'
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+  nnoremap <silent> gd :call CocAction('jumpDefinition')<Cr>
+  nnoremap <silent> gh :call CocAction('doHover')<Cr>
+  nmap <leader>rn <Plug>(coc-rename)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-marketplace', 'coc-elixir']
+endif
+
 " ================================= EASYMOTION ===========================================
 ""  color of selectable letter background
 if &runtimepath =~ 'vim-easymotion'
@@ -207,34 +239,6 @@ if &runtimepath =~ 'vim-gitgutter'
   nnoremap <Leader>gs :GitGutterPreviewHunk<CR>
 endif
 
-" =================================  COC  ===========================================
-if &runtimepath =~ 'coc'
-
-  inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
-
-  let g:coc_snippet_next = '<tab>'
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
-  nnoremap <silent> gd <Plug>(coc-definition)
-  nnoremap <silent> gh :call CocAction('doHover')<Cr>
-  nmap <leader>rn <Plug>(coc-rename)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-marketplace', 'coc-elixir']
-endif
 
 
 " =================================  ALE  ===========================================
@@ -254,11 +258,9 @@ if &runtimepath =~ 'ale'
 endif
 
 if &runtimepath =~ 'gruvbox'
-  colorscheme
-
-  colorscheme gruvbox
   if exists('$TMUX')
     if has('nvim')
+      colorscheme gruvbox
       hi Normal guibg=NONE
     endif
   endif
