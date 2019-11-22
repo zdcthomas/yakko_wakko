@@ -49,7 +49,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'tpope/vim-scriptease'
 
   "=================================== COMPLETION ==========================================
-  Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'do': './install.sh'} : { 'on': [] }
+  Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] }
 
   " Plug 'dense-analysis/ale'
 
@@ -118,7 +118,7 @@ if &runtimepath =~ 'vim-easymotion'
 endif
 
 if &runtimepath =~ 'elm-vim'
-  let g:elm_setup_keybindings = 1
+  let g:elm_setup_keybindings = 0
 endif
 
 if &runtimepath =~ 'startify'
