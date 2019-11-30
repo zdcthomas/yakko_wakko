@@ -44,8 +44,8 @@ set -Ux EDITOR nvim
 set -Ux VISUAL nvim
 set PATH $HOME/.cargo/bin $PATH
 export NNN_USE_EDITOR=1
-fish_user_key_bindings
-fish_vi_key_bindings
+# fish_user_key_bindings
+# fish_vi_key_bindings
 
 direnv hook fish | source 
 
