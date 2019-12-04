@@ -54,13 +54,17 @@ function fco -d "Fuzzy-find and checkout a branch"
 end
 
 function fc
-  set ol_dir (pwd)
-  cd
-  if set destination (fd -t d | fzf --preview 'tree -aCt {}' --reverse --margin=7%)
-    cd $destination
-  else
-    cd $ol_dir
+  if count $argv > /dev/null
+    echo $argv
+    set searchable_area $argv
   end
+    set ol_dir (pwd)
+    cd $searchable_area
+    if set destination (fd -t d | fzf --preview 'tree -aCt {}' --reverse --margin=7%)
+      cd $destination
+    else
+      cd $ol_dir
+    end
 end 
 
 function dev

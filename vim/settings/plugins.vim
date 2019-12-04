@@ -75,6 +75,11 @@ call plug#begin('~/.vim/z_plugins')
 
 call plug#end()
 
+if &runtimepath =~ 'delimit'
+  let g:delimitMate_expand_space = 1
+  let delimitMate_expand_cr = 2
+endif
+
 " =================================  COC  ===========================================
 if &runtimepath =~ 'coc'
   inoremap <silent><expr> <TAB>
@@ -91,7 +96,7 @@ if &runtimepath =~ 'coc'
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
 
-  let g:coc_snippet_next = '<tab>'
+  let g:coc_snippet_next = '<c-j>'
   function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
       execute 'h '.expand('<cword>')
