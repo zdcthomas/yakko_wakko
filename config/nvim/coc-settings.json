@@ -10,5 +10,5 @@
     }
   },
   "codeLens.enable": true, 
-  "coc.preferences.formatOnSaveFiletypes": ["elixir", "rust"]
+  "coc.preferences.formatOnSaveFiletypes": ["elixir", "rust", "elm"]
 }
