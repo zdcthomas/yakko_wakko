@@ -10,5 +10,6 @@
     }
   },
   "codeLens.enable": true, 
+  "suggest.snippetIndicator": "►",
   "coc.preferences.formatOnSaveFiletypes": ["elixir", "rust", "elm"]
 }

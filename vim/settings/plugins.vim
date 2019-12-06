@@ -8,7 +8,7 @@ endif
 call plug#begin('~/.vim/z_plugins')
 
   Plug 'junegunn/vim-plug'         " The current plugin manager
-"=================================== TYPING =============================================
+"=================================== TYPING ================================================
   Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
 
   Plug 'Yggdroot/indentLine'       " Display Indentation
@@ -27,9 +27,6 @@ call plug#begin('~/.vim/z_plugins')
 
   "============== Lesser used ===============
   " Plug 'dhruvasagar/vim-table-mode'
-
-  " Plug 'gyim/vim-boxdraw'          " Draw some boxes
-
 
   "=================================== FILE ================================================
   Plug 'francoiscabrol/ranger.vim' "File management
@@ -51,8 +48,6 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] }
 
-  " Plug 'dense-analysis/ale'
-
   "=================================== STATUS LINE =========================================
   Plug 'vim-airline/vim-airline'  
   Plug 'vim-airline/vim-airline-themes'
@@ -69,15 +64,16 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'sonph/onehalf', {'rtp': 'vim'}
   Plug 'dylanaraps/wal'
 
+  "=================================== UI =================================================
   Plug 'mhinz/vim-startify'
-  "=================================== PERSONAL PLUGINS ======================================
+  "=================================== PERSONAL PLUGINS ===================================
   Plug 'zdcthomas/vish' "vim fish without the slow stuff
 
 call plug#end()
 
 if &runtimepath =~ 'delimit'
   let g:delimitMate_expand_space = 1
-  let delimitMate_expand_cr = 2
+  let g:delimitMate_expand_cr = 2
 endif
 
 " =================================  COC  ===========================================
@@ -86,6 +82,7 @@ if &runtimepath =~ 'coc'
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
   " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
   " Coc only does snippet and additional edit on confirm.
@@ -280,11 +277,14 @@ if &runtimepath =~ 'ale'
 endif
 
 if &runtimepath =~ 'gruvbox'
-  if exists('$TMUX')
-    if has('nvim')
-      colorscheme gruvbox
+  if has('nvim')
+    colorscheme gruvbox
+    if exists('$TMUX')
       hi Normal guibg=NONE
+      hi Normal ctermbg=NONE guibg=NONE
     endif
+  else
+    colorscheme onehalfdark
   endif
 endif
 
