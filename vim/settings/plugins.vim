@@ -94,6 +94,7 @@ if &runtimepath =~ 'coc'
   endfunction
 
   let g:coc_snippet_next = '<c-j>'
+  let g:coc_snippet_previous = '<c-k>'
   function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
       execute 'h '.expand('<cword>')
@@ -102,20 +103,25 @@ if &runtimepath =~ 'coc'
     endif
   endfunction
   nnoremap <silent> gd :call CocAction('jumpDefinition')<Cr>
+  nnoremap <silent> <Leader>gdl :call CocAction('jumpDefinition', 'vsplit')<Cr>
+  nnoremap <silent> <Leader>gdj :call CocAction('jumpDefinition', 'split')<Cr>
   nnoremap <silent> gh :call CocAction('doHover')<Cr>
-  nmap <leader>rn <Plug>(coc-rename)
+  nmap <silent> gr <Plug>(coc-references)
   nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <Leader>rn <Plug>(coc-rename)
   let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-marketplace', 'coc-elixir']
 endif
 
 " ================================= EASYMOTION ===========================================
 ""  color of selectable letter background
 if &runtimepath =~ 'vim-easymotion'
+  let g:EasyMotion_smartcase = 1
   hi link EasyMotionTarget Function
   hi link EasyMotionShade  Comment
-  let g:EasyMotion_smartcase = 1
-  map  <Leader><Leader>/ <Plug>(easymotion-sn)
-  omap <Leader><Leader>/ <Plug>(easymotion-tn)
+  nmap <Leader>s <Plug>(easymotion-overwin-f2)
+  map <Leader> <Plug>(easymotion-prefix)
+  map  <Leader>/ <Plug>(easymotion-sn)
+  omap <Leader>/ <Plug>(easymotion-tn)
 endif
 
 if &runtimepath =~ 'elm-vim'
@@ -145,8 +151,6 @@ if &runtimepath =~ 'startify'
 			\"           `}",
 			\"            {"
 			\]
-
-
   let g:startify_custom_header = g:ascii
 endif
 
@@ -167,12 +171,6 @@ if &runtimepath =~ 'vim-bbye'
   command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
   nnoremap <Leader>q :Bdelete<CR>
 endif
-
-" ================================= POLYGLOT =============================================
-if &runtimepath =~ 'vim-polyglot'
-  let g:polyglot_disabled = ['markdown', 'fish', 'json', 'rails', 'ruby', 'elm'] "Some of these are just so slow
-endif
-
 
 " ================================= EASY ALIGN ===========================================
 if &runtimepath =~ 'vim-easy-align'
