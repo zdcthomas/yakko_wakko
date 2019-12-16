@@ -60,7 +60,8 @@ augroup zthomas
   autocmd VimEnter * hi Normal ctermbg=none
 
   autocmd FileType elixir :ab bind require IEx;IEx.pry
-  autocmd FileType elixir :nnoremap <Leader>tl :call TmuxSend("right", "mix", "%")<Cr>
+  autocmd FileType elixir :nnoremap <Leader>tl :call TmuxSend("right", "mix test", "%")<Cr>
+  autocmd FileType elixir :nnoremap <Leader>ttl :call TmuxSend("right", "mix test", expand("%") . ":" . line('.'))<Cr>
   autocmd BufWritePost *.exs,*.ex silent :!mix format %
   autocmd FileType ruby :ab bind require 'pry';binding.pry
   autocmd FileType ruby :nnoremap <Leader>tl :call TmuxSend("right", "rspec", "%")<Cr>

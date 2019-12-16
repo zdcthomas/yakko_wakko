@@ -9,10 +9,6 @@ imap <C-j> <C-o>j
 imap <C-k> <C-o>k
 imap <C-l> <C-o>l
 
-" Indent easily
-" xnoremap < <gv
-" xnoremap > >gv
-
 " nnoremap H ^
 " vnoremap H ^
 " nnoremap L $
@@ -29,7 +25,7 @@ nnoremap <Leader>wk <C-W><C-K>
 nnoremap <Leader>wl <C-W><C-L>
 nnoremap <Leader>wh <C-W><C-H>
 
-" I usually prefer the arrow keys
+" I usually prefer <ctrl> hjkl
 nnoremap <Leader>wJ <C-W>J
 nnoremap <Leader>wK <C-W>K
 nnoremap <Leader>wH <C-W>H
