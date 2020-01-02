@@ -8,7 +8,7 @@ endif
 call plug#begin('~/.vim/z_plugins')
 
   Plug 'junegunn/vim-plug'         " The current plugin manager
-"=================================== TYPING ================================================
+"=================================== Text Editing ================================================
   Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
 
   Plug 'Yggdroot/indentLine'       " Display Indentation
@@ -20,10 +20,11 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-easy-align'   " Eeasily align text on a specific character
 
   Plug 'tpope/vim-commentary'      " All Hail Tpope
+  Plug 'tpope/vim-abolish'
 
   Plug 'tpope/vim-surround'        " Surround text with text
 
-  Plug 'terryma/vim-multiple-cursors'
+  " Plug 'terryma/vim-multiple-cursors'
 
   "============== Lesser used ===============
   " Plug 'dhruvasagar/vim-table-mode'
@@ -64,6 +65,8 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'sonph/onehalf', {'rtp': 'vim'}
   Plug 'dylanaraps/wal'
 
+
+  
   "=================================== UI =================================================
   Plug 'mhinz/vim-startify'
   "=================================== PERSONAL PLUGINS ===================================
