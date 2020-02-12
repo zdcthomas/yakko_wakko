@@ -1,36 +1,47 @@
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
+
 if type -q exa
   alias la='exa -la'
+  alias ls='exa -la'
 else
   alias la='ls -la'
 end
+
 alias l="ls -laFGgohq"
+
 if type -q vim
   alias fsh='vim ~/.config/fish/'
   alias vrc='vim ~/.vim/settings/'
   alias tmc='vim ~/.tmux.conf'
 end
+
 if type -q git
   alias gco='git checkout'
   alias gs='git status'
   alias ga='git add'
 end
+
 if type -q todolist
   alias t='todolist'
 end
+
 if type -q docker
   alias nats="docker run -d -p 4222:4222 -p 6222:6222 -p 8222:8222 nats:latest"
 end
-if type -q docker
+
+if type -q nvim
   alias vim=nvim
   alias vimdiff="nvim -d"
 end
+
 if type -q pg_ctl
   alias fuck_pg='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 end
+
 if type -q fzf
   alias fm='fzf | xargs rm -rfi'
 end
+
 status --is-interactive; and source (rbenv init -|psub)
 status --is-interactive; and source (pyenv init -|psub)
 status --is-interactive; and source (nodenv init -|psub)
@@ -43,9 +54,6 @@ export NNN_TMPFILE="/tmp/nnn"
 set -Ux EDITOR nvim
 set -Ux VISUAL nvim
 set PATH $HOME/.cargo/bin $PATH
-export NNN_USE_EDITOR=1
-# fish_user_key_bindings
-# fish_vi_key_bindings
 
 direnv hook fish | source 
 

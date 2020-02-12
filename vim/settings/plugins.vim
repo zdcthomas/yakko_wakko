@@ -45,6 +45,11 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'elixir-editors/vim-elixir'
   Plug 'rust-lang/rust.vim'
   Plug 'tpope/vim-scriptease'
+  Plug 'hashivim/vim-terraform'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'ianks/vim-tsx'
+  Plug 'pangloss/vim-javascript'
+  Plug 'keith/swift.vim'
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] }
@@ -112,7 +117,7 @@ if &runtimepath =~ 'coc'
   nmap <silent> gr <Plug>(coc-references)
   nmap <silent> gy <Plug>(coc-type-definition)
   nmap <Leader>rn <Plug>(coc-rename)
-  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-marketplace', 'coc-elixir']
+  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-marketplace', 'coc-elixir', 'coc-tsserver', 'coc-prettier', 'coc-eslint']
 endif
 
 " ================================= EASYMOTION ===========================================

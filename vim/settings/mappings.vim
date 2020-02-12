@@ -45,3 +45,4 @@ nnoremap <Leader>w<Leader>j :sp<CR>
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 
+nnoremap <C-n> *#cgn
