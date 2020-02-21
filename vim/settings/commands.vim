@@ -47,7 +47,6 @@ command! Vrc :tabnew ~/.vim/settings/settings.vim
 command! Yf :let @+ = expand("%")
 command! -range GitBlame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n") 
 nnoremap <Leader>gb :GitBlame<Cr>
-nnoremap <Leader>gb :GitBlame<Cr>
 nnoremap <Leader>yf :Yf<Cr>
 vnoremap gb :GitBlame<Cr>
 
