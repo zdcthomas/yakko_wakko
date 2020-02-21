@@ -24,6 +24,7 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'tpope/vim-surround'        " Surround text with text
 
+  Plug 'frazrepo/vim-rainbow'
   " Plug 'terryma/vim-multiple-cursors'
 
   "============== Lesser used ===============
@@ -39,7 +40,6 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
 
   "=================================== LANGUAGE ============================================
-  " Plug 'andys8/vim-elm-syntax'
   Plug 'Zaptic/elm-vim'
   Plug 'chrisbra/Colorizer'
   Plug 'elixir-editors/vim-elixir'
@@ -50,6 +50,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'ianks/vim-tsx'
   Plug 'pangloss/vim-javascript'
   Plug 'keith/swift.vim'
+  Plug 'gleam-lang/gleam.vim'
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] }
@@ -70,8 +71,6 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'sonph/onehalf', {'rtp': 'vim'}
   Plug 'dylanaraps/wal'
 
-
-  
   "=================================== UI =================================================
   Plug 'mhinz/vim-startify'
   "=================================== PERSONAL PLUGINS ===================================
@@ -83,6 +82,10 @@ if &runtimepath =~ 'delimit'
   let g:delimitMate_expand_space = 1
   let g:delimitMate_expand_cr = 2
 endif
+
+if &runtimepath =~ 'rainbow'
+  let g:rainbow_active = 1
+end
 
 " =================================  COC  ===========================================
 if &runtimepath =~ 'coc'
@@ -115,9 +118,9 @@ if &runtimepath =~ 'coc'
   nnoremap <silent> <Leader>gdj :call CocAction('jumpDefinition', 'split')<Cr>
   nnoremap <silent> gh :call CocAction('doHover')<Cr>
   nmap <silent> gr <Plug>(coc-references)
-  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gt <Plug>(coc-type-definition)
   nmap <Leader>rn <Plug>(coc-rename)
-  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-marketplace', 'coc-elixir', 'coc-tsserver', 'coc-prettier', 'coc-eslint']
+  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-marketplace', 'coc-elixir', 'coc-tsserver', 'coc-prettier', 'coc-eslint', 'coc-go', 'coc-css']
 endif
 
 " ================================= EASYMOTION ===========================================
@@ -203,6 +206,8 @@ if &runtimepath =~ 'fzf.vim'
   nnoremap <silent> <Leader>C :Colors<CR>
   nnoremap <silent> <Leader>: :Commands<CR>
   nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
+  " i want a way to search everywhere for the word under the cursor
+  " nnoremap <silent> <Leader><Leader>F 
   if has('nvim')
     let $FZF_DEFAULT_OPTS .= ' --border --margin=0,2'
 

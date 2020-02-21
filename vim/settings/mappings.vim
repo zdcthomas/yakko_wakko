@@ -42,7 +42,9 @@ nnoremap <Leader>w<Leader>l :vsp<CR>
 nnoremap <Leader>w<Leader>j :sp<CR>
 
 " Circular window nav
-nnoremap <Tab> :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
+nnoremap <Tab> >>
+nnoremap <S-Tab> <<
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
 
 nnoremap <C-n> *#cgn

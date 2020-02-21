@@ -42,11 +42,22 @@ if type -q fzf
   alias fm='fzf | xargs rm -rfi'
 end
 
-status --is-interactive; and source (rbenv init -|psub)
-status --is-interactive; and source (pyenv init -|psub)
-status --is-interactive; and source (nodenv init -|psub)
+if type -q rbenv
+  status --is-interactive; and source (rbenv init -|psub)
+end
 
-set fish_user_paths (npm bin)
+if type -q pyenv
+  status --is-interactive; and source (pyenv init -|psub)
+end
+
+if type -q nodenv
+  status --is-interactive; and source (nodenv init -|psub)
+end
+
+if type -q npm
+  set fish_user_paths (npm bin)
+end
+
 set -x ERL_AFLAGS "-kernel shell_history enabled"
 set -Ux FZF_DEFAULT_COMMAND "fd --hidden --type f"
 set -Ux TERM "xterm-256color"

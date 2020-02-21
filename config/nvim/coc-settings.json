@@ -9,8 +9,9 @@
       }
     }
   },
+  "diagnostic.virtualText": true,
   "codeLens.enable": true, 
   "suggest.snippetIndicator": "►",
-  "coc.preferences.formatOnSaveFiletypes": ["elixir", "rust", "elm", "typescript", "javascript", "typescriptreact", "typescript.tsx", "javascriptreact"],
+  "coc.preferences.formatOnSaveFiletypes": ["elixir", "rust", "elm", "typescript", "javascript", "typescriptreact", "typescript.tsx", "javascriptreact", "go"],
   "eslint.filetypes": ["typescript", "javascript", "typescriptreact", "typescript.tsx", "javascriptreact"]
 }

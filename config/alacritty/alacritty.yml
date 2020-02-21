@@ -294,10 +294,11 @@ live_config_reload: true
 #   - (Linux/macOS) /bin/bash --login
 #   - (Windows) powershell
 shell:
-  program: /usr/local/bin/fish
-  args:
-    - -c
-    - tmux attach || fish && fish
+ program: /usr/local/bin/fish
+ args:
+   - --login
+   - -c
+   - tmux attach || fish && fish
 
 # Startup directory
 #

@@ -426,9 +426,9 @@
 	<key>NSWindow Frame NSNavPanelAutosaveName</key>
 	<string>704 427 799 448 0 0 1920 1200 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>2650 396 620 392 1680 -390 2560 1440 </string>
+	<string>650 606 620 392 0 0 1920 1200 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 600 1680 450 0 0 1680 1050 </string>
+	<string>0 750 1920 450 0 0 1920 1200 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -1117,7 +1117,7 @@
 			<key>Open Toolbelt</key>
 			<false/>
 			<key>Option Key Sends</key>
-			<integer>0</integer>
+			<integer>2</integer>
 			<key>Prompt Before Closing 2</key>
 			<false/>
 			<key>Right Option Key Sends</key>
@@ -2003,7 +2003,7 @@
 			<key>Open Toolbelt</key>
 			<false/>
 			<key>Option Key Sends</key>
-			<integer>0</integer>
+			<integer>2</integer>
 			<key>Prompt Before Closing 2</key>
 			<false/>
 			<key>Right Option Key Sends</key>
@@ -2205,12 +2205,12 @@
 		<key>screenFrame</key>
 		<string>{{4240, -390}, {2560, 1440}}</string>
 		<key>topLeft</key>
-		<string>{4511, 433}</string>
+		<string>{4877, 439}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
 	<string>4B4555C9-1692-477A-8629-C4AFD8EB7D4E</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>11</integer>
+	<integer>16</integer>
 	<key>NoSyncNextAnnoyanceTime</key>
 	<real>595978023.40911698</real>
 	<key>NoSyncOnboardingWindowHasBeenShown</key>
@@ -2997,11 +2997,11 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2019-11-19T22:46:52Z</date>
+	<date>2020-02-13T19:07:33Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SUUpdateRelaunchingMarker</key>
-	<false/>
+	<true/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
