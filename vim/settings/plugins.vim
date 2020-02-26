@@ -4,14 +4,15 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-
 call plug#begin('~/.vim/z_plugins')
 
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
-  Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
+  " Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
+  Plug 'jiangmiao/auto-pairs'
 
   Plug 'Yggdroot/indentLine'       " Display Indentation
+  Plug 'andrewradev/sideways.vim'
 
   Plug 'easymotion/vim-easymotion' " great motion plugin
 
@@ -24,7 +25,6 @@ call plug#begin('~/.vim/z_plugins')
 
   Plug 'tpope/vim-surround'        " Surround text with text
 
-  Plug 'frazrepo/vim-rainbow'
   " Plug 'terryma/vim-multiple-cursors'
 
   "============== Lesser used ===============
@@ -73,6 +73,8 @@ call plug#begin('~/.vim/z_plugins')
 
   "=================================== UI =================================================
   Plug 'mhinz/vim-startify'
+  Plug 'camspiers/lens.vim'
+  Plug 'camspiers/animate.vim'
   "=================================== PERSONAL PLUGINS ===================================
   Plug 'zdcthomas/vish' "vim fish without the slow stuff
 
@@ -87,6 +89,11 @@ if &runtimepath =~ 'rainbow'
   let g:rainbow_active = 1
 end
 
+if &runtimepath =~ 'lens'
+  let g:lens#height_resize_min = 5
+  let g:lens#width_resize_min = 20
+end
+
 " =================================  COC  ===========================================
 if &runtimepath =~ 'coc'
   inoremap <silent><expr> <TAB>
@@ -97,15 +104,17 @@ if &runtimepath =~ 'coc'
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
   " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
   " Coc only does snippet and additional edit on confirm.
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+
+  let g:coc_snippet_next = '<c-j>'
+  let g:coc_snippet_previous = '<c-k>'
 
   function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
 
-  let g:coc_snippet_next = '<c-j>'
-  let g:coc_snippet_previous = '<c-k>'
   function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
       execute 'h '.expand('<cword>')
@@ -113,14 +122,25 @@ if &runtimepath =~ 'coc'
       call CocAction('doHover')
     endif
   endfunction
+
+  function! s:cocActionsOpenFromSelected(type) abort
+    execute 'CocCommand actions.open ' . a:type
+  endfunction
+
+  autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
   nnoremap <silent> gd :call CocAction('jumpDefinition')<Cr>
   nnoremap <silent> <Leader>gdl :call CocAction('jumpDefinition', 'vsplit')<Cr>
   nnoremap <silent> <Leader>gdj :call CocAction('jumpDefinition', 'split')<Cr>
   nnoremap <silent> gh :call CocAction('doHover')<Cr>
+
   nmap <silent> gr <Plug>(coc-references)
   nmap <silent> gt <Plug>(coc-type-definition)
   nmap <Leader>rn <Plug>(coc-rename)
-  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-marketplace', 'coc-elixir', 'coc-tsserver', 'coc-prettier', 'coc-eslint', 'coc-go', 'coc-css']
+
+  xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+  nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-elixir', 'coc-tsserver', 'coc-prettier', 'coc-eslint', 'coc-go', 'coc-css', 'coc-actions']
 endif
 
 " ================================= EASYMOTION ===========================================
@@ -270,6 +290,14 @@ if &runtimepath =~ 'vim-gitgutter'
 endif
 
 
+if &runtimepath =~ 'sideways'
+  nnoremap <Leader>h :SidewaysLeft<cr>
+  nnoremap <Leader>l :SidewaysRight<cr>
+  omap aa <Plug>SidewaysArgumentTextobjA
+  xmap aa <Plug>SidewaysArgumentTextobjA
+  omap ia <Plug>SidewaysArgumentTextobjI
+  xmap ia <Plug>SidewaysArgumentTextobjI
+end
 
 " =================================  ALE  ===========================================
 if &runtimepath =~ 'ale'

@@ -44,7 +44,7 @@ nnoremap <Leader>w<Leader>j :sp<CR>
 " Circular window nav
 nnoremap <Tab> >>
 nnoremap <S-Tab> <<
-vnoremap <Tab> >gv
-vnoremap <S-Tab> <gv
+vnoremap <Tab> >
+vnoremap <S-Tab> <
 
 nnoremap <C-n> *#cgn
