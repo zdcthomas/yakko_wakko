@@ -38,9 +38,9 @@ if type -q pg_ctl
   alias fuck_pg='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 end
 
-if type -q fzf
-  alias fm='fzf | xargs rm -rfi'
-end
+# if type -q fzf
+#   alias fm='fzf | xargs rm -rfi'
+# end
 
 if type -q rbenv
   status --is-interactive; and source (rbenv init -|psub)

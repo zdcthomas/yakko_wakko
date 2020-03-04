@@ -181,6 +181,8 @@ handle_mime() {
             fi
             highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" --out-format="${highlight_format}" \
                 --style="${HIGHLIGHT_STYLE}" --force -- "${FILE_PATH}" && exit 5
+            env COLORTERM=8bit bat --color=always --style=auto \
+                            -- "${FILE_PATH}" && exit 5
             # pygmentize -f "${pygmentize_format}" -O "style=${PYGMENTIZE_STYLE}" -- "${FILE_PATH}" && exit 5
             exit 2;;
 
@@ -189,6 +191,11 @@ handle_mime() {
             # Preview as text conversion
             # img2txt --gamma=0.6 --width="${PV_WIDTH}" -- "${FILE_PATH}" && exit 4
             exiftool "${FILE_PATH}" && exit 5
+            exit 1;;
+
+        */json)
+            env COLORTERM=8bit bat --color=always --style=auto \
+                            -- "${FILE_PATH}" && exit 5
             exit 1;;
 
         # Video and audio

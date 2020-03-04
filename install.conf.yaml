@@ -11,7 +11,9 @@
 
 - link:
     ~/.bash_profile: bash_profile
+    ~/.bashrc: bashrc
     ~/.tmux.conf: tmux.conf
+    ~/.tmate.conf: tmate.conf
     ~/.vimrc: 
       path: vimrc
     ~/Brewfile: Brewfile
@@ -32,20 +34,20 @@
     command: git submodule update --init --recursive
     description: Installing submodules...
   -
-    command: bash ./scripts/macos_setup.sh
-    description: Setting up mac defaults...
+    command: bash ./scripts/file_structure_setup.sh
+    description: Setting up directories...
   -
     command: bash ./scripts/brew_setup.sh
     description: Setting up homebrew...
   - 
     command: bash ./scripts/iterm_setup.sh
     description: Configuring iterm...
-  # -
-  #   command: bash ./scripts/vscode_setup.sh
-  #   description: Installing all VsCode Extensions...
-  -
-    command: bash ./scripts/file_structure_setup.sh
-    description: Setting up directories...
   -
     command: bash ./scripts/npm_installations.sh
     description: Setting up npm packages
+  -
+    command: bash ./scripts/macos_setup.sh
+    description: Setting up mac defaults...
+  # -
+  #   command: bash ./scripts/vscode_setup.sh
+  #   description: Installing all VsCode Extensions...

@@ -5,11 +5,10 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/z_plugins')
-
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
-  " Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
-  Plug 'jiangmiao/auto-pairs'
+  Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
+  " Plug 'jiangmiao/auto-pairs'
 
   Plug 'Yggdroot/indentLine'       " Display Indentation
   Plug 'andrewradev/sideways.vim'
@@ -24,11 +23,6 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'tpope/vim-abolish'
 
   Plug 'tpope/vim-surround'        " Surround text with text
-
-  " Plug 'terryma/vim-multiple-cursors'
-
-  "============== Lesser used ===============
-  " Plug 'dhruvasagar/vim-table-mode'
 
   "=================================== FILE ================================================
   Plug 'francoiscabrol/ranger.vim' "File management
@@ -77,6 +71,8 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'camspiers/animate.vim'
   "=================================== PERSONAL PLUGINS ===================================
   Plug 'zdcthomas/vish' "vim fish without the slow stuff
+  Plug 'zdcthomas/medit' "vim fish without the slow stuff
+  " Plug '~/dev/medit'
 
 call plug#end()
 
@@ -200,7 +196,7 @@ endif
 " ================================= BBYE ================================================
 if &runtimepath =~ 'vim-bbye'
   command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
-  nnoremap <Leader>q :Bdelete<CR>
+  " nnoremap <Leader>q :Bdelete<CR>
 endif
 
 " ================================= EASY ALIGN ===========================================
