@@ -48,3 +48,11 @@ vnoremap <Tab> >
 vnoremap <S-Tab> <
 
 nnoremap <C-n> *#cgn
+
+" HERESY
+inoremap <C-A> <Home>
+inoremap <C-B> <Left>
+inoremap <C-E> <End>
+inoremap <C-F> <Right>
+inoremap <A-f> <Esc>lwi
+inoremap <A-b> <Esc>bi

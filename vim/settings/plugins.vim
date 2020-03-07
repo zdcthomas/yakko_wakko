@@ -45,6 +45,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'pangloss/vim-javascript'
   Plug 'keith/swift.vim'
   Plug 'gleam-lang/gleam.vim'
+  Plug 'cespare/vim-toml'
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] }
@@ -136,7 +137,7 @@ if &runtimepath =~ 'coc'
 
   xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
   nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
-  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-elixir', 'coc-tsserver', 'coc-prettier', 'coc-eslint', 'coc-go', 'coc-css', 'coc-actions']
+  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-elixir', 'coc-tsserver', 'coc-prettier', 'coc-eslint', 'coc-go', 'coc-css', 'coc-actions', 'coc-yaml']
 endif
 
 " ================================= EASYMOTION ===========================================
