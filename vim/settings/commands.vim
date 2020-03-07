@@ -108,6 +108,7 @@ augroup zthomas
   autocmd WinLeave * set colorcolumn=0
 
   autocmd FileType yaml :set wrap
-  autocmd FileType *.json :set conceallevel=0
+  autocmd FileType json :let g:indentLine_enabled=0
+  autocmd FileType json :set conceallevel=0
   autocmd BufRead,BufNewFile bash_profile, bashrc set filetype=bash
 augroup END
