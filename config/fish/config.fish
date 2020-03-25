@@ -58,8 +58,13 @@ if type -q npm
   set fish_user_paths (npm bin)
 end
 
+if type -q navi
+  source (navi widget fish)
+end
+
 set -x ERL_AFLAGS "-kernel shell_history enabled"
 set -Ux FZF_DEFAULT_COMMAND "fd --hidden --type f"
+set -Ux FZF_DEFAULT_OPTS "--height 40%"
 set -Ux TERM "xterm-256color"
 export NNN_TMPFILE="/tmp/nnn"
 set -Ux EDITOR nvim
