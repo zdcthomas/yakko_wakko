@@ -2,6 +2,7 @@
 # VERSION: 3.0
 SETUVAR --export EDITOR:nvim
 SETUVAR --export FZF_DEFAULT_COMMAND:fd\x20\x2d\x2dhidden\x20\x2d\x2dtype\x20f
+SETUVAR --export FZF_DEFAULT_OPTS:\x2d\x2dheight\x2040\x25
 SETUVAR --export FZF_FIND_FILE_COMMAND:fd\x20\x2d\x2dhidden
 SETUVAR --export TERM:xterm\x2d256color
 SETUVAR --export VISUAL:nvim
