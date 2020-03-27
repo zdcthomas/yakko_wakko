@@ -22,13 +22,17 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'tpope/vim-commentary'      " All Hail Tpope
   Plug 'tpope/vim-abolish'
 
-  Plug 'tpope/vim-surround'        " Surround text with text
+  " sorry tpope
+  " Plug 'tpope/vim-surround'        " Surround text with text
+
+  Plug 'machakann/vim-sandwich'
 
   "=================================== FILE ================================================
   Plug 'francoiscabrol/ranger.vim' "File management
 
   Plug '/usr/local/opt/fzf'
-  Plug 'junegunn/fzf.vim'          " RTP and plugin for fzf finder
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
 
   " =================================== GIT ================================================
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
@@ -137,7 +141,19 @@ if &runtimepath =~ 'coc'
 
   xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
   nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
-  let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-rls', 'coc-elixir', 'coc-tsserver', 'coc-prettier', 'coc-eslint', 'coc-go', 'coc-css', 'coc-actions', 'coc-yaml']
+  let g:coc_global_extensions = [
+        \'coc-json',
+        \'coc-vimlsp',
+        \'coc-rls',
+        \'coc-elixir',
+        \'coc-tsserver',
+        \'coc-prettier',
+        \'coc-eslint',
+        \'coc-go',
+        \'coc-css',
+        \'coc-yaml',
+        \'coc-snippets',
+        \]
 endif
 
 " ================================= EASYMOTION ===========================================
@@ -210,13 +226,23 @@ endif
 
 " ================================= FZF =================================================
 if &runtimepath =~ 'fzf.vim'
-  set rtp+=/usr/local/opt/fzf
   let g:fzf_buffers_jump = 1
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
   nnoremap <silent> <Leader>G :Lines<CR>
   nnoremap <silent> <Leader>gf :GFiles?<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
+  " function! RipgrepFzf(query, fullscreen)
+  "   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+  "   let initial_command = printf(command_fmt, shellescape(a:query))
+  "   let reload_command = printf(command_fmt, '{q}')
+  "   let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  "   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  " endfunction
+
+  " command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+  " nnoremap <silent> <Leader>F :RG 
+  
   " Maybe make this a thing that asks for input ||    ||
   " note: THERE'S SOME WHITESPACE AT THE END OF \/THIS\/ LINE AND IT'S INTENTIONAL
   nnoremap <silent> <Leader>F :Rg 
@@ -226,53 +252,24 @@ if &runtimepath =~ 'fzf.vim'
   " i want a way to search everywhere for the word under the cursor
   " nnoremap <silent> <Leader><Leader>F 
   if has('nvim')
-    let $FZF_DEFAULT_OPTS .= ' --border --margin=0,2'
-
-    function! FloatingFZF()
-      let width = float2nr(&columns * 0.9)
-      let height = float2nr(&lines * 0.6)
-      let opts = { 'relative': 'editor',
-                 \ 'row': (&lines - height) / 2,
-                 \ 'col': (&columns - width) / 2,
-                 \ 'width': width,
-                 \ 'height': height }
-
-      let win = nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
-      call setwinvar(win, '&winhighlight', 'NormalFloat:Normal')
-    endfunction
-
-    let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+    let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'rounded' } }
   endif
+
   " preview for files
   command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'source': 'ag --hidden --ignore .git -g ""'}), <bang>0)
-endif
 
+  function! s:build_quickfix_list(lines)
+    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+    copen
+    cc
+  endfunction
 
-" =================================  FUGITIVE ==========================================="
-if &runtimepath =~ 'vim-fugitive'
-  nnoremap <leader>gb :Gblame<Cr>
-  nnoremap <leader>gd :Gdiff<Cr>
-  nnoremap <leader>gs :Gstatus<Cr>
-  nnoremap <leader>gc :Gcommit<Cr>
-  if executable('hub')
-   nnoremap <leader>hub :!hub browse<Cr>
-  endif
-endif
-
-" =================================  NNN   ==========================================="
-if &runtimepath =~ 'nnn.vim'
-  " let $NNN_TMPFILE="/tmp/nnn"
-  let g:nnn#command = 'nnn -l'
-  let g:nnn#replace_netrw=1
-  let g:nnn#set_default_mappings = 0
-  nnoremap - :call nnn#pick('%:p:h', {'layout': 'enew', 'edit': 'tabnew'})<Cr>
-  nnoremap <leader>n :NnnPicker '%:p:h'<CR>
-  let g:nnn#layout = { 'left': '~20%' }
-  let g:nnn#action = {
-   \ '<c-l>': 'vsplit',
-   \ '<c-t>': 'tab split',
-   \ '<c-j>': 'split' }
+  let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'alt-j': 'split',
+  \ 'ctrl-f': function('s:build_quickfix_list'),
+  \ 'alt-l': 'vsplit' }
 endif
 
 " =================================  GITGUTTER  ===========================================
@@ -296,22 +293,6 @@ if &runtimepath =~ 'sideways'
   xmap ia <Plug>SidewaysArgumentTextobjI
 end
 
-" =================================  ALE  ===========================================
-if &runtimepath =~ 'ale'
-  nnoremap <Leader>d :ALEGoToDefinition<CR>
-  let g:ale_linters = {
-  \   'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck', 'xo'],
-  \   'elixir': ['credo', 'dialyxir', 'dogma', 'elixir-ls', 'mix'],
-  \}
-  " let g:ale_linters_explicit = 1
-  " let g:ale_lint_on_text_changed = 'never'
-  " let g:ale_lint_on_enter = 1
-  let g:ale_completion_enabled = 1
-  let g:ale_set_ballons = 1
-  let g:ale_completion_delay = 10
-  set omnifunc=ale#completion#OmniFunc
-endif
-
 if &runtimepath =~ 'gruvbox'
   if has('nvim')
     colorscheme gruvbox
@@ -334,5 +315,219 @@ endif
 
 if &runtimepath =~ 'markdown'
   let vim_markdown_preview_github=1
+endif
 
+if &runtimepath =~ 'sandwich'
+  let g:sandwich_no_default_key_mappings = 1
+  let g:operator_sandwich_no_default_key_mappings = 1
+  let g:textobj_sandwich_no_default_key_mappings = 1
+
+  nmap ys <Plug>(operator-sandwich-add)
+  onoremap <SID>line :normal! ^vg_<CR>
+  nmap <silent> yss <Plug>(operator-sandwich-add)<SID>line
+  onoremap <SID>gul g_
+  nmap yS ys<SID>gul
+
+  nmap ds <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
+  nmap dss <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
+  nmap cs <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
+  nmap css <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
+
+  xmap S <Plug>(operator-sandwich-add)
+
+  runtime autoload/repeat.vim
+  if hasmapto('<Plug>(RepeatDot)')
+    nmap . <Plug>(operator-sandwich-predot)<Plug>(RepeatDot)
+  else
+    nmap . <Plug>(operator-sandwich-dot)
+  endif
+
+  " Default recipes
+  let g:sandwich#recipes = [
+        \   {
+        \     'buns': ['\s\+', '\s\+'],
+        \     'regex': 1,
+        \     'kind': ['delete', 'replace', 'query'],
+        \     'input': [' ']
+        \   },
+        \
+        \   {
+        \     'buns':         ['', ''],
+        \     'action':       ['add'],
+        \     'motionwise':   ['line'],
+        \     'linewise':     1,
+        \     'input':        ["\<CR>"]
+        \   },
+        \
+        \   {
+        \     'buns':         ['^$', '^$'],
+        \     'regex':        1,
+        \     'linewise':     1,
+        \     'input':        ["\<CR>"]
+        \   },
+        \
+        \   {
+        \     'buns':         ['<', '>'],
+        \     'expand_range': 0,
+        \     'match_syntax': 1,
+        \     'input':        ['>', 'a'],
+        \   },
+        \
+        \   {
+        \     'buns':         ['`', '`'],
+        \     'quoteescape':  1,
+        \     'expand_range': 0,
+        \     'nesting':      0,
+        \     'linewise':     0,
+        \     'match_syntax': 1,
+        \   },
+        \
+        \   {
+        \     'buns':         ['"', '"'],
+        \     'quoteescape':  1,
+        \     'expand_range': 0,
+        \     'nesting':      0,
+        \     'linewise':     0,
+        \     'match_syntax': 1,
+        \   },
+        \
+        \   {
+        \     'buns':         ["'", "'"],
+        \     'quoteescape':  1,
+        \     'expand_range': 0,
+        \     'nesting':      0,
+        \     'linewise':     0,
+        \     'match_syntax': 1,
+        \   },
+        \
+        \   {
+        \     'buns':         ['{', '}'],
+        \     'nesting':      1,
+        \     'match_syntax': 1,
+        \     'skip_break':   1,
+        \     'input':        ['{', '}', 'B'],
+        \   },
+        \
+        \   {
+        \     'buns':         ['[', ']'],
+        \     'nesting':      1,
+        \     'match_syntax': 1,
+        \     'input':        ['[', ']', 'r'],
+        \   },
+        \
+        \   {
+        \     'buns':         ['(', ')'],
+        \     'nesting':      1,
+        \     'match_syntax': 1,
+        \     'input':        ['(', ')', 'b'],
+        \   },
+        \
+        \   {
+        \     'buns': 'sandwich#magicchar#t#tag()',
+        \     'listexpr': 1,
+        \     'kind': ['add'],
+        \     'action': ['add'],
+        \     'input': ['t'],
+        \   },
+        \
+        \   {
+        \     'buns': 'sandwich#magicchar#t#tag()',
+        \     'listexpr': 1,
+        \     'kind': ['replace'],
+        \     'action': ['add'],
+        \     'input': ['T', '<'],
+        \   },
+        \
+        \   {
+        \     'buns': 'sandwich#magicchar#t#tagname()',
+        \     'listexpr': 1,
+        \     'kind': ['replace'],
+        \     'action': ['add'],
+        \     'input': ['t'],
+        \   },
+        \
+        \   {
+        \     'external': ['it', 'at'],
+        \     'noremap': 1,
+        \     'kind': ['delete', 'textobj'],
+        \     'expr_filter': ['operator#sandwich#kind() !=# "replace"'],
+        \     'synchro': 1,
+        \     'linewise': 1,
+        \     'input': ['t', 'T', '<'],
+        \   },
+        \
+        \   {
+        \     'external': ['it', 'at'],
+        \     'noremap': 1,
+        \     'kind': ['replace', 'query'],
+        \     'expr_filter': ['operator#sandwich#kind() ==# "replace"'],
+        \     'synchro': 1,
+        \     'input': ['T', '<'],
+        \   },
+        \
+        \   {
+        \     'external': ["\<Plug>(textobj-sandwich-tagname-i)", "\<Plug>(textobj-sandwich-tagname-a)"],
+        \     'noremap': 0,
+        \     'kind': ['replace', 'textobj'],
+        \     'expr_filter': ['operator#sandwich#kind() ==# "replace"'],
+        \     'synchro': 1,
+        \     'input': ['t'],
+        \   },
+        \
+        \   {
+        \     'buns': ['sandwich#magicchar#f#fname()', '")"'],
+        \     'kind': ['add', 'replace'],
+        \     'action': ['add'],
+        \     'expr': 1,
+        \     'input': ['f']
+        \   },
+        \
+        \   {
+        \     'external': ["\<Plug>(textobj-sandwich-function-ip)", "\<Plug>(textobj-sandwich-function-i)"],
+        \     'noremap': 0,
+        \     'kind': ['delete', 'replace', 'query'],
+        \     'input': ['f']
+        \   },
+        \
+        \   {
+        \     'external': ["\<Plug>(textobj-sandwich-function-ap)", "\<Plug>(textobj-sandwich-function-a)"],
+        \     'noremap': 0,
+        \     'kind': ['delete', 'replace', 'query'],
+        \     'input': ['F']
+        \   },
+        \
+        \   {
+        \     'buns': 'sandwich#magicchar#i#input("operator")',
+        \     'kind': ['add', 'replace'],
+        \     'action': ['add'],
+        \     'listexpr': 1,
+        \     'input': ['i'],
+        \   },
+        \
+        \   {
+        \     'buns': 'sandwich#magicchar#i#input("textobj", 1)',
+        \     'kind': ['delete', 'replace', 'query'],
+        \     'listexpr': 1,
+        \     'regex': 1,
+        \     'synchro': 1,
+        \     'input': ['i'],
+        \   },
+        \
+        \   {
+        \     'buns': 'sandwich#magicchar#i#lastinput("operator", 1)',
+        \     'kind': ['add', 'replace'],
+        \     'action': ['add'],
+        \     'listexpr': 1,
+        \     'input': ['I'],
+        \   },
+        \
+        \   {
+        \     'buns': 'sandwich#magicchar#i#lastinput("textobj")',
+        \     'kind': ['delete', 'replace', 'query'],
+        \     'listexpr': 1,
+        \     'regex': 1,
+        \     'synchro': 1,
+        \     'input': ['I'],
+        \   },
+        \ ]
 endif
