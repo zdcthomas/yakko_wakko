@@ -7,7 +7,7 @@ else
   alias la='ls -la'
 end
 
-alias l="ls -laFGgohq"
+alias l="ls -laFGghq"
 
 if type -q vim
   alias fsh='vim ~/.config/fish/'
@@ -38,9 +38,12 @@ if type -q pg_ctl
   alias fuck_pg='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 end
 
-# if type -q fzf
+if type -q fzf
 #   alias fm='fzf | xargs rm -rfi'
-# end
+  function fco -d "Fuzzy-find and checkout a branch"
+    git branch --all | grep -v HEAD | string trim | fzf | read -l result; and git checkout "$result"
+  end
+end
 
 if type -q rbenv
   status --is-interactive; and source (rbenv init -|psub)
@@ -67,10 +70,6 @@ set -Ux VISUAL nvim
 set PATH $HOME/.cargo/bin $PATH
 
 direnv hook fish | source 
-
-function fco -d "Fuzzy-find and checkout a branch"
-  git branch --all | grep -v HEAD | string trim | fzf | read -l result; and git checkout "$result"
-end
 
 function fc
   if count $argv > /dev/null
