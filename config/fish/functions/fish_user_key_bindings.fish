@@ -3,3 +3,6 @@
 #         bind -M $mode \cf forward-char
 #     end
 # end
+
+
+fzf_key_bindings

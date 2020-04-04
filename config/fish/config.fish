@@ -38,13 +38,6 @@ if type -q pg_ctl
   alias fuck_pg='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 end
 
-if type -q fzf
-#   alias fm='fzf | xargs rm -rfi'
-  function fco -d "Fuzzy-find and checkout a branch"
-    git branch --all | grep -v HEAD | string trim | fzf | read -l result; and git checkout "$result"
-  end
-end
-
 if type -q rbenv
   status --is-interactive; and source (rbenv init -|psub)
 end
@@ -73,22 +66,27 @@ export NNN_TMPFILE="/tmp/nnn"
 set -Ux EDITOR nvim
 set -Ux VISUAL nvim
 set PATH $HOME/.cargo/bin $PATH
-
+set fish_color_command FFFFF
+set fish_color_redirection FFFFF
+set fish_color_end FFFFFF 
+set fish_color_operator edd205
+set fish_color_normal FFFFFF
+set fish_color_param brgreen
 direnv hook fish | source 
 
-function fc
-  if count $argv > /dev/null
-    echo $argv
-    set searchable_area $argv
-  end
-    set ol_dir (pwd)
-    cd $searchable_area
-    if set destination (fd -t d | fzf --preview 'tree -aCt {}' --reverse --margin=7%)
-      cd $destination
-    else
-      cd $ol_dir
-    end
-end 
+# function fcd
+#   if count $argv > /dev/null
+#     echo $argv
+#     set searchable_area $argv
+#   end
+#     set ol_dir (pwd)
+#     cd $searchable_area
+#     if set destination (fd -t d | fzf --preview 'tree -aCt {}' --reverse --margin=7%)
+#       cd $destination
+#     else
+#       cd $ol_dir
+#     end
+# end 
 
 function dev
   set ol_dir (pwd)
@@ -104,7 +102,6 @@ function dev
   end
   cd $ol_dir
 end
-
 
 function circle
 	set org_and_repo (git remote -v | grep push | awk '{print $2}' | sed 's/\.git//g' | sed 's/.*\.com\///g')
