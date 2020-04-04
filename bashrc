@@ -3,7 +3,7 @@ alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
 alias la='ls -laFGgohq'
 alias gs='git status'
 alias gco='git checkout'
-alias fco='git branch --all | grep -v HEAD | string trim | fzf | read -l result; and git checkout "$result"'
+alias fc='. fcd'
 alias res='source ~/.bash_profile'
 alias ..='cd ..'
 set -o vi
@@ -23,9 +23,6 @@ function dirty(){
 	fi
 }
 
-# export PS1='\[\033[36m\]\u\[\033[m\]@\[\033[32m\] \e[38;5;211m$(shortwd)\e[38;5;48m $(git_branch)\e[0m$\n| => '
- # PS1
-# export PS1=
 cyan="\[\033[36m\]"
 white="\[\033[m\]"
 green="\[\033[32m\]"
@@ -48,16 +45,6 @@ export NNN_TMPFILE="/tmp/nnn"
 # thanks apple
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
-n()
-{
-        nnn "$@"
-
-        if [ -f $NNN_TMPFILE ]; then
-                . $NNN_TMPFILE
-                rm -f $NNN_TMPFILE > /dev/null
-        fi
-}
-
 make_rails(){
   rails new $1 -T -d=postgresql --skip-turbolinks --skip-spring $2
   cd $1
@@ -77,4 +64,7 @@ make_rails(){
 
   nvim
 }
+
 export PATH="$HOME/.cargo/bin:$PATH"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -11,6 +11,10 @@
 
 - link:
     ~/.bash_profile: bash_profile
+    /usr/local/bin/: 
+      glob: true
+      path: bin/*
+      create: true
     ~/.bashrc: bashrc
     ~/.tmux.conf: tmux.conf
     ~/.tmate.conf: tmate.conf
@@ -42,6 +46,9 @@
   - 
     command: bash ./scripts/iterm_setup.sh
     description: Configuring iterm...
+  - 
+    command: bash ./scripts/fzf_setup.sh
+    description: Configuring fzf...
   -
     command: bash ./scripts/npm_installations.sh
     description: Setting up npm packages

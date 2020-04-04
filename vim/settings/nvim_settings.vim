@@ -10,4 +10,4 @@ tnoremap <leader><Esc>          <c-\><c-n>
 set wildmenu
 set wildmode=longest:full,full
 set cmdheight=1
-
+set inccommand=nosplit

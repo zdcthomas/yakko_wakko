@@ -7,31 +7,20 @@ endif
 call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
-  Plug 'Raimondi/delimitMate'      " autocompletion of closing tags
-  " Plug 'jiangmiao/auto-pairs'
-
-  Plug 'Yggdroot/indentLine'       " Display Indentation
-  Plug 'andrewradev/sideways.vim'
-
-  Plug 'easymotion/vim-easymotion' " great motion plugin
-
-  Plug 'michaeljsmith/vim-indent-object'
-
-  Plug 'junegunn/vim-easy-align'   " Eeasily align text on a specific character
-
-  Plug 'tpope/vim-commentary'      " All Hail Tpope
-  Plug 'tpope/vim-abolish'
-
-  " sorry tpope
-  " Plug 'tpope/vim-surround'        " Surround text with text
-
-  Plug 'machakann/vim-sandwich'
+  Plug 'Raimondi/delimitMate'            " autocompletion of closing tags
+  Plug 'Yggdroot/indentLine'             " Display Indentation
+  Plug 'easymotion/vim-easymotion'       " great motion plugin
+  Plug 'junegunn/vim-easy-align'         " Easily align text on a specific character
+  Plug 'machakann/vim-sandwich'          " Love this thing
+  Plug 'machakann/vim-swap'              " Use to swap args in lists/funcs
+  Plug 'michaeljsmith/vim-indent-object' " I don't know why this isn't a built in
+  Plug 'tpope/vim-abolish'               " I use this just for camel/snake/pascall case conversion, I should tear that part out
+  Plug 'tpope/vim-commentary'            " All Hail Tpope
+  " Plug 'mbbill/undotree'
 
   "=================================== FILE ================================================
-  Plug 'francoiscabrol/ranger.vim' "File management
-
-  Plug '/usr/local/opt/fzf'
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'francoiscabrol/ranger.vim'                    " File management
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " for the actual bin
   Plug 'junegunn/fzf.vim'
 
   " =================================== GIT ================================================
@@ -52,38 +41,39 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'cespare/vim-toml'
 
   "=================================== COMPLETION ==========================================
-  Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] }
+  Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
 
   "=================================== STATUS LINE =========================================
   Plug 'vim-airline/vim-airline'  
   Plug 'vim-airline/vim-airline-themes'
 
   "=================================== WINDOW ==============================================
-  Plug 'moll/vim-bbye'
+  Plug 'moll/vim-bbye'         " Needed for ranger to be nice
+  Plug 'segeljakt/vim-silicon' " Taking pictures of code
 
-  Plug 'segeljakt/vim-silicon'
   "=================================== HTML ===============================================
   Plug 'mattn/emmet-vim'
 
   "=================================== COLOR SCHEMES ======================================
   Plug 'gruvbox-community/gruvbox'    
   Plug 'sonph/onehalf', {'rtp': 'vim'}
-  Plug 'dylanaraps/wal'
+  Plug 'dylanaraps/wal' " I should really get this working
 
   "=================================== UI =================================================
-  Plug 'mhinz/vim-startify'
-  Plug 'camspiers/lens.vim'
-  Plug 'camspiers/animate.vim'
+  Plug 'mhinz/vim-startify'    " pretty startup
+  Plug 'camspiers/lens.vim'    " slightly expand window when entered
+  Plug 'camspiers/animate.vim' " Needed by lens for nicer moving
+
   "=================================== PERSONAL PLUGINS ===================================
-  Plug 'zdcthomas/vish' "vim fish without the slow stuff
-  Plug 'zdcthomas/medit' "vim fish without the slow stuff
-  " Plug '~/dev/medit'
+  Plug 'zdcthomas/vish' " vim fish without the slow stuff
+  Plug '~/dev/medit'    " Used for editing macros
 
 call plug#end()
 
 if &runtimepath =~ 'delimit'
   let g:delimitMate_expand_space = 1
   let g:delimitMate_expand_cr = 2
+
 endif
 
 if &runtimepath =~ 'rainbow'
@@ -105,7 +95,6 @@ if &runtimepath =~ 'coc'
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
   " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
   " Coc only does snippet and additional edit on confirm.
-  " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
   let g:coc_snippet_next = '<c-j>'
@@ -225,7 +214,7 @@ if &runtimepath =~ 'vim-easy-align'
 endif
 
 " ================================= FZF =================================================
-if &runtimepath =~ 'fzf.vim'
+if &runtimepath =~ 'fzf'
   let g:fzf_buffers_jump = 1
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
@@ -283,6 +272,12 @@ if &runtimepath =~ 'vim-gitgutter'
   nnoremap <Leader>gs :GitGutterPreviewHunk<CR>
 endif
 
+if &runtimepath =~ 'swap'
+  omap ia <Plug>(swap-textobject-i)
+  xmap ia <Plug>(swap-textobject-i)
+  omap aa <Plug>(swap-textobject-a)
+  xmap aa <Plug>(swap-textobject-a)
+endif
 
 if &runtimepath =~ 'sideways'
   nnoremap <Leader>h :SidewaysLeft<cr>
@@ -291,7 +286,7 @@ if &runtimepath =~ 'sideways'
   xmap aa <Plug>SidewaysArgumentTextobjA
   omap ia <Plug>SidewaysArgumentTextobjI
   xmap ia <Plug>SidewaysArgumentTextobjI
-end
+endif
 
 if &runtimepath =~ 'gruvbox'
   if has('nvim')
@@ -334,6 +329,21 @@ if &runtimepath =~ 'sandwich'
   nmap css <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
 
   xmap S <Plug>(operator-sandwich-add)
+
+  xmap is <Plug>(textobj-sandwich-query-i)
+  xmap as <Plug>(textobj-sandwich-query-a)
+  omap is <Plug>(textobj-sandwich-query-i)
+  omap as <Plug>(textobj-sandwich-query-a)
+
+  xmap iss <Plug>(textobj-sandwich-auto-i)
+  xmap ass <Plug>(textobj-sandwich-auto-a)
+  omap iss <Plug>(textobj-sandwich-auto-i)
+  omap ass <Plug>(textobj-sandwich-auto-a)
+
+  xmap im <Plug>(textobj-sandwich-literal-query-i)
+  xmap am <Plug>(textobj-sandwich-literal-query-a)
+  omap im <Plug>(textobj-sandwich-literal-query-i)
+  omap am <Plug>(textobj-sandwich-literal-query-a)
 
   runtime autoload/repeat.vim
   if hasmapto('<Plug>(RepeatDot)')

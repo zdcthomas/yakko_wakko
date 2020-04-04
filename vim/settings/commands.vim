@@ -40,49 +40,8 @@ function! GitUnStagedChanges()
     copen
 endfunction
 
-" function! s:open_register_win(register)
-"   if has('nvim')
-"     let buf = nvim_create_buf(v:false, v:true)
-"     " 90% of the height
-"     let height = 2
-"     " 60% of the height
-"     let width = float2nr(&columns * 0.5)
-"     " horizontal position (centralized)
-"     let horizontal = float2nr((&columns - width) / 3)
-"     " vertical position (one line down of the top)
-"       let vertical = float2nr(virtcol('.'))
-"     let opts = {
-"           \ 'relative': 'editor',
-"           \ 'row': vertical,
-"           \ 'col': horizontal,
-"           \ 'width': width,
-"           \ 'height': height,
-"           \ 'style': 'minimal'
-"           \ }
-"     call nvim_open_win(buf, v:true, opts)
-"   else
-"     split enew
-"   endif
-"   exe 'nnoremap <buffer> q :call YankNClose("'. a:register. '")<Cr>'
-"   nnoremap <buffer> <esc> :close<Cr>
-" endfunction
-
-" function! YankNClose(register)
-"   " normal 'V"'. a:register . 'y'
-"   exe 'let @' . a:register . "= getline('.')"
-"   close
-" endfunction
-
-" function! MEdit(register)
-"   call s:open_register_win(a:register)
-"   execute 'normal! "'. a:register . "pgg"
-" endfunction
-
-" nnoremap <expr><silent> <Leader>q ":call MEdit('" . nr2char(getchar()) . "')<Cr>"
 nnoremap <Leader>gc :call GitUnStagedChanges()<Cr>
-" vimrc hot reload
 command! Svrc source $MYVIMRC
-command! Vrc :tabnew ~/.vim/settings/settings.vim
 command! Yf :let @+ = expand("%")
 command! -range GitBlame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n") 
 nnoremap <Leader>gb :GitBlame<Cr>
@@ -99,10 +58,13 @@ augroup zthomas
   autocmd FileType elixir :ab bind require IEx;IEx.pry
   autocmd FileType elixir :nnoremap <Leader>tl :call TmuxSend("right", "mix test", "%")<Cr>
   autocmd FileType elixir :nnoremap <Leader>ttl :call TmuxSend("right", "mix test", expand("%") . ":" . line('.'))<Cr>
-  " autocmd BufWritePost *.exs,*.ex silent :!mix format %
+
   autocmd FileType ruby :ab bind require 'pry';binding.pry
   autocmd FileType ruby :nnoremap <Leader>tl :call TmuxSend("right", "rspec", "%")<Cr>
   autocmd FileType ruby :nnoremap <Leader>ttl :call TmuxSend("right", "rspec", expand("%") . ":" . line('.'))<Cr>
+
+  autocmd FileType markdown :setlocal spell spelllang=en_us
+  autocmd FileType txt :setlocal spell spelllang=en_us
 
   autocmd WinEnter * set colorcolumn=110
   autocmd WinLeave * set colorcolumn=0
