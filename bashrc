@@ -4,9 +4,8 @@ alias la='ls -laFGgohq'
 alias gs='git status'
 alias gco='git checkout'
 alias fc='. fcd'
-alias res='source ~/.bash_profile'
+alias reload='source ~/.bash_profile'
 alias ..='cd ..'
-set -o vi
 
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
@@ -36,14 +35,6 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH=/usr/local/bin:$PATH
 eval "$(rbenv init -)"
 eval "$(pyenv init -)"
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-export FZF_DEFAULT_COMMAND="fd --hidden --type f"
-export ERL_AFLAGS="-kernel shell_history enabled"
-export NNN_TMPFILE="/tmp/nnn"
-# thanks apple
-export BASH_SILENCE_DEPRECATION_WARNING=1
 
 make_rails(){
   rails new $1 -T -d=postgresql --skip-turbolinks --skip-spring $2
@@ -64,7 +55,5 @@ make_rails(){
 
   nvim
 }
-
-export PATH="$HOME/.cargo/bin:$PATH"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -16,6 +16,7 @@
       path: bin/*
       create: true
     ~/.bashrc: bashrc
+    ~/.profile: profile
     ~/.tmux.conf: tmux.conf
     ~/.tmate.conf: tmate.conf
     ~/.vimrc: 
