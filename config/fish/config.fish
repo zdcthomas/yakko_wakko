@@ -19,10 +19,7 @@ if type -q git
   alias gco='git checkout'
   alias gs='git status'
   alias ga='git add'
-end
-
-if type -q todolist
-  alias t='todolist'
+  alias gap='git add --patch'
 end
 
 if type -q docker
@@ -30,7 +27,6 @@ if type -q docker
 end
 
 if type -q nvim
-  alias vim=nvim
   alias vimdiff="nvim -d"
 end
 
@@ -54,18 +50,6 @@ if type -q npm
   set fish_user_paths (npm bin)
 end
 
-if type -q navi
-  source (navi widget fish)
-end
-
-set -x ERL_AFLAGS "-kernel shell_history enabled"
-set -Ux FZF_DEFAULT_COMMAND "fd --hidden --type f"
-set -Ux FZF_DEFAULT_OPTS "--height 40%"
-set -Ux TERM "xterm-256color"
-export NNN_TMPFILE="/tmp/nnn"
-set -Ux EDITOR nvim
-set -Ux VISUAL nvim
-set PATH $HOME/.cargo/bin $PATH
 set fish_color_command FFFFF
 set fish_color_redirection FFFFF
 set fish_color_end FFFFFF 
@@ -108,3 +92,5 @@ function circle
   set branch (git branch | grep \* | cut -d ' ' -f2)
   open https://circleci.com/gh/"$org_and_repo"/tree/"$branch"
 end
+
+source ~/.profile

@@ -7,16 +7,19 @@ endif
 call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
-  Plug 'Raimondi/delimitMate'            " autocompletion of closing tags
+  Plug 'jiangmiao/auto-pairs'
   Plug 'Yggdroot/indentLine'             " Display Indentation
-  Plug 'easymotion/vim-easymotion'       " great motion plugin
   Plug 'junegunn/vim-easy-align'         " Easily align text on a specific character
+  Plug 'kana/vim-textobj-user'
+  Plug 'machakann/vim-textobj-functioncall'
+  Plug 'Julian/vim-textobj-variable-segment'
+  Plug 'justinmk/vim-sneak'
   Plug 'machakann/vim-sandwich'          " Love this thing
   Plug 'machakann/vim-swap'              " Use to swap args in lists/funcs
   Plug 'michaeljsmith/vim-indent-object' " I don't know why this isn't a built in
-  Plug 'tpope/vim-abolish'               " I use this just for camel/snake/pascall case conversion, I should tear that part out
+  Plug 'zdcthomas/vim-abolish'           " I use this just for camel/snake/pascall case conversion, I should tear that part out
+                                         " (tpopes has MixedCase, i prefer CamelCase, pr is open https://github.com/tpope/vim-abolish/pull/89)
   Plug 'tpope/vim-commentary'            " All Hail Tpope
-  " Plug 'mbbill/undotree'
 
   "=================================== FILE ================================================
   Plug 'francoiscabrol/ranger.vim'                    " File management
@@ -66,19 +69,34 @@ call plug#begin('~/.vim/z_plugins')
 
   "=================================== PERSONAL PLUGINS ===================================
   Plug 'zdcthomas/vish' " vim fish without the slow stuff
-  Plug '~/dev/medit'    " Used for editing macros
-
+  Plug 'zdcthomas/medit'    " Used for editing macros
 call plug#end()
 
+if &runtimepath =~ 'sneak'
+  map z <Plug>Sneak_s
+  map Z <Plug>Sneak_S
+endif
+
+if &runtimepath =~ 'textobj'
+  call textobj#user#plugin('generic', {
+  \   'generic': {
+  \     'pattern': ["\<\a*<", ">"],
+  \     'select-a': 'ag',
+  \     'select-i': 'ig'
+  \   }
+  \ })
+endif
+
+if &runtimepath =~ 'auto-pairs'
+  augroup AutoPairedUser
+    autocmd!
+    au FileType rust     let b:AutoPairs = AutoPairsDefine({'\w\zs<': '>'})
+  augroup END
+endif
 if &runtimepath =~ 'delimit'
   let g:delimitMate_expand_space = 1
   let g:delimitMate_expand_cr = 2
-
 endif
-
-if &runtimepath =~ 'rainbow'
-  let g:rainbow_active = 1
-end
 
 if &runtimepath =~ 'lens'
   let g:lens#height_resize_min = 5
@@ -123,13 +141,15 @@ if &runtimepath =~ 'coc'
   nnoremap <silent> <Leader>gdl :call CocAction('jumpDefinition', 'vsplit')<Cr>
   nnoremap <silent> <Leader>gdj :call CocAction('jumpDefinition', 'split')<Cr>
   nnoremap <silent> gh :call CocAction('doHover')<Cr>
-
   nmap <silent> gr <Plug>(coc-references)
   nmap <silent> gt <Plug>(coc-type-definition)
   nmap <Leader>rn <Plug>(coc-rename)
-
+  nmap <silent> <Leader>l <Plug>(coc-codelens-action)
   xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
   nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+  nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
+  nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
+  nmap <Leader>fq <Plug>(coc-fix-current)
   let g:coc_global_extensions = [
         \'coc-json',
         \'coc-vimlsp',

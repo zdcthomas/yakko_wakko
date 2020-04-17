@@ -11,4 +11,5 @@ if [ -x "$(command -v fzf-tmux)" ]; then
   fco
 else
   echo "FZF not installed"
+  exit 1
 fi
