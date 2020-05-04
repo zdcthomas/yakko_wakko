@@ -7,19 +7,21 @@ endif
 call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
+  Plug 'Julian/vim-textobj-variable-segment'          " TO for |this|_part_of_a_var
+  Plug 'Yggdroot/indentLine'                          " Display Indentation
+  Plug 'dhruvasagar/vim-table-mode'
+  Plug 'easymotion/vim-easymotion'
   Plug 'jiangmiao/auto-pairs'
-  Plug 'Yggdroot/indentLine'             " Display Indentation
-  Plug 'junegunn/vim-easy-align'         " Easily align text on a specific character
+  Plug 'junegunn/vim-easy-align'                      " Easily align text on a specific character
+  " Plug 'justinmk/vim-sneak'                           " find next instance of 2 letters, not just 1
   Plug 'kana/vim-textobj-user'
+  Plug 'machakann/vim-highlightedyank'
+  Plug 'machakann/vim-sandwich'                       " Love this thing
+  Plug 'machakann/vim-swap'                           " Use to swap args in lists/funcs
   Plug 'machakann/vim-textobj-functioncall'
-  Plug 'Julian/vim-textobj-variable-segment'
-  Plug 'justinmk/vim-sneak'
-  Plug 'machakann/vim-sandwich'          " Love this thing
-  Plug 'machakann/vim-swap'              " Use to swap args in lists/funcs
-  Plug 'michaeljsmith/vim-indent-object' " I don't know why this isn't a built in
-  Plug 'zdcthomas/vim-abolish'           " I use this just for camel/snake/pascall case conversion, I should tear that part out
-                                         " (tpopes has MixedCase, i prefer CamelCase, pr is open https://github.com/tpope/vim-abolish/pull/89)
-  Plug 'tpope/vim-commentary'            " All Hail Tpope
+  Plug 'mg979/vim-visual-multi', {'branch': 'master'} " Ehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+  Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
+  Plug 'tpope/vim-commentary'                         " You know, for commenting
 
   "=================================== FILE ================================================
   Plug 'francoiscabrol/ranger.vim'                    " File management
@@ -42,13 +44,13 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'keith/swift.vim'
   Plug 'gleam-lang/gleam.vim'
   Plug 'cespare/vim-toml'
+  Plug 'chriskempson/base16-vim'
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
 
   "=================================== STATUS LINE =========================================
   Plug 'vim-airline/vim-airline'  
-  Plug 'vim-airline/vim-airline-themes'
 
   "=================================== WINDOW ==============================================
   Plug 'moll/vim-bbye'         " Needed for ranger to be nice
@@ -60,7 +62,7 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== COLOR SCHEMES ======================================
   Plug 'gruvbox-community/gruvbox'    
   Plug 'sonph/onehalf', {'rtp': 'vim'}
-  Plug 'dylanaraps/wal' " I should really get this working
+  " Plug 'dylanaraps/wal' " I should really get this working
 
   "=================================== UI =================================================
   Plug 'mhinz/vim-startify'    " pretty startup
@@ -70,11 +72,13 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== PERSONAL PLUGINS ===================================
   Plug 'zdcthomas/vish' " vim fish without the slow stuff
   Plug 'zdcthomas/medit'    " Used for editing macros
+  Plug 'zdcthomas/vim-abolish'                        " I use this just for camel/snake/pascall case conversion, I should tear that part out
+                                                      " (tpopes has MixedCase, i prefer CamelCase, pr is open https://github.com/tpope/vim-abolish/pull/89)
 call plug#end()
 
 if &runtimepath =~ 'sneak'
-  map z <Plug>Sneak_s
-  map Z <Plug>Sneak_S
+  " map f <Plug>Sneak_s
+  " map F <Plug>Sneak_S
 endif
 
 if &runtimepath =~ 'textobj'
@@ -87,12 +91,16 @@ if &runtimepath =~ 'textobj'
   \ })
 endif
 
+" potnetial func regex s/\(\.[A-Za-z]*(\)\@<=[a-zA-Z, ]*)/)/
+" still needs {-} for cursor position
+
 if &runtimepath =~ 'auto-pairs'
   augroup AutoPairedUser
     autocmd!
     au FileType rust     let b:AutoPairs = AutoPairsDefine({'\w\zs<': '>'})
   augroup END
 endif
+
 if &runtimepath =~ 'delimit'
   let g:delimitMate_expand_space = 1
   let g:delimitMate_expand_cr = 2
@@ -101,7 +109,10 @@ endif
 if &runtimepath =~ 'lens'
   let g:lens#height_resize_min = 5
   let g:lens#width_resize_min = 20
-end
+endif
+
+if &runtimepath =~ 'multi-cursor'
+endif
 
 " =================================  COC  ===========================================
 if &runtimepath =~ 'coc'
@@ -153,7 +164,6 @@ if &runtimepath =~ 'coc'
   let g:coc_global_extensions = [
         \'coc-json',
         \'coc-vimlsp',
-        \'coc-rls',
         \'coc-elixir',
         \'coc-tsserver',
         \'coc-prettier',
@@ -316,7 +326,8 @@ if &runtimepath =~ 'gruvbox'
       hi Normal ctermbg=NONE guibg=NONE
     endif
   else
-    colorscheme onehalfdark
+    colorscheme base16-altier-lakeside-light
+    " colorscheme onehalfdark
   endif
 endif
 

@@ -14,6 +14,8 @@
 	<integer>1</integer>
 	<key>AppleWindowTabbingMode</key>
 	<string>manual</string>
+	<key>Command</key>
+	<string></string>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>gruvbox</key>
@@ -430,7 +432,7 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 606 620 392 0 0 1920 1200 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1680 1050 0 0 1680 1050 </string>
+	<string>-2560 289 1276 1416 -2560 265 2560 1440 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -700,7 +702,7 @@
 			<key>Columns</key>
 			<integer>80</integer>
 			<key>Command</key>
-			<string></string>
+			<string>/usr/local/bin/bash</string>
 			<key>Cursor Boost</key>
 			<real>0.0</real>
 			<key>Cursor Color</key>
@@ -743,7 +745,7 @@
 				<real>0.90980392694473267</real>
 			</dict>
 			<key>Custom Command</key>
-			<string>No</string>
+			<string>Custom Shell</string>
 			<key>Custom Directory</key>
 			<string>Recycle</string>
 			<key>Custom Window Title</key>
@@ -2212,14 +2214,14 @@
 		<key>screenFrame</key>
 		<string>{{-2560, 265}, {2560, 1440}}</string>
 		<key>topLeft</key>
-		<string>{-1473, 1140}</string>
+		<string>{-1879, 1202}</string>
 	</dict>
 	<key>NoSyncHaveUsedCopyMode</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
 	<string>4B4555C9-1692-477A-8629-C4AFD8EB7D4E</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>28</integer>
+	<integer>30</integer>
 	<key>NoSyncNextAnnoyanceTime</key>
 	<real>595978023.40911698</real>
 	<key>NoSyncOnboardingWindowHasBeenShown</key>
@@ -3010,7 +3012,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2020-03-30T20:22:25Z</date>
+	<date>2020-04-16T15:43:42Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SUUpdateRelaunchingMarker</key>

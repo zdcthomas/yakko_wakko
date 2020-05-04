@@ -29,10 +29,6 @@
     ~/.vim/:
       glob: true
       path: vim/*
-    # "~/Library/Application Support/Code/User/settings.json":
-    #   path: vscode/settings.json
-    # "~/Library/Application Support/Code/User/snippets":
-    #   path: vscode/snippets
 
 - shell:
   - 
@@ -56,6 +52,6 @@
   -
     command: bash ./scripts/macos_setup.sh
     description: Setting up mac defaults...
-  # -
-  #   command: bash ./scripts/vscode_setup.sh
-  #   description: Installing all VsCode Extensions...
+  -
+    command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    description: Install rust toolchain
