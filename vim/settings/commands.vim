@@ -72,5 +72,6 @@ augroup zthomas
   autocmd FileType yaml :set wrap
   autocmd FileType json :let g:indentLine_enabled=0
   autocmd FileType json :set conceallevel=0
-  autocmd BufRead,BufNewFile bash_profile, bashrc set filetype=bash
+  autocmd BufRead,BufNewFile bash_profile set filetype=bash
+  autocmd BufRead,BufNewFile bashrc set filetype=bash
 augroup END
