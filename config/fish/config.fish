@@ -56,7 +56,9 @@ set fish_color_end FFFFFF
 set fish_color_operator edd205
 set fish_color_normal FFFFFF
 set fish_color_param brgreen
-direnv hook fish | source 
+if type -q direnv
+  direnv hook fish | source 
+end
 
 # function fcd
 #   if count $argv > /dev/null

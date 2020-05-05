@@ -25,8 +25,9 @@ call plug#begin('~/.vim/z_plugins')
 
   "=================================== FILE ================================================
   Plug 'francoiscabrol/ranger.vim'                    " File management
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " for the actual bin
+  " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " for the actual bin
   Plug 'junegunn/fzf.vim'
+  Plug '~/.fzf'
 
   " =================================== GIT ================================================
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
@@ -326,7 +327,7 @@ if &runtimepath =~ 'gruvbox'
       hi Normal ctermbg=NONE guibg=NONE
     endif
   else
-    colorscheme base16-altier-lakeside-light
+    " colorscheme base16-altier-lakeside-light
     " colorscheme onehalfdark
   endif
 endif

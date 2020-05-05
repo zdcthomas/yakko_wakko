@@ -1,6 +1,5 @@
 #!/bin/bash
-
-npm update -g
+echo installing npm packages
 
 PACKAGES=(
   elm-oracle
@@ -8,4 +7,10 @@ PACKAGES=(
   neovim
 )
 
-npm install -g ${PACKAGES[@]}
+if npm 2>/dev/null; then
+  npm update -g
+  npm install -g ${PACKAGES[@]}
+else
+  echo error: npm is not installed
+  exit 1
+fi

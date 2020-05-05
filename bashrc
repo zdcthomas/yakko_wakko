@@ -31,10 +31,15 @@ export PS1="$cyan\u$white@$yellow \w$white \$(git_branch) \$(dirty) \n$in_prompt
 export PS2=$in_prompt
 export PS2="| ?> "
 
-export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH=/usr/local/bin:$PATH
-eval "$(rbenv init -)"
-eval "$(pyenv init -)"
+
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# if rbenv 2>/dev/null; then
+#   eval "$(rbenv init -)"
+# fi
+# if pyenv 2>/dev/null; then
+#   eval "$(pyenv init -)"
+# fi
 
 make_rails(){
   rails new $1 -T -d=postgresql --skip-turbolinks --skip-spring $2
