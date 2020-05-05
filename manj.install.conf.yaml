@@ -10,9 +10,6 @@
 - clean: ['~']
 
 - link:
-    ~/.bash_profile: 
-      if: '[ `uname` = Darwin ]'
-      path: bash_profile
     /usr/local/bin/: 
       glob: true
       path: bin/*
@@ -21,15 +18,8 @@
     ~/.profile: profile
     ~/.tmux.conf: tmux.conf
     ~/.tmate.conf: tmate.conf
-    ~/.i3/:
-      glob: true
-      if: '[ `uname` = Linux ]'
-      path: ./i3/*
     ~/.vimrc: 
       path: vimrc
-    ~/Brewfile: 
-      if: '[ `uname` = Darwin ]'
-      path: Brewfile
     ~/.config/:
       glob: true
       path: config/*
@@ -46,17 +36,17 @@
     command: bash ./scripts/file_structure_setup.sh
     description: Setting up directories...
   - 
-    command: bash ./scripts/iterm_setup.sh
-    description: Configuring iterm...
-  -
-    command: bash ./scripts/install_deps.sh
-    description: Installing dependencies...
-  - 
     command: bash ./scripts/fzf_setup.sh
     description: Configuring fzf...
+  - 
+    command: bash ./scripts/manjaro_installs.sh
+    description: Installing what we need...
+  - 
+    command: bash ./scripts/npm_installations.sh
+    description: Installing from npm...
+  - 
+    command: bash ./scripts/pip_installations.sh
+    description: Installing from pip...
   -
-    command: bash ./scripts/preferences_setup.sh
-    description: Setting up defaults...
-  -
-    command: bash ./scripts/install_rust.sh
-    description: Install rust.
+    command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    description: Install rust toolchain
