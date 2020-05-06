@@ -17,3 +17,4 @@ fcitx
 fcitx-googlepinyin
 fcitx-im
 fcitx-configtool
+otf-fira-code

@@ -13,7 +13,6 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'easymotion/vim-easymotion'
   Plug 'jiangmiao/auto-pairs'
   Plug 'junegunn/vim-easy-align'                      " Easily align text on a specific character
-  " Plug 'justinmk/vim-sneak'                           " find next instance of 2 letters, not just 1
   Plug 'kana/vim-textobj-user'
   Plug 'machakann/vim-highlightedyank'
   Plug 'machakann/vim-sandwich'                       " Love this thing
@@ -252,17 +251,6 @@ if &runtimepath =~ 'fzf'
   nnoremap <silent> <Leader>G :Lines<CR>
   nnoremap <silent> <Leader>gf :GFiles?<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
-  " function! RipgrepFzf(query, fullscreen)
-  "   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-  "   let initial_command = printf(command_fmt, shellescape(a:query))
-  "   let reload_command = printf(command_fmt, '{q}')
-  "   let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  "   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-  " endfunction
-
-  " command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
-  " nnoremap <silent> <Leader>F :RG 
-  
   " Maybe make this a thing that asks for input ||    ||
   " note: THERE'S SOME WHITESPACE AT THE END OF \/THIS\/ LINE AND IT'S INTENTIONAL
   nnoremap <silent> <Leader>F :Rg 
