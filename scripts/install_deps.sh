@@ -2,10 +2,10 @@
 if [ `uname` = Darwin ]
 then
   echo macOS detected. Installing from brewfile
-  bash ./brew_setup.sh
+  bash ./scripts/brew_setup.sh
 elif pacman --version &>/dev/null; then
   echo Pacman deteced. Installing from Pacfile
-  bash ./manjaro_installs.sh
+  bash ./scripts/manjaro_installs.sh
 else
   echo No known dependency system found
   exit 1
