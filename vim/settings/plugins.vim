@@ -171,7 +171,6 @@ if &runtimepath =~ 'coc'
         \'coc-go',
         \'coc-css',
         \'coc-yaml',
-        \'coc-snippets',
         \]
 endif
 
