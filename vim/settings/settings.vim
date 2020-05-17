@@ -1,7 +1,7 @@
 set nocp
 syntax on
 if has('clipboard')
-  set clipboard=unnamed        " uses system clipboard for copy pasting
+  set clipboard=unnamedplus        " uses system clipboard for copy pasting
 endif
 set shell=sh                   " Faster than whatever the default shell will be
 set hidden                     " a buffer becomes hidden when it is abandoned.

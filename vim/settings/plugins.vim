@@ -18,7 +18,6 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'machakann/vim-sandwich'                       " Love this thing
   Plug 'machakann/vim-swap'                           " Use to swap args in lists/funcs
   Plug 'machakann/vim-textobj-functioncall'
-  Plug 'mg979/vim-visual-multi', {'branch': 'master'} " Ehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
   Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
   Plug 'tpope/vim-commentary'                         " You know, for commenting
 
@@ -166,6 +165,7 @@ if &runtimepath =~ 'coc'
         \'coc-vimlsp',
         \'coc-elixir',
         \'coc-tsserver',
+        \'coc-rust-analyzer',
         \'coc-prettier',
         \'coc-eslint',
         \'coc-go',

@@ -47,7 +47,7 @@ nnoremap <S-Tab> <<
 vnoremap <Tab> >
 vnoremap <S-Tab> <
 
-" nnoremap <C-n> *#cgn
+nnoremap <C-n> *#cgn
 
 " HERESY
 inoremap <C-A> <Home>
