@@ -371,192 +371,72 @@ if &runtimepath =~ 'sandwich'
     nmap . <Plug>(operator-sandwich-dot)
   endif
 
+  function! StructInput() abort
+    let s:StructLast = input('Struct: ')
+    if s:StructLast !=# ''
+      let struct = printf('%%%s{', s:StructLast)
+    else
+      throw 'OperatorSandwichCancel'
+    endif
+    return [struct, '}']
+  endfunction
+
+  function! GenericInput() abort
+    let s:GenericLast = input('Generic: ')
+    if s:GenericLast !=# ''
+      let struct = printf('%s<', s:GenericLast)
+    else
+      throw 'OperatorSandwichCancel'
+    endif
+    return [struct, '>']
+  endfunction
+
+  let g:sandwich#magicchar#f#patterns = [
+	\   {
+	\     'header' : '\h*\:*\h*',
+	\     'bra'    : '(',
+	\     'ket'    : ')',
+	\     'footer' : '',
+	\   },
+	\ ] 
+
   " Default recipes
-  let g:sandwich#recipes = [
-        \   {
-        \     'buns': ['\s\+', '\s\+'],
-        \     'regex': 1,
-        \     'kind': ['delete', 'replace', 'query'],
-        \     'input': [' ']
-        \   },
-        \
-        \   {
-        \     'buns':         ['', ''],
-        \     'action':       ['add'],
-        \     'motionwise':   ['line'],
-        \     'linewise':     1,
-        \     'input':        ["\<CR>"]
-        \   },
-        \
-        \   {
-        \     'buns':         ['^$', '^$'],
-        \     'regex':        1,
-        \     'linewise':     1,
-        \     'input':        ["\<CR>"]
-        \   },
-        \
-        \   {
-        \     'buns':         ['<', '>'],
-        \     'expand_range': 0,
-        \     'match_syntax': 1,
-        \     'input':        ['>', 'a'],
-        \   },
-        \
-        \   {
-        \     'buns':         ['`', '`'],
-        \     'quoteescape':  1,
-        \     'expand_range': 0,
-        \     'nesting':      0,
-        \     'linewise':     0,
-        \     'match_syntax': 1,
-        \   },
-        \
-        \   {
-        \     'buns':         ['"', '"'],
-        \     'quoteescape':  1,
-        \     'expand_range': 0,
-        \     'nesting':      0,
-        \     'linewise':     0,
-        \     'match_syntax': 1,
-        \   },
-        \
-        \   {
-        \     'buns':         ["'", "'"],
-        \     'quoteescape':  1,
-        \     'expand_range': 0,
-        \     'nesting':      0,
-        \     'linewise':     0,
-        \     'match_syntax': 1,
-        \   },
-        \
-        \   {
-        \     'buns':         ['{', '}'],
-        \     'nesting':      1,
-        \     'match_syntax': 1,
-        \     'skip_break':   1,
-        \     'input':        ['{', '}', 'B'],
-        \   },
-        \
-        \   {
-        \     'buns':         ['[', ']'],
-        \     'nesting':      1,
-        \     'match_syntax': 1,
-        \     'input':        ['[', ']', 'r'],
-        \   },
-        \
-        \   {
-        \     'buns':         ['(', ')'],
-        \     'nesting':      1,
-        \     'match_syntax': 1,
-        \     'input':        ['(', ')', 'b'],
-        \   },
-        \
-        \   {
-        \     'buns': 'sandwich#magicchar#t#tag()',
-        \     'listexpr': 1,
-        \     'kind': ['add'],
-        \     'action': ['add'],
-        \     'input': ['t'],
-        \   },
-        \
-        \   {
-        \     'buns': 'sandwich#magicchar#t#tag()',
-        \     'listexpr': 1,
-        \     'kind': ['replace'],
-        \     'action': ['add'],
-        \     'input': ['T', '<'],
-        \   },
-        \
-        \   {
-        \     'buns': 'sandwich#magicchar#t#tagname()',
-        \     'listexpr': 1,
-        \     'kind': ['replace'],
-        \     'action': ['add'],
-        \     'input': ['t'],
-        \   },
-        \
-        \   {
-        \     'external': ['it', 'at'],
-        \     'noremap': 1,
-        \     'kind': ['delete', 'textobj'],
-        \     'expr_filter': ['operator#sandwich#kind() !=# "replace"'],
-        \     'synchro': 1,
-        \     'linewise': 1,
-        \     'input': ['t', 'T', '<'],
-        \   },
-        \
-        \   {
-        \     'external': ['it', 'at'],
-        \     'noremap': 1,
-        \     'kind': ['replace', 'query'],
-        \     'expr_filter': ['operator#sandwich#kind() ==# "replace"'],
-        \     'synchro': 1,
-        \     'input': ['T', '<'],
-        \   },
-        \
-        \   {
-        \     'external': ["\<Plug>(textobj-sandwich-tagname-i)", "\<Plug>(textobj-sandwich-tagname-a)"],
-        \     'noremap': 0,
-        \     'kind': ['replace', 'textobj'],
-        \     'expr_filter': ['operator#sandwich#kind() ==# "replace"'],
-        \     'synchro': 1,
-        \     'input': ['t'],
-        \   },
-        \
-        \   {
-        \     'buns': ['sandwich#magicchar#f#fname()', '")"'],
-        \     'kind': ['add', 'replace'],
-        \     'action': ['add'],
-        \     'expr': 1,
-        \     'input': ['f']
-        \   },
-        \
-        \   {
-        \     'external': ["\<Plug>(textobj-sandwich-function-ip)", "\<Plug>(textobj-sandwich-function-i)"],
-        \     'noremap': 0,
-        \     'kind': ['delete', 'replace', 'query'],
-        \     'input': ['f']
-        \   },
-        \
-        \   {
-        \     'external': ["\<Plug>(textobj-sandwich-function-ap)", "\<Plug>(textobj-sandwich-function-a)"],
-        \     'noremap': 0,
-        \     'kind': ['delete', 'replace', 'query'],
-        \     'input': ['F']
-        \   },
-        \
-        \   {
-        \     'buns': 'sandwich#magicchar#i#input("operator")',
-        \     'kind': ['add', 'replace'],
-        \     'action': ['add'],
-        \     'listexpr': 1,
-        \     'input': ['i'],
-        \   },
-        \
-        \   {
-        \     'buns': 'sandwich#magicchar#i#input("textobj", 1)',
-        \     'kind': ['delete', 'replace', 'query'],
-        \     'listexpr': 1,
-        \     'regex': 1,
-        \     'synchro': 1,
-        \     'input': ['i'],
-        \   },
-        \
-        \   {
-        \     'buns': 'sandwich#magicchar#i#lastinput("operator", 1)',
-        \     'kind': ['add', 'replace'],
-        \     'action': ['add'],
-        \     'listexpr': 1,
-        \     'input': ['I'],
-        \   },
-        \
-        \   {
-        \     'buns': 'sandwich#magicchar#i#lastinput("textobj")',
-        \     'kind': ['delete', 'replace', 'query'],
-        \     'listexpr': 1,
-        \     'regex': 1,
-        \     'synchro': 1,
-        \     'input': ['I'],
-        \   },
-        \ ]
+  let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+  let g:sandwich#recipes += [
+      \   {
+      \     'buns'    : ['%{', '}'],
+      \     'input'   : ['m'],
+      \     'nesting' : 1
+      \   },
+      \   {
+      \     'buns'    : 'StructInput()',
+      \     'kind'    : ['add', 'replace', 'delete'],
+      \     'action'  : ['add'],
+      \     'input'   : ['s'],
+      \     'listexpr': 1,
+      \     'nesting' : 1
+      \   },
+      \   {
+      \     'buns'    : 'GenericInput()',
+      \     'kind'    : ['add', 'replace'],
+      \     'action'  : ['add'],
+      \     'input'   : ['g'],
+      \     'listexpr': 1,
+      \     'nesting' : 1
+      \   },
+      \   {
+      \     'buns'    : ['\w\+<', '>'],
+      \     'input'   : ['g'],
+      \     'nesting' : 1,
+      \     'regex'   : 1,
+      \   },
+      \ ]
+
+      " \   {
+      " \     'buns'    : ['%\w\+{', '}'],
+      " \     'kind'    : ['delete'],
+      " \     'input'   : ['s'],
+      " \     'nesting' : 1,
+      " \     'regex'   : 1,
+      " \   },
 endif
