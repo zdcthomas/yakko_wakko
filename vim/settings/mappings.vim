@@ -41,12 +41,6 @@ nnoremap <Right> :vertical resize +5<Cr>
 nnoremap <Leader>w<Leader>l :vsp<CR>
 nnoremap <Leader>w<Leader>j :sp<CR>
 
-" Circular window nav
-nnoremap <Tab> >>
-nnoremap <S-Tab> <<
-vnoremap <Tab> >
-vnoremap <S-Tab> <
-
 nnoremap <C-n> :let @/=expand('<cword>')<cr>cgn
 
 " HERESY

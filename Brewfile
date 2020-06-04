@@ -31,7 +31,7 @@ brew "npm"
 brew "pipes-sh"
 brew "postgresql", restart_service: true
 brew "pyenv"
-brew "ranger"
+brew "lf"
 brew "rbenv"
 brew "readline"
 brew "redis", restart_service: true

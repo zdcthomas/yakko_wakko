@@ -22,7 +22,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'tpope/vim-commentary'                         " You know, for commenting
 
   "=================================== FILE ================================================
-  Plug 'francoiscabrol/ranger.vim'                    " File management
+  Plug 'ptzz/lf.vim'
   " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " for the actual bin
   Plug 'junegunn/fzf.vim'
   Plug '~/.fzf'
@@ -75,7 +75,8 @@ call plug#begin('~/.vim/z_plugins')
                                                       " (tpopes has MixedCase, i prefer CamelCase, pr is open https://github.com/tpope/vim-abolish/pull/89)
 call plug#end()
 
-if &runtimepath =~ 'sneak'
+if &runtimepath =~ 'hardtime'
+  let g:hardtime_default_on = 1
   " map f <Plug>Sneak_s
   " map F <Plug>Sneak_S
 endif
@@ -317,6 +318,13 @@ if &runtimepath =~ 'gruvbox'
     " colorscheme base16-altier-lakeside-light
     " colorscheme onehalfdark
   endif
+endif
+
+
+if &runtimepath =~ 'lf'
+  let g:lf_map_keys = 0
+  nnoremap <leader>n :Lf<CR>
+  let g:lf_replace_netrw = 1
 endif
 
 if &runtimepath =~ 'ranger'
