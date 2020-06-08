@@ -50,3 +50,6 @@ inoremap <C-E> <End>
 inoremap <C-F> <Right>
 inoremap <A-f> <Esc>lwi
 inoremap <A-b> <Esc>bi
+
+" makes more sense 
+nnoremap Y y$

@@ -438,13 +438,13 @@ if &runtimepath =~ 'sandwich'
       \     'nesting' : 1,
       \     'regex'   : 1,
       \   },
+      \   {
+      \     'buns'    : ['#{', '}'],
+      \     'input'   : ['n'],
+      \     'nesting' : 1
+      \   },
       \ ]
-
-      " \   {
-      " \     'buns'    : ['%\w\+{', '}'],
-      " \     'kind'    : ['delete'],
-      " \     'input'   : ['s'],
-      " \     'nesting' : 1,
-      " \     'regex'   : 1,
-      " \   },
+  " n = iNterpolate
+  " m = Map
+  " g = Generic
 endif
