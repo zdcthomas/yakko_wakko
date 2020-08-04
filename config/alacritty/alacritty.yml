@@ -202,6 +202,7 @@ key_bindings:
  - { key: X,        mods: Alt,     chars: "\x1bx"                           }
  - { key: Y,        mods: Alt,     chars: "\x1by"                           }
  - { key: Z,        mods: Alt,     chars: "\x1bz"                           }
+ - { key: Semicolon,mods: Alt,     chars: "\x1b;"                           }
  - { key: F1,                      chars: "\x1bOP"                          }
  - { key: F2,                      chars: "\x1bOQ"                          }
  - { key: F3,                      chars: "\x1bOR"                          }

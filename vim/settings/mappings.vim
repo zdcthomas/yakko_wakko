@@ -2,6 +2,7 @@ let mapleader = " "
 
 " remaps for the sake of civility
 nnoremap ; :
+nnoremap <Leader>; ;
 
 " I rarely use these tbh
 imap <C-h> <C-o>h

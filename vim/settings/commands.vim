@@ -8,6 +8,10 @@ function! TmuxSend(direction, command, text)
   silent execute full_command
 endfunction
 
+function! Credo()
+  cexpr(system("mix credo list --strict --format=flycheck"))
+endfunction
+
 function! GitUnStagedChanges()
   let list = []
 
@@ -59,6 +63,7 @@ augroup zthomas
   autocmd FileType elixir :ab io \|> IO.inspect()
   autocmd FileType elixir :nnoremap <Leader>tl :call TmuxSend("right", "mix test", "%")<Cr>
   autocmd FileType elixir :nnoremap <Leader>ttl :call TmuxSend("right", "mix test", expand("%") . ":" . line('.'))<Cr>
+  autocmd BufWrite elixir :%!mix format -<Cr>
 
   autocmd FileType ruby :ab bind require 'pry';binding.pry
   autocmd FileType ruby :nnoremap <Leader>tl :call TmuxSend("right", "rspec", "%")<Cr>
