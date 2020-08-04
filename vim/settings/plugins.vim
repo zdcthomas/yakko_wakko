@@ -20,6 +20,8 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'machakann/vim-textobj-functioncall'
   Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
   Plug 'tpope/vim-commentary'                         " You know, for commenting
+  Plug 'simnalamburt/vim-mundo'
+  Plug 'tpope/vim-dispatch'
 
   "=================================== FILE ================================================
   Plug 'ptzz/lf.vim'
@@ -447,4 +449,26 @@ if &runtimepath =~ 'sandwich'
   " n = iNterpolate
   " m = Map
   " g = Generic
+endif
+
+if &runtimepath =~ 'mundo'
+  function LensToggle() abort
+    if g:lens#disabled
+      let g:lens#disabled=0
+    else
+      let g:lens#disabled=1
+    endif
+  endfunction
+
+  function DoMundo() abort
+    call LensToggle()
+    MundoToggle
+  endfunction
+
+  nnoremap <Leader>u :call DoMundo()<Cr>
+  " augroup mund
+  "   autocmd!
+  "   autocmd BufEnter __Mundo__ :call LensToggle()
+    
+  " augroup END
 endif

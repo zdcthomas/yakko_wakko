@@ -122,5 +122,7 @@
     "workbench.panel.defaultLocation": "right",
     "terminal.integrated.rendererType": "canvas",
     "terminal.external.osxExec": "ITerm2.app",
-    "vim.vimrc.enable": true
+    "vim.vimrc.enable": true,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue"
     }

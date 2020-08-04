@@ -12,5 +12,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.mix/escripts:$PATH"
 export NNN_TMPFILE="/tmp/nnn"
 export TERM=screen-256color
+export MANPAGER="nvim -c 'set ft=man' -"
