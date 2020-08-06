@@ -332,7 +332,7 @@ if &runtimepath =~ 'lightline'
 
   augroup LightLineStuff
     autocmd!
-    autocmd BufEnter * let g:light_line_git_branch = GitBranch()
+    autocmd FocusGained * let g:light_line_git_branch = GitBranch()
     
   augroup END
 
@@ -342,7 +342,11 @@ if &runtimepath =~ 'lightline'
   endfunction
 
   function! GetGitBranch()
-    return g:light_line_git_branch
+    if exists('g:light_line_git_branch')
+      return g:light_line_git_branch
+    else
+      ''
+    endif
   endfunction
 
   function! LightlineFilename()
