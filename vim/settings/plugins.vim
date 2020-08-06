@@ -51,7 +51,8 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
 
   "=================================== STATUS LINE =========================================
-  Plug 'vim-airline/vim-airline'  
+  " Plug 'vim-airline/vim-airline'  
+  Plug 'itchyny/lightline.vim'
 
   "=================================== WINDOW ==============================================
   Plug 'moll/vim-bbye'         " Needed for ranger to be nice
@@ -321,6 +322,63 @@ if &runtimepath =~ 'gruvbox'
     " colorscheme onehalfdark
   endif
 endif
+
+
+" This has to be below wherever the colorscheme is set
+if &runtimepath =~ 'lightline'
+  function! GitBranch()
+    return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+  endfunction
+
+  augroup LightLineStuff
+    autocmd!
+    autocmd BufEnter * let g:light_line_git_branch = GitBranch()
+    
+  augroup END
+
+  function! LightlineGitGutter()
+    let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
+    return printf('+%d ~%d -%d', l:added, l:modified, l:removed)
+  endfunction
+
+  function! GetGitBranch()
+    return g:light_line_git_branch
+  endfunction
+
+  function! LightlineFilename()
+    let root = fnamemodify(get(b:, 'git_dir'), ':h')
+    let path = expand('%:p')
+    if path[:len(root)-1] ==# root
+      return path[len(root)+1:]
+    endif
+    return expand('%')
+  endfunction
+
+  function! LightlineReadonly()
+    return &readonly && &filetype !=# 'help' ? 'RO' : ''
+  endfunction
+
+  " materia
+  " PaperColor
+  " Tomorrow_Night_Eighties
+  " seoul256
+  let g:lightline = {
+      \ 'colorscheme': 'PaperColor',
+      \ 'active': {
+      \   'left': [ ['mode', 'paste'], [ 'githunks', 'gitbranch', 'readonly'] ],
+      \   'right': [ [ 'lineinfo' ], [ 'percent' ],  ['filename', 'filetype'] ]
+      \   },
+      \ 'component_function': {
+      \   'githunks': 'LightlineGitGutter',
+      \   'filename': 'LightlineFilename',
+      \   'readonly': 'LightlineReadonly',
+      \   'gitbranch': 'GetGitBranch'
+      \   },
+      \ 'component': {
+      \   'filename': '%<%{LightLineFilename()}',
+      \   },
+      \ }
+end
 
 
 if &runtimepath =~ 'lf'
