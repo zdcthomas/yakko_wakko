@@ -8,10 +8,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
   Plug 'Julian/vim-textobj-variable-segment'          " TO for |this|_part_of_a_var
-  Plug 'Yggdroot/indentLine'                          " Display Indentation
-  Plug 'dhruvasagar/vim-table-mode'
   Plug 'easymotion/vim-easymotion'
-  Plug 'jiangmiao/auto-pairs'
   Plug 'junegunn/vim-easy-align'                      " Easily align text on a specific character
   Plug 'kana/vim-textobj-user'
   Plug 'machakann/vim-highlightedyank'
@@ -19,9 +16,16 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'machakann/vim-swap'                           " Use to swap args in lists/funcs
   Plug 'machakann/vim-textobj-functioncall'
   Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
-  Plug 'tpope/vim-commentary'                         " You know, for commenting
   Plug 'simnalamburt/vim-mundo'
+  Plug 'tpope/vim-commentary'                         " You know, for commenting
   Plug 'tpope/vim-dispatch'
+
+
+  "=================================== AUTO PAIRING POSSIBILITIES ===============================
+  " I hate all of them but they're pretty convenient
+  Plug 'cohama/lexima.vim'
+  " Plug 'jiangmiao/auto-pairs'
+  " Plug 'Raimondi/delimitMate'
 
   "=================================== FILE ================================================
   Plug 'ptzz/lf.vim'
@@ -34,18 +38,18 @@ call plug#begin('~/.vim/z_plugins')
 
   "=================================== LANGUAGE ============================================
   Plug 'Zaptic/elm-vim'
+  Plug 'cespare/vim-toml'
   Plug 'chrisbra/Colorizer'
+  Plug 'chriskempson/base16-vim'
   Plug 'elixir-editors/vim-elixir'
+  Plug 'gleam-lang/gleam.vim'
+  Plug 'hashivim/vim-terraform'
+  Plug 'ianks/vim-tsx'
+  Plug 'keith/swift.vim'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'pangloss/vim-javascript'
   Plug 'rust-lang/rust.vim'
   Plug 'tpope/vim-scriptease'
-  Plug 'hashivim/vim-terraform'
-  Plug 'leafgarland/typescript-vim'
-  Plug 'ianks/vim-tsx'
-  Plug 'pangloss/vim-javascript'
-  Plug 'keith/swift.vim'
-  Plug 'gleam-lang/gleam.vim'
-  Plug 'cespare/vim-toml'
-  Plug 'chriskempson/base16-vim'
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
@@ -78,12 +82,6 @@ call plug#begin('~/.vim/z_plugins')
                                                       " (tpopes has MixedCase, i prefer CamelCase, pr is open https://github.com/tpope/vim-abolish/pull/89)
 call plug#end()
 
-if &runtimepath =~ 'hardtime'
-  let g:hardtime_default_on = 1
-  " map f <Plug>Sneak_s
-  " map F <Plug>Sneak_S
-endif
-
 if &runtimepath =~ 'textobj'
   call textobj#user#plugin('generic', {
   \   'generic': {
@@ -115,6 +113,11 @@ if &runtimepath =~ 'lens'
 endif
 
 if &runtimepath =~ 'multi-cursor'
+endif
+
+if &runtimepath =~ 'lexima'
+  let g:lexima_enable_newline_rules = 0
+  let g:lexima_enable_endwise_rules = 0
 endif
 
 " =================================  COC  ===========================================
