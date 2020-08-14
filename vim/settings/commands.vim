@@ -14,7 +14,6 @@ endfunction
 
 function! GitUnStagedChanges()
   let list = []
-
     let command = "git --no-pager diff --no-ext-diff --no-color -U0 
           \ | sed 's/diff --git//g' 
           \ | sed 's/a\\/.* //g' 
@@ -60,6 +59,7 @@ augroup zthomas
   autocmd VimEnter * hi Normal ctermbg=none
 
   autocmd FileType elixir :ab bind require IEx;IEx.pry
+  autocmd FileType elixir :ab fn fn -> <cr>end<esc>k$F-hi 
   autocmd FileType elixir :ab io \|> IO.inspect()
   autocmd FileType elixir :nnoremap <Leader>tl :call TmuxSend("right", "mix test", "%")<Cr>
   autocmd FileType elixir :nnoremap <Leader>ttl :call TmuxSend("right", "mix test", expand("%") . ":" . line('.'))<Cr>

@@ -60,6 +60,12 @@ cmd open ${{
 map <enter> open
 
 
+cmd dmux ${{
+    dmux .
+}}
+
+map t dmux
+
 # define a custom 'rename' command without prompt for overwrite
 # cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
 # map r push :rename<space>
@@ -96,7 +102,7 @@ map D trash
 
 # use '<delete>' key for either 'trash' or 'delete' command
 # map <delete> trash
-# map <delete> delete
+map <delete> delete
 
 cmd mkdir %mkdir "$@"
 map O push :mkdir<space>
@@ -137,7 +143,7 @@ cmd zip ${{
 }}
 
 cmd fzf_jump ${{
-   res="$(find . -maxdepth 1 | fzf --reverse --header='Jump to location')"
+   res="$(find . -maxdepth 3 | fzf --reverse --header='Jump to location')"
    if [ -f "$res" ]; then
      cmd="select"
    elif [ -d "$res" ]; then
@@ -145,4 +151,4 @@ cmd fzf_jump ${{
    fi
 lf -remote "send $id $cmd \"$res\""
 }}
-map <c-f> :fzf_jump
+map / :fzf_jump
