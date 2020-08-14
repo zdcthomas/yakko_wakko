@@ -15,21 +15,20 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'machakann/vim-sandwich'                       " Love this thing
   Plug 'machakann/vim-swap'                           " Use to swap args in lists/funcs
   Plug 'machakann/vim-textobj-functioncall'
+  Plug 'glts/vim-textobj-comment'
   Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
   Plug 'simnalamburt/vim-mundo'
   Plug 'tpope/vim-commentary'                         " You know, for commenting
   Plug 'tpope/vim-dispatch'
 
-
   "=================================== AUTO PAIRING POSSIBILITIES ===============================
   " I hate all of them but they're pretty convenient
-  Plug 'cohama/lexima.vim'
+  " Plug 'cohama/lexima.vim'
   " Plug 'jiangmiao/auto-pairs'
   " Plug 'Raimondi/delimitMate'
 
   "=================================== FILE ================================================
   Plug 'ptzz/lf.vim'
-  " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " for the actual bin
   Plug 'junegunn/fzf.vim'
   Plug '~/.fzf'
 
@@ -53,9 +52,9 @@ call plug#begin('~/.vim/z_plugins')
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
+  Plug 'antoinemadec/coc-fzf'
 
   "=================================== STATUS LINE =========================================
-  " Plug 'vim-airline/vim-airline'  
   Plug 'itchyny/lightline.vim'
 
   "=================================== WINDOW ==============================================
@@ -68,7 +67,6 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== COLOR SCHEMES ======================================
   Plug 'gruvbox-community/gruvbox'    
   Plug 'sonph/onehalf', {'rtp': 'vim'}
-  " Plug 'dylanaraps/wal' " I should really get this working
 
   "=================================== UI =================================================
   Plug 'mhinz/vim-startify'    " pretty startup
@@ -116,8 +114,8 @@ if &runtimepath =~ 'multi-cursor'
 endif
 
 if &runtimepath =~ 'lexima'
-  let g:lexima_enable_newline_rules = 0
-  let g:lexima_enable_endwise_rules = 0
+  " let g:lexima_enable_newline_rules = 0
+  " let g:lexima_enable_endwise_rules = 0
 endif
 
 " =================================  COC  ===========================================
@@ -128,10 +126,11 @@ if &runtimepath =~ 'coc'
       \ coc#refresh()
 
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-  " Coc only does snippet and additional edit on confirm.
-  inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-
+  " if exists('*complete_info')
+  "   inoremap <expr> <cr> complete_info()["selected"] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
+  " else
+    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+  " endif
   let g:coc_snippet_next = '<c-j>'
   let g:coc_snippet_previous = '<c-k>'
 
@@ -148,22 +147,26 @@ if &runtimepath =~ 'coc'
     endif
   endfunction
 
-  function! s:cocActionsOpenFromSelected(type) abort
-    execute 'CocCommand actions.open ' . a:type
-  endfunction
+  " function! s:cocActionsOpenFromSelected(type) abort
+  "   execute 'CocCommand actions.open ' . a:type
+  " endfunction
 
-  autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+  augroup Coc
+    autocmd!
+    autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
+  augroup END
 
   nnoremap <silent> gd :call CocAction('jumpDefinition')<Cr>
-  nnoremap <silent> <Leader>gdl :call CocAction('jumpDefinition', 'vsplit')<Cr>
-  nnoremap <silent> <Leader>gdj :call CocAction('jumpDefinition', 'split')<Cr>
+  nnoremap <silent> gdl :call CocAction('jumpDefinition', 'vsplit')<Cr>
+  nnoremap <silent> gdj :call CocAction('jumpDefinition', 'split')<Cr>
   nnoremap <silent> gh :call CocAction('doHover')<Cr>
   nmap <silent> gr <Plug>(coc-references)
   nmap <silent> gt <Plug>(coc-type-definition)
   nmap <Leader>rn <Plug>(coc-rename)
   nmap <silent> <Leader>l <Plug>(coc-codelens-action)
-  xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-  nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+  " xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+  " nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+
   nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
   nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
   nmap <Leader>fq <Plug>(coc-fix-current)
@@ -179,6 +182,12 @@ if &runtimepath =~ 'coc'
         \'coc-css',
         \'coc-yaml',
         \]
+
+  if &runtimepath=~'coc-fzf'
+    nnoremap <silent> <leader>o  :<C-u>CocFzfList outline<CR>
+    nnoremap <silent> <leader>ea :<C-u>CocFzfList diagnostics<CR>
+    nnoremap <silent> <leader>eb :<C-u>CocFzfList location<CR>
+  endif
 endif
 
 " ================================= EASYMOTION ===========================================
@@ -223,18 +232,6 @@ if &runtimepath =~ 'startify'
   let g:startify_custom_header = g:ascii
 endif
 
-" ================================= INDENTLINE =============================================
-if &runtimepath =~ 'indent'
-  let g:indentLine_enabled = 0
-  nnoremap <Leader>it :IndentLinesToggle<Cr>
-endif
-
-" ================================= AIRLINE =============================================
-if &runtimepath =~ 'vim-airline'
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#formatter = 'default'
-endif
-
 " ================================= BBYE ================================================
 if &runtimepath =~ 'vim-bbye'
   command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
@@ -254,7 +251,7 @@ if &runtimepath =~ 'fzf'
   let g:fzf_buffers_jump = 1
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
-  nnoremap <silent> <Leader>G :Lines<CR>
+  " nnoremap <silent> <Leader>G :Lines<CR>
   nnoremap <silent> <Leader>gf :GFiles?<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
   " Maybe make this a thing that asks for input ||    ||
@@ -304,15 +301,6 @@ if &runtimepath =~ 'swap'
   xmap aa <Plug>(swap-textobject-a)
 endif
 
-if &runtimepath =~ 'sideways'
-  nnoremap <Leader>h :SidewaysLeft<cr>
-  nnoremap <Leader>l :SidewaysRight<cr>
-  omap aa <Plug>SidewaysArgumentTextobjA
-  xmap aa <Plug>SidewaysArgumentTextobjA
-  omap ia <Plug>SidewaysArgumentTextobjI
-  xmap ia <Plug>SidewaysArgumentTextobjI
-endif
-
 if &runtimepath =~ 'gruvbox'
   if has('nvim')
     colorscheme gruvbox
@@ -320,9 +308,6 @@ if &runtimepath =~ 'gruvbox'
       hi Normal guibg=NONE
       hi Normal ctermbg=NONE guibg=NONE
     endif
-  else
-    " colorscheme base16-altier-lakeside-light
-    " colorscheme onehalfdark
   endif
 endif
 
@@ -333,10 +318,22 @@ if &runtimepath =~ 'lightline'
     return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
   endfunction
 
+	function! StatusDiagnostic() abort
+	  let info = get(b:, 'coc_diagnostic_info', {})
+	  if empty(info) | return '' | endif
+	  let msgs = []
+	  if get(info, 'error', 0)
+	    call add(msgs, 'E' . info['error'])
+	  endif
+	  if get(info, 'warning', 0)
+	    call add(msgs, 'W' . info['warning'])
+	  endif
+	  return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
+	endfunction
+
   augroup LightLineStuff
     autocmd!
     autocmd FocusGained * let g:light_line_git_branch = GitBranch()
-    
   augroup END
 
   function! LightlineGitGutter()
@@ -372,21 +369,22 @@ if &runtimepath =~ 'lightline'
   let g:lightline = {
       \ 'colorscheme': 'PaperColor',
       \ 'active': {
-      \   'left': [ ['mode', 'paste'], [ 'githunks', 'gitbranch', 'readonly'] ],
-      \   'right': [ [ 'lineinfo' ], [ 'percent' ],  ['filename', 'filetype'] ]
+      \   'left': [ ['mode', 'paste'], ['filename',  'githunks', 'readonly', 'cocstatus'] ],
+      \   'right': [ [ 'lineinfo' ], [ 'percent' ],  ['filetype', 'gitbranch'] ]
       \   },
       \ 'component_function': {
       \   'githunks': 'LightlineGitGutter',
       \   'filename': 'LightlineFilename',
       \   'readonly': 'LightlineReadonly',
-      \   'gitbranch': 'GetGitBranch'
+      \   'gitbranch': 'GetGitBranch',
+      \   'diagnostic': 'StatusDiagnostic',
+      \   'cocstatus': 'coc#status'
       \   },
       \ 'component': {
       \   'filename': '%<%{LightLineFilename()}',
       \   },
       \ }
 end
-
 
 if &runtimepath =~ 'lf'
   let g:lf_map_keys = 0
