@@ -4,6 +4,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+
 call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
@@ -23,7 +24,7 @@ call plug#begin('~/.vim/z_plugins')
 
   "=================================== AUTO PAIRING POSSIBILITIES ===============================
   " I hate all of them but they're pretty convenient
-  " Plug 'cohama/lexima.vim'
+  Plug 'cohama/lexima.vim'
   " Plug 'jiangmiao/auto-pairs'
   " Plug 'Raimondi/delimitMate'
 
