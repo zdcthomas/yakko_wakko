@@ -4,7 +4,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-
 call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
@@ -18,18 +17,16 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'machakann/vim-textobj-functioncall'
   Plug 'glts/vim-textobj-comment'
   Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
-  Plug 'simnalamburt/vim-mundo'
+  Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
   Plug 'tpope/vim-commentary'                         " You know, for commenting
-  Plug 'tpope/vim-dispatch'
+  Plug 'tpope/vim-dispatch', {'on': 'Dispatch'}
 
   "=================================== AUTO PAIRING POSSIBILITIES ===============================
   " I hate all of them but they're pretty convenient
-  Plug 'cohama/lexima.vim'
-  " Plug 'jiangmiao/auto-pairs'
-  " Plug 'Raimondi/delimitMate'
+  Plug 'jiangmiao/auto-pairs'
 
   "=================================== FILE ================================================
-  Plug 'ptzz/lf.vim'
+  Plug 'ptzz/lf.vim', {'on': 'Lf'}
   Plug 'junegunn/fzf.vim'
   Plug '~/.fzf'
 
@@ -37,19 +34,17 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
 
   "=================================== LANGUAGE ============================================
-  Plug 'Zaptic/elm-vim'
-  Plug 'cespare/vim-toml'
+  Plug 'Zaptic/elm-vim', {'for': 'elm'}
+  Plug 'cespare/vim-toml', {'for': 'toml'}
   Plug 'chrisbra/Colorizer'
-  Plug 'chriskempson/base16-vim'
-  Plug 'elixir-editors/vim-elixir'
-  Plug 'gleam-lang/gleam.vim'
+  Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
+  Plug 'gleam-lang/gleam.vim', {'for': 'gleam'}
   Plug 'hashivim/vim-terraform'
   Plug 'ianks/vim-tsx'
-  Plug 'keith/swift.vim'
+  Plug 'keith/swift.vim', {'for': 'swift'}
   Plug 'leafgarland/typescript-vim'
   Plug 'pangloss/vim-javascript'
-  Plug 'rust-lang/rust.vim'
-  Plug 'tpope/vim-scriptease'
+  Plug 'rust-lang/rust.vim', {'for': 'rust'}
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
@@ -59,8 +54,8 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'itchyny/lightline.vim'
 
   "=================================== WINDOW ==============================================
-  Plug 'moll/vim-bbye'         " Needed for ranger to be nice
-  Plug 'segeljakt/vim-silicon' " Taking pictures of code
+  Plug 'moll/vim-bbye'                            " Needed for ranger to be nice
+  Plug 'segeljakt/vim-silicon', {'on': 'Silicon'} " Taking pictures of code
 
   "=================================== HTML ===============================================
   Plug 'mattn/emmet-vim'
@@ -68,6 +63,7 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== COLOR SCHEMES ======================================
   Plug 'gruvbox-community/gruvbox'    
   Plug 'sonph/onehalf', {'rtp': 'vim'}
+  Plug 'chriskempson/base16-vim'
 
   "=================================== UI =================================================
   Plug 'mhinz/vim-startify'    " pretty startup
@@ -75,10 +71,10 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'camspiers/animate.vim' " Needed by lens for nicer moving
 
   "=================================== PERSONAL PLUGINS ===================================
-  Plug 'zdcthomas/vish' " vim fish without the slow stuff
-  Plug 'zdcthomas/medit'    " Used for editing macros
-  Plug 'zdcthomas/vim-abolish'                        " I use this just for camel/snake/pascall case conversion, I should tear that part out
-                                                      " (tpopes has MixedCase, i prefer CamelCase, pr is open https://github.com/tpope/vim-abolish/pull/89)
+  Plug 'zdcthomas/vish', {'for': 'fish'} " vim fish without the slow stuff
+  Plug 'zdcthomas/medit'                 " Used for editing macros
+  Plug 'zdcthomas/vim-abolish'           " I use this just for camel/snake/pascall case conversion, I should tear that part out
+                                         " (tpopes has MixedCase, i prefer CamelCase, pr is open https://github.com/tpope/vim-abolish/pull/89)
 call plug#end()
 
 if &runtimepath =~ 'textobj'
@@ -97,26 +93,13 @@ endif
 if &runtimepath =~ 'auto-pairs'
   augroup AutoPairedUser
     autocmd!
-    au FileType rust     let b:AutoPairs = AutoPairsDefine({'\w\zs<': '>'})
+    au FileType rust let b:AutoPairs = AutoPairsDefine({'\w\zs<': '>'})
   augroup END
-endif
-
-if &runtimepath =~ 'delimit'
-  let g:delimitMate_expand_space = 1
-  let g:delimitMate_expand_cr = 2
 endif
 
 if &runtimepath =~ 'lens'
   let g:lens#height_resize_min = 5
   let g:lens#width_resize_min = 20
-endif
-
-if &runtimepath =~ 'multi-cursor'
-endif
-
-if &runtimepath =~ 'lexima'
-  " let g:lexima_enable_newline_rules = 0
-  " let g:lexima_enable_endwise_rules = 0
 endif
 
 " =================================  COC  ===========================================
@@ -130,7 +113,11 @@ if &runtimepath =~ 'coc'
   " if exists('*complete_info')
   "   inoremap <expr> <cr> complete_info()["selected"] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
   " else
-    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+	inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+				\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+	" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+	" 			\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
   " endif
   let g:coc_snippet_next = '<c-j>'
   let g:coc_snippet_previous = '<c-k>'
@@ -276,12 +263,22 @@ if &runtimepath =~ 'fzf'
     copen
     cc
   endfunction
+  function! RipgrepFzf(query, fullscreen)
+    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  endfunction
+
+  command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
   let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'alt-j': 'split',
   \ 'ctrl-f': function('s:build_quickfix_list'),
   \ 'alt-l': 'vsplit' }
+
 endif
 
 " =================================  GITGUTTER  ===========================================
@@ -315,76 +312,7 @@ endif
 
 " This has to be below wherever the colorscheme is set
 if &runtimepath =~ 'lightline'
-  function! GitBranch()
-    return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-  endfunction
-
-	function! StatusDiagnostic() abort
-	  let info = get(b:, 'coc_diagnostic_info', {})
-	  if empty(info) | return '' | endif
-	  let msgs = []
-	  if get(info, 'error', 0)
-	    call add(msgs, 'E' . info['error'])
-	  endif
-	  if get(info, 'warning', 0)
-	    call add(msgs, 'W' . info['warning'])
-	  endif
-	  return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
-	endfunction
-
-  augroup LightLineStuff
-    autocmd!
-    autocmd FocusGained * let g:light_line_git_branch = GitBranch()
-  augroup END
-
-  function! LightlineGitGutter()
-    let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
-    return printf('+%d ~%d -%d', l:added, l:modified, l:removed)
-  endfunction
-
-  function! GetGitBranch()
-    if exists('g:light_line_git_branch')
-      return g:light_line_git_branch
-    else
-      ''
-    endif
-  endfunction
-
-  function! LightlineFilename()
-    let root = fnamemodify(get(b:, 'git_dir'), ':h')
-    let path = expand('%:p')
-    if path[:len(root)-1] ==# root
-      return path[len(root)+1:]
-    endif
-    return expand('%')
-  endfunction
-
-  function! LightlineReadonly()
-    return &readonly && &filetype !=# 'help' ? 'RO' : ''
-  endfunction
-
-  " materia
-  " PaperColor
-  " Tomorrow_Night_Eighties
-  " seoul256
-  let g:lightline = {
-      \ 'colorscheme': 'PaperColor',
-      \ 'active': {
-      \   'left': [ ['mode', 'paste'], ['filename',  'githunks', 'readonly', 'cocstatus'] ],
-      \   'right': [ [ 'lineinfo' ], [ 'percent' ],  ['filetype', 'gitbranch'] ]
-      \   },
-      \ 'component_function': {
-      \   'githunks': 'LightlineGitGutter',
-      \   'filename': 'LightlineFilename',
-      \   'readonly': 'LightlineReadonly',
-      \   'gitbranch': 'GetGitBranch',
-      \   'diagnostic': 'StatusDiagnostic',
-      \   'cocstatus': 'coc#status'
-      \   },
-      \ 'component': {
-      \   'filename': '%<%{LightLineFilename()}',
-      \   },
-      \ }
+  call SourceFile("~/.vim/settings/plugins/lightline.vim")
 end
 
 if &runtimepath =~ 'lf'
@@ -406,113 +334,7 @@ if &runtimepath =~ 'markdown'
 endif
 
 if &runtimepath =~ 'sandwich'
-  let g:sandwich_no_default_key_mappings = 1
-  let g:operator_sandwich_no_default_key_mappings = 1
-  let g:textobj_sandwich_no_default_key_mappings = 1
-
-  nmap ys <Plug>(operator-sandwich-add)
-  onoremap <SID>line :normal! ^vg_<CR>
-  nmap <silent> yss <Plug>(operator-sandwich-add)<SID>line
-  onoremap <SID>gul g_
-  nmap yS ys<SID>gul
-
-  nmap ds <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
-  nmap dss <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
-  nmap cs <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
-  nmap css <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
-
-  xmap S <Plug>(operator-sandwich-add)
-
-  xmap is <Plug>(textobj-sandwich-query-i)
-  xmap as <Plug>(textobj-sandwich-query-a)
-  omap is <Plug>(textobj-sandwich-query-i)
-  omap as <Plug>(textobj-sandwich-query-a)
-
-  xmap iss <Plug>(textobj-sandwich-auto-i)
-  xmap ass <Plug>(textobj-sandwich-auto-a)
-  omap iss <Plug>(textobj-sandwich-auto-i)
-  omap ass <Plug>(textobj-sandwich-auto-a)
-
-  xmap im <Plug>(textobj-sandwich-literal-query-i)
-  xmap am <Plug>(textobj-sandwich-literal-query-a)
-  omap im <Plug>(textobj-sandwich-literal-query-i)
-  omap am <Plug>(textobj-sandwich-literal-query-a)
-
-  runtime autoload/repeat.vim
-  if hasmapto('<Plug>(RepeatDot)')
-    nmap . <Plug>(operator-sandwich-predot)<Plug>(RepeatDot)
-  else
-    nmap . <Plug>(operator-sandwich-dot)
-  endif
-
-  function! StructInput() abort
-    let s:StructLast = input('Struct: ')
-    if s:StructLast !=# ''
-      let struct = printf('%%%s{', s:StructLast)
-    else
-      throw 'OperatorSandwichCancel'
-    endif
-    return [struct, '}']
-  endfunction
-
-  function! GenericInput() abort
-    let s:GenericLast = input('Generic: ')
-    if s:GenericLast !=# ''
-      let struct = printf('%s<', s:GenericLast)
-    else
-      throw 'OperatorSandwichCancel'
-    endif
-    return [struct, '>']
-  endfunction
-
-  let g:sandwich#magicchar#f#patterns = [
-	\   {
-	\     'header' : '\h*\:*\h*',
-	\     'bra'    : '(',
-	\     'ket'    : ')',
-	\     'footer' : '',
-	\   },
-	\ ] 
-
-  " Default recipes
-  let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
-  let g:sandwich#recipes += [
-      \   {
-      \     'buns'    : ['%{', '}'],
-      \     'input'   : ['m'],
-      \     'nesting' : 1
-      \   },
-      \   {
-      \     'buns'    : 'StructInput()',
-      \     'kind'    : ['add', 'replace', 'delete'],
-      \     'action'  : ['add'],
-      \     'input'   : ['s'],
-      \     'listexpr': 1,
-      \     'nesting' : 1
-      \   },
-      \   {
-      \     'buns'    : 'GenericInput()',
-      \     'kind'    : ['add', 'replace'],
-      \     'action'  : ['add'],
-      \     'input'   : ['g'],
-      \     'listexpr': 1,
-      \     'nesting' : 1
-      \   },
-      \   {
-      \     'buns'    : ['\w\+<', '>'],
-      \     'input'   : ['g'],
-      \     'nesting' : 1,
-      \     'regex'   : 1,
-      \   },
-      \   {
-      \     'buns'    : ['#{', '}'],
-      \     'input'   : ['n'],
-      \     'nesting' : 1
-      \   },
-      \ ]
-  " n = iNterpolate
-  " m = Map
-  " g = Generic
+  call SourceFile("~/.vim/settings/plugins/sandwich_settings.vim")
 endif
 
 if &runtimepath =~ 'mundo'
