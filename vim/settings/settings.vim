@@ -33,7 +33,6 @@ set splitbelow                                          " Split the _below..._ w
 set incsearch                                           " incremental searching
 set ignorecase                                          " ignore case in searching
 set scrolloff=10                                        " Show next 10 lines while scrolling.
-" set fillchars=vert:%                                    " see splits a bit better
 set noequalalways                                       " Don't try to make pages the same size
 set smartcase                                           " Ignore case unless there's a capital
 set nojoinspaces                                        " don't add an extra space between '.' and other chars when joining lines
@@ -42,3 +41,4 @@ set undofile
 set undodir=~/.vim/undo
 set shortmess+=c
 set cmdheight=1
+set updatetime=300
