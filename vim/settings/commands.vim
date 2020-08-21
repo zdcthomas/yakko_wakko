@@ -80,4 +80,7 @@ augroup zthomas
   autocmd FileType json :set conceallevel=0
   autocmd BufRead,BufNewFile bash_profile set filetype=bash
   autocmd BufRead,BufNewFile bashrc set filetype=bash
+
+  autocmd FileType gitcommit setlocal spell
+
 augroup END

@@ -4,11 +4,11 @@ let mapleader = " "
 nnoremap ; :
 nnoremap <Leader>; ;
 
-" I rarely use these tbh
-imap <C-h> <C-o>h
-imap <C-j> <C-o>j
-imap <C-k> <C-o>k
-imap <C-l> <C-o>l
+" " I rarely use these tbh
+" imap <C-h> <C-o>h
+" imap <C-j> <C-o>j
+" imap <C-k> <C-o>k
+" imap <C-l> <C-o>l
 
 " nnoremap H ^
 " vnoremap H ^
@@ -44,13 +44,18 @@ nnoremap <Leader>w<Leader>j :sp<CR>
 
 nnoremap <C-n> :let @/=expand('<cword>')<cr>cgn
 
+map q: :q
+
+" makes more sense 
+nnoremap Y y$
+
 " HERESY
-inoremap <C-A> <Home>
+inoremap <C-A> <c-o>^
 inoremap <C-B> <Left>
 inoremap <C-E> <End>
 inoremap <C-F> <Right>
 inoremap <A-f> <Esc>lwi
 inoremap <A-b> <Esc>bi
 
-" makes more sense 
-nnoremap Y y$
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>

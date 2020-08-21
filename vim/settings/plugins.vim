@@ -8,7 +8,8 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
   Plug 'Julian/vim-textobj-variable-segment'          " TO for |this|_part_of_a_var
-  Plug 'easymotion/vim-easymotion'
+  " I never remember to use it
+  " Plug 'easymotion/vim-easymotion'
   Plug 'junegunn/vim-easy-align'                      " Easily align text on a specific character
   Plug 'kana/vim-textobj-user'
   Plug 'machakann/vim-highlightedyank'
@@ -17,7 +18,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'machakann/vim-textobj-functioncall'
   Plug 'glts/vim-textobj-comment'
   Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
-  Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
+  Plug 'simnalamburt/vim-mundo'
   Plug 'tpope/vim-commentary'                         " You know, for commenting
   Plug 'tpope/vim-dispatch', {'on': 'Dispatch'}
 
@@ -62,13 +63,14 @@ call plug#begin('~/.vim/z_plugins')
 
   "=================================== COLOR SCHEMES ======================================
   Plug 'gruvbox-community/gruvbox'    
+  " Plug 'lifepillar/vim-gruvbox8'
   Plug 'sonph/onehalf', {'rtp': 'vim'}
   Plug 'chriskempson/base16-vim'
 
   "=================================== UI =================================================
   Plug 'mhinz/vim-startify'    " pretty startup
   Plug 'camspiers/lens.vim'    " slightly expand window when entered
-  Plug 'camspiers/animate.vim' " Needed by lens for nicer moving
+  " Plug 'camspiers/animate.vim' " Needed by lens for nicer moving
 
   "=================================== PERSONAL PLUGINS ===================================
   Plug 'zdcthomas/vish', {'for': 'fish'} " vim fish without the slow stuff
@@ -144,7 +146,7 @@ if &runtimepath =~ 'coc'
     autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
   augroup END
 
-  nnoremap <silent> gd :call CocAction('jumpDefinition')<Cr>
+  nnoremap <silent> <Leader>gd :call CocAction('jumpDefinition')<Cr>
   nnoremap <silent> gdl :call CocAction('jumpDefinition', 'vsplit')<Cr>
   nnoremap <silent> gdj :call CocAction('jumpDefinition', 'split')<Cr>
   nnoremap <silent> gh :call CocAction('doHover')<Cr>
@@ -236,15 +238,39 @@ endif
 
 " ================================= FZF =================================================
 if &runtimepath =~ 'fzf'
+  function! RipgrepFzf(query, fullscreen)
+    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  endfunction
+
+  " function! RgWord() abort
+  "   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  "   let command = printf(command_fmt, expand("<cword>"))
+
+  "   let word = expand("<cword>")
+  "   :Rg word<cr>
+  " endfunction
+
+  command! -bang -nargs=* RgWithWord
+    \ call fzf#vim#grep(
+    \   'rg --column --line-number --no-heading --color=always --smart-case -- '.expand("<cword>"), 1,
+    \   fzf#vim#with_preview(), <bang>0)
+
+  command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
   let g:fzf_buffers_jump = 1
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
   " nnoremap <silent> <Leader>G :Lines<CR>
   nnoremap <silent> <Leader>gf :GFiles?<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
-  " Maybe make this a thing that asks for input ||    ||
-  " note: THERE'S SOME WHITESPACE AT THE END OF \/THIS\/ LINE AND IT'S INTENTIONAL
-  nnoremap <silent> <Leader>F :Rg 
+  " TODO: here we should have leader F in visual mode just search for the visual selection
+  " visual selection expantions are hard
+  nnoremap <silent> <Leader>F :RG<CR>
+  nnoremap <silent> <Leader>* :RgWithWord<CR>
   nnoremap <silent> <Leader>C :Colors<CR>
   nnoremap <silent> <Leader>: :Commands<CR>
   nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
@@ -263,15 +289,6 @@ if &runtimepath =~ 'fzf'
     copen
     cc
   endfunction
-  function! RipgrepFzf(query, fullscreen)
-    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
-    let initial_command = printf(command_fmt, shellescape(a:query))
-    let reload_command = printf(command_fmt, '{q}')
-    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-  endfunction
-
-  command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
   let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
