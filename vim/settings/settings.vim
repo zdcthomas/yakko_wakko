@@ -41,3 +41,4 @@ set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20 " Sets cursor shapes
 set undofile
 set undodir=~/.vim/undo
 set shortmess+=c
+set cmdheight=1
