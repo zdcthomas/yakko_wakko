@@ -16,7 +16,7 @@ let g:lightline = {
     \   'diagnostic': 'StatusDiagnostic',
     \   'cocstatus': 'coc#status',
     \   'filetype': 'LightlineFileType',
-    \   'anim': 'Animate'
+    \   'anim': 'AnimateMode'
     \   },
     \ 'component': {
     \   'filename': '%<%{LightLineFilename()}',
@@ -35,21 +35,21 @@ let s:waves = [
   \ '.~"~._.'
   \ ]
 let s:wave_blocks = [
-  \ "▁▂▃▄▅▆▇█▇▆",
-  \ "▂▃▄▅▆▇█▇▆▅",
-  \ "▃▄▅▆▇█▇▆▅▄",
-  \ "▄▅▆▇█▇▆▅▄▃",
-  \ "▅▆▇█▇▆▅▄▃▂",
-  \ "▆▇█▇▆▅▄▃▂▁",
-  \ "▇█▇▆▅▄▃▂▁▂",
-  \ "█▇▆▅▄▃▂▁▂▃",
-  \ "▇▆▅▄▃▂▁▂▃▄",
-  \ "▆▅▄▃▂▁▂▃▄▅",
-  \ "▅▄▃▂▁▂▃▄▅▆",
-  \ "▄▃▂▁▂▃▄▅▆▇",
-  \ "▃▂▁▂▃▄▅▆▇█",
-  \ "▂▁▂▃▄▅▆▇█▇",
-  \ '▁▂▃▄▅▆▇█▇▆',
+  \ "▁▂▃▄▅▆▇█",
+  \ "▂▃▄▅▆▇█▇",
+  \ "▃▄▅▆▇█▇▆",
+  \ "▄▅▆▇█▇▆▅",
+  \ "▅▆▇█▇▆▅▄",
+  \ "▆▇█▇▆▅▄▃",
+  \ "▇█▇▆▅▄▃▂",
+  \ "█▇▆▅▄▃▂▁",
+  \ "▇▆▅▄▃▂▁▂",
+  \ "▆▅▄▃▂▁▂▃",
+  \ "▅▄▃▂▁▂▃▄",
+  \ "▄▃▂▁▂▃▄▅",
+  \ "▃▂▁▂▃▄▅▆",
+  \ "▂▁▂▃▄▅▆▇",
+  \ '▁▂▃▄▅▆▇█',
   \ ]
 let s:bun_bun = [
   \ "(•ㅅ•)",
@@ -77,32 +77,33 @@ let s:dance = [
   \  "\\(@.@)/",
   \ ]
 
-let s:base_animation = s:wave_blocks
-let s:insert_animation = s:dance
-let s:current_animation = s:base_animation
-augroup LightLineStuff
-  autocmd!
-  autocmd FocusGained * let s:light_line_git_branch = GitBranch()
-  autocmd InsertEnter * let s:current_animation = s:insert_animation
-  autocmd InsertLeave * let s:current_animation = s:base_animation
-augroup END
+let s:mode_to_anim = {
+  \ 'n': s:wave_blocks,
+  \ 'i': s:dance,
+  \ }
 
+let s:default_animation = s:dance
 let s:interval = 10
-function Animate() abort
+
+function! AnimateMode() abort
+  let anim = get(s:mode_to_anim, mode(), s:default_animation)
+  return DoAnim(anim)
+endfunction
+
+function! Animate() abort
+  return DoAnim(s:current_animation)
+endfunction
+
+function! DoAnim(animation) abort
   if winwidth(0) < s:lightline_medium_win
     return ""
   endif
-  if s:current_frame >= (len(s:current_animation)  * s:interval)
+  if s:current_frame >= (len(a:animation)  * s:interval)
     let s:current_frame = 0
   endif
   let s:current_frame = s:current_frame + 1
-  return Frame(s:current_frame)
+  return get(a:animation, s:current_frame / s:interval , a:animation[0])
 endfunction
-
-function Frame(frame) abort
-  return get(s:current_animation, a:frame / s:interval , s:current_animation[0])
-endfunction
-
 
 function! LightlineFileType()
   if winwidth(0) < s:lightline_medium_win
@@ -196,3 +197,7 @@ function! LightlineReadonly()
   return &readonly && &filetype !=# 'help' ? 'RO' : ''
 endfunction
 
+augroup LightLineStuff
+  autocmd!
+  autocmd FocusGained * let s:light_line_git_branch = GitBranch()
+augroup END
