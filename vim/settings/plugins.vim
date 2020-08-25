@@ -146,9 +146,9 @@ if &runtimepath =~ 'coc'
     autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
   augroup END
 
-  nnoremap <silent> <Leader>gd :call CocAction('jumpDefinition')<Cr>
-  nnoremap <silent> gdl :call CocAction('jumpDefinition', 'vsplit')<Cr>
-  nnoremap <silent> gdj :call CocAction('jumpDefinition', 'split')<Cr>
+  nnoremap <silent> gd :call CocAction('jumpDefinition')<Cr>
+  nnoremap <silent> <Leader>gdl :call CocAction('jumpDefinition', 'vsplit')<Cr>
+  nnoremap <silent> <Leader>gdj :call CocAction('jumpDefinition', 'split')<Cr>
   nnoremap <silent> gh :call CocAction('doHover')<Cr>
   nmap <silent> gr <Plug>(coc-references)
   nmap <silent> gt <Plug>(coc-type-definition)
@@ -307,6 +307,10 @@ if &runtimepath =~ 'vim-gitgutter'
   nnoremap <Leader>gn :GitGutterNextHunk<CR>
   nnoremap <Leader>gp :GitGutterPrevHunk<CR>
   nnoremap <Leader>gs :GitGutterPreviewHunk<CR>
+  omap ih <Plug>(GitGutterTextObjectInnerPending)
+  omap ah <Plug>(GitGutterTextObjectOuterPending)
+  xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+  xmap ah <Plug>(GitGutterTextObjectOuterVisual)
 endif
 
 if &runtimepath =~ 'swap'

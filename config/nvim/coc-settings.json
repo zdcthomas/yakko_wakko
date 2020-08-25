@@ -10,10 +10,10 @@
     }
   },
   "codeLens.enable": true, 
-  "rust.full_docs": true,
   "diagnostic.virtualText": true,
   "suggest.snippetIndicator": "►",
   "rust-analyzer.inlayHints.chainingHints": false,
+  "rust-analyzer.checkOnSave.command": "clippy",
   "coc.preferences.formatOnSaveFiletypes": ["elixir", "rust", "elm", "typescript", "javascript", "typescriptreact", "typescript.tsx", "javascriptreact", "go"],
   "eslint.filetypes": ["typescript", "javascript", "typescriptreact", "typescript.tsx", "javascriptreact"]
 }
