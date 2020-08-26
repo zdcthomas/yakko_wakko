@@ -5,7 +5,7 @@
 let g:lightline = {
     \ 'colorscheme': 'PaperColor',
     \ 'active': {
-    \   'left': [ ['mode', 'paste'], ['filename',  'githunks', 'readonly', 'cocstatus', 'anim'] ],
+    \   'left': [ ['mode_anim', 'paste'], ['filename',  'githunks', 'readonly', 'cocstatus', 'anim_default'] ],
     \   'right': [ [ 'lineinfo' ], [ 'percent' ],  ['filetype', 'gitbranch'] ]
     \   },
     \ 'component_function': {
@@ -16,12 +16,14 @@ let g:lightline = {
     \   'diagnostic': 'StatusDiagnostic',
     \   'cocstatus': 'coc#status',
     \   'filetype': 'LightlineFileType',
-    \   'anim': 'AnimateMode'
+    \   'anim_default': 'AnimateDefault',
+    \   'mode_anim': 'AnimateMode'
     \   },
     \ 'component': {
     \   'filename': '%<%{LightLineFilename()}',
     \   },
     \ }
+let s:lightline_large_win = 100
 let s:lightline_medium_win = 80
 let s:lightline_small_win = 55
 let s:current_frame = 0
@@ -77,27 +79,69 @@ let s:dance = [
   \  "\\(@.@)/",
   \ ]
 
+let s:possible_anims = [
+  \ s:dance,
+  \ s:bun_bun,
+  \ s:wave_blocks,
+  \ s:waves,
+  \ ]
+
+let s:normal = [
+  \ 'NORMAL',
+  \ ' ORMAL',
+  \ 'N RMAL',
+  \ 'NO MAL',
+  \ 'NOR AL',
+  \ 'NORM L',
+  \ 'NORMA ',
+  \ 'NORMAL',
+  \ 'NORMA ',
+  \ 'NORM L',
+  \ 'NOR AL',
+  \ 'NO MAL',
+  \ 'N RMAL',
+  \ ' ORMAL',
+  \ ]
+
 let s:mode_to_anim = {
-  \ 'n': s:wave_blocks,
+  \ 'n': s:normal,
   \ 'i': s:dance,
+  \ 'ic': s:dance,
+  \ 'ix': s:dance,
+  \ 'v': s:waves,
+  \ 'V': s:wave_blocks,
   \ }
 
-let s:default_animation = s:dance
+
+function! RandomFrom(list) abort
+  let second = system("date +%S")
+  let frames = 60 / len(a:list)
+  let index = second / frames
+  return a:list[index]
+endfunction
+
 let s:interval = 10
+let s:default_animation = RandomFrom(s:possible_anims)
+
+
 
 function! AnimateMode() abort
-  let anim = get(s:mode_to_anim, mode(), s:default_animation)
-  return DoAnim(anim)
+  let anim = get(s:mode_to_anim, mode(), [])
+  if anim != []
+    return DoAnim(anim)
+  else
+    return lightline#mode()
+  endif
 endfunction
 
-function! Animate() abort
-  return DoAnim(s:current_animation)
-endfunction
-
-function! DoAnim(animation) abort
+function! AnimateDefault() abort
   if winwidth(0) < s:lightline_medium_win
     return ""
   endif
+  return DoAnim(s:default_animation)
+endfunction
+
+function! DoAnim(animation) abort
   if s:current_frame >= (len(a:animation)  * s:interval)
     let s:current_frame = 0
   endif
@@ -106,7 +150,7 @@ function! DoAnim(animation) abort
 endfunction
 
 function! LightlineFileType()
-  if winwidth(0) < s:lightline_medium_win
+  if winwidth(0) < s:lightline_large_win
     return ""
   endif
   return &filetype
@@ -130,7 +174,7 @@ function! StatusDiagnostic() abort
 endfunction
 
 function! LightlineGitGutter()
-  if winwidth(0) < s:lightline_medium_win
+  if winwidth(0) < s:lightline_large_win
     return ""
   endif
   let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
