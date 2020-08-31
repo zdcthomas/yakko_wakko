@@ -44,8 +44,6 @@ nnoremap <Leader>w<Leader>j :sp<CR>
 
 nnoremap <C-n> :let @/=expand('<cword>')<cr>cgn
 
-map q: :q
-
 " makes more sense 
 nnoremap Y y$
 

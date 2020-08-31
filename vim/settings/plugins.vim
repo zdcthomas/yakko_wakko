@@ -21,6 +21,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'simnalamburt/vim-mundo'
   Plug 'tpope/vim-commentary'                         " You know, for commenting
   Plug 'tpope/vim-dispatch', {'on': 'Dispatch'}
+  Plug 'dpretet/vim-leader-mapper'
 
   "=================================== AUTO PAIRING POSSIBILITIES ===============================
   " I hate all of them but they're pretty convenient
@@ -46,6 +47,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'leafgarland/typescript-vim'
   Plug 'pangloss/vim-javascript'
   Plug 'rust-lang/rust.vim', {'for': 'rust'}
+  Plug 'nicwest/vim-camelsnek'
 
   "=================================== COMPLETION ==========================================
   Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
@@ -75,7 +77,7 @@ call plug#begin('~/.vim/z_plugins')
   "=================================== PERSONAL PLUGINS ===================================
   Plug 'zdcthomas/vish', {'for': 'fish'} " vim fish without the slow stuff
   Plug 'zdcthomas/medit'                 " Used for editing macros
-  Plug 'zdcthomas/vim-abolish'           " I use this just for camel/snake/pascall case conversion, I should tear that part out
+  " Plug 'zdcthomas/vim-abolish'           " I use this just for camel/snake/pascall case conversion, I should tear that part out
                                          " (tpopes has MixedCase, i prefer CamelCase, pr is open https://github.com/tpope/vim-abolish/pull/89)
 call plug#end()
 
@@ -87,6 +89,18 @@ if &runtimepath =~ 'textobj'
   \     'select-i': 'ig'
   \   }
   \ })
+endif
+
+if &runtimepath =~ 'snek'
+  let g:camelsnek_alternative_camel_commands = 1
+  nnoremap crs :Snek<CR>
+  vnoremap crs :Snek<CR>
+  nnoremap crp :Pascal<CR>
+  vnoremap crp :Pascal<CR>
+  nnoremap crc :Camel<CR>
+  vnoremap crc :Camel<CR>
+  nnoremap crk :Kebab<CR>
+  vnoremap crk :Kebab<CR>
 endif
 
 " potnetial func regex s/\(\.[A-Za-z]*(\)\@<=[a-zA-Z, ]*)/)/
@@ -174,10 +188,29 @@ if &runtimepath =~ 'coc'
         \]
 
   if &runtimepath=~'coc-fzf'
-    nnoremap <silent> <leader>o  :<C-u>CocFzfList outline<CR>
-    nnoremap <silent> <leader>ea :<C-u>CocFzfList diagnostics<CR>
-    nnoremap <silent> <leader>eb :<C-u>CocFzfList location<CR>
+    " nnoremap <silent> <leader>o  :<C-u>CocFzfList outline<CR>
+    " nnoremap <silent> <leader>ea :<C-u>CocFzfList diagnostics<CR>
+    " nnoremap <silent> <leader>eb :<C-u>CocFzfList location<CR>
+    " nnoremap <silent> <leader>ca :<C-u>CocFzfList actions<CR>
+    if &runtimepath=~'leader-mapper'
+      let g:leaderMenu = {'name':  "coc",
+               \'a': [":CocFzfList actions",                   "Actions"],
+               \'c': [":CocFzfList commands",                  "Commands"],
+               \'e': [":CocFzfList extensions",                "Extensions"],
+               \'d': [":CocFzfList diagnostics --current-buf", "Diagnostics, current buffer"],
+               \'D': [":CocFzfList diagnostics",               "All diagnostics"],
+               \'l': [":CocFzfList location",                  "Location"],
+               \'o': [":CocFzfList outline",                   "Outline"],
+               \'L': [":CocLog",                               "Logs"],
+               \'I': [":CocInfo",                              "Logs"],
+               \'C': [":CocConfig",                           "Open coc config"],
+               \'u': [":CocUpdate",                           "Update Coc extensions"],
+               \}
+      
+      nnoremap <silent> <leader>coc :LeaderMapper "coc"<CR>
+    endif
   endif
+
 endif
 
 " ================================= EASYMOTION ===========================================
