@@ -20,7 +20,7 @@ let g:lightline = {
     \   'mode_anim': 'AnimateMode'
     \   },
     \ 'component': {
-    \   'filename': '%<%{LightLineFilename()}',
+    \   'lineinfo': '%3l:%-2v%<',
     \   },
     \ }
 let s:lightline_large_win = 100
@@ -36,6 +36,23 @@ let s:waves = [
   \ '~"~._.~',
   \ '.~"~._.'
   \ ]
+
+let s:fish = [ 
+  \ ">      ",
+  \ "'>     ",
+  \ "('>    ",
+  \ "(('>   ",
+  \ "<(('>  ",
+  \ "><(('> ",
+  \ " ><(('>",
+  \ "  ><(('",
+  \ "   ><((",
+  \ "    ><(",
+  \ "     ><",
+  \ "      >",
+  \ "       ",
+  \ ]
+
 let s:wave_blocks = [
   \ "▁▂▃▄▅▆▇█",
   \ "▂▃▄▅▆▇█▇",
@@ -53,6 +70,7 @@ let s:wave_blocks = [
   \ "▂▁▂▃▄▅▆▇",
   \ '▁▂▃▄▅▆▇█',
   \ ]
+
 let s:bun_bun = [
   \ "(•ㅅ•)",
   \ "(•ㅅ•)",
@@ -84,6 +102,7 @@ let s:possible_anims = [
   \ s:bun_bun,
   \ s:wave_blocks,
   \ s:waves,
+  \ s:fish,
   \ ]
 
 let s:normal = [
@@ -112,7 +131,6 @@ let s:mode_to_anim = {
   \ 'V': s:wave_blocks,
   \ }
 
-
 function! RandomFrom(list) abort
   let second = system("date +%S")
   let frames = 60 / len(a:list)
@@ -121,9 +139,8 @@ function! RandomFrom(list) abort
 endfunction
 
 let s:interval = 10
-let s:default_animation = RandomFrom(s:possible_anims)
-
-
+let s:default_animation = s:fish
+" RandomFrom(s:possible_anims)
 
 function! AnimateMode() abort
   let anim = get(s:mode_to_anim, mode(), [])
