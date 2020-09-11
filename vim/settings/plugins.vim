@@ -7,21 +7,25 @@ endif
 call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
-  Plug 'Julian/vim-textobj-variable-segment'          " TO for |this|_part_of_a_var
-  " I never remember to use it
-  " Plug 'easymotion/vim-easymotion'
+  " " I never remember to use it
+  " " Plug 'easymotion/vim-easymotion'
   Plug 'junegunn/vim-easy-align'                      " Easily align text on a specific character
-  Plug 'kana/vim-textobj-user'
   Plug 'machakann/vim-highlightedyank'
   Plug 'machakann/vim-sandwich'                       " Love this thing
-  Plug 'machakann/vim-swap'                           " Use to swap args in lists/funcs
-  Plug 'machakann/vim-textobj-functioncall'
-  Plug 'glts/vim-textobj-comment'
-  Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
   Plug 'simnalamburt/vim-mundo'
   Plug 'tpope/vim-commentary'                         " You know, for commenting
   Plug 'tpope/vim-dispatch', {'on': 'Dispatch'}
   Plug 'dpretet/vim-leader-mapper'
+  Plug 'AndrewRadev/sideways.vim'                     " just for inserting new elements into the list
+  Plug 'machakann/vim-swap'                           " Use to swap args in lists/funcs, has a 'mode' for lists
+
+
+  "=================================== TEXT OBJECTS ==========================================
+  Plug 'kana/vim-textobj-user'
+  Plug 'glts/vim-textobj-comment'
+  Plug 'machakann/vim-textobj-functioncall'
+  Plug 'Julian/vim-textobj-variable-segment'          " TO for |this|_part_of_a_var
+  Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
 
   "=================================== AUTO PAIRING POSSIBILITIES ===============================
   " I hate all of them but they're pretty convenient
@@ -175,15 +179,14 @@ if &runtimepath =~ 'coc'
   nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
   nmap <Leader>fq <Plug>(coc-fix-current)
   let g:coc_global_extensions = [
-        \'coc-json',
-        \'coc-vimlsp',
+        \'coc-css',
         \'coc-elixir',
-        \'coc-tsserver',
-        \'coc-rust-analyzer',
-        \'coc-prettier',
         \'coc-eslint',
         \'coc-go',
-        \'coc-css',
+        \'coc-json',
+        \'coc-prettier',
+        \'coc-rust-analyzer',
+        \'coc-tsserver',
         \'coc-yaml',
         \]
 
@@ -324,10 +327,10 @@ if &runtimepath =~ 'fzf'
   endfunction
 
   let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
   \ 'alt-j': 'split',
+  \ 'alt-l': 'vsplit',
   \ 'ctrl-f': function('s:build_quickfix_list'),
-  \ 'alt-l': 'vsplit' }
+  \ 'ctrl-t': 'tab split' }
 
 endif
 
@@ -344,6 +347,13 @@ if &runtimepath =~ 'vim-gitgutter'
   omap ah <Plug>(GitGutterTextObjectOuterPending)
   xmap ih <Plug>(GitGutterTextObjectInnerVisual)
   xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+endif
+
+if &runtimepath =~ 'sideways'
+  nmap <leader>si <Plug>SidewaysArgumentInsertBefore
+  nmap <leader>sa <Plug>SidewaysArgumentAppendAfter
+  nmap <leader>sI <Plug>SidewaysArgumentInsertFirst
+  nmap <leader>sA <Plug>SidewaysArgumentAppendLast
 endif
 
 if &runtimepath =~ 'swap'
