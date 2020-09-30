@@ -12,8 +12,12 @@
   "codeLens.enable": true, 
   "diagnostic.virtualText": true,
   "suggest.snippetIndicator": "►",
+  "diagnostic.maxWindowHeight": 20,
+  "diagnostic.maxWindowWidth": 100,
+  "diagnostic.checkCurrentLine": true,
+  "suggest.enablePreview": true,
   "rust-analyzer.inlayHints.chainingHints": true,
   "rust-analyzer.checkOnSave.command": "clippy",
-  "coc.preferences.formatOnSaveFiletypes": ["elixir", "rust", "elm", "typescript", "javascript", "typescriptreact", "typescript.tsx", "javascriptreact", "go"],
-  "eslint.filetypes": ["typescript", "javascript", "typescriptreact", "typescript.tsx", "javascriptreact"]
+  "rust-analyzer.cargo.allFeatures": true,
+  "coc.preferences.formatOnSaveFiletypes": ["elixir", "rust", "elm", "typescript", "javascript", "typescriptreact", "typescript.tsx", "javascriptreact", "go"]
 }

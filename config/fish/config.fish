@@ -44,6 +44,7 @@ end
 
 if type -q nodenv
   status --is-interactive; and source (nodenv init -|psub)
+  set -Ux fish_user_paths $HOME/.nodenv/bin $fish_user_paths
 end
 
 if type -q npm

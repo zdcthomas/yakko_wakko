@@ -7,18 +7,15 @@ endif
 call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'         " The current plugin manager
 "=================================== Text Editing ================================================
-  " " I never remember to use it
-  " " Plug 'easymotion/vim-easymotion'
+  Plug 'AndrewRadev/sideways.vim'                     " just for inserting new elements into the list
+  Plug 'dpretet/vim-leader-mapper'
   Plug 'junegunn/vim-easy-align'                      " Easily align text on a specific character
   Plug 'machakann/vim-highlightedyank'
   Plug 'machakann/vim-sandwich'                       " Love this thing
+  Plug 'machakann/vim-swap'                           " Use to swap args in lists/funcs, has a 'mode' for lists
   Plug 'simnalamburt/vim-mundo'
   Plug 'tpope/vim-commentary'                         " You know, for commenting
   Plug 'tpope/vim-dispatch', {'on': 'Dispatch'}
-  Plug 'dpretet/vim-leader-mapper'
-  Plug 'AndrewRadev/sideways.vim'                     " just for inserting new elements into the list
-  Plug 'machakann/vim-swap'                           " Use to swap args in lists/funcs, has a 'mode' for lists
-
 
   "=================================== TEXT OBJECTS ==========================================
   Plug 'kana/vim-textobj-user'
@@ -52,9 +49,12 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'pangloss/vim-javascript'
   Plug 'rust-lang/rust.vim', {'for': 'rust'}
   Plug 'nicwest/vim-camelsnek'
+  Plug 'idris-hackers/idris-vim'
 
   "=================================== COMPLETION ==========================================
-  Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
+  " Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
+  Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
   Plug 'antoinemadec/coc-fzf'
 
   "=================================== STATUS LINE =========================================
@@ -93,6 +93,14 @@ if &runtimepath =~ 'textobj'
   \     'select-i': 'ig'
   \   }
   \ })
+endif
+
+if &runtimepath =~ 'sneak'
+  map f <Plug>Sneak_f
+  map F <Plug>Sneak_F
+  map t <Plug>Sneak_t
+  map T <Plug>Sneak_T
+  let g:sneak#s_next = 1
 endif
 
 if &runtimepath =~ 'snek'
@@ -155,10 +163,6 @@ if &runtimepath =~ 'coc'
     endif
   endfunction
 
-  " function! s:cocActionsOpenFromSelected(type) abort
-  "   execute 'CocCommand actions.open ' . a:type
-  " endfunction
-
   augroup Coc
     autocmd!
     autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
@@ -172,11 +176,10 @@ if &runtimepath =~ 'coc'
   nmap <silent> gt <Plug>(coc-type-definition)
   nmap <Leader>rn <Plug>(coc-rename)
   nmap <silent> <Leader>l <Plug>(coc-codelens-action)
-  " xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-  " nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
-
   nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
   nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
+  nmap <silent> ]d <Plug>(coc-diagnostic-next)
+  nmap <silent> [d <Plug>(coc-diagnostic-prev)
   nmap <Leader>fq <Plug>(coc-fix-current)
   let g:coc_global_extensions = [
         \'coc-css',
@@ -184,17 +187,22 @@ if &runtimepath =~ 'coc'
         \'coc-eslint',
         \'coc-go',
         \'coc-json',
+        \'coc-actions',
         \'coc-prettier',
         \'coc-rust-analyzer',
         \'coc-tsserver',
         \'coc-yaml',
         \]
 
+
+  " Remap for do codeAction of selected region
+  function! s:cocActionsOpenFromSelected(type) abort
+    execute 'CocCommand actions.open ' . a:type
+  endfunction
+  xmap <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+  nmap <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
   if &runtimepath=~'coc-fzf'
-    " nnoremap <silent> <leader>o  :<C-u>CocFzfList outline<CR>
-    " nnoremap <silent> <leader>ea :<C-u>CocFzfList diagnostics<CR>
-    " nnoremap <silent> <leader>eb :<C-u>CocFzfList location<CR>
-    " nnoremap <silent> <leader>ca :<C-u>CocFzfList actions<CR>
+    nnoremap <silent> <leader>ea :<C-u>CocFzfList diagnostics<CR>
     if &runtimepath=~'leader-mapper'
       let g:leaderMenu = {'name':  "coc",
                \'a': [":CocFzfList actions",                   "Actions"],
