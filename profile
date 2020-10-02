@@ -8,7 +8,7 @@ export FZF_CTRL_T_OPTS="--preview '(bat {} || tree -C {}) 2> /dev/null | head -2
 export FZF_DEFAULT_COMMAND="fd --hidden --type f"
 export FZF_DEFAULT_OPTS="--height 40%"
 
-SKIM_DEFAULT_COMMAND="fd --hidden --type f"
+export SKIM_DEFAULT_COMMAND="fd --hidden --type f"
 
 export MANPAGER="nvim -c 'set ft=man' -"
 export EDITOR="nvim"
