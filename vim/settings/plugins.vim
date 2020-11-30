@@ -50,6 +50,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'rust-lang/rust.vim', {'for': 'rust'}
   Plug 'nicwest/vim-camelsnek'
   Plug 'idris-hackers/idris-vim'
+  Plug 'jvirtanen/vim-hcl'
 
   "=================================== COMPLETION ==========================================
   " Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
