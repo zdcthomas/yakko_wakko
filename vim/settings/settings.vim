@@ -42,3 +42,4 @@ set undodir=~/.vim/undo
 set shortmess+=c
 set cmdheight=1
 set updatetime=300
+set regexpengine=1
