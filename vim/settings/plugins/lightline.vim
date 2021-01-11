@@ -262,3 +262,4 @@ augroup LightLineStuff
   autocmd!
   autocmd FocusGained * let s:light_line_git_branch = GitBranch()
 augroup END
+let s:light_line_git_branch = GitBranch()
