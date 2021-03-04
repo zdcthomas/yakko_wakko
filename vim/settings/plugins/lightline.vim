@@ -3,7 +3,7 @@
 " Tomorrow_Night_Eighties
 " seoul256
 let g:lightline = {
-    \ 'colorscheme': 'PaperColor',
+    \ 'colorscheme': 'seoul256',
     \ 'active': {
     \   'left': [ ['mode_anim', 'paste'], ['filename',  'githunks', 'readonly', 'cocstatus', 'anim_default'] ],
     \   'right': [ [ 'lineinfo' ], [ 'percent' ],  ['filetype', 'gitbranch'] ]
@@ -53,6 +53,13 @@ let s:fish = [
   \ "       ",
   \ ]
 
+let s:visual_flash = [
+  \ "VISUAL",
+  \ "VISUAL",
+  \ "      ",
+  \ "      ",
+  \ ]
+
 let s:wave_blocks = [
   \ "▁▂▃▄▅▆▇█",
   \ "▂▃▄▅▆▇█▇",
@@ -71,6 +78,22 @@ let s:wave_blocks = [
   \ '▁▂▃▄▅▆▇█',
   \ ]
 
+let s:writing = [
+  \ "......",
+  \ "i.....",
+  \ "in....",
+  \ "ins...",
+  \ "inse..",
+  \ "inser.",
+  \ "insert",
+  \ ".nsert",
+  \ "..sert",
+  \ "...ert",
+  \ "....rt",
+  \ ".....t",
+  \ ]
+
+
 let s:bun_bun = [
   \ "(•ㅅ•)",
   \ "(•ㅅ•)",
@@ -86,6 +109,7 @@ let s:bun_bun = [
   \ "(-ㅅ-)",
   \ "(-ㅅ-)",
   \ ]
+
 let s:dance = [
   \  "\\(@.@)-",
   \  "-(@.@)/",
@@ -124,7 +148,7 @@ let s:normal = [
 
 let s:mode_to_anim = {
   \ 'n': s:normal,
-  \ 'i': s:dance,
+  \ 'i': s:writing,
   \ 'ic': s:dance,
   \ 'ix': s:dance,
   \ 'v': s:waves,
