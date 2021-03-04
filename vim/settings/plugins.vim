@@ -16,6 +16,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'simnalamburt/vim-mundo'
   Plug 'tpope/vim-commentary'                         " You know, for commenting
   Plug 'tpope/vim-dispatch', {'on': 'Dispatch'}
+  Plug 'vimwiki/vimwiki'
 
   "=================================== TEXT OBJECTS ==========================================
   Plug 'kana/vim-textobj-user'
@@ -73,6 +74,7 @@ call plug#begin('~/.vim/z_plugins')
   " Plug 'lifepillar/vim-gruvbox8'
   Plug 'sonph/onehalf', {'rtp': 'vim'}
   Plug 'chriskempson/base16-vim'
+  Plug 'joshdick/onedark.vim'
 
   "=================================== UI =================================================
   Plug 'mhinz/vim-startify'    " pretty startup
@@ -184,6 +186,7 @@ if &runtimepath =~ 'coc'
   nmap <Leader>fq <Plug>(coc-fix-current)
   let g:coc_global_extensions = [
         \'coc-css',
+        \'coc-html',
         \'coc-elixir',
         \'coc-eslint',
         \'coc-go',
@@ -283,30 +286,32 @@ endif
 
 " ================================= FZF =================================================
 if &runtimepath =~ 'fzf'
+  let window = {}
+  let window.width = 0.9
+  let window.height = 0.6
+  if &runtimepath =~ 'gruvbox'
+    let window.highlight = 'GruvboxAqua'
+  endif
+  let window.border = 'rounded'
+  let g:fzf_layout = { 'window': window }
+
+  let g:fzf_buffers_jump = 1
+
   function! RipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
     let reload_command = printf(command_fmt, '{q}')
-    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command, '--layout=reverse']}
     call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
   endfunction
-
-  " function! RgWord() abort
-  "   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
-  "   let command = printf(command_fmt, expand("<cword>"))
-
-  "   let word = expand("<cword>")
-  "   :Rg word<cr>
-  " endfunction
 
   command! -bang -nargs=* RgWithWord
     \ call fzf#vim#grep(
     \   'rg --column --line-number --no-heading --color=always --smart-case -- '.expand("<cword>"), 1,
-    \   fzf#vim#with_preview(), <bang>0)
+    \   fzf#vim#with_preview({'options': ['--layout=reverse']}), <bang>0)
 
   command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
-  let g:fzf_buffers_jump = 1
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
   " nnoremap <silent> <Leader>G :Lines<CR>
@@ -319,15 +324,10 @@ if &runtimepath =~ 'fzf'
   nnoremap <silent> <Leader>C :Colors<CR>
   nnoremap <silent> <Leader>: :Commands<CR>
   nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
-  " i want a way to search everywhere for the word under the cursor
-  " nnoremap <silent> <Leader><Leader>F 
-  if has('nvim')
-    let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'rounded' } }
-  endif
 
   " preview for files
   command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'source': 'ag --hidden --ignore .git -g ""'}), <bang>0)
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'source': 'ag --hidden --ignore .git -g ""', 'options': ['--layout=reverse']}), <bang>0)
 
   function! s:build_quickfix_list(lines)
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
@@ -374,11 +374,12 @@ endif
 
 if &runtimepath =~ 'gruvbox'
   if has('nvim')
+    let g:gruvbox_vert_split='faded_aqua'
     colorscheme gruvbox
-    if exists('$TMUX')
-      hi Normal guibg=NONE
-      hi Normal ctermbg=NONE guibg=NONE
-    endif
+    " if exists('$TMUX')
+    "   hi Normal guibg=NONE
+    "   hi Normal ctermbg=NONE guibg=NONE
+    " endif
   endif
 endif
 
@@ -430,4 +431,14 @@ if &runtimepath =~ 'mundo'
   "   autocmd BufEnter __Mundo__ :call LensToggle()
     
   " augroup END
+endif
+
+if &runtimepath =~ 'vimwiki'
+  let primary = {}
+  let primary.path = '~/primary'
+  let primary.syntax = 'markdown'
+  let primary.ext = 'md'
+
+  let g:vimwiki_list = [primary]
+  let g:vimwiki_conceallevel=0
 endif

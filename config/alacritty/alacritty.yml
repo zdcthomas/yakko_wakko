@@ -22,7 +22,7 @@ scrolling:
   # scrollback is enabled (history > 0).
   multiplier: 3
 
-background_opacity: 0.76
+# background_opacity: 0.76
 
 font:
   normal:
