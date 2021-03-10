@@ -203,13 +203,16 @@ if &runtimepath =~ 'coc'
   function! s:cocActionsOpenFromSelected(type) abort
     execute 'CocCommand actions.open ' . a:type
   endfunction
-  xmap <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-  nmap <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+
+  xmap <leader>a  <Plug>(coc-codeaction-selected)
+  nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+
   if &runtimepath=~'coc-fzf'
     nnoremap <silent> <leader>ea :<C-u>CocFzfList diagnostics<CR>
     if &runtimepath=~'leader-mapper'
       let g:leaderMenu = {'name':  "coc",
-               \'a': [":CocFzfList actions",                   "Actions"],
                \'c': [":CocFzfList commands",                  "Commands"],
                \'e': [":CocFzfList extensions",                "Extensions"],
                \'d': [":CocFzfList diagnostics --current-buf", "Diagnostics, current buffer"],
@@ -217,13 +220,22 @@ if &runtimepath =~ 'coc'
                \'l': [":CocFzfList location",                  "Location"],
                \'o': [":CocFzfList outline",                   "Outline"],
                \'L': [":CocLog",                               "Logs"],
-               \'I': [":CocInfo",                              "Logs"],
+               \'I': [":CocInfo",                              "Info"],
                \'C': [":CocConfig",                           "Open coc config"],
                \'u': [":CocUpdate",                           "Update Coc extensions"],
                \}
       
       nnoremap <silent> <leader>coc :LeaderMapper "coc"<CR>
     endif
+  endif
+
+  if has('nvim-0.4.0') || has('patch-8.2.0750')
+    nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+    vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
   endif
 
 endif
@@ -435,10 +447,18 @@ endif
 
 if &runtimepath =~ 'vimwiki'
   let primary = {}
-  let primary.path = '~/primary'
+  let primary.path = '~/irulan/wiki'
   let primary.syntax = 'markdown'
   let primary.ext = 'md'
 
   let g:vimwiki_list = [primary]
   let g:vimwiki_conceallevel=0
+  let g:vimwiki_filetypes = ['markdown']
+
+  " This allows tab complete to still work
+  let g:vimwiki_key_mappings =
+    \ {
+    \ 'table_mappings': 0,
+    \ }
+
 endif
