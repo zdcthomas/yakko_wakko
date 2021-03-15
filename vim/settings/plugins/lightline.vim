@@ -215,6 +215,9 @@ function! StatusDiagnostic() abort
 endfunction
 
 function! LightlineGitGutter()
+  if !(&runtimepath =~ 'gitgutter')
+    return ''
+  endif
   if winwidth(0) < s:lightline_large_win
     return ""
   endif
@@ -223,6 +226,9 @@ function! LightlineGitGutter()
 endfunction
 
 function! DirtyFile()
+  if !(&runtimepath =~ 'gitgutter')
+    return ''
+  endif
   if winwidth(0) < s:lightline_medium_win
     return ""
   endif

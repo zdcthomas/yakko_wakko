@@ -94,7 +94,7 @@ handle_mime() {
                 local pygmentize_format='terminal'
                 local highlight_format='ansi'
             fi
-            env  bat --color=always --style="plain" \
+            env  bat --color=always --style="plain" --theme="OneHalfDark"\
                 -- "${FILE_PATH}" && exit 5
             highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" --out-format="${highlight_format}" \
                 --style="${HIGHLIGHT_STYLE}" --force -- "${FILE_PATH}"
