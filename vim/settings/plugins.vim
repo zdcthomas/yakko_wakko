@@ -15,55 +15,57 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'machakann/vim-swap'                           " Use to swap args in lists/funcs, has a 'mode' for lists
   Plug 'simnalamburt/vim-mundo'
   Plug 'tpope/vim-commentary'                         " You know, for commenting
-  Plug 'tpope/vim-dispatch', {'on': 'Dispatch'}
   Plug 'vimwiki/vimwiki'
 
   "=================================== TEXT OBJECTS ==========================================
   Plug 'kana/vim-textobj-user'
   Plug 'glts/vim-textobj-comment'
-  Plug 'machakann/vim-textobj-functioncall'
   Plug 'Julian/vim-textobj-variable-segment'          " TO for |this|_part_of_a_var
   Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
+  " Plug 'machakann/vim-textobj-functioncall'
 
   "=================================== AUTO PAIRING POSSIBILITIES ===============================
   " I hate all of them but they're pretty convenient
   Plug 'jiangmiao/auto-pairs'
 
   "=================================== FILE ================================================
-  Plug 'ptzz/lf.vim', {'on': 'Lf'}
+  " Plug 'ptzz/lf.vim', {'on': 'Lf'} " Sadly, the maintainer of this plugin
+  " moved it over to only using floating windows, I'll be trying out some
+  " different options.
   Plug 'junegunn/fzf.vim'
   Plug '~/.fzf'
+  Plug 'justinmk/vim-dirvish'
+  Plug 'kristijanhusak/vim-dirvish-git'
+  Plug 'roginfarrer/vim-dirvish-dovish'
 
   " =================================== GIT ================================================
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
 
   "=================================== LANGUAGE ============================================
+  " Plug 'chrisbra/Colorizer'
+  " Plug 'jvirtanen/vim-hcl'
   Plug 'Zaptic/elm-vim', {'for': 'elm'}
   Plug 'cespare/vim-toml', {'for': 'toml'}
-  Plug 'chrisbra/Colorizer'
   Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
   Plug 'gleam-lang/gleam.vim', {'for': 'gleam'}
-  Plug 'hashivim/vim-terraform'
-  Plug 'ianks/vim-tsx'
+  Plug 'hashivim/vim-terraform', {'for': 'terraform'}
+  Plug 'ianks/vim-tsx', {'for': 'typescript'}
+  Plug 'idris-hackers/idris-vim', {'for': 'idris'}
   Plug 'keith/swift.vim', {'for': 'swift'}
-  Plug 'leafgarland/typescript-vim'
-  Plug 'pangloss/vim-javascript'
-  Plug 'rust-lang/rust.vim', {'for': 'rust'}
+  Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
   Plug 'nicwest/vim-camelsnek'
-  Plug 'idris-hackers/idris-vim'
-  Plug 'jvirtanen/vim-hcl'
+  Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+  Plug 'rust-lang/rust.vim', {'for': 'rust'}
 
   "=================================== COMPLETION ==========================================
-  " Plug 'neoclide/coc.nvim', has('nvim') ? {'tag': '*', 'branch': 'release'} : { 'on': [] } " BEEG plugin
   Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-
   Plug 'antoinemadec/coc-fzf'
 
   "=================================== STATUS LINE =========================================
   Plug 'itchyny/lightline.vim'
 
   "=================================== WINDOW ==============================================
-  Plug 'moll/vim-bbye'                            " Needed for ranger to be nice
+  " Plug 'moll/vim-bbye'                            " Needed for ranger to be nice
   Plug 'segeljakt/vim-silicon', {'on': 'Silicon'} " Taking pictures of code
 
   "=================================== HTML ===============================================
@@ -71,22 +73,23 @@ call plug#begin('~/.vim/z_plugins')
 
   "=================================== COLOR SCHEMES ======================================
   Plug 'gruvbox-community/gruvbox'    
-  " Plug 'lifepillar/vim-gruvbox8'
-  Plug 'sonph/onehalf', {'rtp': 'vim'}
-  Plug 'chriskempson/base16-vim'
-  Plug 'joshdick/onedark.vim'
 
   "=================================== UI =================================================
   Plug 'mhinz/vim-startify'    " pretty startup
-  Plug 'camspiers/lens.vim'    " slightly expand window when entered
-  " Plug 'camspiers/animate.vim' " Needed by lens for nicer moving
 
   "=================================== PERSONAL PLUGINS ===================================
   Plug 'zdcthomas/vish', {'for': 'fish'} " vim fish without the slow stuff
   Plug 'zdcthomas/medit'                 " Used for editing macros
-  " Plug 'zdcthomas/vim-abolish'           " I use this just for camel/snake/pascall case conversion, I should tear that part out
-                                         " (tpopes has MixedCase, i prefer CamelCase, pr is open https://github.com/tpope/vim-abolish/pull/89)
+
 call plug#end()
+
+
+if &runtimepath =~ 'dirvish'
+  let g:loaded_netrwPlugin = 1
+  command! -nargs=? -complete=dir Explore Dirvish <args>
+  command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
+  command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
+endif
 
 if &runtimepath =~ 'textobj'
   call textobj#user#plugin('generic', {
@@ -117,9 +120,6 @@ if &runtimepath =~ 'snek'
   nnoremap crk :Kebab<CR>
   vnoremap crk :Kebab<CR>
 endif
-
-" potnetial func regex s/\(\.[A-Za-z]*(\)\@<=[a-zA-Z, ]*)/)/
-" still needs {-} for cursor position
 
 if &runtimepath =~ 'auto-pairs'
   augroup AutoPairedUser
@@ -186,17 +186,16 @@ if &runtimepath =~ 'coc'
   nmap <Leader>fq <Plug>(coc-fix-current)
   let g:coc_global_extensions = [
         \'coc-css',
-        \'coc-html',
         \'coc-elixir',
-        \'coc-eslint',
         \'coc-go',
         \'coc-json',
-        \'coc-actions',
-        \'coc-prettier',
         \'coc-rust-analyzer',
-        \'coc-tsserver',
         \'coc-yaml',
         \]
+        " \'coc-tsserver',
+        " \'coc-prettier',
+        " \'coc-html',
+        " \'coc-eslint',
 
 
   " Remap for do codeAction of selected region
