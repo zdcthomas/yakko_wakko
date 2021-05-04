@@ -10,6 +10,10 @@
     }
   },
   "codeLens.enable": true, 
+  "elixirLS.suggestSpecs": true,
+  "elixirLS.fetchDeps": false,
+  "diagnostic.virtualTextCurrentLineOnly": true,
+  "suggest.enablePreselect": true,
   "diagnostic.virtualText": true,
   "suggest.snippetIndicator": "►",
   "diagnostic.maxWindowHeight": 20,

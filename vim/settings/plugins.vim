@@ -65,7 +65,6 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'itchyny/lightline.vim'
 
   "=================================== WINDOW ==============================================
-  " Plug 'moll/vim-bbye'                            " Needed for ranger to be nice
   Plug 'segeljakt/vim-silicon', {'on': 'Silicon'} " Taking pictures of code
 
   "=================================== HTML ===============================================
@@ -83,12 +82,31 @@ call plug#begin('~/.vim/z_plugins')
 
 call plug#end()
 
+if &runtimepath =~ 'leader-mapper'
+  let g:leaderMenu = {'name':  "primary"}
+  let g:leaderMenu.s = [':Svrc',                "Re-source Vim config"]
+  let g:leaderMenu.e = [":!dmux ~/yakko_wakko", "Edit dotfiles"]
+
+  nnoremap <silent> <leader><leader> :LeaderMapper "primary"<CR>
+  if &runtimepath =~ 'plug'
+
+      let PlugLeaderMenu = {'name':  "plug",
+               \'u': [":PlugUpdate",        "Update"],
+               \'i': [":PlugInstall",       "Install"],
+               \'c': [":PlugClean",         "Clean"],
+               \}
+      let g:leaderMenu.p = [PlugLeaderMenu, "Plug"]
+
+  endif
+endif
 
 if &runtimepath =~ 'dirvish'
   let g:loaded_netrwPlugin = 1
   command! -nargs=? -complete=dir Explore Dirvish <args>
   command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
   command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
+  nnoremap <leader>n :Explore<cr>
+  let g:dirvish_mode=':sort | sort ,^.*[^/]$, r'
 endif
 
 if &runtimepath =~ 'textobj'
@@ -135,21 +153,6 @@ endif
 
 " =================================  COC  ===========================================
 if &runtimepath =~ 'coc'
-  inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-  " if exists('*complete_info')
-  "   inoremap <expr> <cr> complete_info()["selected"] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
-  " else
-	inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-				\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-	" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-	" 			\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-  " endif
   let g:coc_snippet_next = '<c-j>'
   let g:coc_snippet_previous = '<c-k>'
 
@@ -174,7 +177,7 @@ if &runtimepath =~ 'coc'
   nnoremap <silent> gd :call CocAction('jumpDefinition')<Cr>
   nnoremap <silent> <Leader>gdl :call CocAction('jumpDefinition', 'vsplit')<Cr>
   nnoremap <silent> <Leader>gdj :call CocAction('jumpDefinition', 'split')<Cr>
-  nnoremap <silent> gh :call CocAction('doHover')<Cr>
+  nnoremap <silent> gh :call CocActionAsync('doHover')<Cr>
   nmap <silent> gr <Plug>(coc-references)
   nmap <silent> gt <Plug>(coc-type-definition)
   nmap <Leader>rn <Plug>(coc-rename)
@@ -184,15 +187,24 @@ if &runtimepath =~ 'coc'
   nmap <silent> ]d <Plug>(coc-diagnostic-next)
   nmap <silent> [d <Plug>(coc-diagnostic-prev)
   nmap <Leader>fq <Plug>(coc-fix-current)
+  inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+	inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+				\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
   let g:coc_global_extensions = [
         \'coc-css',
         \'coc-elixir',
         \'coc-go',
         \'coc-json',
         \'coc-rust-analyzer',
+        \'coc-tsserver',
         \'coc-yaml',
         \]
-        " \'coc-tsserver',
         " \'coc-prettier',
         " \'coc-html',
         " \'coc-eslint',
@@ -211,20 +223,21 @@ if &runtimepath =~ 'coc'
   if &runtimepath=~'coc-fzf'
     nnoremap <silent> <leader>ea :<C-u>CocFzfList diagnostics<CR>
     if &runtimepath=~'leader-mapper'
-      let g:leaderMenu = {'name':  "coc",
-               \'c': [":CocFzfList commands",                  "Commands"],
+      let CocLeaderMenu = {'name':  "coc",
+               \'co': [":CocFzfList commands",                  "Commands"],
                \'e': [":CocFzfList extensions",                "Extensions"],
                \'d': [":CocFzfList diagnostics --current-buf", "Diagnostics, current buffer"],
                \'D': [":CocFzfList diagnostics",               "All diagnostics"],
                \'l': [":CocFzfList location",                  "Location"],
                \'o': [":CocFzfList outline",                   "Outline"],
                \'L': [":CocLog",                               "Logs"],
+               \'cl': [":CocAction('codeLensAction')",          "CodeLens Action"],
                \'I': [":CocInfo",                              "Info"],
-               \'C': [":CocConfig",                           "Open coc config"],
-               \'u': [":CocUpdate",                           "Update Coc extensions"],
+               \'C': [":CocConfig",                            "Open coc config"],
+               \'u': [":CocUpdate",                            "Update Coc extensions"],
                \}
-      
-      nnoremap <silent> <leader>coc :LeaderMapper "coc"<CR>
+
+      let g:leaderMenu.c = [CocLeaderMenu,                  "Coc menu"]
     endif
   endif
 
@@ -239,17 +252,6 @@ if &runtimepath =~ 'coc'
 
 endif
 
-" ================================= EASYMOTION ===========================================
-""  color of selectable letter background
-if &runtimepath =~ 'vim-easymotion'
-  let g:EasyMotion_smartcase = 1
-  hi link EasyMotionTarget Function
-  hi link EasyMotionShade  Comment
-  nmap <Leader>s <Plug>(easymotion-overwin-f2)
-  map <Leader> <Plug>(easymotion-prefix)
-  map  <Leader>/ <Plug>(easymotion-sn)
-  omap <Leader>/ <Plug>(easymotion-tn)
-endif
 
 if &runtimepath =~ 'elm-vim'
   let g:elm_setup_keybindings = 0
@@ -257,7 +259,6 @@ endif
 
 if &runtimepath =~ 'startify'
   let g:startify_lists = [{ 'type': 'dir',       'header': ['   MRU '. getcwd()] }]
-        " \ { 'type': 'files',     'header': ['   MRU']            }]
 
   let g:startify_change_to_dir = 0
   let g:startify_change_to_vcs_root = 1
@@ -279,12 +280,10 @@ if &runtimepath =~ 'startify'
 			\"            {"
 			\]
   let g:startify_custom_header = g:ascii
-endif
 
-" ================================= BBYE ================================================
-if &runtimepath =~ 'vim-bbye'
-  command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
-  " nnoremap <Leader>q :Bdelete<CR>
+    if &runtimepath=~'leader-mapper'
+      let g:leaderMenu.S = [":Startify",                  "Startify"]
+    endif
 endif
 
 " ================================= EASY ALIGN ===========================================
@@ -325,7 +324,6 @@ if &runtimepath =~ 'fzf'
 
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
-  " nnoremap <silent> <Leader>G :Lines<CR>
   nnoremap <silent> <Leader>gf :GFiles?<CR>
   nnoremap <silent> <Leader>c :Commits<CR>
   " TODO: here we should have leader F in visual mode just search for the visual selection
@@ -334,7 +332,7 @@ if &runtimepath =~ 'fzf'
   nnoremap <silent> <Leader>* :RgWithWord<CR>
   nnoremap <silent> <Leader>C :Colors<CR>
   nnoremap <silent> <Leader>: :Commands<CR>
-  nnoremap <silent> <Leader><Leader><Leader> :Maps<CR>
+  nnoremap <silent> <Leader>m :Maps<CR>
 
   " preview for files
   command! -bang -nargs=? -complete=dir Files
@@ -387,10 +385,6 @@ if &runtimepath =~ 'gruvbox'
   if has('nvim')
     let g:gruvbox_vert_split='faded_aqua'
     colorscheme gruvbox
-    " if exists('$TMUX')
-    "   hi Normal guibg=NONE
-    "   hi Normal ctermbg=NONE guibg=NONE
-    " endif
   endif
 endif
 
@@ -437,11 +431,6 @@ if &runtimepath =~ 'mundo'
   endfunction
 
   nnoremap <Leader>u :call DoMundo()<Cr>
-  " augroup mund
-  "   autocmd!
-  "   autocmd BufEnter __Mundo__ :call LensToggle()
-    
-  " augroup END
 endif
 
 if &runtimepath =~ 'vimwiki'
@@ -460,4 +449,13 @@ if &runtimepath =~ 'vimwiki'
     \ 'table_mappings': 0,
     \ }
 
+  if &runtimepath =~ 'leader-mapper'
+    
+        let VimwikiLeaderMenu = {'name':  "vimwiki",
+                 \'w': [":VimwikiUISelect",        "open Wiki selection ui"]
+                 \}
+
+    let g:leaderMenu.w =[VimwikiLeaderMenu, "vimwiki"]
+  endif
 endif
+

@@ -43,6 +43,17 @@ function! GitUnStagedChanges()
     copen
 endfunction
 
+function! OpenTig()
+  silent! let l:has_tmux = system('tmux -V')
+  let l:version = trim(substitute(l:has_tmux, 'tmux ', '', ''))
+  if !(l:version >= 3.2)
+    let command = '!tmux display-popup '. '-E ' .'-w 80\% -h 80\% ' .'-d '. expand('%:p:h') . ' "tig ' . expand('%:t') . '"'
+    silent execute(l:command)
+  endif
+endfunction
+
+nnoremap <Leader>td :call OpenTig()<Cr>
+
 nnoremap <Leader>gc :call GitUnStagedChanges()<Cr>
 command! Svrc source $MYVIMRC
 command! Yf :let @+ = expand("%")
