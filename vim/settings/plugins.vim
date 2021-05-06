@@ -16,6 +16,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'simnalamburt/vim-mundo'
   Plug 'tpope/vim-commentary'                         " You know, for commenting
   Plug 'vimwiki/vimwiki'
+  Plug 'rhysd/git-messenger.vim'
 
   "=================================== TEXT OBJECTS ==========================================
   Plug 'kana/vim-textobj-user'
@@ -98,6 +99,9 @@ if &runtimepath =~ 'leader-mapper'
       let g:leaderMenu.p = [PlugLeaderMenu, "Plug"]
 
   endif
+endif
+
+if &runtimepath =~ 'git-messenger'
 endif
 
 if &runtimepath =~ 'dirvish'
@@ -452,7 +456,8 @@ if &runtimepath =~ 'vimwiki'
   if &runtimepath =~ 'leader-mapper'
     
         let VimwikiLeaderMenu = {'name':  "vimwiki",
-                 \'w': [":VimwikiUISelect",        "open Wiki selection ui"]
+                 \'w': [":VimwikiUISelect", "open Wiki selection ui"],
+                 \'t': [":VimwikiTOC",      "Table of content"]
                  \}
 
     let g:leaderMenu.w =[VimwikiLeaderMenu, "vimwiki"]

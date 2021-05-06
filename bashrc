@@ -4,7 +4,7 @@ alias la='ls -laFGgohq'
 alias gs='git status'
 alias gco='git checkout'
 alias fc='. fcd'
-alias reload='source ~/.bash_profile'
+alias reload='source ~/.bashrc'
 alias ..='cd ..'
 
 bind '"\e[A": history-search-backward'
@@ -61,4 +61,6 @@ make_rails(){
   nvim
 }
 
+source ~/.profile
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+eval "$(nodenv init -)"

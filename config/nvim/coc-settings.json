@@ -21,6 +21,7 @@
   "diagnostic.checkCurrentLine": true,
   "suggest.enablePreview": true,
   "rust-analyzer.inlayHints.chainingHints": true,
+  "rust-analyzer.hoverActions.linksInHover": true,
   "rust-analyzer.checkOnSave.command": "clippy",
   "rust-analyzer.cargo.allFeatures": true,
   "coc.preferences.formatOnSaveFiletypes": ["elixir", "rust", "elm", "typescript", "javascript", "typescriptreact", "typescript.tsx", "javascriptreact", "go"]
