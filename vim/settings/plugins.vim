@@ -23,16 +23,12 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'glts/vim-textobj-comment'
   Plug 'Julian/vim-textobj-variable-segment'          " TO for |this|_part_of_a_var
   Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
-  " Plug 'machakann/vim-textobj-functioncall'
 
   "=================================== AUTO PAIRING POSSIBILITIES ===============================
   " I hate all of them but they're pretty convenient
   Plug 'jiangmiao/auto-pairs'
 
   "=================================== FILE ================================================
-  " Plug 'ptzz/lf.vim', {'on': 'Lf'} " Sadly, the maintainer of this plugin
-  " moved it over to only using floating windows, I'll be trying out some
-  " different options.
   Plug 'junegunn/fzf.vim'
   Plug '~/.fzf'
   Plug 'justinmk/vim-dirvish'
@@ -43,8 +39,6 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
 
   "=================================== LANGUAGE ============================================
-  " Plug 'chrisbra/Colorizer'
-  " Plug 'jvirtanen/vim-hcl'
   Plug 'Zaptic/elm-vim', {'for': 'elm'}
   Plug 'cespare/vim-toml', {'for': 'toml'}
   Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
