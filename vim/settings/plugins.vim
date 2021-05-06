@@ -5,24 +5,25 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/z_plugins')
-  Plug 'junegunn/vim-plug'         " The current plugin manager
+  Plug 'junegunn/vim-plug'                   " The current plugin manager
 "=================================== Text Editing ================================================
-  Plug 'AndrewRadev/sideways.vim'                     " just for inserting new elements into the list
+  Plug 'AndrewRadev/sideways.vim'            " just for inserting new elements into the list
   Plug 'dpretet/vim-leader-mapper'
-  Plug 'junegunn/vim-easy-align'                      " Easily align text on a specific character
+  Plug 'junegunn/vim-easy-align'             " Easily align text on a specific character
   Plug 'machakann/vim-highlightedyank'
-  Plug 'machakann/vim-sandwich'                       " Love this thing
-  Plug 'machakann/vim-swap'                           " Use to swap args in lists/funcs, has a 'mode' for lists
+  Plug 'machakann/vim-sandwich'              " Love this thing
+  Plug 'machakann/vim-swap'                  " Use to swap args in lists/funcs, has a 'mode' for lists
   Plug 'simnalamburt/vim-mundo'
-  Plug 'tpope/vim-commentary'                         " You know, for commenting
+  Plug 'tpope/vim-commentary'                " You know, for commenting
   Plug 'vimwiki/vimwiki'
-  Plug 'rhysd/git-messenger.vim'
+  Plug 'rhysd/git-messenger.vim'             " Brings up helpful window to view commit message for line
+  Plug 'nicwest/vim-camelsnek'
 
   "=================================== TEXT OBJECTS ==========================================
   Plug 'kana/vim-textobj-user'
   Plug 'glts/vim-textobj-comment'
-  Plug 'Julian/vim-textobj-variable-segment'          " TO for |this|_part_of_a_var
-  Plug 'michaeljsmith/vim-indent-object'              " I don't know why this isn't a built in
+  Plug 'Julian/vim-textobj-variable-segment' " Text Object for |this|_part_of_a_var
+  Plug 'michaeljsmith/vim-indent-object'     " I don't know why this isn't a built in
 
   "=================================== AUTO PAIRING POSSIBILITIES ===============================
   " I hate all of them but they're pretty convenient
@@ -36,44 +37,43 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'roginfarrer/vim-dirvish-dovish'
 
   " =================================== GIT ================================================
-  Plug 'airblade/vim-gitgutter'    " Show changes to repo in sidebar
+  Plug 'airblade/vim-gitgutter'              " Show changes to repo in sidebar
 
   "=================================== LANGUAGE ============================================
-  Plug 'Zaptic/elm-vim', {'for': 'elm'}
-  Plug 'cespare/vim-toml', {'for': 'toml'}
-  Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
-  Plug 'gleam-lang/gleam.vim', {'for': 'gleam'}
-  Plug 'hashivim/vim-terraform', {'for': 'terraform'}
-  Plug 'ianks/vim-tsx', {'for': 'typescript'}
-  Plug 'idris-hackers/idris-vim', {'for': 'idris'}
-  Plug 'keith/swift.vim', {'for': 'swift'}
-  Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
-  Plug 'nicwest/vim-camelsnek'
-  Plug 'pangloss/vim-javascript', {'for': 'javascript'}
-  Plug 'rust-lang/rust.vim', {'for': 'rust'}
+  Plug 'Zaptic/elm-vim',                     {'for': 'elm'}
+  Plug 'cespare/vim-toml',                   {'for': 'toml'}
+  Plug 'elixir-editors/vim-elixir',          {'for': 'elixir'}
+  Plug 'gleam-lang/gleam.vim',               {'for': 'gleam'}
+  Plug 'hashivim/vim-terraform',             {'for': 'terraform'}
+  Plug 'ianks/vim-tsx',                      {'for': 'typescript'}
+  Plug 'idris-hackers/idris-vim',            {'for': 'idris'}
+  Plug 'keith/swift.vim',                    {'for': 'swift'}
+  Plug 'leafgarland/typescript-vim',         {'for': 'typescript'}
+  Plug 'pangloss/vim-javascript',            {'for': 'javascript'}
+  Plug 'rust-lang/rust.vim',                 {'for': 'rust'}
 
   "=================================== COMPLETION ==========================================
-  Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+  Plug 'neoclide/coc.nvim',                  {'do':  'yarn install --frozen-lockfile'}
   Plug 'antoinemadec/coc-fzf'
 
   "=================================== STATUS LINE =========================================
   Plug 'itchyny/lightline.vim'
 
   "=================================== WINDOW ==============================================
-  Plug 'segeljakt/vim-silicon', {'on': 'Silicon'} " Taking pictures of code
+  Plug 'segeljakt/vim-silicon',              {'on':  'Silicon'} " Taking pictures of code
 
   "=================================== HTML ===============================================
   Plug 'mattn/emmet-vim'
 
   "=================================== COLOR SCHEMES ======================================
-  Plug 'gruvbox-community/gruvbox'    
+  Plug 'gruvbox-community/gruvbox'
 
   "=================================== UI =================================================
-  Plug 'mhinz/vim-startify'    " pretty startup
+  Plug 'mhinz/vim-startify'                  " pretty startup
 
   "=================================== PERSONAL PLUGINS ===================================
-  Plug 'zdcthomas/vish', {'for': 'fish'} " vim fish without the slow stuff
-  Plug 'zdcthomas/medit'                 " Used for editing macros
+  Plug 'zdcthomas/vish',                     {'for': 'fish'}    " vim fish without the slow stuff
+  Plug 'zdcthomas/medit'                     " Used for editing macros
 
 call plug#end()
 
