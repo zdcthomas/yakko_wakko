@@ -141,6 +141,7 @@ if &runtimepath =~ 'auto-pairs'
   augroup AutoPairedUser
     autocmd!
     au FileType rust let b:AutoPairs = AutoPairsDefine({'\w\zs<': '>'})
+    au FileType vim let b:AutoPairs  = AutoPairsDefine(['"'])
   augroup END
 endif
 
