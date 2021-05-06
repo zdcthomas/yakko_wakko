@@ -7,17 +7,17 @@ endif
 call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'                   " The current plugin manager
 "=================================== Text Editing ================================================
-  Plug 'AndrewRadev/sideways.vim'            " just for inserting new elements into the list
-  Plug 'dpretet/vim-leader-mapper'
+  Plug 'AndrewRadev/sideways.vim'            " Just for inserting new elements into the list
+  Plug 'dpretet/vim-leader-mapper'           " Really nice menu plugin
   Plug 'junegunn/vim-easy-align'             " Easily align text on a specific character
-  Plug 'machakann/vim-highlightedyank'
+  Plug 'machakann/vim-highlightedyank'       " Highlights yanked section
   Plug 'machakann/vim-sandwich'              " Love this thing
   Plug 'machakann/vim-swap'                  " Use to swap args in lists/funcs, has a 'mode' for lists
-  Plug 'simnalamburt/vim-mundo'
+  Plug 'simnalamburt/vim-mundo'              " Undo menu, almost never use it but it's good in a pinch
   Plug 'tpope/vim-commentary'                " You know, for commenting
-  Plug 'vimwiki/vimwiki'
+  Plug 'vimwiki/vimwiki'                     " Wiki management and bindings
   Plug 'rhysd/git-messenger.vim'             " Brings up helpful window to view commit message for line
-  Plug 'nicwest/vim-camelsnek'
+  Plug 'nicwest/vim-camelsnek'               " Convert text between different casings
 
   "=================================== TEXT OBJECTS ==========================================
   Plug 'kana/vim-textobj-user'
@@ -141,7 +141,7 @@ if &runtimepath =~ 'auto-pairs'
   augroup AutoPairedUser
     autocmd!
     au FileType rust let b:AutoPairs = AutoPairsDefine({'\w\zs<': '>'})
-    au FileType vim let b:AutoPairs  = AutoPairsDefine(['"'])
+    au FileType vim let b:AutoPairs  = AutoPairsDefine({}, ['"'])
   augroup END
 endif
 
