@@ -13,7 +13,6 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'machakann/vim-highlightedyank'       " Highlights yanked section
   Plug 'machakann/vim-sandwich'              " Love this thing
   Plug 'machakann/vim-swap'                  " Use to swap args in lists/funcs, has a 'mode' for lists
-  Plug 'simnalamburt/vim-mundo'              " Undo menu, almost never use it but it's good in a pinch
   Plug 'tpope/vim-commentary'                " You know, for commenting
   Plug 'vimwiki/vimwiki'                     " Wiki management and bindings
   Plug 'rhysd/git-messenger.vim'             " Brings up helpful window to view commit message for line
@@ -78,17 +77,19 @@ call plug#begin('~/.vim/z_plugins')
 call plug#end()
 
 if &runtimepath =~ 'leader-mapper'
-  let g:leaderMenu = {'name':  "primary"}
+  let g:leaderMenu   = {'name':                 "primary"}
   let g:leaderMenu.s = [':Svrc',                "Re-source Vim config"]
   let g:leaderMenu.e = [":!dmux ~/yakko_wakko", "Edit dotfiles"]
 
   nnoremap <silent> <leader><leader> :LeaderMapper "primary"<CR>
   if &runtimepath =~ 'plug'
 
-      let PlugLeaderMenu = {'name':  "plug",
-               \'u': [":PlugUpdate",        "Update"],
-               \'i': [":PlugInstall",       "Install"],
-               \'c': [":PlugClean",         "Clean"],
+      let PlugLeaderMenu = {'name':    "plug",
+               \'u': [":PlugUpdate",   "Update all plugins"],
+               \'i': [":PlugInstall",  "Install all uninstalled plugins"],
+               \'c': [":PlugClean",    "Clean out unused plugins"],
+               \'s': [":PlugStatus",   "Status"],
+               \'S': [":PlugSnapshot", "Generate snapshot of current plugin config"],
                \}
       let g:leaderMenu.p = [PlugLeaderMenu, "Plug"]
 
@@ -329,10 +330,20 @@ if &runtimepath =~ 'fzf'
   " visual selection expantions are hard
   nnoremap <silent> <Leader>F :RG<CR>
   nnoremap <silent> <Leader>* :RgWithWord<CR>
-  nnoremap <silent> <Leader>C :Colors<CR>
-  nnoremap <silent> <Leader>: :Commands<CR>
-  nnoremap <silent> <Leader>m :Maps<CR>
 
+
+  if &runtimepath =~ 'leader-mapper'
+
+        let FzfLeaderMenu = {'name': "Fzf Search",
+                 \'c': [":Commits",  "Commits"],
+                 \'m': [":Maps",     "Mappings"],
+                 \':': [":Commands", "Commands"],
+                 \'g': [":GFiles?",  "Git files"],
+                 \'C': [":Colors",   "Color scheme"]
+                 \}
+
+    let g:leaderMenu.f =[FzfLeaderMenu, "FZF"]
+  endif
   " preview for files
   command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'source': 'ag --hidden --ignore .git -g ""', 'options': ['--layout=reverse']}), <bang>0)
@@ -393,19 +404,6 @@ if &runtimepath =~ 'lightline'
   call SourceFile("~/.vim/settings/plugins/lightline.vim")
 end
 
-if &runtimepath =~ 'lf'
-  let g:lf_map_keys = 0
-  nnoremap <leader>n :Lf<CR>
-  let g:lf_replace_netrw = 1
-endif
-
-if &runtimepath =~ 'ranger'
-  let g:ranger_map_keys = 0
-  nnoremap <Leader>n :Ranger<CR>
-
-  let g:ranger_replace_netrw = 1
-  let g:ranger_command_override = 'ranger --cmd "set show_hidden=true"'
-endif
 
 if &runtimepath =~ 'markdown'
   let vim_markdown_preview_github=1
@@ -413,23 +411,6 @@ endif
 
 if &runtimepath =~ 'sandwich'
   call SourceFile("~/.vim/settings/plugins/sandwich_settings.vim")
-endif
-
-if &runtimepath =~ 'mundo'
-  function LensToggle() abort
-    if g:lens#disabled
-      let g:lens#disabled=0
-    else
-      let g:lens#disabled=1
-    endif
-  endfunction
-
-  function DoMundo() abort
-    call LensToggle()
-    MundoToggle
-  endfunction
-
-  nnoremap <Leader>u :call DoMundo()<Cr>
 endif
 
 if &runtimepath =~ 'vimwiki'
