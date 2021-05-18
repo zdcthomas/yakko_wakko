@@ -6,7 +6,7 @@ endif
 
 call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'                   " The current plugin manager
-"=================================== Text Editing ================================================
+"=================================== Text Editing =========================================
   Plug 'AndrewRadev/sideways.vim'            " Just for inserting new elements into the list
   Plug 'dpretet/vim-leader-mapper'           " Really nice menu plugin
   Plug 'junegunn/vim-easy-align'             " Easily align text on a specific character
@@ -17,28 +17,31 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'vimwiki/vimwiki'                     " Wiki management and bindings
   Plug 'rhysd/git-messenger.vim'             " Brings up helpful window to view commit message for line
   Plug 'nicwest/vim-camelsnek'               " Convert text between different casings
+  Plug 'junegunn/goyo.vim'                   " Focused text editing
+  Plug 'junegunn/limelight.vim'              " Highlights the current paragraph
+  Plug 'vim-scripts/DrawIt'
 
-  "=================================== TEXT OBJECTS ==========================================
+  "=================================== TEXT OBJECTS =======================================
   Plug 'kana/vim-textobj-user'
   Plug 'glts/vim-textobj-comment'
   Plug 'Julian/vim-textobj-variable-segment' " Text Object for |this|_part_of_a_var
   Plug 'michaeljsmith/vim-indent-object'     " I don't know why this isn't a built in
 
-  "=================================== AUTO PAIRING POSSIBILITIES ===============================
+  "=================================== AUTO PAIRING POSSIBILITIES =========================
   " I hate all of them but they're pretty convenient
   Plug 'jiangmiao/auto-pairs'
 
-  "=================================== FILE ================================================
+  "=================================== FILE ===============================================
   Plug 'junegunn/fzf.vim'
   Plug '~/.fzf'
   Plug 'justinmk/vim-dirvish'
   Plug 'kristijanhusak/vim-dirvish-git'
   Plug 'roginfarrer/vim-dirvish-dovish'
 
-  " =================================== GIT ================================================
+  " =================================== GIT ===============================================
   Plug 'airblade/vim-gitgutter'              " Show changes to repo in sidebar
 
-  "=================================== LANGUAGE ============================================
+  "=================================== LANGUAGE ===========================================
   Plug 'Zaptic/elm-vim',                     {'for': 'elm'}
   Plug 'cespare/vim-toml',                   {'for': 'toml'}
   Plug 'elixir-editors/vim-elixir',          {'for': 'elixir'}
@@ -50,15 +53,16 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'leafgarland/typescript-vim',         {'for': 'typescript'}
   Plug 'pangloss/vim-javascript',            {'for': 'javascript'}
   Plug 'rust-lang/rust.vim',                 {'for': 'rust'}
+  Plug 'jparise/vim-graphql',                {'for': 'graphql'}
 
-  "=================================== COMPLETION ==========================================
+  "=================================== COMPLETION =========================================
   Plug 'neoclide/coc.nvim',                  {'do':  'yarn install --frozen-lockfile'}
-  Plug 'antoinemadec/coc-fzf'
+  Plug '~/playground/coc-fzf'
 
-  "=================================== STATUS LINE =========================================
+  "=================================== STATUS LINE ========================================
   Plug 'itchyny/lightline.vim'
 
-  "=================================== WINDOW ==============================================
+  "=================================== WINDOW =============================================
   Plug 'segeljakt/vim-silicon',              {'on':  'Silicon'} " Taking pictures of code
 
   "=================================== HTML ===============================================
@@ -75,7 +79,6 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'zdcthomas/medit'                     " Used for editing macros
 
 call plug#end()
-
 if &runtimepath =~ 'leader-mapper'
   let g:leaderMenu   = {'name':                 "primary"}
   let g:leaderMenu.s = [':Svrc',                "Re-source Vim config"]
@@ -104,7 +107,6 @@ if &runtimepath =~ 'dirvish'
   command! -nargs=? -complete=dir Explore Dirvish <args>
   command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
   command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
-  nnoremap <leader>n :Explore<cr>
   let g:dirvish_mode=':sort | sort ,^.*[^/]$, r'
 endif
 
@@ -118,13 +120,6 @@ if &runtimepath =~ 'textobj'
   \ })
 endif
 
-if &runtimepath =~ 'sneak'
-  map f <Plug>Sneak_f
-  map F <Plug>Sneak_F
-  map t <Plug>Sneak_t
-  map T <Plug>Sneak_T
-  let g:sneak#s_next = 1
-endif
 
 if &runtimepath =~ 'snek'
   let g:camelsnek_alternative_camel_commands = 1
@@ -144,11 +139,6 @@ if &runtimepath =~ 'auto-pairs'
     au FileType rust let b:AutoPairs = AutoPairsDefine({'\w\zs<': '>'})
     au FileType vim let b:AutoPairs  = AutoPairsDefine({}, ['"'])
   augroup END
-endif
-
-if &runtimepath =~ 'lens'
-  let g:lens#height_resize_min = 5
-  let g:lens#width_resize_min = 20
 endif
 
 " =================================  COC  ===========================================
@@ -203,6 +193,7 @@ if &runtimepath =~ 'coc'
         \'coc-json',
         \'coc-rust-analyzer',
         \'coc-tsserver',
+        \'coc-markdownlint',
         \'coc-yaml',
         \]
         " \'coc-prettier',
@@ -224,20 +215,21 @@ if &runtimepath =~ 'coc'
     nnoremap <silent> <leader>ea :<C-u>CocFzfList diagnostics<CR>
     if &runtimepath=~'leader-mapper'
       let CocLeaderMenu = {'name':  "coc",
-               \'co': [":CocFzfList commands",                  "Commands"],
-               \'e': [":CocFzfList extensions",                "Extensions"],
-               \'d': [":CocFzfList diagnostics --current-buf", "Diagnostics, current buffer"],
-               \'D': [":CocFzfList diagnostics",               "All diagnostics"],
-               \'l': [":CocFzfList location",                  "Location"],
-               \'o': [":CocFzfList outline",                   "Outline"],
-               \'L': [":CocLog",                               "Logs"],
-               \'cl': [":CocAction('codeLensAction')",          "CodeLens Action"],
-               \'I': [":CocInfo",                              "Info"],
-               \'C': [":CocConfig",                            "Open coc config"],
-               \'u': [":CocUpdate",                            "Update Coc extensions"],
+               \'C': [":CocConfig",                      "Open coc config"],
+               \'F': [":CocFzfList",                     "all fzf stuffs"],
+               \'D': [":CocFzfList diagnostics",         "All diagnostics"],
+               \'I': [":CocInfo",                        "Info"],
+               \'L': [":CocLog",                         "Logs"],
+               \'c': [":CocFzfList commands",            "Commands"],
+               \'d': [":CocFzfList diagnostics",         "Diagnostics"],
+               \'e': [":CocFzfList extensions",          "Extensions"],
+               \'f': [":CocFix",                         "Fix"],
+               \'l': [":CocFzfList location",            "Location"],
+               \'o': [":call coc_fzf#outline#fzf_run()", "Outline"],
+               \'u': [":CocUpdate",                      "Update Coc extensions"],
                \}
 
-      let g:leaderMenu.c = [CocLeaderMenu,                  "Coc menu"]
+      let g:leaderMenu.c = [CocLeaderMenu,                  "Completion commands with Coc"]
     endif
   endif
 
@@ -325,7 +317,6 @@ if &runtimepath =~ 'fzf'
   nnoremap <silent> <Leader>p :Files<CR>
   nnoremap <silent> <Leader>b :Buffers<CR>
   nnoremap <silent> <Leader>gf :GFiles?<CR>
-  nnoremap <silent> <Leader>c :Commits<CR>
   " TODO: here we should have leader F in visual mode just search for the visual selection
   " visual selection expantions are hard
   nnoremap <silent> <Leader>F :RG<CR>
@@ -335,14 +326,14 @@ if &runtimepath =~ 'fzf'
   if &runtimepath =~ 'leader-mapper'
 
         let FzfLeaderMenu = {'name': "Fzf Search",
-                 \'c': [":Commits",  "Commits"],
-                 \'m': [":Maps",     "Mappings"],
                  \':': [":Commands", "Commands"],
+                 \'C': [":Colors",   "Color scheme"],
+                 \'c': [":Commits",  "Commits"],
                  \'g': [":GFiles?",  "Git files"],
-                 \'C': [":Colors",   "Color scheme"]
+                 \'m': [":Maps",     "Mappings"]
                  \}
 
-    let g:leaderMenu.f =[FzfLeaderMenu, "FZF"]
+    let g:leaderMenu.f =[FzfLeaderMenu, "FZF selections"]
   endif
   " preview for files
   command! -bang -nargs=? -complete=dir Files
@@ -422,17 +413,21 @@ if &runtimepath =~ 'vimwiki'
   let g:vimwiki_list = [primary]
   let g:vimwiki_conceallevel=0
   let g:vimwiki_filetypes = ['markdown']
+  let g:vimwiki_global_ext = 0
 
   " This allows tab complete to still work
   let g:vimwiki_key_mappings =
     \ {
     \ 'table_mappings': 0,
+    \ 'vimwiki_<C-Space>': 0,
     \ }
 
+  nmap <Leader>c <Plug>VimwikiToggleListItem
+
   if &runtimepath =~ 'leader-mapper'
-    
-        let VimwikiLeaderMenu = {'name':  "vimwiki",
-                 \'w': [":VimwikiUISelect", "open Wiki selection ui"],
+        let VimwikiLeaderMenu = {'name':    "vimwiki",
+                 \'s': [":VimwikiUISelect", "open Wiki selection ui"],
+                 \'i': [":VimwikiIndex 1",   "Irulan"],
                  \'t': [":VimwikiTOC",      "Table of content"]
                  \}
 
@@ -440,3 +435,47 @@ if &runtimepath =~ 'vimwiki'
   endif
 endif
 
+if &runtimepath =~ 'goyo'
+  let g:goyo_width = "65%"
+  function! s:goyo_enter()
+    if (&filetype =~ 'markdown')
+      Limelight
+      if executable('tmux') && strlen($TMUX)
+        silent !tmux set status off
+        silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+      endif
+    endif
+  endfunction
+
+  function! s:goyo_leave()
+    if (&filetype =~ 'markdown')
+      Limelight!
+      if executable('tmux') && strlen($TMUX)
+        silent !tmux set status on
+        silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+      endif
+    endif
+  endfunction
+
+  augroup GOYO
+    autocmd! User GoyoEnter nested call <SID>goyo_enter()
+    autocmd! User GoyoLeave nested call <SID>goyo_leave()
+  augroup END
+
+  if &runtimepath =~ 'leader-mapper'
+    let g:leaderMenu.g =[":Goyo", "Goyo"]                                                        
+  endif                                                                                          
+
+end                                                                                              
+
+if &runtimepath =~ 'draw'
+  if &runtimepath =~ 'leader-mapper'
+    let DrawingLeaderMenu = {'name': "Draw mode",
+             \'d': [":DrawIt",       "Enter drawing mode"],
+             \'s': [":DrawIt!",      "Stop drawing mode"],
+             \'t': [":VimwikiTOC",   "Table of content"]
+             \}
+
+    let g:leaderMenu.d =[DrawingLeaderMenu, "Draw mode"]
+  endif
+endif
