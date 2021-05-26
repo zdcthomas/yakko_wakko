@@ -1,14 +1,4 @@
 {
-  "languageserver": {
-    "elmLS": {
-      "command": "elm-language-server",
-      "filetypes": ["elm"],
-      "rootPatterns": ["elm.json"],
-      "initializationOptions": {
-        "elmAnalyseTrigger": "change"
-      }
-    }
-  },
   "codeLens.enable": true, 
   "elixirLS.suggestSpecs": true,
   "elixirLS.fetchDeps": false,
