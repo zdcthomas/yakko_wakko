@@ -6,39 +6,38 @@ endif
 
 call plug#begin('~/.vim/z_plugins')
   Plug 'junegunn/vim-plug'                   " The current plugin manager
-"=================================== Text Editing =========================================
+  "=================================== Text Editing =========================================
+  " Plug '~/playground/vim-swap'             " Use to swap args in lists/funcs, has a 'mode' for lists
   Plug 'AndrewRadev/sideways.vim'            " Just for inserting new elements into the list
-  Plug 'dpretet/vim-leader-mapper'           " Really nice menu plugin
+  Plug 'junegunn/goyo.vim'                   " Focused text editing
+  Plug 'junegunn/limelight.vim'              " Highlights the current paragraph
   Plug 'junegunn/vim-easy-align'             " Easily align text on a specific character
   Plug 'machakann/vim-highlightedyank'       " Highlights yanked section
   Plug 'machakann/vim-sandwich'              " Love this thing
   Plug 'machakann/vim-swap'                  " Use to swap args in lists/funcs, has a 'mode' for lists
-  Plug 'tpope/vim-commentary'                " You know, for commenting
-  Plug 'vimwiki/vimwiki'                     " Wiki management and bindings
-  Plug 'rhysd/git-messenger.vim'             " Brings up helpful window to view commit message for line
   Plug 'nicwest/vim-camelsnek'               " Convert text between different casings
-  Plug 'junegunn/goyo.vim'                   " Focused text editing
-  Plug 'junegunn/limelight.vim'              " Highlights the current paragraph
-  Plug 'vim-scripts/DrawIt'
+  Plug 'tpope/vim-commentary'                " You know, for commenting
+  Plug 'vim-scripts/DrawIt'                  " Box drawing
+  Plug 'vimwiki/vimwiki'                     " Wiki management and bindings
+  Plug '~/playground/vim-leader-mapper'      " Really nice menu plugin
 
   "=================================== TEXT OBJECTS =======================================
-  Plug 'kana/vim-textobj-user'
-  Plug 'glts/vim-textobj-comment'
+  Plug 'kana/vim-textobj-user'               " User defined text objects... what it says on the tin
   Plug 'Julian/vim-textobj-variable-segment' " Text Object for |this|_part_of_a_var
   Plug 'michaeljsmith/vim-indent-object'     " I don't know why this isn't a built in
 
   "=================================== AUTO PAIRING POSSIBILITIES =========================
-  " I hate all of them but they're pretty convenient
-  Plug 'jiangmiao/auto-pairs'
+  Plug 'jiangmiao/auto-pairs'                " I hate all of them but they're pretty convenient
 
   "=================================== FILE ===============================================
-  Plug 'junegunn/fzf.vim'
-  Plug '~/.fzf'
-  Plug 'justinmk/vim-dirvish'
-  Plug 'kristijanhusak/vim-dirvish-git'
-  Plug 'roginfarrer/vim-dirvish-dovish'
+  Plug 'junegunn/fzf.vim'                    " Best fuzzy finder this side of the mississippi
+  Plug '~/.fzf'                              " The actual binary
+  Plug 'justinmk/vim-dirvish'                " File explorer
+  Plug 'kristijanhusak/vim-dirvish-git'      " Git signs in dirvish
+  Plug 'roginfarrer/vim-dirvish-dovish'      " Basic actions in dirvish
 
   " =================================== GIT ===============================================
+  Plug 'rhysd/git-messenger.vim'             " Brings up helpful window to view commit message for line
   Plug 'airblade/vim-gitgutter'              " Show changes to repo in sidebar
 
   "=================================== LANGUAGE ===========================================
@@ -49,11 +48,11 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'hashivim/vim-terraform',             {'for': 'terraform'}
   Plug 'ianks/vim-tsx',                      {'for': 'typescript'}
   Plug 'idris-hackers/idris-vim',            {'for': 'idris'}
+  Plug 'jparise/vim-graphql',                {'for': 'graphql'}
   Plug 'keith/swift.vim',                    {'for': 'swift'}
   Plug 'leafgarland/typescript-vim',         {'for': 'typescript'}
   Plug 'pangloss/vim-javascript',            {'for': 'javascript'}
   Plug 'rust-lang/rust.vim',                 {'for': 'rust'}
-  Plug 'jparise/vim-graphql',                {'for': 'graphql'}
 
   "=================================== COMPLETION =========================================
   Plug 'neoclide/coc.nvim',                  {'do':  'yarn install --frozen-lockfile'}
@@ -97,9 +96,6 @@ if &runtimepath =~ 'leader-mapper'
       let g:leaderMenu.p = [PlugLeaderMenu, "Plug"]
 
   endif
-endif
-
-if &runtimepath =~ 'git-messenger'
 endif
 
 if &runtimepath =~ 'dirvish'
@@ -176,7 +172,8 @@ if &runtimepath =~ 'coc'
   nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
   nmap <silent> ]d <Plug>(coc-diagnostic-next)
   nmap <silent> [d <Plug>(coc-diagnostic-prev)
-  nmap <Leader>fq <Plug>(coc-fix-current)
+  nmap <Leader>cf <Plug>(coc-fix-current)
+  
   inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -193,7 +190,6 @@ if &runtimepath =~ 'coc'
         \'coc-json',
         \'coc-rust-analyzer',
         \'coc-tsserver',
-        \'coc-markdownlint',
         \'coc-yaml',
         \]
         " \'coc-prettier',
@@ -212,21 +208,22 @@ if &runtimepath =~ 'coc'
   autocmd CursorHold * silent call CocActionAsync('highlight')
 
   if &runtimepath=~'coc-fzf'
-    nnoremap <silent> <leader>ea :<C-u>CocFzfList diagnostics<CR>
+    nnoremap <silent> <leader>cd :<C-u>CocFzfList diagnostics<CR>
+    nnoremap <silent> <leader>co :<C-u>CocFzfList outline<CR>
+    nnoremap <silent> <leader>cs :<C-u>CocFzfList symbols<CR>
+
     if &runtimepath=~'leader-mapper'
       let CocLeaderMenu = {'name':  "coc",
-               \'C': [":CocConfig",                      "Open coc config"],
-               \'F': [":CocFzfList",                     "all fzf stuffs"],
-               \'D': [":CocFzfList diagnostics",         "All diagnostics"],
-               \'I': [":CocInfo",                        "Info"],
-               \'L': [":CocLog",                         "Logs"],
-               \'c': [":CocFzfList commands",            "Commands"],
-               \'d': [":CocFzfList diagnostics",         "Diagnostics"],
-               \'e': [":CocFzfList extensions",          "Extensions"],
-               \'f': [":CocFix",                         "Fix"],
-               \'l': [":CocFzfList location",            "Location"],
-               \'o': [":call coc_fzf#outline#fzf_run()", "Outline"],
-               \'u': [":CocUpdate",                      "Update Coc extensions"],
+               \'C': [":CocConfig",                       "Open coc config"],
+               \'F': [":CocFzfList",                      "all fzf stuffs"],
+               \'I': [":CocInfo",                         "Info"],
+               \'c': [":CocFzfList commands",             "Commands"],
+               \'d': [":CocFzfList diagnostics",          "Diagnostics"],
+               \'e': [":CocFzfList extensions",           "Extensions"],
+               \'f': [":CocFix",                          "Fix"],
+               \'l': [":CocFzfList location",             "Location"],
+               \'o': [" :call coc_fzf#outline#fzf_run()", "Outline"],
+               \'u': [":CocUpdate",                       "Update Coc extensions"],
                \}
 
       let g:leaderMenu.c = [CocLeaderMenu,                  "Completion commands with Coc"]
@@ -357,6 +354,8 @@ endif
 if &runtimepath =~ 'vim-gitgutter'
   set updatetime=100
   let g:gitgutter_map_keys = 0
+  command! Gqf GitGutterQuickFix | copen
+  nnoremap <Leader>gc :Gqf<CR>
   nnoremap <Leader>ga :GitGutterStageHunk<CR>
   nnoremap <Leader>gu :GitGutterUndoHunk<CR>
   nnoremap <Leader>gn :GitGutterNextHunk<CR>
@@ -416,9 +415,11 @@ if &runtimepath =~ 'vimwiki'
   let g:vimwiki_global_ext = 0
 
   " This allows tab complete to still work
+  " As well as - for dirvish
   let g:vimwiki_key_mappings =
     \ {
-    \ 'table_mappings': 0,
+    \ 'headers': 0,
+    \ 'table_mappings': 0, 
     \ 'vimwiki_<C-Space>': 0,
     \ }
 
@@ -458,8 +459,9 @@ if &runtimepath =~ 'goyo'
   endfunction
 
   augroup GOYO
-    autocmd! User GoyoEnter nested call <SID>goyo_enter()
-    autocmd! User GoyoLeave nested call <SID>goyo_leave()
+    autocmd!
+    autocmd User GoyoEnter nested call <SID>goyo_enter()
+    autocmd User GoyoLeave nested call <SID>goyo_leave()
   augroup END
 
   if &runtimepath =~ 'leader-mapper'
