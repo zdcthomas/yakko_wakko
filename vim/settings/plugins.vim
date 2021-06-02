@@ -78,6 +78,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'zdcthomas/medit'                     " Used for editing macros
 
 call plug#end()
+
 if &runtimepath =~ 'leader-mapper'
   let g:leaderMenu   = {'name':                 "primary"}
   let g:leaderMenu.s = [':Svrc',                "Re-source Vim config"]
@@ -285,9 +286,56 @@ endif
 
 " ================================= FZF =================================================
 if &runtimepath =~ 'fzf'
-  let window = {}
-  let window.width = 0.9
-  let window.height = 0.6
+
+  if &runtimepath =~ 'vimwiki'
+    let s:create_key = 'ctrl-x'
+    function NoteHandler(lines) abort
+      echom join(a:lines, '|')
+      " foo/bar|enter (non existent entry, hitting enter)
+      " foo/bar|ctrl-x (non existent entry, hitting <c-x>)
+      " ne|enter|Neovim.md (existent entry selected)
+      " this is so far, just the same. 
+      let wiki_dir = '~/irulan/wiki/' 
+      if a:lines == [] || a:lines == ['','','']
+          return
+      endif
+
+      let query = a:lines[0]
+      let keypress = a:lines[1]
+      let keymap = { 
+            \ s:create_key : 'vertical split' ,
+            \ 'enter': 'vertical split',
+            \ 'ctrl-s': 'split',
+            \ 'ctrl-v': 'vertical split',
+            \ 'ctrl-t': 'tabedit',
+            \}
+      let note_window = 'vertical split'
+      let cmd = get(keymap, keypress, 'edit')
+      if len(a:lines) == 2 && (a:lines[-1] == s:create_key || a:lines[-1] == 'enter')
+        let candidate = fnameescape(wiki_dir . query . '.md')
+      elseif len(a:lines) == 3
+        let candidate = a:lines[2]
+      else
+        return
+      endif
+      
+      execute cmd . ' ' . candidate
+      augroup WikiNewBuf
+        autocmd!
+        autocmd BufWritePre <buffer> call mkdir(expand("<afile>:p:h"), "p")
+      augroup END
+    endfunction
+
+    function TryIt() abort
+      call fzf#run(fzf#wrap({ 'sink*': function('NoteHandler'), 'dir': '~/irulan/wiki',
+            \ 'options': '--expect=ctrl-x,enter,ctrl-s,ctrl-v,ctrl-t, --print-query --exact'}))
+    endfunction
+
+    command! -nargs=* -bang Note call TryIt()
+    nnoremap <leader>n :Note<Cr>
+  endif
+    
+  let window = {'width': 0.9, 'height': 0.6}
   if &runtimepath =~ 'gruvbox'
     let window.highlight = 'GruvboxAqua'
   endif
@@ -404,13 +452,20 @@ if &runtimepath =~ 'sandwich'
 endif
 
 if &runtimepath =~ 'vimwiki'
-  let primary = {}
-  let primary.path = '~/irulan/wiki'
-  let primary.syntax = 'markdown'
-  let primary.ext = 'md'
+  let primary = {
+        \'path':  '~/irulan/wiki',
+        \'syntax':  'markdown',
+        \'ext': 'md',
+        \'custom_wiki2html': 'vimwiki_markdown',
+        \'html_filename_parameterization': 1,
+        \'template_default': 'default',
+        \'template_ext': '.tpl',
+        \'template_path': '~/irulan/templates/',
+        \}
 
   let g:vimwiki_list = [primary]
   let g:vimwiki_conceallevel=0
+  let g:vimwiki_markdown_link_ext = 1
   let g:vimwiki_filetypes = ['markdown']
   let g:vimwiki_global_ext = 0
 
@@ -423,6 +478,7 @@ if &runtimepath =~ 'vimwiki'
     \ 'vimwiki_<C-Space>': 0,
     \ }
 
+  let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr, pre, script'
   nmap <Leader>c <Plug>VimwikiToggleListItem
 
   if &runtimepath =~ 'leader-mapper'
