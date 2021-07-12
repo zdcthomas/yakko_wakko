@@ -6,7 +6,7 @@ export FZF_ALT_C_COMMAND="fd -t d"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 export FZF_CTRL_T_OPTS="--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_DEFAULT_COMMAND="fd --hidden --type f"
-export FZF_DEFAULT_OPTS="--height 40%"
+export FZF_DEFAULT_OPTS="--height 40% --reverse --border=rounded"
 
 export SKIM_DEFAULT_COMMAND="fd --hidden --type f"
 

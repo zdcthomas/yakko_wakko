@@ -20,6 +20,7 @@ call plug#begin('~/.vim/z_plugins')
   Plug 'vim-scripts/DrawIt'                  " Box drawing
   Plug 'vimwiki/vimwiki'                     " Wiki management and bindings
   Plug '~/playground/vim-leader-mapper'      " Really nice menu plugin
+  Plug 'mbbill/undotree'
 
   "=================================== TEXT OBJECTS =======================================
   Plug 'kana/vim-textobj-user'               " User defined text objects... what it says on the tin
@@ -69,6 +70,10 @@ call plug#begin('~/.vim/z_plugins')
 
   "=================================== COLOR SCHEMES ======================================
   Plug 'gruvbox-community/gruvbox'
+  Plug 'ayu-theme/ayu-vim'
+  Plug 'yuttie/hydrangea-vim'
+  Plug 'cocopon/iceberg.vim'
+  Plug 'arcticicestudio/nord-vim'
 
   "=================================== UI =================================================
   Plug 'mhinz/vim-startify'                  " pretty startup
@@ -140,8 +145,8 @@ endif
 
 " =================================  COC  ===========================================
 if &runtimepath =~ 'coc'
-  let g:coc_snippet_next = '<c-j>'
-  let g:coc_snippet_previous = '<c-k>'
+  let g:coc_snippet_next = '<c-n>'
+  let g:coc_snippet_previous = '<c-p>'
 
   function! s:check_back_space() abort
     let col = col('.') - 1
@@ -287,59 +292,7 @@ endif
 " ================================= FZF =================================================
 if &runtimepath =~ 'fzf'
 
-  if &runtimepath =~ 'vimwiki'
-    let s:create_key = 'ctrl-x'
-    function NoteHandler(lines) abort
-      echom join(a:lines, '|')
-      " foo/bar|enter (non existent entry, hitting enter)
-      " foo/bar|ctrl-x (non existent entry, hitting <c-x>)
-      " ne|enter|Neovim.md (existent entry selected)
-      " this is so far, just the same. 
-      let wiki_dir = '~/irulan/wiki/' 
-      if a:lines == [] || a:lines == ['','','']
-          return
-      endif
-
-      let query = a:lines[0]
-      let keypress = a:lines[1]
-      let keymap = { 
-            \ s:create_key : 'vertical split' ,
-            \ 'enter': 'vertical split',
-            \ 'ctrl-s': 'split',
-            \ 'ctrl-v': 'vertical split',
-            \ 'ctrl-t': 'tabedit',
-            \}
-      let note_window = 'vertical split'
-      let cmd = get(keymap, keypress, 'edit')
-      if len(a:lines) == 2 && (a:lines[-1] == s:create_key || a:lines[-1] == 'enter')
-        let candidate = fnameescape(wiki_dir . query . '.md')
-      elseif len(a:lines) == 3
-        let candidate = a:lines[2]
-      else
-        return
-      endif
-      
-      execute cmd . ' ' . candidate
-      augroup WikiNewBuf
-        autocmd!
-        autocmd BufWritePre <buffer> call mkdir(expand("<afile>:p:h"), "p")
-      augroup END
-    endfunction
-
-    function TryIt() abort
-      call fzf#run(fzf#wrap({ 'sink*': function('NoteHandler'), 'dir': '~/irulan/wiki',
-            \ 'options': '--expect=ctrl-x,enter,ctrl-s,ctrl-v,ctrl-t, --print-query --exact'}))
-    endfunction
-
-    command! -nargs=* -bang Note call TryIt()
-    nnoremap <leader>n :Note<Cr>
-  endif
-    
-  let window = {'width': 0.9, 'height': 0.6}
-  if &runtimepath =~ 'gruvbox'
-    let window.highlight = 'GruvboxAqua'
-  endif
-  let window.border = 'rounded'
+  let window = {'width': 0.9, 'height': 0.6, 'highlight': 'DiffChange', 'border': 'rounded'}
   let g:fzf_layout = { 'window': window }
 
   let g:fzf_buffers_jump = 1
@@ -382,7 +335,7 @@ if &runtimepath =~ 'fzf'
   endif
   " preview for files
   command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'source': 'ag --hidden --ignore .git -g ""', 'options': ['--layout=reverse']}), <bang>0)
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(fzf#wrap({'source': 'ag --hidden --ignore .git -g ""', 'options': ['--layout=reverse']})), <bang>0)
 
   function! s:build_quickfix_list(lines)
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
@@ -391,10 +344,48 @@ if &runtimepath =~ 'fzf'
   endfunction
 
   let g:fzf_action = {
-  \ 'alt-j': 'split',
-  \ 'alt-l': 'vsplit',
-  \ 'ctrl-f': function('s:build_quickfix_list'),
-  \ 'ctrl-t': 'tab split' }
+    \ 'alt-j': 'split',
+    \ 'alt-l': 'vsplit',
+    \ 'ctrl-f': function('s:build_quickfix_list'),
+    \ 'ctrl-t': 'tab split' }
+
+  if &runtimepath =~ 'vimwiki'
+    let s:create_key = 'ctrl-x'
+    function NoteHandler(lines) abort
+      echom join(a:lines, '|')
+      let wiki_dir = '~/irulan/wiki/' 
+      if a:lines == [] || a:lines == ['','','']
+          return
+      endif
+
+      let query = a:lines[0]
+      let keypress = a:lines[1]
+      let keymap = extend(g:fzf_action, {s:create_key : 'vertical split'})
+      let note_window = 'vertical split'
+      let cmd = get(keymap, keypress, 'edit')
+      if len(a:lines) == 2 && (a:lines[-1] == s:create_key || a:lines[-1] == 'enter')
+        let candidate = fnameescape(wiki_dir . query . '.md')
+      elseif len(a:lines) == 3
+        let candidate = a:lines[2]
+      else
+        return
+      endif
+      
+      execute cmd . ' ' . candidate
+      augroup WikiNewBuf
+        autocmd!
+        autocmd BufWritePre <buffer> call mkdir(expand("<afile>:p:h"), "p")
+      augroup END
+    endfunction
+
+    function TryIt() abort
+      call fzf#run(fzf#wrap({ 'sink*': function('NoteHandler'), 'dir': '~/irulan/wiki',
+            \ 'options': '--expect=enter,ctrl-x,' . join(keys(g:fzf_action), ',') . ' --print-query --exact'}))
+    endfunction
+
+    command! -nargs=* -bang Note call TryIt()
+    nnoremap <leader>n :Note<Cr>
+  endif
 
 endif
 
@@ -482,10 +473,12 @@ if &runtimepath =~ 'vimwiki'
   nmap <Leader>c <Plug>VimwikiToggleListItem
 
   if &runtimepath =~ 'leader-mapper'
-        let VimwikiLeaderMenu = {'name':    "vimwiki",
-                 \'s': [":VimwikiUISelect", "open Wiki selection ui"],
-                 \'i': [":VimwikiIndex 1",   "Irulan"],
-                 \'t': [":VimwikiTOC",      "Table of content"]
+        let VimwikiLeaderMenu = {'name':         "vimwiki",
+                 \'s': [":VimwikiUISelect",      "open Wiki selection ui"],
+                 \'i': [":VimwikiIndex 1",       "Irulan"],
+                 \'e': [":VimwikiMakeDiaryNote", "Ephemeral"],
+                 \'d': [":!dmux ~/irulan",       "edit"],
+                 \'t': [":VimwikiTOC",           "Table of content"]
                  \}
 
     let g:leaderMenu.w =[VimwikiLeaderMenu, "vimwiki"]
@@ -501,7 +494,10 @@ if &runtimepath =~ 'goyo'
         silent !tmux set status off
         silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
       endif
+    else
+      set number
     endif
+
   endfunction
 
   function! s:goyo_leave()
