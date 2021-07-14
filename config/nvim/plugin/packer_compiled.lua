@@ -69,23 +69,26 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["completion-nvim"] = {
-    config = { "\27LJ\2\nÄ\3\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0¤\3        \" Use <Tab> and <S-Tab> to navigate through popup menu\n        inoremap <expr> <Tab>   pumvisible() ? \"\\<C-n>\" : \"\\<Tab>\"\n        inoremap <expr> <S-Tab> pumvisible() ? \"\\<C-p>\" : \"\\<S-Tab>\"\n\n        \" Set completeopt to have a better completion experience\n        set completeopt=menuone,noinsert,noselect\n\n        \" Avoid showing message extra message when using completion\n        set shortmess+=c\n      \bcmd\bvim\0" },
-    loaded = true,
-    path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/completion-nvim"
-  },
   gruvbox = {
     config = { "\27LJ\2\n7\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\24colorscheme gruvbox\bcmd\bvim\0" },
     loaded = true,
     path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/gruvbox"
   },
+  ["lsp_signature.nvim"] = {
+    loaded = true,
+    path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim"
+  },
+  ["nvim-compe"] = {
+    config = { "\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17config.compe\frequire\0" },
+    loaded = true,
+    path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/nvim-compe"
+  },
   ["nvim-lspconfig"] = {
-    config = { "\27LJ\2\nA\2\0\4\1\3\0\a6\0\0\0009\0\1\0009\0\2\0-\2\0\0G\3\0\0A\0\1\1K\0\1\0\1À\24nvim_buf_set_option\bapi\bvimA\2\0\4\1\3\0\a6\0\0\0009\0\1\0009\0\2\0-\2\0\0G\3\0\0A\0\1\1K\0\1\0\1À\24nvim_buf_set_keymap\bapi\bvimÁ\n\1\2\n\0(\0n3\2\0\0003\3\1\0\18\4\2\0'\6\2\0'\a\3\0B\4\3\1\18\4\3\0'\6\4\0'\a\5\0'\b\6\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\b\0'\b\t\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\n\0'\b\v\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\f\0'\b\r\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\14\0'\b\15\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\16\0'\b\17\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\18\0'\b\19\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\20\0'\b\21\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\22\0'\b\23\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\24\0'\b\25\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\26\0'\b\27\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\28\0'\b\29\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\30\0'\b\31\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a \0'\b!\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\"\0'\b#\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a$\0'\b%\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a&\0'\b'\0006\t\a\0B\4\5\0012\0\0€K\0\1\0*<cmd>lua vim.lsp.buf.formatting()<CR>\r<space>f2<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>\r<space>q0<cmd>lua vim.lsp.diagnostic.goto_next()<CR>\a]d0<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>\a[d<<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>\r<space>e*<cmd>lua vim.lsp.buf.references()<CR>\agr+<cmd>lua vim.lsp.buf.code_action()<CR>\14<space>ca&<cmd>lua vim.lsp.buf.rename()<CR>\14<space>rn/<cmd>lua vim.lsp.buf.type_definition()<CR>\r<space>DJ<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>\14<space>wl7<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>\14<space>wr4<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>\14<space>wa.<cmd>lua vim.lsp.buf.signature_help()<CR>\n<C-k>.<cmd>lua vim.lsp.buf.implementation()<CR>\agi%<Cmd>lua vim.lsp.buf.hover()<CR>\6K*<Cmd>lua vim.lsp.buf.definition()<CR>\agd\topts+<Cmd>lua vim.lsp.buf.declaration()<CR>\agD\6n\27v:lua.vim.lsp.omnifunc\romnifunc\0\0Ô\2\1\0\f\0\14\0\0286\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\0\0009\0\1\0'\2\3\0B\0\2\0016\0\4\0'\2\5\0B\0\2\0023\1\6\0005\2\a\0006\3\b\0\18\5\2\0B\3\2\4X\6\b€8\b\a\0009\b\t\b5\n\n\0006\v\v\0=\v\v\n5\v\f\0=\v\r\nB\b\2\1E\6\3\3R\6öK\0\1\0\nflags\1\0\1\26debounce_text_changes\3–\1\14on_attach\1\0\0\nsetup\vipairs\1\4\0\0\relixirls\18rust_analyzer\rtsserver\0\14lspconfig\frequire6 au! BufRead,BufNewFile *.ex set filetype=elixir 4 au! BufRead,BufNewFile *.rs set filetype=rust \bcmd\bvim\0" },
+    config = { "\27LJ\2\n>\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\21config.lspconfig\frequire\0" },
     loaded = true,
     path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
   },
   ["nvim-lspinstall"] = {
-    config = { "\27LJ\2\n8\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\15lspinstall\frequire\0" },
     loaded = true,
     path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/nvim-lspinstall"
   },
@@ -110,18 +113,47 @@ _G.packer_plugins = {
     config = { "\27LJ\2\n›\1\0\0\6\0\t\0\f6\0\0\0'\2\1\0B\0\2\0016\0\2\0009\0\3\0009\0\4\0'\2\5\0'\3\6\0'\4\a\0005\5\b\0B\0\5\1K\0\1\0\1\0\2\vsilent\2\fnoremap\2\30:Telescope find_files<cr>\14<Leader>p\6n\20nvim_set_keymap\bapi\bvim\14telescope\frequire\0" },
     loaded = true,
     path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/telescope.nvim"
+  },
+  ["vim-elixir"] = {
+    loaded = true,
+    path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/vim-elixir"
+  },
+  ["vim-gitgutter"] = {
+    config = { "\27LJ\2\n²\5\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0€\5        set updatetime=100\n        let g:gitgutter_map_keys = 0\n        command! Gqf GitGutterQuickFix | copen\n        nnoremap <Leader>gc :Gqf<CR>\n        nnoremap <Leader>ga :GitGutterStageHunk<CR>\n        nnoremap <Leader>gu :GitGutterUndoHunk<CR>\n        nnoremap <Leader>gn :GitGutterNextHunk<CR>\n        nnoremap <Leader>gp :GitGutterPrevHunk<CR>\n        nnoremap <Leader>gs :GitGutterPreviewHunk<CR>\n        omap ih <Plug>(GitGutterTextObjectInnerPending)\n        omap ah <Plug>(GitGutterTextObjectOuterPending)\n        xmap ih <Plug>(GitGutterTextObjectInnerVisual)\n        xmap ah <Plug>(GitGutterTextObjectOuterVisual)\n      \14nvim_exec\bapi\bvim\0" },
+    loaded = true,
+    path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/vim-gitgutter"
+  },
+  ["vim-indent-object"] = {
+    loaded = true,
+    path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/vim-indent-object"
+  },
+  ["vim-vsnip"] = {
+    loaded = true,
+    path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/vim-vsnip"
+  },
+  ["vim-vsnip-integ"] = {
+    loaded = true,
+    path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/vim-vsnip-integ"
   }
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: completion-nvim
-time([[Config for completion-nvim]], true)
-try_loadstring("\27LJ\2\nÄ\3\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0¤\3        \" Use <Tab> and <S-Tab> to navigate through popup menu\n        inoremap <expr> <Tab>   pumvisible() ? \"\\<C-n>\" : \"\\<Tab>\"\n        inoremap <expr> <S-Tab> pumvisible() ? \"\\<C-p>\" : \"\\<S-Tab>\"\n\n        \" Set completeopt to have a better completion experience\n        set completeopt=menuone,noinsert,noselect\n\n        \" Avoid showing message extra message when using completion\n        set shortmess+=c\n      \bcmd\bvim\0", "config", "completion-nvim")
-time([[Config for completion-nvim]], false)
--- Config for: nvim-lspinstall
-time([[Config for nvim-lspinstall]], true)
-try_loadstring("\27LJ\2\n8\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\15lspinstall\frequire\0", "config", "nvim-lspinstall")
-time([[Config for nvim-lspinstall]], false)
+-- Config for: telescope.nvim
+time([[Config for telescope.nvim]], true)
+try_loadstring("\27LJ\2\n›\1\0\0\6\0\t\0\f6\0\0\0'\2\1\0B\0\2\0016\0\2\0009\0\3\0009\0\4\0'\2\5\0'\3\6\0'\4\a\0005\5\b\0B\0\5\1K\0\1\0\1\0\2\vsilent\2\fnoremap\2\30:Telescope find_files<cr>\14<Leader>p\6n\20nvim_set_keymap\bapi\bvim\14telescope\frequire\0", "config", "telescope.nvim")
+time([[Config for telescope.nvim]], false)
+-- Config for: nvim-compe
+time([[Config for nvim-compe]], true)
+try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17config.compe\frequire\0", "config", "nvim-compe")
+time([[Config for nvim-compe]], false)
+-- Config for: nvim-lspconfig
+time([[Config for nvim-lspconfig]], true)
+try_loadstring("\27LJ\2\n>\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\21config.lspconfig\frequire\0", "config", "nvim-lspconfig")
+time([[Config for nvim-lspconfig]], false)
+-- Config for: vim-gitgutter
+time([[Config for vim-gitgutter]], true)
+try_loadstring("\27LJ\2\n²\5\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0€\5        set updatetime=100\n        let g:gitgutter_map_keys = 0\n        command! Gqf GitGutterQuickFix | copen\n        nnoremap <Leader>gc :Gqf<CR>\n        nnoremap <Leader>ga :GitGutterStageHunk<CR>\n        nnoremap <Leader>gu :GitGutterUndoHunk<CR>\n        nnoremap <Leader>gn :GitGutterNextHunk<CR>\n        nnoremap <Leader>gp :GitGutterPrevHunk<CR>\n        nnoremap <Leader>gs :GitGutterPreviewHunk<CR>\n        omap ih <Plug>(GitGutterTextObjectInnerPending)\n        omap ah <Plug>(GitGutterTextObjectOuterPending)\n        xmap ih <Plug>(GitGutterTextObjectInnerVisual)\n        xmap ah <Plug>(GitGutterTextObjectOuterVisual)\n      \14nvim_exec\bapi\bvim\0", "config", "vim-gitgutter")
+time([[Config for vim-gitgutter]], false)
 -- Config for: gruvbox
 time([[Config for gruvbox]], true)
 try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\24colorscheme gruvbox\bcmd\bvim\0", "config", "gruvbox")
@@ -130,14 +162,6 @@ time([[Config for gruvbox]], false)
 time([[Config for nvim-treesitter]], true)
 try_loadstring("\27LJ\2\n—\2\0\0\5\0\14\0\0196\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\3\0'\2\4\0B\0\2\0029\0\5\0005\2\a\0005\3\6\0=\3\b\0024\3\0\0=\3\t\0025\3\n\0005\4\v\0=\4\f\3=\3\r\2B\0\2\1K\0\1\0\14highlight\fdisable\1\2\0\0\velixir\1\0\1\venable\2\19ignore_install\21ensure_installed\1\0\0\1\5\0\0\trust\velixir\blua\tfish\nsetup\28nvim-treesitter.configs\frequire6 au! BufRead,BufNewFile *.fish set filetype=fish \bcmd\bvim\0", "config", "nvim-treesitter")
 time([[Config for nvim-treesitter]], false)
--- Config for: telescope.nvim
-time([[Config for telescope.nvim]], true)
-try_loadstring("\27LJ\2\n›\1\0\0\6\0\t\0\f6\0\0\0'\2\1\0B\0\2\0016\0\2\0009\0\3\0009\0\4\0'\2\5\0'\3\6\0'\4\a\0005\5\b\0B\0\5\1K\0\1\0\1\0\2\vsilent\2\fnoremap\2\30:Telescope find_files<cr>\14<Leader>p\6n\20nvim_set_keymap\bapi\bvim\14telescope\frequire\0", "config", "telescope.nvim")
-time([[Config for telescope.nvim]], false)
--- Config for: nvim-lspconfig
-time([[Config for nvim-lspconfig]], true)
-try_loadstring("\27LJ\2\nA\2\0\4\1\3\0\a6\0\0\0009\0\1\0009\0\2\0-\2\0\0G\3\0\0A\0\1\1K\0\1\0\1À\24nvim_buf_set_option\bapi\bvimA\2\0\4\1\3\0\a6\0\0\0009\0\1\0009\0\2\0-\2\0\0G\3\0\0A\0\1\1K\0\1\0\1À\24nvim_buf_set_keymap\bapi\bvimÁ\n\1\2\n\0(\0n3\2\0\0003\3\1\0\18\4\2\0'\6\2\0'\a\3\0B\4\3\1\18\4\3\0'\6\4\0'\a\5\0'\b\6\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\b\0'\b\t\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\n\0'\b\v\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\f\0'\b\r\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\14\0'\b\15\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\16\0'\b\17\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\18\0'\b\19\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\20\0'\b\21\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\22\0'\b\23\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\24\0'\b\25\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\26\0'\b\27\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\28\0'\b\29\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\30\0'\b\31\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a \0'\b!\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a\"\0'\b#\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a$\0'\b%\0006\t\a\0B\4\5\1\18\4\3\0'\6\4\0'\a&\0'\b'\0006\t\a\0B\4\5\0012\0\0€K\0\1\0*<cmd>lua vim.lsp.buf.formatting()<CR>\r<space>f2<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>\r<space>q0<cmd>lua vim.lsp.diagnostic.goto_next()<CR>\a]d0<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>\a[d<<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>\r<space>e*<cmd>lua vim.lsp.buf.references()<CR>\agr+<cmd>lua vim.lsp.buf.code_action()<CR>\14<space>ca&<cmd>lua vim.lsp.buf.rename()<CR>\14<space>rn/<cmd>lua vim.lsp.buf.type_definition()<CR>\r<space>DJ<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>\14<space>wl7<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>\14<space>wr4<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>\14<space>wa.<cmd>lua vim.lsp.buf.signature_help()<CR>\n<C-k>.<cmd>lua vim.lsp.buf.implementation()<CR>\agi%<Cmd>lua vim.lsp.buf.hover()<CR>\6K*<Cmd>lua vim.lsp.buf.definition()<CR>\agd\topts+<Cmd>lua vim.lsp.buf.declaration()<CR>\agD\6n\27v:lua.vim.lsp.omnifunc\romnifunc\0\0Ô\2\1\0\f\0\14\0\0286\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\0\0009\0\1\0'\2\3\0B\0\2\0016\0\4\0'\2\5\0B\0\2\0023\1\6\0005\2\a\0006\3\b\0\18\5\2\0B\3\2\4X\6\b€8\b\a\0009\b\t\b5\n\n\0006\v\v\0=\v\v\n5\v\f\0=\v\r\nB\b\2\1E\6\3\3R\6öK\0\1\0\nflags\1\0\1\26debounce_text_changes\3–\1\14on_attach\1\0\0\nsetup\vipairs\1\4\0\0\relixirls\18rust_analyzer\rtsserver\0\14lspconfig\frequire6 au! BufRead,BufNewFile *.ex set filetype=elixir 4 au! BufRead,BufNewFile *.rs set filetype=rust \bcmd\bvim\0", "config", "nvim-lspconfig")
-time([[Config for nvim-lspconfig]], false)
 if should_profile then save_profiles() end
 
 end)
