@@ -1,5 +1,15 @@
 local conf = {}
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
+
 local system_name
 if vim.fn.has("mac") == 1 then
   system_name = "macOS"
@@ -24,21 +34,24 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap("n", "<Leader>cl", "<Cmd>lua vim.lsp.codelens.run()<CR>", opts)
+  buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap("n", "<space>gq", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  if client.resolved_capabilities.document_formatting then
+    buf_set_keymap("n", "<Leader>gq", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  end
 
   require "lsp_signature".on_attach()
 end
 
-function elixir_setup()
+local function elixir_setup()
   require('lspconfig').elixirls.setup{
     cmd = {'/Users/zacharythomas/elixir/elixir_ls/language_server.sh'},
+    capabilities = capabilities,
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
@@ -46,7 +59,7 @@ function elixir_setup()
   }
 end
 
-function lua_setup()
+local function lua_settings()
   -- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
   local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
   local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
@@ -55,9 +68,7 @@ function lua_setup()
   table.insert(runtime_path, "lua/?.lua")
   table.insert(runtime_path, "lua/?/init.lua")
 
-  require'lspconfig'.sumneko_lua.setup {
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
-    settings = {
+  return {
       Lua = {
         runtime = {
           -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
@@ -77,47 +88,44 @@ function lua_setup()
         telemetry = {
           enable = false,
         },
-      },
-    },
-  }
-end
-
-function rust_setup()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-      'documentation',
-      'detail',
-      'additionalTextEdits',
+      }
     }
-  }
-
-  require'lspconfig'.rust_analyzer.setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    },
-    capabilities = capabilities,
-  }
 end
 
-function conf.setup()
-  vim.cmd([[ au! BufRead,BufNewFile *.rs set filetype=rust ]])
-  local nvim_lsp = require('lspconfig')
-  elixir_setup()
-  lua_setup()
-  rust_setup()
-
-  local servers = { "tsserver" }
-  for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
+local function make_config()
+  return {
       on_attach = on_attach,
+      capabilities = capabilities,
       flags = {
         debounce_text_changes = 150,
       }
     }
+end
+
+
+function conf.setup()
+  require'lspinstall'.setup()
+
+  -- get all installed servers
+  local servers = require'lspinstall'.installed_servers()
+  vim.cmd([[ au! BufRead,BufNewFile *.rs set filetype=rust ]])
+
+  local nvim_lsp = require('lspconfig')
+  elixir_setup()
+
+  -- local servers = { "rust_analyzer",  "tsserver" }
+  for _, lsp in ipairs(servers) do
+    local config = make_config()
+    if lsp == "lua" then
+      config.settings = lua_settings()
+    end
+    nvim_lsp[lsp].setup(config)
   end
+end
+
+require'lspinstall'.post_install_hook = function ()
+  conf.setup() -- reload installed servers
+  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
 
 return conf
