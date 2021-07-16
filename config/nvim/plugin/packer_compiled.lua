@@ -78,6 +78,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/gruvbox"
   },
+  ["guihua.lua"] = {
+    loaded = true,
+    path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/guihua.lua"
+  },
   ["lightline.vim"] = {
     config = { "\27LJ\2\n\\\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0=call SourceFile(\"~/.vim/settings/plugins/lightline.vim\")\bcmd\bvim\0" },
     loaded = true,
@@ -86,6 +90,10 @@ _G.packer_plugins = {
   ["lsp_signature.nvim"] = {
     loaded = true,
     path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim"
+  },
+  ["navigator.lua"] = {
+    loaded = true,
+    path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/navigator.lua"
   },
   ["nvim-compe"] = {
     config = { "\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17config.compe\frequire\0" },
@@ -123,7 +131,7 @@ _G.packer_plugins = {
     path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim"
   },
   ["telescope.nvim"] = {
-    config = { "\27LJ\2\n€\4\0\0\6\0\22\0)6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\6\0005\3\4\0005\4\3\0=\4\5\3=\3\a\2B\0\2\0016\0\0\0'\2\1\0B\0\2\0029\0\b\0'\2\5\0B\0\2\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\r\0'\4\14\0005\5\15\0B\0\5\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\16\0'\4\17\0005\5\18\0B\0\5\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\19\0'\4\20\0005\5\21\0B\0\5\1K\0\1\0\1\0\2\fnoremap\2\vsilent\2(:Telescope grep_stringlive_grep<cr>\14<Leader>*\1\0\2\fnoremap\2\vsilent\2\29:Telescope live_grep<cr>\14<Leader>F\1\0\2\fnoremap\2\vsilent\2\30:Telescope find_files<cr>\14<Leader>p\6n\20nvim_set_keymap\bapi\bvim\19load_extension\15extensions\1\0\0\bfzf\1\0\0\1\0\4\14case_mode\15smart_case\25override_file_sorter\2\28override_generic_sorter\1\nfuzzy\2\nsetup\14telescope\frequire\0" },
+    config = { "\27LJ\2\n€\4\0\0\6\0\22\0)6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\6\0005\3\4\0005\4\3\0=\4\5\3=\3\a\2B\0\2\0016\0\0\0'\2\1\0B\0\2\0029\0\b\0'\2\5\0B\0\2\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\r\0'\4\14\0005\5\15\0B\0\5\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\16\0'\4\17\0005\5\18\0B\0\5\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\19\0'\4\20\0005\5\21\0B\0\5\1K\0\1\0\1\0\2\vsilent\2\fnoremap\2(:Telescope grep_stringlive_grep<cr>\14<Leader>*\1\0\2\vsilent\2\fnoremap\2\29:Telescope live_grep<cr>\14<Leader>F\1\0\2\vsilent\2\fnoremap\2\30:Telescope find_files<cr>\14<Leader>p\6n\20nvim_set_keymap\bapi\bvim\19load_extension\15extensions\1\0\0\bfzf\1\0\0\1\0\4\14case_mode\15smart_case\25override_file_sorter\2\28override_generic_sorter\1\nfuzzy\2\nsetup\14telescope\frequire\0" },
     loaded = true,
     path = "/Users/zacharythomas/.local/share/nvim/site/pack/packer/start/telescope.nvim"
   },
@@ -163,34 +171,34 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-try_loadstring("\27LJ\2\n—\2\0\0\5\0\14\0\0196\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\3\0'\2\4\0B\0\2\0029\0\5\0005\2\a\0005\3\6\0=\3\b\0024\3\0\0=\3\t\0025\3\n\0005\4\v\0=\4\f\3=\3\r\2B\0\2\1K\0\1\0\14highlight\fdisable\1\2\0\0\velixir\1\0\1\venable\2\19ignore_install\21ensure_installed\1\0\0\1\5\0\0\trust\velixir\blua\tfish\nsetup\28nvim-treesitter.configs\frequire6 au! BufRead,BufNewFile *.fish set filetype=fish \bcmd\bvim\0", "config", "nvim-treesitter")
-time([[Config for nvim-treesitter]], false)
--- Config for: vim-gitgutter
-time([[Config for vim-gitgutter]], true)
-try_loadstring("\27LJ\2\nÎ\5\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0œ\5          set updatetime=100\n          let g:gitgutter_map_keys = 0\n          command! Gqf GitGutterQuickFix | copen\n          nnoremap <Leader>gc :Gqf<CR>\n          nnoremap <Leader>ga :GitGutterStageHunk<CR>\n          nnoremap <Leader>gu :GitGutterUndoHunk<CR>\n          nnoremap <Leader>gn :GitGutterNextHunk<CR>\n          nnoremap <Leader>gp :GitGutterPrevHunk<CR>\n          nnoremap <Leader>gs :GitGutterPreviewHunk<CR>\n          omap ih <Plug>(GitGutterTextObjectInnerPending)\n          omap ah <Plug>(GitGutterTextObjectOuterPending)\n          xmap ih <Plug>(GitGutterTextObjectInnerVisual)\n          xmap ah <Plug>(GitGutterTextObjectOuterVisual)\n        \14nvim_exec\bapi\bvim\0", "config", "vim-gitgutter")
-time([[Config for vim-gitgutter]], false)
--- Config for: telescope.nvim
-time([[Config for telescope.nvim]], true)
-try_loadstring("\27LJ\2\n€\4\0\0\6\0\22\0)6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\6\0005\3\4\0005\4\3\0=\4\5\3=\3\a\2B\0\2\0016\0\0\0'\2\1\0B\0\2\0029\0\b\0'\2\5\0B\0\2\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\r\0'\4\14\0005\5\15\0B\0\5\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\16\0'\4\17\0005\5\18\0B\0\5\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\19\0'\4\20\0005\5\21\0B\0\5\1K\0\1\0\1\0\2\fnoremap\2\vsilent\2(:Telescope grep_stringlive_grep<cr>\14<Leader>*\1\0\2\fnoremap\2\vsilent\2\29:Telescope live_grep<cr>\14<Leader>F\1\0\2\fnoremap\2\vsilent\2\30:Telescope find_files<cr>\14<Leader>p\6n\20nvim_set_keymap\bapi\bvim\19load_extension\15extensions\1\0\0\bfzf\1\0\0\1\0\4\14case_mode\15smart_case\25override_file_sorter\2\28override_generic_sorter\1\nfuzzy\2\nsetup\14telescope\frequire\0", "config", "telescope.nvim")
-time([[Config for telescope.nvim]], false)
--- Config for: nvim-lspconfig
-time([[Config for nvim-lspconfig]], true)
-try_loadstring("\27LJ\2\n>\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\21config.lspconfig\frequire\0", "config", "nvim-lspconfig")
-time([[Config for nvim-lspconfig]], false)
--- Config for: nvim-compe
-time([[Config for nvim-compe]], true)
-try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17config.compe\frequire\0", "config", "nvim-compe")
-time([[Config for nvim-compe]], false)
 -- Config for: lightline.vim
 time([[Config for lightline.vim]], true)
 try_loadstring("\27LJ\2\n\\\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0=call SourceFile(\"~/.vim/settings/plugins/lightline.vim\")\bcmd\bvim\0", "config", "lightline.vim")
 time([[Config for lightline.vim]], false)
+-- Config for: nvim-compe
+time([[Config for nvim-compe]], true)
+try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17config.compe\frequire\0", "config", "nvim-compe")
+time([[Config for nvim-compe]], false)
 -- Config for: gruvbox
 time([[Config for gruvbox]], true)
 try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\24colorscheme gruvbox\bcmd\bvim\0", "config", "gruvbox")
 time([[Config for gruvbox]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+try_loadstring("\27LJ\2\n—\2\0\0\5\0\14\0\0196\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\3\0'\2\4\0B\0\2\0029\0\5\0005\2\a\0005\3\6\0=\3\b\0024\3\0\0=\3\t\0025\3\n\0005\4\v\0=\4\f\3=\3\r\2B\0\2\1K\0\1\0\14highlight\fdisable\1\2\0\0\velixir\1\0\1\venable\2\19ignore_install\21ensure_installed\1\0\0\1\5\0\0\trust\velixir\blua\tfish\nsetup\28nvim-treesitter.configs\frequire6 au! BufRead,BufNewFile *.fish set filetype=fish \bcmd\bvim\0", "config", "nvim-treesitter")
+time([[Config for nvim-treesitter]], false)
+-- Config for: nvim-lspconfig
+time([[Config for nvim-lspconfig]], true)
+try_loadstring("\27LJ\2\n>\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\21config.lspconfig\frequire\0", "config", "nvim-lspconfig")
+time([[Config for nvim-lspconfig]], false)
+-- Config for: telescope.nvim
+time([[Config for telescope.nvim]], true)
+try_loadstring("\27LJ\2\n€\4\0\0\6\0\22\0)6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\6\0005\3\4\0005\4\3\0=\4\5\3=\3\a\2B\0\2\0016\0\0\0'\2\1\0B\0\2\0029\0\b\0'\2\5\0B\0\2\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\r\0'\4\14\0005\5\15\0B\0\5\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\16\0'\4\17\0005\5\18\0B\0\5\0016\0\t\0009\0\n\0009\0\v\0'\2\f\0'\3\19\0'\4\20\0005\5\21\0B\0\5\1K\0\1\0\1\0\2\vsilent\2\fnoremap\2(:Telescope grep_stringlive_grep<cr>\14<Leader>*\1\0\2\vsilent\2\fnoremap\2\29:Telescope live_grep<cr>\14<Leader>F\1\0\2\vsilent\2\fnoremap\2\30:Telescope find_files<cr>\14<Leader>p\6n\20nvim_set_keymap\bapi\bvim\19load_extension\15extensions\1\0\0\bfzf\1\0\0\1\0\4\14case_mode\15smart_case\25override_file_sorter\2\28override_generic_sorter\1\nfuzzy\2\nsetup\14telescope\frequire\0", "config", "telescope.nvim")
+time([[Config for telescope.nvim]], false)
+-- Config for: vim-gitgutter
+time([[Config for vim-gitgutter]], true)
+try_loadstring("\27LJ\2\nÎ\5\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0œ\5          set updatetime=100\n          let g:gitgutter_map_keys = 0\n          command! Gqf GitGutterQuickFix | copen\n          nnoremap <Leader>gc :Gqf<CR>\n          nnoremap <Leader>ga :GitGutterStageHunk<CR>\n          nnoremap <Leader>gu :GitGutterUndoHunk<CR>\n          nnoremap <Leader>gn :GitGutterNextHunk<CR>\n          nnoremap <Leader>gp :GitGutterPrevHunk<CR>\n          nnoremap <Leader>gs :GitGutterPreviewHunk<CR>\n          omap ih <Plug>(GitGutterTextObjectInnerPending)\n          omap ah <Plug>(GitGutterTextObjectOuterPending)\n          xmap ih <Plug>(GitGutterTextObjectInnerVisual)\n          xmap ah <Plug>(GitGutterTextObjectOuterVisual)\n        \14nvim_exec\bapi\bvim\0", "config", "vim-gitgutter")
+time([[Config for vim-gitgutter]], false)
 if should_profile then save_profiles(1) end
 
 end)

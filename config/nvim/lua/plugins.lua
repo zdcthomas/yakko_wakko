@@ -94,6 +94,12 @@ return require('packer').startup(
       end
     }
 
+    use {
+      'ray-x/navigator.lua',
+      requires = {'ray-x/guihua.lua',
+      run = 'cd lua/fzy && make'}
+    }
+
     use {'neovim/nvim-lspconfig',
       requires = {
         -- config handled in config.lspconfig
