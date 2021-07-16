@@ -495,7 +495,7 @@ if &runtimepath =~ 'goyo'
         silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
       endif
     else
-      set number
+      " set number
     endif
 
   endfunction

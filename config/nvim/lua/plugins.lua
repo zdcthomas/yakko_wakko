@@ -11,26 +11,41 @@ end
 return require('packer').startup(
   {function(use)
     use 'wbthomason/packer.nvim'
+    use {'itchyny/lightline.vim',
+      config = function()
+        vim.cmd([[call SourceFile("~/.vim/settings/plugins/lightline.vim")]])
+      end
+    }
 
     use 'michaeljsmith/vim-indent-object'
     use 'elixir-editors/vim-elixir'
     use 'tpope/vim-surround'
     use 'tpope/vim-commentary'
-    use {
-      'glepnir/galaxyline.nvim',
-      branch = 'main',
-      config = function()
-      end
-    }
+    use 'sainnhe/everforest'
+    use 'rhysd/vim-color-spring-night'
 
     use {
       'nvim-telescope/telescope.nvim',
       requires = {
         {'nvim-lua/popup.nvim'},
         {'nvim-lua/plenary.nvim'},
+        {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
       },
       config = function()
-        require('telescope')
+        require('telescope').setup {
+          extensions = {
+            fzf = {
+              fuzzy = true,                    -- false will only do exact matching
+              override_generic_sorter = false, -- override the generic sorter
+              override_file_sorter = true,     -- override the file sorter
+              case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                               -- the default case_mode is "smart_case"
+            }
+          }
+        }
+        -- To get fzf loaded and working with telescope, you need to call
+        -- load_extension, somewhere after setup function:
+        require('telescope').load_extension('fzf')
         vim.api.nvim_set_keymap('n', '<Leader>p', ':Telescope find_files<cr>', {noremap = true, silent = true})
         vim.api.nvim_set_keymap('n', '<Leader>F', ':Telescope live_grep<cr>', {noremap = true, silent = true})
         vim.api.nvim_set_keymap('n', '<Leader>*', ':Telescope grep_stringlive_grep<cr>', {noremap = true, silent = true})

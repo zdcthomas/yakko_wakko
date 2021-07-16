@@ -1,14 +1,41 @@
 vim.api.nvim_exec([[
-  let mapleader = " "
   function! SourceFile(file)
     if filereadable(expand(a:file))
       exe 'source' a:file
     endif
   endfunction
-  call SourceFile("~/.vim/settings/settings.vim")
 ]], false)
 
-vim.api.nvim_set_option('number', true)
+vim.g.mapleader = " "
+
+vim.o.syntax = "on"
+vim.o.number = true
+vim.o.splitright = true
+vim.o.splitbelow = true
+vim.o.wrap = false
+vim.o.shell = "sh"
+vim.o.hidden = true
+vim.o.expandtab = true
+vim.o.autoindent = true
+vim.o.undofile = true
+vim.o.undodir = "~/.vim/undo"
+vim.o.hlsearch = false
+vim.o.modeline = false
+vim.o.swapfile = false
+vim.o.termguicolors = true
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.clipboard = "unnamedplus"
+vim.o.backspace = "indent,eol,start"
+vim.o.cursorline = true
+vim.o.autoread = true
+vim.o.copyindent = true
+vim.o.lazyredraw = true
+vim.o.smarttab = true
+vim.o.backup = false
+vim.o.smartcase = true
+vim.o.equalalways = false
+
 vim.api.nvim_set_keymap('n', '<Leader>wl', ':vsp<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>wj', ':sp<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<C-j>', '<C-W><C-J>', {noremap = true, silent = true})
