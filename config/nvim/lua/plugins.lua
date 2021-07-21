@@ -23,6 +23,49 @@ return require('packer').startup(
     use 'tpope/vim-commentary'
     use 'sainnhe/everforest'
     use 'rhysd/vim-color-spring-night'
+    use {'junegunn/vim-easy-align',
+      config = function ()
+        vim.api.nvim_set_keymap('x', 'ga', '<Plug>(EasyAlign)', {noremap = false})
+        vim.api.nvim_set_keymap('n', 'ga', '<Plug>(EasyAlign)', {noremap = false})
+      end
+    }
+
+    use {'mhinz/vim-startify',
+      config = function ()
+        vim.g.startify_commands = {
+            {p = {'Files',          ':Telescope find_files'}},
+            {s = {'Sync Packer',    ':PackerSync'}},
+            {c = {'Compile Packer', ':PackerCompile'}},
+            {d = {'Open dotfiles',  ':!dmux ~/yakko_wakko'}},
+            {D = {'Dmux',           ':!dmux'}},
+        }
+        vim.g.startify_lists = {
+          {type = "commands", header = {'   めいれい '}},
+          {type = "dir",      header = {'   MRU ' .. vim.fn.getcwd()}},
+        }
+        vim.g.sttartify_change_to_dir = 0
+        vim.g.startify_change_to_vcs_root = 1
+        local ascii = {
+        [[             &&]],
+        [[           &&&&&]],
+        [[         &&&\/& &&&]],
+        [[        &&|,/  |/& &&]],
+        [[     *&_ &&/   /  /_&  &&]],
+        [[    &_\\    \\  { &|__&_&/_&]],
+        [[       \\_&_{*&/ /          &&&]],
+        [[    ,      `, \{__&_&__&_&_/_&&]],
+        [[   &        } }{      &\\']],
+        [[            }{{         \'_&__&]],
+        [[           {}{           \ `&\&&]],
+        [[           {{}             '&&]],
+        [[     ,--=-~{ .-^-\_,_         ]],
+        [[ &,        `}                 ]],
+        [[   .        { ]]
+        }
+        vim.g.startify_custom_header = ascii
+
+      end
+    }
 
     use {
       'nvim-telescope/telescope.nvim',
@@ -31,6 +74,7 @@ return require('packer').startup(
         {'nvim-lua/plenary.nvim'},
         {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
       },
+      on = {'Telescope'},
       config = function()
         require('telescope').setup {
           extensions = {
@@ -48,17 +92,36 @@ return require('packer').startup(
         require('telescope').load_extension('fzf')
         vim.api.nvim_set_keymap('n', '<Leader>p', ':Telescope find_files<cr>', {noremap = true, silent = true})
         vim.api.nvim_set_keymap('n', '<Leader>F', ':Telescope live_grep<cr>', {noremap = true, silent = true})
-        vim.api.nvim_set_keymap('n', '<Leader>*', ':Telescope grep_stringlive_grep<cr>', {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<Leader>*', ':Telescope grep_string<cr>', {noremap = true, silent = true})
       end
     }
 
     use {
       'nvim-treesitter/nvim-treesitter',
+      requires = {
+        'p00f/nvim-ts-rainbow',
+        'nvim-treesitter/playground'
+      },
       config = function()
         vim.cmd([[ au! BufRead,BufNewFile *.fish set filetype=fish ]])
         require('nvim-treesitter.configs').setup {
-          ensure_installed = {'rust', 'elixir', 'lua', 'fish'},
-          ignore_install = {},
+        rainbow = {
+            enable = true,
+            extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+            max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
+            colors = {}, -- table of hex strings
+            termcolors = {} -- table of colour name strings
+          },
+          ensure_installed = {
+            'rust',
+            'elixir',
+            'lua',
+            'fish',
+            'bash',
+            'dockerfile',
+            'comment',
+            'graphql'
+          },
           highlight = {
             enable = true,
             disable = {"elixir"}
@@ -70,21 +133,20 @@ return require('packer').startup(
     use {
       'airblade/vim-gitgutter',
       config = function()
-        vim.api.nvim_exec([[
-          set updatetime=100
-          let g:gitgutter_map_keys = 0
+        vim.g.gitgutter_map_keys = 0
+        vim.api.nvim_set_keymap('n', '<Leader>ga', ':GitGutterStageHunk<CR>',   {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<Leader>gu', ':GitGutterUndoHunk<CR>',    {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<Leader>gn', ':GitGutterNextHunk<CR>',    {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<Leader>gp', ':GitGutterPrevHunk<CR>',    {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<Leader>gs', ':GitGutterPreviewHunk<CR>', {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('o', 'ih',         '<Plug>(GitGutterTextObjectInnerPending)', {})
+        vim.api.nvim_set_keymap('o', 'ah',         '<Plug>(GitGutterTextObjectOuterPending)', {})
+        vim.api.nvim_set_keymap('x', 'ih',         '<Plug>(GitGutterTextObjectInnerVisual)', {})
+        vim.api.nvim_set_keymap('x', 'ah',         '<Plug>(GitGutterTextObjectOuterVisual)', {})
+        vim.cmd([[
           command! Gqf GitGutterQuickFix | copen
           nnoremap <Leader>gc :Gqf<CR>
-          nnoremap <Leader>ga :GitGutterStageHunk<CR>
-          nnoremap <Leader>gu :GitGutterUndoHunk<CR>
-          nnoremap <Leader>gn :GitGutterNextHunk<CR>
-          nnoremap <Leader>gp :GitGutterPrevHunk<CR>
-          nnoremap <Leader>gs :GitGutterPreviewHunk<CR>
-          omap ih <Plug>(GitGutterTextObjectInnerPending)
-          omap ah <Plug>(GitGutterTextObjectOuterPending)
-          xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-          xmap ah <Plug>(GitGutterTextObjectOuterVisual)
-        ]], false)
+        ]])
       end
     }
 
@@ -92,12 +154,6 @@ return require('packer').startup(
       config = function()
         vim.cmd("colorscheme gruvbox")
       end
-    }
-
-    use {
-      'ray-x/navigator.lua',
-      requires = {'ray-x/guihua.lua',
-      run = 'cd lua/fzy && make'}
     }
 
     use {'neovim/nvim-lspconfig',
