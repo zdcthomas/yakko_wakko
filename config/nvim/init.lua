@@ -9,6 +9,7 @@ vim.api.nvim_exec([[
 vim.g.mapleader = " "
 
 vim.o.syntax = "on"
+vim.o.updatetime = 100
 vim.o.number = true
 vim.o.splitright = true
 vim.o.splitbelow = true
