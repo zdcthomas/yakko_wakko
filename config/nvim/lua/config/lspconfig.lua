@@ -47,16 +47,6 @@ local on_attach = function(client, bufnr)
   require "lsp_signature".on_attach()
 end
 
-local function elixir_setup()
-  require('lspconfig').elixirls.setup{
-    cmd = {'/Users/zacharythomas/elixir/elixir_ls/language_server.sh'},
-    capabilities = capabilities,
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
 
 local function lua_settings()
   -- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
@@ -103,6 +93,9 @@ end
 
 
 function conf.setup()
+  local lsp_status = require('lsp-status')
+  lsp_status.register_progress()
+
   require'lspinstall'.setup()
 
   -- get all installed servers
@@ -110,7 +103,6 @@ function conf.setup()
   vim.cmd([[ au! BufRead,BufNewFile *.rs set filetype=rust ]])
 
   local nvim_lsp = require('lspconfig')
-  elixir_setup()
 
   -- local servers = { "rust_analyzer",  "tsserver" }
   for _, lsp in ipairs(servers) do
@@ -120,6 +112,13 @@ function conf.setup()
     end
     nvim_lsp[lsp].setup(config)
   end
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      virtual_text = true,
+      signs = true,
+      update_in_insert = true,
+    }
+  )
 end
 
 require'lspinstall'.post_install_hook = function ()

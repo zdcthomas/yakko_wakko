@@ -68,6 +68,7 @@ function config.setup()
     orange = '#FF8800',
     purple = '#5d4d7a',
     magenta = '#d16d9e',
+
     grey = '#c0c0c0',
     blue = 'Indicator',
     red = '#ec5f67'
@@ -83,7 +84,7 @@ function config.setup()
   gls.left[1] = {
     FirstElement = {
       provider = function() 
-        return ' '
+        return ' ' 
         -- return animate(fish)
       end,
       highlight = "DiffChange"
@@ -94,7 +95,7 @@ function config.setup()
     ViMode = {
       provider = function()
         local alias = 
-        {n = animate(normal),
+        {n = 'NORMAL',
         i = 'INSERT',
         c= 'COMMAND',
         v= 'VISUAL',
@@ -102,9 +103,19 @@ function config.setup()
         [''] = 'VISUAL BLOCK'}
         return alias[vim.fn.mode()]
       end,
-      separator = ' ',
+      separator = ',',
+      separator_highlight = 'DiffChange',
       highlight = 'DiffChange'
     },
+  }
+  gls.left[3] = {
+    FileName = {
+      provider = {'FileName','FileSize'},
+      condition = buffer_not_empty,
+      separator = ',',
+      separator_highlight = 'PmenuThumb',
+      highlight = 'PmenuThumb'
+    }
   }
   -- gls.left[3] ={
   --   FileIcon = {
