@@ -10,11 +10,6 @@ end
 
 return require('packer').startup(
   {function(use)
-    use {'~/dev/mrkdwn-utils',
-      config = function ()
-        require('mrkdwn-utils').setup()
-      end
-    }
     use 'wbthomason/packer.nvim'
     use 'shaunsingh/moonlight.nvim'
     use 'michaeljsmith/vim-indent-object'
@@ -211,6 +206,7 @@ return require('packer').startup(
             ['v <leader>gr'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
             ['n <leader>gs'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
             ['n <leader>gb'] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
+            ['n <leader>gc'] = '<cmd>lua require"gitsigns".setqflist("all")<CR>',
           }
         }
       end

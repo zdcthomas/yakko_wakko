@@ -35,6 +35,8 @@ vim.o.lazyredraw = true
 vim.o.smarttab = true
 vim.o.backup = false
 vim.o.equalalways = false
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
 vim.api.nvim_set_keymap('n', '<Leader>wl', ':vsp<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>wj', ':sp<CR>', {noremap = true, silent = true})
@@ -58,4 +60,3 @@ vim.api.nvim_set_keymap('i', '<A-f>', '<Esc>lwi', {noremap = true})
 vim.api.nvim_set_keymap('i', '<A-b>', '<Esc>bi', {noremap = true})
 
 require('plugins')
-vim.cmd([[set smartcase]])
