@@ -1,14 +1,14 @@
-vim.api.nvim_exec([[
-  function! SourceFile(file)
-    if filereadable(expand(a:file))
-      exe 'source' a:file
-    endif
-  endfunction
-]], false)
+vim.cmd([[
+  augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=350}
+  augroup END
+]])
 
 vim.g.mapleader = " "
 
 vim.o.syntax = "on"
+vim.o.guifont = "Fira_Code:h20"
 vim.o.updatetime = 100
 vim.o.number = true
 vim.o.splitright = true
@@ -34,7 +34,6 @@ vim.o.copyindent = true
 vim.o.lazyredraw = true
 vim.o.smarttab = true
 vim.o.backup = false
-vim.o.smartcase = true
 vim.o.equalalways = false
 
 vim.api.nvim_set_keymap('n', '<Leader>wl', ':vsp<CR>', {noremap = true, silent = true})
@@ -59,3 +58,4 @@ vim.api.nvim_set_keymap('i', '<A-f>', '<Esc>lwi', {noremap = true})
 vim.api.nvim_set_keymap('i', '<A-b>', '<Esc>bi', {noremap = true})
 
 require('plugins')
+vim.cmd([[set smartcase]])
