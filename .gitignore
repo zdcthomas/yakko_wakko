@@ -2,3 +2,4 @@
 **/**/fzf_key_bindings.fish
 /config/kak
 config/fish/fish_variables
+packer_compiled.lua
