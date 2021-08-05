@@ -1,9 +1,13 @@
 Zachary Thomas
 
-GitHub: https://github.com/zdcthomas
+GitHub:   https://github.com/zdcthomas
+-------------------------------------------------------
 LinkedIn: linkedin.com/in/zachary-thomas-206264161
+-------------------------------------------------------
 Address:  820 N Sherman St, apt 402, D enver, CO, 80203
+-------------------------------------------------------
 Phone:    (972)-834-6214
+-------------------------------------------------------
 
 # CAREER OBJECTIVE
 Learning new and interesting things is why I became a software developer and
