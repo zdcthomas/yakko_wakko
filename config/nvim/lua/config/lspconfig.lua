@@ -90,6 +90,10 @@ local function make_config()
       }
     }
 end
+local function typescript_on_attach(client, bufnr)
+  client.resolved_capabilities.document_formatting = false
+  on_attach(client, bufnr)
+end
 
 
 function conf.setup()
@@ -104,11 +108,12 @@ function conf.setup()
 
   local nvim_lsp = require('lspconfig')
 
-  -- local servers = { "rust_analyzer",  "tsserver" }
   for _, lsp in ipairs(servers) do
     local config = make_config()
     if lsp == "lua" then
       config.settings = lua_settings()
+    elseif lsp == "typescript" then
+      config.on_attach = typescript_on_attach
     end
     nvim_lsp[lsp].setup(config)
   end
