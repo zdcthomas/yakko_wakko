@@ -10,9 +10,14 @@ end
 
 return require('packer').startup(
   {function(use)
-    use 'wbthomason/packer.nvim' 
+    use 'wbthomason/packer.nvim'
     use 'michaeljsmith/vim-indent-object'
     use 'tpope/vim-commentary'
+
+    use {
+      'dhruvasagar/vim-table-mode',
+      ft = 'markdown'
+    }
 
     use {
       'machakann/vim-sandwich',
