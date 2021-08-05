@@ -10,14 +10,49 @@ end
 
 return require('packer').startup(
   {function(use)
-    use 'wbthomason/packer.nvim'
-    use 'shaunsingh/moonlight.nvim'
+    use 'wbthomason/packer.nvim' 
     use 'michaeljsmith/vim-indent-object'
-    use 'elixir-editors/vim-elixir'
-    use 'tpope/vim-surround'
     use 'tpope/vim-commentary'
-    use 'sainnhe/everforest'
-    use 'rhysd/vim-color-spring-night'
+
+    use {
+      'machakann/vim-sandwich',
+      config = function ()
+        vim.cmd([[exe 'source' "~/.vim/settings/plugins/sandwich_settings.vim"]])
+      end
+    }
+
+    use {
+      'sainnhe/everforest',
+      config = function ()
+        vim.g.everforest_enable_italic = 0
+        vim.g.everforest_disable_italic_comment = 1
+        vim.g.everforest_background = "hard"
+        vim.g.everforest_cursor = "aqua"
+        vim.g.everforest_diagnostic_text_highlight = 1 vim.g.everforest_diagnostic_line_highlight = 1
+        vim.g.everforest_better_performance = 1
+        vim.cmd("colorscheme everforest")
+      end
+    }
+
+    use {
+      'elixir-editors/vim-elixir',
+      ft = {'elixir'}
+    }
+
+    use {
+      'windwp/nvim-autopairs',
+      on = "InsertEnter",
+      config = function ()
+        require('nvim-autopairs').setup{
+          fast_wrap = {},
+          check_ts = true,
+        }
+        require("nvim-autopairs.completion.compe").setup({
+          map_cr = true, --  map <CR> on insert mode
+          map_complete = true -- it will auto insert `(` after select function or method item
+        })
+      end
+    }
 
     use {
       'jghauser/follow-md-links.nvim',
@@ -29,7 +64,7 @@ return require('packer').startup(
     }
 
     use {
-        'tweekmonster/startuptime.vim',
+      'tweekmonster/startuptime.vim',
       cmd = "StartupTime"
     }
 
@@ -58,7 +93,13 @@ return require('packer').startup(
       end
     }
 
-    use {'junegunn/vim-easy-align',
+    use {
+      'junegunn/vim-easy-align',
+      keys = {
+        {'x', 'ga'},
+        {'n', 'ga'},
+      },
+      cmd = 'EasyAlign',
       config = function ()
         vim.api.nvim_set_keymap('x', 'ga', '<Plug>(EasyAlign)', {noremap = false})
         vim.api.nvim_set_keymap('n', 'ga', '<Plug>(EasyAlign)', {noremap = false})
@@ -104,12 +145,17 @@ return require('packer').startup(
 
     use {
       'nvim-telescope/telescope.nvim',
+      keys = {
+        '<Leader>p',
+        '<Leader>F',
+        '<Leader>*',
+      },
       requires = {
         {'nvim-lua/popup.nvim'},
         {'nvim-lua/plenary.nvim'},
         {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
       },
-      on = {'Telescope'},
+      cmd = {'Telescope'},
       config = function()
         require('telescope').setup {
           extensions = {
@@ -143,6 +189,9 @@ return require('packer').startup(
           indent = {
             enable = true
           },
+          {
+            autopairs = {enable = true}
+          },
           query_linter = {
             enable = true,
             use_virtual_text = true,
@@ -152,12 +201,9 @@ return require('packer').startup(
             enable = true,
             extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
             max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
-            colors = {}, -- table of hex strings
-            termcolors = {} -- table of colour name strings
           },
           ensure_installed = {
             'rust',
-            'elixir',
             'lua',
             'fish',
             'bash',
@@ -173,8 +219,8 @@ return require('packer').startup(
 
         require "nvim-treesitter.parsers".get_parser_configs().markdown = {
           install_info = {
-              url = "https://github.com/ikatyang/tree-sitter-markdown",
-              files = {"src/parser.c", "src/scanner.cc"}
+            url = "https://github.com/ikatyang/tree-sitter-markdown",
+            files = {"src/parser.c", "src/scanner.cc"}
           },
           filetype = "markdown",
         }
@@ -212,11 +258,11 @@ return require('packer').startup(
       end
     }
 
-    use {'gruvbox-community/gruvbox',
-      config = function()
-        vim.cmd("colorscheme gruvbox")
-      end
-    }
+    -- use {'gruvbox-community/gruvbox',
+    --   config = function()
+    --     vim.cmd("colorscheme gruvbox")
+    --   end
+    -- }
 
     use { 'folke/tokyonight.nvim',
       config = function ()
@@ -241,6 +287,9 @@ return require('packer').startup(
           end
         },
         {'hrsh7th/nvim-compe',
+          requires = {
+            {'andersevenrud/compe-tmux'}
+          },
           config = function()
             require('config.compe').setup()
           end
