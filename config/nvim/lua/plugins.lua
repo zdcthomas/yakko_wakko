@@ -8,16 +8,12 @@ if fn.empty(fn.glob(install_path)) > 0 then
   execute 'packadd packer.nvim'
 end
 
-return require('packer').startup(
-  {function(use)
+return require('packer').startup({
+  function(use)
     use 'wbthomason/packer.nvim'
+
     use 'michaeljsmith/vim-indent-object'
     use 'tpope/vim-commentary'
-
-    use {
-      'dhruvasagar/vim-table-mode',
-      ft = 'markdown'
-    }
 
     use {
       'machakann/vim-sandwich',
@@ -27,15 +23,19 @@ return require('packer').startup(
     }
 
     use {
-      'sainnhe/everforest',
+      'justinmk/vim-dirvish',
+      requires = {
+        'kristijanhusak/vim-dirvish-git',
+        'roginfarrer/vim-dirvish-dovish',
+      },
       config = function ()
-        vim.g.everforest_enable_italic = 0
-        vim.g.everforest_disable_italic_comment = 1
-        vim.g.everforest_background = "hard"
-        vim.g.everforest_cursor = "aqua"
-        vim.g.everforest_diagnostic_text_highlight = 1 vim.g.everforest_diagnostic_line_highlight = 1
-        vim.g.everforest_better_performance = 1
-        vim.cmd("colorscheme everforest")
+        vim.g.loaded_netrwPlugin = 1
+        vim.cmd([[
+          command! -nargs=? -complete=dir Explore Dirvish <args>
+          command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
+          command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
+        ]])
+        vim.g.dirvish_mode=':sort | sort ,^.*[^/]$, r'
       end
     }
 
@@ -87,7 +87,13 @@ return require('packer').startup(
           },
           sections = {
             lualine_a = {'mode'},
-            lualine_b = {'filename'},
+            lualine_b = {
+              {
+                'filename',
+                file_status = true,
+                path = 1
+              }
+            },
             lualine_c = {'diff', require('lsp-status').status},
             lualine_x = {},
             lualine_y = {'branch'},
@@ -144,7 +150,6 @@ return require('packer').startup(
           [[   .        { ]]
         }
         vim.g.startify_custom_header = ascii
-
       end
     }
 
@@ -263,11 +268,11 @@ return require('packer').startup(
       end
     }
 
-    -- use {'gruvbox-community/gruvbox',
-    --   config = function()
-    --     vim.cmd("colorscheme gruvbox")
-    --   end
-    -- }
+    use {'gruvbox-community/gruvbox',
+      config = function()
+        vim.cmd("colorscheme gruvbox")
+      end
+    }
 
     use { 'folke/tokyonight.nvim',
       config = function ()
@@ -305,13 +310,13 @@ return require('packer').startup(
       end
     }
   end,
-    config = {
-      display = {
-        open_fn = require('packer.util').float
-      },
-      profile = {
-        enable = true,
-        threshold = 1 -- the amount in ms that a plugins load time must be over for it to be included in the profile
-      }
+  config = {
+    display = {
+      open_fn = require('packer.util').float
+    },
+    profile = {
+      enable = true,
+      threshold = 1 -- the amount in ms that a plugins load time must be over for it to be included in the profile
     }
+  }
 })

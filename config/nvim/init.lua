@@ -1,3 +1,5 @@
+vim.g.mapleader = " "
+
 local disabled_built_ins = {
     "gzip",
     "zip",
@@ -11,16 +13,15 @@ local disabled_built_ins = {
 for _, plugin in pairs(disabled_built_ins) do
     vim.g["loaded_" .. plugin] = 1
 end
+
 vim.cmd([[
+  set shada="NONE"
   augroup highlight_yank
     autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=350}
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=350, on_visual=false}
   augroup END
 ]])
 
-vim.g.mapleader = " "
-
-vim.o.syntax = "on"
 vim.o.guifont = "Fira_Code:h20"
 vim.o.updatetime = 100
 vim.o.number = true
@@ -50,6 +51,7 @@ vim.o.backup = false
 vim.o.equalalways = false
 vim.o.ignorecase = true
 vim.o.smartcase = true
+vim.g.diminactive_enable_focus = 1
 
 vim.api.nvim_set_keymap('n', '<Leader>wl', ':vsp<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>wj', ':sp<CR>', {noremap = true, silent = true})
@@ -62,6 +64,7 @@ vim.api.nvim_set_keymap('n', '<Down>', ':res -5<Cr>', {noremap = true, silent = 
 vim.api.nvim_set_keymap('n', '<Left>', ':vertical resize -5<Cr>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Right>', ':vertical resize +5<Cr>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<C-n>', ":let @/=expand('<cword>')<cr>cgn", {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', 'Q', "<nop>", {noremap = true, silent = true})
 
 vim.api.nvim_set_keymap('c', '<C-a>', '<Home>', {noremap = true})
 vim.api.nvim_set_keymap('c', '<C-e>', '<End>', {noremap = true})
