@@ -17,6 +17,10 @@ care deeply about the people that I work with and the products I work on.
   Projects for Peace, Davis Foundation, Beijing Jul 2014 - Aug 2014
   * Created and taught a course in western classics to students at the Affiliated High School of Peking University. Also proposed the project to the Davis foundation, and helped to manage the project.
 
+* MENTOR
+  I regularly mentor people both from the code school I attended and not. I
+  work with them both on their technical skills and career development.
+
 ## Experience
 ### PLATFORM ARCHITECT
 Blinker Inc, Denver, CO / Apr 2021 - Present
