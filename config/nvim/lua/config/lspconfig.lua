@@ -9,6 +9,20 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     'additionalTextEdits',
   }
 }
+capabilities.textDocument.codeAction = {
+    dynamicRegistration = true,
+    codeActionLiteralSupport = {
+        codeActionKind = {
+            valueSet = (function()
+                local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
+                table.sort(res)
+                return res
+            end)()
+        }
+    }
+}
+
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 local system_name
 if vim.fn.has("mac") == 1 then
@@ -119,9 +133,10 @@ function conf.setup()
   end
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
-      virtual_text = true,
       signs = true,
-      update_in_insert = true,
+      underline = true,
+      update_in_insert = false,
+      virtual_text = true,
     }
   )
 end

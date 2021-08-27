@@ -14,11 +14,18 @@ return require('packer').startup({
 
     use 'michaeljsmith/vim-indent-object'
     use 'tpope/vim-commentary'
+    use '~/dev/boom'
+    use {
+      'mattn/emmet-vim',
+      ft = 'html'
+    }
 
     use {
       'machakann/vim-sandwich',
       config = function ()
-        vim.cmd([[exe 'source' "~/.vim/settings/plugins/sandwich_settings.vim"]])
+        vim.cmd([[
+          exec 'source ' . "~/.vim/settings/plugins/sandwich_settings.vim"
+        ]])
       end
     }
 
@@ -40,6 +47,26 @@ return require('packer').startup({
     }
 
     use {
+      'nicwest/vim-camelsnek',
+      config = function ()
+        vim.g.camelsnek_alternative_camel_commands = 1
+
+        vim.api.nvim_set_keymap('n', 'crs', ':Snek<CR>',   {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('x', 'crs', ':Snek<CR>',   {noremap = true, silent = true})
+
+        vim.api.nvim_set_keymap('n', 'crp', ':Pascal<CR>', {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('x', 'crp', ':Pascal<CR>', {noremap = true, silent = true})
+
+        vim.api.nvim_set_keymap('n', 'crc', ':Camel<CR>',  {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('x', 'crc', ':Camel<CR>',  {noremap = true, silent = true})
+
+        vim.api.nvim_set_keymap('n', 'crk', ':Kebab<CR>',  {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('x', 'crk', ':Kebab<CR>',  {noremap = true, silent = true})
+      end
+    }
+
+    use {
+      disable = true,
       'elixir-editors/vim-elixir',
       ft = {'elixir'}
     }
@@ -52,9 +79,10 @@ return require('packer').startup({
           fast_wrap = {},
           check_ts = true,
         }
-        require("nvim-autopairs.completion.compe").setup({
+        require("nvim-autopairs.completion.cmp").setup({
           map_cr = true, --  map <CR> on insert mode
-          map_complete = true -- it will auto insert `(` after select function or method item
+          map_complete = true, -- it will auto insert `(` after select function or method item
+          auto_select = true -- automatically select the first item
         })
       end
     }
@@ -83,7 +111,7 @@ return require('packer').startup({
           extensions = {'quickfix'},
           disabled_filetypes = {'startify'},
           options = {
-            theme = 'seoul256'
+            theme = 'codedark'
           },
           sections = {
             lualine_a = {'mode'},
@@ -168,6 +196,12 @@ return require('packer').startup({
       cmd = {'Telescope'},
       config = function()
         require('telescope').setup {
+          pickers = {
+            find_files = {
+              hidden = true,
+              follow = true,
+            }
+          },
           extensions = {
             fzf = {
               fuzzy = true,                    -- false will only do exact matching
@@ -184,6 +218,7 @@ return require('packer').startup({
         vim.api.nvim_set_keymap('n', '<Leader>p', ':Telescope find_files<cr>', {noremap = true, silent = true})
         vim.api.nvim_set_keymap('n', '<Leader>F', ':Telescope live_grep<cr>', {noremap = true, silent = true})
         vim.api.nvim_set_keymap('n', '<Leader>*', ':Telescope grep_string<cr>', {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<Leader>ww', ":lua require('telescope.builtin').file_browser({dir_icon = '', depth = 10, cwd = '~/irulan/wiki'})<cr>", {noremap = true, silent = true})
       end
     }
 
@@ -191,7 +226,10 @@ return require('packer').startup({
       'nvim-treesitter/nvim-treesitter',
       requires = {
         'p00f/nvim-ts-rainbow',
-        'nvim-treesitter/playground',
+        {
+          'nvim-treesitter/playground',
+          cmd = 'TSPlaygroundToggle'
+        },
       },
       config = function()
         vim.cmd([[ au! BufRead,BufNewFile *.fish set filetype=fish ]])
@@ -223,7 +261,6 @@ return require('packer').startup({
           },
           highlight = {
             enable = true,
-            disable = {"elixir"}
           }
         }
 
@@ -268,19 +305,22 @@ return require('packer').startup({
       end
     }
 
-    use {'gruvbox-community/gruvbox',
-      config = function()
-        vim.cmd("colorscheme gruvbox")
+    use {
+      'hrsh7th/nvim-cmp',
+      requires = {
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-vsnip',
+        'hrsh7th/cmp-buffer',
+        'hrsh7th/cmp-path'
+      },
+      config = function ()
+        require('config.cmp').setup()
       end
     }
 
-    use { 'folke/tokyonight.nvim',
-      config = function ()
-        vim.g.tokyonight_style = "night"
-        vim.g.tokyonight_italic_keywords = false
-        vim.g.tokyonight_italic_comments = false
-        vim.g.tokyonight_italic_functions = false
-        vim.g.tokyonight_italic_variables = false
+    use {'gruvbox-community/gruvbox',
+      config = function()
+        vim.cmd("colorscheme gruvbox")
       end
     }
 
@@ -294,16 +334,20 @@ return require('packer').startup({
           requires = {{'hrsh7th/vim-vsnip-integ'}},
           config = function ()
             vim.g.vsnip_snippet_dir = "~/yakko_wakko/config/nvim/snippets"
+            vim.g.vsnip_filetypes = {
+              html_css = {'html', 'css'}
+            }
           end
         },
-        {'hrsh7th/nvim-compe',
-          requires = {
-            {'andersevenrud/compe-tmux'}
-          },
-          config = function()
-            require('config.compe').setup()
-          end
-        }
+        {'hrsh7th/nvim-cmp'},
+        -- {'hrsh7th/nvim-compe',
+        --   requires = {
+        --     {'andersevenrud/compe-tmux'}
+        --   },
+        --   config = function()
+        --     require('config.compe').setup()
+        --   end
+        -- }
       },
       config = function()
         require('config.lspconfig').setup()
