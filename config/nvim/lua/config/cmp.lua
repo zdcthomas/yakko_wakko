@@ -51,10 +51,15 @@ function conf.setup()
     sources = {
       { name = 'buffer' },
       { name = 'vsnip' },
-      { name = 'nvim_lsp'}
+      { name = 'path' },
+      { name = 'tmux'},
+      { name = 'nvim_lsp',
+        opts = {
+          all_panes = true
+        }
+      },
     },
   }
-  
 end
 
 return conf

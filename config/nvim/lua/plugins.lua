@@ -310,7 +310,9 @@ return require('packer').startup({
         'hrsh7th/cmp-nvim-lsp',
         'hrsh7th/cmp-vsnip',
         'hrsh7th/cmp-buffer',
-        'hrsh7th/cmp-path'
+        'hrsh7th/cmp-path',
+        'hrsh7th/cmp-calc',
+        {'andersevenrud/compe-tmux', branch = 'cmp'},
       },
       config = function ()
         require('config.cmp').setup()
