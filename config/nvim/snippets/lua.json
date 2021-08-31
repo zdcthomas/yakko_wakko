@@ -1,0 +1,27 @@
+{
+  "packer_use": {
+    "prefix": "use",
+    "body": [
+      "use {",
+      "  '${1:$CLIPBOARD}',",
+      "}"
+    ],
+    "description": "Packer use statement"
+  },
+  "packer_requires": {
+    "prefix": "req",
+    "body": [
+      "requires = {",
+      "  '$1'",
+      "},"
+    ],
+    "description": "Packer configuration statement"
+  },
+  "packer_config": {
+    "prefix": "config",
+    "body": [
+      "config = general.$1,"
+    ],
+    "description": "Packer configuration statement"
+  }
+}
