@@ -17,7 +17,7 @@ local function tab_handler(fallback)
   end
 end
 
- function shift_tab_handler(fallback)
+local function shift_tab_handler(fallback)
   if vim.fn.pumvisible() == 1 then
     vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
   elseif check_back_space() then
@@ -29,7 +29,7 @@ end
   end
 end
 
- function mappings()
+local function mappings()
   local cmp = require('cmp')
   return {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -47,11 +47,11 @@ end
   }
 end
 
- function snippet_func(args)
+local function snippet_func(args)
   vim.fn['vsnip#anonymous'](args.body)
 end
 
- function sources()
+local function sources()
   return {
       { name = 'buffer' },
       { name = 'vsnip' },
@@ -76,17 +76,5 @@ function conf.setup()
     sources = sources(),
   }
 end
-
-
--- local function setup_autocommands()
---   vim.cmd([[
---     autocmd FileType markdown :lua require'cmp'.setup.buffer {
---     \   sources = {
---     \     { name = 'buffer' },
---     \     { name = 'nvim_lua' },
---     \   },
---     \ } <Cr>
---   ]])
--- end
 
 return conf
