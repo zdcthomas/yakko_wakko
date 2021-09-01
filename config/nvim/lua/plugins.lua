@@ -11,6 +11,9 @@ end
 return require('packer').startup({
   function(use)
     use 'wbthomason/packer.nvim'
+    vim.fn.setenv("MACOSX_DEPLOYMENT_TARGET", "10.15")
+    use {'lewis6991/impatient.nvim', rocks = 'mpack'}
+    require('impatient')
     use 'michaeljsmith/vim-indent-object'
     use 'tpope/vim-commentary'
     use {
