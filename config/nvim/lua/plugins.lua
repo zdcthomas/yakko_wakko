@@ -45,21 +45,36 @@ return require('packer').startup({
     }
 
     use {
-      disable = true,
-      'elixir-editors/vim-elixir',
-      ft = {'elixir'}
-    }
-
-    use {
       'windwp/nvim-autopairs',
       on = "InsertEnter",
       config = config.autopairs
     }
 
     use {
-      'jghauser/follow-md-links.nvim',
-      ft = {'markdown'},
-      config = config.md_links
+      'lukas-reineke/format.nvim',
+      cmd = {"Format", "FormatWrite"},
+      config = function()
+        require "format".setup {
+          ["*"] = {
+            {cmd = {"sed -i 's/[ \t]*$//'"}} -- remove trailing whitespace
+          },
+          lua = {
+            {
+              cmd = {
+                function(file)
+                  return string.format("luafmt -l %s -w replace %s", vim.bo.textwidth, file)
+                end
+              }
+            }
+          },
+          javascript = {
+            {cmd = {"prettier -w", "./node_modules/.bin/eslint --fix"}}
+          },
+          markdown = {
+            {cmd = {"prettier -w"}},
+          }
+        }
+      end
     }
 
     use {
@@ -97,13 +112,14 @@ return require('packer').startup({
         '<Leader>p',
         '<Leader>F',
         '<Leader>*',
+        '<Leader>ww',
       },
+      cmd = {'Telescope'},
       requires = {
         {'nvim-lua/popup.nvim'},
         {'nvim-lua/plenary.nvim'},
         {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
       },
-      cmd = {'Telescope'},
       config = function()
       require('config.telescope').setup()
     end
@@ -124,7 +140,6 @@ return require('packer').startup({
     }
 
     use {
-
       'lewis6991/gitsigns.nvim',
       requires = {
         'nvim-lua/plenary.nvim'
@@ -165,10 +180,25 @@ return require('packer').startup({
       end
     }
 
+    use {
+      'kabouzeid/nvim-lspinstall',
+      run = function()
+        local required_servers = { "rust", "json", "typescript", "vim", "elixir", "css", "html", "lua", "yaml", }
+        local installed_servers = require'lspinstall'.installed_servers()
+
+        for _, server in pairs(required_servers) do
+          if not vim.tbl_contains(installed_servers, server) then
+            require'lspinstall'.install_server(server)
+          end
+        end
+      end
+    }
+
     use {'neovim/nvim-lspconfig',
       requires = {
         -- config handled in config.lspconfig
         {'nvim-lua/lsp-status.nvim'},
+        {'lukas-reineke/format.nvim'},
         {'ray-x/lsp_signature.nvim'},
         {'kabouzeid/nvim-lspinstall'},
         {'hrsh7th/vim-vsnip'},

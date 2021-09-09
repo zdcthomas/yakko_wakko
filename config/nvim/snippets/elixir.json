@@ -19,6 +19,7 @@
       "|> (fn ${1:scope} ->",
       "  require IEx",
       "  IEx.pry()",
+      "  $1",
       "end).()"
     ]
   }
