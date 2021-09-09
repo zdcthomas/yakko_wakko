@@ -53,16 +53,16 @@ end
 
 local function sources()
   return {
-      { name = 'buffer' },
-      { name = 'vsnip' },
-      { name = 'path' },
-      { name = 'tmux'},
-      { name = 'calc'},
       { name = 'nvim_lsp',
         opts = {
           all_panes = true
         }
       },
+      { name = 'vsnip' },
+      { name = 'buffer' },
+      { name = 'path' },
+      { name = 'tmux'},
+      { name = 'calc'},
     }
 end
 
@@ -72,6 +72,7 @@ function conf.setup()
     snippet = {
       expand = snippet_func
     },
+    preselect = cmp.PreselectMode.None,
     mapping = mappings(),
     sources = sources(),
   }

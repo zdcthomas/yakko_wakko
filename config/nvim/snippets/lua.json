@@ -20,7 +20,9 @@
   "packer_config": {
     "prefix": "config",
     "body": [
-      "config = general.$1,"
+      "config = function()",
+      "  $1",
+      "end"
     ],
     "description": "Packer configuration statement"
   }

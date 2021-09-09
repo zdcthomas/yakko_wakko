@@ -33,6 +33,7 @@ brew "pipes-sh"
 brew "postgresql", restart_service: true
 brew "procs"
 brew "pyenv"
+brew "prettier"
 brew "rbenv"
 brew "readline"
 brew "redis", restart_service: true
