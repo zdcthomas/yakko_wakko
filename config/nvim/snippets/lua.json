@@ -12,10 +12,10 @@
     "prefix": "req",
     "body": [
       "requires = {",
-      "  '$1'",
+      "  '${1:$CLIPBOARD}',",
       "},"
     ],
-    "description": "Packer configuration statement"
+    "description": "Packer require statement"
   },
   "packer_config": {
     "prefix": "config",
@@ -25,5 +25,12 @@
       "end"
     ],
     "description": "Packer configuration statement"
+  },
+  "print": {
+    "prefix": "pr",
+    "body": [
+      "print('$TM_FILENAME_BASE:$TM_LINE_NUMBER -> ${1:$CLIPBOARD}: ', ${1:$CLIPBOARD})"
+    ],
+    "description": "Print with filename and clipboard variable"
   }
 }
