@@ -18,10 +18,10 @@ return require('packer').startup({
     use 'michaeljsmith/vim-indent-object'
 
     use {
-        'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup()
-        end
+      'numToStr/Comment.nvim',
+      config = function()
+        require('Comment').setup()
+      end
     }
 
     use {
