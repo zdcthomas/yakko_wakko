@@ -9,6 +9,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     'additionalTextEdits',
   }
 }
+
 capabilities.textDocument.codeAction = {
     dynamicRegistration = true,
     codeActionLiteralSupport = {
@@ -24,41 +25,28 @@ capabilities.textDocument.codeAction = {
 
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local system_name
-if vim.fn.has("mac") == 1 then
-  system_name = "macOS"
-elseif vim.fn.has("unix") == 1 then
-  system_name = "Linux"
-elseif vim.fn.has('win32') == 1 then
-  system_name = "Windows"
-else
-  print("Unsupported system.")
-end
-
-
 local on_attach = function(client, bufnr)
+  vim.cmd("au! CursorHold,CursorHoldI <buffer> lua require'nvim-lightbulb'.update_lightbulb()")
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-
   local opts = {silent = false, noremap = true}
+
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap("n", "<Leader>cl", "<Cmd>lua vim.lsp.codelens.run()<CR>", opts)
-  buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.hover()<CR>',                        opts)
+  buf_set_keymap('n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>',               opts)
+  buf_set_keymap('n', 'gr',         '<cmd>lua vim.lsp.buf.references()<CR>',                   opts)
+  buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>',                       opts)
+  buf_set_keymap('n', '<Leader>cl', '<Cmd>lua vim.lsp.codelens.run()<CR>',                     opts)
+  buf_set_keymap('n', '<Leader>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',             opts)
+  buf_set_keymap('n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>',             opts)
+  buf_set_keymap('n', '<Leader>q',  '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',           opts)
+  require('config.telescope').lsp_bindings_for_buffer(bufnr)
+
   if client.resolved_capabilities.document_formatting then
     buf_set_keymap("n", "<Leader>gq", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  else
-    buf_set_keymap("n", "<Leader>gq", ":Format<CR>", opts)
+    vim.cmd("au! BufWritePre <buffer> lua vim.lsp.buf.formatting()")
   end
 
   require "lsp_signature".on_attach()
@@ -66,10 +54,6 @@ end
 
 
 local function lua_settings()
-  -- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
-  local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
-  local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
-
   local runtime_path = vim.split(package.path, ';')
   table.insert(runtime_path, "lua/?.lua")
   table.insert(runtime_path, "lua/?/init.lua")
@@ -122,7 +106,6 @@ function conf.setup()
 
   -- get all installed servers
   local servers = require'lspinstall'.installed_servers()
-  vim.cmd([[ au! BufRead,BufNewFile *.rs set filetype=rust ]])
 
   local nvim_lsp = require('lspconfig')
 
@@ -135,6 +118,7 @@ function conf.setup()
     end
     nvim_lsp[lsp].setup(config)
   end
+
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
       signs = true,
