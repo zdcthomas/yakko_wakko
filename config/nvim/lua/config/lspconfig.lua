@@ -102,22 +102,20 @@ function conf.setup()
   local lsp_status = require('lsp-status')
   lsp_status.register_progress()
 
-  require'lspinstall'.setup()
+  local lsp_installer = require("nvim-lsp-installer")
 
-  -- get all installed servers
-  local servers = require'lspinstall'.installed_servers()
+  lsp_installer.on_server_ready(function(server)
 
-  local nvim_lsp = require('lspconfig')
-
-  for _, lsp in ipairs(servers) do
     local config = make_config()
-    if lsp == "lua" then
+    config.capabilities = vim.tbl_extend('keep', config.capabilities, lsp_status.capabilities)
+    if server.name == "lua" then
       config.settings = lua_settings()
-    elseif lsp == "typescript" then
+    elseif server.name == "typescript" then
       config.on_attach = typescript_on_attach
     end
-    nvim_lsp[lsp].setup(config)
-  end
+    server:setup(config)
+    vim.cmd [[ do User LspAttachBuffers ]]
+  end)
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -127,11 +125,6 @@ function conf.setup()
       virtual_text = true,
     }
   )
-end
-
-require'lspinstall'.post_install_hook = function ()
-  conf.setup() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
 
 return conf

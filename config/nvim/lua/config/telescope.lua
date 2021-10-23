@@ -15,8 +15,6 @@ local local_insert_symbol_i = function(prompt_bufnr)
   end)
 end
 
-
-
 function conf.setup()
   require('telescope').setup {
     pickers = {
@@ -48,6 +46,7 @@ function conf.setup()
   require('telescope').load_extension('fzf')
   local default_opts = {noremap = true, silent = true}
   vim.api.nvim_set_keymap('n', '<leader>p', "<cmd>lua require'telescope.builtin'.find_files({ path_display = {'smart'}, find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", default_opts)
+  vim.api.nvim_set_keymap('n', '<leader>b', "<cmd>Telescope buffers<cr>", default_opts)
   vim.api.nvim_set_keymap('n', '<Leader>F', ':Telescope live_grep<cr>', default_opts)
   vim.api.nvim_set_keymap('n', '<Leader>*', ':Telescope grep_string<cr>', default_opts)
   vim.api.nvim_set_keymap('n', '<Leader>wp', ":lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({cwd = '~/irulan/wiki'}))<cr>", default_opts)
