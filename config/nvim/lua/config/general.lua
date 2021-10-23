@@ -18,7 +18,7 @@ function Config.lualine()
           path = 1
         }
       },
-      lualine_c = {'diff', require('lsp-status').status},
+      lualine_c = {'diff', "require'lsp-status'.status()"},
       lualine_x = {},
       lualine_y = {'branch'},
       lualine_z = {'filetype'},

@@ -1,5 +1,4 @@
 export ERL_AFLAGS="-kernel shell_history enabled"
-export TERM="xterm-256color"
 export NNN_TMPFILE="/tmp/nnn"
 
 export FZF_ALT_C_COMMAND="fd -t d"

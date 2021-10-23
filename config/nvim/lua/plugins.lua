@@ -18,6 +18,13 @@ return require('packer').startup({
     use 'michaeljsmith/vim-indent-object'
 
     use {
+      'luukvbaal/stabilize.nvim',
+      config = function()
+        require("stabilize").setup()
+      end
+    }
+
+    use {
       'numToStr/Comment.nvim',
       config = function()
         require('Comment').setup()
@@ -75,11 +82,31 @@ return require('packer').startup({
     }
 
     use {
-      'hoob3rt/lualine.nvim',
+      'kyazdani42/nvim-web-devicons',
+      config = function ()
+        require'nvim-web-devicons'.setup {
+          default = true;
+        }
+      end
+    }
+
+    use {
+      'nvim-lualine/lualine.nvim',
       requires = {
-        {'nvim-lua/lsp-status.nvim' }
+        {'nvim-lua/lsp-status.nvim' },
       },
       config = config.lualine
+    }
+
+    use {
+        'ruifm/gitlinker.nvim',
+        requires = 'nvim-lua/plenary.nvim',
+        keys = {
+          '<leader>gy'
+        },
+        config = function()
+          require"gitlinker".setup()
+        end
     }
 
     use {
@@ -99,30 +126,10 @@ return require('packer').startup({
     }
 
     use {
-      'sindrets/winshift.nvim',
-      keys = {"<leade>wm"},
-      cmd = {"WinShift"},
-      config = function ()
-        require("winshift").setup({
-          highlight_moving_win = true,  -- Highlight the window being moved
-          focused_hl_group = "Visual",  -- The highlight group used for the moving window
-          moving_win_options = {
-            -- These are local options applied to the moving window while it's
-            -- being moved. They are unset when you leave Win-Move mode.
-            wrap = false,
-            cursorline = false,
-            cursorcolumn = false,
-            colorcolumn = "",
-          }
-        })
-        vim.api.nvim_set_keymap('n', '<Leader>wm', '<Cmd>WinShift<CR>', {noremap = true, silent = true})
-      end
-    }
-
-    use {
       'nvim-telescope/telescope.nvim',
       keys = {
         '<Leader>p',
+        '<Leader>b',
         '<Leader>F',
         '<Leader>*',
         '<Leader>wp',
@@ -234,26 +241,23 @@ return require('packer').startup({
       requires = {'hrsh7th/vim-vsnip-integ'},
       config = function ()
         vim.g.vsnip_snippet_dir = "~/yakko_wakko/config/nvim/snippets"
-        vim.g.vsnip_filetypes = {
-          html_css = {'html', 'css'}
-        }
       end
     }
 
-    use {
-      'kabouzeid/nvim-lspinstall',
-      -- Configured servers list: vim, css, rust, json, typescript, elixir, lua, html, yaml
-      run = function()
-        local required_servers = { "rust", "json", "typescript", "vim", "elixir", "css", "html", "lua", "yaml", }
-        local installed_servers = require'lspinstall'.installed_servers()
-
-        for _, server in pairs(required_servers) do
-          if not vim.tbl_contains(installed_servers, server) then
-            require'lspinstall'.install_server(server)
-          end
-        end
-      end
-    }
+    -- use {
+    --   'kabouzeid/nvim-lspinstall',
+    --   -- Configured servers list: vim, css, rust, json, typescript, elixir, lua, html, yaml
+    --   run = function()
+    --     local required_servers = { "rust", "json", "typescript", "vim", "elixir", "css", "html", "lua", "yaml", }
+    --     local installed_servers = require'lspinstall'.installed_servers()
+    --
+    --     for _, server in pairs(required_servers) do
+    --       if not vim.tbl_contains(installed_servers, server) then
+    --         require'lspinstall'.install_server(server)
+    --       end
+    --     end
+    --   end
+    -- }
 
     use {'neovim/nvim-lspconfig',
       requires = {
@@ -261,7 +265,7 @@ return require('packer').startup({
         {'nvim-lua/lsp-status.nvim'},
         {'kosayoda/nvim-lightbulb'},
         {'ray-x/lsp_signature.nvim'},
-        {'kabouzeid/nvim-lspinstall'},
+        {'williamboman/nvim-lsp-installer'},
         {'onsails/vimway-lsp-diag.nvim'},
         {'hrsh7th/vim-vsnip'},
         {'hrsh7th/nvim-cmp'},
