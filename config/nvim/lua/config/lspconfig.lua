@@ -3,128 +3,162 @@ local conf = {}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  }
+	properties = {
+		"documentation",
+		"detail",
+		"additionalTextEdits",
+	},
 }
 
 capabilities.textDocument.codeAction = {
-    dynamicRegistration = true,
-    codeActionLiteralSupport = {
-        codeActionKind = {
-            valueSet = (function()
-                local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
-                table.sort(res)
-                return res
-            end)()
-        }
-    }
+	dynamicRegistration = true,
+	codeActionLiteralSupport = {
+		codeActionKind = {
+			valueSet = (function()
+				local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
+				table.sort(res)
+				return res
+			end)(),
+		},
+	},
 }
 
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+local border = {
+	{ "🭽", "NormalFloat" },
+	{ "▔", "NormalFloat" },
+	{ "🭾", "NormalFloat" },
+	{ "▕", "NormalFloat" },
+	{ "🭿", "NormalFloat" },
+	{ "▁", "NormalFloat" },
+	{ "🭼", "NormalFloat" },
+	{ "▏", "NormalFloat" },
+}
+
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 local on_attach = function(client, bufnr)
-  vim.cmd("au! CursorHold,CursorHoldI <buffer> lua require'nvim-lightbulb'.update_lightbulb()")
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local opts = {silent = false, noremap = true}
+	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
+	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
+	vim.cmd("au! CursorHold,CursorHoldI <buffer> lua require'nvim-lightbulb'.update_lightbulb()")
+	local function buf_set_option(...)
+		vim.api.nvim_buf_set_option(bufnr, ...)
+	end
+	local function buf_set_keymap(...)
+		vim.api.nvim_buf_set_keymap(bufnr, ...)
+	end
+	local opts = { silent = false, noremap = true }
 
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
-  buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.hover()<CR>',                        opts)
-  buf_set_keymap('n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>',               opts)
-  buf_set_keymap('n', 'gr',         '<cmd>lua vim.lsp.buf.references()<CR>',                   opts)
-  buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>',                       opts)
-  buf_set_keymap('n', '<Leader>cl', '<Cmd>lua vim.lsp.codelens.run()<CR>',                     opts)
-  buf_set_keymap('n', '<Leader>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',             opts)
-  buf_set_keymap('n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>',             opts)
-  buf_set_keymap('n', '<Leader>q',  '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',           opts)
-  require('config.telescope').lsp_bindings_for_buffer(bufnr)
+	buf_set_keymap("n", "gh", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+	buf_set_keymap("n", "<Leader>cl", "<Cmd>lua vim.lsp.codelens.run()<CR>", opts)
+	buf_set_keymap("n", "<Leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
+	buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
+	buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
+	buf_set_keymap("n", "<Leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
+	require("config.telescope").lsp_bindings_for_buffer(bufnr)
 
-  if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<Leader>gq", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-    vim.cmd("au! BufWritePre <buffer> lua vim.lsp.buf.formatting()")
-  end
+	if client.resolved_capabilities.document_formatting then
+		buf_set_keymap("n", "<Leader>gq", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+		vim.cmd("au! BufWritePre <buffer> lua vim.lsp.buf.formatting()")
+	end
 
-  require "lsp_signature".on_attach()
+	require("lsp_signature").on_attach()
 end
 
-
 local function lua_settings()
-  local runtime_path = vim.split(package.path, ';')
-  table.insert(runtime_path, "lua/?.lua")
-  table.insert(runtime_path, "lua/?/init.lua")
+	local runtime_path = vim.split(package.path, ";")
+	table.insert(runtime_path, "lua/?.lua")
+	table.insert(runtime_path, "lua/?/init.lua")
 
-  return {
-      Lua = {
-        runtime = {
-          -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-          version = 'LuaJIT',
-          -- Setup your lua path
-          path = runtime_path,
-        },
-        diagnostics = {
-          -- Get the language server to recognize the `vim` global
-          globals = {'vim'},
-        },
-        workspace = {
-          -- Make the server aware of Neovim runtime files
-          library = vim.api.nvim_get_runtime_file("", true),
-        },
-        -- Do not send telemetry data containing a randomized but unique identifier
-        telemetry = {
-          enable = false,
-        },
-      }
-    }
+	return {
+		Lua = {
+			runtime = {
+				-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+				version = "LuaJIT",
+				-- Setup your lua path
+				path = runtime_path,
+			},
+			diagnostics = {
+				-- Get the language server to recognize the `vim` global
+				globals = { "vim" },
+			},
+			workspace = {
+				-- Make the server aware of Neovim runtime files
+				library = vim.api.nvim_get_runtime_file("", true),
+			},
+			-- Do not send telemetry data containing a randomized but unique identifier
+			telemetry = {
+				enable = false,
+			},
+		},
+	}
 end
 
 local function make_config()
-  return {
-      on_attach = on_attach,
-      capabilities = capabilities,
-      flags = {
-        debounce_text_changes = 150,
-      }
-    }
+	return {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150,
+		},
+	}
 end
 
 local function typescript_on_attach(client, bufnr)
-  client.resolved_capabilities.document_formatting = false
-  on_attach(client, bufnr)
+	client.resolved_capabilities.document_formatting = false
+	on_attach(client, bufnr)
 end
 
-
 function conf.setup()
-  local lsp_status = require('lsp-status')
-  lsp_status.register_progress()
+	local lsp_status = require("lsp-status")
+	lsp_status.register_progress()
 
-  local lsp_installer = require("nvim-lsp-installer")
+	local lsp_installer = require("nvim-lsp-installer")
 
-  lsp_installer.on_server_ready(function(server)
+	lsp_installer.on_server_ready(function(server)
+		local config = make_config()
+		config.capabilities = vim.tbl_extend("keep", config.capabilities, lsp_status.capabilities)
+		if server.name == "sumneko_lua" then
+			config.settings = lua_settings()
+			config.commands = {
+				Format = {
+					function()
+						require("stylua-nvim").format_file({
+							error_display_strategy = "none",
+						})
+					end,
+				},
+			}
+			config.on_attach = function(client, bufnr)
+				on_attach(client, bufnr)
+				vim.api.nvim_buf_set_keymap(
+					bufnr,
+					"n",
+					"<Leader>gq",
+					"<cmd>lua require('stylua-nvim').format_file()<CR>",
+					{ silent = false, noremap = true }
+				)
+				vim.cmd("au! BufWritePre <buffer> Format")
+			end
+		elseif server.name == "typescript" then
+			config.on_attach = typescript_on_attach
+		elseif server.name == "elixirls" then
+			config.root_dir = require("lspconfig.util").root_pattern(".git")
+		end
+		server:setup(config)
+		vim.cmd([[ do User LspAttachBuffers ]])
+	end)
 
-    local config = make_config()
-    config.capabilities = vim.tbl_extend('keep', config.capabilities, lsp_status.capabilities)
-    if server.name == "lua" then
-      config.settings = lua_settings()
-    elseif server.name == "typescript" then
-      config.on_attach = typescript_on_attach
-    end
-    server:setup(config)
-    vim.cmd [[ do User LspAttachBuffers ]]
-  end)
-
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      signs = true,
-      underline = true,
-      update_in_insert = false,
-      virtual_text = true,
-    }
-  )
+	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+		signs = true,
+		underline = true,
+		update_in_insert = false,
+		virtual_text = true,
+	})
 end
 
 return conf
