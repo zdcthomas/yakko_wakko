@@ -1,0 +1,37 @@
+{
+  "name": "Zach's snppets",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": "html",
+        "path": "./snippets/html.json"
+      },
+      {
+        "language": "elixir",
+        "path": "./snippets/elixir.json"
+      },
+      {
+        "language": "lua",
+        "path": "./snippets/lua.json"
+      },
+      {
+        "language": [
+          "markdown",
+          "rmd"
+        ],
+        "path": "./snippets/markdown.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript.json"
+      },
+      {
+        "language": "typescript",
+        "path": "./snippets/typescript.json"
+      }
+    ]
+  }
+}
