@@ -24,7 +24,7 @@ local feedkey = function(key, mode)
 	vim.api.nvim_feedkeys(replace_termcodes(key), mode, true)
 end
 
-local function check_back_space()
+local function has_words_before()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
@@ -40,7 +40,7 @@ local tab_mapping = {
 	i = function(fallback)
 		if cmp.visible() then
 			cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-		elseif check_back_space() then
+		elseif has_words_before() then
 			vim.fn.feedkeys(replace_termcodes("<Tab>"), "n")
 		else
 			fallback()
@@ -52,7 +52,7 @@ local shift_tab_mapping = {
 	c = function()
 		if cmp.visible() then
 			cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
-		elseif check_back_space() then
+		elseif has_words_before() then
 			vim.fn.feedkeys(replace_termcodes("<S-Tab>"), "n")
 		else
 			cmp.complete()
