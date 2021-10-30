@@ -20,7 +20,6 @@ vim.cmd([[
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=350, on_visual=false}
     autocmd FocusGained * checktime
-    autocmd BufEnter * silent! e!
   augroup END
 
   command! Yf :let @+ = expand("%") . ":" . line(".")
@@ -43,7 +42,7 @@ vim.o.ignorecase = true
 vim.o.inccommand = "nosplit"
 vim.o.lazyredraw = true
 vim.o.modeline = false
-vim.o.mouse = "a"
+vim.o.mouse = "ha"
 vim.o.number = true
 vim.o.scrolloff = 5
 vim.o.shell = "sh"

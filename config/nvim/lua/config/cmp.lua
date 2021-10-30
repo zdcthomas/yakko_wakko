@@ -14,57 +14,93 @@ local function prequire(...)
 end
 
 local cmp = prequire("cmp")
-local luasnip = prequire("luasnip")
 local lspkind = prequire("lspkind")
+
+local replace_termcodes = function(str)
+	return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local feedkey = function(key, mode)
+	vim.api.nvim_feedkeys(replace_termcodes(key), mode, true)
+end
 
 local function check_back_space()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local function tab_handler(fallback)
-	if cmp.visible() then
-		cmp.mapping(cmp.select_next_item({ behavior = cmp.SelectBehavior.Select }), { "i", "c" })
-	elseif luasnip.expand_or_jumpable() then
-		luasnip.expand_or_jump()
-	elseif check_back_space() then
-		vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, true, true), "n")
-	else
-		fallback()
-	end
-end
+local tab_mapping = {
+	c = function()
+		if cmp.visible() then
+			cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+		else
+			cmp.complete()
+		end
+	end,
+	i = function(fallback)
+		if cmp.visible() then
+			cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+		elseif check_back_space() then
+			vim.fn.feedkeys(replace_termcodes("<Tab>"), "n")
+		else
+			fallback()
+		end
+	end,
+}
 
-local function shift_tab_handler(fallback)
-	if cmp.visible() then
-		cmp.mapping(cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select }), { "i", "c" })
-	elseif luasnip.jumpable(-1) then
-		luasnip.jump(-1)
-	elseif check_back_space() then
-		vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<S-Tab>", true, true, true), "n")
-	else
-		fallback()
-	end
-end
+local shift_tab_mapping = {
+	c = function()
+		if cmp.visible() then
+			cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+		elseif check_back_space() then
+			vim.fn.feedkeys(replace_termcodes("<S-Tab>"), "n")
+		else
+			cmp.complete()
+		end
+	end,
+	i = function(fallback)
+		if cmp.visible() then
+			cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+		else
+			fallback()
+		end
+	end,
+}
 
 local function mappings()
 	return {
-		["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
-		["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+		["<C-n>"] = cmp.mapping({
+			i = function(fallback)
+				if vim.fn["vsnip#available"](1) == 1 then
+					feedkey("<Plug>(vsnip-expand-or-jump)", "")
+				else
+					fallback()
+				end
+			end,
+		}),
+		["<C-p>"] = cmp.mapping({
+			i = function(fallback)
+				if vim.fn["vsnip#jumpable"](-1) == 1 then
+					feedkey("<Plug>(vsnip-jump-prev)", "")
+				else
+					fallback()
+				end
+			end,
+		}),
 		["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 		["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
 		["<C-e>"] = cmp.mapping(cmp.mapping.close(), { "i", "c" }),
 		["<C-l>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-		["<CR>"] = cmp.mapping.confirm({
-			behavior = cmp.ConfirmBehavior.Insert,
-			select = false,
+		["<CR>"] = cmp.mapping({
+			i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
 		}),
-		["<Tab>"] = tab_handler,
-		["<S-Tab>"] = shift_tab_handler,
+		["<Tab>"] = cmp.mapping(tab_mapping),
+		["<S-Tab>"] = cmp.mapping(shift_tab_mapping),
 	}
 end
 
 local function snippet_func(args)
-	luasnip.lsp_expand(args.body)
+	vim.fn["vsnip#anonymous"](args.body)
 end
 
 local function sources()
@@ -72,7 +108,7 @@ local function sources()
 		{ name = "nvim_lsp", opts = {
 			all_panes = true,
 		} },
-		{ name = "luasnip" },
+		{ name = "vsnip" },
 		{ name = "buffer" },
 		{ name = "path" },
 		{ name = "calc" },
@@ -114,6 +150,23 @@ function conf.setup()
 		experimental = {
 			ghost_text = true,
 		},
+	})
+
+	cmp.setup.cmdline("/", {
+		sources = {
+			{ name = "buffer" },
+			{ name = "nvim_lsp" },
+		},
+	})
+
+	cmp.setup.cmdline(":", {
+		completion = { autocomplete = false },
+		sources = cmp.config.sources({
+			{ name = "buffer" },
+			{ name = "path" },
+		}, {
+			{ name = "cmdline" },
+		}),
 	})
 end
 

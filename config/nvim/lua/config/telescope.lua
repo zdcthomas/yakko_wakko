@@ -9,11 +9,13 @@ local function prequire(...)
 end
 local actions = prequire("telescope.actions")
 local action_state = prequire("telescope.actions.state")
+local previewers = prequire("telescope.previewers")
+
+local _slow_to_load_in_TS = { ".*%.ex", ".*%.exs" } -- Put all filetypes that slow you down in this array
 
 local local_insert_symbol_i = function(prompt_bufnr)
 	print("prompt_bufnr", prompt_bufnr)
 	local symbol = action_state.get_selected_entry().value
-
 	print("telescope:9 -> action_state.get_selected_entry().value", action_state.get_selected_entry().value)
 	actions._close(prompt_bufnr, true)
 	local cursor = vim.api.nvim_win_get_cursor(0)
@@ -23,12 +25,8 @@ local local_insert_symbol_i = function(prompt_bufnr)
 	end)
 end
 
-local previewers = require("telescope.previewers")
-
-local _bad = { ".*%.ex", ".*%.exs" } -- Put all filetypes that slow you down in this array
-
 local bad_files = function(filepath)
-	for _, v in ipairs(_bad) do
+	for _, v in ipairs(_slow_to_load_in_TS) do
 		if filepath:match(v) then
 			return false
 		end

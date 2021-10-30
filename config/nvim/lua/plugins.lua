@@ -24,17 +24,7 @@ return require("packer").startup({
 		})
 
 		use({
-			"luukvbaal/stabilize.nvim",
-			config = function()
-				require("stabilize").setup()
-			end,
-		})
-
-		use({
-			"numToStr/Comment.nvim",
-			config = function()
-				require("Comment").setup()
-			end,
+			"tpope/vim-commentary",
 		})
 
 		use({
@@ -183,6 +173,7 @@ return require("packer").startup({
 				function _G.toggle_venn()
 					local venn_enabled = vim.inspect(vim.b.venn_enabled)
 					if venn_enabled == "nil" then
+						print("venn mode activated!")
 						vim.b.venn_enabled = true
 						vim.cmd([[setlocal ve=all]])
 						-- draw a line on HJKL keystokes
@@ -193,13 +184,14 @@ return require("packer").startup({
 						-- draw a box by pressing "f" with visual selection
 						vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBox<cr>", { noremap = true })
 					else
+						print("venn mode disengaged!")
 						vim.cmd([[setlocal ve=]])
 						vim.cmd([[mapclear <buffer>]])
 						vim.b.venn_enabled = nil
 					end
 				end
 				-- toggle keymappings for venn using <leader>v
-				vim.api.nvim_set_keymap("n", "<leader>v", ":lua toggle_venn()<cr>", { noremap = true })
+				vim.api.nvim_set_keymap("n", "<leader>v", ":lua toggle_venn()<cr>", { silent = true, noremap = true })
 			end,
 		})
 
@@ -262,27 +254,12 @@ return require("packer").startup({
 			end,
 		})
 
-		-- use {
-		--   'lewis6991/spellsitter.nvim',
-		--   config = function()
-		--     require('spellsitter').setup()
-		--   end
-		-- }
-
-		-- use {
-		--   'kabouzeid/nvim-lspinstall',
-		--   -- Configured servers list: vim, css, rust, json, typescript, elixir, lua, html, yaml
-		--   run = function()
-		--     local required_servers = { "rust", "json", "typescript", "vim", "elixir", "css", "html", "lua", "yaml", }
-		--     local installed_servers = require'lspinstall'.installed_servers()
-		--
-		--     for _, server in pairs(required_servers) do
-		--       if not vim.tbl_contains(installed_servers, server) then
-		--         require'lspinstall'.install_server(server)
-		--       end
-		--     end
-		--   end
-		-- }
+		use({
+			"lewis6991/spellsitter.nvim",
+			config = function()
+				require("spellsitter").setup()
+			end,
+		})
 
 		use({
 			"neovim/nvim-lspconfig",
@@ -290,10 +267,10 @@ return require("packer").startup({
 				-- config handled in config.lspconfig
 				{ "nvim-lua/lsp-status.nvim" },
 				{ "kosayoda/nvim-lightbulb" },
-				{ "~/dev/stylua-nvim" },
+				{ "ckipp01/stylua-nvim" },
+				{ "nvim-telescope/telescope.nvim" },
 				{ "ray-x/lsp_signature.nvim" },
 				{ "williamboman/nvim-lsp-installer" },
-				{ "onsails/vimway-lsp-diag.nvim" },
 				{ "hrsh7th/vim-vsnip" },
 				{ "hrsh7th/nvim-cmp" },
 			},
@@ -307,7 +284,9 @@ return require("packer").startup({
 	end,
 	config = {
 		display = {
-			open_fn = require("packer.util").float,
+			open_fn = function()
+				return require("packer.util").float({ border = "rounded" })
+			end,
 		},
 		profile = {
 			enable = true,

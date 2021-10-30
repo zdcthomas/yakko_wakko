@@ -7,30 +7,30 @@
     "snippets": [
       {
         "language": "html",
-        "path": "./snippets/html.json"
+        "path": "./html.json"
       },
       {
         "language": "elixir",
-        "path": "./snippets/elixir.json"
+        "path": "./elixir.json"
       },
       {
         "language": "lua",
-        "path": "./snippets/lua.json"
+        "path": "./lua.json"
       },
       {
         "language": [
           "markdown",
           "rmd"
         ],
-        "path": "./snippets/markdown.json"
+        "path": "./markdown.json"
       },
       {
         "language": "javascript",
-        "path": "./snippets/javascript.json"
+        "path": "./javascript.json"
       },
       {
         "language": "typescript",
-        "path": "./snippets/typescript.json"
+        "path": "./typescript.json"
       }
     ]
   }
