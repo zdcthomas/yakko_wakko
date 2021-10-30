@@ -149,8 +149,12 @@ function conf.setup()
 		elseif server.name == "elixirls" then
 			config.root_dir = require("lspconfig.util").root_pattern(".git")
 		end
-		server:setup(config)
-		vim.cmd([[ do User LspAttachBuffers ]])
+
+		-- server:setup(config)
+		config.cmd = server._default_options.cmd
+		require("lspconfig")[server.name].setup(config)
+
+		-- vim.cmd([[ do User LspAttachBuffers ]])
 	end)
 
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {

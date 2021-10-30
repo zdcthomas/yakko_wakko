@@ -1,7 +1,6 @@
 local Conf = {}
 
 function Conf.setup()
-	vim.cmd([[ au! BufRead,BufNewFile *.fish set filetype=fish ]])
 	require("nvim-treesitter.configs").setup({
 		indent = {
 			enable = true,
