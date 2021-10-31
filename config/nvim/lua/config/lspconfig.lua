@@ -148,6 +148,10 @@ function conf.setup()
 			config.on_attach = typescript_on_attach
 		elseif server.name == "elixirls" then
 			config.root_dir = require("lspconfig.util").root_pattern(".git")
+			config.on_init = function(client)
+				client.notify("workspace/didChangeConfiguration")
+				return true
+			end
 		end
 
 		-- server:setup(config)

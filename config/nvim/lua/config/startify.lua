@@ -1,6 +1,15 @@
 local conf = {}
 
+local function pad(list)
+	return vim.fn["startify#pad"](list)
+end
+
+local function center(list)
+	return vim.fn["startify#center"](list)
+end
+
 function conf.setup()
+	vim.g.startify_center = 58
 	vim.g.startify_commands = {
 		{ p = { "Files", ":Telescope find_files" } },
 		{ s = { "Sync Packer", ":PackerSync" } },
@@ -9,8 +18,8 @@ function conf.setup()
 		{ D = { "Dmux", ":!dmux" } },
 	}
 	vim.g.startify_lists = {
-		{ type = "commands", header = { "   めいれい " } },
-		{ type = "dir", header = { "   MRU " .. vim.fn.getcwd() } },
+		{ type = "commands", header = center({ "めいれい" }) },
+		{ type = "dir", header = center({ "MRU " .. vim.fn.getcwd() }) },
 	}
 	vim.g.sttartify_change_to_dir = 0
 	vim.g.startify_change_to_vcs_root = 1
@@ -44,7 +53,7 @@ function conf.setup()
 		[[| !_! | | !_! | | !_________________! | | !_! | | !_! |]],
 		[[!_____! !_____! !_____________________! !_____! !_____!]],
 	}
-	vim.g.startify_custom_header = ascii
+	vim.g.startify_custom_header = center(ascii)
 end
 
 return conf

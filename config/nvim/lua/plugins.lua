@@ -117,6 +117,7 @@ return require("packer").startup({
 
 		use({
 			"mhinz/vim-startify",
+			branch = "center",
 			config = function()
 				require("config.startify").setup()
 			end,
@@ -174,6 +175,7 @@ return require("packer").startup({
 					local venn_enabled = vim.inspect(vim.b.venn_enabled)
 					if venn_enabled == "nil" then
 						print("venn mode activated!")
+						vim.cmd("LspStop")
 						vim.b.venn_enabled = true
 						vim.cmd([[setlocal ve=all]])
 						-- draw a line on HJKL keystokes
@@ -185,6 +187,7 @@ return require("packer").startup({
 						vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBox<cr>", { noremap = true })
 					else
 						print("venn mode disengaged!")
+						vim.cmd("LspStart")
 						vim.cmd([[setlocal ve=]])
 						vim.cmd([[mapclear <buffer>]])
 						vim.b.venn_enabled = nil

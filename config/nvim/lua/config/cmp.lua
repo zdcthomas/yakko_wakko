@@ -30,11 +30,15 @@ local function has_words_before()
 end
 
 local tab_mapping = {
-	c = function()
+	c = function(fallback)
 		if cmp.visible() then
 			cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
 		else
-			cmp.complete()
+			if vim.fn.getcmdtype() == "/" then
+				cmp.complete()
+			else
+				fallback()
+			end
 		end
 	end,
 	i = function(fallback)
@@ -49,18 +53,22 @@ local tab_mapping = {
 }
 
 local shift_tab_mapping = {
-	c = function()
+	c = function(fallback)
 		if cmp.visible() then
 			cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
-		elseif has_words_before() then
-			vim.fn.feedkeys(replace_termcodes("<S-Tab>"), "n")
 		else
-			cmp.complete()
+			if vim.fn.getcmdtype() == "/" then
+				cmp.complete()
+			else
+				fallback()
+			end
 		end
 	end,
 	i = function(fallback)
 		if cmp.visible() then
 			cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+		elseif has_words_before() then
+			vim.fn.feedkeys(replace_termcodes("<S-Tab>"), "n")
 		else
 			fallback()
 		end
@@ -153,21 +161,21 @@ function conf.setup()
 	})
 
 	cmp.setup.cmdline("/", {
+		completion = { autocomplete = true },
 		sources = {
 			{ name = "buffer" },
 			{ name = "nvim_lsp" },
 		},
 	})
 
-	cmp.setup.cmdline(":", {
-		completion = { autocomplete = false },
-		sources = cmp.config.sources({
-			{ name = "buffer" },
-			{ name = "path" },
-		}, {
-			{ name = "cmdline" },
-		}),
-	})
+	-- cmp.setup.cmdline(":", {
+	-- 	completion = { autocomplete = false },
+	-- 	sources = {
+	-- 		{ name = "cmdline" },
+	-- 		{ name = "buffer" },
+	-- 		{ name = "path" },
+	-- 	},
+	-- })
 end
 
 return conf
