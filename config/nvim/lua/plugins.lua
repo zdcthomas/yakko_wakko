@@ -13,13 +13,20 @@ return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
 
-		use({ "lewis6991/impatient.nvim" })
+		use("lewis6991/impatient.nvim")
 
 		use("michaeljsmith/vim-indent-object")
 		use({
 			"antoinemadec/FixCursorHold.nvim",
 			config = function()
 				vim.g.cursorhold_updatetime = 100
+			end,
+		})
+
+		use({
+			"glacambre/firenvim",
+			run = function()
+				vim.fn["firenvim#install"](0)
 			end,
 		})
 
