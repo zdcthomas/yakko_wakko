@@ -50,6 +50,10 @@ vim.cmd([[
   command! Irulan :!dmux ~/irulan/wiki
 ]])
 
+function Pr(data)
+	print(vim.inspect(data))
+end
+
 vim.o.autoindent = true
 vim.o.autoread = true
 vim.o.backspace = "indent,eol,start"

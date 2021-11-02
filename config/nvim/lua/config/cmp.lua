@@ -109,18 +109,18 @@ end
 
 local function snippet_func(args)
 	vim.fn["vsnip#anonymous"](args.body)
+	-- require('luasnip').lsp_expand(args.body)
 end
 
 local function sources()
 	return {
-		{ name = "nvim_lsp", opts = {
-			all_panes = true,
-		} },
+		{ name = "nvim_lsp" },
 		{ name = "vsnip" },
 		{ name = "buffer" },
 		{ name = "path" },
 		{ name = "calc" },
-		{ name = "tmux" },
+		{ name = "cmp_git" },
+		-- { name = "tmux" },
 	}
 end
 
@@ -161,7 +161,6 @@ function conf.setup()
 	})
 
 	cmp.setup.cmdline("/", {
-		completion = { autocomplete = true },
 		sources = {
 			{ name = "buffer" },
 			{ name = "nvim_lsp" },

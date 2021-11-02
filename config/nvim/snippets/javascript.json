@@ -24,6 +24,15 @@
     "prefix": "mod",
     "body": "module.exports = ${1:name}"
   },
+  "expect": {
+    "prefix": "expect",
+    "body": "expect(${1:case})"
+  },
+
+  "strictEqual": {
+    "prefix": ".toS",
+    "body": ".toStrictEqual(${1:expected})"
+  },
   "else": {
     "prefix": "else",
     "body": [

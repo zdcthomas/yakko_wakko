@@ -36,7 +36,7 @@ local border = {
 
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
-local on_attach = function(client, bufnr)
+local common_on_attach = function(client, bufnr)
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
 	vim.cmd("au! CursorHold,CursorHoldI <buffer> lua require'nvim-lightbulb'.update_lightbulb()")
@@ -100,7 +100,7 @@ end
 
 local function make_config()
 	return {
-		on_attach = on_attach,
+		common_on_attach = common_on_attach,
 		capabilities = capabilities,
 		flags = {
 			debounce_text_changes = 150,
@@ -110,7 +110,7 @@ end
 
 local function typescript_on_attach(client, bufnr)
 	client.resolved_capabilities.document_formatting = false
-	on_attach(client, bufnr)
+	common_on_attach(client, bufnr)
 end
 
 function conf.setup()
@@ -122,6 +122,7 @@ function conf.setup()
 	lsp_installer.on_server_ready(function(server)
 		local config = make_config()
 		config.capabilities = vim.tbl_extend("keep", config.capabilities, lsp_status.capabilities)
+		config.cmd = server._default_options.cmd
 		if server.name == "sumneko_lua" then
 			config.settings = lua_settings()
 			config.commands = {
@@ -134,7 +135,7 @@ function conf.setup()
 				},
 			}
 			config.on_attach = function(client, bufnr)
-				on_attach(client, bufnr)
+				common_on_attach(client, bufnr)
 				vim.api.nvim_buf_set_keymap(
 					bufnr,
 					"n",
@@ -152,13 +153,33 @@ function conf.setup()
 				client.notify("workspace/didChangeConfiguration")
 				return true
 			end
+		elseif server.name == "eslint" then
+			config.on_attach = function(client, bufnr)
+				print("attached")
+				client.resolved_capabilities.document_formatting = true
+				common_on_attach(client, bufnr)
+			end
+			config.settings = {
+				format = { enable = true }, -- this will enable formatting
+			}
+			config.handlers = {
+				["eslint/probeFailed"] = function()
+					vim.notify("ESLint probe failed.", vim.log.levels.WARN)
+					--return { id = nil, result = true }
+					return {}
+				end,
+				["eslint/noLibrary"] = function()
+					vim.notify("Unable to find ESLint library.", vim.log.levels.WARN)
+					return {}
+					-- return { id = nil, result = true }
+				end,
+			}
+			config.cmd = vim.list_extend({ "yarn", "node" }, config.cmd)
 		end
 
 		-- server:setup(config)
-		config.cmd = server._default_options.cmd
-		require("lspconfig")[server.name].setup(config)
-
 		-- vim.cmd([[ do User LspAttachBuffers ]])
+		require("lspconfig")[server.name].setup(config)
 	end)
 
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {

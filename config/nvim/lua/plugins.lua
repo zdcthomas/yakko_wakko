@@ -24,13 +24,6 @@ return require("packer").startup({
 		})
 
 		use({
-			"glacambre/firenvim",
-			run = function()
-				vim.fn["firenvim#install"](0)
-			end,
-		})
-
-		use({
 			"tpope/vim-commentary",
 		})
 
@@ -50,6 +43,17 @@ return require("packer").startup({
           exec 'source ' . "~/.vim/settings/plugins/sandwich_settings.vim"
         ]])
 			end,
+		})
+
+		use({
+			"mbbill/undotree",
+		})
+
+		use({
+			"tpope/vim-fugitive",
+			cmd = {
+				"Git",
+			},
 		})
 
 		use({
@@ -226,14 +230,14 @@ return require("packer").startup({
 		use({
 			"hrsh7th/nvim-cmp",
 			requires = {
-				"hrsh7th/cmp-nvim-lsp",
-				"L3MON4D3/LuaSnip",
-				"saadparwaiz1/cmp_luasnip",
-				"onsails/lspkind-nvim",
 				"hrsh7th/cmp-buffer",
-				"hrsh7th/cmp-path",
 				"hrsh7th/cmp-calc",
+				"petertriho/cmp-git",
 				"hrsh7th/cmp-cmdline",
+				"hrsh7th/cmp-nvim-lsp",
+				"hrsh7th/cmp-path",
+				"hrsh7th/cmp-vsnip",
+				"onsails/lspkind-nvim",
 				{ "andersevenrud/compe-tmux", branch = "cmp" },
 			},
 			config = function()
@@ -275,14 +279,14 @@ return require("packer").startup({
 			"neovim/nvim-lspconfig",
 			requires = {
 				-- config handled in config.lspconfig
-				{ "nvim-lua/lsp-status.nvim" },
-				{ "kosayoda/nvim-lightbulb" },
-				{ "ckipp01/stylua-nvim" },
-				{ "nvim-telescope/telescope.nvim" },
-				{ "ray-x/lsp_signature.nvim" },
-				{ "williamboman/nvim-lsp-installer" },
-				{ "hrsh7th/vim-vsnip" },
-				{ "hrsh7th/nvim-cmp" },
+				"ckipp01/stylua-nvim",
+				"hrsh7th/nvim-cmp",
+				"hrsh7th/vim-vsnip",
+				"kosayoda/nvim-lightbulb",
+				"nvim-lua/lsp-status.nvim",
+				"nvim-telescope/telescope.nvim",
+				"ray-x/lsp_signature.nvim",
+				"williamboman/nvim-lsp-installer",
 			},
 			config = function()
 				-- Ok I really don't understand this. If I remove this function

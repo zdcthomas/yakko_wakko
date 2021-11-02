@@ -3,6 +3,10 @@
 local Config = {}
 
 function Config.lualine()
+	-- local custom_gruvbox = require("lualine.themes.gruvbox")
+	-- print(vim.inspect(custom_gruvbox)) Change the background of lualine_c section for normal mode require("lualine").setup({
+	-- 	options = { theme = custom_gruvbox },
+	-- })
 	local config = {
 		extensions = { "quickfix" },
 		disabled_filetypes = { "startify" },
