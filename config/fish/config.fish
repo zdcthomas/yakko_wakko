@@ -16,7 +16,7 @@ if type -q vim
 end
 
 if type -q git
-  alias gco='git checkout'
+  alias gco='git switch'
   alias gs='git status'
   alias ga='git add'
   alias gap='git add --patch'

@@ -1,9 +1,5 @@
 local conf = {}
 
-local function pad(list)
-	return vim.fn["startify#pad"](list)
-end
-
 local function center(list)
 	return vim.fn["startify#center"](list)
 end

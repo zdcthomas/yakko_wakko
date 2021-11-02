@@ -131,7 +131,6 @@ function conf.setup()
 		":lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({cwd = '~/irulan/wiki'}))<cr>",
 		default_opts
 	)
-	vim.api.nvim_set_keymap("i", ";", "<C-o>:lua require('telescope.builtin').find_files()<cr>", default_opts)
 end
 
 function conf.lsp_bindings_for_buffer(bufnr)
