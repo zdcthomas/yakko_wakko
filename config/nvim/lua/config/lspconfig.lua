@@ -100,7 +100,7 @@ end
 
 local function make_config()
 	return {
-		common_on_attach = common_on_attach,
+		on_attach = common_on_attach,
 		capabilities = capabilities,
 		flags = {
 			debounce_text_changes = 150,
