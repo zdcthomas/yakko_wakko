@@ -29,6 +29,7 @@ function Conf.setup()
 		},
 		highlight = {
 			enable = true,
+			disable = { "elixir" },
 		},
 	})
 

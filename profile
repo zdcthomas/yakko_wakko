@@ -22,3 +22,5 @@ export PATH="$HOME/.mix/escripts:$PATH"
 export PATH="/usr/local/Cellar/tfenv/2.0.0/bin:$PATH"
 export PATH="$HOME/.nodenv/bin:$PATH"
 export PATH="$PATH:$HOME/go/bin"
+
+alias n="nvim"

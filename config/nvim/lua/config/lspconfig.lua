@@ -38,7 +38,6 @@ capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 local common_on_attach = function(client, bufnr)
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
-	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
 	vim.cmd("au! CursorHold,CursorHoldI <buffer> lua require'nvim-lightbulb'.update_lightbulb()")
 	local function buf_set_option(...)
 		vim.api.nvim_buf_set_option(bufnr, ...)
@@ -53,12 +52,13 @@ local common_on_attach = function(client, bufnr)
 	buf_set_keymap("n", "gh", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 	buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	buf_set_keymap("n", "<Leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 	buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	buf_set_keymap("n", "<Leader>cl", "<Cmd>lua vim.lsp.codelens.run()<CR>", opts)
 	buf_set_keymap("n", "<Leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
 	buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
 	buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
-	buf_set_keymap("n", "<Leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
+	buf_set_keymap("n", "<Leader><Leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
 	require("config.telescope").lsp_bindings_for_buffer(bufnr)
 
 	if client.resolved_capabilities.document_formatting then
@@ -66,7 +66,16 @@ local common_on_attach = function(client, bufnr)
 		vim.cmd("au! BufWritePre <buffer> lua vim.lsp.buf.formatting()")
 	end
 
-	require("lsp_signature").on_attach()
+	require("lsp_signature").on_attach({
+		bind = true,
+		zindex = 40,
+		transparency = 40,
+		auto_close_after = 4,
+		max_width = 60,
+		handler_opts = {
+			border = "rounded", -- double, rounded, single, shadow, none
+		},
+	})
 end
 
 local function lua_settings()
@@ -113,7 +122,67 @@ local function typescript_on_attach(client, bufnr)
 	common_on_attach(client, bufnr)
 end
 
+local function eslint(config)
+	config.on_attach = function(client, bufnr)
+		print("attached")
+		client.resolved_capabilities.document_formatting = true
+		common_on_attach(client, bufnr)
+	end
+	config.settings = {
+		format = { enable = true }, -- this will enable formatting
+	}
+	config.handlers = {
+		["eslint/probeFailed"] = function()
+			vim.notify("ESLint probe failed.", vim.log.levels.WARN)
+			--return { id = nil, result = true }
+			return {}
+		end,
+		["eslint/noLibrary"] = function()
+			vim.notify("Unable to find ESLint library.", vim.log.levels.WARN)
+			return {}
+			-- return { id = nil, result = true }
+		end,
+	}
+	config.cmd = vim.list_extend({ "yarn", "node" }, config.cmd)
+	return config
+end
+
+local function elixir(config)
+	config.root_dir = require("lspconfig.util").root_pattern(".git")
+	config.on_init = function(client)
+		client.notify("workspace/didChangeConfiguration")
+		return true
+	end
+	return config
+end
+local function lua(config)
+	config.settings = lua_settings()
+	config.commands = {
+		Format = {
+			function()
+				require("stylua-nvim").format_file({
+					error_display_strategy = "none",
+				})
+			end,
+		},
+	}
+	config.on_attach = function(client, bufnr)
+		common_on_attach(client, bufnr)
+		vim.api.nvim_buf_set_keymap(
+			bufnr,
+			"n",
+			"<Leader>gq",
+			"<cmd>lua require('stylua-nvim').format_file()<CR>",
+			{ silent = false, noremap = true }
+		)
+		vim.cmd("au! BufWritePre <buffer> Format")
+	end
+	return config
+end
+
 function conf.setup()
+	vim.diagnostic.config({ header = false, float = { border = "rounded" }, signs = false })
+
 	local lsp_status = require("lsp-status")
 	lsp_status.register_progress()
 
@@ -124,57 +193,13 @@ function conf.setup()
 		config.capabilities = vim.tbl_extend("keep", config.capabilities, lsp_status.capabilities)
 		config.cmd = server._default_options.cmd
 		if server.name == "sumneko_lua" then
-			config.settings = lua_settings()
-			config.commands = {
-				Format = {
-					function()
-						require("stylua-nvim").format_file({
-							error_display_strategy = "none",
-						})
-					end,
-				},
-			}
-			config.on_attach = function(client, bufnr)
-				common_on_attach(client, bufnr)
-				vim.api.nvim_buf_set_keymap(
-					bufnr,
-					"n",
-					"<Leader>gq",
-					"<cmd>lua require('stylua-nvim').format_file()<CR>",
-					{ silent = false, noremap = true }
-				)
-				vim.cmd("au! BufWritePre <buffer> Format")
-			end
+			config = lua(config)
 		elseif server.name == "typescript" then
 			config.on_attach = typescript_on_attach
 		elseif server.name == "elixirls" then
-			config.root_dir = require("lspconfig.util").root_pattern(".git")
-			config.on_init = function(client)
-				client.notify("workspace/didChangeConfiguration")
-				return true
-			end
+			config = elixir(config)
 		elseif server.name == "eslint" then
-			config.on_attach = function(client, bufnr)
-				print("attached")
-				client.resolved_capabilities.document_formatting = true
-				common_on_attach(client, bufnr)
-			end
-			config.settings = {
-				format = { enable = true }, -- this will enable formatting
-			}
-			config.handlers = {
-				["eslint/probeFailed"] = function()
-					vim.notify("ESLint probe failed.", vim.log.levels.WARN)
-					--return { id = nil, result = true }
-					return {}
-				end,
-				["eslint/noLibrary"] = function()
-					vim.notify("Unable to find ESLint library.", vim.log.levels.WARN)
-					return {}
-					-- return { id = nil, result = true }
-				end,
-			}
-			config.cmd = vim.list_extend({ "yarn", "node" }, config.cmd)
+			config = eslint(config)
 		end
 
 		-- server:setup(config)

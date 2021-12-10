@@ -22,27 +22,27 @@
 -- | !_! | | !_! | | !_________________________________________________________________! | | !_! | | !_! |
 -- !_____! !_____! !_____________________________________________________________________! !_____! !_____!
 
-require("impatient")
+-- require("impatient")
 vim.g.mapleader = " "
 
-local disabled_built_ins = {
-	"gzip",
-	"zip",
-	"zipPlugin",
-	"tar",
-	"tarPlugin",
-	"2html_plugin",
-	"rrhelper",
-}
+-- local disabled_built_ins = {
+-- 	"gzip",
+-- 	"zip",
+-- 	"zipPlugin",
+-- 	"tar",
+-- 	"tarPlugin",
+-- 	"2html_plugin",
+-- 	"rrhelper",
+-- }
 
-for _, plugin in pairs(disabled_built_ins) do
-	vim.g["loaded_" .. plugin] = 1
-end
+-- for _, plugin in pairs(disabled_built_ins) do
+-- 	vim.g["loaded_" .. plugin] = 1
+-- end
 
 vim.cmd([[
   augroup personal
     autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=350, on_visual=false}
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=350, on_visual=true}
     autocmd FocusGained * checktime
   augroup END
 
@@ -52,6 +52,15 @@ vim.cmd([[
 
 function Pr(data)
 	print(vim.inspect(data))
+end
+
+if pcall(require, "plenary") then
+	RELOAD = require("plenary.reload").reload_module
+
+	R = function(name)
+		RELOAD(name)
+		return require(name)
+	end
 end
 
 vim.o.autoindent = true
@@ -91,6 +100,7 @@ vim.o.wrap = false
 vim.o.wildmenu = true
 
 vim.g.diminactive_enable_focus = 1
+vim.g.netrw_preview = 1 -- preview window shown in a vertically split window. Also affects the "previous window" (see |netrw-P|) in the same way.
 
 vim.api.nvim_set_keymap("n", "<Leader>wl", ":vsp<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Leader>wj", ":sp<CR>", { noremap = true, silent = true })
@@ -105,6 +115,7 @@ vim.api.nvim_set_keymap("n", "<Right>", ":vertical resize +5<Cr>", { noremap = t
 vim.api.nvim_set_keymap("n", "<C-n>", ":let @/=expand('<cword>')<cr>cgn", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "Q", "<nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Leader>yf", ":Yf<Cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "-", ":Explore<cr>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("c", "<C-a>", "<Home>", { noremap = true })
 vim.api.nvim_set_keymap("c", "<C-e>", "<End>", { noremap = true })

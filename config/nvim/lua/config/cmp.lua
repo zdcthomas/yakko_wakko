@@ -77,23 +77,25 @@ local shift_tab_mapping = {
 
 local function mappings()
 	return {
-		["<C-n>"] = cmp.mapping({
-			i = function(fallback)
-				if vim.fn["vsnip#available"](1) == 1 then
-					feedkey("<Plug>(vsnip-expand-or-jump)", "")
-				else
-					fallback()
-				end
-			end,
+		["<C-n>"] = cmp.mapping(function(fallback)
+			if vim.fn["vsnip#available"](1) == 1 then
+				feedkey("<Plug>(vsnip-expand-or-jump)", "")
+			else
+				fallback()
+			end
+		end, {
+			"i",
+			"s",
 		}),
-		["<C-p>"] = cmp.mapping({
-			i = function(fallback)
-				if vim.fn["vsnip#jumpable"](-1) == 1 then
-					feedkey("<Plug>(vsnip-jump-prev)", "")
-				else
-					fallback()
-				end
-			end,
+		["<C-p>"] = cmp.mapping(function(fallback)
+			if vim.fn["vsnip#jumpable"](-1) == 1 then
+				feedkey("<Plug>(vsnip-jump-prev)", "")
+			else
+				fallback()
+			end
+		end, {
+			"i",
+			"s",
 		}),
 		["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 		["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
@@ -109,7 +111,6 @@ end
 
 local function snippet_func(args)
 	vim.fn["vsnip#anonymous"](args.body)
-	-- require('luasnip').lsp_expand(args.body)
 end
 
 local function sources()
@@ -120,8 +121,28 @@ local function sources()
 		{ name = "path" },
 		{ name = "calc" },
 		{ name = "cmp_git" },
-		-- { name = "tmux" },
 	}
+end
+
+local function setup_cmp_highlighting()
+	vim.cmd([[
+    " gray
+    highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
+    " blue
+    highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
+    highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
+    " light blue
+    highlight! CmpItemKindVariable guibg=NONE guifg=#9CDCFE
+    highlight! CmpItemKindInterface guibg=NONE guifg=#9CDCFE
+    highlight! CmpItemKindText guibg=NONE guifg=#9CDCFE
+    " pink
+    highlight! CmpItemKindFunction guibg=NONE guifg=#C586C0
+    highlight! CmpItemKindMethod guibg=NONE guifg=#C586C0
+    " front
+    highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
+    highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
+    highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
+  ]])
 end
 
 function conf.setup()
@@ -163,18 +184,9 @@ function conf.setup()
 	cmp.setup.cmdline("/", {
 		sources = {
 			{ name = "buffer" },
-			{ name = "nvim_lsp" },
 		},
 	})
-
-	-- cmp.setup.cmdline(":", {
-	-- 	completion = { autocomplete = false },
-	-- 	sources = {
-	-- 		{ name = "cmdline" },
-	-- 		{ name = "buffer" },
-	-- 		{ name = "path" },
-	-- 	},
-	-- })
+	setup_cmp_highlighting()
 end
 
 return conf

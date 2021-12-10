@@ -6,6 +6,7 @@ alias gco='git checkout'
 alias fc='. fcd'
 alias reload='source ~/.bashrc'
 alias ..='cd ..'
+alias n='nvim'
 
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
