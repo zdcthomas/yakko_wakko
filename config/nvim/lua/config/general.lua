@@ -11,7 +11,7 @@ function Config.lualine()
 		extensions = { "quickfix" },
 		disabled_filetypes = { "startify" },
 		options = {
-			theme = "codedark",
+			theme = "rose-pine",
 			section_separators = { left = "", right = "" },
 			component_separators = { left = "", right = "" },
 		},
@@ -116,6 +116,8 @@ function Config.git_signs()
 			["n <leader>gs"] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
 			["n <leader>gb"] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
 			["n <leader>gc"] = '<cmd>lua require"gitsigns".setqflist("all")<CR>',
+			["o ih"] = ":<C-U>Gitsigns select_hunk<CR>",
+			["x ih"] = ":<C-U>Gitsigns select_hunk<CR>",
 		},
 	})
 end
