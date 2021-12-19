@@ -13,9 +13,11 @@ return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
 		use("michaeljsmith/vim-indent-object")
-		use("seandewar/nvimesweeper")
-		use("tpope/vim-commentary")
 		use("wellle/targets.vim")
+
+		-- use({ "tpope/vim-unimpaired", cmd = { "Unimpared" } })
+		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
+		use({ "tpope/vim-commentary", keys = { "gc" }, cmd = { "Commentary" } })
 
 		use({
 			"rcarriga/nvim-notify",
@@ -53,8 +55,10 @@ return require("packer").startup({
 			"rose-pine/neovim",
 			as = "rose-pine",
 			config = function()
-				vim.g.rose_pine_variant = "moon"
-				vim.cmd([[colorscheme rose-pine]])
+				vim.g.rose_pine_inactive_background = true
+				vim.g.rose_pine_bold_vertical_split_line = true
+
+				require("rose-pine").set("moon")
 			end,
 		})
 
@@ -162,6 +166,7 @@ return require("packer").startup({
 				"<Leader>ca",
 				"<Leader>/",
 				"gd",
+				"-",
 			},
 			cmd = { "Telescope" },
 			requires = {
@@ -186,6 +191,7 @@ return require("packer").startup({
 
 		use({
 			"nvim-treesitter/nvim-treesitter",
+			run = ":TSUpdate",
 			requires = {
 				"p00f/nvim-ts-rainbow",
 				{
@@ -220,12 +226,14 @@ return require("packer").startup({
 		})
 
 		use({
-			"justinmk/vim-dirvish",
-			requires = {
-				"kristijanhusak/vim-dirvish-git",
-				"roginfarrer/vim-dirvish-dovish",
+			"ruifm/gitlinker.nvim",
+			requires = "nvim-lua/plenary.nvim",
+			keys = {
+				"<leader>gy",
 			},
-			config = config.dirvish,
+			config = function()
+				require("gitlinker").setup()
+			end,
 		})
 
 		-- use({
@@ -270,17 +278,6 @@ return require("packer").startup({
 		--	use({
 		--		"tweekmonster/startuptime.vim",
 		--		cmd = "StartupTime",
-		--	})
-
-		--	use({
-		--		"ruifm/gitlinker.nvim",
-		--		requires = "nvim-lua/plenary.nvim",
-		--		keys = {
-		--			"<leader>gy",
-		--		},
-		--		config = function()
-		--			require("gitlinker").setup()
-		--		end,
 		--	})
 
 		--	use({
