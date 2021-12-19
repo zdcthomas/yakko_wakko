@@ -1,32 +1,21 @@
 local conf = {}
 
--- local function prequire(...)
--- 	local status, lib = pcall(require, ...)
--- 	if status then
--- 		return lib
--- 	end
--- 	return nil
+local _slow_to_load_in_TS = { ".*%.ex", ".*%.exs" }
+
+-- local local_insert_symbol_i = function(prompt_bufnr)
+-- 	local action_state = require("telescope.actions.state")
+-- 	local actions = require("telescope.actions")
+
+-- 	print("prompt_bufnr", prompt_bufnr)
+-- 	local symbol = action_state.get_selected_entry().value
+-- 	print("telescope:9 -> action_state.get_selected_entry().value", action_state.get_selected_entry().value)
+-- 	actions._close(prompt_bufnr, true)
+-- 	local cursor = vim.api.nvim_win_get_cursor(0)
+-- 	vim.api.nvim_buf_set_text(0, cursor[1] - 1, cursor[2], cursor[1] - 1, cursor[2], { symbol })
+-- 	vim.schedule(function()
+-- 		vim.api.nvim_win_set_cursor(0, { cursor[1], cursor[2] + #symbol })
+-- 	end)
 -- end
--- local actions = prequire("telescope.actions")
--- local action_state = prequire("telescope.actions.state")
--- local previewers = prequire("telescope.previewers")
-
-local _slow_to_load_in_TS = { ".*%.ex", ".*%.exs" } -- Put all filetypes that slow you down in this array
-
-local local_insert_symbol_i = function(prompt_bufnr)
-	local action_state = require("telescope.actions.state")
-	local actions = require("telescope.actions")
-
-	print("prompt_bufnr", prompt_bufnr)
-	local symbol = action_state.get_selected_entry().value
-	print("telescope:9 -> action_state.get_selected_entry().value", action_state.get_selected_entry().value)
-	actions._close(prompt_bufnr, true)
-	local cursor = vim.api.nvim_win_get_cursor(0)
-	vim.api.nvim_buf_set_text(0, cursor[1] - 1, cursor[2], cursor[1] - 1, cursor[2], { symbol })
-	vim.schedule(function()
-		vim.api.nvim_win_set_cursor(0, { cursor[1], cursor[2] + #symbol })
-	end)
-end
 
 local bad_files = function(filepath)
 	for _, v in ipairs(_slow_to_load_in_TS) do
@@ -49,25 +38,58 @@ local new_maker = function(filepath, bufnr, opts)
 	previewers.buffer_previewer_maker(filepath, bufnr, opts)
 end
 
+local function fb_action(f)
+	return function(b)
+		require("telescope").extensions.file_browser.actions[f](b)
+	end
+end
+
 function conf.setup()
 	local actions = require("telescope.actions")
 	local telescope = require("telescope")
 	telescope.setup({
 		pickers = {
+			git_status = {
+				initial_mode = "normal",
+				git_icons = {
+					added = "+",
+					changed = "~",
+					copied = ">",
+					deleted = "-",
+					renamed = "r",
+					unmerged = "‡",
+					untracked = "u",
+				},
+			},
+			git_commits = {
+				initial_mode = "normal",
+			},
 			find_files = {
 				hidden = true,
 				follow = true,
-				mappings = {
-					i = {
-						["<c-i>"] = local_insert_symbol_i,
-						["<c-k>"] = actions.move_selection_previous,
-						["<c-j>"] = actions.move_selection_next,
-						["<tab>"] = actions.toggle_selection,
-					},
-				},
+				sorter = require("telescope").extensions.fzf.native_fzf_sorter(),
 			},
 		},
 		defaults = {
+			mappings = {
+				i = {
+					["<down>"] = false,
+					["<up>"] = false,
+					["<c-x>"] = false,
+					["<c-v>"] = false,
+					["<c-t>"] = false,
+					["<c-k>"] = actions.move_selection_previous,
+					["<c-j>"] = actions.move_selection_next,
+					["<m-j>"] = actions.select_horizontal,
+					["<m-l>"] = actions.select_vertical,
+					["<c-l>"] = require("telescope.actions.layout").cycle_layout_next,
+					["<c-/>"] = require("telescope.actions.generate").which_key,
+				},
+				n = {
+					["<tab>"] = actions.toggle_selection,
+					["<s-/>"] = require("telescope.actions.generate").which_key,
+				},
+			},
 			sorting_strategy = "ascending",
 			layout_strategy = "vertical",
 			dynamic_preview_title = true,
@@ -104,14 +126,16 @@ function conf.setup()
 		extensions = {
 			file_browser = {
 				theme = "ivy",
-				-- mappings = {
-				-- 	["i"] = {
-				-- 		-- your custom insert mode mappings
-				-- 	},
-				-- 	["n"] = {
-				-- 		-- your custom normal mode mappings
-				-- 	},
-				-- },
+				initial_mode = "normal",
+				path = "%:p:h",
+				mappings = {
+					n = {
+						["-"] = fb_action("goto_parent_dir"),
+					},
+					i = {
+						["-"] = fb_action("goto_parent_dir"),
+					},
+				},
 			},
 			["ui-select"] = {
 				require("telescope.themes").get_cursor({
@@ -130,31 +154,39 @@ function conf.setup()
 	})
 	-- To get fzf loaded and working with telescope, you need to call
 	-- load_extension, somewhere after setup function:
-	require("telescope").load_extension("fzf")
-	require("telescope").load_extension("file_browser")
-	require("telescope").load_extension("ui-select")
+	telescope.load_extension("file_browser")
+	telescope.load_extension("fzf")
+	telescope.load_extension("ui-select")
 	local default_opts = { noremap = true, silent = true }
+
+	vim.api.nvim_set_keymap("n", "<leader>p", "<cmd>lua require('config.telescope').find_files() <cr>", default_opts)
 	vim.api.nvim_set_keymap(
 		"n",
-		"<leader>p",
-		"<cmd>lua require'telescope.builtin'.find_files( require('telescope.themes').get_dropdown({ path_display = {'smart'}, find_command = {'rg', '--files', '--hidden', '-g', '!.git' }}))<cr>",
-		default_opts
-	)
-	vim.api.nvim_set_keymap(
-		"n",
-		"<Leader>n",
+		"-",
 		"<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>",
-		{ noremap = true }
+		default_opts
 	)
 	vim.api.nvim_set_keymap("n", "<leader>b", "<cmd>Telescope buffers<cr>", default_opts)
 	vim.api.nvim_set_keymap("n", "<Leader>F", ":Telescope live_grep<cr>", default_opts)
 	vim.api.nvim_set_keymap("n", "<Leader>*", ":Telescope grep_string<cr>", default_opts)
-	vim.api.nvim_set_keymap(
-		"n",
-		"<Leader>wp",
-		":lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({cwd = '~/irulan/wiki'}))<cr>",
-		default_opts
-	)
+	vim.api.nvim_set_keymap("n", "<Leader>gc", ":Telescope git_status<cr>", default_opts)
+	-- vim.api.nvim_set_keymap(
+	-- 	"n",
+	-- 	"<Leader>wp",
+	-- 	":lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({cwd = '~/irulan/wiki'}))<cr>",
+	-- 	default_opts
+	-- )
+end
+
+function conf.find_files()
+	require("telescope.builtin").find_files(require("telescope.themes").get_dropdown({
+		path_display = { "smart" },
+		find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
+	}))
+end
+
+function conf.diagnostics()
+	require("telescope.builtin").diagnostics(require("telescope.themes").get_ivy())
 end
 
 function conf.lsp_bindings_for_buffer(bufnr)
@@ -163,12 +195,7 @@ function conf.lsp_bindings_for_buffer(bufnr)
 	local function buf_set_keymap(...)
 		vim.api.nvim_buf_set_keymap(bufnr, ...)
 	end
-	buf_set_keymap(
-		"n",
-		"<Leader>q",
-		'<Cmd>lua require("telescope.builtin").diagnostics(require("telescope.themes").get_ivy())<cr>',
-		opts
-	)
+	buf_set_keymap("n", "<Leader>q", "<Cmd>lua require('config.telescope').diagnostics()<cr>", opts)
 	buf_set_keymap("n", "<Leader>/", '<Cmd>lua require("telescope.builtin").lsp_document_symbols()<cr>', opts)
 	buf_set_keymap("n", "gd", '<Cmd>lua require("telescope.builtin").lsp_definitions()<cr>', opts)
 end

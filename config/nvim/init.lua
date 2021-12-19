@@ -115,7 +115,6 @@ vim.api.nvim_set_keymap("n", "<Right>", ":vertical resize +5<Cr>", { noremap = t
 vim.api.nvim_set_keymap("n", "<C-n>", ":let @/=expand('<cword>')<cr>cgn", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "Q", "<nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Leader>yf", ":Yf<Cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "-", ":Explore<cr>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("c", "<C-a>", "<Home>", { noremap = true })
 vim.api.nvim_set_keymap("c", "<C-e>", "<End>", { noremap = true })

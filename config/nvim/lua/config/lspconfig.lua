@@ -35,10 +35,21 @@ local border = {
 }
 
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+function conf.lightbulb()
+	require("nvim-lightbulb").update_lightbulb({
+		sign = {
+			enabled = false,
+		},
+		float = {
+			enabled = true,
+			text = "💡",
+		},
+	})
+end
 
 local common_on_attach = function(client, bufnr)
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
-	vim.cmd("au! CursorHold,CursorHoldI <buffer> lua require'nvim-lightbulb'.update_lightbulb()")
+	vim.cmd("au! CursorHold,CursorHoldI <buffer> lua require('config.lspconfig').lightbulb()")
 	local function buf_set_option(...)
 		vim.api.nvim_buf_set_option(bufnr, ...)
 	end
