@@ -213,9 +213,7 @@ function conf.setup()
 			config = eslint(config)
 		end
 
-		-- server:setup(config)
-		-- vim.cmd([[ do User LspAttachBuffers ]])
-		require("lspconfig")[server.name].setup(config)
+		server:setup(config)
 	end)
 
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
