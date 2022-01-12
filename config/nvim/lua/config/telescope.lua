@@ -160,12 +160,12 @@ function conf.setup()
 	local default_opts = { noremap = true, silent = true }
 
 	vim.api.nvim_set_keymap("n", "<leader>p", "<cmd>lua require('config.telescope').find_files() <cr>", default_opts)
-	vim.api.nvim_set_keymap(
-		"n",
-		"-",
-		"<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>",
-		default_opts
-	)
+	-- vim.api.nvim_set_keymap(
+	-- 	"n",
+	-- 	"-",
+	-- 	"<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>",
+	-- 	default_opts
+	-- )
 	vim.api.nvim_set_keymap("n", "<leader>b", "<cmd>Telescope buffers<cr>", default_opts)
 	vim.api.nvim_set_keymap("n", "<Leader>F", ":Telescope live_grep<cr>", default_opts)
 	vim.api.nvim_set_keymap("n", "<Leader>*", ":Telescope grep_string<cr>", default_opts)

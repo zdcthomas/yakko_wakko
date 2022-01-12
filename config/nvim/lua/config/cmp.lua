@@ -175,7 +175,15 @@ function conf.setup()
 		},
 		preselect = cmp.PreselectMode.None,
 		mapping = mappings(),
-		sources = sources(),
+		sources = cmp.config.sources({
+			{ name = "nvim_lsp" },
+			{ name = "vsnip" },
+			{ name = "path" },
+			{ name = "calc" },
+			{ name = "cmp_git" },
+		}, {
+			{ name = "buffer" },
+		}),
 		experimental = {
 			ghost_text = true,
 		},
