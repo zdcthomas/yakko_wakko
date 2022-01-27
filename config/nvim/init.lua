@@ -108,6 +108,12 @@ vim.api.nvim_set_keymap("n", "<C-j>", "<C-W><C-J>", { noremap = true, silent = t
 vim.api.nvim_set_keymap("n", "<C-k>", "<C-W><C-k>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-l>", "<C-W><C-l>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-h>", "<C-W><C-h>", { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap("n", "<Leader>wL", "<C-W>L", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>wK", "<C-W>K", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>wJ", "<C-W>J", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>wH", "<C-W>H", { noremap = true, silent = true })
+
 vim.api.nvim_set_keymap("n", "<Up>", ":res +5<Cr>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Down>", ":res -5<Cr>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Left>", ":vertical resize -5<Cr>", { noremap = true, silent = true })

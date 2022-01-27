@@ -177,12 +177,12 @@ function conf.setup()
 		mapping = mappings(),
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
+			{ name = "buffer" },
 			{ name = "vsnip" },
 			{ name = "path" },
-			{ name = "calc" },
-			{ name = "cmp_git" },
 		}, {
-			{ name = "buffer" },
+			{ name = "cmp_git" },
+			{ name = "calc" },
 		}),
 		experimental = {
 			ghost_text = true,

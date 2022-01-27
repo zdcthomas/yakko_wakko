@@ -17,6 +17,40 @@ return require("packer").startup({
 		-- use({ "tpope/vim-unimpaired", cmd = { "Unimpared" } })
 		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
 		use({ "tpope/vim-commentary", keys = { "gc" }, cmd = { "Commentary" } })
+		-- use({
+		-- 	"mzlogin/vim-markdown-toc",
+		-- })
+
+		use({
+			"~/dev/wiki.vim",
+			config = function()
+				vim.g.wiki_root = "~/irulan"
+				vim.g.wiki_filetypes = { "md" }
+				vim.g.wiki_link_extension = ".md"
+				vim.g.wiki_link_target_type = "md"
+
+				vim.g.wiki_journal = {
+					name = "watashi_no_nikki",
+					frequency = "daily",
+					date_format = {
+						daily = "%Y-%m-%d",
+						weekly = "%Y_w%V",
+						monthly = "%Y_m%m",
+					},
+				}
+			end,
+		})
+
+		use({
+			"folke/zen-mode.nvim",
+			config = function()
+				require("zen-mode").setup({
+					-- your configuration comes here
+					-- or leave it empty to use the default settings
+					-- refer to the configuration section below
+				})
+			end,
+		})
 
 		use({
 			"jbyuki/venn.nvim",
@@ -277,16 +311,6 @@ return require("packer").startup({
 		--		"segeljakt/vim-silicon",
 		--		cmd = { "Silicon" },
 		--	})
-
-		--   use({
-		--   	"~/dev/wiki.vim",
-		--   	config = function()
-		--   		vim.g.wiki_root = "~/irulan/wiki"
-		--   		vim.g.wiki_filetypes = { "md" }
-		--   		vim.g.wiki_link_extension = ".md"
-		--   		vim.g.wiki_link_target_type = "md"
-		--   	end,
-		--   })
 
 		--		use({
 		--			"gruvbox-community/gruvbox",
