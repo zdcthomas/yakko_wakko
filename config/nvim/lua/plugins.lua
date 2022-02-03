@@ -15,6 +15,18 @@ return require("packer").startup({
 		use("michaeljsmith/vim-indent-object")
 
 		-- use({ "tpope/vim-unimpaired", cmd = { "Unimpared" } })
+		use({
+			"dkarter/bullets.vim",
+			config = function()
+				vim.g.bullest_enabled_file_types = {
+					"markdown",
+					"text",
+					"gitcommit",
+					"scratch",
+				}
+			end,
+		})
+
 		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
 		use({ "tpope/vim-commentary", keys = { "gc" }, cmd = { "Commentary" } })
 		-- use({
@@ -263,12 +275,13 @@ return require("packer").startup({
 			config = config.dirvish,
 		})
 
-		-- use({
-		-- 	"renerocksai/telekasten.nvim",
-		-- 	config = function()
-		-- 		require("config.telekasten").setup()
-		-- 	end,
-		-- })
+		use({
+			"renerocksai/telekasten.nvim",
+			after = "telescope.nvim",
+			config = function()
+				require("config.telekasten").setup()
+			end,
+		})
 
 		-- use({
 		-- 	"antoinemadec/FixCursorHold.nvim",

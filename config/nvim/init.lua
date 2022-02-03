@@ -38,6 +38,21 @@ vim.g.mapleader = " "
 -- for _, plugin in pairs(disabled_built_ins) do
 -- 	vim.g["loaded_" .. plugin] = 1
 -- end
+local levels = {
+	errors = vim.diagnostic.severity.ERROR,
+	warnings = vim.diagnostic.severity.WARN,
+	info = vim.diagnostic.severity.INFO,
+	hints = vim.diagnostic.severity.HINT,
+}
+
+function GetAllDiagnostics(bufnr)
+	local result = {}
+	for k, level in pairs(levels) do
+		result[k] = #vim.diagnostic.get(bufnr, { severity = level })
+	end
+
+	return result
+end
 
 vim.cmd([[
   augroup personal
