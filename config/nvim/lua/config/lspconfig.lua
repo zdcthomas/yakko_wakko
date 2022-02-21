@@ -48,6 +48,42 @@ function conf.lightbulb()
 end
 
 local common_on_attach = function(client, bufnr)
+	-- capabilities
+	-- {messages
+	--   call_hierarchy = false,
+	--   code_action = {
+	--     codeActionKinds = { "", "quickfix", "refactor.rewrite", "refactor.extract" },
+	--     resolveProvider = false
+	--   },
+	--   code_lens = false,
+	--   code_lens_resolve = false,
+	--   completion = true,
+	--   declaration = false,
+	--   document_formatting = false,
+	--   document_highlight = true,
+	--   document_range_formatting = false,
+	--   document_symbol = true,
+	--   execute_command = true,
+	--   find_references = true,
+	--   goto_definition = true,
+	--   hover = true,
+	--   implementation = false,
+	--   rename = true,
+	--   signature_help = true,
+	--   signature_help_trigger_characters = { "(", "," },
+	--   text_document_did_change = 2,
+	--   text_document_open_close = true,
+	--   text_document_save = false,
+	--   text_document_save_include_text = false,
+	--   text_document_will_save = false,
+	--   text_document_will_save_wait_until = false,
+	--   type_definition = true,
+	--   workspace_folder_properties = {
+	--     changeNotifications = false,
+	--     supported = false
+	--   },
+	--   workspace_symbol = true
+	-- }
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
 	vim.cmd("au! CursorHold,CursorHoldI <buffer> lua require('config.lspconfig').lightbulb()")
 	local function buf_set_option(...)
@@ -60,18 +96,25 @@ local common_on_attach = function(client, bufnr)
 
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
-	buf_set_keymap("n", "gh", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 	buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 	buf_set_keymap("n", "<Leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-	buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-	buf_set_keymap("n", "<Leader>cl", "<Cmd>lua vim.lsp.codelens.run()<CR>", opts)
-	buf_set_keymap("n", "<Leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
+	buf_set_keymap("n", "<Leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 	buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 	buf_set_keymap("n", "<Leader><Leader>q", "<cmd>lua vim.diagnostic.set_loclist()<CR>", opts)
 	require("config.telescope").lsp_bindings_for_buffer(bufnr)
 
+	if client.resolved_capabilities.hover then
+		buf_set_keymap("n", "gh", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	end
+	if client.resolved_capabilities.rename then
+		buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+	end
+	if client.resolved_capabilities.code_lens then
+		buf_set_keymap("n", "<Leader>cl", "<Cmd>lua vim.lsp.codelens.run()<CR>", opts)
+		vim.cmd("au! BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()")
+	end
 	if client.resolved_capabilities.document_formatting then
 		buf_set_keymap("n", "<Leader>gq", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 		vim.cmd("au! BufWritePre <buffer> lua vim.lsp.buf.formatting()")
