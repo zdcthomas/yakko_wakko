@@ -1,9 +1,3 @@
--- local Config = {}
--- function Config.test_regex(line_string, column)
--- local regex = vim.regex([[/(.*)\[.*\]/]])
--- local result = regex:match_str("(foo)[asdf]")
--- local foo = "[[asdf]]"
-
 -- .	all characters
 -- %a	letters
 -- %c	control characters
@@ -23,30 +17,7 @@ local markdown_capture = "%[(" .. link_description_inner_match .. ")%]%((" .. re
 local line_with_multiple_links = "[this is link 1](link_1) and over here [is link 2](link_2)"
 
 local markdown_link_match = "%s%(.+%)%[.*%]%s"
-local lines_string = "this line is just a (This is, the link!)[bar/foo/link_title.md]"
--- local one, two, link_title, link_destination = string.find(lines_string, "%((%a+)%)%[(%a+)%]")
--- local one, two, link_title, link_destination, four, five, six = string.find(line_with_multiple_links, markdown_capture)
--- Pr(one)
--- Pr(two)
--- Pr(link_title)
--- Pr(link_destination)
--- Pr(four)
--- Pr(five)
---
--- local function contained_by(string, index, left, right)
--- 	local first_half = string:sub(0, index)
--- 	local second_half = string:sub(index, -1)
--- 	first_half:find(left)
--- 	second_half:find(right)
--- end
-
--- local one, two, link_title, link_destination, four, five, six = string.match(line_with_multiple_links, markdown_capture)
--- Pr(one)
--- Pr(two)
--- Pr(link_title)
--- Pr(link_destination)
--- Pr(four)
--- Pr(five)
+local lines_string = "this line is just a [This is, the link!](bar/foo/link_title.md)"
 
 local function find_pattern_index_around_point(line, index, left, right)
 	Pr("line " .. line)

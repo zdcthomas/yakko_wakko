@@ -9,29 +9,20 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	execute("packadd packer.nvim")
 end
 
+-- potential plugins
+-- * mzlogin/vim-markdown-toc
+-- * antoinemadec/FixCursorHold.nvim
+-- * mattn/emmet-vim
+-- * mbbill/undotree
+
 return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
 		use("michaeljsmith/vim-indent-object")
-
-		-- use({ "tpope/vim-unimpaired", cmd = { "Unimpared" } })
-		use({
-			"dkarter/bullets.vim",
-			config = function()
-				vim.g.bullest_enabled_file_types = {
-					"markdown",
-					"text",
-					"gitcommit",
-					"scratch",
-				}
-			end,
-		})
-
+		use("MunifTanjim/nui.nvim")
 		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
+		use({ "kevinhwang91/nvim-bqf", ft = "qf" })
 		use({ "tpope/vim-commentary", keys = { "gc" }, cmd = { "Commentary" } })
-		-- use({
-		-- 	"mzlogin/vim-markdown-toc",
-		-- })
 
 		use({
 			"~/dev/wiki.vim",
@@ -78,6 +69,11 @@ return require("packer").startup({
 		use({
 			"nicwest/vim-camelsnek",
 			config = config.camelsnek,
+		})
+
+		use({
+			"dhruvasagar/vim-table-mode",
+			cmd = { "TableModeToggle" },
 		})
 
 		use({
@@ -283,59 +279,13 @@ return require("packer").startup({
 			end,
 		})
 
-		-- use({
-		-- 	"antoinemadec/FixCursorHold.nvim",
-		-- 	config = function()
-		-- 		vim.g.cursorhold_updatetime = 100
-		-- 	end,
-		-- })
-
-		-- use({
-		-- 	"MunifTanjim/nui.nvim",
-		-- })
-		--
-		--		use({
-		--			"mattn/emmet-vim",
-		--			ft = "html",
-		--		})
-
-		--  use({
-		--  	"mbbill/undotree",
-		--  	cmd = {
-		--  		"UndotreeToggle",
-		--  	},
-		--  })
-
-		--	use({
-		--		"justinmk/vim-dirvish",
-		--		requires = {
-		--			"kristijanhusak/vim-dirvish-git",
-		--			"roginfarrer/vim-dirvish-dovish",
-		--		},
-		--		config = config.dirvish,
-		--	})
-		--
-		--	use({
-		--		"tweekmonster/startuptime.vim",
-		--		cmd = "StartupTime",
-		--	})
-
-		--	use({
-		--		"segeljakt/vim-silicon",
-		--		cmd = { "Silicon" },
-		--	})
-
-		--		use({
-		--			"gruvbox-community/gruvbox",
-		--			config = function()
-		--				-- vim.cmd("colorscheme gruvbox")
-		--			end,
-		--		})
+		use({
+			"segeljakt/vim-silicon",
+			cmd = { "Silicon" },
+		})
 	end,
 	config = {
 		compile_path = vim.fn.stdpath("config") .. "/plugin/packer_compiled.lua",
-		max_jobs = 10,
-		log = { level = "debug" },
 		display = {
 			open_fn = function()
 				return require("packer.util").float({ border = "rounded" })
@@ -343,7 +293,6 @@ return require("packer").startup({
 		},
 		profile = {
 			enable = true,
-			threshold = 1, -- the amount in ms that a plugins load time must be over for it to be included in the profile
 		},
 	},
 })

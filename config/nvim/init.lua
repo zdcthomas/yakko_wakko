@@ -113,6 +113,8 @@ vim.o.undofile = true
 vim.o.updatetime = 100
 vim.o.wrap = false
 vim.o.wildmenu = true
+vim.o.showmode = false
+vim.o.smartindent = true
 
 vim.g.diminactive_enable_focus = 1
 vim.g.netrw_preview = 1 -- preview window shown in a vertically split window. Also affects the "previous window" (see |netrw-P|) in the same way.

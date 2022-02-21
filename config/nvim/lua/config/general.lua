@@ -16,17 +16,18 @@ function Config.lualine()
 			component_separators = { left = "", right = "" },
 		},
 		sections = {
-			lualine_a = { "mode" },
-			lualine_b = {
+			lualine_b = { "diff" },
+			lualine_a = {
 				{
 					"filename",
 					file_status = true,
 					path = 1,
+					shorting_target = 40,
 				},
 			},
-			lualine_c = { "diff", "require'lsp-status'.status()" },
-			lualine_x = {},
-			lualine_y = { "branch" },
+			lualine_c = { "require'lsp-status'.status()" },
+			lualine_x = { "location" },
+			lualine_y = {},
 			lualine_z = { { "filetype", colored = false } },
 		},
 		inactive_sections = {
@@ -37,15 +38,43 @@ function Config.lualine()
 			lualine_y = {},
 			lualine_z = {},
 		},
+		tabline = {
+			lualine_a = { "mode" },
+			lualine_b = { "branch " },
+			lualine_c = {},
+			lualine_x = {},
+			lualine_y = {},
+			lualine_z = { "buffers" },
+		},
 	}
 	require("lualine").setup(config)
 end
 
 function Config.rose_pine()
-	vim.g.rose_pine_inactive_background = true
-	vim.g.rose_pine_bold_vertical_split_line = true
+	require("rose-pine").setup({
+		---@usage 'main'|'moon'
+		dark_variant = "moon",
+		bold_vert_split = true,
+		disable_float_background = false,
+		groups = {
+			border = "highlight_med",
+			comment = "muted",
+			link = "iris",
+			punctuation = "subtle",
 
-	require("rose-pine").set("moon")
+			error = "love",
+			hint = "iris",
+			info = "foam",
+			warn = "gold",
+
+			headings = "subtle",
+			-- or set all headings at once
+			-- headings = 'subtle'
+		},
+	})
+
+	-- set colorscheme after options
+	vim.cmd("colorscheme rose-pine")
 end
 
 function Config.venn()
@@ -82,6 +111,7 @@ function Config.notify()
 		timeout = 3000,
 		-- Minimum width for notification windows
 		minimum_width = 30,
+		max_width = 80,
 		icons = {
 			ERROR = "",
 			WARN = "",
