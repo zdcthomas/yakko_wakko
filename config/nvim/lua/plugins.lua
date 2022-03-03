@@ -1,12 +1,8 @@
-local execute = vim.api.nvim_command
 local config = require("config.general")
-
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-
-if fn.empty(fn.glob(install_path)) > 0 then
-	fn.system({ "git", "clone", "https://github.com/wbthomason/packer.nvim", install_path })
-	execute("packadd packer.nvim")
+local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+	vim.fn.system({ "git", "clone", "https://github.com/wbthomason/packer.nvim", install_path })
+	vim.api.nvim_command("packadd packer.nvim")
 end
 
 -- potential plugins
@@ -14,15 +10,49 @@ end
 -- * antoinemadec/FixCursorHold.nvim
 -- * mattn/emmet-vim
 -- * mbbill/undotree
+-- * rbong/vim-buffest
+
+function PluginIsLoaded(plugin_name)
+	return packer_plugins[plugin_name] and packer_plugins[plugin_name].loaded
+end
 
 return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
 		use("michaeljsmith/vim-indent-object")
+		use({
+			"zegervdv/nrpattern.nvim",
+			config = config.nrpattern,
+		})
+
+		use({
+			"stevearc/dressing.nvim",
+			config = config.dressing,
+		})
+
 		use("MunifTanjim/nui.nvim")
+		-- So far, I'm not sure, I have a git mode, but I don't know if I like it
+		-- Also, it feels fairly weird to have
+		use("Iron-E/nvim-libmodal")
 		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
 		use({ "kevinhwang91/nvim-bqf", ft = "qf" })
 		use({ "tpope/vim-commentary", keys = { "gc" }, cmd = { "Commentary" } })
+		use({
+			"takac/vim-hardtime",
+			config = config.hardtime,
+		})
+
+		use({
+			"sQVe/sort.nvim",
+
+			-- Optional setup for overriding defaults.
+			config = function()
+				require("sort").setup({
+					-- Input configuration here.
+					-- Refer to the configuration section below for options.
+				})
+			end,
+		})
 
 		use({
 			"~/dev/wiki.vim",
@@ -116,12 +146,12 @@ return require("packer").startup({
 			requires = {
 				"hrsh7th/cmp-buffer",
 				"hrsh7th/cmp-calc",
-				"petertriho/cmp-git",
 				"hrsh7th/cmp-cmdline",
 				"hrsh7th/cmp-nvim-lsp",
 				"hrsh7th/cmp-path",
 				"hrsh7th/cmp-vsnip",
 				"onsails/lspkind-nvim",
+				"petertriho/cmp-git",
 				{
 					"hrsh7th/vim-vsnip",
 					requires = { "hrsh7th/vim-vsnip-integ" },
@@ -269,14 +299,6 @@ return require("packer").startup({
 				"roginfarrer/vim-dirvish-dovish",
 			},
 			config = config.dirvish,
-		})
-
-		use({
-			"renerocksai/telekasten.nvim",
-			after = "telescope.nvim",
-			config = function()
-				require("config.telekasten").setup()
-			end,
 		})
 
 		use({

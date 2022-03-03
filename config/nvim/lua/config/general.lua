@@ -1,12 +1,46 @@
 -- This file is for configs that are short. It's kind of dumb to seperate these
 -- out not into their own files but for now it's what I'm trying.
 local Config = {}
+function Config.dressing()
+	require("dressing").setup({
+		input = {
+			-- Set to false to disable the vim.ui.input implementation
+			enabled = true,
+
+			-- Default prompt string
+			default_prompt = "➤ ",
+
+			-- When true, <Esc> will close the modal
+			insert_only = true,
+
+			-- These are passed to nvim_open_win
+			anchor = "SW",
+			relative = "cursor",
+			row = 2,
+			col = 2,
+			border = "rounded",
+		},
+		select = { enabled = false },
+	})
+end
+
+function Config.hardtime()
+	vim.g.hardtime_default_on = 1
+	vim.g.list_of_normal_keys = { "h", "j", "k", "l", "x" }
+	vim.g.list_of_visual_keys = { "h", "j", "k", "l", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>" }
+	vim.g.list_of_insert_keys = { "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>" }
+	vim.g.list_of_disabled_keys = {}
+	vim.g.hardtime_timeout = 1000
+
+	vim.g.hardtime_showmsg = 0
+	vim.g.hardtime_ignore_buffer_patterns = { "Dirvish", "help" }
+	vim.g.hardtime_ignore_quickfix = 1
+
+	vim.g.hardtime_maxcount = 3
+	vim.g.hardtime_ignore_quickfix = 1
+end
 
 function Config.lualine()
-	-- local custom_gruvbox = require("lualine.themes.gruvbox")
-	-- print(vim.inspect(custom_gruvbox)) Change the background of lualine_c section for normal mode require("lualine").setup({
-	-- 	options = { theme = custom_gruvbox },
-	-- })
 	local config = {
 		extensions = { "quickfix" },
 		disabled_filetypes = { "startify" },
@@ -198,6 +232,7 @@ function Config.git_signs()
 			["n <leader>gs"] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
 			["n <leader>gb"] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
 			["n <leader>gc"] = '<cmd>lua require"gitsigns".setqflist("all")<CR>',
+			["n <leader><leader>g"] = '<cmd>lua require("config.modes.git_sign_mode")()<CR>',
 			["o ih"] = ":<C-U>Gitsigns select_hunk<CR>",
 			["x ih"] = ":<C-U>Gitsigns select_hunk<CR>",
 		},

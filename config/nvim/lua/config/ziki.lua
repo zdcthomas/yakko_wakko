@@ -43,7 +43,6 @@ Module.Config = {
 
 	-- dir names for special notes (absolute path or subdir name)
 	dailies = home .. "/" .. "daily",
-	weeklies = home .. "/" .. "weekly",
 	templates = home .. "/" .. "templates",
 
 	-- image (sub)dir for pasting
@@ -266,71 +265,70 @@ end
 
 -- ----------------------------------------------------------------------------
 -- image stuff
-local function imgFromClipboard()
-	if not global_dir_check() then
-		return
-	end
+--local function imgFromClipboard()
+--	if not global_dir_check() then
+--		return
+--	end
 
-	if vim.fn.executable("xclip") == 0 then
-		vim.api.nvim_err_write("No xclip installed!\n")
-		return
-	end
+--	if vim.fn.executable("xclip") == 0 then
+--		vim.api.nvim_err_write("No xclip installed!\n")
+--		return
+--	end
 
-	-- TODO: check `xclip -selection clipboard -t TARGETS -o` for the occurence of `image/png`
+--	-- TODO: check `xclip -selection clipboard -t TARGETS -o` for the occurence of `image/png`
 
-	-- using plenary.job::new():sync() with on_stdout(_, data) unfortunately did some weird ASCII translation on the
-	-- data, so the PNGs were invalid. It seems like 0d 0a and single 0a bytes were stripped by the plenary job:
-	--
-	-- plenary job version:
-	-- $ hexdump -C /tmp/x.png|head
-	-- 00000000  89 50 4e 47 1a 00 00 00  49 48 44 52 00 00 03 19  |.PNG....IHDR....|
-	-- 00000010  00 00 01 c1 08 02 00 00  00 8a 73 e1 c3 00 00 00  |..........s.....|
-	-- 00000020  09 70 48 59 73 00 00 0e  c4 00 00 0e c4 01 95 2b  |.pHYs..........+|
-	-- 00000030  0e 1b 00 00 20 00 49 44  41 54 78 9c ec dd 77 58  |.... .IDATx...wX|
-	-- 00000040  14 d7 fa 07 f0 33 bb b3  4b af 0b 2c 08 22 1d 04  |.....3..K..,."..|
-	-- 00000050  05 11 10 1b a2 54 c5 1e  bb b1 c6 98 c4 68 72 4d  |.....T.......hrM|
-	-- 00000060  e2 cd 35 37 26 b9 49 6e  6e 7e f7 a6 98 98 a8 29  |..57&.Inn~.....)|
-	-- 00000070  26 6a 8c 51 63 8b bd 00  8a 58 40 b0 81 08 2a 45  |&j.Qc....X@...*E|
-	-- 00000080  69 52 17 58 ca ee b2 f5  f7 c7 ea 4a 10 66 d7 01  |iR.X.......J.f..|
-	-- 00000090  b1 e4 fb 79 7c f2 2c e7  cc 39 e7 3d 67 66 b3 2f  |...y|.,..9.=gf./|
-	--
-	-- OK version
-	-- $ hexdump -C /tmp/x2.png|head
-	-- 00000000  89 50 4e 47 0d 0a 1a 0a  00 00 00 0d 49 48 44 52  |.PNG........IHDR|
-	-- 00000010  00 00 03 19 00 00 01 c1  08 02 00 00 00 8a 73 e1  |..............s.|
-	-- 00000020  c3 00 00 00 09 70 48 59  73 00 00 0e c4 00 00 0e  |.....pHYs.......|
-	-- 00000030  c4 01 95 2b 0e 1b 00 00  20 00 49 44 41 54 78 9c  |...+.... .IDATx.|
-	-- 00000040  ec dd 77 58 14 d7 fa 07  f0 33 bb b3 4b af 0b 2c  |..wX.....3..K..,|
-	-- 00000050  08 22 1d 04 05 11 10 1b  a2 54 c5 1e bb b1 c6 98  |.".......T......|
-	-- 00000060  c4 68 72 4d e2 cd 35 37  26 b9 49 6e 6e 7e f7 a6  |.hrM..57&.Inn~..|
-	-- 00000070  98 98 a8 29 26 6a 8c 51  63 8b bd 00 8a 58 40 b0  |...)&j.Qc....X@.|
-	-- 00000080  81 08 2a 45 69 52 17 58  ca ee b2 f5 f7 c7 ea 4a  |..*EiR.X.......J|
-	-- 00000090  10 66 d7 01 b1 e4 fb 79  7c f2 2c e7 cc 39 e7 3d  |.f.....y|.,..9.=|
+--	-- using plenary.job::new():sync() with on_stdout(_, data) unfortunately did some weird ASCII translation on the
+--	-- data, so the PNGs were invalid. It seems like 0d 0a and single 0a bytes were stripped by the plenary job:
+--	--
+--	-- plenary job version:
+--	-- $ hexdump -C /tmp/x.png|head
+--	-- 00000000  89 50 4e 47 1a 00 00 00  49 48 44 52 00 00 03 19  |.PNG....IHDR....|
+--	-- 00000010  00 00 01 c1 08 02 00 00  00 8a 73 e1 c3 00 00 00  |..........s.....|
+--	-- 00000020  09 70 48 59 73 00 00 0e  c4 00 00 0e c4 01 95 2b  |.pHYs..........+|
+--	-- 00000030  0e 1b 00 00 20 00 49 44  41 54 78 9c ec dd 77 58  |.... .IDATx...wX|
+--	-- 00000040  14 d7 fa 07 f0 33 bb b3  4b af 0b 2c 08 22 1d 04  |.....3..K..,."..|
+--	-- 00000050  05 11 10 1b a2 54 c5 1e  bb b1 c6 98 c4 68 72 4d  |.....T.......hrM|
+--	-- 00000060  e2 cd 35 37 26 b9 49 6e  6e 7e f7 a6 98 98 a8 29  |..57&.Inn~.....)|
+--	-- 00000070  26 6a 8c 51 63 8b bd 00  8a 58 40 b0 81 08 2a 45  |&j.Qc....X@...*E|
+--	-- 00000080  69 52 17 58 ca ee b2 f5  f7 c7 ea 4a 10 66 d7 01  |iR.X.......J.f..|
+--	-- 00000090  b1 e4 fb 79 7c f2 2c e7  cc 39 e7 3d 67 66 b3 2f  |...y|.,..9.=gf./|
+--	--
+--	-- OK version
+--	-- $ hexdump -C /tmp/x2.png|head
+--	-- 00000000  89 50 4e 47 0d 0a 1a 0a  00 00 00 0d 49 48 44 52  |.PNG........IHDR|
+--	-- 00000010  00 00 03 19 00 00 01 c1  08 02 00 00 00 8a 73 e1  |..............s.|
+--	-- 00000020  c3 00 00 00 09 70 48 59  73 00 00 0e c4 00 00 0e  |.....pHYs.......|
+--	-- 00000030  c4 01 95 2b 0e 1b 00 00  20 00 49 44 41 54 78 9c  |...+.... .IDATx.|
+--	-- 00000040  ec dd 77 58 14 d7 fa 07  f0 33 bb b3 4b af 0b 2c  |..wX.....3..K..,|
+--	-- 00000050  08 22 1d 04 05 11 10 1b  a2 54 c5 1e bb b1 c6 98  |.".......T......|
+--	-- 00000060  c4 68 72 4d e2 cd 35 37  26 b9 49 6e 6e 7e f7 a6  |.hrM..57&.Inn~..|
+--	-- 00000070  98 98 a8 29 26 6a 8c 51  63 8b bd 00 8a 58 40 b0  |...)&j.Qc....X@.|
+--	-- 00000080  81 08 2a 45 69 52 17 58  ca ee b2 f5 f7 c7 ea 4a  |..*EiR.X.......J|
+--	-- 00000090  10 66 d7 01 b1 e4 fb 79  7c f2 2c e7 cc 39 e7 3d  |.f.....y|.,..9.=|
 
-	local pngname = "pasted_img_" .. os.date("%Y%m%d%H%M%S") .. ".png"
-	local pngpath = Module.Config.home .. "/" .. pngname
-	local relpath = pngname
+--	local pngname = "pasted_img_" .. os.date("%Y%m%d%H%M%S") .. ".png"
+--	local pngpath = Module.Config.home .. "/" .. pngname
+--	local relpath = pngname
 
-	if Module.Config.image_subdir then
-		relpath = Path:new(Module.Config.image_subdir):make_relative(Module.Config.home) .. "/" .. pngname
-		pngpath = Module.Config.image_subdir .. "/" .. pngname
-	end
+--	if Module.Config.image_subdir then
+--		relpath = Path:new(Module.Config.image_subdir):make_relative(Module.Config.home) .. "/" .. pngname
+--		pngpath = Module.Config.image_subdir .. "/" .. pngname
+--	end
 
-	os.execute("xclip -selection clipboard -t image/png -o > " .. pngpath)
-	if file_exists(pngpath) then
-		if Module.Config.image_link_style == "markdown" then
-			vim.api.nvim_put({ "![](" .. relpath .. ")" }, "", true, true)
-		else
-			vim.api.nvim_put({ "![[" .. pngname .. "]]" }, "", true, true)
-		end
-	end
-end
+--	os.execute("xclip -selection clipboard -t image/png -o > " .. pngpath)
+--	if file_exists(pngpath) then
+--		if Module.Config.image_link_style == "markdown" then
+--			vim.api.nvim_put({ "![](" .. relpath .. ")" }, "", true, true)
+--		else
+--			vim.api.nvim_put({ "![[" .. pngname .. "]]" }, "", true, true)
+--		end
+--	end
+--end
 -- end of image stuff
 
 Module.note_type_templates = {
 	normal = Module.Config.template_new_note,
 	daily = Module.Config.template_new_daily,
-	weekly = Module.Config.template_new_weekly,
 }
 
 local function daysuffix(day)
@@ -1245,6 +1243,7 @@ local function InsertLink(opts)
 	-- 	return
 	-- end
 
+	-- Instead of find_files_sorted, this should be a function where a
 	find_files_sorted({
 		prompt_title = "Find page:",
 		cwd = Module.Config.home,
@@ -2614,7 +2613,7 @@ Module.new_templated_note = CreateNoteSelectTemplate
 Module.show_calendar = ShowCalendar
 Module.CalendarSignDay = CalendarSignDay
 Module.CalendarAction = CalendarAction
-Module.paste_img_and_link = imgFromClipboard
+-- Module.paste_img_and_link = imgFromClipboard
 Module.toggle_todo = ToggleTodo
 Module.show_backlinks = ShowBacklinks
 Module.find_friends = FindFriends
@@ -2645,11 +2644,11 @@ local TelekastenCmd = {
 				Module.new_templated_note,
 			},
 			{ "show calendar", "show_calendar", Module.show_calendar },
-			{
-				"paste image from clipboard",
-				"paste_img_and_link",
-				Module.paste_img_and_link,
-			},
+			-- {
+			-- 	"paste image from clipboard",
+			-- "paste_img_and_link",
+			-- Module.paste_img_and_link,
+			-- },
 			{ "toggle todo", "toggle_todo", Module.toggle_todo },
 			{ "show backlinks", "show_backlinks", Module.show_backlinks },
 			{ "find friend notes", "find_friends", Module.find_friends },
