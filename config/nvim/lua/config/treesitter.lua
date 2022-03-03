@@ -22,6 +22,7 @@ function Conf.setup()
 			"rust",
 			"lua",
 			"fish",
+			"gleam",
 			"bash",
 			"dockerfile",
 			"comment",

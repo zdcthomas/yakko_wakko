@@ -113,17 +113,6 @@ local function snippet_func(args)
 	vim.fn["vsnip#anonymous"](args.body)
 end
 
-local function sources()
-	return {
-		{ name = "nvim_lsp" },
-		{ name = "vsnip" },
-		{ name = "buffer" },
-		{ name = "path" },
-		{ name = "calc" },
-		{ name = "cmp_git" },
-	}
-end
-
 local function setup_cmp_highlighting()
 	vim.cmd([[
     " gray

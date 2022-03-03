@@ -20,6 +20,7 @@ return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
 		use("michaeljsmith/vim-indent-object")
+		use("christoomey/vim-sort-motion")
 		use({
 			"zegervdv/nrpattern.nvim",
 			config = config.nrpattern,
@@ -180,7 +181,9 @@ return require("packer").startup({
 			requires = {
 				{ "nvim-lua/lsp-status.nvim" },
 			},
-			config = config.lualine,
+			config = function()
+				require("config.lualine").setup()
+			end,
 		})
 
 		use({

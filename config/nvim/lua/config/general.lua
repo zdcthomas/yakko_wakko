@@ -1,6 +1,19 @@
 -- This file is for configs that are short. It's kind of dumb to seperate these
 -- out not into their own files but for now it's what I'm trying.
 local Config = {}
+function Config.nrpattern()
+	local patterns = require("nrpattern.default")
+	patterns['()x"(%x+)"'] = {
+		base = 16, -- Hexadecimal
+		format = '%sx"%s"', -- Output format
+		priority = 15, -- Determines order in pattern matching
+	}
+
+	-- Add a cyclic pattern (toggles between yes and no)
+	patterns[{ "yes", "no" }] = { priority = 5 }
+
+	require("nrpattern").setup(patterns)
+end
 function Config.dressing()
 	require("dressing").setup({
 		input = {
@@ -16,8 +29,6 @@ function Config.dressing()
 			-- These are passed to nvim_open_win
 			anchor = "SW",
 			relative = "cursor",
-			row = 2,
-			col = 2,
 			border = "rounded",
 		},
 		select = { enabled = false },
@@ -38,50 +49,6 @@ function Config.hardtime()
 
 	vim.g.hardtime_maxcount = 3
 	vim.g.hardtime_ignore_quickfix = 1
-end
-
-function Config.lualine()
-	local config = {
-		extensions = { "quickfix" },
-		disabled_filetypes = { "startify" },
-		options = {
-			theme = "rose-pine",
-			section_separators = { left = "", right = "" },
-			component_separators = { left = "", right = "" },
-		},
-		sections = {
-			lualine_b = { "diff" },
-			lualine_a = {
-				{
-					"filename",
-					file_status = true,
-					path = 1,
-					shorting_target = 40,
-				},
-			},
-			lualine_c = { "require'lsp-status'.status()" },
-			lualine_x = { "location" },
-			lualine_y = {},
-			lualine_z = { { "filetype", colored = false } },
-		},
-		inactive_sections = {
-			lualine_a = {},
-			lualine_b = {},
-			lualine_c = { "filename" },
-			lualine_x = { "diff" },
-			lualine_y = {},
-			lualine_z = {},
-		},
-		tabline = {
-			lualine_a = { "mode" },
-			lualine_b = { "branch " },
-			lualine_c = {},
-			lualine_x = {},
-			lualine_y = {},
-			lualine_z = { "buffers" },
-		},
-	}
-	require("lualine").setup(config)
 end
 
 function Config.rose_pine()

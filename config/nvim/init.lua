@@ -118,7 +118,8 @@ vim.opt.showmode = false
 vim.opt.smartindent = true
 
 vim.g.diminactive_enable_focus = 1
-vim.g.netrw_preview = 1 -- preview window shown in a vertically split window. Also affects the "previous window" (see |netrw-P|) in the same way.
+-- preview window shown in a vertically split window. Also affects the "previous window" (see |netrw-P|) in the same way.
+vim.g.netrw_preview = 1
 
 vim.api.nvim_set_keymap("n", "<Leader>wl", ":vsp<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Leader>wj", ":sp<CR>", { noremap = true, silent = true })
@@ -151,6 +152,19 @@ vim.api.nvim_set_keymap("i", "<A-b>", "<Esc>bi", { noremap = true })
 
 vim.api.nvim_set_keymap("x", ".", ":norm .<cr>", { noremap = true })
 
-vim.api.nvim_set_keymap("t", "<leader><esc>", "<c-><c-n>", { noremap = true })
+vim.api.nvim_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { noremap = true, silent = false })
+vim.api.nvim_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", { noremap = true, silent = false })
+vim.api.nvim_set_keymap(
+	"n",
+	"<Leader><Leader>q",
+	"<cmd>lua vim.diagnostic.set_loclist()<CR>",
+	{ noremap = true, silent = false }
+)
+vim.api.nvim_set_keymap(
+	"n",
+	"<Leader>e",
+	"<cmd>lua vim.diagnostic.open_float()<CR>",
+	{ noremap = true, silent = false }
+)
 
 require("plugins")
