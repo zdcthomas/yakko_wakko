@@ -1,1 +1,1 @@
-vim.o.keywordprg = "rusty-man"
+vim.bo.keywordprg = "rusty-man"

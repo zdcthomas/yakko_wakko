@@ -8,6 +8,19 @@
     ],
     "description": "Packer use statement"
   },
+  "module": {
+    "prefix": "mod",
+    "body": [
+      "local Module = {}",
+      "",
+      "Module.$1 = function()",
+      "  $2",
+      "end",
+      "",
+      "return Module"
+    ],
+    "description": "Create new default module layout"
+  },
   "packer_requires": {
     "prefix": "req",
     "body": [

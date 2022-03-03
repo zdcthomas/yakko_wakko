@@ -1,4 +1,5 @@
 export ERL_AFLAGS="-kernel shell_history enabled"
+export ELIXIR_EDITOR="nvim +__LINE__ __FILE__"
 export NNN_TMPFILE="/tmp/nnn"
 
 export FZF_ALT_C_COMMAND="fd -t d"
