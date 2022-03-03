@@ -20,9 +20,6 @@ local markdown_link_match = "%s%(.+%)%[.*%]%s"
 local lines_string = "this line is just a [This is, the link!](bar/foo/link_title.md)"
 
 local function find_pattern_index_around_point(line, index, left, right)
-	Pr("line " .. line)
-	Pr("line length" .. line:len())
-	Pr("index " .. index)
 	if (index <= 0) or (index > line:len()) then
 		return nil
 	end
@@ -85,22 +82,14 @@ local function get_link_content_around_position(line, link_location, link_style)
 		right = ")"
 		match = markdown_capture
 	end
-	link_location = foo(line, link_location, left, right)
-	if link_location then
-		local link_title, link = line:match(markdown_capture)
+	local link_bounds = find_pattern_index_around_point(line, link_location, left, right)
+	if link_bounds then
+		local link_title, link = line:sub(link_bounds.left, link_bounds.right):match(markdown_capture)
 		return { link_title = link_title, link = link }
 	else
 		return nil
 	end
 end
-
--- local function inside_markdown_link(line, index)
--- 	local positions = foo("this is a [link](link) to a thing", 13, "[", ")")
--- 	if positions then
--- 		Pr("left" .. positions.left)
--- 		Pr("right" .. positions.right)
--- 	end
--- end
 
 local function get_link_at_cursor(link_type)
 	if not link_type then
@@ -110,6 +99,32 @@ local function get_link_at_cursor(link_type)
 
 	-- the col need to be plus 1 because vim is 0 indexed, lua is 1 indexed. SIGH......
 	return get_link_content_around_position(vim.api.nvim_get_current_line(), col + 1, link_type)
+end
+
+local function add_extension_if_none_present(link, extension)
+	if not extension then
+		extension = ".md"
+	end
+	if link:match("%.[%a%.]+$") then
+		return link
+	else
+		return link .. extension
+	end
+	-- first figure out what kind of link it is
+	-- it can be either
+	-- * bare link, like [someting about verbs](verbs)
+	-- * link_with_extension [something about verbs](verbs.md)
+	-- Do I care about subdirs? I don't think so cause
+	-- I'm just gonna :e the file or open up a buffer that already exists with that file
+end
+
+local function follow_link_under_cursor()
+	local link = get_link_at_cursor()
+	if not link then
+		return
+	end
+	-- if link has no sub dirs, pass to add_extension_if_none_present, and e: that bad boy
+	-- if there are subdirs, make whatever subdirs are needed
 end
 
 Pr(get_link_at_cursor())
