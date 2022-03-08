@@ -14,6 +14,7 @@ function Config.nrpattern()
 
 	require("nrpattern").setup(patterns)
 end
+
 function Config.dressing()
 	require("dressing").setup({
 		input = {

@@ -18,9 +18,18 @@ end
 
 return require("packer").startup({
 	function(use)
-		use("wbthomason/packer.nvim")
-		use("michaeljsmith/vim-indent-object")
 		use("christoomey/vim-sort-motion")
+		use("michaeljsmith/vim-indent-object")
+		use("wbthomason/packer.nvim")
+		-- So far, I'm not sure, I have a git mode, but I don't know if I like it
+		-- Also, it feels fairly weird in terms of behaviour. it removes the
+		-- cursor, doesn't update stuff etc, but this is a weird use case for sure
+		use("Iron-E/nvim-libmodal")
+		use("MunifTanjim/nui.nvim")
+		use({ "kevinhwang91/nvim-bqf", ft = "qf" })
+		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
+		use({ "tpope/vim-commentary", keys = { "gc" }, cmd = { "Commentary" } })
+
 		use({
 			"zegervdv/nrpattern.nvim",
 			config = config.nrpattern,
@@ -31,29 +40,22 @@ return require("packer").startup({
 			config = config.dressing,
 		})
 
-		use("MunifTanjim/nui.nvim")
-		-- So far, I'm not sure, I have a git mode, but I don't know if I like it
-		-- Also, it feels fairly weird to have
-		use("Iron-E/nvim-libmodal")
-		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
-		use({ "kevinhwang91/nvim-bqf", ft = "qf" })
-		use({ "tpope/vim-commentary", keys = { "gc" }, cmd = { "Commentary" } })
 		use({
 			"takac/vim-hardtime",
 			config = config.hardtime,
 		})
 
-		use({
-			"sQVe/sort.nvim",
+		-- use({
+		-- 	"sQVe/sort.nvim",
 
-			-- Optional setup for overriding defaults.
-			config = function()
-				require("sort").setup({
-					-- Input configuration here.
-					-- Refer to the configuration section below for options.
-				})
-			end,
-		})
+		-- 	-- Optional setup for overriding defaults.
+		-- 	config = function()
+		-- 		require("sort").setup({
+		-- 			-- Input configuration here.
+		-- 			-- Refer to the configuration section below for options.
+		-- 		})
+		-- 	end,
+		-- })
 
 		use({
 			"~/dev/wiki.vim",
