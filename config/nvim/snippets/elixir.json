@@ -1,0 +1,32 @@
+{
+  "inspect": {
+    "scope": "elixir",
+    "prefix": "io",
+    "description": "Inspect pipe",
+    "body": "|> IO.inspect(label: \"${1:$TM_FILENAME_BASE:$TM_LINE_NUMBER}\")"
+  },
+  "binding.pry": {
+    "scope": "elixir",
+    "prefix": [
+      "bind",
+      "pry"
+    ],
+    "description": "Pry binding.",
+    "body": "require IEx\nIEx.pry()"
+  },
+  "pipe pry": {
+    "scope": "elixir",
+    "prefix": [
+      "bind |>",
+      "pry |>"
+    ],
+    "description": "Pipe into a scope that has the value of a pipe in a pry",
+    "body": [
+      "|> (fn ${1:scope} ->",
+      "  require IEx",
+      "  IEx.pry()",
+      "  $1",
+      "end).()"
+    ]
+  }
+}

@@ -20,7 +20,7 @@ cd yakko_wakko/
 bash install
 ```
 
-***
+---
 
 ## Before you fork!
 
@@ -30,14 +30,17 @@ a read. It's sums up my thoughts pretty well on forking dotfiles. Dotfiles, to
 me, are the honed tools of your craft, they take time care and personal
 attention to set up, get right, and maintain, and while using someone else's
 tools is fine at first, they should always just be a jumping off point.
-***
+
+---
 
 ## What's it look like?
 
 ![Show and Tell](/images/show_and_tell.png)
-***
+
+---
 
 ## What's the name?
 
 Ever watch [animaniacs](https://www.youtube.com/watch?v=CWnWwN1z_UM)?
-***
+
+---

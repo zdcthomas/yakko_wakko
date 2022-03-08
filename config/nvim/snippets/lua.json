@@ -1,0 +1,49 @@
+{
+  "packer_use": {
+    "prefix": "use",
+    "body": [
+      "use {",
+      "  '${1:$CLIPBOARD}',",
+      "}"
+    ],
+    "description": "Packer use statement"
+  },
+  "module": {
+    "prefix": "mod",
+    "body": [
+      "local Module = {}",
+      "",
+      "Module.$1 = function()",
+      "  $2",
+      "end",
+      "",
+      "return Module"
+    ],
+    "description": "Create new default module layout"
+  },
+  "packer_requires": {
+    "prefix": "req",
+    "body": [
+      "requires = {",
+      "  '${1:$CLIPBOARD}',",
+      "},"
+    ],
+    "description": "Packer require statement"
+  },
+  "packer_config": {
+    "prefix": "config",
+    "body": [
+      "config = function()",
+      "  $1",
+      "end"
+    ],
+    "description": "Packer configuration statement"
+  },
+  "print": {
+    "prefix": "pr",
+    "body": [
+      "print('$TM_FILENAME_BASE:$TM_LINE_NUMBER -> ${1:$CLIPBOARD}: ', ${1:$CLIPBOARD})"
+    ],
+    "description": "Print with filename and clipboard variable"
+  }
+}
