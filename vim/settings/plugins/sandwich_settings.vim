@@ -105,4 +105,3 @@ let g:sandwich#recipes += [
 " n = iNterpolate
 " m = Map
 " g = Generic
-

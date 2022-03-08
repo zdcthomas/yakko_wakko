@@ -16,7 +16,7 @@ if type -q vim
 end
 
 if type -q git
-  alias gco='git checkout'
+  alias gco='git switch'
   alias gs='git status'
   alias ga='git add'
   alias gap='git add --patch'
@@ -51,12 +51,12 @@ if type -q npm
   set fish_user_paths (npm bin)
 end
 
-set fish_color_command FFFFF
-set fish_color_redirection FFFFF
-set fish_color_end FFFFFF 
-set fish_color_operator edd205
-set fish_color_normal FFFFFF
-set fish_color_param brgreen
+# set fish_color_command FFFFF
+# set fish_color_redirection FFFFF
+# set fish_color_end FFFFFF 
+# set fish_color_operator edd205
+# set fish_color_normal FFFFFF
+# set fish_color_param brgreen
 if type -q direnv
   direnv hook fish | source 
 end
