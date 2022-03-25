@@ -159,18 +159,18 @@ function conf.setup()
 	telescope.load_extension("ui-select")
 	local default_opts = { noremap = true, silent = true }
 
-	vim.api.nvim_set_keymap("n", "<leader>p", "<cmd>lua require('config.telescope').find_files() <cr>", default_opts)
-	-- vim.api.nvim_set_keymap(
+	vim.keymap.set("n", "<leader>p", require("config.telescope").find_files, default_opts)
+	-- vim.keymap.set(
 	-- 	"n",
 	-- 	"-",
 	-- 	"<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>",
 	-- 	default_opts
 	-- )
-	vim.api.nvim_set_keymap("n", "<leader>b", "<cmd>Telescope buffers<cr>", default_opts)
-	vim.api.nvim_set_keymap("n", "<Leader>F", ":Telescope live_grep<cr>", default_opts)
-	vim.api.nvim_set_keymap("n", "<Leader>*", ":Telescope grep_string<cr>", default_opts)
-	vim.api.nvim_set_keymap("n", "<Leader>gc", ":Telescope git_status<cr>", default_opts)
-	-- vim.api.nvim_set_keymap(
+	vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<cr>", default_opts)
+	vim.keymap.set("n", "<Leader>F", ":Telescope live_grep<cr>", default_opts)
+	vim.keymap.set("n", "<Leader>*", ":Telescope grep_string<cr>", default_opts)
+	vim.keymap.set("n", "<Leader>gc", ":Telescope git_status<cr>", default_opts)
+	-- vim.keymap.set(
 	-- 	"n",
 	-- 	"<Leader>wp",
 	-- 	":lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({cwd = '~/irulan/wiki'}))<cr>",
@@ -191,13 +191,10 @@ end
 
 function conf.lsp_bindings_for_buffer(bufnr)
 	require("packer").loader("telescope.nvim")
-	local opts = { silent = false, noremap = true }
-	local function buf_set_keymap(...)
-		vim.api.nvim_buf_set_keymap(bufnr, ...)
-	end
-	buf_set_keymap("n", "<Leader>q", "<Cmd>lua require('config.telescope').diagnostics()<cr>", opts)
-	buf_set_keymap("n", "<Leader>/", '<Cmd>lua require("telescope.builtin").lsp_document_symbols()<cr>', opts)
-	buf_set_keymap("n", "gd", '<Cmd>lua require("telescope.builtin").lsp_definitions()<cr>', opts)
+	local opts = { buffer = bufnr, silent = false, noremap = true }
+	vim.keymap.set("n", "<Leader>q", "<Cmd>lua require('config.telescope').diagnostics()<cr>", opts)
+	vim.keymap.set("n", "<Leader>/", '<Cmd>lua require("telescope.builtin").lsp_document_symbols()<cr>', opts)
+	vim.keymap.set("n", "gd", '<Cmd>lua require("telescope.builtin").lsp_definitions()<cr>', opts)
 end
 
 return conf

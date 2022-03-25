@@ -89,30 +89,27 @@ local common_on_attach = function(client, bufnr)
 	local function buf_set_option(...)
 		vim.api.nvim_buf_set_option(bufnr, ...)
 	end
-	local function buf_set_keymap(...)
-		vim.api.nvim_buf_set_keymap(bufnr, ...)
-	end
-	local opts = { silent = false, noremap = true }
+	local opts = { silent = false, noremap = true, buffer = bufnr }
 
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
-	buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-	buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-	buf_set_keymap("n", "<Leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+	vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	vim.keymap.set("n", "<Leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 	require("config.telescope").lsp_bindings_for_buffer(bufnr)
 
 	if client.resolved_capabilities.hover then
-		buf_set_keymap("n", "gh", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+		vim.keymap.set("n", "gh", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	end
 	if client.resolved_capabilities.rename then
-		buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+		vim.keymap.set("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	end
 	if client.resolved_capabilities.code_lens then
-		buf_set_keymap("n", "<Leader>cl", "<Cmd>lua vim.lsp.codelens.run()<CR>", opts)
+		vim.keymap.set("n", "<Leader>cl", "<Cmd>lua vim.lsp.codelens.run()<CR>", opts)
 		vim.cmd("au! BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()")
 	end
 	if client.resolved_capabilities.document_formatting then
-		buf_set_keymap("n", "<Leader>gq", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+		vim.keymap.set("n", "<Leader>gq", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 		vim.cmd("au! BufWritePre <buffer> lua vim.lsp.buf.formatting()")
 	end
 
@@ -218,12 +215,11 @@ local function lua(config)
 	}
 	config.on_attach = function(client, bufnr)
 		common_on_attach(client, bufnr)
-		vim.api.nvim_buf_set_keymap(
-			bufnr,
+		vim.keymap.set(
 			"n",
 			"<Leader>gq",
 			"<cmd>lua require('stylua-nvim').format_file()<CR>",
-			{ silent = false, noremap = true }
+			{ silent = false, noremap = true, buffer = bufnr }
 		)
 		vim.cmd("au! BufWritePre <buffer> Format")
 	end
