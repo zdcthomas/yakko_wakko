@@ -1,19 +1,6 @@
 -- This file is for configs that are short. It's kind of dumb to seperate these
 -- out not into their own files but for now it's what I'm trying.
 local Config = {}
-function Config.nrpattern()
-	local patterns = require("nrpattern.default")
-	patterns['()x"(%x+)"'] = {
-		base = 16, -- Hexadecimal
-		format = '%sx"%s"', -- Output format
-		priority = 15, -- Determines order in pattern matching
-	}
-
-	-- Add a cyclic pattern (toggles between yes and no)
-	patterns[{ "yes", "no" }] = { priority = 5 }
-
-	require("nrpattern").setup(patterns)
-end
 
 function Config.dressing()
 	require("dressing").setup({
@@ -89,12 +76,12 @@ function Config.venn()
 			vim.b.venn_enabled = true
 			vim.cmd([[setlocal ve=all]])
 			-- draw a line on HJKL keystokes
-			vim.api.nvim_buf_set_keymap(0, "n", "J", "<C-v>j:VBox<cr>", { noremap = true })
-			vim.api.nvim_buf_set_keymap(0, "n", "K", "<C-v>k:VBox<cr>", { noremap = true })
-			vim.api.nvim_buf_set_keymap(0, "n", "L", "<C-v>l:VBox<cr>", { noremap = true })
-			vim.api.nvim_buf_set_keymap(0, "n", "H", "<C-v>h:VBox<cr>", { noremap = true })
+			vim.keymap.set("n", "J", "<C-v>j:VBox<cr>", { buffer = true, noremap = true })
+			vim.keymap.set("n", "K", "<C-v>k:VBox<cr>", { buffer = true, noremap = true })
+			vim.keymap.set("n", "L", "<C-v>l:VBox<cr>", { buffer = true, noremap = true })
+			vim.keymap.set("n", "H", "<C-v>h:VBox<cr>", { buffer = true, noremap = true })
 			-- draw a box by pressing "f" with visual selection
-			vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBox<cr>", { noremap = true })
+			vim.keymap.set("v", "f", ":VBox<cr>", { buffer = true, noremap = true })
 		else
 			print("venn mode disengaged!")
 			vim.cmd("LspStart")
@@ -104,7 +91,7 @@ function Config.venn()
 		end
 	end
 	-- toggle keymappings for venn using <leader>v
-	vim.api.nvim_set_keymap("n", "<leader>v", ":lua toggle_venn()<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>v", ":lua toggle_venn()<cr>", { silent = true, noremap = true })
 end
 
 function Config.notify()
@@ -113,7 +100,6 @@ function Config.notify()
 		timeout = 3000,
 		-- Minimum width for notification windows
 		minimum_width = 30,
-		max_width = 80,
 		icons = {
 			ERROR = "",
 			WARN = "",
@@ -128,17 +114,17 @@ end
 function Config.camelsnek()
 	vim.g.camelsnek_alternative_camel_commands = 1
 
-	vim.api.nvim_set_keymap("n", "crs", ":Snek<CR>", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("x", "crs", ":Snek<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "crs", ":Snek<CR>", { noremap = true, silent = true })
+	vim.keymap.set("x", "crs", ":Snek<CR>", { noremap = true, silent = true })
 
-	vim.api.nvim_set_keymap("n", "crp", ":Pascal<CR>", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("x", "crp", ":Pascal<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "crp", ":Pascal<CR>", { noremap = true, silent = true })
+	vim.keymap.set("x", "crp", ":Pascal<CR>", { noremap = true, silent = true })
 
-	vim.api.nvim_set_keymap("n", "crc", ":Camel<CR>", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("x", "crc", ":Camel<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "crc", ":Camel<CR>", { noremap = true, silent = true })
+	vim.keymap.set("x", "crc", ":Camel<CR>", { noremap = true, silent = true })
 
-	vim.api.nvim_set_keymap("n", "crk", ":Kebab<CR>", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("x", "crk", ":Kebab<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "crk", ":Kebab<CR>", { noremap = true, silent = true })
+	vim.keymap.set("x", "crk", ":Kebab<CR>", { noremap = true, silent = true })
 end
 
 function Config.autopairs()
@@ -161,12 +147,12 @@ end
 
 function Config.md_links()
 	require("follow-md-links")
-	vim.api.nvim_set_keymap("", "<bs>", ":edit #<cr>", { noremap = true, silent = true })
+	vim.keymap.set("", "<bs>", ":edit #<cr>", { noremap = true, silent = true })
 end
 
 function Config.easy_align()
-	vim.api.nvim_set_keymap("x", "ga", "<Plug>(EasyAlign)", { noremap = false })
-	vim.api.nvim_set_keymap("n", "ga", "<Plug>(EasyAlign)", { noremap = false })
+	vim.keymap.set("x", "ga", "<Plug>(EasyAlign)", { noremap = false })
+	vim.keymap.set("n", "ga", "<Plug>(EasyAlign)", { noremap = false })
 end
 
 function Config.git_signs()

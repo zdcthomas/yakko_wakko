@@ -24,6 +24,14 @@
 
 -- require("impatient")
 vim.g.mapleader = " "
+vim.g.do_filetype_lua = 1
+vim.g.did_load_filetypes = 0
+
+-- vim.filetype.add({
+-- 	extension = {
+-- 		lua = "lua",
+-- 	},
+-- })
 
 -- local disabled_built_ins = {
 -- 	"gzip",
@@ -121,50 +129,46 @@ vim.g.diminactive_enable_focus = 1
 -- preview window shown in a vertically split window. Also affects the "previous window" (see |netrw-P|) in the same way.
 vim.g.netrw_preview = 1
 
-vim.api.nvim_set_keymap("n", "<Leader>wl", ":vsp<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<Leader>wj", ":sp<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-j>", "<C-W><C-J>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-k>", "<C-W><C-k>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-l>", "<C-W><C-l>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-h>", "<C-W><C-h>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>wl", ":vsp<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>wj", ":sp<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-j>", "<C-W><C-J>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-k>", "<C-W><C-k>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-l>", "<C-W><C-l>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-h>", "<C-W><C-h>", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("n", "<Leader>wL", "<C-W>L", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<Leader>wK", "<C-W>K", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<Leader>wJ", "<C-W>J", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<Leader>wH", "<C-W>H", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>wL", "<C-W>L", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>wK", "<C-W>K", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>wJ", "<C-W>J", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>wH", "<C-W>H", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("n", "<Up>", ":res +5<Cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<Down>", ":res -5<Cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<Left>", ":vertical resize -5<Cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<Right>", ":vertical resize +5<Cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-n>", ":let @/=expand('<cword>')<cr>cgn", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "Q", "<nop>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<Leader>yf", ":Yf<Cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Up>", ":res +5<Cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Down>", ":res -5<Cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Left>", ":vertical resize -5<Cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Right>", ":vertical resize +5<Cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-n>", ":let @/=expand('<cword>')<cr>cgn", { noremap = true, silent = true })
+vim.keymap.set("n", "Q", "<nop>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>yf", ":Yf<Cr>", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("c", "<C-a>", "<Home>", { noremap = true })
-vim.api.nvim_set_keymap("c", "<C-e>", "<End>", { noremap = true })
+vim.keymap.set("c", "<C-a>", "<Home>", { noremap = true })
+vim.keymap.set("c", "<C-e>", "<End>", { noremap = true })
 
-vim.api.nvim_set_keymap("i", "<C-A>", "<c-o>^", { noremap = true })
-vim.api.nvim_set_keymap("i", "<C-B>", "<Left>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<C-F>", "<Right>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<A-f>", "<Esc>lwi", { noremap = true })
-vim.api.nvim_set_keymap("i", "<A-b>", "<Esc>bi", { noremap = true })
+vim.keymap.set("i", "<C-A>", "<c-o>^", { noremap = true })
+vim.keymap.set("i", "<C-E>", "<c-o>$", { noremap = true })
+vim.keymap.set("i", "<C-B>", "<Left>", { noremap = true })
+vim.keymap.set("i", "<C-F>", "<Right>", { noremap = true })
+vim.keymap.set("i", "<A-f>", "<Esc>lwi", { noremap = true })
+vim.keymap.set("i", "<A-b>", "<c-o>b", { noremap = true })
 
-vim.api.nvim_set_keymap("x", ".", ":norm .<cr>", { noremap = true })
+vim.keymap.set("x", ".", ":norm .<cr>", { noremap = true })
 
-vim.api.nvim_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { noremap = true, silent = false })
-vim.api.nvim_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", { noremap = true, silent = false })
-vim.api.nvim_set_keymap(
-	"n",
-	"<Leader><Leader>q",
-	"<cmd>lua vim.diagnostic.set_loclist()<CR>",
-	{ noremap = true, silent = false }
-)
-vim.api.nvim_set_keymap(
-	"n",
-	"<Leader>e",
-	"<cmd>lua vim.diagnostic.open_float()<CR>",
-	{ noremap = true, silent = false }
-)
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { noremap = true, silent = false })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { noremap = true, silent = false })
+vim.keymap.set("n", "<Leader><Leader>q", function()
+	vim.diagnostic.set_loclist()
+end, {
+	noremap = true,
+	silent = false,
+})
+vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, { noremap = true, silent = false })
 
 require("plugins")
