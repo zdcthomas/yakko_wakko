@@ -5,6 +5,16 @@
     "description": "Inspect pipe",
     "body": "|> IO.inspect(label: \"${1:$TM_FILENAME_BASE:$TM_LINE_NUMBER}\")"
   },
+  "test": {
+    "scope": "elixir",
+    "prefix": "test",
+    "description": "test block",
+    "body": [
+      "test \"$1\" do",
+      "  $2",
+      "end"
+    ]
+  },
   "binding.pry": {
     "scope": "elixir",
     "prefix": [
