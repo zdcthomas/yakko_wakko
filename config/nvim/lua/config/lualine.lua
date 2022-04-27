@@ -4,9 +4,10 @@ Module.config = {
 	extensions = { "quickfix" },
 	disabled_filetypes = { "startify" },
 	options = {
-		theme = "rose-pine",
+		theme = "auto",
 		section_separators = { left = "", right = "" },
 		component_separators = { left = "", right = "" },
+		globalstatus = true,
 	},
 	sections = {
 		lualine_b = { "diff" },
