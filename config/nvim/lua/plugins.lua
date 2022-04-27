@@ -29,10 +29,6 @@ return require("packer").startup({
 		use("christoomey/vim-sort-motion")
 		use("michaeljsmith/vim-indent-object")
 		use("wbthomason/packer.nvim")
-		-- So far, I'm not sure, I have a git mode, but I don't know if I like it
-		-- Also, it feels fairly weird in terms of behaviour. it removes the
-		-- cursor, doesn't update stuff etc, but this is a weird use case for sure
-		use("Iron-E/nvim-libmodal")
 		use("MunifTanjim/nui.nvim")
 		use({ "kevinhwang91/nvim-bqf", ft = "qf" })
 		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
@@ -44,24 +40,9 @@ return require("packer").startup({
 		})
 
 		use({
-			"tpope/vim-fugitive",
-		})
-		use({
 			"takac/vim-hardtime",
 			config = config.hardtime,
 		})
-
-		-- use({
-		-- 	"sQVe/sort.nvim",
-
-		-- 	-- Optional setup for overriding defaults.
-		-- 	config = function()
-		-- 		require("sort").setup({
-		-- 			-- Input configuration here.
-		-- 			-- Refer to the configuration section below for options.
-		-- 		})
-		-- 	end,
-		-- })
 
 		use({
 			"~/dev/wiki.vim",
@@ -122,6 +103,12 @@ return require("packer").startup({
 			},
 		})
 
+		use({
+			"rebelot/kanagawa.nvim",
+			config = function()
+				config.kanagawa()
+			end,
+		})
 		use({
 			"rose-pine/neovim",
 			as = "rose-pine",

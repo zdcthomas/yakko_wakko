@@ -37,7 +37,7 @@ local tab_mapping = {
 			if vim.fn.getcmdtype() == "/" then
 				cmp.complete()
 			else
-				fallback()
+				feedkey("<Tab>", "tn")
 			end
 		end
 	end,
@@ -140,17 +140,9 @@ function conf.setup()
 			expand = snippet_func,
 		},
 		preset = "codicons",
-		documentation = {
-			border = {
-				{ "🭽" },
-				{ "▔" },
-				{ "🭾" },
-				{ "▕" },
-				{ "🭿" },
-				{ "▁" },
-				{ "🭼" },
-				{ "▏" },
-			},
+		window = {
+			completion = cmp.config.window.bordered(),
+			documentation = cmp.config.window.bordered(),
 		},
 		formatting = {
 			format = lspkind.cmp_format({
@@ -170,7 +162,6 @@ function conf.setup()
 			{ name = "vsnip" },
 			{ name = "path" },
 		}, {
-			{ name = "cmp_git" },
 			{ name = "calc" },
 		}),
 		experimental = {
