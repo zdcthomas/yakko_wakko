@@ -23,17 +23,6 @@ capabilities.textDocument.codeAction = {
 	},
 }
 
-local border = {
-	{ "🭽", "NormalFloat" },
-	{ "▔", "NormalFloat" },
-	{ "🭾", "NormalFloat" },
-	{ "▕", "NormalFloat" },
-	{ "🭿", "NormalFloat" },
-	{ "▁", "NormalFloat" },
-	{ "🭼", "NormalFloat" },
-	{ "▏", "NormalFloat" },
-}
-
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 function conf.lightbulb()
 	require("nvim-lightbulb").update_lightbulb({
@@ -84,7 +73,11 @@ local common_on_attach = function(client, bufnr)
 	--   },
 	--   workspace_symbol = true
 	-- }
-	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
+	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+		vim.lsp.handlers.signature_help,
+		{ border = "rounded" }
+	)
 	vim.cmd("au! CursorHold,CursorHoldI <buffer> lua require('config.lspconfig').lightbulb()")
 	local function buf_set_option(...)
 		vim.api.nvim_buf_set_option(bufnr, ...)
@@ -93,23 +86,23 @@ local common_on_attach = function(client, bufnr)
 
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
-	vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-	vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-	vim.keymap.set("n", "<Leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+	vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, opts)
 	require("config.telescope").lsp_bindings_for_buffer(bufnr)
 
 	if client.resolved_capabilities.hover then
-		vim.keymap.set("n", "gh", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+		vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
 	end
 	if client.resolved_capabilities.rename then
-		vim.keymap.set("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+		vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
 	end
 	if client.resolved_capabilities.code_lens then
-		vim.keymap.set("n", "<Leader>cl", "<Cmd>lua vim.lsp.codelens.run()<CR>", opts)
+		vim.keymap.set("n", "<Leader>cl", vim.lsp.codelens.run, opts)
 		vim.cmd("au! BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()")
 	end
 	if client.resolved_capabilities.document_formatting then
-		vim.keymap.set("n", "<Leader>gq", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+		vim.keymap.set("n", "<Leader>gq", vim.lsp.buf.formatting, opts)
 		vim.cmd("au! BufWritePre <buffer> lua vim.lsp.buf.formatting()")
 	end
 
@@ -204,6 +197,7 @@ local function elixir(config)
 end
 local function lua(config)
 	config.settings = lua_settings()
+	-- remove and make into normal first class command and autocmd
 	config.commands = {
 		Format = {
 			function()

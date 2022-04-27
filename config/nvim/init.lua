@@ -23,6 +23,7 @@
 -- !_____! !_____! !_____________________________________________________________________! !_____! !_____!
 
 -- require("impatient")
+InitGroupId = vim.api.nvim_create_augroup("InitGroup", { clear = true })
 vim.g.mapleader = " "
 vim.g.do_filetype_lua = 1
 vim.g.did_load_filetypes = 0
@@ -171,4 +172,22 @@ end, {
 })
 vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, { noremap = true, silent = false })
 
+vim.api.nvim_create_autocmd("FileType", {
+	group = InitGroupId,
+	pattern = { "gitcommit", "gitrebase" },
+	command = "startinsert",
+})
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "*",
+	group = InitGroupId,
+	callback = function()
+		-- set colorscheme after options
+		-- vim.api.nvim_set_hl(0, "WinSeperator", { guibg = "None" })
+		vim.cmd("highlight WinSeparator guibg=None")
+	end,
+})
+
 require("plugins")
+
+vim.cmd("colorscheme kanagawa")
