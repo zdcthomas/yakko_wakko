@@ -350,6 +350,61 @@ return require("packer").startup({
 			"segeljakt/vim-silicon",
 			cmd = { "Silicon" },
 		})
+
+		use({
+			"nvim-neorg/neorg",
+			config = function()
+				require("neorg").setup({
+					load = {
+						["core.defaults"] = {},
+						["core.norg.qol.toc"] = {},
+						["core.norg.concealer"] = {},
+						["core.norg.esupports.metagen"] = {
+							config = { -- Note that this table is optional and doesn't need to be provided
+								template = {
+									{
+										"title",
+										function()
+											return vim.fn.expand("%:p:t:r")
+										end,
+									},
+									{ "description", "" },
+									{ "authors", "Zachary Thomas" },
+									{ "categories", "" },
+									{
+										"created",
+										function()
+											return os.date("%Y-%m-%d")
+										end,
+									},
+									{ "version", require("neorg.config").version },
+								},
+							},
+						},
+						["core.integrations.nvim-cmp"] = {},
+						["core.norg.journal"] = {
+							config = {
+								strategy = "flat",
+							},
+						},
+						["core.norg.completion"] = {
+							config = {
+								engine = "nvim-cmp",
+							},
+						},
+						["core.norg.dirman"] = {
+							config = {
+								workspaces = {
+									wiki = "~/irulan",
+								},
+							},
+						},
+					},
+				})
+			end,
+			requires = "nvim-lua/plenary.nvim",
+		})
+
 		if packer_bootstrap then
 			require("packer").sync()
 		end
