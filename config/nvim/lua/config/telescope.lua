@@ -2,6 +2,7 @@ local conf = {}
 
 local _slow_to_load_in_TS = { ".*%.ex", ".*%.exs" }
 
+require("telescope.actions")
 -- local local_insert_symbol_i = function(prompt_bufnr)
 -- 	local action_state = require("telescope.actions.state")
 -- 	local actions = require("telescope.actions")

@@ -14,7 +14,14 @@ local function prequire(...)
 end
 
 local cmp = prequire("cmp")
+if not cmp then
+	return
+end
+
 local lspkind = prequire("lspkind")
+if not lspkind then
+	return
+end
 
 local replace_termcodes = function(str)
 	return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -97,10 +104,9 @@ local function mappings()
 			"i",
 			"s",
 		}),
-		["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-		["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-		["<C-e>"] = cmp.mapping(cmp.mapping.close(), { "i", "c" }),
-		["<C-l>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+		["<C-j>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+		["<C-k>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+		["<C-c>"] = cmp.mapping(cmp.mapping.close(), { "i", "c" }),
 		["<CR>"] = cmp.mapping({
 			i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
 		}),
@@ -135,6 +141,7 @@ local function setup_cmp_highlighting()
 end
 
 function conf.setup()
+	require("config.neorg_cmp")
 	cmp.setup({
 		snippet = {
 			expand = snippet_func,
@@ -147,13 +154,16 @@ function conf.setup()
 		formatting = {
 			format = lspkind.cmp_format({
 				maxwidth = 50,
+				mode = "symbol_text",
 				symbol_map = {
+					nvim_lsp = "[LSP]",
 					Unit = "u",
 					Enum = "X|Y",
 					Snippet = "~",
 				},
 			}),
 		},
+		matching = { disallow_fuzzy_matching = false },
 		preselect = cmp.PreselectMode.None,
 		mapping = mappings(),
 		sources = cmp.config.sources({
@@ -161,6 +171,7 @@ function conf.setup()
 			{ name = "buffer" },
 			{ name = "vsnip" },
 			{ name = "path" },
+			{ name = "neorg" },
 		}, {
 			{ name = "calc" },
 		}),

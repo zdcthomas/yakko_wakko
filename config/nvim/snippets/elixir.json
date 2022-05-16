@@ -15,6 +15,16 @@
       "end"
     ]
   },
+  "describe": {
+    "scope": "elixir",
+    "prefix": "desc",
+    "description": "describe block",
+    "body": [
+      "describe \"$1\" $2 do",
+      "  $3",
+      "end"
+    ]
+  },
   "binding.pry": {
     "scope": "elixir",
     "prefix": [
