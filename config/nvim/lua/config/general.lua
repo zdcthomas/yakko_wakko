@@ -5,21 +5,18 @@ local Config = {}
 function Config.dressing()
 	require("dressing").setup({
 		input = {
-			-- Set to false to disable the vim.ui.input implementation
 			enabled = true,
-
-			-- Default prompt string
 			default_prompt = "➤ ",
-
-			-- When true, <Esc> will close the modal
-			insert_only = true,
+			insert_only = false,
 
 			-- These are passed to nvim_open_win
 			anchor = "SW",
 			relative = "cursor",
 			border = "rounded",
 		},
-		select = { enabled = false },
+		select = {
+			enabled = false,
+		},
 	})
 end
 
@@ -41,20 +38,7 @@ end
 
 function Config.kanagawa()
 	require("kanagawa").setup({
-		undercurl = true, -- enable undercurls
-		commentStyle = "italic",
-		functionStyle = "NONE",
-		keywordStyle = "italic",
-		statementStyle = "bold",
-		typeStyle = "NONE",
-		variablebuiltinStyle = "italic",
-		specialReturn = true, -- special highlight for the return keyword
-		specialException = true, -- special highlight for exception handling keywords
-		transparent = false, -- do not set background color
-		dimInactive = true, -- dim inactive window `:h hl-NormalNC`
 		globalStatus = true, -- adjust window separators highlight for laststatus=3
-		colors = {},
-		overrides = {},
 	})
 end
 
@@ -89,6 +73,7 @@ function Config.venn()
 		if venn_enabled == "nil" then
 			print("venn mode activated!")
 			vim.cmd("LspStop")
+			vim.cmd("HardTimeOff")
 			vim.b.venn_enabled = true
 			vim.cmd([[setlocal ve=all]])
 			-- draw a line on HJKL keystokes
@@ -101,11 +86,13 @@ function Config.venn()
 		else
 			print("venn mode disengaged!")
 			vim.cmd("LspStart")
+			vim.cmd("HardTimeOn")
 			vim.cmd([[setlocal ve=]])
 			vim.cmd([[mapclear <buffer>]])
 			vim.b.venn_enabled = nil
 		end
 	end
+
 	-- toggle keymappings for venn using <leader>v
 	vim.keymap.set("n", "<leader>v", ":lua toggle_venn()<cr>", { silent = true, noremap = true })
 end
@@ -191,21 +178,44 @@ function Config.git_signs()
 			},
 		},
 		numhl = true,
-		keymaps = {
-			["n <leader>gn"] = '<cmd>lua require"gitsigns.actions".next_hunk()<CR>',
-			["n <leader>gp"] = '<cmd>lua require"gitsigns.actions".prev_hunk()<CR>',
-			["n <leader>ga"] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
-			["v <leader>ga"] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-			["n <leader>gr"] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-			["n <leader>gu"] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-			["v <leader>gr"] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-			["n <leader>gs"] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-			["n <leader>gb"] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
-			["n <leader>gc"] = '<cmd>lua require"gitsigns".setqflist("all")<CR>',
-			["n <leader><leader>g"] = '<cmd>lua require("config.modes.git_sign_mode")()<CR>',
-			["o ih"] = ":<C-U>Gitsigns select_hunk<CR>",
-			["x ih"] = ":<C-U>Gitsigns select_hunk<CR>",
-		},
+		on_attach = function(bufnr)
+			local function map(mode, l, r, opts)
+				opts = opts or {}
+				opts.buffer = bufnr
+				vim.keymap.set(mode, l, r, opts)
+			end
+
+			local gs = package.loaded.gitsigns
+
+			map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<cr>")
+			map("n", "<leader>gA", gs.stage_buffer)
+			map("n", "<leader>gr", gs.undo_stage_hunk)
+
+			map({ "n", "v" }, "<leader>gu", ":Gitsigns reset_hunk<cr>")
+			map("n", "<leader>gU", gs.reset_buffer)
+
+			map("n", "<leader>gn", gs.next_hunk)
+			map("n", "<leader>gp", gs.prev_hunk)
+
+			map("n", "<leader>hs", gs.preview_hunk)
+
+			map("n", "<leader>gb", function()
+				gs.blame_line({ full = true })
+			end)
+			map("n", "<leader>gtb", gs.toggle_current_line_blame)
+
+			map("n", "<leader>gd", function()
+				gs.diffthis("~")
+			end)
+
+			map("n", "<leader>gtd", gs.toggle_deleted)
+
+			map("n", "<leader>gc", function()
+				gs.setqflist("all")
+			end)
+
+			map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+		end,
 	})
 end
 

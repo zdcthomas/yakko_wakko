@@ -90,4 +90,5 @@ function C.setup()
 		[[ let g:sandwich#recipes += [ { 'buns'    : ['%{', '}'], 'input'   : ['m'], 'nesting' : 1 }, { 'buns'    : 'StructInput()', 'kind'    : ['add', 'replace', 'delete'], 'action'  : ['add'], 'input'   : ['s'], 'listexpr': 1, 'nesting' : 1 }, { 'buns'    : 'GenericInput()', 'kind'    : ['add', 'replace'], 'action'  : ['add'], 'input'   : ['g'], 'listexpr': 1, 'nesting' : 1 }, { 'buns'    : ['\w\+<', '>'], 'input'   : ['g'], 'nesting' : 1, 'regex'   : 1, }, { 'buns'    : ['#{', '}'], 'input'   : ['n'], 'nesting' : 1 } ] ]]
 	)
 end
+
 return C

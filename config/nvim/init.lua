@@ -22,9 +22,11 @@
 -- | !_! | | !_! | | !_________________________________________________________________! | | !_! | | !_! |
 -- !_____! !_____! !_____________________________________________________________________! !_____! !_____!
 
--- require("impatient")
+require("impatient")
 InitGroupId = vim.api.nvim_create_augroup("InitGroup", { clear = true })
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 vim.g.do_filetype_lua = 1
 vim.g.did_load_filetypes = 0
 
@@ -48,25 +50,24 @@ vim.g.did_load_filetypes = 0
 -- 	vim.g["loaded_" .. plugin] = 1
 -- end
 local levels = {
-	errors = vim.diagnostic.severity.ERROR,
-	warnings = vim.diagnostic.severity.WARN,
-	info = vim.diagnostic.severity.INFO,
-	hints = vim.diagnostic.severity.HINT,
+  errors = vim.diagnostic.severity.ERROR,
+  warnings = vim.diagnostic.severity.WARN,
+  info = vim.diagnostic.severity.INFO,
+  hints = vim.diagnostic.severity.HINT,
 }
 
 function GetAllDiagnostics(bufnr)
-	local result = {}
-	for k, level in pairs(levels) do
-		result[k] = #vim.diagnostic.get(bufnr, { severity = level })
-	end
+  local result = {}
+  for k, level in pairs(levels) do
+    result[k] = #vim.diagnostic.get(bufnr, { severity = level })
+  end
 
-	return result
+  return result
 end
 
 vim.cmd([[
   augroup personal
     autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=350, on_visual=true}
     autocmd FocusGained * checktime
   augroup END
 
@@ -74,17 +75,31 @@ vim.cmd([[
   command! Irulan :!dmux ~/irulan/wiki
 ]])
 
-function Pr(data)
-	print(vim.inspect(data))
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = "*",
+})
+
+function Pr(...)
+  local args = {}
+  for _, arg in ipairs({ ... }) do
+    table.insert(args, vim.inspect(arg))
+  end
+  print(unpack(args))
+  return ...
 end
 
 if pcall(require, "plenary") then
-	RELOAD = require("plenary.reload").reload_module
+  RELOAD = require("plenary.reload").reload_module
 
-	R = function(name)
-		RELOAD(name)
-		return require(name)
-	end
+  R = function(name)
+    RELOAD(name)
+    return require(name)
+  end
 end
 
 vim.opt.autoindent = true
@@ -97,6 +112,7 @@ vim.opt.cursorline = true
 vim.opt.encoding = "UTF-8"
 vim.opt.equalalways = false
 vim.opt.expandtab = true
+-- vim.opt.foldenable = false
 vim.opt.hidden = true
 vim.opt.hlsearch = false
 vim.opt.ignorecase = true
@@ -110,8 +126,10 @@ vim.opt.scrolloff = 5
 vim.opt.shell = "sh"
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 2
-vim.opt.signcolumn = "auto:1"
+vim.opt.showmode = false
+vim.opt.signcolumn = "auto:1-2"
 vim.opt.smartcase = true
+vim.opt.smartindent = true
 vim.opt.smarttab = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -121,14 +139,14 @@ vim.opt.termguicolors = true
 vim.opt.undodir = vim.fn.expand("~/.vim/undo")
 vim.opt.undofile = true
 vim.opt.updatetime = 100
-vim.opt.wrap = false
 vim.opt.wildmenu = true
-vim.opt.showmode = false
-vim.opt.smartindent = true
+vim.opt.wrap = false
 
 vim.g.diminactive_enable_focus = 1
 -- preview window shown in a vertically split window. Also affects the "previous window" (see |netrw-P|) in the same way.
-vim.g.netrw_preview = 1
+-- vim.g.netrw_preview = 1
+-- vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw = 1
 
 vim.keymap.set("n", "<Leader>wl", ":vsp<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<Leader>wj", ":sp<CR>", { noremap = true, silent = true })
@@ -165,27 +183,19 @@ vim.keymap.set("x", ".", ":norm .<cr>", { noremap = true })
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { noremap = true, silent = false })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { noremap = true, silent = false })
 vim.keymap.set("n", "<Leader><Leader>q", function()
-	vim.diagnostic.set_loclist()
+  vim.diagnostic.set_loclist()
 end, {
-	noremap = true,
-	silent = false,
+  noremap = true,
+  silent = false,
 })
 vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, { noremap = true, silent = false })
 
-vim.api.nvim_create_autocmd("FileType", {
-	group = InitGroupId,
-	pattern = { "gitcommit", "gitrebase" },
-	command = "startinsert",
-})
-
 vim.api.nvim_create_autocmd("ColorScheme", {
-	pattern = "*",
-	group = InitGroupId,
-	callback = function()
-		-- set colorscheme after options
-		-- vim.api.nvim_set_hl(0, "WinSeperator", { guibg = "None" })
-		vim.cmd("highlight WinSeparator guibg=None")
-	end,
+  pattern = "*",
+  group = InitGroupId,
+  callback = function()
+    vim.cmd("highlight WinSeparator guibg=None")
+  end,
 })
 
 require("plugins")

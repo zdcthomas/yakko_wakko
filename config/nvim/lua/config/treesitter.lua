@@ -5,9 +5,7 @@ function Conf.setup()
 		indent = {
 			enable = true,
 		},
-		{
-			autopairs = { enable = true },
-		},
+		autopairs = { enable = true },
 		query_linter = {
 			enable = true,
 			use_virtual_text = true,
@@ -19,14 +17,15 @@ function Conf.setup()
 			max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
 		},
 		ensure_installed = {
-			"rust",
-			"lua",
+			"bash",
+			"comment",
+			"dockerfile",
 			"fish",
 			"gleam",
-			"bash",
-			"dockerfile",
-			"comment",
 			"graphql",
+			"lua",
+			"norg",
+			"rust",
 		},
 		highlight = {
 			enable = true,
