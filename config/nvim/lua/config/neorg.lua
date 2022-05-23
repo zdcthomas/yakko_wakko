@@ -18,13 +18,17 @@ Module.setup = function()
 	require("neorg").setup({
 		load = {
 			["core.defaults"] = {},
-			["core.norg.qol.toc"] = {},
-			["core.norg.concealer"] = {},
+			["core.norg.concealer"] = { config = { folds = false } },
 			["core.integrations.telescope"] = {},
 			["core.integrations.nvim-cmp"] = {},
+			["core.presenter"] = {
+				config = { -- Note that this table is optional and doesn't need to be provided
+					zen_mode = "zen-mode",
+				},
+			},
 			["core.gtd.base"] = {
 				config = {
-					workspace = "wiki",
+					workspace = "gtd",
 				},
 			},
 			["core.norg.esupports.metagen"] = {
@@ -68,6 +72,7 @@ Module.setup = function()
 			["core.norg.dirman"] = {
 				config = {
 					workspaces = {
+						gtd = "~/irulan/gtd",
 						wiki = "~/irulan",
 					},
 				},
@@ -86,13 +91,6 @@ Module.setup = function()
 
 	---@diagnostic disable-next-line: missing-parameter
 	neorg_callbacks.on_event("core.keybinds.events.enable_keybinds", function(_, keybinds)
-		keybinds.map_to_mode("norg", {
-			n = {
-				{ "<C-k>", "core.norg.manoeuvre.move_item_up" },
-				{ "<C-j>", "core.norg.manoeuvre.move_item_down" },
-			},
-		})
-
 		keybinds.map_event_to_mode("norg", {
 			n = {
 				{ "<Leader>fp", "core.integrations.telescope.find_linkable" },
