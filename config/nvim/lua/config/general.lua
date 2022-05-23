@@ -140,6 +140,7 @@ end
 
 function Config.dirvish()
 	vim.g.loaded_netrwPlugin = 1
+	vim.api.nvim_create_user_command("Explore", "Dirvish")
 	vim.cmd([[
     command! -nargs=? -complete=dir Explore Dirvish <args>
     command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
@@ -150,7 +151,7 @@ end
 
 function Config.md_links()
 	require("follow-md-links")
-	vim.keymap.set("", "<bs>", ":edit #<cr>", { noremap = true, silent = true })
+	vim.keymap.set("", "<bs>", ":edit #<cr>", { silent = true })
 end
 
 function Config.easy_align()
