@@ -31,3 +31,4 @@ if pcall(require, "plenary") then
 		return require(name)
 	end
 end
+-- TODO: create group register wrapper for which key

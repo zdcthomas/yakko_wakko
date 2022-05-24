@@ -21,6 +21,12 @@ Module.setup = function()
 			["core.norg.concealer"] = { config = { folds = false } },
 			["core.integrations.telescope"] = {},
 			["core.integrations.nvim-cmp"] = {},
+			["core.export"] = {},
+			["core.export.markdown"] = {
+				config = {
+					extensions = "all",
+				},
+			},
 			["core.presenter"] = {
 				config = { -- Note that this table is optional and doesn't need to be provided
 					zen_mode = "zen-mode",
@@ -71,6 +77,8 @@ Module.setup = function()
 			},
 			["core.norg.dirman"] = {
 				config = {
+					-- default_workspace = "wiki",
+					open_last_workspace = false,
 					workspaces = {
 						gtd = "~/irulan/gtd",
 						wiki = "~/irulan",

@@ -32,6 +32,22 @@ return require("packer").startup({
 		use("wbthomason/packer.nvim")
 		use("MunifTanjim/nui.nvim")
 
+		use({
+			"folke/which-key.nvim",
+			config = function()
+				require("which-key").setup({
+
+					window = {
+						border = "single", -- none, single, double, shadow
+						position = "top", -- bottom, top
+					},
+					-- your configuration comes here
+					-- or leave it empty to use the default settings
+					-- refer to the configuration section below
+				})
+			end,
+		})
+
 		-- Find and replace goodness
 		use({
 			"windwp/nvim-spectre",

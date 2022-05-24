@@ -126,16 +126,17 @@ function conf.setup()
 		},
 		extensions = {
 			file_browser = {
-				theme = "ivy",
-				initial_mode = "normal",
+				-- theme = "ivy",
+				hijack_netrw = true,
+				initial_mode = "insert",
 				path = "%:p:h",
 				mappings = {
 					n = {
 						["-"] = fb_action("goto_parent_dir"),
 					},
-					i = {
-						["-"] = fb_action("goto_parent_dir"),
-					},
+					-- i = {
+					-- 	["-"] = fb_action("goto_parent_dir"),
+					-- },
 				},
 			},
 			["ui-select"] = {
@@ -160,7 +161,7 @@ function conf.setup()
 	telescope.load_extension("ui-select")
 	local default_opts = { noremap = true, silent = true }
 
-	vim.keymap.set("n", "<leader>p", require("config.telescope").find_files, default_opts)
+	vim.keymap.set("n", "<leader>p", require("config.telescope").find_files, { silent = true, desc = "Find files" })
 	-- vim.keymap.set(
 	-- 	"n",
 	-- 	"-",
@@ -192,7 +193,7 @@ end
 
 function conf.lsp_bindings_for_buffer(bufnr)
 	require("packer").loader("telescope.nvim")
-	local opts = { buffer = bufnr, silent = false, noremap = true }
+	local opts = { buffer = bufnr, silent = false }
 	vim.keymap.set("n", "<Leader>q", "<Cmd>lua require('config.telescope').diagnostics()<cr>", opts)
 	vim.keymap.set("n", "<Leader>/", '<Cmd>lua require("telescope.builtin").lsp_document_symbols()<cr>', opts)
 	vim.keymap.set("n", "gd", '<Cmd>lua require("telescope.builtin").lsp_definitions()<cr>', opts)

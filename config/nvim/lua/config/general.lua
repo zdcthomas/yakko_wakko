@@ -21,7 +21,7 @@ function Config.dressing()
 end
 
 function Config.hardtime()
-	vim.g.hardtime_default_on = 1
+	vim.g.hardtime_default_on = 0
 	vim.g.list_of_normal_keys = { "h", "j", "k", "l", "x" }
 	vim.g.list_of_visual_keys = { "h", "j", "k", "l", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>" }
 	vim.g.list_of_insert_keys = { "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>" }
@@ -77,12 +77,12 @@ function Config.venn()
 			vim.b.venn_enabled = true
 			vim.cmd([[setlocal ve=all]])
 			-- draw a line on HJKL keystokes
-			vim.keymap.set("n", "J", "<C-v>j:VBox<cr>", { buffer = true, noremap = true })
-			vim.keymap.set("n", "K", "<C-v>k:VBox<cr>", { buffer = true, noremap = true })
-			vim.keymap.set("n", "L", "<C-v>l:VBox<cr>", { buffer = true, noremap = true })
-			vim.keymap.set("n", "H", "<C-v>h:VBox<cr>", { buffer = true, noremap = true })
+			vim.keymap.set("n", "J", "<C-v>j:VBox<cr>", { buffer = true })
+			vim.keymap.set("n", "K", "<C-v>k:VBox<cr>", { buffer = true })
+			vim.keymap.set("n", "L", "<C-v>l:VBox<cr>", { buffer = true })
+			vim.keymap.set("n", "H", "<C-v>h:VBox<cr>", { buffer = true })
 			-- draw a box by pressing "f" with visual selection
-			vim.keymap.set("v", "f", ":VBox<cr>", { buffer = true, noremap = true })
+			vim.keymap.set("v", "f", ":VBox<cr>", { buffer = true })
 		else
 			print("venn mode disengaged!")
 			vim.cmd("LspStart")
@@ -94,7 +94,7 @@ function Config.venn()
 	end
 
 	-- toggle keymappings for venn using <leader>v
-	vim.keymap.set("n", "<leader>v", ":lua toggle_venn()<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>v", ":lua toggle_venn()<cr>", { silent = true, desc = "Toggle Venn mode" })
 end
 
 function Config.notify()
@@ -117,17 +117,17 @@ end
 function Config.camelsnek()
 	vim.g.camelsnek_alternative_camel_commands = 1
 
-	vim.keymap.set("n", "crs", ":Snek<CR>", { noremap = true, silent = true })
-	vim.keymap.set("x", "crs", ":Snek<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })
+	vim.keymap.set("x", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })
 
-	vim.keymap.set("n", "crp", ":Pascal<CR>", { noremap = true, silent = true })
-	vim.keymap.set("x", "crp", ":Pascal<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "crp", ":Pascal<CR>", { silent = true, desc = "PascalCase" })
+	vim.keymap.set("x", "crp", ":Pascal<CR>", { silent = true, desc = "PascalCase" })
 
-	vim.keymap.set("n", "crc", ":Camel<CR>", { noremap = true, silent = true })
-	vim.keymap.set("x", "crc", ":Camel<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "crc", ":Camel<CR>", { silent = true, desc = "camelCase" })
+	vim.keymap.set("x", "crc", ":Camel<CR>", { silent = true, desc = "camel_case" })
 
-	vim.keymap.set("n", "crk", ":Kebab<CR>", { noremap = true, silent = true })
-	vim.keymap.set("x", "crk", ":Kebab<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "crk", ":Kebab<CR>", { silent = true, desc = "kebab-case" })
+	vim.keymap.set("x", "crk", ":Kebab<CR>", { silent = true, desc = "kebab-case" })
 end
 
 function Config.autopairs()
@@ -140,7 +140,7 @@ end
 
 function Config.dirvish()
 	vim.g.loaded_netrwPlugin = 1
-	vim.api.nvim_create_user_command("Explore", "Dirvish")
+	-- vim.api.nvim_create_user_command("Explore", "Dirvish", {})
 	vim.cmd([[
     command! -nargs=? -complete=dir Explore Dirvish <args>
     command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
@@ -188,34 +188,34 @@ function Config.git_signs()
 
 			local gs = package.loaded.gitsigns
 
-			map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<cr>")
-			map("n", "<leader>gA", gs.stage_buffer)
-			map("n", "<leader>gr", gs.undo_stage_hunk)
+			map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<cr>", { desc = "Stage hunk under cursor" })
+			map("n", "<leader>gA", gs.stage_buffer, { desc = "Stage entire buffer" })
+			map("n", "<leader>gr", gs.undo_stage_hunk, { desc = "Undo changes to a hunk" })
 
-			map({ "n", "v" }, "<leader>gu", ":Gitsigns reset_hunk<cr>")
-			map("n", "<leader>gU", gs.reset_buffer)
+			map({ "n", "v" }, "<leader>gu", ":Gitsigns reset_hunk<cr>", { desc = "Undo the staging of a hunk" })
+			map("n", "<leader>gU", gs.reset_buffer, { desc = "Undo the staging of buffer" })
 
-			map("n", "<leader>gn", gs.next_hunk)
-			map("n", "<leader>gp", gs.prev_hunk)
+			map("n", "<leader>gn", gs.next_hunk, { desc = "Next hunkk" })
+			map("n", "<leader>gp", gs.prev_hunk, { desc = "Previous hunk" })
 
-			map("n", "<leader>hs", gs.preview_hunk)
+			map("n", "<leader>gs", gs.preview_hunk, { desc = "Show hunk diff" })
 
 			map("n", "<leader>gb", function()
 				gs.blame_line({ full = true })
-			end)
-			map("n", "<leader>gtb", gs.toggle_current_line_blame)
+			end, { desc = "Show full git blame" })
+			map("n", "<leader>gtb", gs.toggle_current_line_blame, { desc = "show git blame line" })
 
 			map("n", "<leader>gd", function()
 				gs.diffthis("~")
-			end)
+			end, { desc = "Show side by side git diff" })
 
-			map("n", "<leader>gtd", gs.toggle_deleted)
+			map("n", "<leader>gtd", gs.toggle_deleted, { desc = "show deleted" })
 
 			map("n", "<leader>gc", function()
 				gs.setqflist("all")
-			end)
+			end, { desc = "Send changes to quickfix list" })
 
-			map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+			map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "expand visual selection to hunk" })
 		end,
 	})
 end
