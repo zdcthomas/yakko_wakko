@@ -19,20 +19,17 @@ vim.keymap.set("n", "Q", "<nop>", { silent = true })
 vim.keymap.set("n", "<Leader>yf", ":Yf<Cr>", { silent = true, desc = "copy file patth to clipboard" })
 vim.keymap.set("n", "<Leader>yF", ":YF<Cr>", { silent = true, desc = "copy file path with line no to clipboard" })
 
-vim.keymap.set("c", "<C-a>", "<Home>", {})
-vim.keymap.set("c", "<C-e>", "<End>", {})
-
-vim.keymap.set("i", "<C-A>", "<c-o>^", {})
-vim.keymap.set("i", "<C-E>", "<c-o>$", {})
-vim.keymap.set("i", "<C-B>", "<Left>", {})
-vim.keymap.set("i", "<C-F>", "<Right>", {})
-vim.keymap.set("i", "<A-f>", "<Esc>lwi", {})
-vim.keymap.set("i", "<A-b>", "<c-o>b", {})
+vim.keymap.set("i", "<C-A>", "<c-o>^", { desc = "Beginning of line" })
+vim.keymap.set("i", "<C-E>", "<c-o>$", { desc = "End of line" })
+vim.keymap.set("i", "<C-B>", "<Left>", { desc = "Move 1 char left" })
+vim.keymap.set("i", "<C-F>", "<Right>", { desc = "Move 1 char right" })
+vim.keymap.set("i", "<A-f>", "<Esc>lwi", { desc = "Move 1 `word` right" })
+vim.keymap.set("i", "<A-b>", "<c-o>b", { desc = "Move 1 `word` left" })
 
 vim.keymap.set("x", ".", ":norm .<cr>", {})
 
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { silent = false })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { silent = false })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { silent = false, desc = "Go to previous diagnostic" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { silent = false, desc = "Go to next diagnostic" })
 vim.keymap.set("n", "<Leader><Leader>q", function()
 	vim.diagnostic.set_loclist()
 end, {
@@ -44,7 +41,7 @@ local wk = require("which-key")
 wk.register({
 	["<leader>"] = {
 		w = {
-			name = "window", -- optional group name
+			name = "Window", -- optional group name
 		},
 	},
 })
