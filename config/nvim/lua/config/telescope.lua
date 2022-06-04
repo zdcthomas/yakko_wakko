@@ -127,7 +127,7 @@ function conf.setup()
 		extensions = {
 			file_browser = {
 				-- theme = "ivy",
-				hijack_netrw = true,
+				-- hijack_netrw = true,
 				initial_mode = "insert",
 				path = "%:p:h",
 				mappings = {
