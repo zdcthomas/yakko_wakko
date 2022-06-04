@@ -54,6 +54,13 @@ return require("packer").startup({
 			requires = {
 				"nvim-lua/plenary.nvim",
 			},
+			config = function()
+				vim.keymap.set("n", "<leader>S", require("spectre").open)
+				vim.keymap.set("n", "<leader>sw", function()
+					require("spectre").open_visual({ select_word = true })
+				end)
+				vim.keymap.set("n", "<leader>sf", require("spectre").open_file_search)
+			end,
 		})
 		use({ "kevinhwang91/nvim-bqf", ft = "qf" })
 		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
