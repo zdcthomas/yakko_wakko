@@ -31,4 +31,12 @@ if pcall(require, "plenary") then
 		return require(name)
 	end
 end
--- TODO: create group register wrapper for which key
+
+function RegisterKeyGroup(key_group_tab)
+	local ok, wk = pcall(require, "which-key")
+	if ok then
+		wk.register(key_group_tab)
+	else
+		vim.notify("Which key requested but not found", "warn")
+	end
+end
