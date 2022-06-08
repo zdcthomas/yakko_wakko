@@ -1,8 +1,8 @@
 # Installation
 
-## Brand new box!
+## Brand-new box!
 
-On a totally brand new machine, run:
+On a totally brand-new machine, run:
 
 ```bash
 sudo softwareupdate -i -a
