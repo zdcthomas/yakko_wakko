@@ -220,7 +220,16 @@ function conf.setup()
 	local lsp_status = require("lsp-status")
 	lsp_status.register_progress()
 
-	local servers = { "sumneko_lua", "rust_analyzer", "elixirls", "jsonls", "tsserver", "yamlls", "prosemd_lsp" }
+	local servers = {
+		"sumneko_lua",
+		"rust_analyzer",
+		"elixirls",
+		"jsonls",
+		"tsserver",
+		"yamlls",
+		"prosemd_lsp",
+		"marksman",
+	}
 
 	require("nvim-lsp-installer").setup({
 		ensure_installed = servers,

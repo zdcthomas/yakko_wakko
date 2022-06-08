@@ -19,6 +19,8 @@ end
 -- * mattn/emmet-vim
 -- * mbbill/undotree
 -- * rbong/vim-buffest
+-- meme cyberpunk 2077 colorscheme
+-- * use("akai54/2077.nvim")
 
 function PluginIsLoaded(plugin_name)
 	return packer_plugins[plugin_name] and packer_plugins[plugin_name].loaded
@@ -27,10 +29,10 @@ end
 return require("packer").startup({
 	function(use)
 		use("lewis6991/impatient.nvim")
-		use("christoomey/vim-sort-motion")
 		use("michaeljsmith/vim-indent-object")
 		use("wbthomason/packer.nvim")
 		use("MunifTanjim/nui.nvim")
+		use("christoomey/vim-sort-motion", { keys = { "gs" } })
 
 		use({
 			"folke/which-key.nvim",
@@ -54,6 +56,7 @@ return require("packer").startup({
 			requires = {
 				"nvim-lua/plenary.nvim",
 			},
+			keys = { "<leader>S", "<leader>sw", "<leader>sf" },
 			config = function()
 				vim.keymap.set("n", "<leader>S", require("spectre").open)
 				vim.keymap.set("n", "<leader>sw", function()
@@ -89,11 +92,20 @@ return require("packer").startup({
 
 		use({
 			"takac/vim-hardtime",
+			cmd = {
+				"HardTimeOff",
+				"HardTimeToggle",
+				"HardTimeOn",
+			},
 			config = config.hardtime,
 		})
 
 		use({
 			"folke/zen-mode.nvim",
+			cmd = {
+				"ZenMode",
+			},
+			module = "zen-mode",
 			config = function()
 				require("zen-mode").setup({
 					window = {
@@ -143,12 +155,12 @@ return require("packer").startup({
 			config = config.rose_pine,
 		})
 
-		use({
-			"https://gitlab.com/yorickpeterse/nvim-pqf.git",
-			config = function()
-				require("pqf").setup()
-			end,
-		})
+		-- use({
+		-- 	"https://gitlab.com/yorickpeterse/nvim-pqf.git",
+		-- 	config = function()
+		-- 		require("pqf").setup()
+		-- 	end,
+		-- })
 
 		use({
 			"machakann/vim-sandwich",
