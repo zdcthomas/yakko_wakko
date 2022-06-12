@@ -56,7 +56,28 @@ local function file_contains(match)
 	return found
 end
 
+local function comment()
+	return string.format(vim.opt.commentstring:get(), " ")
+end
+
 ls.add_snippets("all", {
+
+	s("box", {
+		f(comment),
+		t("-----"),
+		l(l._1:gsub(".", "-"), 1),
+		t({ "-----", "" }),
+
+		f(comment),
+		t("|    "),
+		i(1, "header title"),
+		t({ "    |", "" }),
+
+		f(comment),
+		t("-----"),
+		l(l._1:gsub(".", "-"), 1),
+		t({ "-----", "" }),
+	}),
 	s({
 		trig = "(%w+)%.Pr",
 		regTrig = true,
