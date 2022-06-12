@@ -37,11 +37,3 @@ end, {
 	desc = "Send diagnostics to location list",
 })
 vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, { silent = false, desc = "Show diagnostic in float" })
-
-RegisterKeyGroup({
-	["<leader>"] = {
-		w = {
-			name = "Window", -- optional group name
-		},
-	},
-})

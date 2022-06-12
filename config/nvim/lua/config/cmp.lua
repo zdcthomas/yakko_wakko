@@ -23,6 +23,11 @@ if not lspkind then
 	return
 end
 
+local luasnip = prequire("luasnip")
+if not luasnip then
+	return
+end
+
 local replace_termcodes = function(str)
 	return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
@@ -85,8 +90,8 @@ local shift_tab_mapping = {
 local function mappings()
 	return {
 		["<C-n>"] = cmp.mapping(function(fallback)
-			if vim.fn["vsnip#available"](1) == 1 then
-				feedkey("<Plug>(vsnip-expand-or-jump)", "")
+			if luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump(1)
 			else
 				fallback()
 			end
@@ -95,8 +100,8 @@ local function mappings()
 			"s",
 		}),
 		["<C-p>"] = cmp.mapping(function(fallback)
-			if vim.fn["vsnip#jumpable"](-1) == 1 then
-				feedkey("<Plug>(vsnip-jump-prev)", "")
+			if luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump(-1)
 			else
 				fallback()
 			end
@@ -104,8 +109,24 @@ local function mappings()
 			"i",
 			"s",
 		}),
-		["<C-j>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-		["<C-k>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+		["<C-j>"] = cmp.mapping(function(fallback)
+			if cmp.visible() and cmp.get_selected_entry() then
+				cmp.scroll_docs(4)
+			elseif luasnip.choice_active() then
+				luasnip.change_choice(1)
+			else
+				fallback()
+			end
+		end, { "i", "c" }),
+		["<C-k>"] = cmp.mapping(function(fallback)
+			if cmp.visible() and cmp.get_selected_entry() then
+				cmp.scroll_docs(-4)
+			elseif luasnip.choice_active() then
+				luasnip.change_choice(-1)
+			else
+				fallback()
+			end
+		end, { "i", "c" }),
 		["<C-c>"] = cmp.mapping(cmp.mapping.close(), { "i", "c" }),
 		["<CR>"] = cmp.mapping({
 			i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
@@ -116,7 +137,7 @@ local function mappings()
 end
 
 local function snippet_func(args)
-	vim.fn["vsnip#anonymous"](args.body)
+	luasnip.lsp_expand(args.body)
 end
 
 local function setup_cmp_highlighting()
@@ -169,7 +190,7 @@ function conf.setup()
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
 			{ name = "buffer" },
-			{ name = "vsnip" },
+			{ name = "luasnip" },
 			{ name = "path" },
 			{ name = "neorg" },
 		}, {
