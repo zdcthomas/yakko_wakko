@@ -1,13 +1,4 @@
 {
-  "packer_use": {
-    "prefix": "use",
-    "body": [
-      "use {",
-      "  '${1:$CLIPBOARD}',",
-      "}"
-    ],
-    "description": "Packer use statement"
-  },
   "module": {
     "prefix": "mod",
     "body": [
@@ -38,12 +29,5 @@
       "end"
     ],
     "description": "Packer configuration statement"
-  },
-  "print": {
-    "prefix": "pr",
-    "body": [
-      "print('$TM_FILENAME_BASE:$TM_LINE_NUMBER -> ${1:$CLIPBOARD}: ', ${1:$CLIPBOARD})"
-    ],
-    "description": "Print with filename and clipboard variable"
   }
 }
