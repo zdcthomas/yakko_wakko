@@ -16,7 +16,7 @@ vim.keymap.set("n", "<Left>", ":vertical resize -5<Cr>", { silent = true })
 vim.keymap.set("n", "<Right>", ":vertical resize +5<Cr>", { silent = true })
 vim.keymap.set("n", "<C-n>", ":let @/=expand('<cword>')<cr>cgn", { silent = true })
 vim.keymap.set("n", "Q", "<nop>", { silent = true })
-vim.keymap.set("n", "<Leader>yf", ":Yf<Cr>", { silent = true, desc = "copy file patth to clipboard" })
+vim.keymap.set("n", "<Leader>yf", ":Yf<Cr>", { silent = true, desc = "copy file path to clipboard" })
 vim.keymap.set("n", "<Leader>yF", ":YF<Cr>", { silent = true, desc = "copy file path with line no to clipboard" })
 
 vim.keymap.set("i", "<C-A>", "<c-o>^", { desc = "Beginning of line" })
