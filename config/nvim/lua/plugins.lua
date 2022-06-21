@@ -19,8 +19,6 @@ end
 -- * mattn/emmet-vim
 -- * mbbill/undotree
 -- * rbong/vim-buffest
--- meme cyberpunk 2077 colorscheme
--- * use("akai54/2077.nvim")
 
 function PluginIsLoaded(plugin_name)
 	return packer_plugins[plugin_name] and packer_plugins[plugin_name].loaded
@@ -34,6 +32,25 @@ return require("packer").startup({
 		use("wbthomason/packer.nvim")
 		use("MunifTanjim/nui.nvim")
 		use("christoomey/vim-sort-motion", { keys = { "gs" } })
+
+		use({
+			"anuvyklack/hydra.nvim",
+			requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
+			config = function()
+				local Hydra = require("hydra")
+				Hydra({
+					name = "Side scroll",
+					mode = "n",
+					body = "z",
+					heads = {
+						{ "h", "5zh" },
+						{ "l", "5zl", { desc = "←/→" } },
+						{ "H", "zH" },
+						{ "L", "zL", { desc = "half screen ←/→" } },
+					},
+				})
+			end,
+		})
 
 		-- Find and replace goodness
 		use({
@@ -177,7 +194,7 @@ return require("packer").startup({
 				"hrsh7th/cmp-cmdline",
 				"hrsh7th/cmp-nvim-lsp",
 				"hrsh7th/cmp-path",
-				"~/dev/cmp_luasnip/",
+				"saadparwaiz1/cmp_luasnip",
 				"onsails/lspkind-nvim",
 				"petertriho/cmp-git",
 				"L3MON4D3/LuaSnip",
@@ -273,7 +290,7 @@ return require("packer").startup({
 		use({
 			"neovim/nvim-lspconfig",
 			requires = {
-				"ckipp01/stylua-nvim",
+				-- "ckipp01/stylua-nvim",
 				"hrsh7th/nvim-cmp",
 				"kosayoda/nvim-lightbulb",
 				"nvim-lua/lsp-status.nvim",

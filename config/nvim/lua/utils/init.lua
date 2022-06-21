@@ -1,4 +1,8 @@
 function Pr(...)
+	if ... == nil then
+		print("nil")
+		return ...
+	end
 	local args = {}
 	for _, arg in ipairs({ ... }) do
 		table.insert(args, vim.inspect(arg))
@@ -30,4 +34,12 @@ if pcall(require, "plenary") then
 		RELOAD(name)
 		return require(name)
 	end
+end
+
+function Pquire(...)
+	local status, lib = pcall(require, ...)
+	if status then
+		return lib
+	end
+	return nil
 end

@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 local ls = require("luasnip")
 -- some shorthands...
 local s = ls.snippet
@@ -17,16 +18,18 @@ local m = require("luasnip.extras").match
 local n = require("luasnip.extras").nonempty
 local dl = require("luasnip.extras").dynamic_lambda
 local fmt = require("luasnip.extras.fmt").fmt
+local postfix = require("luasnip.extras.postfix").postfix
 local fmta = require("luasnip.extras.fmt").fmta
 local types = require("luasnip.util.types")
-local m = require("luasnip.extras").m
 local conds = require("luasnip.extras.expand_conditions")
 -- local l = require("luasnip.extras").l
+local match_link = [[[%w%.%_%-%/%p%"%']+$]]
+local non_space = "%S+$"
 
 ls.config.set_config({
 	updateevents = "TextChanged,TextChangedI",
 	delete_check_events = "TextChanged,InsertEnter",
-	region_check_events = "CursorMoved",
+	region_check_events = "CursorHold,InsertLeave",
 	enable_autosnippets = false,
 	store_selection_keys = "<Tab>",
 	ext_opts = {
@@ -42,6 +45,12 @@ ls.config.set_config({
 		},
 	},
 })
+
+local function dyn_i(index, func)
+	return d(index, function(...)
+		return sn(nil, i(1, func(...)))
+	end)
+end
 
 -- later improvement, if file is larger than a limit, batch lines
 local function file_contains(match)
@@ -78,19 +87,7 @@ ls.add_snippets("all", {
 		l(l._1:gsub(".", "-"), 1),
 		t({ "-----", "" }),
 	}),
-	s({
-		trig = "(%w+)%.Pr",
-		regTrig = true,
-		wordTrig = false,
-		hiden = true,
-	}, {
-		f(function(_, parent)
-			Pr(parent.snippet.captures)
-			return "Pr(" .. parent.snippet.captures[1] .. ")"
-		end),
-		-- l("(" .. l.CAPTURE1 .. ")", {}),
-	}),
-}, { key = "testsnippetshehe" })
+}, { key = "all" })
 
 ls.add_snippets("elixir", {
 	s(
@@ -140,30 +137,23 @@ ls.add_snippets("elixir", {
 require("luasnip").get_snippets("lua", { type = "snippets" })
 
 ls.add_snippets("lua", {
-	-- s({
-	-- 	trig = "(%w+)%.pr",
-	-- 	regTrig = true,
-	-- 	wordTrig = false,
-	-- 	dscr = "parenthetical",
-	-- 	docstring = "par",
-	-- 	name = "test paren",
-	-- }, {
-	-- 	f(function(_, parent)
-	-- 		return "Pr(" .. parent.snippet.captures[1] .. ")"
-	-- 	end),
-	-- 	-- l("(" .. l.CAPTURE1 .. ")", {}),
-	-- }),
-	-- s({ trig = "(%w+)%.parens", regTrig = true, wordTrig = true }, {
-	-- 	f(function(_, parent)
-	-- 		return "(" .. parent.snippet.captures[1] .. ")"
-	-- 	end),
-	-- }),
+	postfix(
+		".pr",
+		fmt([[Pr("{}", {})]], {
+			dyn_i(2, function(_, parent)
+				return parent.snippet.env.POSTFIX_MATCH
+			end),
+			dyn_i(1, function(_, parent)
+				return parent.snippet.env.POSTFIX_MATCH
+			end),
+		})
+	),
 	s(
-		{ trig = "b(%d)", regTrig = true },
-		f(function(args, snip)
-			Pr(snip.captures[1])
-			return "Captured Text: " .. snip.captures[1] .. "."
-		end, {})
+		"pr",
+		fmt([[Pr("{}", {})]], {
+			rep(1),
+			i(1),
+		})
 	),
 	s(
 		"use",
@@ -178,7 +168,14 @@ ls.add_snippets("lua", {
 					-- get from the system clipboard
 					local clip = vim.fn.getreg("*", 1, true)[1]
 					-- get the packer/plug usable location from either a full url or just a part
-					local usable = string.match(clip, "[%a%d%.]+/[%a%d%.]+$")
+					local usable = nil
+					if string.match(clip, "%.com") then
+						if string.match(clip, "github") then
+							usable = string.match(clip, "%.com%/([%w%.%-%_]+/[%w%.%-%_]+)")
+						else
+							usable = string.match(clip, "(.+%.com%/[%w%.%-%_]+/[%w%.%-%_]+)")
+						end
+					end
 					if usable then
 						return sn(nil, { i(nil, usable) })
 					else
@@ -250,6 +247,38 @@ ls.add_snippets("norg", {
 		),
 	}),
 }, { key = "norg" })
+
+ls.add_snippets("markdown", {
+	s(
+		"link",
+		fmt("[{}]({})", {
+			i(1),
+			i(2),
+		})
+	),
+	postfix(
+		{ trig = ".link", match_pattern = non_space },
+		d(1, function(_, snippet)
+			local link_or_desc = snippet.env.POSTFIX_MATCH
+			local link
+			local desc
+			if link_or_desc:match("http") or link_or_desc:match("/") then
+				link = i(1, link_or_desc)
+				desc = i(2, "desc")
+			else
+				link = i(2, "link")
+				desc = i(1, link_or_desc)
+			end
+			return sn(
+				nil,
+				fmt("[{}]({})", {
+					desc,
+					link,
+				})
+			)
+		end)
+	),
+}, { key = "markdown" })
 
 -- ls.add_snippets("norg", {
 -- 	s("norg code", { -- neorg tag
