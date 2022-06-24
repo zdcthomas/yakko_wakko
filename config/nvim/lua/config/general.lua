@@ -187,7 +187,86 @@ function Config.git_signs()
 			end
 
 			local gs = package.loaded.gitsigns
+			local Hydra = Pquire("hydra")
+			if Hydra then
+				local hint = [[
+            _n_: next hunk     _a_: stage hunk        _A_: stage buffer   _b_: blame line
+            _p_: prev hunk     _U_: undo stage hunk   _P_: preview hunk   _B_: blame show full 
+            _<Enter>_: Neogit  _q_: Set qf list       _/_: show base file _<Esc>_: leave
+          ]]
 
+				Hydra({
+					-- hint = hint,
+					config = {
+						color = "pink",
+						invoke_on_body = true,
+						hint = {
+							position = "bottom",
+							border = "rounded",
+						},
+						on_exit = function()
+							vim.cmd("echo") -- clear the echo area
+						end,
+					},
+					mode = "n",
+					body = "<leader><leader>g",
+					heads = {
+						{
+							"n",
+							function()
+								if vim.wo.diff then
+									return "]c"
+								end
+								vim.schedule(function()
+									gs.next_hunk()
+								end)
+								return "<Ignore>"
+							end,
+							{ expr = true },
+						},
+						{
+							"p",
+							function()
+								if vim.wo.diff then
+									return "[c"
+								end
+								vim.schedule(function()
+									gs.prev_hunk()
+								end)
+								return "<Ignore>"
+							end,
+							{ expr = true },
+						},
+						{ "a", ":Gitsigns stage_hunk<CR>", { silent = true } },
+						{ "r", gs.undo_stage_hunk },
+						{ "u", gs.reset_hunk },
+						{
+							"d",
+							function()
+								gs.diffthis("~")
+							end,
+						},
+						{ "A", gs.stage_buffer },
+						{ "s", gs.preview_hunk },
+						{ "b", gs.blame_line },
+						{
+							"c",
+							function()
+								gs.setqflist("all")
+							end,
+						},
+						-- {
+						-- 	"B",
+						-- 	function()
+						-- 		gitsigns.blame_line({ full = true })
+						-- 	end,
+						-- },
+						{ "/", gs.show, { exit = true } }, -- show the base of the file
+						-- { "<Enter>", "<cmd>Neogit<CR>", { exit = true } },
+						{ "<Esc>", nil, { exit = true, nowait = true } },
+					},
+				})
+			end
 			map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<cr>", { desc = "Stage hunk under cursor" })
 			map("n", "<leader>gA", gs.stage_buffer, { desc = "Stage entire buffer" })
 			map("n", "<leader>gr", gs.undo_stage_hunk, { desc = "Undo changes to a hunk" })

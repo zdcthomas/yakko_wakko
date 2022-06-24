@@ -34,21 +34,11 @@ return require("packer").startup({
 		use("christoomey/vim-sort-motion", { keys = { "gs" } })
 
 		use({
-			"anuvyklack/hydra.nvim",
-			requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
+			"TimUntersberger/neogit",
+			requires = "nvim-lua/plenary.nvim",
 			config = function()
-				local Hydra = require("hydra")
-				Hydra({
-					name = "Side scroll",
-					mode = "n",
-					body = "z",
-					heads = {
-						{ "h", "5zh" },
-						{ "l", "5zl", { desc = "←/→" } },
-						{ "H", "zH" },
-						{ "L", "zL", { desc = "half screen ←/→" } },
-					},
-				})
+				local neogit = require("neogit")
+				neogit.setup({})
 			end,
 		})
 
@@ -229,7 +219,7 @@ return require("packer").startup({
 			requires = {
 				"nvim-lua/plenary.nvim",
 			},
-			config = config.git_signs,
+			config = require("config.gitsigns"),
 		})
 
 		use({
@@ -338,6 +328,91 @@ return require("packer").startup({
 				"nvim-lua/plenary.nvim",
 				"~/dev/neorg-telescope",
 			},
+		})
+
+		use({
+			"anuvyklack/hydra.nvim",
+			requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
+			config = function()
+				local Hydra = require("hydra")
+				Hydra({
+					name = "Side scroll",
+					mode = "n",
+					body = "z",
+					heads = {
+						{ "h", "5zh" },
+						{ "l", "5zl", { desc = "←/→" } },
+						{ "H", "zH" },
+						{ "L", "zL", { desc = "half screen ←/→" } },
+					},
+				})
+
+				local function open_or_move(direction)
+					local current_window = vim.fn.winnr()
+					vim.api.nvim_exec("wincmd " .. direction, false)
+
+					if current_window == vim.api.nvim_eval("winnr()") then
+						if vim.tbl_contains({ "j", "k" }, direction) then
+							vim.api.nvim_exec("wincmd s", false)
+						else
+							vim.api.nvim_exec("wincmd v", false)
+						end
+
+						vim.api.nvim_exec("wincmd " .. direction, false)
+					end
+				end
+
+				Hydra({
+					config = {
+						color = "pink",
+						invoke_on_body = true,
+					},
+					name = "windows n stuff",
+					mode = "n",
+					body = "<leader><leader>w",
+					heads = {
+						{ "L", "<c-w>L" },
+						{ "J", "<c-w>J" },
+						{ "K", "<c-w>K" },
+						{ "H", "<c-w>H" },
+
+						{
+							"l",
+							function()
+								open_or_move("l")
+							end,
+						},
+						{
+							"k",
+							function()
+								open_or_move("k")
+							end,
+						},
+						{
+							"j",
+							function()
+								open_or_move("j")
+							end,
+						},
+						{
+							"h",
+							function()
+								open_or_move("h")
+							end,
+						},
+
+						{ "<c-j>", ":vsp<CR>" },
+						{ "<c-l>", ":sp<CR>" },
+
+						{ "n", ":vnew<CR>" },
+						{ "o", "<c-w>o" },
+						{ "=", "<c-w>=" },
+
+						{ "w", ":w<cr>" },
+						{ "q", ":q<cr>" },
+					},
+				})
+			end,
 		})
 
 		if packer_bootstrap then
