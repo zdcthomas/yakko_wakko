@@ -19,8 +19,6 @@ end
 -- * mattn/emmet-vim
 -- * mbbill/undotree
 -- * rbong/vim-buffest
--- meme cyberpunk 2077 colorscheme
--- * use("akai54/2077.nvim")
 
 function PluginIsLoaded(plugin_name)
 	return packer_plugins[plugin_name] and packer_plugins[plugin_name].loaded
@@ -28,6 +26,7 @@ end
 
 return require("packer").startup({
 	function(use)
+		use("antoinemadec/FixCursorHold.nvim")
 		use("lewis6991/impatient.nvim")
 		use("michaeljsmith/vim-indent-object")
 		use("wbthomason/packer.nvim")
@@ -35,17 +34,20 @@ return require("packer").startup({
 		use("christoomey/vim-sort-motion", { keys = { "gs" } })
 
 		use({
-			"folke/which-key.nvim",
+			"anuvyklack/hydra.nvim",
+			requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
 			config = function()
-				require("which-key").setup({
-
-					window = {
-						border = "single", -- none, single, double, shadow
-						position = "top", -- bottom, top
+				local Hydra = require("hydra")
+				Hydra({
+					name = "Side scroll",
+					mode = "n",
+					body = "z",
+					heads = {
+						{ "h", "5zh" },
+						{ "l", "5zl", { desc = "←/→" } },
+						{ "H", "zH" },
+						{ "L", "zL", { desc = "half screen ←/→" } },
 					},
-					-- your configuration comes here
-					-- or leave it empty to use the default settings
-					-- refer to the configuration section below
 				})
 			end,
 		})
@@ -176,6 +178,13 @@ return require("packer").startup({
 			on = "InsertEnter",
 			config = config.autopairs,
 		})
+		use({
+			"L3MON4D3/LuaSnip",
+			-- requires = { "hrsh7th/vim-vsnip-integ" },
+			config = function()
+				require("config.luasnip")
+			end,
+		})
 
 		use({
 			"hrsh7th/nvim-cmp",
@@ -185,16 +194,10 @@ return require("packer").startup({
 				"hrsh7th/cmp-cmdline",
 				"hrsh7th/cmp-nvim-lsp",
 				"hrsh7th/cmp-path",
-				"hrsh7th/cmp-vsnip",
+				"saadparwaiz1/cmp_luasnip",
 				"onsails/lspkind-nvim",
 				"petertriho/cmp-git",
-				{
-					"hrsh7th/vim-vsnip",
-					requires = { "hrsh7th/vim-vsnip-integ" },
-					config = function()
-						vim.g.vsnip_snippet_dir = "~/yakko_wakko/config/nvim/snippets"
-					end,
-				},
+				"L3MON4D3/LuaSnip",
 			},
 			config = function()
 				-- See lspconfig comment on why this is in a function wrapper
@@ -287,9 +290,8 @@ return require("packer").startup({
 		use({
 			"neovim/nvim-lspconfig",
 			requires = {
-				"ckipp01/stylua-nvim",
+				-- "ckipp01/stylua-nvim",
 				"hrsh7th/nvim-cmp",
-				"hrsh7th/vim-vsnip",
 				"kosayoda/nvim-lightbulb",
 				"nvim-lua/lsp-status.nvim",
 				"nvim-telescope/telescope.nvim",
