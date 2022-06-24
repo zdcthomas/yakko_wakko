@@ -1,0 +1,55 @@
+{
+  "name": "cool-zach-snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "elixir"
+        ],
+        "path": "elixir.json"
+      },
+      {
+        "language": [
+          "html"
+        ],
+        "path": "html.json"
+      },
+      {
+        "language": [
+          "javascript"
+        ],
+        "path": "javascript.json"
+      },
+      {
+        "language": [
+          "lua"
+        ],
+        "path": "lua.json"
+      },
+      {
+        "language": [
+          "markdown"
+        ],
+        "path": "markdown.json"
+      },
+      {
+        "language": [
+          "ruby"
+        ],
+        "path": "ruby.json"
+      },
+      {
+        "language": [
+          "rust"
+        ],
+        "path": "rust.json"
+      },
+      {
+        "language": [
+          "typescript"
+        ],
+        "path": "typescript.json"
+      }
+    ]
+  }
+}

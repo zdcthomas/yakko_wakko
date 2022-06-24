@@ -1,4 +1,8 @@
 function Pr(...)
+	if ... == nil then
+		print("nil")
+		return ...
+	end
 	local args = {}
 	for _, arg in ipairs({ ... }) do
 		table.insert(args, vim.inspect(arg))
@@ -32,11 +36,10 @@ if pcall(require, "plenary") then
 	end
 end
 
-function RegisterKeyGroup(key_group_tab)
-	local ok, wk = pcall(require, "which-key")
-	if ok then
-		wk.register(key_group_tab)
-	else
-		vim.notify("Which key requested but not found", "warn")
+function Pquire(...)
+	local status, lib = pcall(require, ...)
+	if status then
+		return lib
 	end
+	return nil
 end

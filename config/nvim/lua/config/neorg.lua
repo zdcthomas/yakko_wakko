@@ -97,8 +97,10 @@ Module.setup = function()
 		-- log.warn("Entered a neorg buffer!")
 	end)
 
+	-- TODO: Change this event to when entering an actual norg file
 	---@diagnostic disable-next-line: missing-parameter
 	neorg_callbacks.on_event("core.keybinds.events.enable_keybinds", function(_, keybinds)
+		--TODO:  In here, put bindings to capture/view gtd
 		keybinds.map_event_to_mode("norg", {
 			n = {
 				{ "<Leader>fp", "core.integrations.telescope.find_linkable" },

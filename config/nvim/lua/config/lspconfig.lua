@@ -28,11 +28,7 @@ capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 function conf.lightbulb()
 	require("nvim-lightbulb").update_lightbulb({
 		sign = {
-			enabled = false,
-		},
-		float = {
 			enabled = true,
-			text = "💡",
 		},
 	})
 end
@@ -174,13 +170,14 @@ local function lua(config)
 			client.resolved_capabilities.document_formatting = false
 
 			common_on_attach(client, bufnr)
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				buffer = bufnr,
-				group = lspconfig_augroup,
-				callback = function()
-					require("stylua-nvim").format_file({ error_display_strategy = "none" })
-				end,
-			})
+			-- Stylua has been fucking up hard
+			-- vim.api.nvim_create_autocmd("BufWritePre", {
+			-- 	buffer = bufnr,
+			-- 	group = lspconfig_augroup,
+			-- 	callback = function()
+			-- 		require("stylua-nvim").format_file({ error_display_strategy = "none" })
+			-- 	end,
+			-- })
 		end,
 		capabilities = capabilities,
 		flags = {
@@ -251,9 +248,6 @@ function conf.setup()
 
 		require("lspconfig")[server].setup(config)
 	end
-
-	-- server:setup(config)
-	-- end)
 
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 		signs = true,
