@@ -111,6 +111,10 @@ return function()
 			map("n", "<leader>gA", gs.stage_buffer, { desc = "Stage entire buffer" })
 
 			map("n", "<leader>gr", gs.undo_stage_hunk, { desc = "Undo changes to a hunk" })
+			map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<cr>", { desc = "Stage hunk under cursor" })
+			map("n", "<leader>gA", gs.stage_buffer, { desc = "Stage entire buffer" })
+			map("n", "<leader>gr", gs.undo_stage_hunk, { desc = "Undo changes to a hunk" })
+
 			map({ "n", "v" }, "<leader>gu", ":Gitsigns reset_hunk<cr>", { desc = "Undo the staging of a hunk" })
 			map("n", "<leader>gU", gs.reset_buffer, { desc = "Undo the staging of buffer" })
 
@@ -122,7 +126,6 @@ return function()
 			map("n", "<leader>gb", function()
 				gs.blame_line({ full = true })
 			end, { desc = "Show full git blame" })
-
 			map("n", "<leader>gtb", gs.toggle_current_line_blame, { desc = "show git blame line" })
 
 			map("n", "<leader>gd", function()
@@ -136,6 +139,6 @@ return function()
 			end, { desc = "Send changes to quickfix list" })
 
 			map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "expand visual selection to hunk" })
-		end,
+    end
 	})
 end
