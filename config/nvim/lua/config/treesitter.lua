@@ -23,6 +23,8 @@ function Conf.setup()
 			"fish",
 			"gleam",
 			"graphql",
+			"markdown",
+			"markdown_inline",
 			"lua",
 			"norg",
 			"rust",
