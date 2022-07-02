@@ -32,13 +32,45 @@ return require("packer").startup({
 		use("wbthomason/packer.nvim")
 		use("MunifTanjim/nui.nvim")
 		use("christoomey/vim-sort-motion", { keys = { "gs" } })
-
 		use({
-			"TimUntersberger/neogit",
-			requires = "nvim-lua/plenary.nvim",
+			-- The only downside I've found to this vs sandwich is that tags don't have
+			-- the same nice syntax and the
+			"tpope/vim-surround",
+			requires = {
+				"https://github.com/tpope/vim-repeat",
+				{
+					"AndrewRadev/dsf.vim",
+					config = function()
+						vim.g.dsf_brackets = "("
+					end,
+				},
+			},
 			config = function()
-				local neogit = require("neogit")
-				neogit.setup({})
+				local surround_group = vim.api.nvim_create_augroup("Zurround", { clear = true })
+
+				vim.api.nvim_create_autocmd("FileType", {
+					group = surround_group,
+					pattern = { "lua" },
+					callback = function()
+						vim.cmd([[ let b:surround_{char2nr('F')} = "function()\n \r \nend" ]])
+					end,
+				})
+
+				vim.api.nvim_create_autocmd("FileType", {
+					group = surround_group,
+					pattern = { "elixir" },
+					callback = function()
+						vim.cmd([[ let b:surround_{char2nr('m')} = "%{ \r }" ]])
+					end,
+				})
+
+				vim.api.nvim_create_autocmd("FileType", {
+					group = surround_group,
+					pattern = { "lua" },
+					callback = function()
+						vim.cmd([[ let b:surround_{char2nr('g')} = "\1Generic: \1<\r>" ]])
+					end,
+				})
 			end,
 		})
 
@@ -154,14 +186,15 @@ return require("packer").startup({
 		-- 	end,
 		-- })
 
-		use({
-			"machakann/vim-sandwich",
-			config = function()
-				vim.cmd([[
-          exec 'source ' . "~/.vim/settings/plugins/sandwich_settings.vim"
-        ]])
-			end,
-		})
+		-- use({
+		-- 	"machakann/vim-sandwich",
+		-- 	config = function()
+		-- 		require("config.sandwich").setup()
+		-- 		-- vim.cmd([[
+		-- 		-- exec 'source ' . "~/.vim/settings/plugins/sandwich_settings.vim"
+		-- 		-- ]])
+		-- 	end,
+		-- })
 
 		use({
 			"windwp/nvim-autopairs",
@@ -322,6 +355,31 @@ return require("packer").startup({
 		})
 
 		use({
+			"mhartington/formatter.nvim",
+			-- Utilities for creating configurations
+			config = function()
+				vim.keymap.set("n", "<leader><leader>f", ":Format<CR>", { silent = true })
+				local util = require("formatter.util")
+
+				-- Provides the Format and FormatWrite commands
+				require("formatter").setup({
+					-- Enable or disable logging
+					logging = true,
+					-- Set the log level
+					log_level = vim.log.levels.WARN,
+					-- All formatter configurations are opt-in
+					filetype = {
+						-- Formatter configurations for filetype "lua" go here
+						-- and will be executed in order
+						lua = {
+							require("formatter.filetypes.lua").stylua,
+						},
+					},
+				})
+			end,
+		})
+
+		use({
 			"nvim-neorg/neorg",
 			config = require("config.neorg").setup,
 			requires = {
@@ -334,84 +392,7 @@ return require("packer").startup({
 			"anuvyklack/hydra.nvim",
 			requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
 			config = function()
-				local Hydra = require("hydra")
-				Hydra({
-					name = "Side scroll",
-					mode = "n",
-					body = "z",
-					heads = {
-						{ "h", "5zh" },
-						{ "l", "5zl", { desc = "←/→" } },
-						{ "H", "zH" },
-						{ "L", "zL", { desc = "half screen ←/→" } },
-					},
-				})
-
-				local function open_or_move(direction)
-					local current_window = vim.fn.winnr()
-					vim.api.nvim_exec("wincmd " .. direction, false)
-
-					if current_window == vim.api.nvim_eval("winnr()") then
-						if vim.tbl_contains({ "j", "k" }, direction) then
-							vim.api.nvim_exec("wincmd s", false)
-						else
-							vim.api.nvim_exec("wincmd v", false)
-						end
-
-						vim.api.nvim_exec("wincmd " .. direction, false)
-					end
-				end
-
-				Hydra({
-					config = {
-						color = "pink",
-						invoke_on_body = true,
-					},
-					name = "windows n stuff",
-					mode = "n",
-					body = "<leader><leader>w",
-					heads = {
-						{ "L", "<c-w>L" },
-						{ "J", "<c-w>J" },
-						{ "K", "<c-w>K" },
-						{ "H", "<c-w>H" },
-
-						{
-							"l",
-							function()
-								open_or_move("l")
-							end,
-						},
-						{
-							"k",
-							function()
-								open_or_move("k")
-							end,
-						},
-						{
-							"j",
-							function()
-								open_or_move("j")
-							end,
-						},
-						{
-							"h",
-							function()
-								open_or_move("h")
-							end,
-						},
-
-						{ "<c-j>", ":vsp<CR>" },
-						{ "<c-l>", ":sp<CR>" },
-
-						{ "n", ":vnew<CR>" },
-						{ "o", "<c-w>o" },
-						{ "=", "<c-w>=" },
-
-						{ "w", ":w<cr>" },
-						{ "q", ":q<cr>" },
-					},
-				})
+				require("config.hydra").setup()
 			end,
 		})
 
