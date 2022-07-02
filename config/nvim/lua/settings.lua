@@ -59,3 +59,6 @@ vim.opt.updatetime = 100
 vim.opt.virtualedit = "block"
 vim.opt.wildmenu = true
 vim.opt.wrap = false
+-- vim.opt.list = true
+-- vim.opt.listchars = { tab = "<-»", extends = "›", precedes = "‹", nbsp = "·", trail = "·" , eol = "↲"}
+-- vim.opt.showbreak = "↪"

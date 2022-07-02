@@ -22,6 +22,7 @@ Module.setup = function()
 			["core.integrations.telescope"] = {},
 			["core.integrations.nvim-cmp"] = {},
 			["core.export"] = {},
+			["core.tangle"] = {},
 			["core.export.markdown"] = {
 				config = {
 					extensions = "all",

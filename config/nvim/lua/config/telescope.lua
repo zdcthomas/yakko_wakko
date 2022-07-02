@@ -1,6 +1,9 @@
 local conf = {}
 
-local _slow_to_load_in_TS = { ".*%.ex", ".*%.exs" }
+local _slow_to_load_in_TS = {
+	".*%.ex",
+	".*%.exs",
+}
 
 require("telescope.actions")
 -- local local_insert_symbol_i = function(prompt_bufnr)
@@ -18,6 +21,8 @@ require("telescope.actions")
 -- 	end)
 -- end
 
+local action_layout = require("telescope.actions.layout")
+
 local bad_files = function(filepath)
 	for _, v in ipairs(_slow_to_load_in_TS) do
 		if filepath:match(v) then
@@ -28,15 +33,26 @@ local bad_files = function(filepath)
 	return true
 end
 
+local previewers = require("telescope.previewers")
+-- Stops previewer for troublesome fts, and for biggggg files
 local new_maker = function(filepath, bufnr, opts)
-	local previewers = require("telescope.previewers")
-
 	opts = opts or {}
 	if opts.use_ft_detect == nil then
 		opts.use_ft_detect = true
 	end
 	opts.use_ft_detect = opts.use_ft_detect == false and false or bad_files(filepath)
-	previewers.buffer_previewer_maker(filepath, bufnr, opts)
+
+	filepath = vim.fn.expand(filepath)
+	vim.loop.fs_stat(filepath, function(_, stat)
+		if not stat then
+			return
+		end
+		if stat.size > 100000 then
+			return
+		else
+			previewers.buffer_previewer_maker(filepath, bufnr, opts)
+		end
+	end)
 end
 
 local function fb_action(f)
@@ -85,44 +101,25 @@ function conf.setup()
 					["<m-l>"] = actions.select_vertical,
 					["<c-l>"] = require("telescope.actions.layout").cycle_layout_next,
 					["<c-/>"] = require("telescope.actions.generate").which_key,
+					["<M-p>"] = action_layout.toggle_preview,
 				},
 				n = {
 					["<tab>"] = actions.toggle_selection,
+					["<M-p>"] = action_layout.toggle_preview,
 					["<s-/>"] = require("telescope.actions.generate").which_key,
+					["<c-k>"] = actions.move_selection_previous,
+					["<c-j>"] = actions.move_selection_next,
 				},
 			},
-			sorting_strategy = "ascending",
-			layout_strategy = "vertical",
+			-- sorting_strategy = "ascending",
+			-- layout_strategy = "vertical",
 			dynamic_preview_title = true,
 			buffer_previewer_maker = new_maker,
 			layout_config = {
-				width = 0.95,
-				height = 0.85,
-				-- preview_cutoff = 120,
-				horizontal = {
-					preview_width = function(_, cols, _)
-						if cols > 200 then
-							return math.floor(cols * 0.4)
-						else
-							return math.floor(cols * 0.6)
-						end
-					end,
-					prompt_position = "top",
-				},
-
-				vertical = {
-					width = 0.9,
-					height = 0.95,
-					prompt_position = "top",
-					preview_height = 0.5,
-				},
-
-				flex = {
-					horizontal = {
-						preview_width = 0.9,
-					},
-				},
+				prompt_position = "top",
 			},
+			-- width = 0.95,
+			-- height = 0.85,
 		},
 		extensions = {
 			file_browser = {
@@ -134,9 +131,9 @@ function conf.setup()
 					n = {
 						["-"] = fb_action("goto_parent_dir"),
 					},
-					-- i = {
-					-- 	["-"] = fb_action("goto_parent_dir"),
-					-- },
+					i = {
+						["<c-p>"] = fb_action("goto_parent_dir"),
+					},
 				},
 			},
 			["ui-select"] = {
@@ -154,24 +151,24 @@ function conf.setup()
 			},
 		},
 	})
-	-- To get fzf loaded and working with telescope, you need to call
-	-- load_extension, somewhere after setup function:
 	telescope.load_extension("file_browser")
 	telescope.load_extension("fzf")
 	telescope.load_extension("ui-select")
 	local default_opts = { noremap = true, silent = true }
 
-	vim.keymap.set("n", "<leader>p", require("config.telescope").find_files, { silent = true, desc = "Find files" })
+	vim.keymap.set("n", "<leader>p", function()
+		require("config.telescope").find_files()
+	end, { silent = true, desc = "Find files" })
 	-- vim.keymap.set(
 	-- 	"n",
 	-- 	"-",
 	-- 	"<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>",
 	-- 	default_opts
 	-- )
-	vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<cr>", default_opts)
-	vim.keymap.set("n", "<Leader>F", ":Telescope live_grep<cr>", default_opts)
-	vim.keymap.set("n", "<Leader>*", ":Telescope grep_string<cr>", default_opts)
-	vim.keymap.set("n", "<Leader>gc", ":Telescope git_status<cr>", default_opts)
+	vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, default_opts)
+	vim.keymap.set("n", "<leader>F", require("telescope.builtin").live_grep, default_opts)
+	vim.keymap.set("n", "<leader>*", require("telescope.builtin").grep_string, default_opts)
+	-- vim.keymap.set("n", "<Leader>gc", ":Telescope git_status<cr>", default_opts)
 	-- vim.keymap.set(
 	-- 	"n",
 	-- 	"<Leader>wp",
@@ -182,6 +179,18 @@ end
 
 function conf.find_files()
 	require("telescope.builtin").find_files(require("telescope.themes").get_dropdown({
+		results_height = 20,
+		winblend = 20,
+		width = 0.8,
+		prompt_title = "",
+		prompt_prefix = "Files>",
+		previewer = false,
+		borderchars = {
+			{ "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+			prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+			results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+			preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+		},
 		path_display = { "smart" },
 		find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
 	}))
@@ -194,9 +203,9 @@ end
 function conf.lsp_bindings_for_buffer(bufnr)
 	require("packer").loader("telescope.nvim")
 	local opts = { buffer = bufnr, silent = false }
-	vim.keymap.set("n", "<Leader>q", "<Cmd>lua require('config.telescope').diagnostics()<cr>", opts)
-	vim.keymap.set("n", "<Leader>/", '<Cmd>lua require("telescope.builtin").lsp_document_symbols()<cr>', opts)
-	vim.keymap.set("n", "gd", '<Cmd>lua require("telescope.builtin").lsp_definitions()<cr>', opts)
+	vim.keymap.set("n", "<Leader>q", require("config.telescope").diagnostics, opts)
+	vim.keymap.set("n", "<Leader>/", require("telescope.builtin").lsp_document_symbols, opts)
+	vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
 end
 
 return conf

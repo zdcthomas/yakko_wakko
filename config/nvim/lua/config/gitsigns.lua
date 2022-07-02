@@ -29,10 +29,10 @@ return function()
 			local Hydra = Pquire("hydra")
 			if Hydra then
 				-- local hint = [[
-            -- _n_: next hunk     _a_: stage hunk        _A_: stage buffer   _b_: blame line
-            -- _p_: prev hunk     _U_: undo stage hunk   _P_: preview hunk   _B_: blame show full 
-            -- _<Enter>_: Neogit  _q_: Set qf list       _/_: show base file _<Esc>_: leave
-          -- ]]
+				-- _n_: next hunk     _a_: stage hunk        _A_: stage buffer   _b_: blame line
+				-- _p_: prev hunk     _U_: undo stage hunk   _P_: preview hunk   _B_: blame show full
+				--                    _q_: Set qf list       _/_: show base file _<Esc>_: leave
+				-- ]]
 
 				Hydra({
 					-- hint = hint,
@@ -102,8 +102,9 @@ return function()
 						-- 	end,
 						-- },
 						{ "/", gs.show, { exit = true } }, -- show the base of the file
-						-- { "<Enter>", "<cmd>Neogit<CR>", { exit = true } },
 						{ "<Esc>", nil, { exit = true, nowait = true } },
+						{ "<c-n>", ":cn<CR>" },
+						{ "<c-p>", ":cp<CR>" },
 					},
 				})
 			end
@@ -139,6 +140,6 @@ return function()
 			end, { desc = "Send changes to quickfix list" })
 
 			map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "expand visual selection to hunk" })
-    end
+		end,
 	})
 end
