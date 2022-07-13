@@ -237,7 +237,14 @@ function conf.setup()
 		config.capabilities = vim.tbl_extend("keep", config.capabilities, lsp_status.capabilities)
 
 		if server == "sumneko_lua" then
-			config = lua(config)
+			local lua_dev = pcall(require, "lua-dev")
+			if lua_dev then
+				config = lua(require("lua-dev").setup({ lspconfig = config }))
+			else
+				config = lua(config)
+			end
+
+			config = lua(require("lua-dev").setup({ lspconfig = config }))
 		elseif server == "typescript" then
 			config.on_attach = typescript_on_attach
 		elseif server == "elixirls" then

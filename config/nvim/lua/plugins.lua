@@ -31,6 +31,39 @@ return require("packer").startup({
 		use("michaeljsmith/vim-indent-object")
 		use("wbthomason/packer.nvim")
 		use("MunifTanjim/nui.nvim")
+		use({
+			"~/oss/yop.nvim/",
+			config = function()
+				local yop = require("yop")
+				local utils = require("yop.utils")
+
+				yop.op_map({ "n", "v" }, "<leader><leader>b", function(lines, info)
+					return { "bread" }
+				end)
+
+				yop.op_map({ "n", "v" }, "<leader><leader>gs", function(lines, opts)
+					-- We don't care about anything non alphanumeric here
+					local sort_without_leading_space = function(a, b)
+						-- true = a then b
+						-- false = b then a
+						local pattern = [[^%W*]]
+						return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
+					end
+					if #lines == 1 then
+						-- If only looking at 1 line, sort that line split by some char gotten from imput
+						local delimeter = utils.get_input("Delimeter: ")
+						local split = vim.split(lines[1], delimeter, { trimempty = true })
+						-- Remember! `table.sort` mutates the table itself
+						table.sort(split, sort_without_leading_space)
+						return { utils.join(split, delimeter) }
+					else
+						-- If there are many lines, sort the lines themselves
+						table.sort(lines, sort_without_leading_space)
+						return lines
+					end
+				end)
+			end,
+		})
 		use("christoomey/vim-sort-motion", { keys = { "gs" } })
 		use({
 			-- The only downside I've found to this vs sandwich is that tags don't have
@@ -73,6 +106,10 @@ return require("packer").startup({
 				})
 			end,
 		})
+		use({
+			"folke/lua-dev.nvim",
+			module = "lua-dev",
+		})
 
 		-- Find and replace goodness
 		use({
@@ -87,6 +124,13 @@ return require("packer").startup({
 					require("spectre").open_visual({ select_word = true })
 				end)
 				vim.keymap.set("n", "<leader>sf", require("spectre").open_file_search)
+			end,
+		})
+
+		use({
+			"luukvbaal/stabilize.nvim",
+			config = function()
+				require("stabilize").setup()
 			end,
 		})
 		use({ "kevinhwang91/nvim-bqf", ft = "qf" })
@@ -172,6 +216,7 @@ return require("packer").startup({
 			"rebelot/kanagawa.nvim",
 			config = config.kanagawa,
 		})
+		use({ "folke/tokyonight.nvim" })
 
 		use({
 			"rose-pine/neovim",
@@ -287,6 +332,8 @@ return require("packer").startup({
 					end,
 				},
 				{ "nvim-telescope/telescope-ui-select.nvim" },
+				-- There's some type of fatal issue here but it'd be amazing if it got resolved
+				{ "nvim-telescope/telescope-fzf-writer.nvim" },
 				{ "nvim-telescope/telescope-file-browser.nvim" },
 				{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 			},
@@ -326,6 +373,19 @@ return require("packer").startup({
 				-- wrapper, then any local function defined within config/lspconfig
 				-- won't be usable by the setup function. This makes no sense.
 				require("config.lspconfig").setup()
+			end,
+		})
+		use({
+			"nvim-lua/plenary.nvim",
+			config = function()
+				local plen_group = vim.api.nvim_create_augroup("PlenaryGroupBindings", { clear = true })
+				vim.api.nvim_create_autocmd("FileType", {
+					group = plen_group,
+					pattern = { "lua" },
+					callback = function()
+						vim.keymap.set("n", "<leader><leader>t", "<Plug>PlenaryTestFile", { buffer = true })
+					end,
+				})
 			end,
 		})
 
@@ -389,12 +449,25 @@ return require("packer").startup({
 		})
 
 		use({
+			"nvim-orgmode/orgmode",
+			config = function()
+				require("orgmode").setup_ts_grammar()
+				require("orgmode").setup({
+					org_agenda_files = { "~/irulan/org/*", "~/my-orgs/**/*" },
+					org_default_notes_file = "~/irulan/org/refile.org",
+				})
+			end,
+		})
+
+		use({
 			"anuvyklack/hydra.nvim",
 			requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
 			config = function()
 				require("config.hydra").setup()
 			end,
 		})
+
+		-- use("neovim/nvimdev.nvim")
 
 		if packer_bootstrap then
 			require("packer").sync()

@@ -16,12 +16,17 @@ function Conf.setup()
 			extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
 			max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
 		},
+		context_commentstring = {
+			enable = true,
+		},
 		ensure_installed = {
 			"bash",
 			"comment",
 			"dockerfile",
 			"fish",
 			"gleam",
+			"vim",
+			"org",
 			"graphql",
 			"markdown",
 			"markdown_inline",
@@ -32,6 +37,7 @@ function Conf.setup()
 		highlight = {
 			enable = true,
 			disable = { "elixir" },
+			additional_vim_regex_highlighting = { "org" },
 		},
 	})
 
