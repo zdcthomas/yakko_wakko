@@ -1,12 +1,12 @@
 local Module = {}
 local function keybindings_setup(keybinds)
-	keybinds.remap("norg", "n", "gtd", "<cmd>echo 'Hello!'<CR>")
 	keybinds.map_event_to_mode("norg", {
 		n = {
 			{ "<C-s>", "core.integrations.telescope.find_linkable" },
+			-- { "<C-s>", "core.integrations.telescope.find_linkable" },
 		},
 		i = {
-			{ "<C-l>", "core.integrations.telescope.insert_file_link" },
+			{ "<C-l>", "core.integrations.telescope.insert_link" },
 		},
 	}, {
 		silent = true,
@@ -18,7 +18,11 @@ Module.setup = function()
 	require("neorg").setup({
 		load = {
 			["core.defaults"] = {},
-			["core.norg.concealer"] = { config = { folds = false } },
+			["core.norg.concealer"] = {
+				config = {
+					folds = false,
+				},
+			},
 			["core.integrations.telescope"] = {},
 			["core.integrations.nvim-cmp"] = {},
 			["core.export"] = {},
@@ -80,6 +84,8 @@ Module.setup = function()
 				config = {
 					-- default_workspace = "wiki",
 					open_last_workspace = false,
+					autochdir = false,
+					default_workspace = "wiki",
 					workspaces = {
 						gtd = "~/irulan/gtd",
 						wiki = "~/irulan",
@@ -105,10 +111,13 @@ Module.setup = function()
 		keybinds.map_event_to_mode("norg", {
 			n = {
 				{ "<Leader>fp", "core.integrations.telescope.find_linkable" },
+				{ "<Leader>gv", "core.gtd.base.views" },
+				{ "<Leader>ge", "core.gtd.base.edit" },
+				{ "<Leader>gn", "core.gtd.base.capture" },
 			},
 			i = {
+				-- { "<C-,>", "core.integrations.telescope.insert_link" },
 				{ "<C-l>", "core.integrations.telescope.insert_link" },
-				{ "<C-f>", "core.integrations.telescope.insert_file_link" },
 			},
 		}, {
 			silent = true,

@@ -80,7 +80,7 @@ return function()
 						{ "r", gs.undo_stage_hunk },
 						{ "u", gs.reset_hunk },
 						{
-							"d",
+							"D",
 							function()
 								gs.diffthis("~")
 							end,
