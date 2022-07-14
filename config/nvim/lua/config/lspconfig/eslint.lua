@@ -1,0 +1,34 @@
+local Module = {}
+
+local common_on_attach = require("config.lspconfig.shared").common_on_attach
+local capabilities = require("config.lspconfig.shared").capabilities()
+
+Module.setup = function()
+	local config = {
+		on_attach = function(client, bufnr)
+			print("attached")
+			client.resolved_capabilities.document_formatting = true
+			common_on_attach(client, bufnr)
+		end,
+		capabilities = capabilities,
+		settings = {
+			format = { enable = true }, -- this will enable formatting
+		},
+		handlers = {
+			["eslint/probeFailed"] = function()
+				vim.notify("ESLint probe failed.", vim.log.levels.WARN)
+				--return { id = nil, result = true }
+				return {}
+			end,
+			["eslint/noLibrary"] = function()
+				vim.notify("Unable to find ESLint library.", vim.log.levels.WARN)
+				return {}
+				-- return { id = nil, result = true }
+			end,
+		},
+		cmd = vim.list_extend({ "yarn", "node" }, {}),
+	}
+	require("lspconfig")["eslint"].setup(config)
+end
+
+return Module
