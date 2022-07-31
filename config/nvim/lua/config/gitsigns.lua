@@ -1,5 +1,7 @@
 return function()
 	require("gitsigns").setup({
+	  signcolumn = false,
+		numhl = true,
 		signs = {
 			add = { hl = "GitSignsAdd", text = ">", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
 			change = { hl = "GitSignsChange", text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
@@ -17,7 +19,6 @@ return function()
 				linehl = "GitSignsChangeLn",
 			},
 		},
-		numhl = true,
 		on_attach = function(bufnr)
 			local function map(mode, l, r, opts)
 				opts = opts or {}

@@ -60,6 +60,15 @@ vim.opt.virtualedit = "block"
 vim.opt.wildmenu = true
 vim.opt.wrap = false
 vim.opt.pumblend = 25
--- vim.opt.list = true
--- vim.opt.listchars = { tab = "<-»", extends = "›", precedes = "‹", nbsp = "·", trail = "·" , eol = "↲"}
--- vim.opt.showbreak = "↪"
+
+vim.diagnostic.config({
+	header = false,
+	float = {
+		source = "always",
+		border = "rounded",
+	},
+	signs = false,
+	virtual_text = true,
+	underline = true,
+	update_in_insert = true,
+})

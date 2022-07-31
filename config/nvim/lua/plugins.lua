@@ -78,34 +78,9 @@ return require("packer").startup({
 					end,
 				},
 			},
-			config = function()
-				local surround_group = vim.api.nvim_create_augroup("Zurround", { clear = true })
-
-				vim.api.nvim_create_autocmd("FileType", {
-					group = surround_group,
-					pattern = { "lua" },
-					callback = function()
-						vim.cmd([[ let b:surround_{char2nr('F')} = "function()\n \r \nend" ]])
-					end,
-				})
-
-				vim.api.nvim_create_autocmd("FileType", {
-					group = surround_group,
-					pattern = { "elixir" },
-					callback = function()
-						vim.cmd([[ let b:surround_{char2nr('m')} = "%{ \r }" ]])
-					end,
-				})
-
-				vim.api.nvim_create_autocmd("FileType", {
-					group = surround_group,
-					pattern = { "lua" },
-					callback = function()
-						vim.cmd([[ let b:surround_{char2nr('g')} = "\1Generic: \1<\r>" ]])
-					end,
-				})
-			end,
+			config = require("config.vim_surround").setup,
 		})
+
 		use({
 			"folke/lua-dev.nvim",
 			module = "lua-dev",
@@ -146,8 +121,19 @@ return require("packer").startup({
 							InclineNormalNC = "PmenuSbar",
 						},
 					},
+					window = {
+					  winhighlight = {
+					    inactive = {
+					      Normal = ""
+					    }
+					  },
+					  margin = {
+					    vertical = 0
+					  }
+					},
 					hide = {
-						focused_win = false,
+						focused_win = true,
+						only_win = true,
 					},
 				})
 			end,
@@ -246,6 +232,7 @@ return require("packer").startup({
 			on = "InsertEnter",
 			config = config.autopairs,
 		})
+
 		use({
 			"L3MON4D3/LuaSnip",
 			-- requires = { "hrsh7th/vim-vsnip-integ" },
@@ -375,6 +362,7 @@ return require("packer").startup({
 				require("config.lspconfig").setup()
 			end,
 		})
+
 		use({
 			"nvim-lua/plenary.nvim",
 			config = function()
@@ -466,6 +454,13 @@ return require("packer").startup({
 				require("config.hydra").setup()
 			end,
 		})
+
+		-- use({
+		-- 	"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+		-- 	config = function()
+		-- 		require("lsp_lines").setup()
+		-- 	end,
+		-- })
 
 		-- use("neovim/nvimdev.nvim")
 

@@ -32,8 +32,6 @@ export PS1="$cyan\u$white@$yellow \w$white \$(git_branch) \$(dirty) \n$in_prompt
 export PS2=$in_prompt
 export PS2="| ?> "
 
-export PATH=/usr/local/bin:$PATH
-
 # export PATH="$HOME/.rbenv/bin:$PATH"
 # if rbenv 2>/dev/null; then
 #   eval "$(rbenv init -)"
@@ -42,26 +40,26 @@ export PATH=/usr/local/bin:$PATH
 #   eval "$(pyenv init -)"
 # fi
 
-make_rails(){
-  rails new $1 -T -d=postgresql --skip-turbolinks --skip-spring $2
-  cd $1
-  bundle add rspec-rails
-  bundle add pry
-  bundle add selenium
-  bundle add capybara
-  bundle install
-  bundle update
+# make_rails(){
+#   rails new $1 -T -d=postgresql --skip-turbolinks --skip-spring $2
+#   cd $1
+#   bundle add rspec-rails
+#   bundle add pry
+#   bundle add selenium
+#   bundle add capybara
+#   bundle install
+#   bundle update
 
-  rails g rspec:install
-  mkdir spec/features
-  mkdir spec/models
+#   rails g rspec:install
+#   mkdir spec/features
+#   mkdir spec/models
 
-  git add .
-  git commit -m "Initial Commit"
+#   git add .
+#   git commit -m "Initial Commit"
 
-  nvim
-}
+#   nvim
+# }
 
 source ~/.profile
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-eval "$(nodenv init -)"
+eval "$(fnm env --use-on-cd)"

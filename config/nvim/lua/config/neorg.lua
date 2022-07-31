@@ -129,6 +129,16 @@ Module.setup = function()
 	neorg_callbacks.on_event("core.autocommands.events.bufenter", function(_, _)
 		vim.opt.spell.setlocal = true
 	end)
+
+	local neorg_group = vim.api.nvim_create_augroup("Zeorg", { clear = true })
+
+	vim.api.nvim_create_autocmd("FileType", {
+		group = neorg_group,
+		pattern = { "norg" },
+		callback = function()
+			vim.opt_local.spell = true
+		end,
+	})
 end
 
 return Module
