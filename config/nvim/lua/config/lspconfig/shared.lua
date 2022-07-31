@@ -3,44 +3,40 @@ local Module = {}
 Module.lspconfig_augroup = vim.api.nvim_create_augroup("LspConfigAuGroup", { clear = false })
 
 function Module.capabilities()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-      "documentation",
-      "detail",
-      "additionalTextEdits",
-    },
-  }
+	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	capabilities.textDocument.completion.completionItem.snippetSupport = true
+	capabilities.textDocument.completion.completionItem.resolveSupport = {
+		properties = {
+			"documentation",
+			"detail",
+			"additionalTextEdits",
+		},
+	}
 
-  capabilities.textDocument.codeAction = {
-    dynamicRegistration = true,
-    codeActionLiteralSupport = {
-      codeActionKind = {
-        valueSet = (function()
-          local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
-          table.sort(res)
-          return res
-        end)(),
-      },
-    },
-  }
+	capabilities.textDocument.codeAction = {
+		dynamicRegistration = true,
+		codeActionLiteralSupport = {
+			codeActionKind = {
+				valueSet = (function()
+					local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
+					table.sort(res)
+					return res
+				end)(),
+			},
+		},
+	}
 
-  capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
-  local ok, lsp_status = pcall(require, "lsp-status")
-  if ok then
-    capabilities = vim.tbl_extend("keep", capabilities, lsp_status.capabilities) or capabilities
-  end
-  return capabilities
+	capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+	local ok, lsp_status = pcall(require, "lsp-status")
+	if ok then
+		capabilities = vim.tbl_extend("keep", capabilities, lsp_status.capabilities) or capabilities
+	end
+	return capabilities
 end
 
 Module.common_on_attach = function(client, bufnr)
 	vim.api.nvim_clear_autocmds({ buffer = bufnr, group = Module.lspconfig_augroup })
-	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-		vim.lsp.handlers.signature_help,
-		{ border = "rounded" }
-	)
+
 	vim.api.nvim_create_autocmd(
 		{ "CursorHold", "CursorHoldI" },
 		{ callback = require("config.lspconfig").lightbulb, buffer = bufnr, group = Module.lspconfig_augroup }
@@ -90,7 +86,7 @@ Module.common_on_attach = function(client, bufnr)
 		auto_close_after = 4,
 		max_width = 60,
 		handler_opts = {
-			border = "rounded", -- double, rounded, single, shadow, none
+			border = "double", -- double, rounded, single, shadow, none
 		},
 	})
 end

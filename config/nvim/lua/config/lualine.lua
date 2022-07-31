@@ -1,16 +1,14 @@
 local Module = {}
-
 Module.config = {
-	extensions = { "quickfix" },
+	extensions = { "quickfix", "man" },
 	disabled_filetypes = { "startify" },
 	options = {
 		theme = "auto",
 		section_separators = { left = "", right = "" },
-		component_separators = { left = "", right = "" },
+		-- component_separators = { left = "", right = "" },
 		globalstatus = true,
 	},
 	sections = {
-		lualine_b = { "diff" },
 		lualine_a = {
 			{
 				"filename",
@@ -19,9 +17,10 @@ Module.config = {
 				shorting_target = 40,
 			},
 		},
+		lualine_b = { "diff" },
 		lualine_c = { "require'lsp-status'.status()" },
-		lualine_x = { "location" },
-		lualine_y = {},
+		lualine_x = { "location", "progress" },
+		lualine_y = { "encoding" },
 		lualine_z = { { "filetype", colored = false } },
 	},
 	inactive_sections = {
@@ -38,7 +37,7 @@ Module.config = {
 		lualine_c = {},
 		lualine_x = {},
 		lualine_y = {},
-		lualine_z = { "buffers" },
+		lualine_z = { "windows" },
 	},
 }
 

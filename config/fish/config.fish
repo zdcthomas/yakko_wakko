@@ -42,10 +42,10 @@ if type -q pyenv
   status --is-interactive; and source (pyenv init -|psub)
 end
 
-if type -q nodenv
-  status --is-interactive; and source (nodenv init -|psub)
-  set -Ux fish_user_paths $HOME/.nodenv/bin $fish_user_paths
-end
+# if type -q nodenv
+#   status --is-interactive; and source (nodenv init -|psub)
+#   set -Ux fish_user_paths $HOME/.nodenv/bin $fish_user_paths
+# end
 
 if type -q npm
   set fish_user_paths (npm bin)
@@ -59,6 +59,10 @@ end
 # set fish_color_param brgreen
 if type -q direnv
   direnv hook fish | source 
+end
+
+if type -q fnm
+  fnm env --use-on-cd | source
 end
 
 # function fcd

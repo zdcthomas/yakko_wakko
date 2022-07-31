@@ -49,4 +49,4 @@ require("autocmds")
 -- Defines global keymaps. `:h vim.keymap` and `:h map` to learn more!
 require("keymaps")
 
-vim.cmd("colorscheme kanagawa")
+vim.cmd("colorscheme rose-pine")
