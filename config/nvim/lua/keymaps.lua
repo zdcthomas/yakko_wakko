@@ -39,3 +39,25 @@ end, {
 	desc = "Send diagnostics to location list",
 })
 vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, { silent = false, desc = "Show diagnostic in float" })
+local remove_qf_item = function()
+	local current_quick_fix_index = vim.fn.line(".")
+	local quickfix_list = vim.fn.getqflist()
+	table.remove(quickfix_list, current_quick_fix_index)
+	vim.fn.setqflist(quickfix_list, "r")
+	vim.cmd("execute " .. current_quick_fix_index .. "cfirst")
+end
+
+vim.cmd([[
+  " When using `dd` in the quickfix list, remove the item from the quickfix list.
+  function! RemoveQFItem()
+    let curqfidx = line('.') - 1
+    let qfall = getqflist()
+    call remove(qfall, curqfidx)
+    call setqflist(qfall, 'r')
+    execute curqfidx + 1 . "cfirst"
+    :copen
+  endfunction
+  :command! RemoveQFItem :call RemoveQFItem()
+  " Use map <buffer> to only map dd in the quickfix window. Requires +localmap
+  autocmd FileType qf map <buffer> dd :RemoveQFItem<cr>
+]])

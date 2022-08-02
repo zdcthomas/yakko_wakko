@@ -15,6 +15,13 @@ local function keybindings_setup(keybinds)
 end
 
 Module.setup = function()
+	vim.keymap.set("n", "<leader><leader>nt", function()
+		if not require("neorg").is_loaded() then
+			vim.cmd("NeorgStart silent=true")
+		end
+		vim.cmd("Neorg gtd views")
+	end)
+
 	require("neorg").setup({
 		load = {
 			["core.defaults"] = {},
@@ -82,7 +89,6 @@ Module.setup = function()
 			},
 			["core.norg.dirman"] = {
 				config = {
-					-- default_workspace = "wiki",
 					open_last_workspace = false,
 					autochdir = false,
 					default_workspace = "wiki",
