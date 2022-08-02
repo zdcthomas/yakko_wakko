@@ -7,14 +7,6 @@ else
   alias la='ls -la'
 end
 
-alias l="ls -laFGghq"
-
-if type -q vim
-  alias fsh='vim ~/.config/fish/'
-  alias vrc='vim ~/.vim/settings/'
-  alias tmc='vim ~/.tmux.conf'
-end
-
 if type -q git
   alias gco='git switch'
   alias gs='git status'
