@@ -95,7 +95,9 @@ end
 
 source ~/.profile
 
-set fish_function_path $fish_function_path ~/plugin-foreign-env/functions
+if test -e ~/plugin-foreign-env/functions
+  set fish_function_path $fish_function_path ~/plugin-foreign-env/functions
+end
 
 if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
   fenv source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
