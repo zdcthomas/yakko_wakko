@@ -92,4 +92,11 @@ function circle
   open https://circleci.com/gh/"$org_and_repo"/tree/"$branch"
 end
 
+
 source ~/.profile
+
+set fish_function_path $fish_function_path ~/plugin-foreign-env/functions
+
+if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  fenv source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+end
