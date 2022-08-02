@@ -17,11 +17,10 @@ export DIFFPROG="nvim -d"
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.mix/escripts:$PATH"
 export PATH="/usr/local/Cellar/tfenv/2.0.0/bin:$PATH"
 export PATH="$PATH:$HOME/go/bin"
-export PATH=/usr/local/bin:$PATH
+export PATH="/usr/local/bin:$PATH"
 
 alias n="nvim"
