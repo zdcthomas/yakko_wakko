@@ -39,9 +39,11 @@ function conf.setup()
 		"yamlls",
 		"prosemd_lsp",
 		"marksman",
+		"rnix",
+		"bashls",
 	}
 
-	require("nvim-lsp-installer").setup({
+	require("mason-lspconfig").setup({
 		automatic_installation = true,
 	})
 	require("config.lspconfig.elixir").setup()

@@ -1,4 +1,60 @@
-local Module = {}
+local Hydra = Pquire("hydra")
+if not Hydra then
+	return
+end
+
+local Module = {
+	g_hydras = {
+		-- {
+		--   key = "string",
+		--   description = "string",
+		--   hydra = a hyrda
+		-- }
+	},
+}
+
+local function rebuild_hydra()
+	local beeg_boi = {
+		name = "EVERYTHING",
+		config = {
+			invoke_on_body = true,
+			hint = {
+				type = "window",
+				position = "top-right",
+				border = "double",
+			},
+		},
+		mode = "n",
+		body = "<Leader>;",
+		heads = {
+			{ "<Esc>", nil, { exit = true } },
+		},
+	}
+
+	for _, hydra in ipairs(Module.g_hydras) do
+		table.insert(beeg_boi.heads, {
+			hydra.key,
+			function()
+				hydra.hydra:activate()
+			end,
+			{ desc = hydra.desc or "", exit = true },
+		})
+	end
+
+	Hydra(beeg_boi)
+end
+
+function Module.add_g_hydra(hyd)
+	vim.validate({
+		key = { hyd.key, "string" },
+		description = { hyd.description, { "string", "nil" } },
+		hydra = { hyd.hydra, "table" },
+	})
+
+	table.insert(Module.g_hydras, hyd)
+
+	rebuild_hydra()
+end
 
 local function cmd(command)
 	return "<CMD>" .. command .. "<CR>"
@@ -56,7 +112,7 @@ local function side_scroll(Hydra)
 end
 
 local function windows(Hydra)
-	Hydra({
+	local win_hy = Hydra({
 		config = {
 			hint = {
 				border = "rounded",
@@ -68,7 +124,8 @@ local function windows(Hydra)
 		hint = window_hint,
 		name = "windows n stuff",
 		mode = "n",
-		body = "<leader><leader>w",
+		-- what happens if this is still here?
+		-- body = "<leader><leader>w",
 		heads = {
 			{ "L", "<c-w>L" },
 			{ "J", "<c-w>J" },
@@ -95,10 +152,12 @@ local function windows(Hydra)
 			{ "<ESC>", nil, { exit = true, nowait = true } },
 		},
 	})
+
+	Module.add_g_hydra({ key = "w", hydra = win_hy, desc = "Window managment" })
 end
 
 local function telescope(Hydra)
-	Hydra({
+	local tel_hy = Hydra({
 		name = "Telescope",
 		hint = telescope_hint,
 		config = {
@@ -110,7 +169,6 @@ local function telescope(Hydra)
 			},
 		},
 		mode = "n",
-		body = "<Leader>f",
 		heads = {
 			{ "p", cmd("Telescope find_files") },
 			{ "F", cmd("Telescope live_grep") },
@@ -128,10 +186,11 @@ local function telescope(Hydra)
 			{ "<Esc>", nil, { exit = true, nowait = true } },
 		},
 	})
+
+	Module.add_g_hydra({ key = "t", hydra = tel_hy, desc = "Telescope" })
 end
 
 Module.setup = function()
-	local Hydra = require("hydra")
 	side_scroll(Hydra)
 	windows(Hydra)
 	telescope(Hydra)

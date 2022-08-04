@@ -47,6 +47,8 @@ local remove_qf_item = function()
 	vim.cmd("execute " .. current_quick_fix_index .. "cfirst")
 end
 
+-- TODO: add autocmd to qf list ft
+
 vim.cmd([[
   " When using `dd` in the quickfix list, remove the item from the quickfix list.
   function! RemoveQFItem()

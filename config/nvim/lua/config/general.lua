@@ -78,7 +78,7 @@ function Config.venn()
     ^ ^ _J_ ^ ^   _<Esc>_
     ]]
 
-		Hydra({
+		local ven_hyd = Hydra({
 			name = "Draw Diagram",
 			hint = hint,
 			config = {
@@ -92,7 +92,6 @@ function Config.venn()
 				end,
 			},
 			mode = "n",
-			body = "<leader>v",
 			heads = {
 				{ "H", "<C-v>h:VBox<CR>" },
 				{ "J", "<C-v>j:VBox<CR>" },
@@ -102,6 +101,8 @@ function Config.venn()
 				{ "<Esc>", nil, { exit = true } },
 			},
 		})
+
+		require("config.hydra").add_g_hydra({key = "v", hydra = ven_hyd , desc = "Venn Mode"})
 	else
 		local function toggle_venn()
 			local venn_enabled = vim.inspect(vim.b.venn_enabled)

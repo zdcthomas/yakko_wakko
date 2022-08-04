@@ -36,12 +36,7 @@ return require("packer").startup({
 			config = function()
 				local yop = require("yop")
 				local utils = require("yop.utils")
-
-				yop.op_map({ "n", "v" }, "<leader><leader>b", function(lines, info)
-					return { "bread" }
-				end)
-
-				yop.op_map({ "n", "v" }, "<leader><leader>gs", function(lines, opts)
+				yop.op_map({ "n", "v" }, "gs", function(lines, opts)
 					-- We don't care about anything non alphanumeric here
 					local sort_without_leading_space = function(a, b)
 						-- true = a then b
@@ -50,6 +45,29 @@ return require("packer").startup({
 						return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
 					end
 					if #lines == 1 then
+						-- let startpos = match(@@, '\v\i')
+						-- let parts = split(@@, '\v\i+')
+						-- if startpos > 0
+						--   let prefix = parts[0]
+						--   let delimiter = parts[1]
+						--   let suffix = parts[-1]
+						-- else
+						--   let prefix = ''
+						--   let delimiter = parts[0]
+						--   let suffix = ''
+						-- endif
+						-- if prefix == delimiter
+						--   let prefix = ''
+						-- endif
+						-- if suffix == delimiter
+						--   let suffix = ''
+						-- endif
+						-- let sortstart = strlen(prefix)
+						-- let sortend = strlen(@@) - sortstart - strlen(suffix)
+						-- let sortables = strpart(@@, sortstart, sortend)
+						-- let sorted = join(sort(split(sortables, '\V' . escape(delimiter, '\'))), delimiter)
+						-- execute "normal! v`]c" . prefix . sorted . suffix
+						-- execute "normal! `["
 						-- If only looking at 1 line, sort that line split by some char gotten from imput
 						local delimeter = utils.get_input("Delimeter: ")
 						local split = vim.split(lines[1], delimeter, { trimempty = true })
@@ -70,7 +88,7 @@ return require("packer").startup({
 			-- the same nice syntax and the
 			"tpope/vim-surround",
 			requires = {
-				"https://github.com/tpope/vim-repeat",
+				"tpope/vim-repeat",
 				{
 					"AndrewRadev/dsf.vim",
 					config = function()
@@ -122,14 +140,14 @@ return require("packer").startup({
 						},
 					},
 					window = {
-					  winhighlight = {
-					    inactive = {
-					      Normal = ""
-					    }
-					  },
-					  margin = {
-					    vertical = 0
-					  }
+						winhighlight = {
+							inactive = {
+								Normal = "",
+							},
+						},
+						margin = {
+							vertical = 0,
+						},
 					},
 					hide = {
 						focused_win = true,
@@ -209,23 +227,6 @@ return require("packer").startup({
 			as = "rose-pine",
 			config = config.rose_pine,
 		})
-
-		-- use({
-		-- 	"https://gitlab.com/yorickpeterse/nvim-pqf.git",
-		-- 	config = function()
-		-- 		require("pqf").setup()
-		-- 	end,
-		-- })
-
-		-- use({
-		-- 	"machakann/vim-sandwich",
-		-- 	config = function()
-		-- 		require("config.sandwich").setup()
-		-- 		-- vim.cmd([[
-		-- 		-- exec 'source ' . "~/.vim/settings/plugins/sandwich_settings.vim"
-		-- 		-- ]])
-		-- 	end,
-		-- })
 
 		use({
 			"windwp/nvim-autopairs",
@@ -343,6 +344,13 @@ return require("packer").startup({
 				require("config.treesitter").setup()
 			end,
 		})
+		use({
+			"williamboman/mason.nvim",
+			requires = { "williamboman/mason-lspconfig.nvim" },
+			config = function()
+				require("mason").setup()
+			end,
+		})
 
 		use({
 			"neovim/nvim-lspconfig",
@@ -353,7 +361,7 @@ return require("packer").startup({
 				"nvim-lua/lsp-status.nvim",
 				"nvim-telescope/telescope.nvim",
 				"ray-x/lsp_signature.nvim",
-				"williamboman/nvim-lsp-installer",
+				"williamboman/mason.nvim",
 			},
 			config = function()
 				-- Ok I really don't understand this. If I remove this function
@@ -449,7 +457,6 @@ return require("packer").startup({
 
 		use({
 			"anuvyklack/hydra.nvim",
-			requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
 			config = function()
 				require("config.hydra").setup()
 			end,
