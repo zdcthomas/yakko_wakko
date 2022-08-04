@@ -24,7 +24,8 @@
 -- | !_! | | !_! | | !_________________________________________________! | | !_! | | !_! |
 -- !_____! !_____! !_____________________________________________________! !_____! !_____!
 
-require("impatient")
+-- On first install, this won't be here
+pcall(require, "impatient")
 
 -- Settings.lua contains all global options that are set. Most of these will
 -- should have a description. This has to come first, since it defines the
@@ -48,4 +49,4 @@ require("autocmds")
 -- Defines global keymaps. `:h vim.keymap` and `:h map` to learn more!
 require("keymaps")
 
-vim.cmd("colorscheme kanagawa")
+vim.cmd("colorscheme rose-pine")
