@@ -29,13 +29,8 @@ return function()
 			local gs = package.loaded.gitsigns
 			local Hydra = Pquire("hydra")
 			if Hydra then
-				-- local hint = [[
-				-- _n_: next hunk     _a_: stage hunk        _A_: stage buffer   _b_: blame line
-				-- _p_: prev hunk     _U_: undo stage hunk   _P_: preview hunk   _B_: blame show full
-				--                    _q_: Set qf list       _/_: show base file _<Esc>_: leave
-				-- ]]
 
-				Hydra({
+				local git_hyd = Hydra({
 					-- hint = hint,
 					config = {
 						color = "pink",
@@ -49,7 +44,7 @@ return function()
 						end,
 					},
 					mode = "n",
-					body = "<leader><leader>g",
+					-- body = "<leader><leader>g",
 					heads = {
 						{
 							"n",
@@ -108,6 +103,8 @@ return function()
 						{ "<c-p>", ":cp<CR>" },
 					},
 				})
+
+				require("config.hydra").add_g_hydra({key = "g", hydra =  git_hyd, desc = "Git"})
 			end
 			map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<cr>", { desc = "Stage hunk under cursor" })
 			map("n", "<leader>gA", gs.stage_buffer, { desc = "Stage entire buffer" })

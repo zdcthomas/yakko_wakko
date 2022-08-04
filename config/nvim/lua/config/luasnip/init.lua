@@ -188,7 +188,7 @@ ls.add_snippets("lua", {
 					-- get from the system clipboard
 					local clip = vim.fn.getreg("*", 1, true)[1]
 					-- get the packer/plug usable location from either a full url or just a part
-					get_username_and_reponame_from_url(clip)
+					return get_username_and_reponame_from_url(clip)
 				end),
 				i(2),
 			},
