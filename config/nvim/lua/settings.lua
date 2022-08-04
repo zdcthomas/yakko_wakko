@@ -59,3 +59,16 @@ vim.opt.updatetime = 100
 vim.opt.virtualedit = "block"
 vim.opt.wildmenu = true
 vim.opt.wrap = false
+vim.opt.pumblend = 25
+
+vim.diagnostic.config({
+	header = false,
+	float = {
+		source = "always",
+		border = "rounded",
+	},
+	signs = false,
+	virtual_text = true,
+	underline = true,
+	update_in_insert = false,
+})

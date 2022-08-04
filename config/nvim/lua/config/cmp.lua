@@ -193,6 +193,7 @@ function conf.setup()
 			{ name = "nvim_lsp", priority = 9 },
 			{ name = "path", priority = 5 },
 			{ name = "neorg", priority = 6 },
+			{ name = "orgmode", priority = 6 },
 		}, {
 			{ name = "calc" },
 		}),

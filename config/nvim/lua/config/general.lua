@@ -68,33 +68,64 @@ end
 
 function Config.venn()
 	-- enable or disable keymappings for venn
-	function _G.toggle_venn()
-		local venn_enabled = vim.inspect(vim.b.venn_enabled)
-		if venn_enabled == "nil" then
-			print("venn mode activated!")
-			vim.cmd("LspStop")
-			vim.cmd("HardTimeOff")
-			vim.b.venn_enabled = true
-			vim.cmd([[setlocal ve=all]])
-			-- draw a line on HJKL keystokes
-			vim.keymap.set("n", "J", "<C-v>j:VBox<cr>", { buffer = true })
-			vim.keymap.set("n", "K", "<C-v>k:VBox<cr>", { buffer = true })
-			vim.keymap.set("n", "L", "<C-v>l:VBox<cr>", { buffer = true })
-			vim.keymap.set("n", "H", "<C-v>h:VBox<cr>", { buffer = true })
-			-- draw a box by pressing "f" with visual selection
-			vim.keymap.set("v", "f", ":VBox<cr>", { buffer = true })
-		else
-			print("venn mode disengaged!")
-			vim.cmd("LspStart")
-			vim.cmd("HardTimeOn")
-			vim.cmd([[setlocal ve=]])
-			vim.cmd([[mapclear <buffer>]])
-			vim.b.venn_enabled = nil
-		end
-	end
 
-	-- toggle keymappings for venn using <leader>v
-	vim.keymap.set("n", "<leader>v", ":lua toggle_venn()<cr>", { silent = true, desc = "Toggle Venn mode" })
+	local Hydra = Pquire("hydra")
+	if Hydra then
+		local hint = [[
+		Arrow
+    ^ ^ _K_ ^ ^   _f_: box it
+    _H_ ^ ^ _L_
+    ^ ^ _J_ ^ ^   _<Esc>_
+    ]]
+
+		local ven_hyd = Hydra({
+			name = "Draw Diagram",
+			hint = hint,
+			config = {
+				color = "pink",
+				invoke_on_body = true,
+				hint = {
+					border = "rounded",
+				},
+				on_enter = function()
+					vim.o.virtualedit = "all"
+				end,
+			},
+			mode = "n",
+			heads = {
+				{ "H", "<C-v>h:VBox<CR>" },
+				{ "J", "<C-v>j:VBox<CR>" },
+				{ "K", "<C-v>k:VBox<CR>" },
+				{ "L", "<C-v>l:VBox<CR>" },
+				{ "f", ":VBox<CR>", { mode = "v" } },
+				{ "<Esc>", nil, { exit = true } },
+			},
+		})
+
+		require("config.hydra").add_g_hydra({key = "v", hydra = ven_hyd , desc = "Venn Mode"})
+	else
+		local function toggle_venn()
+			local venn_enabled = vim.inspect(vim.b.venn_enabled)
+			if venn_enabled == "nil" then
+				print("venn mode activated!")
+				vim.b.venn_enabled = true
+				vim.cmd([[setlocal ve=all]])
+				-- draw a line on HJKL keystokes
+				vim.keymap.set("n", "J", "<C-v>j:VBox<cr>", { buffer = true })
+				vim.keymap.set("n", "K", "<C-v>k:VBox<cr>", { buffer = true })
+				vim.keymap.set("n", "L", "<C-v>l:VBox<cr>", { buffer = true })
+				vim.keymap.set("n", "H", "<C-v>h:VBox<cr>", { buffer = true })
+				-- draw a box by pressing "f" with visual selection
+				vim.keymap.set("v", "f", ":VBox<cr>", { buffer = true })
+			else
+				print("venn mode disengaged!")
+				vim.cmd([[setlocal ve=]])
+				vim.cmd([[mapclear <buffer>]])
+				vim.b.venn_enabled = nil
+			end
+		end
+		vim.keymap.set("n", "<leader>v", toggle_venn, { silent = true, desc = "Toggle Venn mode" })
+	end
 end
 
 function Config.notify()
@@ -157,67 +188,6 @@ end
 function Config.easy_align()
 	vim.keymap.set("x", "ga", "<Plug>(EasyAlign)", { noremap = false })
 	vim.keymap.set("n", "ga", "<Plug>(EasyAlign)", { noremap = false })
-end
-
-function Config.git_signs()
-	require("gitsigns").setup({
-		signs = {
-			add = { hl = "GitSignsAdd", text = ">", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-			change = { hl = "GitSignsChange", text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-			delete = { hl = "GitSignsDelete", text = "-", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-			topdelete = {
-				hl = "GitSignsDelete",
-				text = "‾",
-				numhl = "GitSignsDeleteNr",
-				linehl = "GitSignsDeleteLn",
-			},
-			changedelete = {
-				hl = "GitSignsChange",
-				text = "~",
-				numhl = "GitSignsChangeNr",
-				linehl = "GitSignsChangeLn",
-			},
-		},
-		numhl = true,
-		on_attach = function(bufnr)
-			local function map(mode, l, r, opts)
-				opts = opts or {}
-				opts.buffer = bufnr
-				vim.keymap.set(mode, l, r, opts)
-			end
-
-			local gs = package.loaded.gitsigns
-
-			map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<cr>", { desc = "Stage hunk under cursor" })
-			map("n", "<leader>gA", gs.stage_buffer, { desc = "Stage entire buffer" })
-			map("n", "<leader>gr", gs.undo_stage_hunk, { desc = "Undo changes to a hunk" })
-
-			map({ "n", "v" }, "<leader>gu", ":Gitsigns reset_hunk<cr>", { desc = "Undo the staging of a hunk" })
-			map("n", "<leader>gU", gs.reset_buffer, { desc = "Undo the staging of buffer" })
-
-			map("n", "<leader>gn", gs.next_hunk, { desc = "Next hunkk" })
-			map("n", "<leader>gp", gs.prev_hunk, { desc = "Previous hunk" })
-
-			map("n", "<leader>gs", gs.preview_hunk, { desc = "Show hunk diff" })
-
-			map("n", "<leader>gb", function()
-				gs.blame_line({ full = true })
-			end, { desc = "Show full git blame" })
-			map("n", "<leader>gtb", gs.toggle_current_line_blame, { desc = "show git blame line" })
-
-			map("n", "<leader>gd", function()
-				gs.diffthis("~")
-			end, { desc = "Show side by side git diff" })
-
-			map("n", "<leader>gtd", gs.toggle_deleted, { desc = "show deleted" })
-
-			map("n", "<leader>gc", function()
-				gs.setqflist("all")
-			end, { desc = "Send changes to quickfix list" })
-
-			map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "expand visual selection to hunk" })
-		end,
-	})
 end
 
 return Config

@@ -10,6 +10,7 @@ local c = ls.choice_node
 local d = ls.dynamic_node
 local r = ls.restore_node
 local events = require("luasnip.util.events")
+local util = require("luasnip.util.util")
 local ai = require("luasnip.nodes.absolute_indexer")
 local l = require("luasnip.extras").lambda
 local rep = require("luasnip.extras").rep
@@ -45,6 +46,25 @@ ls.config.set_config({
 		},
 	},
 })
+
+local function get_username_and_reponame_from_url(clip)
+	-- get from the system clipboard
+	-- local clip = vim.fn.getreg("*", 1, true)[1]
+	-- get the packer/plug usable location from either a full url or just a part
+	local usable = nil
+	if string.match(clip, "%.com") then
+		if string.match(clip, "github") then
+			usable = string.match(clip, "%.com%/([%w%.%-%_]+/[%w%.%-%_]+)")
+		else
+			usable = string.match(clip, "(.+%.com%/[%w%.%-%_]+/[%w%.%-%_]+)")
+		end
+	end
+	if usable then
+		return sn(nil, { i(nil, usable) })
+	else
+		return sn(nil, { i(1) })
+	end
+end
 
 local function dyn_i(index, func)
 	return d(index, function(...)
@@ -168,19 +188,7 @@ ls.add_snippets("lua", {
 					-- get from the system clipboard
 					local clip = vim.fn.getreg("*", 1, true)[1]
 					-- get the packer/plug usable location from either a full url or just a part
-					local usable = nil
-					if string.match(clip, "%.com") then
-						if string.match(clip, "github") then
-							usable = string.match(clip, "%.com%/([%w%.%-%_]+/[%w%.%-%_]+)")
-						else
-							usable = string.match(clip, "(.+%.com%/[%w%.%-%_]+/[%w%.%-%_]+)")
-						end
-					end
-					if usable then
-						return sn(nil, { i(nil, usable) })
-					else
-						return sn(nil, { i(1) })
-					end
+					return get_username_and_reponame_from_url(clip)
 				end),
 				i(2),
 			},
@@ -314,5 +322,3 @@ require("luasnip.loaders.from_vscode").lazy_load({
 	paths = { "~/yakko_wakko/config/nvim/snippets" },
 })
 require("config.luasnip.choice_popup")
-
-vim.keymap.set("n", "<leader><leader>s", "<cmd>source ~/yakko_wakko/config/nvim/lua/config/luasnip/init.lua<CR>")

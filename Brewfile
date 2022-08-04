@@ -28,7 +28,6 @@ brew "jrnl"
 brew "lf"
 brew "neofetch"
 brew "neovim"
-brew "nodenv"
 brew "npm"
 brew "pipes-sh"
 brew "postgresql", restart_service: true
