@@ -1,5 +1,4 @@
 return function()
-	local gs = package.loaded.gitsigns
 	local Hydra = Pquire("hydra")
 	if Hydra then
 		local git_hyd = Hydra({
@@ -25,7 +24,7 @@ return function()
 							return "]c"
 						end
 						vim.schedule(function()
-							gs.next_hunk()
+							require("gitsigns").next_hunk()
 						end)
 						return "<Ignore>"
 					end,
@@ -38,28 +37,53 @@ return function()
 							return "[c"
 						end
 						vim.schedule(function()
-							gs.prev_hunk()
+							require("gitsigns").prev_hunk()
 						end)
 						return "<Ignore>"
 					end,
 					{ expr = true },
 				},
 				{ "a", ":Gitsigns stage_hunk<CR>", { silent = true } },
-				{ "r", gs.undo_stage_hunk },
-				{ "u", gs.reset_hunk },
+				{
+					"r",
+					function()
+						require("gitsigns").undo_stage_hunk()
+					end,
+				},
+				{
+					"u",
+					function()
+						require("gitsigns").reset_hunk()
+					end,
+				},
 				{
 					"D",
 					function()
-						gs.diffthis("~")
+						require("gitsigns").diffthis("~")
 					end,
 				},
-				{ "A", gs.stage_buffer },
-				{ "s", gs.preview_hunk },
-				{ "b", gs.blame_line },
+				{
+					"A",
+					function()
+						require("gitsigns").stage_buffer()
+					end,
+				},
+				{
+					"s",
+					function()
+						require("gitsigns").preview_hunk()
+					end,
+				},
+				{
+					"b",
+					function()
+						require("gitsigns").blame_line()
+					end,
+				},
 				{
 					"c",
 					function()
-						gs.setqflist("all")
+						require("gitsigns").setqflist("all")
 					end,
 					{ nowait = true },
 				},
@@ -69,7 +93,13 @@ return function()
 				-- 		gitsigns.blame_line({ full = true })
 				-- 	end,
 				-- },
-				{ "/", gs.show, { exit = true } }, -- show the base of the file
+				{
+					"/",
+					function()
+						require("gitsigns").show()
+					end,
+					{ exit = true },
+				}, -- show the base of the file
 				{ "<Esc>", nil, { exit = true, nowait = true } },
 				{ "<c-n>", ":cn<CR>" },
 				{ "<c-p>", ":cp<CR>" },
@@ -99,6 +129,7 @@ return function()
 			},
 		},
 		on_attach = function(bufnr)
+			local gs = package.loaded.gitsigns
 			local function map(mode, l, r, opts)
 				opts = opts or {}
 				opts.buffer = bufnr

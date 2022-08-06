@@ -31,7 +31,12 @@ return require("packer").startup({
 		use("michaeljsmith/vim-indent-object")
 		use("wbthomason/packer.nvim")
 		use("MunifTanjim/nui.nvim")
-		use("mattn/emmet-vim")
+		use({
+			"mattn/emmet-vim",
+			config = function()
+				vim.g.user_emmet_mode = "a"
+			end,
+		})
 		use({
 			"protex/home-manager.nvim",
 			requires = {
@@ -413,6 +418,20 @@ return require("packer").startup({
 			},
 			config = config.dirvish,
 		})
+		use({
+			"jose-elias-alvarez/null-ls.nvim",
+			config = function()
+				local null = require("null-ls")
+				null.setup({
+					sources = {
+						null.builtins.formatting.stylua,
+						null.builtins.formatting.prettier.with({
+							prefer_local = "node_modules/.bin",
+						}),
+					},
+				})
+			end,
+		})
 
 		use({
 			"segeljakt/vim-silicon",
@@ -436,6 +455,9 @@ return require("packer").startup({
 					filetype = {
 						-- Formatter configurations for filetype "lua" go here
 						-- and will be executed in order
+						typescript = {
+							require("formatter.filetypes.typescript").prettier,
+						},
 						lua = {
 							require("formatter.filetypes.lua").stylua,
 						},
