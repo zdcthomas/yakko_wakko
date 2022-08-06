@@ -7,13 +7,21 @@ Module.setup = function()
 	local config = {
 		on_attach = function(client, bufnr)
 			print("attached")
-			client.resolved_capabilities.document_formatting = true
+			client.resolved_capabilities.document_formatting = false
 			common_on_attach(client, bufnr)
+			-- vim.api.nvim_create_augroup("eslint", { clear = true })
+			-- vim.api.nvim_create_autocmd("BufWritePre", {
+			-- 	buffer = bufnr,
+			-- 	-- pattern = { "*.tsx", "*.ts", "*.jsx", "*.js" },
+        -- callback = function()
+          -- vim.cmd("EslintFixAll") 
+        -- end,
+			-- })
 		end,
 		capabilities = capabilities,
-		settings = {
-			format = { enable = true }, -- this will enable formatting
-		},
+		-- settings = {
+		-- 	format = true, -- this will enable formatting
+		-- },
 		handlers = {
 			["eslint/probeFailed"] = function()
 				vim.notify("ESLint probe failed.", vim.log.levels.WARN)
@@ -26,7 +34,7 @@ Module.setup = function()
 				-- return { id = nil, result = true }
 			end,
 		},
-		cmd = vim.list_extend({ "yarn", "node" }, {}),
+		-- cmd = vim.list_extend({ "yarn", "node" }, {}),
 	}
 	require("lspconfig")["eslint"].setup(config)
 end
