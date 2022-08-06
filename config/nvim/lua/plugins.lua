@@ -31,6 +31,15 @@ return require("packer").startup({
 		use("michaeljsmith/vim-indent-object")
 		use("wbthomason/packer.nvim")
 		use("MunifTanjim/nui.nvim")
+		use("mattn/emmet-vim")
+		use({
+			"protex/home-manager.nvim",
+			requires = {
+				"nvim-lua/plenary.nvim",
+			},
+			config = function() end,
+		})
+
 		use({
 			"~/oss/yop.nvim/",
 			config = function()

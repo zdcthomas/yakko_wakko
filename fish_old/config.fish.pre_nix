@@ -7,12 +7,12 @@ else
   alias la='ls -la'
 end
 
-if type -q git
-  alias gco='git switch'
-  alias gs='git status'
-  alias ga='git add'
-  alias gap='git add --patch'
-end
+# if type -q git
+#   alias gco='git switch'
+#   alias gs='git status'
+#   alias ga='git add'
+#   alias gap='git add --patch'
+# end
 
 if type -q docker
   alias nats="docker run -d -p 4222:4222 -p 6222:6222 -p 8222:8222 nats:latest"
@@ -26,13 +26,13 @@ if type -q pg_ctl
   alias fuck_pg='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 end
 
-if type -q rbenv
-  status --is-interactive; and source (rbenv init -|psub)
-end
+# if type -q rbenv
+#   status --is-interactive; and source (rbenv init -|psub)
+# end
 
-if type -q pyenv
-  status --is-interactive; and source (pyenv init -|psub)
-end
+# if type -q pyenv
+#   status --is-interactive; and source (pyenv init -|psub)
+# end
 
 # if type -q nodenv
 #   status --is-interactive; and source (nodenv init -|psub)
@@ -102,3 +102,7 @@ end
 if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
   fenv source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 end
+
+# if test -e /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+#   fenv /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+# end
