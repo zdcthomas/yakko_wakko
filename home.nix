@@ -4,6 +4,23 @@
   manual.html.enable = true;
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
+
+  nixpkgs.config.allowUnfree = true;
+
+  nix = {
+
+    package = pkgs.nix;
+
+    extraOptions = ''
+      keep-outputs = true
+      keep-derivations = true
+      auto-optimise-store = true
+      # assuming the builder has a faster internet connection
+      builders-use-substitutes = true
+      experimental-features = nix-command flakes
+    '';
+  };
+
   home = {
     username = "zacharythomas";
     homeDirectory = "/Users/zacharythomas";
@@ -16,31 +33,63 @@
     # You can update Home Manager without changing this value. See
     # the Home Manager release notes for a list of state version
     # changes in each release.
-
     stateVersion = "22.05";
-    packages = [
-      pkgs.asciinema
-      pkgs.bat
-      pkgs.boxes
-      pkgs.emacs
-      pkgs.entr
-      pkgs.exa
-      pkgs.exa
-      pkgs.fd
-      pkgs.fish
-      pkgs.fzf
-      pkgs.gh
-      pkgs.git
-      pkgs.jq
-      pkgs.neovim
-      pkgs.silver-searcher
-      pkgs.skim
-      pkgs.tmux
-      pkgs.tree
-      pkgs.unzip
-      pkgs.vim
-      pkgs.zip
-      pkgs.nodejs-18_x
+
+    packages = with pkgs; [
+
+      asciinema
+      awscli
+      bash
+      bat
+      boxes
+      emacs
+      entr
+      exa
+      exa
+      fd
+      fish
+      font-awesome_5
+      fzf
+      gh
+      git
+      jq
+      neovim
+      nodePackages.prettier_d_slim
+      nodejs-18_x
+      silver-searcher
+      skim
+      statix
+      tmux
+      tree
+      unzip
+      vim
+      zip
+
+      (
+        nerdfonts.override {
+          fonts = [
+            "FiraCode"
+            "Meslo"
+          ];
+        }
+      )
+
+      /* These will get created as scripts */
+      (
+        pkgs.writeScriptBin "dot-switch" ''
+          home-manager switch --flake ${config.home.homeDirectory}/yakko_wakko#zacharythomas $args
+        ''
+      )
+      (
+        pkgs.writeScriptBin "dot-update" ''
+          nix flake update
+        ''
+      )
+      (
+        pkgs.writeScriptBin "dot-edit" ''
+          nvim ${config.home.homeDirectory}/yakko_wakko/home.nix
+        ''
+      )
     ];
 
     /* symlink the config directory. I know this isn't the nix way, but it's
@@ -48,11 +97,12 @@
     /* file."test_config".recursive = true; */
     /* file."test_config".source = config.lib.file.mkOutOfStoreSymlink ~/yakko_wakko/config; */
     file = {
-      config = {
+      ".config" = {
         recursive = true;
-        source = config.lib.file.mkOutOfStoreSymlink ~/yakko_wakko/config;
+        source = config.lib.file.mkOutOfStoreSymlink /Users/zacharythomas/yakko_wakko/config;
       };
-
+      ".tmux.conf".source = ./tmux.conf;
+      "Brewfile".source = ./Brewfile;
     };
 
 
@@ -98,6 +148,7 @@
 
     bash = {
       enable = true;
+      enableCompletion = true;
       shellOptions = [
         "histappend"
         "checkwinsize"
@@ -127,51 +178,70 @@
         export PS1="$cyan\u$white@$yellow \w$white \$(git_branch) \$(dirty) \n$in_prompt"
         export PS2=$in_prompt
         export PS2="| ?> "
+
+        . ${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh
       '';
     };
 
 
-    zsh = {
-      defaultKeymap = "emacs";
-      enable = true;
-      enableAutosuggestions = true;
-      enableCompletion = true;
-      history.extended = true;
-      sessionVariables = rec {
-        EDITOR = "nvim";
+    zsh =
+      {
+        defaultKeymap = "emacs";
+        enable = true;
+        enableAutosuggestions = true;
+        enableCompletion = true;
+        history.extended = true;
+        sessionVariables = rec {
+          EDITOR = "nvim";
+        };
+        /* oh-my-zsh = { */
+        /*   enable = true; */
+        /*   plugins = [ ]; */
+        /*   theme = "robbyrussell"; */
+        /* }; */
+        autocd = true;
+        initExtraFirst = builtins.readFile ./zsh_extra_config.zsh;
+        plugins = [
+          {
+            # nix-prefetch-url --unpack https://github.com/zsh-users/zsh-syntax-highlighting/archive/0.6.0.tar.gz
+            name = "zsh-history-substring-search";
+            src = pkgs.fetchFromGitHub {
+              owner = "zsh-users";
+              repo = "zsh-history-substring-search";
+              rev = "1.0.2";
+              sha256 = "0zmq66dzasmr5pwribyh4kbkk23jxbpdw4rjxx0i7dx8jjp2lzl4";
+            };
+          }
+          {
+            # nix-prefetch-url --unpack https://github.com/zsh-users/zsh-syntax-highlighting/archive/0.6.0.tar.gz
+            name = "zsh-syntax-highlighting";
+            src = pkgs.fetchFromGitHub {
+              owner = "zsh-users";
+              repo = "zsh-syntax-highlighting";
+              rev = "0.6.0";
+              sha256 = "hH4qrpSotxNB7zIT3u7qcog51yTQr5j5Lblq9ZsxuH4=";
+            };
+          }
+          {
+            name = "git-prompt";
+            src = pkgs.fetchFromGitHub {
+              owner = "woefe";
+              repo = "git-prompt.zsh";
+              rev = "v2.3.0";
+              sha256 = "i5UemJNwlKjMJzStkUc1XHNm/kZQfC5lvtz6/Y0AwRU=";
+            };
+          }
+          {
+            name = "zsh-autosuggestions";
+            src = pkgs.fetchFromGitHub {
+              owner = "zsh-users";
+              repo = "zsh-autosuggestions";
+              rev = "v0.6.3";
+              sha256 = "rCTKzRg2DktT5X/f99pYTwZmSGD3XEFf9Vdenn4VEME=";
+            };
+          }
+        ];
       };
-      plugins = [
-        {
-          # nix-prefetch-url --unpack https://github.com/zsh-users/zsh-syntax-highlighting/archive/0.6.0.tar.gz
-          name = "zsh-history-substring-search";
-          src = pkgs.fetchFromGitHub {
-            owner = "zsh-users";
-            repo = "zsh-history-substring-search";
-            rev = "1.0.2";
-            sha256 = "0zmq66dzasmr5pwribyh4kbkk23jxbpdw4rjxx0i7dx8jjp2lzl4";
-          };
-        }
-        {
-          # nix-prefetch-url --unpack https://github.com/zsh-users/zsh-syntax-highlighting/archive/0.6.0.tar.gz
-          name = "zsh-syntax-highlighting";
-          src = pkgs.fetchFromGitHub {
-            owner = "zsh-users";
-            repo = "zsh-syntax-highlighting";
-            rev = "0.6.0";
-            sha256 = "hH4qrpSotxNB7zIT3u7qcog51yTQr5j5Lblq9ZsxuH4=";
-          };
-        }
-        {
-          name = "zsh-autosuggestions";
-          src = pkgs.fetchFromGitHub {
-            owner = "zsh-users";
-            repo = "zsh-autosuggestions";
-            rev = "v0.6.3";
-            sha256 = "rCTKzRg2DktT5X/f99pYTwZmSGD3XEFf9Vdenn4VEME=";
-          };
-        }
-      ];
-    };
 
     git = {
       enable = true;

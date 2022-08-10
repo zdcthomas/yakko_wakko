@@ -1,23 +1,42 @@
+/* Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked into git */
 {
-  description = "My Home Manager flake";
+  description = "Hopefully this _is_ my final form";
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-  };
+  inputs =
+    {
+      nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+      home-manager = {
+        url = "github:nix-community/home-manager";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    };
 
-  outputs = inputs: {
-    defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
-    defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
+  outputs = { nixpkgs, home-manager, neovim-nightly-overlay, ... }:
+    let
+      system = "x86_64-darwin";
+      pkgs = import nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = true;
+        };
+        overlays = [
+          /* neovim-nightly-overlay.overlay */
+        ];
+      };
+      inherit (nixpkgs) lib;
+    in
+    {
+      defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+      defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
+      homeConfigurations = {
+        "zacharythomas" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
 
-    homeConfigurations = {
-      "zacharythomas" = inputs.home-manager.lib.homeManagerConfiguration {
-        system = "x86_64-darwin"; # TODO: replace with x86_64-linux on Linux
-        homeDirectory = "/home/zacharythomas";
-        username = "zacharythomas"; # TODO: Change to your username
-        configuration.imports = [ ./home.nix ];
+          modules = [
+            ./home.nix
+          ];
+        };
       };
     };
-  };
 }
