@@ -6,16 +6,15 @@ local capabilities = require("config.lspconfig.shared").capabilities()
 Module.setup = function()
 	local config = {
 		on_attach = function(client, bufnr)
-			print("attached")
 			client.resolved_capabilities.document_formatting = false
 			common_on_attach(client, bufnr)
 			-- vim.api.nvim_create_augroup("eslint", { clear = true })
 			-- vim.api.nvim_create_autocmd("BufWritePre", {
 			-- 	buffer = bufnr,
 			-- 	-- pattern = { "*.tsx", "*.ts", "*.jsx", "*.js" },
-        -- callback = function()
-          -- vim.cmd("EslintFixAll") 
-        -- end,
+			-- callback = function()
+			-- vim.cmd("EslintFixAll")
+			-- end,
 			-- })
 		end,
 		capabilities = capabilities,

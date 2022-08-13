@@ -40,7 +40,7 @@ vim.opt.mouse = { h = true, a = true }
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 5
-vim.opt.shell = "sh"
+vim.opt.shell = "bash"
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 2
 vim.opt.showmode = false
@@ -60,6 +60,7 @@ vim.opt.virtualedit = "block"
 vim.opt.wildmenu = true
 vim.opt.wrap = false
 vim.opt.pumblend = 25
+-- vim.opt.path:append("**")
 
 vim.diagnostic.config({
 	header = false,
@@ -72,3 +73,11 @@ vim.diagnostic.config({
 	underline = true,
 	update_in_insert = false,
 })
+
+-- TODO: link this to a non cmp highlight, it's for netrw
+vim.cmd([[
+hi link netrwMarkFile CmpItemAbbrMatchFuzzy
+" set Vim-specific sequences for RGB colors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+]])

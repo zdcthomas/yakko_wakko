@@ -1,4 +1,5 @@
-commands = ["nvim", "zsh"]
+commands = ["nvim"]
+number_of_panes = 2
 
 [js]
 session_name = "frontend"

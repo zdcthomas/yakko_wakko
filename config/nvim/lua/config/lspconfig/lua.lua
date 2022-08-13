@@ -9,29 +9,30 @@ Module.setup = function()
 	local config = {
 		on_attach = function(client, bufnr)
 			-- I'm a little upset at the lack of trailing commas in the sumneko bundled formatter
-			client.server_capabilities.documentFormattingProvider = false
-			client.server_capabilities.documentRangeFormattingProvider = false
-			client.resolved_capabilities.document_formatting = false
+			-- client.server_capabilities.documentFormattingProvider = false
+			-- client.server_capabilities.documentRangeFormattingProvider = false
+			-- client.resolved_capabilities.document_formatting = false
+			-- client.server_capabilities.document_formatting = false
 
+			client.resolved_capabilities.document_formatting = false
+			--
 			common_on_attach(client, bufnr)
 			-- Stylua has been fucking up hard
 			-- vim.api.nvim_create_autocmd("BufWritePre", {
 			-- 	buffer = bufnr,
 			-- 	group = lspconfig_augroup,
-			-- 	callback = function()
-			-- 		require("stylua-nvim").format_file({ error_display_strategy = "none" })
+			-- 	callback = function() require("stylua-nvim").format_file({ error_display_strategy = "none" })
 			-- 	end,
 			-- })
+			--
 		end,
+		init_options = { documentFormatting = true },
 		capabilities = capabilities,
 		flags = {
 			debounce_text_changes = 150,
 		},
 		settings = {
 			Lua = {
-				format = {
-					enable = false,
-				},
 				-- runtime = {
 				-- 	-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
 				-- 	version = "LuaJIT",
