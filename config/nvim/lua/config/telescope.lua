@@ -122,20 +122,20 @@ function conf.setup()
 			-- height = 0.85,
 		},
 		extensions = {
-			file_browser = {
-				-- theme = "ivy",
-				-- hijack_netrw = true,
-				initial_mode = "insert",
-				path = "%:p:h",
-				mappings = {
-					n = {
-						["-"] = fb_action("goto_parent_dir"),
-					},
-					i = {
-						["<c-p>"] = fb_action("goto_parent_dir"),
-					},
-				},
-			},
+			-- file_browser = {
+			-- 	-- theme = "ivy",
+			-- 	-- hijack_netrw = true,
+			-- 	initial_mode = "insert",
+			-- 	path = "%:p:h",
+			-- 	mappings = {
+			-- 		n = {
+			-- 			["-"] = fb_action("goto_parent_dir"),
+			-- 		},
+			-- 		i = {
+			-- 			["<c-p>"] = fb_action("goto_parent_dir"),
+			-- 		},
+			-- 	},
+			-- },
 			["ui-select"] = {
 				require("telescope.themes").get_cursor({
 					initial_mode = "normal",
@@ -144,17 +144,16 @@ function conf.setup()
 			},
 			fzf = {
 				fuzzy = true, -- false will only do exact matching
-				override_generic_sorter = false, -- override the generic sorter
-				override_file_sorter = true, -- override the file sorter
-				case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-				-- the default case_mode is "smart_case"
+				override_generic_sorter = true, -- override the generic sorter
+				override_file_sorter = true,
+				case_mode = "smart_case",
 			},
 		},
 	})
-	telescope.load_extension("file_browser")
+	-- telescope.load_extension("file_browser")
 	telescope.load_extension("fzf")
-	telescope.load_extension("fzf_writer")
-	telescope.load_extension("ui-select")
+	-- telescope.load_extension("fzf_writer")
+	-- telescope.load_extension("ui-select")
 	local default_opts = { noremap = true, silent = true }
 
 	vim.keymap.set("n", "<leader>p", function()

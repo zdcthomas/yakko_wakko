@@ -26,80 +26,21 @@ end
 
 return require("packer").startup({
 	function(use)
+		use("wbthomason/packer.nvim")
+
 		use("antoinemadec/FixCursorHold.nvim")
 		use("lewis6991/impatient.nvim")
 		use("michaeljsmith/vim-indent-object")
-		use("wbthomason/packer.nvim")
-		use("MunifTanjim/nui.nvim")
 		use({
 			"mattn/emmet-vim",
 			config = function()
 				vim.g.user_emmet_mode = "a"
 			end,
 		})
-		use({
-			"protex/home-manager.nvim",
-			requires = {
-				"nvim-lua/plenary.nvim",
-			},
-			config = function() end,
-		})
 
 		use({
-			"~/oss/yop.nvim/",
-			config = function()
-				local yop = require("yop")
-				local utils = require("yop.utils")
-				yop.op_map({ "n", "v" }, "gs", function(lines, opts)
-					-- We don't care about anything non alphanumeric here
-					local sort_without_leading_space = function(a, b)
-						-- true = a then b
-						-- false = b then a
-						local pattern = [[^%W*]]
-						return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
-					end
-					if #lines == 1 then
-						-- let startpos = match(@@, '\v\i')
-						-- let parts = split(@@, '\v\i+')
-						-- if startpos > 0
-						--   let prefix = parts[0]
-						--   let delimiter = parts[1]
-						--   let suffix = parts[-1]
-						-- else
-						--   let prefix = ''
-						--   let delimiter = parts[0]
-						--   let suffix = ''
-						-- endif
-						-- if prefix == delimiter
-						--   let prefix = ''
-						-- endif
-						-- if suffix == delimiter
-						--   let suffix = ''
-						-- endif
-						-- let sortstart = strlen(prefix)
-						-- let sortend = strlen(@@) - sortstart - strlen(suffix)
-						-- let sortables = strpart(@@, sortstart, sortend)
-						-- let sorted = join(sort(split(sortables, '\V' . escape(delimiter, '\'))), delimiter)
-						-- execute "normal! v`]c" . prefix . sorted . suffix
-						-- execute "normal! `["
-						-- If only looking at 1 line, sort that line split by some char gotten from imput
-						local delimeter = utils.get_input("Delimeter: ")
-						local split = vim.split(lines[1], delimeter, { trimempty = true })
-						-- Remember! `table.sort` mutates the table itself
-						table.sort(split, sort_without_leading_space)
-						return { utils.join(split, delimeter) }
-					else
-						-- If there are many lines, sort the lines themselves
-						table.sort(lines, sort_without_leading_space)
-						return lines
-					end
-				end)
-			end,
-		})
-		use("christoomey/vim-sort-motion", { keys = { "gs" } })
-		use({
-			-- The only downside I've found to this vs sandwich is that tags don't have
-			-- the same nice syntax and the
+			-- The only downside I've found to this vs. sandwich is that tags don't
+			-- have the same nice syntax
 			"tpope/vim-surround",
 			requires = {
 				"tpope/vim-repeat",
@@ -112,6 +53,67 @@ return require("packer").startup({
 			},
 			config = require("config.vim_surround").setup,
 		})
+
+		use({
+			"protex/home-manager.nvim",
+			requires = {
+				"nvim-lua/plenary.nvim",
+			},
+			config = function() end,
+		})
+
+		-- use({
+		-- 	"zdcthomas/yop.nvim",
+		-- 	config = function()
+		-- 		local yop = require("yop")
+		-- 		local utils = require("yop.utils")
+		-- 		yop.op_map({ "n", "v" }, "gs", function(lines, opts)
+		-- 			-- We don't care about anything non alphanumeric here
+		-- 			local sort_without_leading_space = function(a, b)
+		-- 				-- true = a then b
+		-- 				-- false = b then a
+		-- 				local pattern = [[^%W*]]
+		-- 				return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
+		-- 			end
+		-- 			if #lines == 1 then
+		-- 				-- let startpos = match(@@, '\v\i')
+		-- 				-- let parts = split(@@, '\v\i+')
+		-- 				-- if startpos > 0
+		-- 				--   let prefix = parts[0]
+		-- 				--   let delimiter = parts[1]
+		-- 				--   let suffix = parts[-1]
+		-- 				-- else
+		-- 				--   let prefix = ''
+		-- 				--   let delimiter = parts[0]
+		-- 				--   let suffix = ''
+		-- 				-- endif
+		-- 				-- if prefix == delimiter
+		-- 				--   let prefix = ''
+		-- 				-- endif
+		-- 				-- if suffix == delimiter
+		-- 				--   let suffix = ''
+		-- 				-- endif
+		-- 				-- let sortstart = strlen(prefix)
+		-- 				-- let sortend = strlen(@@) - sortstart - strlen(suffix)
+		-- 				-- let sortables = strpart(@@, sortstart, sortend)
+		-- 				-- let sorted = join(sort(split(sortables, '\V' . escape(delimiter, '\'))), delimiter)
+		-- 				-- execute "normal! v`]c" . prefix . sorted . suffix
+		-- 				-- execute "normal! `["
+		-- 				-- If only looking at 1 line, sort that line split by some char gotten from imput
+		-- 				local delimeter = utils.get_input("Delimeter: ")
+		-- 				local split = vim.split(lines[1], delimeter, { trimempty = true })
+		-- 				-- Remember! `table.sort` mutates the table itself
+		-- 				table.sort(split, sort_without_leading_space)
+		-- 				return { utils.join(split, delimeter) }
+		-- 			else
+		-- 				-- If there are many lines, sort the lines themselves
+		-- 				table.sort(lines, sort_without_leading_space)
+		-- 				return lines
+		-- 			end
+		-- 		end)
+		-- 	end,
+		-- })
+		use("christoomey/vim-sort-motion", { keys = { "gs" } })
 
 		use({
 			"folke/lua-dev.nvim",
@@ -140,51 +142,52 @@ return require("packer").startup({
 				require("stabilize").setup()
 			end,
 		})
-		use({ "kevinhwang91/nvim-bqf", ft = "qf" })
+
+		-- -- use({ "kevinhwang91/nvim-bqf", ft = "qf" })
 		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
 		use({ "tpope/vim-commentary", keys = { "gc" }, cmd = { "Commentary" } })
-		use({
-			"b0o/incline.nvim",
-			config = function()
-				require("incline").setup({
-					highlight = {
-						groups = {
-							InclineNormal = "PmenuSel",
-							InclineNormalNC = "PmenuSbar",
-						},
-					},
-					window = {
-						winhighlight = {
-							inactive = {
-								Normal = "",
-							},
-						},
-						margin = {
-							vertical = 0,
-						},
-					},
-					hide = {
-						focused_win = true,
-						only_win = true,
-					},
-				})
-			end,
-		})
+		-- -- use({
+		-- -- 	"b0o/incline.nvim",
+		-- -- 	config = function()
+		-- -- 		require("incline").setup({
+		-- -- 			highlight = {
+		-- -- 				groups = {
+		-- -- 					InclineNormal = "PmenuSel",
+		-- -- 					InclineNormalNC = "PmenuSbar",
+		-- -- 				},
+		-- -- 			},
+		-- -- 			window = {
+		-- -- 				winhighlight = {
+		-- -- 					inactive = {
+		-- -- 						Normal = "",
+		-- -- 					},
+		-- -- 				},
+		-- -- 				margin = {
+		-- -- 					vertical = 0,
+		-- -- 				},
+		-- -- 			},
+		-- -- 			hide = {
+		-- -- 				focused_win = true,
+		-- -- 				only_win = true,
+		-- -- 			},
+		-- -- 		})
+		-- -- 	end,
+		-- -- })
 
 		use({
 			"stevearc/dressing.nvim",
 			config = config.dressing,
 		})
 
-		use({
-			"takac/vim-hardtime",
-			cmd = {
-				"HardTimeOff",
-				"HardTimeToggle",
-				"HardTimeOn",
-			},
-			config = config.hardtime,
-		})
+		-- -- use({
+		-- -- 	"takac/vim-hardtime",
+		-- -- 	cmd = {
+		-- -- 		"HardTimeOff",
+		-- -- 		"HardTimeToggle",
+		-- -- 		"HardTimeOn",
+		-- -- 	},
+		-- -- 	config = config.hardtime,
+		-- -- })
 
 		use({
 			"folke/zen-mode.nvim",
@@ -250,7 +253,8 @@ return require("packer").startup({
 
 		use({
 			"L3MON4D3/LuaSnip",
-			-- requires = { "hrsh7th/vim-vsnip-integ" },
+			branch = "parse_from_ast",
+			rocks = { "jsregexp" },
 			config = function()
 				require("config.luasnip")
 			end,
@@ -299,7 +303,7 @@ return require("packer").startup({
 			requires = {
 				"nvim-lua/plenary.nvim",
 			},
-			config = require("config.gitsigns"),
+			config = require("config.gitsigns").setup,
 		})
 
 		use({
@@ -335,8 +339,8 @@ return require("packer").startup({
 				},
 				{ "nvim-telescope/telescope-ui-select.nvim" },
 				-- There's some type of fatal issue here but it'd be amazing if it got resolved
-				{ "nvim-telescope/telescope-fzf-writer.nvim" },
-				{ "nvim-telescope/telescope-file-browser.nvim" },
+				-- { "nvim-telescope/telescope-fzf-writer.nvim" },
+				-- { "nvim-telescope/telescope-file-browser.nvim" },
 				{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 			},
 			config = function()
@@ -358,6 +362,7 @@ return require("packer").startup({
 				require("config.treesitter").setup()
 			end,
 		})
+
 		use({
 			"williamboman/mason.nvim",
 			requires = { "williamboman/mason-lspconfig.nvim" },
@@ -370,11 +375,17 @@ return require("packer").startup({
 			"neovim/nvim-lspconfig",
 			requires = {
 				-- "ckipp01/stylua-nvim",
+				"mhanberg/elixir.nvim",
 				"hrsh7th/nvim-cmp",
 				"kosayoda/nvim-lightbulb",
 				"nvim-lua/lsp-status.nvim",
 				"nvim-telescope/telescope.nvim",
-				"ray-x/lsp_signature.nvim",
+				{
+					"ray-x/lsp_signature.nvim",
+					config = function()
+						-- require("lsp_signature").setup({})
+					end,
+				},
 				"williamboman/mason.nvim",
 			},
 			config = function()
@@ -385,19 +396,19 @@ return require("packer").startup({
 			end,
 		})
 
-		use({
-			"nvim-lua/plenary.nvim",
-			config = function()
-				local plen_group = vim.api.nvim_create_augroup("PlenaryGroupBindings", { clear = true })
-				vim.api.nvim_create_autocmd("FileType", {
-					group = plen_group,
-					pattern = { "lua" },
-					callback = function()
-						vim.keymap.set("n", "<leader><leader>t", "<Plug>PlenaryTestFile", { buffer = true })
-					end,
-				})
-			end,
-		})
+		-- -- use({
+		-- -- 	"nvim-lua/plenary.nvim",
+		-- -- 	config = function()
+		-- -- 		local plen_group = vim.api.nvim_create_augroup("PlenaryGroupBindings", { clear = true })
+		-- -- 		vim.api.nvim_create_autocmd("FileType", {
+		-- -- 			group = plen_group,
+		-- -- 			pattern = { "lua" },
+		-- -- 			callback = function()
+		-- -- 				vim.keymap.set("n", "<leader><leader>t", "<Plug>PlenaryTestFile", { buffer = true })
+		-- -- 			end,
+		-- -- 		})
+		-- -- 	end,
+		-- -- })
 
 		use({
 			"ruifm/gitlinker.nvim",
@@ -418,60 +429,92 @@ return require("packer").startup({
 			},
 			config = config.dirvish,
 		})
+
 		use({
 			"jose-elias-alvarez/null-ls.nvim",
 			config = function()
+				local augroup = vim.api.nvim_create_augroup("LspFormattingNull", {})
 				local null = require("null-ls")
 				null.setup({
 					sources = {
 						null.builtins.formatting.stylua,
-						null.builtins.formatting.prettier.with({
-							prefer_local = "node_modules/.bin",
+						null.builtins.diagnostics.eslint,
+						null.builtins.code_actions.statix,
+						null.builtins.formatting.prettierd.with({
+							filetypes = {
+								"javascript",
+								"javascriptreact",
+								"typescript",
+								"typescriptreact",
+								"vue",
+								"css",
+								"scss",
+								"less",
+								"html",
+								"graphql",
+							},
 						}),
 					},
+					on_attach = function(client, bufnr)
+						if client.supports_method("textDocument/formatting") then
+							vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+							vim.api.nvim_create_autocmd("BufWritePre", {
+								group = augroup,
+								buffer = bufnr,
+								callback = function()
+									-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+									vim.lsp.buf.formatting_sync()
+								end,
+							})
+						end
+
+						Pr("client.name", client.name)
+					end,
 				})
 			end,
 		})
 
-		use({
-			"segeljakt/vim-silicon",
-			cmd = { "Silicon" },
-		})
+		-- -- use({
+		-- -- 	"segeljakt/vim-silicon",
+		-- -- 	cmd = { "Silicon" },
+		-- -- })
 
-		use({
-			"mhartington/formatter.nvim",
-			-- Utilities for creating configurations
-			config = function()
-				vim.keymap.set("n", "<leader><leader>f", ":Format<CR>", { silent = true })
-				local util = require("formatter.util")
+		-- -- use({
+		-- -- 	"mhartington/formatter.nvim",
+		-- -- 	-- Utilities for creating configurations
+		-- -- 	config = function()
+		-- -- 		vim.keymap.set("n", "<leader><leader>f", ":Format<CR>", { silent = true })
+		-- -- 		local util = require("formatter.util")
 
-				-- Provides the Format and FormatWrite commands
-				require("formatter").setup({
-					-- Enable or disable logging
-					logging = true,
-					-- Set the log level
-					log_level = vim.log.levels.WARN,
-					-- All formatter configurations are opt-in
-					filetype = {
-						-- Formatter configurations for filetype "lua" go here
-						-- and will be executed in order
-						typescript = {
-							require("formatter.filetypes.typescript").prettier,
-						},
-						lua = {
-							require("formatter.filetypes.lua").stylua,
-						},
-					},
-				})
-			end,
-		})
+		-- -- 		-- Provides the Format and FormatWrite commands
+		-- -- 		require("formatter").setup({
+		-- -- 			-- Enable or disable logging
+		-- -- 			logging = true,
+		-- -- 			-- Set the log level
+		-- -- 			log_level = vim.log.levels.WARN,
+		-- -- 			-- All formatter configurations are opt-in
+		-- -- 			filetype = {
+		-- -- 				-- Formatter configurations for filetype "lua" go here
+		-- -- 				-- and will be executed in order
+		-- -- 				typescript = {
+		-- -- 					require("formatter.filetypes.typescript").prettier,
+		-- -- 				},
+		-- -- 				lua = {
+		-- -- 					require("formatter.filetypes.lua").stylua,
+		-- -- 				},
+		-- -- 			},
+		-- -- 		})
+		-- -- 	end,
+		-- -- })
 
 		use({
 			"nvim-neorg/neorg",
-			config = require("config.neorg").setup,
+			config = function()
+				require("config.neorg").setup()
+			end,
 			requires = {
 				"nvim-lua/plenary.nvim",
-				"~/dev/neorg-telescope",
+				"nvim-neorg/neorg-telescope",
 			},
 		})
 
@@ -480,7 +523,7 @@ return require("packer").startup({
 			config = function()
 				require("orgmode").setup_ts_grammar()
 				require("orgmode").setup({
-					org_agenda_files = { "~/irulan/org/*", "~/my-orgs/**/*" },
+					org_agenda_files = { "~/irulan/org/*" },
 					org_default_notes_file = "~/irulan/org/refile.org",
 				})
 			end,
@@ -493,7 +536,7 @@ return require("packer").startup({
 			end,
 		})
 
-		-- use("neovim/nvimdev.nvim")
+		-- -- use("neovim/nvimdev.nvim")
 
 		if packer_bootstrap then
 			require("packer").sync()

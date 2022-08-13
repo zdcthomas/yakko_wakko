@@ -13,13 +13,95 @@ local function keybindings_setup(keybinds)
 		noremap = true,
 	})
 end
+local function start_neorg()
+	if not require("neorg").is_loaded() then
+		vim.cmd("NeorgStart silent=true")
+	end
+end
+
+local function gtd_views()
+	start_neorg()
+	vim.cmd("Neorg gtd views")
+end
+
+local function gtd_capture()
+	start_neorg()
+	vim.cmd("Neorg gtd captue")
+end
+
+local function today()
+	start_neorg()
+	vim.cmd("Neorg journal today")
+end
+
+local function tomorrow()
+	start_neorg()
+	vim.cmd("Neorg journal tomorrow")
+end
+
+local function yesterday()
+	start_neorg()
+	vim.cmd("Neorg journal yesterday")
+end
+
+local function make_hydra()
+	local Hydra = Pquire("hydra")
+	if Hydra then
+		local gtd_hydra = Hydra({
+			name = "Getting Things Done!",
+			mode = "n",
+			heads = {
+				{ "j", today },
+				{ "t", tomorrow },
+				{ "y", yesterday },
+			},
+		})
+
+		local journal_hydra = Hydra({
+			name = "Journalin'",
+			mode = "n",
+			heads = {
+				{ "v", gtd_views },
+				{ "c", gtd_views },
+			},
+		})
+
+		local neorg_hyrda = Hydra({
+			config = {
+				color = "blue",
+				invoke_on_body = true,
+			},
+			mode = "n",
+			heads = {
+				{
+					"j",
+					function()
+						journal_hydra:activate()
+					end,
+				},
+				{
+					"g",
+					function()
+						gtd_hydra:activate()
+					end,
+				},
+			},
+		})
+
+		require("config.hydra").add_g_hydra({ key = "n", hydra = neorg_hyrda, desc = "Neorg!" })
+	end
+end
 
 Module.setup = function()
-	vim.keymap.set("n", "<leader><leader>nt", function()
+	make_hydra()
+
+	vim.keymap.set("n", "<leader>ntv", gtd_views)
+
+	vim.keymap.set("n", "<leader>ntn", function()
 		if not require("neorg").is_loaded() then
 			vim.cmd("NeorgStart silent=true")
 		end
-		vim.cmd("Neorg gtd views")
+		vim.cmd("Neorg gtd capture")
 	end)
 
 	require("neorg").setup({

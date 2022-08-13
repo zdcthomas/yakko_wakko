@@ -15,7 +15,8 @@ function Config.dressing()
 			border = "rounded",
 		},
 		select = {
-			enabled = false,
+			enabled = true,
+			backend = { "builtin", "telescope", "nui" },
 		},
 	})
 end
@@ -67,43 +68,7 @@ function Config.rose_pine()
 end
 
 function Config.venn()
-	-- enable or disable keymappings for venn
-
-	local Hydra = Pquire("hydra")
-	if Hydra then
-		local hint = [[
-		Arrow
-    ^ ^ _K_ ^ ^   _f_: box it
-    _H_ ^ ^ _L_
-    ^ ^ _J_ ^ ^   _<Esc>_
-    ]]
-
-		local ven_hyd = Hydra({
-			name = "Draw Diagram",
-			hint = hint,
-			config = {
-				color = "pink",
-				invoke_on_body = true,
-				hint = {
-					border = "rounded",
-				},
-				on_enter = function()
-					vim.o.virtualedit = "all"
-				end,
-			},
-			mode = "n",
-			heads = {
-				{ "H", "<C-v>h:VBox<CR>" },
-				{ "J", "<C-v>j:VBox<CR>" },
-				{ "K", "<C-v>k:VBox<CR>" },
-				{ "L", "<C-v>l:VBox<CR>" },
-				{ "f", ":VBox<CR>", { mode = "v" } },
-				{ "<Esc>", nil, { exit = true } },
-			},
-		})
-
-		require("config.hydra").add_g_hydra({key = "v", hydra = ven_hyd , desc = "Venn Mode"})
-	else
+	if not PluginIsLoaded("hydra.nvim") then
 		local function toggle_venn()
 			local venn_enabled = vim.inspect(vim.b.venn_enabled)
 			if venn_enabled == "nil" then

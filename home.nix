@@ -40,6 +40,7 @@
       asciinema
       awscli
       bash
+      bashInteractive
       bat
       boxes
       emacs
@@ -55,7 +56,7 @@
       jq
       neovim
       nodePackages.prettier_d_slim
-      nodejs-18_x
+      python38
       silver-searcher
       skim
       statix
@@ -63,6 +64,7 @@
       tree
       unzip
       vim
+      weechat
       zip
 
       (
@@ -94,15 +96,29 @@
 
     /* symlink the config directory. I know this isn't the nix way, but it's
       * ridiculous to invent another layer of rconfiguration languages*/
-    /* file."test_config".recursive = true; */
-    /* file."test_config".source = config.lib.file.mkOutOfStoreSymlink ~/yakko_wakko/config; */
     file = {
-      ".config" = {
+      ".config/nvim" = {
         recursive = true;
-        source = config.lib.file.mkOutOfStoreSymlink /Users/zacharythomas/yakko_wakko/config;
+        source = config.lib.file.mkOutOfStoreSymlink /Users/zacharythomas/yakko_wakko/config/nvim;
       };
       ".tmux.conf".source = ./tmux.conf;
       "Brewfile".source = ./Brewfile;
+      ".config/dmux" = {
+        recursive = true;
+        source = ./config/dmux;
+      };
+      ".config/kitty" = {
+        recursive = true;
+        source = ./config/kitty;
+      };
+      ".config/alacritty" = {
+        recursive = true;
+        source = ./config/alacritty;
+      };
+      ".config/boxes" = {
+        recursive = true;
+        source = ./config/boxes;
+      };
     };
 
 
@@ -121,6 +137,7 @@
       TEST_ENV_VARR = "hello! how's it going?";
       PATH = "$HOME/.cargo/bin:$HOME/.mix/escripts:$PATH";
     };
+
     sessionPath = [ "$HOME/.cargo/bin:$PATH" "$HOME/.mix/escripts:$PATH" "$PATH:$HOME/go/bin" ];
 
     shellAliases =
@@ -139,6 +156,7 @@
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
     bat.enable = true;
+
     fzf = {
       enable = true;
       enableBashIntegration = true;
@@ -178,8 +196,6 @@
         export PS1="$cyan\u$white@$yellow \w$white \$(git_branch) \$(dirty) \n$in_prompt"
         export PS2=$in_prompt
         export PS2="| ?> "
-
-        . ${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh
       '';
     };
 
@@ -254,6 +270,7 @@
       };
       aliases = {
         co = "switch";
+        cnv = "commit --no-verify";
         ap = "add --patch";
         lg = "log --graph --format='%Cred%h%Creset  %<|(15) %C(white)%s %<|(35) %Creset %Cgreen(%cr)%<|(55)  %C(blue)<%an>%Creset%C(yellow)%d%Creset'";
       };

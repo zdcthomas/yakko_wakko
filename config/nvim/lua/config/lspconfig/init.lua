@@ -33,7 +33,7 @@ function conf.setup()
 	local lsp_status = require("lsp-status")
 	lsp_status.register_progress()
 
-	local default_config_servers = {
+	local servers = {
 		"rust_analyzer",
 		"jsonls",
 		"yamlls",
@@ -41,15 +41,15 @@ function conf.setup()
 		"marksman",
 		"rnix",
 		"bashls",
+		"elixirls",
+		"sumneko_lua",
+		"tsserver",
+		"eslint",
 	}
 
 	require("mason-lspconfig").setup({
-		automatic_installation = true,
+		ensure_installed = servers,
 	})
-	require("config.lspconfig.elixir").setup()
-	require("config.lspconfig.lua").setup()
-	require("config.lspconfig.elixir").setup()
-	require("config.lspconfig.typescript").setup()
 
 	local common_on_attach = require("config.lspconfig.shared").common_on_attach
 	local capabilities = require("config.lspconfig.shared").capabilities()
