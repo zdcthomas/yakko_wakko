@@ -1,25 +1,27 @@
 local Module = {}
 
-local Hydra = Pquire("Hydra")
+local Hydra = Pquire("hydra")
 if not Hydra then
 	vim.notify("Hydra not found in Telescope hydra config!", "Error")
 	return
 end
 
-local function cmd(command)
-	return "<CMD>" .. command .. "<CR>"
-end
+-- local function cmd(command)
+-- 	return "<CMD>" .. command .. "<CR>"
+-- end
+
+local cmd = require("hydra.keymap-util").cmd
 
 local telescope_hint = [[
-                 _p_: Files        _m_: Marks
+                 _p_: Files        
    🭇🬭🬭🬭🬭🬭🬭🬭🬭🬼    _b_: Buffers      _F_: Live Grep
-  🭉🭁🭠🭘    🭣🭕🭌🬾   _C_: Colorschemes _/_: Search in File
-  🭅█ ▁     █🭐
-  ██🬿      🭊██   _h_: Vim Help     _c_: Execute Command
- 🭋█🬝🮄🮄🮄🮄🮄🮄🮄🮄🬆█🭀  _k_: Keymap       _;_: Commands History
- 🭤🭒🬺🬹🬱🬭🬭🬭🬭🬵🬹🬹🭝🭙  _r_: Registers    _?_: Search History
+  🭉🭁🭠🭘    🭣🭕🭌🬾   _c_: Colorschemes _/_: Search in File
+  🭅█ ▁     █🭐   _g_: Git Status   _r_: Resume
+  ██🬿      🭊██   _h_: Vim Help     
+ 🭋█🬝🮄🮄🮄🮄🮄🮄🮄🮄🬆█🭀                    _:_: Commands
+ 🭤🭒🬺🬹🬱🬭🬭🬭🬭🬵🬹🬹🭝🭙  _R_: Registers    _?_: Search History
 
-                 _<Enter>_: Telescope           _<Esc>_ 
+                 _<Enter>_: All Pickers        _<Esc>_ 
 ]]
 Module.hydra = Hydra({
 	name = "Telescope",
@@ -35,17 +37,17 @@ Module.hydra = Hydra({
 	mode = "n",
 	heads = {
 		{ "p", cmd("Telescope find_files") },
+		{ "g", cmd("Telescope git_status") },
+		{ "r", cmd("Telescope resume") },
 		{ "F", cmd("Telescope live_grep") },
 		{ "h", cmd("Telescope help_tags"), { desc = "Vim help" } },
 		{ "b", cmd("Telescope oldfiles"), { desc = "Recently opened files" } },
-		{ "m", cmd("MarksListBuf"), { desc = "Marks" } },
-		{ "k", cmd("Telescope keymaps") },
-		{ "r", cmd("Telescope registers") },
-		{ "C", cmd("Telescope colorscheme"), { desc = "Projects" } },
+		{ "H", cmd("Telescope highlights"), { desc = "Hightlights" } },
+		{ "R", cmd("Telescope registers") },
+		{ "c", cmd("Telescope colorscheme"), { desc = "Projects" } },
 		{ "/", cmd("Telescope current_buffer_fuzzy_find"), { desc = "Search in file" } },
 		{ "?", cmd("Telescope search_history"), { desc = "Search history" } },
-		{ ";", cmd("Telescope command_history"), { desc = "Command-line history" } },
-		{ "c", cmd("Telescope commands"), { desc = "Execute command" } },
+		{ ":", cmd("Telescope commands"), { desc = "Command-line history" } },
 		{ "<Enter>", cmd("Telescope"), { exit = true, desc = "List all pickers" } },
 		{ "<Esc>", nil, { exit = true, nowait = true } },
 	},

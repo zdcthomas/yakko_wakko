@@ -47,34 +47,76 @@ end
 local function make_hydra()
 	local Hydra = Pquire("hydra")
 	if Hydra then
+		local main_hint = [[
+
+		       ^^  -^- ^ 
+		       ^^ / ^/|^
+		       ^^/./^ |^.--.
+		      -^^|W|^ /^  /|
+		     / ^^|r|^.-^./ |
+		    .--^^|i|^  ^|  |
+		    |日^^|t|_g_ |<\\|
+		    |記^^|i|^ t^| \\\
+		   /|_n_ |n|^d ^| /\\\    /
+		  / |  ^^|g|^  ^|/  \\>  /
+		▄▄▄▄▄▄▄^^▄▄▄^▄▄^▄▄▄▄▄▄▄▄▄▄
+   
+
+    ]]
+		local journal_hint = [[
+                           
+     /¯¯¯¯¯¯/,  _k_ 今日   
+    / 日記 //   _a_ 明日   
+   /      //    _y_ 昨日   
+  (¯¯¯¯¯¯(/
+   ¯¯¯¯¯¯¯
+    ]]
 		local gtd_hydra = Hydra({
 			name = "Getting Things Done!",
 			mode = "n",
-			heads = {
-				{ "j", today },
-				{ "t", tomorrow },
-				{ "y", yesterday },
+			config = {
+				color = "blue",
+				hint = {
+					border = "double",
+				},
 			},
-		})
-
-		local journal_hydra = Hydra({
-			name = "Journalin'",
-			mode = "n",
 			heads = {
 				{ "v", gtd_views },
 				{ "c", gtd_views },
 			},
 		})
 
+		local journal_hydra = Hydra({
+			name = "Journalin'",
+			mode = "n",
+			config = {
+				color = "blue",
+				hint = {
+					border = "double",
+				},
+			},
+			hint = journal_hint,
+			heads = {
+				{ "k", today },
+				{ "a", tomorrow },
+				{ "y", yesterday },
+			},
+		})
+		-- "Bookshelf" by
+		-- David S. Issel
 		local neorg_hyrda = Hydra({
 			config = {
 				color = "blue",
 				invoke_on_body = true,
+				hint = {
+					border = "double",
+				},
 			},
+			hint = main_hint,
 			mode = "n",
 			heads = {
 				{
-					"j",
+					"n",
 					function()
 						journal_hydra:activate()
 					end,

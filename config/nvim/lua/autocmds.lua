@@ -18,19 +18,19 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	end,
 })
 -- show cursor line only in active window
-vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter", "CmdlineLeave" }, {
-	group = InitGroupId,
-	pattern = "*",
-	command = "set cursorline",
-	desc = "Enable cursorline",
-})
+-- vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter", "CmdlineLeave" }, {
+-- 	group = InitGroupId,
+-- 	pattern = "*",
+-- 	command = "set cursorline",
+-- 	desc = "Enable cursorline",
+-- })
 
-vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave", "CmdlineEnter" }, {
-	group = InitGroupId,
-	pattern = "*",
-	command = "set nocursorline",
-	desc = "Disable cursorline",
-})
+-- vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave", "CmdlineEnter" }, {
+-- 	group = InitGroupId,
+-- 	pattern = "*",
+-- 	command = "set nocursorline",
+-- 	desc = "Disable cursorline",
+-- })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = InitGroupId,
@@ -51,3 +51,20 @@ vim.api.nvim_create_autocmd(
 	"FocusGained",
 	{ command = "checktime", desc = "Check if buffer was changed", group = InitGroupId }
 )
+
+-- This lets one delete entries from a quickfix list with `dd`
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = InitGroupId,
+	pattern = { "qf" },
+	callback = function()
+		vim.keymap.set("n", "dd", function()
+			local current_quick_fix_index = vim.fn.line(".")
+			local quickfix_list = vim.fn.getqflist()
+			table.remove(quickfix_list, current_quick_fix_index)
+			vim.fn.setqflist(quickfix_list, "r")
+			vim.fn.execute(current_quick_fix_index .. "cfirst")
+			vim.cmd("copen")
+		end, { buffer = true })
+	end,
+	desc = "Map q to close buffer",
+})

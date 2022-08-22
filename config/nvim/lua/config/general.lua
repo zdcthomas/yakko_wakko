@@ -90,6 +90,43 @@ function Config.venn()
 			end
 		end
 		vim.keymap.set("n", "<leader>v", toggle_venn, { silent = true, desc = "Toggle Venn mode" })
+	else
+		local Hydra = Pquire("hydra")
+		if not Hydra then
+			vim.notify("Hydra not found in Telescope hydra config!", "Error")
+			return
+		end
+		local hint = [[
+		Arrow
+    ^ ^ _K_ ^ ^   _f_: box it
+    _H_ ^ ^ _L_
+    ^ ^ _J_ ^ ^   _<Esc>_
+    ]]
+
+		local hydra = Hydra({
+			name = "Draw Diagram",
+			hint = hint,
+			config = {
+				color = "pink",
+				invoke_on_body = true,
+				hint = {
+					border = "rounded",
+				},
+				on_enter = function()
+					vim.o.virtualedit = "all"
+				end,
+			},
+			mode = "n",
+			heads = {
+				{ "H", "<C-v>h:VBox<CR>" },
+				{ "J", "<C-v>j:VBox<CR>" },
+				{ "K", "<C-v>k:VBox<CR>" },
+				{ "L", "<C-v>l:VBox<CR>" },
+				{ "f", ":VBox<CR>", { mode = "v" } },
+				{ "<Esc>", nil, { exit = true } },
+			},
+		})
+		require("config.hydra").add_g_hydra({ key = "v", hydra = hydra, desc = "Venn" })
 	end
 end
 
@@ -142,7 +179,7 @@ function Config.dirvish()
     command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
     command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
   ]])
-	vim.g.dirvish_mode = ":sort | sort ,^.*[^/]$, r"
+	vim.g.dirvish_mode = ":sort | sort ,^.*[^/]$, r "
 end
 
 function Config.md_links()

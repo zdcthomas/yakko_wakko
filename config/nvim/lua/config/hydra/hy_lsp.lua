@@ -14,7 +14,6 @@ local hint = [[
     ]]
 
 Module.hydra = Hydra({
-	name = "Draw Diagram",
 	hint = hint,
 	config = {
 		color = "pink",
@@ -28,12 +27,12 @@ Module.hydra = Hydra({
 	},
 	mode = "n",
 	heads = {
-		{ "H", "<C-v>h:VBox<CR>" },
-		{ "J", "<C-v>j:VBox<CR>" },
-		{ "K", "<C-v>k:VBox<CR>" },
-		{ "L", "<C-v>l:VBox<CR>" },
-		{ "f", ":VBox<CR>", { mode = "v" } },
-		{ "<Esc>", nil, { exit = true } },
+		-- { "H", "<C-v>h:VBox<CR>" },
+		-- { "J", "<C-v>j:VBox<CR>" },
+		-- { "K", "<C-v>k:VBox<CR>" },
+		-- { "L", "<C-v>l:VBox<CR>" },
+		-- { "f", ":VBox<CR>", { mode = "v" } },
+		-- { "<Esc>", nil, { exit = true } },
 	},
 })
 

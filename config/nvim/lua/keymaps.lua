@@ -7,6 +7,13 @@ vim.keymap.set("n", "<C-k>", "<C-W><C-k>", { silent = true, desc = "select windo
 vim.keymap.set("n", "<C-l>", "<C-W><C-l>", { silent = true, desc = "select window to the right" })
 vim.keymap.set("n", "<C-h>", "<C-W><C-h>", { silent = true, desc = "select window to the left" })
 
+local function append(char)
+	return [[:s/\(.\)$/\1]] .. char .. [[/<cr>]]
+end
+
+vim.keymap.set("n", "<LocalLeader>,", append(","), { silent = true, desc = "Append comma" })
+vim.keymap.set("n", "<LocalLeader>;", append(";"), { silent = true, desc = "Append semicolon" })
+
 vim.keymap.set("n", "<Leader>wL", "<C-W>L", { silent = true, desc = "Move window right" })
 vim.keymap.set("n", "<Leader>wK", "<C-W>K", { silent = true, desc = "Move window up" })
 vim.keymap.set("n", "<Leader>wJ", "<C-W>J", { silent = true, desc = "Move window down" })
@@ -38,28 +45,23 @@ end, {
 	silent = false,
 	desc = "Send diagnostics to location list",
 })
+
 vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, { silent = false, desc = "Show diagnostic in float" })
-local remove_qf_item = function()
-	local current_quick_fix_index = vim.fn.line(".")
-	local quickfix_list = vim.fn.getqflist()
-	table.remove(quickfix_list, current_quick_fix_index)
-	vim.fn.setqflist(quickfix_list, "r")
-	vim.cmd("execute " .. current_quick_fix_index .. "cfirst")
-end
 
--- TODO: add autocmd to qf list ft
+-- let g:mc = "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>"
 
-vim.cmd([[
-  " When using `dd` in the quickfix list, remove the item from the quickfix list.
-  function! RemoveQFItem()
-    let curqfidx = line('.') - 1
-    let qfall = getqflist()
-    call remove(qfall, curqfidx)
-    call setqflist(qfall, 'r')
-    execute curqfidx + 1 . "cfirst"
-    :copen
-  endfunction
-  :command! RemoveQFItem :call RemoveQFItem()
-  " Use map <buffer> to only map dd in the quickfix window. Requires +localmap
-  autocmd FileType qf map <buffer> dd :RemoveQFItem<cr>
-]])
+-- nnoremap cn *``cgn
+-- nnoremap cN *``cgN
+
+-- vnoremap <expr> cn g:mc . "``cgn"
+-- vnoremap <expr> cN g:mc . "``cgN"
+
+-- function! SetupCR()
+--   nnoremap <Enter> :nnoremap <lt>Enter> n@z<CR>q:<C-u>let @z=strpart(@z,0,strlen(@z)-1)<CR>n@z
+-- endfunction
+
+-- nnoremap cq :call SetupCR()<CR>*``qz
+-- nnoremap cQ :call SetupCR()<CR>#``qz
+
+-- vnoremap <expr> cq ":\<C-u>call SetupCR()\<CR>" . "gv" . g:mc . "``qz"
+-- vnoremap <expr> cQ ":\<C-u>call SetupCR()\<CR>" . "gv" . substitute(g:mc, '/', '?', 'g') . "``qz"
