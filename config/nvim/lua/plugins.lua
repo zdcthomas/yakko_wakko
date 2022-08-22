@@ -27,6 +27,107 @@ end
 return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
+		use({
+			"theblob42/drex.nvim",
+			requires = "kyazdani42/nvim-web-devicons", -- optional
+			config = function()
+				require("drex.config").configure({
+					icons = {
+						file_default = "",
+						dir_open = "",
+						dir_closed = "",
+						link = "",
+						others = "",
+					},
+					colored_icons = true,
+					hide_cursor = false,
+					hijack_netrw = false,
+					sorting = function(a, b)
+						local aname, atype = a[1], a[2]
+						local bname, btype = b[1], b[2]
+
+						local aisdir = atype == "directory"
+						local bisdir = btype == "directory"
+
+						if aisdir ~= bisdir then
+							return aisdir
+						end
+
+						return aname < bname
+					end,
+					disable_default_keybindings = false,
+					keybindings = {
+						["n"] = {
+							["v"] = "V",
+							["l"] = '<cmd>lua require("drex").expand_element()<CR>',
+							["h"] = '<cmd>lua require("drex").collapse_directory()<CR>',
+							["<CR>"] = function()
+								local drex = require("drex")
+								local line = vim.api.nvim_get_current_line()
+
+								if require("drex.utils").is_open_directory(line) then
+									drex.collapse_directory()
+								else
+									drex.expand_element()
+								end
+							end,
+							["<right>"] = '<cmd>lua require("drex").expand_element()<CR>',
+							["<left>"] = '<cmd>lua require("drex").collapse_directory()<CR>',
+							["<2-LeftMouse>"] = '<LeftMouse><cmd>lua require("drex").expand_element()<CR>',
+							["<RightMouse>"] = '<LeftMouse><cmd>lua require("drex").collapse_directory()<CR>',
+							["<C-v>"] = '<cmd>lua require("drex").open_file("vs")<CR>',
+							["<C-x>"] = '<cmd>lua require("drex").open_file("sp")<CR>',
+							["<C-t>"] = '<cmd>lua require("drex").open_file("tabnew")<CR>',
+							["<C-l>"] = '<cmd>lua require("drex").open_directory()<CR>',
+							["<C-h>"] = '<cmd>lua require("drex").open_parent_directory()<CR>',
+							["<F5>"] = '<cmd>lua require("drex").reload_directory()<CR>',
+							["gj"] = '<cmd>lua require("drex.jump").jump_to_next_sibling()<CR>',
+							["gk"] = '<cmd>lua require("drex.jump").jump_to_prev_sibling()<CR>',
+							["gh"] = '<cmd>lua require("drex.jump").jump_to_parent()<CR>',
+							["s"] = '<cmd>lua require("drex.actions").stats()<CR>',
+							["a"] = '<cmd>lua require("drex.actions").create()<CR>',
+							["d"] = '<cmd>lua require("drex.actions").delete("line")<CR>',
+							["D"] = '<cmd>lua require("drex.actions").delete("clipboard")<CR>',
+							["p"] = '<cmd>lua require("drex.actions").copy_and_paste()<CR>',
+							["P"] = '<cmd>lua require("drex.actions").cut_and_move()<CR>',
+							["r"] = '<cmd>lua require("drex.actions").rename()<CR>',
+							["R"] = '<cmd>lua require("drex.actions").multi_rename("clipboard")<CR>',
+							["M"] = "<cmd>DrexMark<CR>",
+							["u"] = "<cmd>DrexUnmark<CR>",
+							["m"] = "<cmd>DrexToggle<CR>",
+							["cc"] = '<cmd>lua require("drex.actions").clear_clipboard()<CR>',
+							["cs"] = '<cmd>lua require("drex.actions").open_clipboard_window()<CR>',
+							["y"] = '<cmd>lua require("drex.actions").copy_element_name()<CR>',
+							["Y"] = '<cmd>lua require("drex.actions").copy_element_relative_path()<CR>',
+							["<C-y>"] = '<cmd>lua require("drex.actions").copy_element_absolute_path()<CR>',
+						},
+						["v"] = {
+							["d"] = ':lua require("drex.actions").delete("visual")<CR>',
+							["r"] = ':lua require("drex.actions").multi_rename("visual")<CR>',
+							["M"] = ":DrexMark<CR>",
+							["u"] = ":DrexUnmark<CR>",
+							["m"] = ":DrexToggle<CR>",
+							["y"] = ':lua require("drex.actions").copy_element_name(true)<CR>',
+							["Y"] = ':lua require("drex.actions").copy_element_relative_path(true)<CR>',
+							["<C-y>"] = ':lua require("drex.actions").copy_element_absolute_path(true)<CR>',
+						},
+					},
+					on_enter = nil,
+					on_leave = nil,
+				})
+			end,
+		})
+		use({
+			"shaunsingh/nord.nvim",
+			config = function()
+				-- vim.g.nord_contrast = true
+				vim.g.nord_borders = true
+				-- vim.g.nord_disable_background = false
+				vim.g.nord_italic = true
+				vim.g.nord_uniform_diff_background = true
+				-- require("nord").set()
+			end,
+		})
 
 		use("antoinemadec/FixCursorHold.nvim")
 		use("lewis6991/impatient.nvim")
@@ -62,58 +163,36 @@ return require("packer").startup({
 			config = function() end,
 		})
 
-		-- use({
-		-- 	"zdcthomas/yop.nvim",
-		-- 	config = function()
-		-- 		local yop = require("yop")
-		-- 		local utils = require("yop.utils")
-		-- 		yop.op_map({ "n", "v" }, "gs", function(lines, opts)
-		-- 			-- We don't care about anything non alphanumeric here
-		-- 			local sort_without_leading_space = function(a, b)
-		-- 				-- true = a then b
-		-- 				-- false = b then a
-		-- 				local pattern = [[^%W*]]
-		-- 				return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
-		-- 			end
-		-- 			if #lines == 1 then
-		-- 				-- let startpos = match(@@, '\v\i')
-		-- 				-- let parts = split(@@, '\v\i+')
-		-- 				-- if startpos > 0
-		-- 				--   let prefix = parts[0]
-		-- 				--   let delimiter = parts[1]
-		-- 				--   let suffix = parts[-1]
-		-- 				-- else
-		-- 				--   let prefix = ''
-		-- 				--   let delimiter = parts[0]
-		-- 				--   let suffix = ''
-		-- 				-- endif
-		-- 				-- if prefix == delimiter
-		-- 				--   let prefix = ''
-		-- 				-- endif
-		-- 				-- if suffix == delimiter
-		-- 				--   let suffix = ''
-		-- 				-- endif
-		-- 				-- let sortstart = strlen(prefix)
-		-- 				-- let sortend = strlen(@@) - sortstart - strlen(suffix)
-		-- 				-- let sortables = strpart(@@, sortstart, sortend)
-		-- 				-- let sorted = join(sort(split(sortables, '\V' . escape(delimiter, '\'))), delimiter)
-		-- 				-- execute "normal! v`]c" . prefix . sorted . suffix
-		-- 				-- execute "normal! `["
-		-- 				-- If only looking at 1 line, sort that line split by some char gotten from imput
-		-- 				local delimeter = utils.get_input("Delimeter: ")
-		-- 				local split = vim.split(lines[1], delimeter, { trimempty = true })
-		-- 				-- Remember! `table.sort` mutates the table itself
-		-- 				table.sort(split, sort_without_leading_space)
-		-- 				return { utils.join(split, delimeter) }
-		-- 			else
-		-- 				-- If there are many lines, sort the lines themselves
-		-- 				table.sort(lines, sort_without_leading_space)
-		-- 				return lines
-		-- 			end
-		-- 		end)
-		-- 	end,
-		-- })
-		use("christoomey/vim-sort-motion", { keys = { "gs" } })
+		use({
+			"zdcthomas/yop.nvim",
+			config = function()
+				local yop = require("yop")
+				local utils = require("yop.utils")
+				yop.op_map({ "n", "v" }, "gs", function(lines, opts)
+					-- We don't care about anything non alphanumeric here
+					local sort_without_leading_space = function(a, b)
+						-- true = a then b
+						-- false = b then a
+						local pattern = [[^%W*]]
+						return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
+					end
+					if #lines == 1 then
+						-- local delimeter = utils.get_input("Delimeter: ")
+						local delimeter = ","
+						local split = vim.split(lines[1], delimeter, { trimempty = true })
+						-- Remember! `table.sort` mutates the table itself
+						table.sort(split, sort_without_leading_space)
+						return { utils.join(split, delimeter) }
+					else
+						-- If there are many lines, sort the lines themselves
+						table.sort(lines, sort_without_leading_space)
+						return lines
+					end
+				end)
+			end,
+		})
+
+		-- use("christoomey/vim-sort-motion", { keys = { "gs" } })
 
 		use({
 			"folke/lua-dev.nvim",
@@ -251,14 +330,15 @@ return require("packer").startup({
 			config = config.autopairs,
 		})
 
-		use({
+		local luasnip_config = {
 			"L3MON4D3/LuaSnip",
 			branch = "parse_from_ast",
 			rocks = { "jsregexp" },
 			config = function()
 				require("config.luasnip")
 			end,
-		})
+		}
+		use(luasnip_config)
 
 		use({
 			"hrsh7th/nvim-cmp",
@@ -271,7 +351,7 @@ return require("packer").startup({
 				"saadparwaiz1/cmp_luasnip",
 				"onsails/lspkind-nvim",
 				"petertriho/cmp-git",
-				"L3MON4D3/LuaSnip",
+				luasnip_config,
 			},
 			config = function()
 				-- See lspconfig comment on why this is in a function wrapper
@@ -479,33 +559,54 @@ return require("packer").startup({
 		-- -- 	cmd = { "Silicon" },
 		-- -- })
 
-		-- -- use({
-		-- -- 	"mhartington/formatter.nvim",
-		-- -- 	-- Utilities for creating configurations
-		-- -- 	config = function()
-		-- -- 		vim.keymap.set("n", "<leader><leader>f", ":Format<CR>", { silent = true })
-		-- -- 		local util = require("formatter.util")
+		use({
+			"mhartington/formatter.nvim",
+			-- Utilities for creating configurations
+			config = function()
+				vim.g.save_format = true
+				vim.keymap.set("n", "<leader><leader>f", ":Format<CR>", { silent = true })
+				local util = require("formatter.util")
 
-		-- -- 		-- Provides the Format and FormatWrite commands
-		-- -- 		require("formatter").setup({
-		-- -- 			-- Enable or disable logging
-		-- -- 			logging = true,
-		-- -- 			-- Set the log level
-		-- -- 			log_level = vim.log.levels.WARN,
-		-- -- 			-- All formatter configurations are opt-in
-		-- -- 			filetype = {
-		-- -- 				-- Formatter configurations for filetype "lua" go here
-		-- -- 				-- and will be executed in order
-		-- -- 				typescript = {
-		-- -- 					require("formatter.filetypes.typescript").prettier,
-		-- -- 				},
-		-- -- 				lua = {
-		-- -- 					require("formatter.filetypes.lua").stylua,
-		-- -- 				},
-		-- -- 			},
-		-- -- 		})
-		-- -- 	end,
-		-- -- })
+				-- Provides the Format and FormatWrite commands
+				require("formatter").setup({
+					-- Enable or disable logging
+					logging = true,
+					-- Set the log level
+					log_level = vim.log.levels.WARN,
+					-- All formatter configurations are opt-in
+					filetype = {
+						-- Formatter configurations for filetype "lua" go here
+						-- and will be executed in order
+						typescript = {
+							require("formatter.filetypes.typescript").prettierd,
+						},
+						typescriptreact = {
+							require("formatter.filetypes.typescriptreact").prettierd,
+						},
+
+						elixir = {
+							require("formatter.filetypes.elixir").mixformat,
+						},
+						lua = {
+							require("formatter.filetypes.lua").stylua,
+						},
+					},
+				})
+
+				local formatter_group = vim.api.nvim_create_augroup("formatter_group", { clear = true })
+
+				vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+					group = formatter_group,
+					pattern = "*",
+					callback = function()
+						if vim.g.save_format then
+							vim.cmd("FormatWrite")
+						end
+					end,
+					desc = "Map q to close buffer",
+				})
+			end,
+		})
 
 		use({
 			"nvim-neorg/neorg",

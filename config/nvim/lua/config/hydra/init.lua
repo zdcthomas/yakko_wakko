@@ -3,23 +3,35 @@ if not Hydra then
 	return
 end
 
+local hint = [[
+  ^ ^     EEEVVVEERRRYYYTHTNING
+  ^
+  _t_ Telescope
+  _g_ Git Mode
+  _w_ Windows
+  _p_ Packer Managment
+  _o_ Options
+  _n_ Note-taking (Neorg if you prefer)
+  ^
+]]
+
 local Module = {
-	loaded = false,
 	g_hydras = {
-		-- {
+		-- key = {
 		--   key = "string",
 		--   description = "string",
 		--   hydra = a hyrda
 		-- }
 	},
 }
-
 local function rebuild_hydra()
 	local beeg_boi = {
 		name = "EVERYTHING",
+		hint = hint,
 		config = {
 			invoke_on_body = true,
 			hint = {
+				show_name = true,
 				type = "window",
 				position = "top-right",
 				border = "double",
@@ -32,7 +44,7 @@ local function rebuild_hydra()
 		},
 	}
 
-	for _, hydra in ipairs(Module.g_hydras) do
+	for key, hydra in pairs(Module.g_hydras) do
 		table.insert(beeg_boi.heads, {
 			hydra.key,
 			function()
@@ -52,54 +64,13 @@ function Module.add_g_hydra(hyd)
 		hydra = { hyd.hydra, "table" },
 	})
 
-	table.insert(Module.g_hydras, hyd)
+	Module.g_hydras[hyd.key] = hyd
 
 	rebuild_hydra()
 end
 
-local function cmd(command)
-	return "<CMD>" .. command .. "<CR>"
-end
-
--- ^ is zero space in hints
-local telescope_hint = [[
-                 _p_: Files        _m_: Marks
-   🭇🬭🬭🬭🬭🬭🬭🬭🬭🬼    _b_: Buffers      _F_: Live Grep
-  🭉🭁🭠🭘    🭣🭕🭌🬾   _C_: Colorschemes _/_: Search in File
-  🭅█ ▁     █🭐
-  ██🬿      🭊██   _h_: Vim Help     _c_: Execute Command
- 🭋█🬝🮄🮄🮄🮄🮄🮄🮄🮄🬆█🭀  _k_: Keymap       _;_: Commands History
- 🭤🭒🬺🬹🬱🬭🬭🬭🬭🬵🬹🬹🭝🭙  _r_: Registers    _?_: Search History
-
-                 _<Enter>_: Telescope           _<Esc>_ 
-]]
-
-local function open_or_move(direction)
-	local current_window = vim.fn.winnr()
-	vim.api.nvim_exec("wincmd " .. direction, false)
-
-	if current_window == vim.api.nvim_eval("winnr()") then
-		if vim.tbl_contains({ "j", "k" }, direction) then
-			vim.api.nvim_exec("wincmd s", false)
-		else
-			vim.api.nvim_exec("wincmd v", false)
-		end
-
-		vim.api.nvim_exec("wincmd " .. direction, false)
-	end
-end
-
-local window_hint = [[
- ^^^^^^     Move     ^^^^^^   ^^   Split   ^^   ^ ^    Other
- ^^^^^^--------------^^^^^^   ^^-----------^^   ^-^------------
- ^ ^ _k_ ^ ^   ^ ^ _K_ ^ ^    ^   _<c-k>_   ^   _z_: Zen
- _h_ ^ ^ _l_   _H_ ^ ^ _L_    _<c-h>_ _<c-l>_   _o_: Only-ify
- ^ ^ _j_ ^ ^   ^ ^ _J_ ^ ^    ^   _<c-j>_   ^   _q_: Close
- focus^^^^^^   window^^^^^^   ^_=_: equalize^   _w_: Save
-]]
-
 local function side_scroll(Hydra)
-	Hydra({
+	return Hydra({
 		name = "Side scroll",
 		mode = "n",
 		body = "z",
@@ -112,170 +83,17 @@ local function side_scroll(Hydra)
 	})
 end
 
-local function windows(Hydra)
-	local win_hy = Hydra({
-		config = {
-			hint = {
-				border = "rounded",
-				position = "bottom",
-			},
-			color = "pink",
-			invoke_on_body = true,
-		},
-		hint = window_hint,
-		name = "windows n stuff",
-		mode = "n",
-		-- what happens if this is still here?
-		-- body = "<leader><leader>w",
-		heads = {
-			{ "L", "<c-w>L" },
-			{ "J", "<c-w>J" },
-			{ "K", "<c-w>K" },
-			{ "H", "<c-w>H" },
-
-			{ "l", "<c-w>l" },
-			{ "j", "<c-w>j" },
-			{ "k", "<c-w>k" },
-			{ "h", "<c-w>h" },
-
-			{ "<c-j>", ":rightbelow sp<CR>" },
-			{ "<c-l>", ":rightbelow vsp<CR>" },
-
-			{ "<c-k>", ":leftabove sp<CR>" },
-			{ "<c-h>", ":leftabove vsp<CR>" },
-
-			{ "o", "<c-w>o" },
-			{ "=", "<c-w>=" },
-
-			{ "w", ":w<cr>" },
-			{ "q", ":q<cr>" },
-			{ "z", ":Zenmode<cr>" },
-			{ "<ESC>", nil, { exit = true, nowait = true } },
-		},
-	})
-
-	Module.add_g_hydra({ key = "w", hydra = win_hy, desc = "Window managment" })
-end
-
-local function telescope(Hydra)
-	if not Pquire("telescope") then
-		return
-	end
-
-	local tel_hy = Hydra({
-		name = "Telescope",
-		hint = telescope_hint,
-		config = {
-			color = "teal",
-			invoke_on_body = true,
-			hint = {
-				position = "middle",
-				border = "rounded",
-			},
-		},
-		mode = "n",
-		heads = {
-			{ "p", cmd("Telescope find_files") },
-			{ "F", cmd("Telescope live_grep") },
-			{ "h", cmd("Telescope help_tags"), { desc = "Vim help" } },
-			{ "b", cmd("Telescope oldfiles"), { desc = "Recently opened files" } },
-			{ "m", cmd("MarksListBuf"), { desc = "Marks" } },
-			{ "k", cmd("Telescope keymaps") },
-			{ "r", cmd("Telescope registers") },
-			{ "C", cmd("Telescope colorscheme"), { desc = "Projects" } },
-			{ "/", cmd("Telescope current_buffer_fuzzy_find"), { desc = "Search in file" } },
-			{ "?", cmd("Telescope search_history"), { desc = "Search history" } },
-			{ ";", cmd("Telescope command_history"), { desc = "Command-line history" } },
-			{ "c", cmd("Telescope commands"), { desc = "Execute command" } },
-			{ "<Enter>", cmd("Telescope"), { exit = true, desc = "List all pickers" } },
-			{ "<Esc>", nil, { exit = true, nowait = true } },
-		},
-	})
-
-	Module.add_g_hydra({ key = "t", hydra = tel_hy, desc = "Telescope" })
-end
-
-local function telescope_hydra()
-	Hydra({
-		name = "Telescope",
-		hint = telescope_hint,
-		config = {
-			color = "teal",
-			invoke_on_body = true,
-			hint = {
-				position = "middle",
-				border = "rounded",
-			},
-		},
-		mode = "n",
-		heads = {
-			{ "p", cmd("Telescope find_files") },
-			{ "F", cmd("Telescope live_grep") },
-			{ "h", cmd("Telescope help_tags"), { desc = "Vim help" } },
-			{ "b", cmd("Telescope oldfiles"), { desc = "Recently opened files" } },
-			{ "m", cmd("MarksListBuf"), { desc = "Marks" } },
-			{ "k", cmd("Telescope keymaps") },
-			{ "r", cmd("Telescope registers") },
-			{ "C", cmd("Telescope colorscheme"), { desc = "Projects" } },
-			{ "/", cmd("Telescope current_buffer_fuzzy_find"), { desc = "Search in file" } },
-			{ "?", cmd("Telescope search_history"), { desc = "Search history" } },
-			{ ";", cmd("Telescope command_history"), { desc = "Command-line history" } },
-			{ "c", cmd("Telescope commands"), { desc = "Execute command" } },
-			{ "<Enter>", cmd("Telescope"), { exit = true, desc = "List all pickers" } },
-			{ "<Esc>", nil, { exit = true, nowait = true } },
-		},
-	})
-end
-
 Module.setup = function()
-	if Module.loaded then
-		return
-	end
-	side_scroll(Hydra)
-	windows(Hydra)
-	telescope(Hydra)
-	Module.loaded = true
-end
+	require("config.hydra.hy_side_scroll")
 
-local function new_setup()
-	hydra = Hydra({
-		name = "EVERYTHING",
-		config = {
-			invoke_on_body = true,
-			hint = {
-				type = "window",
-				position = "top-right",
-				border = "double",
-			},
-		},
-		mode = "n",
-		body = "<Leader>;",
-		heads = {
-			{ "<Esc>", nil, { exit = true } },
-			{
-				"t",
-				function()
-					if Pquire("telescope") then
-						require("config.hydra.hy_telescope").hydra:activate()
-					else
-						vim.notify("Telescope not loaded!", "WARN")
-					end
-				end,
-				{ exit = true },
-			},
-			{
-				"g",
-				function()
-					if Pquire("gitsigns") then
-						require("config.hydra.hy_gitsigns"):hydra()
-					else
-						vim.notify("GitSigns not loaded!", "WARN")
-					end
-				end,
-				{ exit = true },
-			},
-		},
-	})
+	local window_h = require("config.hydra.hy_window")
+	Module.add_g_hydra({ key = "w", hydra = window_h, desc = "Window managment" })
+
+	local packer = require("config.hydra.hy_packer")
+	Module.add_g_hydra({ key = "p", hydra = packer, desc = "Packer" })
+
+	local options = require("config.hydra.hy_options")
+	Module.add_g_hydra({ key = "o", hydra = options, desc = "Packer" })
 end
 
 return Module

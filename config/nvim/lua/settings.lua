@@ -1,6 +1,6 @@
 -- maps leader to space
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = ","
 
 -- Nvim recently introduced entirely-in-lua filetype detection to do away with
 -- the slower `filetype.vim` which is the default.
@@ -9,6 +9,7 @@ vim.g.do_filetype_lua = 1
 vim.g.did_load_filetypes = 0
 
 vim.g.diminactive_enable_focus = 1
+vim.g.netrw_list_hide = ""
 
 vim.opt.autoindent = true
 vim.opt.autoread = true
@@ -16,7 +17,7 @@ vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.backup = false
 vim.opt.clipboard = "unnamedplus"
 vim.opt.copyindent = true
-vim.opt.cursorline = true
+-- vim.opt.cursorline = false
 vim.opt.encoding = "UTF-8"
 vim.opt.equalalways = false
 vim.opt.expandtab = true

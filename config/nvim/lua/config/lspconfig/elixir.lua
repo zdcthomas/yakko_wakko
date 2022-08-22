@@ -212,40 +212,72 @@ local root_dir = function(fname)
 	return path
 end
 Module.setup = function()
-	require("lspconfig")["elixirls"].setup({
-		on_attach = function(client, bufnr)
-			vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-				buffer = bufnr,
-				callback = vim.lsp.codelens.refresh,
-			})
-			vim.lsp.codelens.refresh()
+	local elixir = require("elixir")
 
-			local add_user_cmd = vim.api.nvim_buf_create_user_command
-			add_user_cmd(bufnr, "ElixirFromPipe", from_pipe(client), {})
-			add_user_cmd(bufnr, "ElixirToPipe", to_pipe(client), {})
+	elixir.setup({
+		-- specify a repository and branch
+		repo = "mhanberg/elixir-ls", -- defaults to elixir-lsp/elixir-ls
+		branch = "mh/all-workspace-symbols", -- defaults to nil, just checkouts out the default branch, mutually exclusive with the `tag` option
+		tag = "v0.9.0", -- defaults to nil, mutually exclusive with the `branch` option
+
+		-- default settings, use the `settings` function to override settings
+		settings = elixir.settings({
+			dialyzerEnabled = true,
+			fetchDeps = false,
+			enableTestLenses = false,
+			suggestSpecs = false,
+		}),
+
+		on_attach = function(client, bufnr)
+			client.resolved_capabilities.code_lens = true
+			local map_opts = { buffer = true, noremap = true }
+
+			-- run the codelens under the cursor
+			-- vim.keymap.set("n", "<space>r", vim.lsp.codelens.run, map_opts)
+			-- remove the pipe operator
+			vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", map_opts)
+			-- add the pipe operator
+			vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", map_opts)
+			vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", map_opts)
 
 			common_on_attach(client, bufnr)
 		end,
-
-		settings = {
-			elixirLS = {
-				dialyzerEnabled = true,
-				fetchDeps = false,
-				enableTestLenses = true,
-				suggestSpecs = true,
-			},
-		},
-		capabilities = capabilities,
-		flags = {
-			debounce_text_changes = 150,
-		},
-		root_dir = root_dir,
-		on_init = function(client)
-			client.notify("workspace/didChangeConfiguration")
-			client.commands["elixir.lens.test.run"] = test
-			-- return true
-		end,
 	})
+	-- require("lspconfig")["elixirls"].setup({
+	-- 	on_attach = function(client, bufnr)
+	-- 		-- vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+	-- 		-- 	buffer = bufnr,
+	-- 		-- 	callback = vim.lsp.codelens.refresh,
+	-- 		-- })
+	-- 		-- vim.lsp.codelens.refresh()
+
+	-- 		local add_user_cmd = vim.api.nvim_buf_create_user_command
+	-- 		add_user_cmd(bufnr, "ElixirFromPipe", from_pipe(client), {})
+	-- 		add_user_cmd(bufnr, "ElixirToPipe", to_pipe(client), {})
+
+	-- 		common_on_attach(client, bufnr)
+	-- 	end,
+
+	-- 	cmd = { "/Users/zacharythomas/.nix-profile/bin/elixir-ls" },
+	-- 	settings = {
+	-- 		elixirLS = {
+	-- 			-- dialyzerEnabled = true,
+	-- 			fetchDeps = false,
+	-- 			-- enableTestLenses = false,
+	-- 			suggestSpecs = true,
+	-- 		},
+	-- 	},
+	-- 	capabilities = capabilities,
+	-- 	flags = {
+	-- 		-- debounce_text_changes = 150,
+	-- 	},
+	-- 	root_dir = root_dir,
+	-- 	on_init = function(client)
+	-- 		client.notify("workspace/didChangeConfiguration")
+	-- 		-- client.commands["elixir.lens.test.run"] = test
+	-- 		-- return true
+	-- 	end,
+	-- })
 end
 
 return Module

@@ -9,7 +9,7 @@
 
   nix = {
 
-    package = pkgs.nix;
+    package = pkgs.nixFlakes;
 
     extraOptions = ''
       keep-outputs = true
@@ -53,9 +53,11 @@
       fzf
       gh
       git
+      graphviz
       jq
       neovim
       nodePackages.prettier_d_slim
+      nodejs-18_x
       python38
       silver-searcher
       skim
@@ -79,8 +81,14 @@
       /* These will get created as scripts */
       (
         pkgs.writeScriptBin "dot-switch" ''
-          home-manager switch --flake ${config.home.homeDirectory}/yakko_wakko#zacharythomas $args
+          home-manager switch --flake ${config.home.homeDirectory}/yakko_wakko#zacharythomas $@
         ''
+      )
+      (
+        pkgs.writeScriptBin "gfuz"
+          ''
+            alias gfuz='git ls-files -m -o --exclude-standard | fzf --print0 -m -1 | xargs -0 -t -o'
+          ''
       )
       (
         pkgs.writeScriptBin "dot-update" ''
@@ -99,7 +107,7 @@
     file = {
       ".config/nvim" = {
         recursive = true;
-        source = config.lib.file.mkOutOfStoreSymlink /Users/zacharythomas/yakko_wakko/config/nvim;
+        source = ./config/nvim;
       };
       ".tmux.conf".source = ./tmux.conf;
       "Brewfile".source = ./Brewfile;
@@ -115,9 +123,9 @@
         recursive = true;
         source = ./config/alacritty;
       };
-      ".config/boxes" = {
+      ".boxes" = {
         recursive = true;
-        source = ./config/boxes;
+        source = ./config/boxes/.boxes;
       };
     };
 
@@ -153,6 +161,13 @@
   };
 
   programs = {
+    /* emacs = { */
+    /*   enable = true; */
+    /*   extraPackages = epkgs: [ */
+    /*     epkgs.nix-mode */
+    /*     epkgs.magit */
+    /*   ]; */
+    /* }; */
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
     bat.enable = true;
@@ -206,6 +221,9 @@
         enable = true;
         enableAutosuggestions = true;
         enableCompletion = true;
+        completionInit = ''
+          . _git
+        '';
         history.extended = true;
         sessionVariables = rec {
           EDITOR = "nvim";
@@ -219,7 +237,13 @@
         initExtraFirst = builtins.readFile ./zsh_extra_config.zsh;
         plugins = [
           {
-            # nix-prefetch-url --unpack https://github.com/zsh-users/zsh-syntax-highlighting/archive/0.6.0.tar.gz
+            name = "_git";
+            src = pkgs.fetchurl {
+              url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
+              sha256 = "sha256-9gddKDJQeF7c8JKBmSvea0vMQ+stynRIjYgKUvdlnAk=";
+            };
+          }
+          {
             name = "zsh-history-substring-search";
             src = pkgs.fetchFromGitHub {
               owner = "zsh-users";
@@ -229,7 +253,6 @@
             };
           }
           {
-            # nix-prefetch-url --unpack https://github.com/zsh-users/zsh-syntax-highlighting/archive/0.6.0.tar.gz
             name = "zsh-syntax-highlighting";
             src = pkgs.fetchFromGitHub {
               owner = "zsh-users";

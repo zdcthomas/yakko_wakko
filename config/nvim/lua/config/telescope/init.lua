@@ -62,10 +62,20 @@ local function fb_action(f)
 end
 
 function conf.setup()
+	require("config.hydra").add_g_hydra({
+		key = "t",
+		hydra = require("config.telescope.hydra").hydra,
+		desc = "Telescope",
+	})
 	local actions = require("telescope.actions")
 	local telescope = require("telescope")
 	telescope.setup({
 		pickers = {
+			-- live_grep = {
+			-- 	mappings = {
+			-- 		i = { ["<c-f>"] = actions.to_fuzzy_refine },
+			-- 	},
+			-- },
 			git_status = {
 				initial_mode = "normal",
 				git_icons = {
@@ -95,6 +105,8 @@ function conf.setup()
 					["<c-x>"] = false,
 					["<c-v>"] = false,
 					["<c-t>"] = false,
+
+					["<c-f>"] = actions.to_fuzzy_refine,
 					["<c-k>"] = actions.move_selection_previous,
 					["<c-j>"] = actions.move_selection_next,
 					["<m-j>"] = actions.select_horizontal,

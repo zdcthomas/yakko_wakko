@@ -30,7 +30,7 @@
       defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
       defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
       homeConfigurations = {
-        "zacharythomas" = home-manager.lib.homeManagerConfiguration {
+        zacharythomas = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
 
           modules = [
