@@ -59,6 +59,7 @@
       nodePackages.prettier_d_slim
       nodejs-18_x
       python38
+      ripgrep
       silver-searcher
       skim
       statix
@@ -221,18 +222,10 @@
         enable = true;
         enableAutosuggestions = true;
         enableCompletion = true;
-        completionInit = ''
-          . _git
-        '';
         history.extended = true;
         sessionVariables = rec {
           EDITOR = "nvim";
         };
-        /* oh-my-zsh = { */
-        /*   enable = true; */
-        /*   plugins = [ ]; */
-        /*   theme = "robbyrussell"; */
-        /* }; */
         autocd = true;
         initExtraFirst = builtins.readFile ./zsh_extra_config.zsh;
         plugins = [
