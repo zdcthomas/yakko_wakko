@@ -27,6 +27,21 @@ end
 return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
+		use("mechatroner/rainbow_csv")
+		use({
+			"phaazon/mind.nvim",
+			branch = "v2",
+			requires = { "nvim-lua/plenary.nvim" },
+			config = function()
+				require("mind").setup({
+					persistence = {
+
+						data_dir = "~/Irulan/",
+						state_path = "~/Irulan/mind.json",
+					},
+				})
+			end,
+		})
 		use({
 			"theblob42/drex.nvim",
 			requires = "kyazdani42/nvim-web-devicons", -- optional
@@ -65,7 +80,7 @@ return require("packer").startup({
 						},
 						["F"] = {
 							add = function()
-								return { { "function () ", "" }, { " ", "end" } }
+								return { { "function ()" }, { "end" } }
 							end,
 						},
 					},
@@ -143,49 +158,10 @@ return require("packer").startup({
 		use({ "kevinhwang91/nvim-bqf", ft = "qf" })
 		use({ "seandewar/nvimesweeper", cmd = { "Nvimesweeper" } })
 		use({ "tpope/vim-commentary", keys = { "gc" }, cmd = { "Commentary" } })
-
-		-- -- use({
-		-- -- 	"b0o/incline.nvim",
-		-- -- 	config = function()
-		-- -- 		require("incline").setup({
-		-- -- 			highlight = {
-		-- -- 				groups = {
-		-- -- 					InclineNormal = "PmenuSel",
-		-- -- 					InclineNormalNC = "PmenuSbar",
-		-- -- 				},
-		-- -- 			},
-		-- -- 			window = {
-		-- -- 				winhighlight = {
-		-- -- 					inactive = {
-		-- -- 						Normal = "",
-		-- -- 					},
-		-- -- 				},
-		-- -- 				margin = {
-		-- -- 					vertical = 0,
-		-- -- 				},
-		-- -- 			},
-		-- -- 			hide = {
-		-- -- 				focused_win = true,
-		-- -- 				only_win = true,
-		-- -- 			},
-		-- -- 		})
-		-- -- 	end,
-		-- -- })
-
 		use({
 			"stevearc/dressing.nvim",
 			config = config.dressing,
 		})
-
-		-- -- use({
-		-- -- 	"takac/vim-hardtime",
-		-- -- 	cmd = {
-		-- -- 		"HardTimeOff",
-		-- -- 		"HardTimeToggle",
-		-- -- 		"HardTimeOn",
-		-- -- 	},
-		-- -- 	config = config.hardtime,
-		-- -- })
 
 		use({
 			"folke/zen-mode.nvim",
@@ -327,14 +303,7 @@ return require("packer").startup({
 			requires = {
 				{ "nvim-lua/popup.nvim" },
 				{ "nvim-lua/plenary.nvim" },
-				{
-					"kyazdani42/nvim-web-devicons",
-					config = function()
-						require("nvim-web-devicons").setup({
-							default = true,
-						})
-					end,
-				},
+				{ "kyazdani42/nvim-web-devicons" },
 				{ "nvim-telescope/telescope-ui-select.nvim" },
 				-- There's some type of fatal issue here but it'd be amazing if it got resolved
 				-- { "nvim-telescope/telescope-fzf-writer.nvim" },
@@ -372,18 +341,10 @@ return require("packer").startup({
 		use({
 			"neovim/nvim-lspconfig",
 			requires = {
-				-- "ckipp01/stylua-nvim",
-				"mhanberg/elixir.nvim",
 				"hrsh7th/nvim-cmp",
 				"kosayoda/nvim-lightbulb",
 				"nvim-lua/lsp-status.nvim",
 				"nvim-telescope/telescope.nvim",
-				{
-					"ray-x/lsp_signature.nvim",
-					config = function()
-						-- require("lsp_signature").setup({})
-					end,
-				},
 				"williamboman/mason.nvim",
 			},
 			config = function()
@@ -393,20 +354,6 @@ return require("packer").startup({
 				require("config.lspconfig").setup()
 			end,
 		})
-
-		-- -- use({
-		-- -- 	"nvim-lua/plenary.nvim",
-		-- -- 	config = function()
-		-- -- 		local plen_group = vim.api.nvim_create_augroup("PlenaryGroupBindings", { clear = true })
-		-- -- 		vim.api.nvim_create_autocmd("FileType", {
-		-- -- 			group = plen_group,
-		-- -- 			pattern = { "lua" },
-		-- -- 			callback = function()
-		-- -- 				vim.keymap.set("n", "<leader><leader>t", "<Plug>PlenaryTestFile", { buffer = true })
-		-- -- 			end,
-		-- -- 		})
-		-- -- 	end,
-		-- -- })
 
 		use({
 			"ruifm/gitlinker.nvim",
@@ -419,110 +366,32 @@ return require("packer").startup({
 			end,
 		})
 
-		use({
-			"justinmk/vim-dirvish",
-			requires = {
-				"kristijanhusak/vim-dirvish-git",
-				"roginfarrer/vim-dirvish-dovish",
-			},
-			config = config.dirvish,
-		})
+		-- use({
+		-- 	"justinmk/vim-dirvish",
+		-- 	requires = {
+		-- 		"kristijanhusak/vim-dirvish-git",
+		-- 		"roginfarrer/vim-dirvish-dovish",
+		-- 	},
+		-- 	config = config.dirvish,
+		-- })
+
+		-- use({
+		-- 	"jose-elias-alvarez/null-ls.nvim",
+		-- 	config = function()
+		-- 		require("config.null_ls")
+		-- 	end,
+		-- })
 
 		use({
-			"jose-elias-alvarez/null-ls.nvim",
-			config = function()
-				local augroup = vim.api.nvim_create_augroup("LspFormattingNull", {})
-				local null = require("null-ls")
-				null.setup({
-					sources = {
-						null.builtins.formatting.stylua,
-						null.builtins.diagnostics.eslint,
-						null.builtins.code_actions.statix,
-						null.builtins.formatting.prettierd.with({
-							filetypes = {
-								"javascript",
-								"javascriptreact",
-								"typescript",
-								"typescriptreact",
-								"vue",
-								"css",
-								"scss",
-								"less",
-								"html",
-								"graphql",
-							},
-						}),
-					},
-					on_attach = function(client, bufnr)
-						if client.supports_method("textDocument/formatting") then
-							vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-							vim.api.nvim_create_autocmd("BufWritePre", {
-								group = augroup,
-								buffer = bufnr,
-								callback = function()
-									-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-									vim.lsp.buf.formatting_sync()
-								end,
-							})
-						end
-
-						Pr("client.name", client.name)
-					end,
-				})
-			end,
+			"segeljakt/vim-silicon",
+			cmd = { "Silicon" },
 		})
-
-		-- -- use({
-		-- -- 	"segeljakt/vim-silicon",
-		-- -- 	cmd = { "Silicon" },
-		-- -- })
 
 		use({
 			"mhartington/formatter.nvim",
 			-- Utilities for creating configurations
 			config = function()
-				vim.g.save_format = true
-				vim.keymap.set("n", "<leader><leader>f", ":Format<CR>", { silent = true })
-				local util = require("formatter.util")
-
-				-- Provides the Format and FormatWrite commands
-				require("formatter").setup({
-					-- Enable or disable logging
-					logging = true,
-					-- Set the log level
-					log_level = vim.log.levels.WARN,
-					-- All formatter configurations are opt-in
-					filetype = {
-						-- Formatter configurations for filetype "lua" go here
-						-- and will be executed in order
-						typescript = {
-							require("formatter.filetypes.typescript").prettierd,
-						},
-						typescriptreact = {
-							require("formatter.filetypes.typescriptreact").prettierd,
-						},
-
-						elixir = {
-							require("formatter.filetypes.elixir").mixformat,
-						},
-						lua = {
-							require("formatter.filetypes.lua").stylua,
-						},
-					},
-				})
-
-				local formatter_group = vim.api.nvim_create_augroup("formatter_group", { clear = true })
-
-				vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-					group = formatter_group,
-					pattern = "*",
-					callback = function()
-						if vim.g.save_format then
-							vim.cmd("FormatWrite")
-						end
-					end,
-					desc = "Map q to close buffer",
-				})
+				require("config.formatter")
 			end,
 		})
 
@@ -539,6 +408,9 @@ return require("packer").startup({
 
 		use({
 			"nvim-orgmode/orgmode",
+			requires = {
+				"ranjithshegde/orgWiki.nvim",
+			},
 			config = function()
 				require("orgmode").setup_ts_grammar()
 				require("orgmode").setup({
@@ -554,8 +426,6 @@ return require("packer").startup({
 				require("config.hydra").setup()
 			end,
 		})
-
-		-- -- use("neovim/nvimdev.nvim")
 
 		if packer_bootstrap then
 			require("packer").sync()

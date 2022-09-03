@@ -76,7 +76,7 @@ Module.common_on_attach = function(client, bufnr)
 		vim.keymap.set("n", "<leader>gq", vim.lsp.buf.formatting, opts)
 		vim.api.nvim_create_autocmd(
 			{ "BufWritePre" },
-			{ buffer = bufnr, callback = vim.lsp.buf.formatting_sync, group = Module.lspconfig_augroup }
+			{ buffer = bufnr, callback = vim.lsp.buf.format, group = Module.lspconfig_augroup }
 		)
 	end
 
