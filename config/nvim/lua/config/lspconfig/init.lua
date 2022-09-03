@@ -61,51 +61,19 @@ function conf.setup()
 				capabilities = capabilities,
 			})
 		end,
-		["elixirls"] = function()
-			require("config.lspconfig.elixir").setup()
-		end,
+		-- ["elixirls"] = function()
+		--   require("config.lspconfig.elixir").setup()
+		-- end,
 		["sumneko_lua"] = function()
 			require("config.lspconfig.lua").setup()
 		end,
 		["tsserver"] = function()
 			require("config.lspconfig.typescript").setup()
 		end,
-		-- ["eslint"] = function()
-		-- 	require("config.lspconfig.eslint").setup()
-		-- end,
+		["eslint"] = function()
+			require("config.lspconfig.eslint").setup()
+		end,
 	})
-
-	-- local elixir = require("elixir")
-
-	-- elixir.setup({
-	-- 	-- specify a repository and branch
-	-- 	repo = "mhanberg/elixir-ls", -- defaults to elixir-lsp/elixir-ls
-	-- 	branch = "mh/all-workspace-symbols", -- defaults to nil, just checkouts out the default branch, mutually exclusive with the `tag` option
-	-- 	tag = "v0.11.0", -- defaults to nil, mutually exclusive with the `branch` option
-
-	-- 	-- default settings, use the `settings` function to override settings
-	-- 	settings = elixir.settings({
-	-- 		dialyzerEnabled = true,
-	-- 		fetchDeps = false,
-	-- 		enableTestLenses = false,
-	-- 		suggestSpecs = true,
-	-- 	}),
-
-	-- 	on_attach = function(client, bufnr)
-	-- 		client.resolved_capabilities.code_lens = true
-	-- 		local map_opts = { buffer = true, noremap = true }
-
-	-- 		-- run the codelens under the cursor
-	-- 		-- vim.keymap.set("n", "<space>r", vim.lsp.codelens.run, map_opts)
-	-- 		-- remove the pipe operator
-	-- 		vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", map_opts)
-	-- 		-- add the pipe operator
-	-- 		vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", map_opts)
-	-- 		vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", map_opts)
-
-	-- 		common_on_attach(client, bufnr)
-	-- 	end,
-	-- })
 end
 
 return conf
