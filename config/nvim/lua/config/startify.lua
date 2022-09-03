@@ -342,17 +342,17 @@ function conf.setup()
 
 	vim.g.startify_custom_header = center(ascii)
 
-	local startify_group = vim.api.nvim_create_augroup("startify", { clear = true })
-	vim.api.nvim_create_autocmd({ "User" }, {
-		group = startify_group,
-		pattern = "StartifyReady",
-		callback = function()
-			vim.keymap.set("n", "-", function()
-				vim.cmd("bwipe")
-				vim.cmd("Dirvish")
-			end, { silent = true, buffer = true })
-		end,
-	})
+	-- local startify_group = vim.api.nvim_create_augroup("startify", { clear = true })
+	-- vim.api.nvim_create_autocmd({ "User" }, {
+	-- 	group = startify_group,
+	-- 	pattern = "StartifyReady",
+	-- 	callback = function()
+	-- 		vim.keymap.set("n", "-", function()
+	-- 			vim.cmd("bwipe")
+	-- 			vim.cmd("Dirvish")
+	-- 		end, { silent = true, buffer = true })
+	-- 	end,
+	-- })
 end
 
 return conf

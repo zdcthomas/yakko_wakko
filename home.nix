@@ -49,11 +49,13 @@
       exa
       fd
       fish
+      flyctl
       font-awesome_5
       fzf
       gh
       git
       graphviz
+      hugo
       jq
       neovim
       nodePackages.prettier_d_slim
@@ -106,16 +108,14 @@
     /* symlink the config directory. I know this isn't the nix way, but it's
       * ridiculous to invent another layer of rconfiguration languages */
     file = {
-      ".config/nvim" = {
-        recursive = true;
-        source = ./config/nvim;
+      ".config/nvim/" = {
+        /* recursive = true; */
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/nvim";
       };
       ".tmux.conf".source = ./tmux.conf;
-      "Brewfile".source = ./Brewfile;
-      ".config/dmux" = {
-        recursive = true;
-        source = ./config/dmux;
-      };
+      /* "Brewfile".source = ./Brewfile; */
+      ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;
+      ".boxes".source = ./config/boxes/.boxes;
       ".config/kitty" = {
         recursive = true;
         source = ./config/kitty;
@@ -123,10 +123,6 @@
       ".config/alacritty" = {
         recursive = true;
         source = ./config/alacritty;
-      };
-      ".boxes" = {
-        recursive = true;
-        source = ./config/boxes/.boxes;
       };
     };
 

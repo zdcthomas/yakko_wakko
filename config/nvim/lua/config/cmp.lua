@@ -198,7 +198,8 @@ function conf.setup()
 			{ name = "calc" },
 		}),
 		experimental = {
-			ghost_text = true,
+			-- This is super super buggy for whatever reason
+			ghost_text = false,
 		},
 	})
 
