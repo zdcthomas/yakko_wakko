@@ -104,7 +104,7 @@
     ];
 
     /* symlink the config directory. I know this isn't the nix way, but it's
-      * ridiculous to invent another layer of rconfiguration languages*/
+      * ridiculous to invent another layer of rconfiguration languages */
     file = {
       ".config/nvim" = {
         recursive = true;
