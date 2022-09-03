@@ -14,7 +14,7 @@ Module.setup = function()
 			-- client.resolved_capabilities.document_formatting = false
 			-- client.server_capabilities.document_formatting = false
 
-			client.resolved_capabilities.document_formatting = false
+			client.server_capabilities.documentFormattingProvider = false
 			--
 			common_on_attach(client, bufnr)
 			-- Stylua has been fucking up hard

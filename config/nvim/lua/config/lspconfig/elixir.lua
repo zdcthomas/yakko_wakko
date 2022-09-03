@@ -7,67 +7,67 @@ local uv = vim.loop
 local lsputil = require("lspconfig.util")
 
 local get_cursor_position = function()
-	local rowcol = vim.api.nvim_win_get_cursor(0)
-	local row = rowcol[1] - 1
-	local col = rowcol[2]
+  local rowcol = vim.api.nvim_win_get_cursor(0)
+  local row = rowcol[1] - 1
+  local col = rowcol[2]
 
-	return row, col
+  return row, col
 end
 
 local function manipulate_pipes(direction, client)
-	local row, col = get_cursor_position()
+  local row, col = get_cursor_position()
 
-	client.request_sync("workspace/executeCommand", {
-		command = "manipulatePipes:serverid",
-		arguments = { direction, "file://" .. vim.api.nvim_buf_get_name(0), row, col },
-	}, nil, 0)
+  client.request_sync("workspace/executeCommand", {
+    command = "manipulatePipes:serverid",
+    arguments = { direction, "file://" .. vim.api.nvim_buf_get_name(0), row, col },
+  }, nil, 0)
 end
 
 local function from_pipe(client)
-	return function()
-		manipulate_pipes("fromPipe", client)
-	end
+  return function()
+    manipulate_pipes("fromPipe", client)
+  end
 end
 
 local function to_pipe(client)
-	return function()
-		manipulate_pipes("toPipe", client)
-	end
+  return function()
+    manipulate_pipes("toPipe", client)
+  end
 end
 
 local function expand_macro(client)
-	return function()
-		local params = vim.lsp.util.make_given_range_params()
+  return function()
+    local params = vim.lsp.util.make_given_range_params()
 
-		local text = vim.api.nvim_buf_get_text(
-			0,
-			params.range.start.line,
-			params.range.start.character,
-			params.range["end"].line,
-			params.range["end"].character,
-			{}
-		)
+    local text = vim.api.nvim_buf_get_text(
+      0,
+      params.range.start.line,
+      params.range.start.character,
+      params.range["end"].line,
+      params.range["end"].character,
+      {}
+    )
 
-		local resp = client.request_sync("workspace/executeCommand", {
-			command = "expandMacro:serverid",
-			arguments = { params.textDocument.uri, vim.fn.join(text, "\n"), params.range.start.line },
-		}, nil, 0)
+    local resp = client.request_sync("workspace/executeCommand", {
+      command = "expandMacro:serverid",
+      arguments = { params.textDocument.uri, vim.fn.join(text, "\n"), params.range.start.line },
+    }, nil, 0)
 
-		local content = {}
-		if resp["result"] then
-			for k, v in pairs(resp.result) do
-				vim.list_extend(content, { "# " .. k, "" })
-				vim.list_extend(content, vim.split(v, "\n"))
-			end
-		else
-			table.insert(content, "Error")
-		end
+    local content = {}
+    if resp["result"] then
+      for k, v in pairs(resp.result) do
+        vim.list_extend(content, { "# " .. k, "" })
+        vim.list_extend(content, vim.split(v, "\n"))
+      end
+    else
+      table.insert(content, "Error")
+    end
 
-		-- not sure why i need this here
-		vim.schedule(function()
-			vim.lsp.util.open_floating_preview(vim.lsp.util.trim_empty_lines(content), "elixir", {})
-		end)
-	end
+    -- not sure why i need this here
+    vim.schedule(function()
+      vim.lsp.util.open_floating_preview(vim.lsp.util.trim_empty_lines(content), "elixir", {})
+    end)
+  end
 end
 
 -- local nil_buf_id = 999999
@@ -196,88 +196,87 @@ end
 -- end
 
 local root_dir = function(fname)
-	local path = lsputil.path
-	local child_or_root_path = lsputil.root_pattern({ "mix.exs", ".git" })(fname)
-	local maybe_umbrella_path = lsputil.root_pattern({ "mix.exs" })(
-		uv.fs_realpath(path.join({ child_or_root_path, ".." }))
-	)
+  local path = lsputil.path
+  local child_or_root_path = lsputil.root_pattern({ "mix.exs", ".git" })(fname)
+  local maybe_umbrella_path =
+  lsputil.root_pattern({ "mix.exs" })(uv.fs_realpath(path.join({ child_or_root_path, ".." })))
 
-	local has_ancestral_mix_exs_path = vim.startswith(child_or_root_path, path.join({ maybe_umbrella_path, "apps" }))
-	if maybe_umbrella_path and not has_ancestral_mix_exs_path then
-		maybe_umbrella_path = nil
-	end
+  local has_ancestral_mix_exs_path = vim.startswith(child_or_root_path, path.join({ maybe_umbrella_path, "apps" }))
+  if maybe_umbrella_path and not has_ancestral_mix_exs_path then
+    maybe_umbrella_path = nil
+  end
 
-	path = maybe_umbrella_path or child_or_root_path or vim.loop.os_homedir()
+  path = maybe_umbrella_path or child_or_root_path or vim.loop.os_homedir()
 
-	return path
+  return path
 end
 Module.setup = function()
-	local elixir = require("elixir")
+  local elixir = require("elixir")
 
-	elixir.setup({
-		-- specify a repository and branch
-		repo = "mhanberg/elixir-ls", -- defaults to elixir-lsp/elixir-ls
-		branch = "mh/all-workspace-symbols", -- defaults to nil, just checkouts out the default branch, mutually exclusive with the `tag` option
-		tag = "v0.9.0", -- defaults to nil, mutually exclusive with the `branch` option
+  elixir.setup({
+    -- specify a repository and branch
+    repo = "mhanberg/elixir-ls", -- defaults to elixir-lsp/elixir-ls
+    branch = "mh/all-workspace-symbols", -- defaults to nil, just checkouts out the default branch, mutually exclusive with the `tag` option
+    tag = "v0.9.0", -- defaults to nil, mutually exclusive with the `branch` option
 
-		-- default settings, use the `settings` function to override settings
-		settings = elixir.settings({
-			dialyzerEnabled = true,
-			fetchDeps = false,
-			enableTestLenses = false,
-			suggestSpecs = false,
-		}),
+    -- default settings, use the `settings` function to override settings
+    settings = elixir.settings({
+      dialyzerEnabled = true,
+      fetchDeps = false,
+      enableTestLenses = false,
+      suggestSpecs = false,
+    }),
 
-		on_attach = function(client, bufnr)
-			client.resolved_capabilities.code_lens = true
-			local map_opts = { buffer = true, noremap = true }
+    on_attach = function(client, bufnr)
+      client.serverCapabilities.codeLensProvider = true
+      local map_opts = { buffer = true, noremap = true }
 
-			-- run the codelens under the cursor
-			-- vim.keymap.set("n", "<space>r", vim.lsp.codelens.run, map_opts)
-			-- remove the pipe operator
-			vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", map_opts)
-			-- add the pipe operator
-			vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", map_opts)
-			vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", map_opts)
+      -- run the codelens under the cursor
+      -- vim.keymap.set("n", "<space>r", vim.lsp.codelens.run, map_opts)
+      -- remove the pipe operator
+      vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", map_opts)
+      -- add the pipe operator
+      vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", map_opts)
+      vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", map_opts)
 
-			common_on_attach(client, bufnr)
-		end,
-	})
-	-- require("lspconfig")["elixirls"].setup({
-	-- 	on_attach = function(client, bufnr)
-	-- 		-- vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-	-- 		-- 	buffer = bufnr,
-	-- 		-- 	callback = vim.lsp.codelens.refresh,
-	-- 		-- })
-	-- 		-- vim.lsp.codelens.refresh()
+      common_on_attach(client, bufnr)
+    end,
+  })
+  -- require("lspconfig")["elixirls"].setup({
+  -- 	on_attach = function(client, bufnr)
+  -- 		-- vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+  -- 		-- 	buffer = bufnr,
+  -- 		-- 	callback = vim.lsp.codelens.refresh,
+  -- 		-- })
+  -- 		-- vim.lsp.codelens.refresh()
 
-	-- 		local add_user_cmd = vim.api.nvim_buf_create_user_command
-	-- 		add_user_cmd(bufnr, "ElixirFromPipe", from_pipe(client), {})
-	-- 		add_user_cmd(bufnr, "ElixirToPipe", to_pipe(client), {})
+  -- 		local add_user_cmd = vim.api.nvim_buf_create_user_command
+  -- 		add_user_cmd(bufnr, "ElixirFromPipe", from_pipe(client), {})
+  -- 		add_user_cmd(bufnr, "ElixirToPipe", to_pipe(client), {})
 
-	-- 		common_on_attach(client, bufnr)
-	-- 	end,
+  -- 		common_on_attach(client, bufnr)
+  -- 	end,
 
-	-- 	cmd = { "/Users/zacharythomas/.nix-profile/bin/elixir-ls" },
-	-- 	settings = {
-	-- 		elixirLS = {
-	-- 			-- dialyzerEnabled = true,
-	-- 			fetchDeps = false,
-	-- 			-- enableTestLenses = false,
-	-- 			suggestSpecs = true,
-	-- 		},
-	-- 	},
-	-- 	capabilities = capabilities,
-	-- 	flags = {
-	-- 		-- debounce_text_changes = 150,
-	-- 	},
-	-- 	root_dir = root_dir,
-	-- 	on_init = function(client)
-	-- 		client.notify("workspace/didChangeConfiguration")
-	-- 		-- client.commands["elixir.lens.test.run"] = test
-	-- 		-- return true
-	-- 	end,
-	-- })
+  -- 	cmd = { "/Users/zacharythomas/.nix-profile/bin/elixir-ls" },
+  -- 	settings = {
+  -- 		elixirLS = {
+  -- 			-- dialyzerEnabled = true,
+  -- 			fetchDeps = false,
+  -- 			-- enableTestLenses = false,
+  -- 			suggestSpecs = true,
+  -- 		},
+  -- 	},
+  -- 	capabilities = capabilities,
+  -- 	flags = {
+  -- 		-- debounce_text_changes = 150,
+  -- 	},
+  -- 	root_dir = root_dir,
+  -- 	on_init = function(client)
+  -- 		client.notify("workspace/didChangeConfiguration")
+  -- 		-- client.commands["elixir.lens.test.run"] = test
+  -- 		-- return true
+  -- 	end,
+  -- })
 end
 
 return Module
