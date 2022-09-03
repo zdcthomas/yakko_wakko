@@ -26,8 +26,10 @@ vim.lsp.handlers["window/showMessage"] = function(_, result, ctx)
 		end,
 	})
 end
+
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+vim.lsp.handlers["textDocument/signatureHelp"] =
+	vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", close_events = { "CursorMoved", "BufHidden" } })
 
 function conf.setup()
 	local lsp_status = require("lsp-status")
@@ -53,6 +55,10 @@ function conf.setup()
 
 	local common_on_attach = require("config.lspconfig.shared").common_on_attach
 	local capabilities = require("config.lspconfig.shared").capabilities()
+	require("lspconfig")["rust_analyzer"].setup({
+		on_attach = common_on_attach,
+		capabilities = capabilities,
+	})
 
 	require("mason-lspconfig").setup_handlers({
 		function(server_name) -- default handler (optional)
