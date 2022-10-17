@@ -123,8 +123,8 @@ return require("packer").startup({
 		-- use("christoomey/vim-sort-motion", { keys = { "gs" } })
 
 		use({
-			"folke/lua-dev.nvim",
-			module = "lua-dev",
+			"folke/neodev.nvim",
+			module = "neodev",
 		})
 
 		-- Find and replace goodness

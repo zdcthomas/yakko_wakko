@@ -64,7 +64,7 @@ Module.setup = function()
 
 	-- require("lspconfig")["sumneko_lua"].setup(config)
 
-	require("lua-dev").setup({
+	require("neodev").setup({
 		-- add any options here, or leave empty to use the default settings
 	})
 

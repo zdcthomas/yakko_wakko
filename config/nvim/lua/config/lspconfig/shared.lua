@@ -3,7 +3,7 @@ local Module = {}
 Module.lspconfig_augroup = vim.api.nvim_create_augroup("LspConfigAuGroup", { clear = false })
 
 function Module.capabilities()
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 	capabilities.textDocument.completion.completionItem.resolveSupport = {
 		properties = {
@@ -26,7 +26,7 @@ function Module.capabilities()
 		},
 	}
 
-	capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+	-- capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 	local ok, lsp_status = pcall(require, "lsp-status")
 	if ok then
 		capabilities = vim.tbl_extend("keep", capabilities, lsp_status.capabilities) or capabilities
