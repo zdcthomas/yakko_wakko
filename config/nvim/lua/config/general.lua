@@ -68,66 +68,30 @@ function Config.rose_pine()
 end
 
 function Config.venn()
-	if not PluginIsLoaded("hydra.nvim") then
-		local function toggle_venn()
-			local venn_enabled = vim.inspect(vim.b.venn_enabled)
-			if venn_enabled == "nil" then
-				print("venn mode activated!")
-				vim.b.venn_enabled = true
-				vim.cmd([[setlocal ve=all]])
-				-- draw a line on HJKL keystokes
-				vim.keymap.set("n", "J", "<C-v>j:VBox<cr>", { buffer = true })
-				vim.keymap.set("n", "K", "<C-v>k:VBox<cr>", { buffer = true })
-				vim.keymap.set("n", "L", "<C-v>l:VBox<cr>", { buffer = true })
-				vim.keymap.set("n", "H", "<C-v>h:VBox<cr>", { buffer = true })
-				-- draw a box by pressing "f" with visual selection
-				vim.keymap.set("v", "f", ":VBox<cr>", { buffer = true })
-			else
-				print("venn mode disengaged!")
-				vim.cmd([[setlocal ve=]])
-				vim.cmd([[mapclear <buffer>]])
-				vim.b.venn_enabled = nil
-			end
-		end
-		vim.keymap.set("n", "<leader>v", toggle_venn, { silent = true, desc = "Toggle Venn mode" })
-	else
-		local Hydra = Pquire("hydra")
-		if not Hydra then
-			vim.notify("Hydra not found in Telescope hydra config!", "Error")
-			return
-		end
-		local hint = [[
-		Arrow
-    ^ ^ _K_ ^ ^   _f_: box it
-    _H_ ^ ^ _L_
-    ^ ^ _J_ ^ ^   _<Esc>_
-    ]]
-
-		local hydra = Hydra({
-			name = "Draw Diagram",
-			hint = hint,
-			config = {
-				color = "pink",
-				invoke_on_body = true,
-				hint = {
-					border = "rounded",
-				},
-				on_enter = function()
-					vim.o.virtualedit = "all"
-				end,
-			},
-			mode = "n",
-			heads = {
-				{ "H", "<C-v>h:VBox<CR>" },
-				{ "J", "<C-v>j:VBox<CR>" },
-				{ "K", "<C-v>k:VBox<CR>" },
-				{ "L", "<C-v>l:VBox<CR>" },
-				{ "f", ":VBox<CR>", { mode = "v" } },
-				{ "<Esc>", nil, { exit = true } },
-			},
-		})
-		require("config.hydra").add_g_hydra({ key = "v", hydra = hydra, desc = "Venn" })
-	end
+	-- if not PluginIsLoaded("hydra.nvim") then
+	-- local function toggle_venn()
+	-- 	local venn_enabled = vim.inspect(vim.b.venn_enabled)
+	-- 	if venn_enabled == "nil" then
+	-- 		print("venn mode activated!")
+	-- 		vim.b.venn_enabled = true
+	-- 		vim.cmd([[setlocal ve=all]])
+	-- 		-- draw a line on HJKL keystokes
+	-- 		vim.keymap.set("n", "J", "<C-v>j:VBoxD<cr>", { buffer = true })
+	-- 		vim.keymap.set("n", "K", "<C-v>k:VBoxD<cr>", { buffer = true })
+	-- 		vim.keymap.set("n", "L", "<C-v>l:VBoxD<cr>", { buffer = true })
+	-- 		vim.keymap.set("n", "H", "<C-v>h:VBoxD<cr>", { buffer = true })
+	-- 		-- draw a box by pressing "f" with visual selection
+	-- 		vim.keymap.set("v", "f", ":VBoxD<cr>", { buffer = true })
+	-- 	else
+	-- 		print("venn mode disengaged!")
+	-- 		vim.cmd([[setlocal ve=]])
+	-- 		vim.cmd([[mapclear <buffer>]])
+	-- 		vim.b.venn_enabled = nil
+	-- 	end
+	-- end
+	-- vim.keymap.set("n", "<leader>v", toggle_venn, { silent = true, desc = "Toggle Venn mode" })
+	-- else
+	-- end
 end
 
 function Config.notify()

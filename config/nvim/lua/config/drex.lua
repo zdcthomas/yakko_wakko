@@ -17,19 +17,71 @@ vim.keymap.set("n", "-", function()
 	end
 end, {})
 
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("DrexNotListed", {}),
+	pattern = "drex",
+	command = "setlocal nobuflisted",
+})
+
 require("drex.config").configure({
+	-- disable_default_keybindings = true,
+	hide_cursor = false,
+	hijack_netrw = true,
 	keybindings = {
 		["n"] = {
-			["<CR>"] = elements.expand_element,
+			["<CR>"] = function()
+				local line = vim.api.nvim_get_current_line()
+
+				if require("drex.utils").is_open_directory(line) then
+					elements.collapse_directory()
+				else
+					elements.expand_element()
+				end
+			end,
+			["X"] = function()
+				local line = vim.api.nvim_get_current_line()
+				local element = require("drex.utils").get_element(line)
+				vim.fn.jobstart("xdg-open '" .. element .. "' &", { detach = true })
+			end,
 			["-"] = elements.open_parent_directory,
 			["."] = function()
 				local element = require("drex.utils").get_element(vim.api.nvim_get_current_line())
 				local left = vim.api.nvim_replace_termcodes("<left>", true, false, true)
 				vim.api.nvim_feedkeys(": " .. element .. string.rep(left, #element + 1), "n", true)
 			end,
+			["<c-l>"] = false,
+			["<c-h>"] = false,
+			["<F5>"] = false,
+			-- expand every directory in the current buffer
+			["<m-o>"] = function()
+				local row = 1
+				while true do
+					local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
+					if require("drex.utils").is_closed_directory(line) then
+						elements.expand_element(0, row)
+					end
+					row = row + 1
 
-			["<c-j>"] = '<cmd>lua require("drex.actions.jump").jump_to_next_sibling()<CR>',
-			["<c-k>"] = '<cmd>lua require("drex.actions.jump").jump_to_prev_sibling()<CR>',
+					if row > vim.fn.line("$") then
+						break
+					end
+				end
+			end,
+			-- collapse every directory in the current buffer
+			["<m-c>"] = function()
+				local row = 1
+				while true do
+					local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
+					if require("drex.utils").is_open_directory(line) then
+						elements.collapse_directory(0, row)
+					end
+					row = row + 1
+
+					if row > vim.fn.line("$") then
+						break
+					end
+				end
+			end,
 		},
 	},
 })
@@ -61,9 +113,11 @@ require("drex.config").configure({
 --         ['P'] = '<cmd>lua require("drex.actions.files").cut_and_move()<CR>',
 --         ['r'] = '<cmd>lua require("drex.actions.files").rename()<CR>',
 --         ['R'] = '<cmd>lua require("drex.actions.files").multi_rename("clipboard")<CR>',
+--
 --         ['M'] = '<cmd>DrexMark<CR>',
 --         ['u'] = '<cmd>DrexUnmark<CR>',
 --         ['m'] = '<cmd>DrexToggle<CR>',
+--
 --         ['cc'] = '<cmd>lua require("drex.clipboard").clear_clipboard()<CR>',
 --         ['cs'] = '<cmd>lua require("drex.clipboard").open_clipboard_window()<CR>',
 --         ['y'] = '<cmd>lua require("drex.actions.text").copy_name()<CR>',

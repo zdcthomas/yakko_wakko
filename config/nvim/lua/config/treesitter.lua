@@ -39,7 +39,7 @@ function Conf.setup()
 		highlight = {
 			enable = true,
 			disable = { "elixir" },
-			additional_vim_regex_highlighting = { "org" },
+			-- additional_vim_regex_highlighting = { "org" },
 		},
 	})
 

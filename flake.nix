@@ -9,10 +9,10 @@
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
       };
-      neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+      /* neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay"; */
     };
 
-  outputs = { nixpkgs, home-manager, neovim-nightly-overlay, ... }:
+  outputs = { nixpkgs, home-manager, ... }:
     let
       system = "x86_64-darwin";
       pkgs = import nixpkgs {
@@ -21,7 +21,7 @@
           allowUnfree = true;
         };
         overlays = [
-          neovim-nightly-overlay.overlay
+          /* neovim-nightly-overlay.overlay */
         ];
       };
       inherit (nixpkgs) lib;

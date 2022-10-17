@@ -50,10 +50,19 @@ Module.common_on_attach = function(client, bufnr)
 
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
-	vim.keymap.set({ "i", "n" }, "<c-l>", vim.lsp.buf.signature_help)
+	vim.keymap.set({ "i" }, "<c-l>", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+
+	-- vim.keymap.set("n", "<Leader>ca", "<cmd>CodeActionMenu<cr>", opts)
 	vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, opts)
+
+	if client.server_capabilities.typeDefinitionProvider then
+		vim.keymap.set("n", "gD", vim.lsp.buf.type_definition, bufopts)
+	end
+
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+
 	require("config.telescope").lsp_bindings_for_buffer(bufnr)
 
 	if client.server_capabilities.hoverProvider then
@@ -74,10 +83,13 @@ Module.common_on_attach = function(client, bufnr)
 
 	if client.server_capabilities.documentFormattingProvider then
 		vim.keymap.set("n", "<leader>gq", vim.lsp.buf.formatting, opts)
-		vim.api.nvim_create_autocmd(
-			{ "BufWritePre" },
-			{ buffer = bufnr, callback = vim.lsp.buf.format, group = Module.lspconfig_augroup }
-		)
+		vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format()
+			end,
+			group = Module.lspconfig_augroup,
+		})
 	end
 
 	-- require("lsp_signature").on_attach({
