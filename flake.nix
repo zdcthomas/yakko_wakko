@@ -14,9 +14,17 @@
 
   outputs = { nixpkgs, home-manager, ... }:
     let
-      system = "x86_64-darwin";
-      pkgs = import nixpkgs {
-        inherit system;
+      work = import nixpkgs {
+	system =  "aarch64-darwin";
+        config = {
+          allowUnfree = true;
+        };
+        overlays = [
+          /* neovim-nightly-overlay.overlay */
+        ];
+      };
+      personal = import nixpkgs {
+	system =  "x86_64-darwin";
         config = {
           allowUnfree = true;
         };
@@ -29,10 +37,16 @@
     {
       defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
       defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
+      defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
       homeConfigurations = {
+        zdcthomas = home-manager.lib.homeManagerConfiguration {
+          pkgs = work;
+          modules = [
+            ./home.nix
+          ];
+        };
         zacharythomas = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-
+          pkgs = personal;
           modules = [
             ./home.nix
           ];
