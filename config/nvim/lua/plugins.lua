@@ -16,7 +16,6 @@ end
 -- potential plugins
 -- * mzlogin/vim-markdown-toc
 -- * antoinemadec/FixCursorHold.nvim
--- * mattn/emmet-vim
 -- * mbbill/undotree
 -- * rbong/vim-buffest
 
@@ -28,20 +27,20 @@ return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
 		use("mechatroner/rainbow_csv")
-		use({
-			"phaazon/mind.nvim",
-			branch = "v2",
-			requires = { "nvim-lua/plenary.nvim" },
-			config = function()
-				require("mind").setup({
-					persistence = {
 
-						data_dir = "~/Irulan/",
-						state_path = "~/Irulan/mind.json",
-					},
+		use({
+			"~/dev/oss/orgmode/",
+			"akinsho/org-bullets.nvim",
+			config = function()
+				require("orgmode").setup_ts_grammar()
+				require("org-bullets").setup({})
+				require("orgmode").setup({
+					org_agenda_files = { "~/Irulan/**/**" },
+					org_default_notes_file = "~/Irulan/org/refile.org",
 				})
 			end,
 		})
+
 		use({
 			"theblob42/drex.nvim",
 			requires = "kyazdani42/nvim-web-devicons", -- optional
@@ -51,6 +50,7 @@ return require("packer").startup({
 		})
 		use({
 			"shaunsingh/nord.nvim",
+			wants = "nvim-treesitter/nvim-treesitter",
 			config = function()
 				vim.g.nord_borders = true
 				vim.g.nord_italic = true
@@ -74,16 +74,11 @@ return require("packer").startup({
 			config = function()
 				require("nvim-surround").setup({
 					move_cursor = false,
-					surrounds = {
-						["m"] = {
-							add = { { "%{" }, { "}" } },
-						},
-						["F"] = {
-							add = function()
-								return { { "function ()" }, { "end" } }
-							end,
-						},
-					},
+					-- surrounds = {
+					-- 	["m"] = {
+					-- 		add = { { "%{" }, { "}" } },
+					-- 	},
+					-- },
 				})
 			end,
 		})
@@ -101,7 +96,7 @@ return require("packer").startup({
 			config = function()
 				local yop = require("yop")
 				local utils = require("yop.utils")
-				yop.op_map({ "n", "v" }, "gs", function(lines, opts)
+				yop.op_map({ "n", "v" }, "gs", function(lines, _)
 					-- We don't care about anything non alphanumeric here
 					local sort_without_leading_space = function(a, b)
 						-- true = a then b
@@ -140,11 +135,11 @@ return require("packer").startup({
 			},
 			keys = { "<leader>S", "<leader>sw", "<leader>sf" },
 			config = function()
-				vim.keymap.set("n", "<leader>S", require("spectre").open)
+				vim.keymap.set("n", "<leader>S", require("spectre").open, {})
 				vim.keymap.set("n", "<leader>sw", function()
 					require("spectre").open_visual({ select_word = true })
-				end)
-				vim.keymap.set("n", "<leader>sf", require("spectre").open_file_search)
+				end, {})
+				vim.keymap.set("n", "<leader>sf", require("spectre").open_file_search, {})
 			end,
 		})
 
@@ -211,6 +206,7 @@ return require("packer").startup({
 			"rebelot/kanagawa.nvim",
 			config = config.kanagawa,
 		})
+
 		use({ "folke/tokyonight.nvim" })
 
 		use({
@@ -227,7 +223,7 @@ return require("packer").startup({
 
 		local luasnip_config = {
 			"L3MON4D3/LuaSnip",
-			rocks = { "jsregexp" },
+			tag = "v1.*",
 			config = function()
 				require("config.luasnip")
 			end,
@@ -264,9 +260,6 @@ return require("packer").startup({
 
 		use({
 			"nvim-lualine/lualine.nvim",
-			requires = {
-				{ "nvim-lua/lsp-status.nvim" },
-			},
 			config = function()
 				require("config.lualine").setup()
 			end,
@@ -341,9 +334,9 @@ return require("packer").startup({
 		use({
 			"neovim/nvim-lspconfig",
 			requires = {
+				"weilbith/nvim-code-action-menu",
 				"hrsh7th/nvim-cmp",
 				"kosayoda/nvim-lightbulb",
-				"nvim-lua/lsp-status.nvim",
 				"nvim-telescope/telescope.nvim",
 				"williamboman/mason.nvim",
 			},
@@ -397,27 +390,19 @@ return require("packer").startup({
 
 		use({
 			"nvim-neorg/neorg",
+			ft = "norg",
+			cmd = "Neorg",
+			after = "nvim-treesitter", -- You may want to specify Telescope here as well
 			config = function()
+				-- command to enable parsers sync
+				-- CC=/usr/local/Cellar/gcc/11.2.0_3/bin/gcc-11 nvim
 				require("config.neorg").setup()
 			end,
 			requires = {
 				"nvim-lua/plenary.nvim",
 				"nvim-neorg/neorg-telescope",
+				"max397574/neorg-kanban",
 			},
-		})
-
-		use({
-			"nvim-orgmode/orgmode",
-			requires = {
-				"ranjithshegde/orgWiki.nvim",
-			},
-			config = function()
-				require("orgmode").setup_ts_grammar()
-				require("orgmode").setup({
-					org_agenda_files = { "~/irulan/org/*" },
-					org_default_notes_file = "~/irulan/org/refile.org",
-				})
-			end,
 		})
 
 		use({

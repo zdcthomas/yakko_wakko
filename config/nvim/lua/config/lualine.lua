@@ -6,8 +6,12 @@ Module.config = {
 	options = {
 		theme = "auto",
 		section_separators = { left = "", right = "" },
+
+		refresh = {
+			statusline = 200, -- Note these are in mili second and default is 1000
+		},
 		-- component_separators = { left = "", right = "" },
-		globalstatus = true,
+		-- globalstatus = true,
 	},
 	sections = {
 		lualine_a = {
@@ -19,7 +23,13 @@ Module.config = {
 			},
 		},
 		lualine_b = { "diff" },
-		lualine_c = { "require'lsp-status'.status()" },
+		lualine_c = {
+			{
+				"diagnostics",
+				-- sources = { "nvim_lsp", "nvim_diagnositc" },
+				colored = true,
+			},
+		},
 		lualine_x = { "location", "progress" },
 		lualine_y = { "encoding" },
 		lualine_z = { { "filetype", colored = false } },

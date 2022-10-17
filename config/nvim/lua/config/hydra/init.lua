@@ -11,7 +11,7 @@ local hint = [[
   _w_ Windows
   _p_ Packer Managment
   _o_ Options
-  _n_ Note-taking (Neorg if you prefer)
+  _v_ Venn (drawin')
   ^
 ]]
 
@@ -94,6 +94,9 @@ Module.setup = function()
 
 	local options = require("config.hydra.hy_options")
 	Module.add_g_hydra({ key = "o", hydra = options, desc = "Packer" })
+
+	local venn = require("config.hydra.hy_venn")
+	Module.add_g_hydra({ key = "v", hydra = venn, desc = "Venn" })
 end
 
 return Module

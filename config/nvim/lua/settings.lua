@@ -1,14 +1,13 @@
 -- maps leader to space
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
-vim.g.diminactive_enable_focus = 1
 vim.g.netrw_list_hide = ""
-
 vim.opt.autoindent = true
 vim.opt.autoread = true
 vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.backup = false
 vim.opt.clipboard = "unnamedplus"
+vim.opt.laststatus = 3
 vim.opt.copyindent = true
 vim.opt.encoding = "UTF-8"
 vim.opt.equalalways = false
@@ -52,7 +51,7 @@ vim.opt.updatetime = 100
 vim.opt.virtualedit = "block"
 vim.opt.wildmenu = true
 vim.opt.wrap = false
-vim.opt.pumblend = 25
+vim.opt.cmdheight = 0
 -- vim.opt.path:append("**")
 
 vim.diagnostic.config({
@@ -65,6 +64,13 @@ vim.diagnostic.config({
 	virtual_text = true,
 	underline = true,
 	update_in_insert = false,
+})
+
+-- doesn't work right since most ftplugins redefine formatoptions
+vim.opt.formatoptions = vim.tbl_extend("force", vim.opt.formatoptions:get(), {
+	c = false,
+	o = false, -- O and o, don't continue comments
+	r = true, -- Pressing Enter will continue comments
 })
 
 -- TODO: link this to a non cmp highlight, it's for netrw

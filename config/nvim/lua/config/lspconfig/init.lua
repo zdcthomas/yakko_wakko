@@ -32,54 +32,70 @@ vim.lsp.handlers["textDocument/signatureHelp"] =
 	vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", close_events = { "CursorMoved", "BufHidden" } })
 
 function conf.setup()
-	local lsp_status = require("lsp-status")
-	lsp_status.register_progress()
-
-	local servers = {
-		"rust_analyzer",
-		"jsonls",
-		"yamlls",
-		"prosemd_lsp",
-		"marksman",
-		"rnix",
-		"bashls",
-		"elixirls",
-		"sumneko_lua",
-		"tsserver",
-		"eslint",
-	}
+	-- local servers = {
+	-- 	"rust_analyzer",
+	-- 	"jsonls",
+	-- 	"yamlls",
+	-- 	"prosemd_lsp",
+	-- 	"marksman",
+	-- 	"rnix",
+	-- 	"bashls",
+	-- 	"elixirls",
+	-- 	"sumneko_lua",
+	-- 	"tsserver",
+	-- 	"eslint",
+	-- }
 
 	require("mason-lspconfig").setup({
-		ensure_installed = servers,
+		-- ensure_installed = servers,
 	})
 
 	local common_on_attach = require("config.lspconfig.shared").common_on_attach
 	local capabilities = require("config.lspconfig.shared").capabilities()
-	require("lspconfig")["rust_analyzer"].setup({
+	local lspconfig = require("lspconfig")
+
+	require("config.lspconfig.eslint").setup()
+	require("config.lspconfig.typescript").setup()
+
+	require("config.lspconfig.lua").setup()
+
+	lspconfig["rust_analyzer"].setup({
 		on_attach = common_on_attach,
 		capabilities = capabilities,
 	})
 
-	require("mason-lspconfig").setup_handlers({
-		function(server_name) -- default handler (optional)
-			require("lspconfig")[server_name].setup({
-				on_attach = common_on_attach,
-				capabilities = capabilities,
-			})
-		end,
-		-- ["elixirls"] = function()
-		--   require("config.lspconfig.elixir").setup()
-		-- end,
-		["sumneko_lua"] = function()
-			require("config.lspconfig.lua").setup()
-		end,
-		["tsserver"] = function()
-			require("config.lspconfig.typescript").setup()
-		end,
-		["eslint"] = function()
-			require("config.lspconfig.eslint").setup()
-		end,
+	lspconfig["jsonls"].setup({
+		on_attach = common_on_attach,
+		capabilities = capabilities,
 	})
+
+	lspconfig["yamlls"].setup({
+		on_attach = common_on_attach,
+		capabilities = capabilities,
+	})
+
+	lspconfig["rnix"].setup({
+		on_attach = common_on_attach,
+		capabilities = capabilities,
+	})
+	-- require("mason-lspconfig").setup_handlers({
+	-- 	function(server_name) -- default handler (optional)
+	-- 		-- vim.pretty_print(server_name)
+	-- 		lspconfig[server_name].setup({
+	-- 			on_attach = common_on_attach,
+	-- 			capabilities = capabilities,
+	-- 		})
+	-- 	end,
+	-- 	["sumneko_lua"] = function()
+	-- 		require("config.lspconfig.lua").setup()
+	-- 	end,
+	-- 	["tsserver"] = function()
+	-- 		require("config.lspconfig.typescript").setup()
+	-- 	end,
+	-- 	["eslint"] = function()
+	-- 		require("config.lspconfig.eslint").setup()
+	-- 	end,
+	-- })
 end
 
 return conf

@@ -14,9 +14,9 @@ local function keybindings_setup(keybinds)
 	})
 end
 local function start_neorg()
-	if not require("neorg").is_loaded() then
-		vim.cmd("NeorgStart silent=true")
-	end
+	-- if not require("neorg").is_loaded() then
+	-- 	vim.cmd("NeorgStart silent=true")
+	-- end
 end
 
 local function gtd_views()
@@ -158,6 +158,7 @@ Module.setup = function()
 			["core.integrations.nvim-cmp"] = {},
 			["core.export"] = {},
 			["core.tangle"] = {},
+			["external.kanban"] = {},
 			["core.export.markdown"] = {
 				config = {
 					extensions = "all",
@@ -231,6 +232,7 @@ Module.setup = function()
 	neorg_callbacks.on_event("core.autocommands.events.bufenter", function(event, event_content)
 		-- local log = require('neorg.external.log')
 		vim.opt_local.foldenable = false
+		vim.opt_local.textwidth = 80
 		-- log.warn("Entered a neorg buffer!")
 	end)
 

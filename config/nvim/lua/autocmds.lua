@@ -47,6 +47,17 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	desc = "Map q to close buffer",
 })
 
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+	group = InitGroupId,
+	callback = function()
+		vim.opt.formatoptions = vim.tbl_extend("force", vim.opt.formatoptions:get(), {
+			o = false, -- O and o, don't continue comments
+			r = true, -- Pressing Enter will continue comments
+		})
+	end,
+	desc = "Most ftplugins overwrite, so we'll overwrite their overwrite!",
+})
+
 vim.api.nvim_create_autocmd(
 	"FocusGained",
 	{ command = "checktime", desc = "Check if buffer was changed", group = InitGroupId }

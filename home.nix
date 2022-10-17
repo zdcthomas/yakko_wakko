@@ -9,7 +9,7 @@
 
   nix = {
 
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
 
     extraOptions = ''
       keep-outputs = true
@@ -54,18 +54,22 @@
       fzf
       gh
       git
+      go
       graphviz
+      gum
       hugo
       jq
       neovim
       nodePackages.prettier_d_slim
-      nodejs-18_x
+      /* nodejs-18_x */
+      pandoc
       python38
       ripgrep
       silver-searcher
       skim
       statix
       tmux
+      tmuxPlugins.tmux-fzf
       tree
       unzip
       vim
@@ -87,6 +91,13 @@
           home-manager switch --flake ${config.home.homeDirectory}/yakko_wakko#zacharythomas $@
         ''
       )
+
+      (
+        pkgs.writeScriptBin "roc" ''
+          ~/dev/roc_playground/roc_nightly-macos_x86_64-2022-10-01-2b91154/roc $@
+        ''
+      )
+
       (
         pkgs.writeScriptBin "gfuz"
           ''
@@ -168,6 +179,10 @@
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
     bat.enable = true;
+
+    go = {
+      enable = true;
+    };
 
     fzf = {
       enable = true;

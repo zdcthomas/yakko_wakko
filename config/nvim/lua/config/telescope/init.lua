@@ -105,7 +105,7 @@ function conf.setup()
 					["<c-x>"] = false,
 					["<c-v>"] = false,
 					["<c-t>"] = false,
-
+					["<m-q>"] = false,
 					["<c-f>"] = actions.to_fuzzy_refine,
 					["<c-k>"] = actions.move_selection_previous,
 					["<c-j>"] = actions.move_selection_next,
@@ -113,6 +113,7 @@ function conf.setup()
 					["<m-l>"] = actions.select_vertical,
 					["<c-l>"] = require("telescope.actions.layout").cycle_layout_next,
 					["<c-/>"] = require("telescope.actions.generate").which_key,
+					["<C-o>"] = actions.send_selected_to_qflist,
 					["<M-p>"] = action_layout.toggle_preview,
 				},
 				n = {
@@ -123,7 +124,7 @@ function conf.setup()
 					["<c-j>"] = actions.move_selection_next,
 				},
 			},
-			-- sorting_strategy = "ascending",
+			sorting_strategy = "descending",
 			-- layout_strategy = "vertical",
 			dynamic_preview_title = true,
 			buffer_previewer_maker = new_maker,
@@ -171,31 +172,18 @@ function conf.setup()
 	vim.keymap.set("n", "<leader>p", function()
 		require("config.telescope").find_files()
 	end, { silent = true, desc = "Find files" })
-	-- vim.keymap.set(
-	-- 	"n",
-	-- 	"-",
-	-- 	"<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>",
-	-- 	default_opts
-	-- )
 	vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, default_opts)
 	vim.keymap.set("n", "<leader>F", require("telescope.builtin").live_grep, default_opts)
 	vim.keymap.set("n", "<leader>*", require("telescope.builtin").grep_string, default_opts)
-	-- vim.keymap.set("n", "<Leader>gc", ":Telescope git_status<cr>", default_opts)
-	-- vim.keymap.set(
-	-- 	"n",
-	-- 	"<Leader>wp",
-	-- 	":lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({cwd = '~/irulan/wiki'}))<cr>",
-	-- 	default_opts
-	-- )
 end
 
 function conf.find_files()
 	require("telescope.builtin").find_files(require("telescope.themes").get_dropdown({
-		results_height = 20,
+		results_height = 30,
 		winblend = 20,
 		width = 0.8,
 		prompt_title = "",
-		prompt_prefix = "Files>",
+		prompt_prefix = "ファイル>",
 		previewer = false,
 		borderchars = {
 			{ "─", "│", "─", "│", "┌", "┐", "┘", "└" },
