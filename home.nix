@@ -22,8 +22,8 @@
   };
 
   home = {
-    username = "zacharythomas";
-    homeDirectory = "/Users/zacharythomas";
+    username = "zdcthomas";
+    homeDirectory = "/Users/zdcthomas";
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
@@ -43,6 +43,7 @@
       bashInteractive
       bat
       boxes
+      cargo
       emacs
       entr
       exa
@@ -59,6 +60,7 @@
       gum
       hugo
       jq
+      kitty
       neovim
       nodePackages.prettier_d_slim
       /* nodejs-18_x */
@@ -88,7 +90,7 @@
       /* These will get created as scripts */
       (
         pkgs.writeScriptBin "dot-switch" ''
-          home-manager switch --flake ${config.home.homeDirectory}/yakko_wakko#zacharythomas $@
+          home-manager switch --flake ${config.home.homeDirectory}/yakko_wakko#$USER $@
         ''
       )
 
