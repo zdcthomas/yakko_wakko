@@ -28,18 +28,18 @@ return require("packer").startup({
 		use("wbthomason/packer.nvim")
 		use("mechatroner/rainbow_csv")
 
-		use({
-			"~/dev/oss/orgmode/",
-			"akinsho/org-bullets.nvim",
-			config = function()
-				require("orgmode").setup_ts_grammar()
-				require("org-bullets").setup({})
-				require("orgmode").setup({
-					org_agenda_files = { "~/Irulan/**/**" },
-					org_default_notes_file = "~/Irulan/org/refile.org",
-				})
-			end,
-		})
+		-- use({
+		-- 	"~/dev/oss/orgmode/",
+		-- 	"akinsho/org-bullets.nvim",
+		-- 	config = function()
+		-- 		require("orgmode").setup_ts_grammar()
+		-- 		require("org-bullets").setup({})
+		-- 		require("orgmode").setup({
+		-- 			org_agenda_files = { "~/Irulan/**/**" },
+		-- 			org_default_notes_file = "~/Irulan/org/refile.org",
+		-- 		})
+		-- 	end,
+		-- })
 
 		use({
 			"theblob42/drex.nvim",
@@ -301,7 +301,7 @@ return require("packer").startup({
 				-- There's some type of fatal issue here but it'd be amazing if it got resolved
 				-- { "nvim-telescope/telescope-fzf-writer.nvim" },
 				-- { "nvim-telescope/telescope-file-browser.nvim" },
-				{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+				{ "nvim-telescope/telescope-fzf-native.nvim", run = "arch -arm64 make" },
 			},
 			config = function()
 				require("config.telescope").setup()
