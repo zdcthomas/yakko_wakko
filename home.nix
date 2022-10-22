@@ -63,7 +63,6 @@
       kitty
       neovim
       nodePackages.prettier_d_slim
-      /* nodejs-18_x */
       pandoc
       python38
       ripgrep
@@ -103,14 +102,16 @@
       (
         pkgs.writeScriptBin "gfuz"
           ''
-            alias gfuz='git ls-files -m -o --exclude-standard | fzf --print0 -m -1 | xargs -0 -t -o'
+          git ls-files -m -o --exclude-standard | fzf --print0 -m -1 | xargs -0 -t -o
           ''
       )
+
       (
         pkgs.writeScriptBin "dot-update" ''
           nix flake update
         ''
       )
+
       (
         pkgs.writeScriptBin "dot-edit" ''
           nvim ${config.home.homeDirectory}/yakko_wakko/home.nix

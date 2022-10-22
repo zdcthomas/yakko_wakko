@@ -15,32 +15,17 @@ end
 
 -- potential plugins
 -- * mzlogin/vim-markdown-toc
--- * antoinemadec/FixCursorHold.nvim
 -- * mbbill/undotree
 -- * rbong/vim-buffest
 
 function PluginIsLoaded(plugin_name)
-	return packer_plugins[plugin_name] and packer_plugins[plugin_name].loaded
+	return packer_plugins and packer_plugins[plugin_name] and packer_plugins[plugin_name].loaded
 end
 
 return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
 		use("mechatroner/rainbow_csv")
-
-		-- use({
-		-- 	"~/dev/oss/orgmode/",
-		-- 	"akinsho/org-bullets.nvim",
-		-- 	config = function()
-		-- 		require("orgmode").setup_ts_grammar()
-		-- 		require("org-bullets").setup({})
-		-- 		require("orgmode").setup({
-		-- 			org_agenda_files = { "~/Irulan/**/**" },
-		-- 			org_default_notes_file = "~/Irulan/org/refile.org",
-		-- 		})
-		-- 	end,
-		-- })
-
 		use({
 			"theblob42/drex.nvim",
 			requires = "kyazdani42/nvim-web-devicons", -- optional
@@ -358,22 +343,6 @@ return require("packer").startup({
 				require("gitlinker").setup()
 			end,
 		})
-
-		-- use({
-		-- 	"justinmk/vim-dirvish",
-		-- 	requires = {
-		-- 		"kristijanhusak/vim-dirvish-git",
-		-- 		"roginfarrer/vim-dirvish-dovish",
-		-- 	},
-		-- 	config = config.dirvish,
-		-- })
-
-		-- use({
-		-- 	"jose-elias-alvarez/null-ls.nvim",
-		-- 	config = function()
-		-- 		require("config.null_ls")
-		-- 	end,
-		-- })
 
 		use({
 			"segeljakt/vim-silicon",
