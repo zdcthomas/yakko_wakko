@@ -5,6 +5,10 @@
   inputs =
     {
       nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+      darwin = {
+        url = "github:lnl7/nix-darwin/master";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
       home-manager = {
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
@@ -15,7 +19,7 @@
   outputs = { nixpkgs, home-manager, ... }:
     let
       work = import nixpkgs {
-	system =  "aarch64-darwin";
+        system = "aarch64-darwin";
         config = {
           allowUnfree = true;
         };
@@ -24,7 +28,7 @@
         ];
       };
       personal = import nixpkgs {
-	system =  "x86_64-darwin";
+        system = "x86_64-darwin";
         config = {
           allowUnfree = true;
         };
