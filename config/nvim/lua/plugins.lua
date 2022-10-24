@@ -320,12 +320,14 @@ return require("packer").startup({
 			"neovim/nvim-lspconfig",
 			requires = {
 				"weilbith/nvim-code-action-menu",
+				"j-hui/fidget.nvim",
 				"hrsh7th/nvim-cmp",
 				"kosayoda/nvim-lightbulb",
 				"nvim-telescope/telescope.nvim",
 				"williamboman/mason.nvim",
 			},
 			config = function()
+				require("fidget").setup({})
 				-- Ok I really don't understand this. If I remove this function
 				-- wrapper, then any local function defined within config/lspconfig
 				-- won't be usable by the setup function. This makes no sense.
