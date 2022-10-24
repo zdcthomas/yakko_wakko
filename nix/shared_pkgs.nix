@@ -1,7 +1,42 @@
 { pkgs, }:
 
 with pkgs; [
+
+  bash
+  bashInteractive
+  bat
+  boxes
+  exa
+  fd
+  fish
+  font-awesome_5
+  fzf
+  gh
+  git
+  graphviz
+  jq
+  kitty
+  neovim
+  nodePackages.prettier_d_slim
+  ripgrep
+  rustup
+  silver-searcher
+  statix
+  tmux
+  tmuxPlugins.tmux-fzf
+  tree
+  unzip
   vim
+  zip
+
+  (
+    nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "Meslo"
+      ];
+    }
+  )
 
   (
     pkgs.writeScriptBin "roc" ''
