@@ -1,9 +1,9 @@
-{ pkgs, }:
+{ pkgs, homeDirectory }:
 
 [
   (
     pkgs.writeScriptBin "dot-switch" ''
-      home-manager switch --flake ${config.home.homeDirectory}/yakko_wakko#$USER $@
+      home-manager switch --flake ${homeDirectory}/yakko_wakko#$USER $@
     ''
   )
 
@@ -28,7 +28,7 @@
 
   (
     pkgs.writeScriptBin "dot-edit" ''
-      nvim ${config.home.homeDirectory}/yakko_wakko/home.nix
+      nvim ${homeDirectory}/yakko_wakko/home.nix
     ''
   )
 ]
