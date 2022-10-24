@@ -2,7 +2,8 @@
 
 let
   _ = builtins.trace pkgs;
-  default_packages = import ./nix/shared_pkgs.nix;
+  default_packages = import ./nix/shared_pkgs.nix { pkgs = pkgs; };
+  management_scripts = import ./nix/nix_management_scripts.nix { pkgs = pkgs; homeDirectory = config.home.homeDirectory; };
 in
 {
   manual.html.enable = true;
@@ -63,6 +64,7 @@ in
       graphviz
       gum
       hugo
+      hurl
       jq
       kitty
       neovim
@@ -77,6 +79,7 @@ in
       tmuxPlugins.tmux-fzf
       tree
       unzip
+      vector
       weechat
       zip
 
@@ -89,38 +92,7 @@ in
         }
       )
 
-      /* These will get created as scripts */
-      (
-        pkgs.writeScriptBin "dot-switch" ''
-          home-manager switch --flake ${config.home.homeDirectory}/yakko_wakko#$USER $@
-        ''
-      )
-
-      (
-        pkgs.writeScriptBin "roc" ''
-          ~/dev/roc_playground/roc_nightly-macos_x86_64-2022-10-01-2b91154/roc $@
-        ''
-      )
-
-      (
-        pkgs.writeScriptBin "gfuz"
-          ''
-            git ls-files -m -o --exclude-standard | fzf --print0 -m -1 | xargs -0 -t -o
-          ''
-      )
-
-      (
-        pkgs.writeScriptBin "dot-update" ''
-          nix flake update
-        ''
-      )
-
-      (
-        pkgs.writeScriptBin "dot-edit" ''
-          nvim ${config.home.homeDirectory}/yakko_wakko/home.nix
-        ''
-      )
-    ] ++ default_packages;
+    ] ++ default_packages ++ management_scripts;
 
     /* symlink the config directory. I know this isn't the nix way, but it's
       * ridiculous to invent another layer of rconfiguration languages */
