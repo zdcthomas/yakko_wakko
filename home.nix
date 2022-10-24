@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
 
+let
+  _ = builtins.trace pkgs;
+  default_packages = import ./nix/shared_pkgs.nix;
+in
 {
   manual.html.enable = true;
   # Home Manager needs a bit of information about you and the
@@ -73,7 +77,6 @@
       tmuxPlugins.tmux-fzf
       tree
       unzip
-      vim
       weechat
       zip
 
@@ -102,7 +105,7 @@
       (
         pkgs.writeScriptBin "gfuz"
           ''
-          git ls-files -m -o --exclude-standard | fzf --print0 -m -1 | xargs -0 -t -o
+            git ls-files -m -o --exclude-standard | fzf --print0 -m -1 | xargs -0 -t -o
           ''
       )
 
@@ -117,7 +120,7 @@
           nvim ${config.home.homeDirectory}/yakko_wakko/home.nix
         ''
       )
-    ];
+    ] ++ default_packages;
 
     /* symlink the config directory. I know this isn't the nix way, but it's
       * ridiculous to invent another layer of rconfiguration languages */

@@ -43,6 +43,7 @@
       defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
       defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
       homeConfigurations = {
+        /* WORK */
         zdcthomas = home-manager.lib.homeManagerConfiguration {
           pkgs = work;
           modules = [
