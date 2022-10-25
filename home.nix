@@ -1,9 +1,10 @@
+/* BASE HOME MANAGER CONFIG */
 { config, pkgs, ... }:
 
 let
   _ = builtins.trace pkgs;
   default_packages = import ./nix/shared_pkgs.nix { pkgs = pkgs; };
-  management_scripts = import ./nix/nix_management_scripts.nix { pkgs = pkgs; homeDirectory = config.home.homeDirectory; };
+  management_scripts = import ./nix/nix_management_scripts_pkgs.nix { pkgs = pkgs; homeDirectory = config.home.homeDirectory; };
 in
 {
   manual.html.enable = true;
@@ -41,46 +42,31 @@ in
     stateVersion = "22.05";
 
     packages = with pkgs; [
-
-      asciinema
-      awscli
       bash
       bashInteractive
       bat
       boxes
-      cargo
-      emacs
-      entr
-      exa
       exa
       fd
       fish
-      flyctl
       font-awesome_5
       fzf
       gh
       git
-      go
       graphviz
-      gum
-      hugo
-      hurl
       jq
       kitty
       neovim
       nodePackages.prettier_d_slim
-      pandoc
-      python38
       ripgrep
+      rustup
       silver-searcher
-      skim
       statix
       tmux
       tmuxPlugins.tmux-fzf
       tree
       unzip
-      vector
-      weechat
+      vim
       zip
 
       (
@@ -92,7 +78,19 @@ in
         }
       )
 
-    ] ++ default_packages ++ management_scripts;
+      (
+        pkgs.writeScriptBin "roc" ''
+          ~/dev/roc_playground/roc_nightly-macos_x86_64-2022-10-01-2b91154/roc $@
+        ''
+      )
+
+      (
+        pkgs.writeScriptBin "gfuz"
+          ''
+            git ls-files -m -o --exclude-standard | fzf --print0 -m -1 | xargs -0 -t -o
+          ''
+      )
+    ] ++ management_scripts;
 
     /* symlink the config directory. I know this isn't the nix way, but it's
       * ridiculous to invent another layer of rconfiguration languages */
