@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
-let user_name = "zdcthomas";
+
+let user_name = "zacharythomas";
 in
 {
   home = {
@@ -8,9 +9,11 @@ in
     homeDirectory = "/Users/" + user_name;
 
     packages = with pkgs; [
-      go
-      hurl
-      vector
+      asciinema
+      gum
+      hugo
+      skim
+      weechat
     ];
   };
 }
