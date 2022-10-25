@@ -51,10 +51,12 @@
             ./nix/work.nix
           ];
         };
+        /* HOME */
         zacharythomas = home-manager.lib.homeManagerConfiguration {
           pkgs = personal;
           modules = [
             ./home.nix
+            ./nix/personal.nix
           ];
         };
       };
