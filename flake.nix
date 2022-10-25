@@ -48,6 +48,7 @@
           pkgs = work;
           modules = [
             ./home.nix
+            ./nix/work.nix
           ];
         };
         zacharythomas = home-manager.lib.homeManagerConfiguration {
