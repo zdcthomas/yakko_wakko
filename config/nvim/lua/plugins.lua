@@ -44,7 +44,7 @@ return require("packer").startup({
 		})
 
 		use("antoinemadec/FixCursorHold.nvim")
-		use("lewis6991/impatient.nvim")
+		-- use("lewis6991/impatient.nvim")
 		use("michaeljsmith/vim-indent-object")
 		use({
 			"mattn/emmet-vim",

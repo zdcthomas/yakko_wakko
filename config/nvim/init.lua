@@ -26,7 +26,7 @@
 
 -- On first install, this won't be here
 -- pcall(require, "impatient")
-require("impatient")
+-- require("impatient")
 
 -- Settings.lua contains all global options that are set. Most of these will
 -- should have a description. This has to come first, since it defines the
@@ -51,5 +51,5 @@ require("autocmds")
 require("keymaps")
 
 -- pcall(vim.cmd, "colorscheme kanagawa")
-pcall(vim.cmd, "colorscheme nord")
+pcall(vim.cmd.colorscheme, "nord")
 -- pcall(vim.cmd, "colorscheme tokyonight")
