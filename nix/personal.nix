@@ -10,6 +10,7 @@ in
 
     packages = with pkgs; [
       asciinema
+      flyctl
       gum
       hugo
       skim

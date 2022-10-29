@@ -27,40 +27,33 @@ in
 
   home = {
 
-    # This value determines the Home Manager release that your
-    # configuration is compatible with. This helps avoid breakage
-    # when a new Home Manager release introduces backwards
-    # incompatible changes.
-    #
-    # You can update Home Manager without changing this value. See
-    # the Home Manager release notes for a list of state version
-    # changes in each release.
-    stateVersion = "22.05";
-
     packages = with pkgs; [
 
-      asciinema
       bash
       bashInteractive
       bat
       boxes
-      rustup
       exa
       fd
       fish
-      flyctl
       font-awesome_5
       fzf
       gh
       git
       go
       graphviz
+      htop
+      /* httpie */
       jq
       kitty
+      lua
       neovim
       nodePackages.prettier_d_slim
       pandoc
+      /* readline */
       ripgrep
+      rustup
+      sd
       silver-searcher
       skim
       statix
@@ -82,6 +75,17 @@ in
 
     ] ++ management_scripts;
 
+    # This value determines the Home Manager release that your
+    # configuration is compatible with. This helps avoid breakage
+    # when a new Home Manager release introduces backwards
+    # incompatible changes.
+    #
+    # You can update Home Manager without changing this value. See
+    # the Home Manager release notes for a list of state version
+    # changes in each release.
+    stateVersion = "22.05";
+
+
     /* symlink the config directory. I know this isn't the nix way, but it's
       * ridiculous to invent another layer of rconfiguration languages */
     file = {
@@ -93,14 +97,10 @@ in
       /* "Brewfile".source = ./Brewfile; */
       ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;
       ".boxes".source = ./config/boxes/.boxes;
-      ".config/kitty" = {
-        recursive = true;
-        source = ./config/kitty;
-      };
-      ".config/alacritty" = {
-        recursive = true;
-        source = ./config/alacritty;
-      };
+      /* ".config/alacritty" = { */
+      /*   recursive = true; */
+      /*   source = ./config/alacritty; */
+      /* }; */
     };
 
 
@@ -116,7 +116,6 @@ in
       FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
       FZF_DEFAULT_COMMAND = "fd --hidden --type f";
       FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
-      TEST_ENV_VARR = "hello! how's it going?";
       PATH = "$HOME/.cargo/bin:$HOME/.mix/escripts:$PATH";
     };
 
@@ -135,13 +134,24 @@ in
   };
 
   programs = {
-    /* emacs = { */
-    /*   enable = true; */
-    /*   extraPackages = epkgs: [ */
-    /*     epkgs.nix-mode */
-    /*     epkgs.magit */
-    /*   ]; */
-    /* }; */
+    alacritty = {
+      enable = true;
+    };
+
+    kitty = {
+      enable = true;
+      theme = "Nord";
+      font = {
+        size = 15;
+        name = "Monaco";
+      };
+      settings = {
+        hide_window_decorations = "titlebar-only";
+        macos_option_as_alt = true;
+        enable_audio_bell = false;
+      };
+    };
+
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
     bat.enable = true;
