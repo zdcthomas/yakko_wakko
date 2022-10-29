@@ -16,7 +16,7 @@
       /* neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay"; */
     };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, darwin, ... }:
     let
       work = import nixpkgs {
         system = "aarch64-darwin";
@@ -42,6 +42,44 @@
       defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
       defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
       defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
+      darwinConfigurations = {
+        Prime = darwin.lib.darwinSystem {
+          system = "x86_64-darwin";
+          modules = [
+            ./dar_conf.nix
+
+            ({ pkgs, ... }: {
+
+
+              users.users.zacharythomas = {
+                home = "/Users/zacharythomas";
+                shell = pkgs.zsh;
+              };
+
+              nix = {
+                # enable flakes per default
+                package = pkgs.nixFlakes;
+                settings = {
+                  allowed-users = [ "zacharythomas" ];
+                  experimental-features = [ "nix-command" "flakes" ];
+                };
+              };
+            })
+            home-manager.darwinModule
+            {
+              home-manager = {
+                users.zacharythomas = { ... }: {
+                  imports = [
+                    ./home.nix
+                    ./nix/yabai.nix
+                    ./nix/hammerspoon.nix
+                  ];
+                };
+              };
+            }
+          ];
+        };
+      };
       homeConfigurations = {
         /* WORK */
         zdcthomas = home-manager.lib.homeManagerConfiguration {

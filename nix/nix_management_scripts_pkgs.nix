@@ -7,6 +7,12 @@
     ''
   )
 
+  (
+    pkgs.writeScriptBin "dar-switch" ''
+      nix build ${homeDirectory}/yakko_wakko#darwinConfigurations.Prime.system && ${homeDirectory}/yakko_wakko/result/sw/bin/darwin-rebuild switch --flake ${homeDirectory}/yakko_wakko
+    ''
+  )
+
 
   (
     pkgs.writeScriptBin "dot-update" ''
@@ -20,3 +26,4 @@
     ''
   )
 ]
+
