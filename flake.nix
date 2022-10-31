@@ -39,39 +39,49 @@
       inherit (nixpkgs) lib;
     in
     {
-      defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
-      defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
-      defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
+      /* defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux; */
+      /* defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin; */
+      /* defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin; */
       darwinConfigurations = {
-        Prime = darwin.lib.darwinSystem {
-          system = "x86_64-darwin";
+
+        /* -----------------------*/
+        /* |    Work config       |*/
+        /* -----------------------*/
+        Zacharys-MacBook-Pro = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
           modules = [
-            ./dar_conf.nix
-
-            ({ pkgs, ... }: {
-
-
-              users.users.zacharythomas = {
-                home = "/Users/zacharythomas";
-                shell = pkgs.zsh;
-              };
-
-              nix = {
-                # enable flakes per default
-                package = pkgs.nixFlakes;
-                settings = {
-                  allowed-users = [ "zacharythomas" ];
-                  experimental-features = [ "nix-command" "flakes" ];
-                };
-              };
-            })
+            ./nix/dar_conf.nix
             home-manager.darwinModule
             {
               home-manager = {
                 users.zacharythomas = { ... }: {
                   imports = [
                     ./home.nix
-                    ./nix/yabai.nix
+                    ./nix/work.nix
+                    /* ./nix/yabai.nix */
+                    ./nix/hammerspoon.nix
+                  ];
+                };
+              };
+            }
+          ];
+        };
+
+        /* -----------------------*/
+        /* |    Home config       |*/
+        /* -----------------------*/
+
+        Prime = darwin.lib.darwinSystem {
+          system = "x86_64-darwin";
+          modules = [
+            ./nix/dar_conf.nix
+            home-manager.darwinModule
+            {
+              home-manager = {
+                users.zacharythomas = { ... }: {
+                  imports = [
+                    ./home.nix
+                    /* ./nix/yabai.nix */
                     ./nix/hammerspoon.nix
                   ];
                 };
