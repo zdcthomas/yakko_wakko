@@ -50,11 +50,11 @@
         Zacharys-MacBook-Pro = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
-            ./nix/dar_conf.nix
+            ./nix/work_dar_conf.nix
             home-manager.darwinModule
             {
               home-manager = {
-                users.zacharythomas = { ... }: {
+                users.zdcthomas = { ... }: {
                   imports = [
                     ./home.nix
                     ./nix/work.nix
