@@ -3,64 +3,7 @@
   home.file.yabai = {
     executable = true;
     target = ".config/yabai/yabairc";
-    text = ''
-      #!/usr/bin/env bash
-
-      # load scripting addition
-      sudo yabai --load-sa
-      yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-
-      # bar configuration
-      # yabai -m config external_bar all:0:39
-      # yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
-
-      # borders
-
-      
-      yabai -m config top_padding                 4
-      yabai -m config bottom_padding              24
-      yabai -m config left_padding                4
-      yabai -m config right_padding               4
-      yabai -m config window_gap                  4
-
-      # yabai -m config window_border on
-      # yabai -m config window_border_width 2
-      # yabai -m config active_window_border_color 0xFF40FF00
-      # yabai -m config normal_window_border_color 0x00FFFFFF
-      yabai -m config insert_feedback_color 0xffd75f5f
-
-      yabai -m config window_shadow on
-
-      # layout
-      yabai -m config layout bsp
-      yabai -m config auto_balance off
-      yabai -m config window_topmost on
-
-      # rules
-      yabai -m rule --add app="^System Preferences$" manage=off
-
-      # workspace management
-      yabai -m space 1 --label term
-      yabai -m space 2 --label www
-      yabai -m space 3 --label chat
-      yabai -m space 4 --label todo
-      yabai -m space 5 --label music
-      yabai -m space 6 --label seven
-      yabai -m space 7 --label seven
-      yabai -m space 8 --label eight
-      yabai -m space 9 --label nine
-      yabai -m space 10 --label ten
-
-      # assign apps to spaces
-      yabai -m rule --add app="Kitty" space=term
-      yabai -m rule --add app="Brave Browser" space=www
-      yabai -m rule --add app="Slack" space=chat
-      yabai -m rule --add app="Signal" space=chat
-      yabai -m rule --add app="Spotify" space=music
-      yabai -m rule --add app="Todoist" space=todo
-
-      echo "yabai configuration loaded.."
-    '';
+    source = ../config/yabairc;
   };
 
   home.file.skhd = {

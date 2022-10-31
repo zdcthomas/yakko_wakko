@@ -1,22 +1,36 @@
 { pkgs, lib, ... }:
 {
+  users.users.zacharythomas = {
+    home = "/Users/zacharythomas";
+    shell = pkgs.zsh;
+  };
+
+  nix = {
+    # enable flakes per default
+    package = pkgs.nixFlakes;
+    settings = {
+      allowed-users = [ "zacharythomas" ];
+      experimental-features = [ "nix-command" "flakes" ];
+    };
+  };
   homebrew = {
     onActivation = {
-      cleanup = "zap";
+      /* cleanup = "zap"; */
     };
     enable = true;
 
     brews = [
+      /* "yabai" */
     ];
     casks = [
       "hammerspoon"
-      /* "1password" */
       "alacritty"
       "spotify"
       "iterm2"
       "slack"
       "discord"
       "kitty"
+      "firefox"
       "sonic-pi"
       "brave-browser"
       "font-fira-code-nerd-font"
@@ -47,6 +61,7 @@
     };
 
     defaults = {
+      /* NSGlobalDomain.NSAutomaticWindowAnimationsEnabled = false; */
       finder = {
         AppleShowAllExtensions = true;
       };

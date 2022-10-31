@@ -1,16 +1,33 @@
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "W", function()
--- 	hs.notify.new({ title = "Hammerspoon", informativeText = "Hello World" }):send()
--- end)
+--  ---------------
+--  |    Ideas    |
+--  ---------------
+-- Split out tab from browser into a new window
 
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "H", function()
--- 	local win = hs.window.focusedWindow()
--- 	local f = win:frame()
+--  -------------------
+--  |    Constants    |
+--  -------------------
 
--- 	f.x = f.x - 10
--- 	win:setFrame(f)
--- end)
+local meh = { "alt", "ctrl" }
+local super = { "cmd", "alt", "ctrl" }
+local preferedTerminal = "kitty"
+local preferedTerminal = "Brave Browser"
+
+--  ---------------
+--  |    Utils    |
+--  ---------------
+
+Inspect = require("inspect")
+
+--  -------------------
+--  |    Constants    |
+--  -------------------
+
 local bigHome = "PX329"
-local laptop_screen = "Built-in Retina Display"
+local laptopScreen = "Built-in Retina Display"
+
+--  ---------------------------------
+--  |    Configuration reloading    |
+--  ---------------------------------
 
 function reloadConfig(files)
 	doReload = false
@@ -29,131 +46,37 @@ hs.alert.show("Config loaded")
 
 hs.hotkey.bind({ "alt", "cmd" }, "1", function()
 	local windowLayout = {
-		{ "Slack", nil, laptopScreen, hs.layout.maximized, nil, nil },
-		{ "Kitty", nil, bigHome, hs.layout.maximized, nil, nil },
+		{ "Brave Browser", nil, laptopScreen, hs.layout.maximized, nil, nil },
+		{ "kitty", nil, bigHome, hs.layout.maximized, nil, nil },
 	}
 	hs.layout.apply(windowLayout)
 end)
--- caffeine = hs.menubar.new()
--- function setCaffeineDisplay(state)
--- 	if state then
--- 		caffeine:setTitle("AWAKE")
--- 	else
--- 		caffeine:setTitle("SLEEPY")
--- 	end
--- end
 
--- function caffeineClicked()
--- 	setCaffeineDisplay(hs.caffeinate.toggle("displayIdle"))
--- end
+--  ---------------------------
+--  |    Window Management    |
+--  ---------------------------
 
--- if caffeine then
--- 	caffeine:setClickCallback(caffeineClicked)
--- 	setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
--- end
+function break_out_tab()
+	local brave = hs.appfinder.appFromName("Brave Browser")
+	if not brave then
+		return
+	end
+	local tab_item = brave:findMenuItem({ "Tab", "Move Tab to New Window" })
+	if tab_item then
+		brave:selectMenuItem(tab_item)
+	end
 
--- hs.loadSpoon("AClock")
--- hs.hotkey.bind({ "cmd", "alt" }, "t", function()
--- 	spoon.AClock:toggleShow()
--- end)
+	-- hs.application.laun
+end
 
--- WINDOW MANAGERMENT
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Y", function()
--- 	local win = hs.window.focusedWindow()
--- 	local f = win:frame()
-
--- 	f.x = f.x - 10
--- 	f.y = f.y - 10
--- 	win:setFrame(f)
--- end)
-
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "K", function()
--- 	local win = hs.window.focusedWindow()
--- 	local f = win:frame()
-
--- 	f.y = f.y - 10
--- 	win:setFrame(f)
--- end)
-
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "U", function()
--- 	local win = hs.window.focusedWindow()
--- 	local f = win:frame()
-
--- 	f.x = f.x + 10
--- 	f.y = f.y - 10
--- 	win:setFrame(f)
--- end)
-
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "H", function()
--- 	local win = hs.window.focusedWindow()
--- 	local f = win:frame()
-
--- 	f.x = f.x - 10
--- 	win:setFrame(f)
--- end)
-
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "L", function()
--- 	local win = hs.window.focusedWindow()
--- 	local f = win:frame()
-
--- 	f.x = f.x + 10
--- 	win:setFrame(f)
--- end)
-
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "B", function()
--- 	local win = hs.window.focusedWindow()
--- 	local f = win:frame()
-
--- 	f.x = f.x - 10
--- 	f.y = f.y + 10
--- 	win:setFrame(f)
--- end)
-
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "J", function()
--- 	local win = hs.window.focusedWindow()
--- 	local f = win:frame()
-
--- 	f.y = f.y + 10
--- 	win:setFrame(f)
--- end)
-
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "N", function()
--- 	local win = hs.window.focusedWindow()
--- 	local f = win:frame()
-
--- 	f.x = f.x + 10
--- 	f.y = f.y + 10
--- 	win:setFrame(f)
--- end)
-
-hs.hotkey.bind({ "alt", "ctrl" }, "Left", function()
-	local win = hs.window.focusedWindow()
-	local f = win:frame()
-	local screen = win:screen()
-	local max = screen:frame()
-
-	f.x = max.x
-	f.y = max.y
-	f.w = max.w / 2
-	f.h = max.h
-	win:setFrame(f)
+hs.hotkey.bind(super, "return", function()
+	hs.application.launchOrFocus(preferedTerminal)
 end)
 
--- hs.hotkey.bind({ "alt", "ctrl" }, "Right", function()
--- 	local win = hs.window.focusedWindow()
--- 	local f = win:frame()
--- 	local screen = win:screen()
--- 	local max = screen:frame()
-
--- 	f.x = max.x + (max.w / 2)
--- 	f.y = max.y
--- 	f.w = max.w / 2
--- 	f.h = max.h
--- 	win:setFrame(f)
--- end)
-
-local meh = { "alt", "ctrl" }
-local super = { "cmd", "alt", "ctrl" }
+hs.hotkey.bind(super, "k", function()
+	print("focusing " .. preferedBrowser)
+	hs.application.launchOrFocus(preferedBrowser)
+end)
 
 local wm = require("window_management")
 
@@ -195,29 +118,20 @@ hs.hotkey.bind(meh, "j", function()
 	wm.moveWindowToPosition(wm.screenPositions.bottomLeft)
 end)
 
-hs.hotkey.bind({ "alt" }, "h", function()
-	hs.window.focusedWindow():focusWindowWest()
-end)
-hs.hotkey.bind({ "alt" }, "j", function()
-	hs.window.focusedWindow():focusWindowSouth()
-end)
+-- hs.hotkey.bind({ "alt" }, "h", function()
+-- 	hs.window.focusedWindow():focusWindowWest()
+-- end)
 
-hs.hotkey.bind({ "alt" }, "k", function()
-	hs.window.focusedWindow():focusWindowNorth()
-end)
-hs.hotkey.bind({ "alt" }, "l", function()
-	hs.window.focusedWindow():focusWindowEast()
-end)
+-- hs.hotkey.bind({ "alt" }, "j", function()
+-- 	hs.window.focusedWindow():focusWindowSouth()
+-- end)
 
--- hyper.bindShiftKey("3", function()
---   wm.moveWindowToPosition(wm.screenPositions.bottomLeft)
+-- hs.hotkey.bind({ "alt" }, "k", function()
+-- 	hs.window.focusedWindow():focusWindowNorth()
 -- end)
--- hyper.bindShiftKey("4", function()
---   wm.moveWindowToPosition(wm.screenPositions.bottomRight)
+
+-- hs.hotkey.bind({ "alt" }, "l", function()
+-- 	hs.window.focusedWindow():focusWindowEast()
 -- end)
--- hyper.bindShiftKey("5", function()
---   wm.moveWindowToPosition(wm.screenPositions.top)
--- end)
--- hyper.bindShiftKey("6", function()
---   wm.moveWindowToPosition(wm.screenPositions.bottom)
--- end)
+
+-- local yabai = require("yabai")
