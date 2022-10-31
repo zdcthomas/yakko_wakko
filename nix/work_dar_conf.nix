@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 {
-  users.users.zacharythomas = {
-    home = "/Users/zacharythomas";
+  users.users.zdcthomas = {
+    home = "/Users/zdcthomas";
     shell = pkgs.zsh;
   };
 
@@ -9,23 +9,23 @@
     # enable flakes per default
     package = pkgs.nixFlakes;
     settings = {
-      allowed-users = [ "zacharythomas" ];
+      allowed-users = [ "zdcthomas" ];
       experimental-features = [ "nix-command" "flakes" ];
     };
   };
   homebrew = {
+    enable = true;
     onActivation = {
       /* cleanup = "zap"; */
     };
-    enable = true;
 
     brews = [
       /* "yabai" */
     ];
     casks = [
       "hammerspoon"
-      "alacritty"
-      "iterm2"
+      /* "alacritty" */
+      /* "iterm2" */
       /* "slack" */
       "kitty"
       /* "firefox" */
@@ -45,6 +45,7 @@
     ];
   };
 
+  services.nix-daemon.enable = true;
   /* services.yabai.enable = true; */
   /* services.yabai.package = pkgs.yabai; */
   /* services.skhd.enable = true; */
