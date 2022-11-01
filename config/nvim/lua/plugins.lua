@@ -315,9 +315,48 @@ return require("packer").startup({
 				require("mason").setup()
 			end,
 		})
+		use({
+			"ravenxrz/DAPInstall.nvim",
+			config = function()
+				local dap_install = require("dap-install")
+				dap_install.setup({
+					installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
+				})
+			end,
+		})
 
 		use({
+			"mfussenegger/nvim-dap",
+			requires = { "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui" },
+			config = function()
+				local dap, dapui = require("dap"), require("dapui")
+				-- require("mason-nvim-dap").setup({
+				-- 	automatic_setup = true,
+				-- })
+				dap.set_log_level("TRACE")
+				dapui.setup()
+				dap.listeners.after.event_initialized["dapui_config"] = function()
+					dapui.open()
+				end
+				dap.listeners.before.event_terminated["dapui_config"] = function()
+					dapui.close()
+				end
+				dap.listeners.before.event_exited["dapui_config"] = function()
+					dapui.close()
+				end
+				-- local dap_install = require("dap-install")
+				-- dap_install.setup({
+				-- 	installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
+				-- })
+				-- dap.adapters.rt_lldb = {
+				-- 	-- type = "executable",
+				-- 	command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
+				-- }
+			end,
+		})
+		use({
 			"neovim/nvim-lspconfig",
+			after = "nvim-dap",
 			requires = {
 				"weilbith/nvim-code-action-menu",
 				"j-hui/fidget.nvim",
@@ -325,6 +364,7 @@ return require("packer").startup({
 				"kosayoda/nvim-lightbulb",
 				"nvim-telescope/telescope.nvim",
 				"williamboman/mason.nvim",
+				"simrat39/rust-tools.nvim",
 			},
 			config = function()
 				require("fidget").setup({})

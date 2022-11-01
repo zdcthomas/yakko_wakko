@@ -48,6 +48,7 @@ in
       bash
       bashInteractive
       bat
+      wget
       boxes
       exa
       fd
