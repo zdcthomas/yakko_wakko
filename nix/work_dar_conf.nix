@@ -16,11 +16,12 @@
   homebrew = {
     enable = true;
     onActivation = {
-      /* cleanup = "zap"; */
+      cleanup = "zap";
     };
 
     brews = [
       /* "yabai" */
+      "vector"
     ];
     casks = [
       "hammerspoon"
@@ -40,6 +41,9 @@
       "homebrew/cask-fonts"
       "homebrew/core"
       "homebrew/services"
+
+      /* for vector */
+      "vectordotdev/brew"
 
       /* "koekeishiya/formulae" # yabai */
     ];

@@ -6,9 +6,6 @@ let
 in
 {
   manual.html.enable = true;
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-
   nixpkgs.config.allowUnfree = true;
   news.display = "show";
 
@@ -121,6 +118,17 @@ in
 
 
     sessionVariables = {
+      /* TODO: Split these out into another module */
+      /* ----------------------------*/
+      /* |    homebrew variables    |*/
+      /* ----------------------------*/
+
+      HOMEBREW_PREFIX = "/opt/homebrew";
+      HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
+      HOMEBREW_REPOSITORY = "/opt/homebrew";
+      MANPATH = "/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
+      INFOPATH = "/opt/homebrew/share/info:${INFOPATH:-}";
+
       EDITOR = "nvim";
       DIFFPROG = "nvim -d";
       SKIM_DEFAULT_COMMAND = "fd --hidden --type f";
@@ -132,7 +140,7 @@ in
       FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
       FZF_DEFAULT_COMMAND = "fd --hidden --type f";
       FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
-      PATH = "$HOME/.cargo/bin:$HOME/.mix/escripts:$PATH";
+      PATH = "$HOME/.cargo/bin:$HOME/.mix/escripts:/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
     };
 
     sessionPath = [ "$HOME/.cargo/bin:$PATH" "$HOME/.mix/escripts:$PATH" "$PATH:$HOME/go/bin" ];

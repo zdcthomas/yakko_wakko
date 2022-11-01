@@ -315,19 +315,10 @@ return require("packer").startup({
 				require("mason").setup()
 			end,
 		})
-		use({
-			"ravenxrz/DAPInstall.nvim",
-			config = function()
-				local dap_install = require("dap-install")
-				dap_install.setup({
-					installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
-				})
-			end,
-		})
 
 		use({
 			"mfussenegger/nvim-dap",
-			requires = { "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui" },
+			requires = { "rcarriga/nvim-dap-ui", "jbyuki/one-small-step-for-vimkind" },
 			config = function()
 				local dap, dapui = require("dap"), require("dapui")
 				-- require("mason-nvim-dap").setup({
@@ -344,16 +335,21 @@ return require("packer").startup({
 				dap.listeners.before.event_exited["dapui_config"] = function()
 					dapui.close()
 				end
-				-- local dap_install = require("dap-install")
-				-- dap_install.setup({
-				-- 	installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
-				-- })
-				-- dap.adapters.rt_lldb = {
-				-- 	-- type = "executable",
-				-- 	command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
-				-- }
+
+				dap.configurations.lua = {
+					{
+						type = "nlua",
+						request = "attach",
+						name = "Attach to running Neovim instance",
+					},
+				}
+
+				dap.adapters.nlua = function(callback, config)
+					callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
+				end
 			end,
 		})
+
 		use({
 			"neovim/nvim-lspconfig",
 			after = "nvim-dap",
