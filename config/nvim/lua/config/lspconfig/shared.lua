@@ -2,6 +2,14 @@ local Module = {}
 
 Module.lspconfig_augroup = vim.api.nvim_create_augroup("LspConfigAuGroup", { clear = false })
 
+function Module.setup_dap_keybindings(bufnr)
+	vim.keymap.set("n", "<Leader>B", require("dap").toggle_breakpoint, { buffer = bufnr })
+	vim.keymap.set("n", "<Leader>dr", require("dap").repl.open, { buffer = bufnr })
+	vim.keymap.set("n", "<Leader>dc", require("dap").continue, { buffer = bufnr })
+	vim.keymap.set("n", "<Leader>dl", require("dap").step_into, { buffer = bufnr })
+	vim.keymap.set("n", "<Leader>dh", require("dap").step_out, { buffer = bufnr })
+end
+
 function Module.capabilities()
 	local capabilities = require("cmp_nvim_lsp").default_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true

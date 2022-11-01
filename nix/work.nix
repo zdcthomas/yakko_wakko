@@ -10,7 +10,8 @@ in
     packages = with pkgs; [
       go
       hurl
-      vector
+      /* wrong version */
+      /* vector */
     ];
   };
 }
