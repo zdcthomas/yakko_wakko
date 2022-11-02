@@ -318,7 +318,7 @@ return require("packer").startup({
 
 		use({
 			"mfussenegger/nvim-dap",
-			requires = { "rcarriga/nvim-dap-ui", "jbyuki/one-small-step-for-vimkind" },
+			requires = { "rcarriga/nvim-dap-ui" },
 			config = function()
 				local dap, dapui = require("dap"), require("dapui")
 				-- require("mason-nvim-dap").setup({
@@ -336,17 +336,17 @@ return require("packer").startup({
 					dapui.close()
 				end
 
-				dap.configurations.lua = {
-					{
-						type = "nlua",
-						request = "attach",
-						name = "Attach to running Neovim instance",
-					},
-				}
+				-- dap.configurations.lua = {
+				-- 	{
+				-- 		type = "nlua",
+				-- 		request = "attach",
+				-- 		name = "Attach to running Neovim instance",
+				-- 	},
+				-- }
 
-				dap.adapters.nlua = function(callback, config)
-					callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
-				end
+				-- dap.adapters.nlua = function(callback, config)
+				-- 	callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
+				-- end
 			end,
 		})
 
