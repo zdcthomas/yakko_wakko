@@ -2,7 +2,7 @@
 {
   users.users.zdcthomas = {
     home = "/Users/zdcthomas";
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   nix = {
@@ -34,7 +34,6 @@
     ];
 
     taps = [
-
       "homebrew/bundle"
       "homebrew/cask"
       "homebrew/cask-drivers"
@@ -53,6 +52,16 @@
   /* services.yabai.enable = true; */
   /* services.yabai.package = pkgs.yabai; */
   /* services.skhd.enable = true; */
+
+
+  /* environment.variables = { */
+  /*   HOMEBREW_PREFIX = "/opt/homebrew"; */
+  /*   HOMEBREW_CELLAR = "/opt/homebrew/Cellar"; */
+  /*   HOMEBREW_REPOSITORY = "/opt/homebrew"; */
+  /*   MANPATH = "/opt/homebrew/share/man${MANPATH+:$MANPATH}:"; */
+  /*   INFOPATH = "/opt/homebrew/share/info:${INFOPATH:-}"; */
+  /*   PATH = "/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}"; */
+  /* }; */
 
   system = {
 
