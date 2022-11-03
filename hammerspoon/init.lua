@@ -11,6 +11,7 @@ local meh = { "alt", "ctrl" }
 local super = { "cmd", "alt", "ctrl" }
 local preferedTerminal = "kitty"
 local preferedTerminal = "Brave Browser"
+local scarlett = "Scarlett 2i2 USB"
 
 --  ---------------
 --  |    Utils    |
