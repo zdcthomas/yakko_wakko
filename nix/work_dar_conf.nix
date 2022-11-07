@@ -31,6 +31,7 @@
       "kitty"
       /* "firefox" */
       "font-fira-code-nerd-font"
+      "aws-vpn-client"
     ];
 
     taps = [
