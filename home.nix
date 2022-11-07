@@ -40,8 +40,9 @@ in
     # changes in each release.
     /* stateVersion = "22.05"; */
 
-    packages = with pkgs; [
+    /* extraOutputsToInstall = [ "man" ]; */
 
+    packages = with pkgs; [
       bash
       bashInteractive
       bat
@@ -158,6 +159,11 @@ in
   };
 
   programs = {
+    man = {
+      enable = true;
+      generateCaches = true;
+    };
+
     alacritty = {
       enable = true;
     };
