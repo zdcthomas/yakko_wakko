@@ -18,8 +18,6 @@
 
   outputs = { nixpkgs, home-manager, darwin, ... }:
     let
-      /* work_username = "zdcthomas"; */
-      /* personal_username = "zacharythomas"; */
       mk_home_username_and_dir = { username, homeDirectoryPrefix ? "/Users/" }: { config, pkgs, ... }: {
         home.username = username;
         home.homeDirectory = homeDirectoryPrefix + username;
@@ -32,21 +30,6 @@
           };
           overlays = overlays;
         };
-      /* work_pkgs = mk_pkgs_conf { */
-      /*   system = "aarch64-darwin"; */
-      /* }; */
-      personal_pkgs = mk_pkgs_conf {
-        system = "x86_64-darwin";
-      };
-
-      /* work_username_and_dir = mk_home_username_and_dir { username = work_username; }; */
-
-      /* work = { */
-      /*   username = work_username; */
-      /*   pkgs = work_pkgs; */
-      /*   home = work_username_and_dir; */
-      /*   system = "aarch64-darwin"; */
-      /* }; */
 
       mkMachine = { username, system, overlays ? [ ] }: {
         username = username;
@@ -95,26 +78,6 @@
         /* ------------------------*/
         /* |    Work config       |*/
         /* ------------------------*/
-        /* Zacharys-MacBook-Pro = darwin.lib.darwinSystem { */
-        /*   system = work.system; */
-        /*   modules = [ */
-        /*     ./nix/work_dar_conf.nix */
-        /*     home-manager.darwinModule */
-        /*     { */
-        /*       home-manager = { */
-        /*         users.${work.username} = { ... }: { */
-        /*           imports = [ */
-        /*             ./home.nix */
-        /*             ./nix/work.nix */
-        /*             /1* ./nix/yabai.nix *1/ */
-        /*             ./nix/hammerspoon.nix */
-        /*             work.home */
-        /*           ]; */
-        /*         }; */
-        /*       }; */
-        /*     } */
-        /*   ]; */
-        /* }; */
         Zacharys-MacBook-Pro = mkDarConf work {
           darwinModules = [ ./nix/work_dar_conf.nix ];
           homeModules = [ ./home.nix ./nix/work.nix ./nix/hammerspoon.nix ];
@@ -125,27 +88,8 @@
         /* -----------------------*/
         Prime = mkDarConf personal {
           darwinModules = [ ./nix/dar_conf.nix ];
-          homeModules = [ ./home.nix ./nix/hammerspoon.nix ];
+          homeModules = [ ./home.nix ./nix/personal.nix ./nix/hammerspoon.nix ];
         };
-
-        /* Prime = darwin.lib.darwinSystem { */
-        /*   system = personal.system; */
-        /*   modules = [ */
-        /*     ./nix/dar_conf.nix */
-        /*     home-manager.darwinModule */
-        /*     { */
-        /*       home-manager = { */
-        /*         users.${personal.username} = { ... }: { */
-        /*           imports = [ */
-        /*             ./home.nix */
-        /*             /1* ./nix/yabai.nix *1/ */
-        /*             ./nix/hammerspoon.nix */
-        /*           ]; */
-        /*         }; */
-        /*       }; */
-        /*     } */
-        /*   ]; */
-        /* }; */
       };
       homeConfigurations = {
         /* WORK */

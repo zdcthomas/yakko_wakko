@@ -45,7 +45,6 @@ in
       bash
       bashInteractive
       bat
-      wget
       boxes
       exa
       fd
@@ -75,6 +74,7 @@ in
       tree
       unzip
       weechat
+      wget
       zip
 
       (

@@ -3,7 +3,8 @@
 [
   (
     pkgs.writeScriptBin "dot-switch" ''
-      home-manager switch --flake ${homeDirectory}/yakko_wakko#$USER $@
+      nix build --no-link ${homeDirectory}/yakko_wakko#homeConfigurations.$USER.activationPackage
+      "$(nix path-info ${homeDirectory}/yakko_wakko#homeConfigurations.$USER.activationPackage)"/activate
     ''
   )
 

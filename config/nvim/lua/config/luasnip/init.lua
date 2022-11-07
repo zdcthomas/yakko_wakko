@@ -23,7 +23,6 @@ local postfix = require("luasnip.extras.postfix").postfix
 local fmta = require("luasnip.extras.fmt").fmta
 local types = require("luasnip.util.types")
 local conds = require("luasnip.extras.expand_conditions")
--- local l = require("luasnip.extras").l
 local match_link = [[[%w%.%_%-%/%p%"%']+$]]
 local non_space = "%S+$"
 
@@ -108,6 +107,23 @@ ls.add_snippets("all", {
 		t({ "-----", "" }),
 	}),
 }, { key = "all" })
+
+ls.add_snippets("sh", {
+
+	s("header", {
+		t([[echo "-----]]),
+		l(l._1:gsub(".", "-"), 1),
+		t({ [[-----"]], "" }),
+
+		t([[echo "|    ]]),
+		i(1, "header title"),
+		t({ [[    |"]], "" }),
+
+		t([[echo "-----]]),
+		l(l._1:gsub(".", "-"), 1),
+		t({ [[-----"]], "" }),
+	}),
+}, { key = "sh" })
 
 ls.add_snippets("elixir", {
 	s(

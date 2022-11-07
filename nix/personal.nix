@@ -15,6 +15,8 @@ in
       hugo
       skim
       weechat
+      nodejs-18_x
+      nodePackages_latest.pnpm
     ];
   };
 }
