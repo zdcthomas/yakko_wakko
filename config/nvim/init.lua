@@ -50,6 +50,18 @@ require("autocmds")
 -- Defines global keymaps. `:h vim.keymap` and `:h map` to learn more!
 require("keymaps")
 
--- pcall(vim.cmd, "colorscheme kanagawa")
+-- https://github.com/ronny/birds-of-paradise.vim
 pcall(vim.cmd.colorscheme, "nord")
+-- pcall(vim.cmd.colorscheme, "kanagawa")
+-- pcall(vim.cmd.colorscheme, "birds-of-paradise")
 -- pcall(vim.cmd, "colorscheme tokyonight")
+
+-- cool kitty colors
+-- Forest Night
+-- kanagawabones
+-- Nova
+-- Obsidian
+-- Rose Pine
+-- moonlight
+-- Flat
+-- zenwritten_dark

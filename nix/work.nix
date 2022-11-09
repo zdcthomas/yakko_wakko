@@ -10,6 +10,8 @@ in
     packages = with pkgs; [
       go
       hurl
+      awscli2
+      git-remote-codecommit
       /* wrong version */
       /* vector */
     ];

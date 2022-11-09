@@ -4,7 +4,7 @@ if not Hydra then
 end
 
 local hint = [[
-  ^ ^     EEEVVVEERRRYYYTHTNING
+  ^ ^     EEEEEVERTHING
   ^
   _t_ Telescope
   _g_ Git Mode
