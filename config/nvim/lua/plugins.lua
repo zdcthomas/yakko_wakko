@@ -25,6 +25,7 @@ end
 return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
+		use("ronny/birds-of-paradise.vim")
 		use("mechatroner/rainbow_csv")
 		use({
 			"theblob42/drex.nvim",
@@ -192,7 +193,7 @@ return require("packer").startup({
 			config = config.kanagawa,
 		})
 
-		use({ "folke/tokyonight.nvim" })
+		use("folke/tokyonight.nvim")
 
 		use({
 			"rose-pine/neovim",

@@ -184,7 +184,12 @@ in
 
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
-    bat.enable = true;
+    bat = {
+      enable = true;
+      config = {
+        theme = "1337";
+      };
+    };
 
     go = {
       enable = true;
@@ -192,6 +197,7 @@ in
 
     fzf = {
       enable = true;
+      tmux.enableShellIntegration = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
       enableFishIntegration = true;

@@ -3,6 +3,7 @@ local conf = {}
 local function center(list)
 	return vim.fn["startify#center"](list)
 end
+
 local smallest = {
 	[[            ]],
 	[[      /&*/  ]],
@@ -314,10 +315,12 @@ function conf.setup()
 		{ d = { "Open dotfiles", ":!dmux ~/yakko_wakko" } },
 		{ D = { "Dmux", ":!dmux" } },
 	}
+
 	vim.g.startify_lists = {
 		{ type = "commands", header = center({ "めいれい" }) },
 		{ type = "dir", header = center({ "MRU " .. vim.fn.getcwd() }) },
 	}
+
 	vim.g.sttartify_change_to_dir = 0
 	vim.g.startify_change_to_vcs_root = 1
 	local default = adult_boxed
