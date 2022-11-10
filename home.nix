@@ -104,17 +104,11 @@ in
       * ridiculous to invent another layer of rconfiguration languages */
     file = {
       ".config/nvim/" = {
-        /* recursive = true; */
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/nvim";
       };
       ".tmux.conf".source = ./tmux.conf;
-      /* "Brewfile".source = ./Brewfile; */
       ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;
       ".boxes".source = ./config/boxes/.boxes;
-      /* ".config/alacritty" = { */
-      /*   recursive = true; */
-      /*   source = ./config/alacritty; */
-      /* }; */
     };
 
 
@@ -141,10 +135,9 @@ in
       FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
       FZF_DEFAULT_COMMAND = "fd --hidden --type f";
       FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
-      PATH = "$HOME/.cargo/bin:$HOME/.mix/escripts:/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
     };
 
-    sessionPath = [ "$HOME/.cargo/bin:$PATH" "$HOME/.mix/escripts:$PATH" "$PATH:$HOME/go/bin" ];
+    sessionPath = [ "$HOME/.cargo/bin" "$HOME/.mix/escripts" "$HOME/go/bin" "/opt/homebrew/bin" "/opt/homebrew/sbin${PATH+:$PATH}" ];
 
     shellAliases =
       {
@@ -159,6 +152,16 @@ in
   };
 
   programs = {
+    exa = {
+      enable = true;
+      enableAliases = true;
+      /* ls = "${pkgs.exa}/bin/exa"; */
+      /* ll = "${pkgs.exa}/bin/exa -l"; */
+      /* la = "${pkgs.exa}/bin/exa -a"; */
+      /* lt = "${pkgs.exa}/bin/exa --tree"; */
+      /* lla = "${pkgs.exa}/bin/exa -la"; */
+    };
+
     man = {
       enable = true;
       generateCaches = true;
@@ -170,15 +173,17 @@ in
 
     kitty = {
       enable = true;
-      theme = "Nord";
+      theme = "Everforest Dark Medium";
       font = {
         size = 15;
         name = "Monaco";
       };
       settings = {
         hide_window_decorations = "titlebar-only";
-        macos_option_as_alt = true;
         enable_audio_bell = false;
+        background_opacity = "0.95";
+        macos_quit_when_last_window_closed = true;
+        macos_option_as_alt = true;
       };
     };
 
@@ -243,7 +248,7 @@ in
       {
         defaultKeymap = "emacs";
         enable = true;
-        enableAutosuggestions = true;
+        /* enableAutosuggestions = true; */
         enableCompletion = true;
         history.extended = true;
         sessionVariables = rec {
@@ -403,17 +408,6 @@ in
           #set __fish_git_prompt_char_stashstate '↩'
           set __fish_git_prompt_char_upstream_ahead '⤵'
           set __fish_git_prompt_char_upstream_ahead '⤴'
-
-          if type -q pg_ctl
-            alias fuck_pg='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
-          end
-
-          if type -q exa
-            alias la='exa -la'
-            alias ls='exa -la'
-          else
-            alias la='ls -la'
-          end
         '';
     };
   };

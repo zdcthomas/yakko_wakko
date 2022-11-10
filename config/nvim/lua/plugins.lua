@@ -26,6 +26,34 @@ return require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
 		use("ronny/birds-of-paradise.vim")
+		use("sainnhe/everforest")
+		use({
+			"mfussenegger/nvim-lint",
+			config = function()
+				require("lint").linters_by_ft = {
+					sh = { "shellcheck" },
+				}
+
+				vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+					callback = function()
+						require("lint").try_lint()
+					end,
+				})
+			end,
+		})
+
+		use({
+			"rebelot/kanagawa.nvim",
+			config = config.kanagawa,
+		})
+
+		use("folke/tokyonight.nvim")
+
+		use({
+			"rose-pine/neovim",
+			as = "rose-pine",
+			config = config.rose_pine,
+		})
 		use("mechatroner/rainbow_csv")
 		use({
 			"theblob42/drex.nvim",
@@ -53,21 +81,22 @@ return require("packer").startup({
 				vim.g.user_emmet_mode = "a"
 			end,
 		})
+		use("tpope/vim-surround")
 
-		use({
-			"kylechui/nvim-surround",
-			tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-			config = function()
-				require("nvim-surround").setup({
-					move_cursor = false,
-					-- surrounds = {
-					-- 	["m"] = {
-					-- 		add = { { "%{" }, { "}" } },
-					-- 	},
-					-- },
-				})
-			end,
-		})
+		-- use({
+		-- 	"kylechui/nvim-surround",
+		-- 	tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+		-- 	config = function()
+		-- 		require("nvim-surround").setup({
+		-- 			-- move_cursor = false,
+		-- 			-- surrounds = {
+		-- 			-- 	["m"] = {
+		-- 			-- 		add = { { "%{" }, { "}" } },
+		-- 			-- 	},
+		-- 			-- },
+		-- 		})
+		-- 	end,
+		-- })
 
 		use({
 			"protex/home-manager.nvim",
@@ -186,19 +215,6 @@ return require("packer").startup({
 			requires = {
 				"kana/vim-textobj-user",
 			},
-		})
-
-		use({
-			"rebelot/kanagawa.nvim",
-			config = config.kanagawa,
-		})
-
-		use("folke/tokyonight.nvim")
-
-		use({
-			"rose-pine/neovim",
-			as = "rose-pine",
-			config = config.rose_pine,
 		})
 
 		use({
