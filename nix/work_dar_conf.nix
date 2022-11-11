@@ -28,6 +28,7 @@
       /* "alacritty" */
       /* "iterm2" */
       /* "slack" */
+      "docker"
       "kitty"
       /* "firefox" */
       "font-fira-code-nerd-font"

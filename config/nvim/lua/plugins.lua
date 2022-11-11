@@ -68,13 +68,15 @@ return require("packer").startup({
 			config = config.rose_pine,
 		})
 		use("mechatroner/rainbow_csv")
-		use({
-			"theblob42/drex.nvim",
-			requires = "kyazdani42/nvim-web-devicons", -- optional
-			config = function()
-				require("config.drex")
-			end,
-		})
+		-- NOTE: Started throwing weird errors
+		-- And dirvish didn't support symlink displays
+		-- use({
+		-- 	"theblob42/drex.nvim",
+		-- 	requires = "kyazdani42/nvim-web-devicons", -- optional
+		-- 	config = function()
+		-- 		require("config.drex")
+		-- 	end,
+		-- })
 		use({
 			"shaunsingh/nord.nvim",
 			wants = "nvim-treesitter/nvim-treesitter",
@@ -94,22 +96,21 @@ return require("packer").startup({
 				vim.g.user_emmet_mode = "a"
 			end,
 		})
-		use("tpope/vim-surround")
 
-		-- use({
-		-- 	"kylechui/nvim-surround",
-		-- 	tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-		-- 	config = function()
-		-- 		require("nvim-surround").setup({
-		-- 			-- move_cursor = false,
-		-- 			-- surrounds = {
-		-- 			-- 	["m"] = {
-		-- 			-- 		add = { { "%{" }, { "}" } },
-		-- 			-- 	},
-		-- 			-- },
-		-- 		})
-		-- 	end,
-		-- })
+		use({
+			"kylechui/nvim-surround",
+			-- tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+			config = function()
+				require("nvim-surround").setup({
+					-- move_cursor = false,
+					-- surrounds = {
+					-- 	["m"] = {
+					-- 		add = { { "%{" }, { "}" } },
+					-- 	},
+					-- },
+				})
+			end,
+		})
 
 		use({
 			"protex/home-manager.nvim",
