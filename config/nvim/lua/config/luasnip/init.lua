@@ -260,16 +260,17 @@ ls.add_snippets("rust", {
 }, { key = "rust" })
 
 ls.add_snippets("norg", {
-	s("code", {
+	s(
+		"code",
 		fmt(
-			[[
-    @code {}
-      {}
-    @end
-    ]],
+			[[ 
+	@code {}
+	{}
+	@end
+	]],
 			{ i(1, "lang"), i(2) }
-		),
-	}),
+		)
+	),
 }, { key = "norg" })
 
 ls.add_snippets("markdown", {
