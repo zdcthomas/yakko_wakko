@@ -24,6 +24,9 @@ local Module = {
 		-- }
 	},
 }
+
+-- TODO: Add a hydra reserve function that can save a spot in the top level hydra and then loads it when the hydra is called
+
 local function rebuild_hydra()
 	local beeg_boi = {
 		name = "EVERYTHING",
