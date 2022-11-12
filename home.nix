@@ -43,6 +43,7 @@ in
     /* extraOutputsToInstall = [ "man" ]; */
 
     packages = with pkgs; [
+
       bash
       bashInteractive
       bat
