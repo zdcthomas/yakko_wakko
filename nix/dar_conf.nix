@@ -27,6 +27,7 @@
       "alacritty"
       "spotify"
       "iterm2"
+      "calibre"
       "slack"
       "discord"
       "kitty"
