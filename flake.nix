@@ -91,6 +91,21 @@
           homeModules = [ ./home.nix ./nix/personal.nix ./nix/hammerspoon.nix ];
         };
       };
+      nixosConfigurations = {
+        sad_frog = nixpkgs.lib.nixosSystem {
+          inherit system;
+
+          modules = [
+            /* ./hardware-configuration.nix */
+            /* ./configuration.nix */
+          ];
+        };
+
+        specialArgs = {
+          pkgs = pkgs.legacyPackage;
+          unstable = unstable.legacyPackage;
+        };
+      };
       homeConfigurations = {
         /* WORK */
         zdcthomas = home-manager.lib.homeManagerConfiguration {
