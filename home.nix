@@ -173,6 +173,15 @@ in
     };
 
     kitty = {
+      /* cool kitty colors */
+      /* Forest Night */
+      /* kanagawabones */
+      /* Nova */
+      /* Obsidian */
+      /* Rose Pine */
+      /* moonlight */
+      /* Flat */
+      /* zenwritten_dark */
       enable = true;
       theme = "Everforest Dark Medium";
       font = {
