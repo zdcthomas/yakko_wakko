@@ -318,7 +318,7 @@ function conf.setup()
 
 	vim.g.startify_lists = {
 		{ type = "commands", header = center({ "めいれい" }) },
-		{ type = "dir", header = center({ "MRU " .. vim.fn.getcwd() }) },
+		-- { type = "dir", header = center({ "MRU " .. vim.fn.getcwd() }) },
 	}
 
 	vim.g.sttartify_change_to_dir = 0

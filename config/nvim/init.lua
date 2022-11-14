@@ -25,8 +25,7 @@
 -- !_____! !_____! !_____________________________________________________! !_____! !_____!
 
 -- On first install, this won't be here
--- pcall(require, "impatient")
--- require("impatient")
+pcall(require, "impatient")
 
 -- Settings.lua contains all global options that are set. Most of these will
 -- should have a description. This has to come first, since it defines the
