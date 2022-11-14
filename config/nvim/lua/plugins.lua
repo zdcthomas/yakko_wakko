@@ -1,17 +1,16 @@
 local config = require("config.general")
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-local packer_bootstrap
-if fn.empty(fn.glob(install_path)) > 0 then
-	packer_bootstrap = fn.system({
-		"git",
-		"clone",
-		"--depth",
-		"1",
-		"https://github.com/wbthomason/packer.nvim",
-		install_path,
-	})
+local ensure_packer = function()
+	local fn = vim.fn
+	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+	if fn.empty(fn.glob(install_path)) > 0 then
+		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+		vim.cmd([[packadd packer.nvim]])
+		return true
+	end
+	return false
 end
+
+local packer_bootstrap = ensure_packer()
 
 -- potential plugins
 -- * mzlogin/vim-markdown-toc
@@ -24,24 +23,10 @@ end
 
 return require("packer").startup({
 	function(use)
-		use({
-			"nvim-neo-tree/neo-tree.nvim",
-			branch = "v2.x",
-			requires = {
-				"nvim-lua/plenary.nvim",
-				"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
-				"MunifTanjim/nui.nvim",
-			},
-			config = function()
-				require("config.neo_tree").config()
-			end,
-		})
-
 		use("wbthomason/packer.nvim")
-		use("ronny/birds-of-paradise.vim")
-		use("sainnhe/everforest")
 		use({
 			"mfussenegger/nvim-lint",
+			ft = { "sh" },
 			config = function()
 				require("lint").linters_by_ft = {
 					sh = { "shellcheck" },
@@ -56,18 +41,30 @@ return require("packer").startup({
 		})
 
 		use({
-			"rebelot/kanagawa.nvim",
-			config = config.kanagawa,
+			{
+				"rose-pine/neovim",
+				as = "rose-pine",
+				config = config.rose_pine,
+			},
+			{
+				"rebelot/kanagawa.nvim",
+				config = config.kanagawa,
+			},
+			{
+				"shaunsingh/nord.nvim",
+				wants = "nvim-treesitter/nvim-treesitter",
+				config = function()
+					vim.g.nord_borders = true
+					vim.g.nord_italic = true
+					vim.g.nord_uniform_diff_background = true
+				end,
+			},
+			"folke/tokyonight.nvim",
+			"ronny/birds-of-paradise.vim",
+			"sainnhe/everforest",
 		})
 
-		use("folke/tokyonight.nvim")
-
-		use({
-			"rose-pine/neovim",
-			as = "rose-pine",
-			config = config.rose_pine,
-		})
-		use("mechatroner/rainbow_csv")
+		use({ "mechatroner/rainbow_csv", ft = "csv" })
 		-- NOTE: Started throwing weird errors
 		-- And dirvish didn't support symlink displays
 		-- use({
@@ -77,21 +74,31 @@ return require("packer").startup({
 		-- 		require("config.drex")
 		-- 	end,
 		-- })
+		--
 		use({
-			"shaunsingh/nord.nvim",
-			wants = "nvim-treesitter/nvim-treesitter",
+			"nvim-neo-tree/neo-tree.nvim",
+			keys = {
+				"-",
+			},
+			cmd = "Neotree",
+			module = "neo-tree",
+			branch = "v2.x",
+			requires = {
+				"nvim-lua/plenary.nvim",
+				"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+				"MunifTanjim/nui.nvim",
+			},
 			config = function()
-				vim.g.nord_borders = true
-				vim.g.nord_italic = true
-				vim.g.nord_uniform_diff_background = true
+				require("config.neo_tree").config()
 			end,
 		})
 
 		use("antoinemadec/FixCursorHold.nvim")
-		-- use("lewis6991/impatient.nvim")
+		use("lewis6991/impatient.nvim")
 		use("michaeljsmith/vim-indent-object")
 		use({
 			"mattn/emmet-vim",
+			ft = { "html", "js", "ts" },
 			config = function()
 				vim.g.user_emmet_mode = "a"
 			end,
@@ -114,47 +121,43 @@ return require("packer").startup({
 
 		use({
 			"protex/home-manager.nvim",
+			ft = { "nix" },
 			requires = {
 				"nvim-lua/plenary.nvim",
 			},
 			config = function() end,
 		})
 
-		use({
-			"zdcthomas/yop.nvim",
-			config = function()
-				local yop = require("yop")
-				local utils = require("yop.utils")
-				yop.op_map({ "n", "v" }, "gs", function(lines, _)
-					-- We don't care about anything non alphanumeric here
-					local sort_without_leading_space = function(a, b)
-						-- true = a then b
-						-- false = b then a
-						local pattern = [[^%W*]]
-						return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
-					end
-					if #lines == 1 then
-						-- local delimeter = utils.get_input("Delimeter: ")
-						local delimeter = ","
-						local split = vim.split(lines[1], delimeter, { trimempty = true })
-						-- Remember! `table.sort` mutates the table itself
-						table.sort(split, sort_without_leading_space)
-						return { utils.join(split, delimeter) }
-					else
-						-- If there are many lines, sort the lines themselves
-						table.sort(lines, sort_without_leading_space)
-						return lines
-					end
-				end)
-			end,
-		})
+		-- use({
+		-- 	"zdcthomas/yop.nvim",
+		-- 	config = function()
+		-- 		local yop = require("yop")
+		-- 		local utils = require("yop.utils")
+		-- 		yop.op_map({ "n", "v" }, "gs", function(lines, _)
+		-- 			-- We don't care about anything non alphanumeric here
+		-- 			local sort_without_leading_space = function(a, b)
+		-- 				-- true = a then b
+		-- 				-- false = b then a
+		-- 				local pattern = [[^%W*]]
+		-- 				return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
+		-- 			end
+		-- 			if #lines == 1 then
+		-- 				-- local delimeter = utils.get_input("Delimeter: ")
+		-- 				local delimeter = ","
+		-- 				local split = vim.split(lines[1], delimeter, { trimempty = true })
+		-- 				-- Remember! `table.sort` mutates the table itself
+		-- 				table.sort(split, sort_without_leading_space)
+		-- 				return { utils.join(split, delimeter) }
+		-- 			else
+		-- 				-- If there are many lines, sort the lines themselves
+		-- 				table.sort(lines, sort_without_leading_space)
+		-- 				return lines
+		-- 			end
+		-- 		end)
+		-- 	end,
+		-- })
 
 		-- use("christoomey/vim-sort-motion", { keys = { "gs" } })
-
-		use({
-			"folke/neodev.nvim",
-			module = "neodev",
-		})
 
 		-- Find and replace goodness
 		use({
@@ -231,24 +234,27 @@ return require("packer").startup({
 			},
 		})
 
-		use({
-			"windwp/nvim-autopairs",
-			on = "InsertEnter",
-			config = config.autopairs,
-		})
-
-		local luasnip_config = {
-			"L3MON4D3/LuaSnip",
-			tag = "v1.*",
-			config = function()
-				require("config.luasnip")
-			end,
-		}
-		use(luasnip_config)
-
+		-- Lazy loading for cmp is a fairly complicated issue, due to a seeming inversion of the dependency graph
+		-- See:
+		--  * https://github.com/hrsh7th/nvim-cmp/issues/65
+		--  * https://github.com/hrsh7th/nvim-cmp/discussions/688#discussioncomment-1891544
 		use({
 			"hrsh7th/nvim-cmp",
+			-- wants = { "LuaSnip" },
+			-- event = "InsertEnter",
 			requires = {
+				{
+					"windwp/nvim-autopairs",
+					on = "InsertEnter",
+					config = config.autopairs,
+				},
+				{
+					"L3MON4D3/LuaSnip",
+					tag = "v1.*",
+					config = function()
+						require("config.luasnip")
+					end,
+				},
 				"hrsh7th/cmp-buffer",
 				"hrsh7th/cmp-calc",
 				"hrsh7th/cmp-cmdline",
@@ -309,6 +315,17 @@ return require("packer").startup({
 
 		use({
 			"nvim-telescope/telescope.nvim",
+			cmd = "Telescope",
+			module_pattern = "telescope.*",
+			keys = {
+				"<Leader>p",
+				"<Leader>q",
+				"<Leader>/",
+				"<Leader>b",
+				"<Leader>F",
+				"<Leader>*",
+				"gd",
+			},
 			requires = {
 				{ "nvim-lua/popup.nvim" },
 				{ "nvim-lua/plenary.nvim" },
@@ -392,6 +409,11 @@ return require("packer").startup({
 				"nvim-telescope/telescope.nvim",
 				"williamboman/mason.nvim",
 				"simrat39/rust-tools.nvim",
+				{
+					"folke/neodev.nvim",
+					ft = "lua",
+					module = "neodev",
+				},
 			},
 			config = function()
 				require("fidget").setup({})
