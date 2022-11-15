@@ -47,12 +47,14 @@ in
       bash
       bashInteractive
       bat
+      gnumake 
       boxes
       exa
       fd
       fish
       font-awesome_5
       fzf
+      gcc
       gh
       git
       go
