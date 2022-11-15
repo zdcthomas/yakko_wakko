@@ -1,6 +1,7 @@
 .DS_store
 **/**/fzf_key_bindings.fish
 /config/kak
+/config/nvim/undo/
 config/fish/fish_variables
 packer_compiled.lua
 result
