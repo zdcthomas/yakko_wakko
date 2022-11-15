@@ -12,6 +12,8 @@ vim.opt.copyindent = true
 vim.opt.encoding = "UTF-8"
 vim.opt.equalalways = false
 vim.opt.expandtab = true
+vim.opt.spellfile = vim.fn.expand("~") .. "/.config/nvim/spell/en.utf-8.add"
+vim.opt.spelllang:append("cjk")
 vim.opt.fillchars = {
 	eob = " ",
 	vert = "║",
