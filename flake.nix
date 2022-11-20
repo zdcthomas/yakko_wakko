@@ -31,10 +31,10 @@
           overlays = overlays;
         };
 
-      mkMachine = { username, system, overlays ? [ ] , homeDirectoryPrefix}: {
+      mkMachine = { username, system, overlays ? [ ], homeDirectoryPrefix }: {
         username = username;
         pkgs = mk_pkgs_conf { system = system; overlays = overlays; };
-        home = mk_home_username_and_dir { username = username; homeDirectoryPrefix = homeDirectoryPrefix;};
+        home = mk_home_username_and_dir { username = username; homeDirectoryPrefix = homeDirectoryPrefix; };
         system = system;
       };
 
@@ -98,7 +98,7 @@
       };
       nixosConfigurations = {
         lar = nixpkgs.lib.nixosSystem {
-	  system = "x86_64-linux";
+          system = "x86_64-linux";
 
           modules = [
             ./nix/nixos_configs/configuration.nix
@@ -108,7 +108,7 @@
 
       };
       homeConfigurations = {
-	/* HOME SERVER */
+        /* HOME SERVER */
         sadfrog = home-manager.lib.homeManagerConfiguration {
           pkgs = home-serv.pkgs;
           modules = [
