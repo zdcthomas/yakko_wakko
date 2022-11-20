@@ -6,24 +6,25 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      /* <nixos-unstable/nixos/modules/services/networking/expressvpn.nix> */
     ];
+
+  /* services.expressvpn.enable = true; */
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  networking.hostName = "lar"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Denver";
@@ -72,10 +73,10 @@
     isNormalUser = true;
     description = "Sad Frog";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [
-      firefox
-    #  thunderbird
-    ];
+    /* packages = with pkgs; [ */
+    /*   /1* firefox *1/ */
+    /*   #  thunderbird */
+    /* ]; */
   };
 
   # Enable automatic login for the user.
@@ -89,11 +90,18 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
+
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = "experimental-features = nix-command flakes";
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    neovim
-    wget
+    # neovim
+    # wget
     docker
     docker-compose
     docker-client
@@ -110,11 +118,19 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
+  networking = {
+
+    # Enable networking
+    networkmanager.enable = true;
+    hostName = "lar"; # Define your hostname.
+    firewall = {
+      allowedTCPPorts = [ 8096 8920 8080 8123 63584 ];
+      allowedUDPPorts = [ 1900 7359 ];
+    };
+  };
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 

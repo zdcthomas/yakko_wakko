@@ -317,7 +317,7 @@ return require("packer").startup({
 				-- There's some type of fatal issue here but it'd be amazing if it got resolved
 				-- { "nvim-telescope/telescope-fzf-writer.nvim" },
 				-- { "nvim-telescope/telescope-file-browser.nvim" },
-				{ "nvim-telescope/telescope-fzf-native.nvim", run = "arch -arm64 make" },
+				{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 			},
 			config = function()
 				require("config.telescope").setup()
