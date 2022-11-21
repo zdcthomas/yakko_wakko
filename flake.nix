@@ -31,7 +31,7 @@
           overlays = overlays;
         };
 
-      mkMachine = { username, system, overlays ? [ ], homeDirectoryPrefix }: {
+      mkMachine = { username, system, overlays ? [ ], homeDirectoryPrefix ? "/Users/" }: {
         username = username;
         pkgs = mk_pkgs_conf { system = system; overlays = overlays; };
         home = mk_home_username_and_dir { username = username; homeDirectoryPrefix = homeDirectoryPrefix; };
