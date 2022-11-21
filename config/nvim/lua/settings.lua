@@ -6,12 +6,14 @@ vim.opt.autoindent = true
 vim.opt.autoread = true
 vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.backup = false
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard:append("unnamedplus")
 vim.opt.laststatus = 3
 vim.opt.copyindent = true
 vim.opt.encoding = "UTF-8"
 vim.opt.equalalways = false
 vim.opt.expandtab = true
+vim.opt.spellfile = vim.fn.expand("~") .. "/.config/nvim/spell/en.utf-8.add"
+vim.opt.spelllang:append("cjk")
 vim.opt.fillchars = {
 	eob = " ",
 	vert = "║",
@@ -45,7 +47,7 @@ vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
-vim.opt.undodir = vim.fn.expand("~/.vim/undo")
+vim.opt.undodir = vim.fn.expand("~/.config/nvim/undo")
 vim.opt.undofile = true
 vim.opt.updatetime = 100
 vim.opt.virtualedit = "block"
@@ -80,3 +82,34 @@ hi link netrwMarkFile CmpItemAbbrMatchFuzzy
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 ]])
+
+local disabled_built_ins = {
+	"2html_plugin",
+	"getscript",
+	"getscriptPlugin",
+	"gzip",
+	"logipat",
+	"netrw",
+	"netrwPlugin",
+	"netrwSettings",
+	"netrwFileHandlers",
+	-- "matchit",
+	-- "matchparen",
+	"tar",
+	"tarPlugin",
+	"rrhelper",
+	"vimball",
+	"vimballPlugin",
+	-- "zip",
+	-- "zipPlugin",
+}
+
+for _, plugin in pairs(disabled_built_ins) do
+	vim.g["loaded_" .. plugin] = 1
+end
+
+vim.filetype.add({
+	extension = {
+		gleam = "gleam",
+	},
+})

@@ -25,8 +25,7 @@
 -- !_____! !_____! !_____________________________________________________! !_____! !_____!
 
 -- On first install, this won't be here
--- pcall(require, "impatient")
--- require("impatient")
+pcall(require, "impatient")
 
 -- Settings.lua contains all global options that are set. Most of these will
 -- should have a description. This has to come first, since it defines the
@@ -34,7 +33,7 @@
 require("settings")
 
 -- Utils are a series of globally available lua functions that
---provide common functionality accross my dotfiles.
+-- provide common functionality across my dotfiles.
 require("utils")
 
 -- Defines a list of plugins to pull down and use, as well as their
@@ -56,13 +55,3 @@ pcall(vim.cmd.colorscheme, "everforest")
 -- pcall(vim.cmd.colorscheme, "kanagawa")
 -- pcall(vim.cmd.colorscheme, "birds-of-paradise")
 -- pcall(vim.cmd, "colorscheme tokyonight")
-
--- cool kitty colors
--- Forest Night
--- kanagawabones
--- Nova
--- Obsidian
--- Rose Pine
--- moonlight
--- Flat
--- zenwritten_dark

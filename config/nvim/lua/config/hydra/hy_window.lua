@@ -19,7 +19,6 @@ return Hydra({
 			position = "bottom",
 		},
 		color = "pink",
-		invoke_on_body = true,
 	},
 	hint = window_hint,
 	name = "windows n stuff",
