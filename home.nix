@@ -47,12 +47,14 @@ in
       bash
       bashInteractive
       bat
+      gnumake
       boxes
       exa
       fd
       fish
       font-awesome_5
       fzf
+      gcc
       gh
       git
       go
@@ -138,7 +140,7 @@ in
       FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
     };
 
-    sessionPath = [ "$HOME/.cargo/bin" "$HOME/.mix/escripts" "$HOME/go/bin" "/opt/homebrew/bin" "/opt/homebrew/sbin${PATH+:$PATH}" ];
+    sessionPath = [ "$HOME/.cargo/bin" ];
 
     shellAliases =
       {
@@ -250,6 +252,7 @@ in
         export PS1="$cyan\u$white@$yellow \w$white \$(git_branch) \$(dirty) \n$in_prompt"
         export PS2=$in_prompt
         export PS2="| ?> "
+        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
       '';
     };
 
@@ -261,9 +264,9 @@ in
         /* enableAutosuggestions = true; */
         enableCompletion = true;
         history.extended = true;
-        sessionVariables = rec {
-          EDITOR = "nvim";
-        };
+        /* sessionVariables = rec { */
+        /*   EDITOR = "nvim"; */
+        /* }; */
         autocd = true;
         initExtraFirst = builtins.readFile ./zsh_extra_config.zsh;
         plugins = [

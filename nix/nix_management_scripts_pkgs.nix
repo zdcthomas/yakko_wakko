@@ -26,5 +26,9 @@
       nvim ${homeDirectory}/yakko_wakko/home.nix
     ''
   )
+
+  (pkgs.writeScriptBin "os-switch" ''
+    sudo nixos-rebuild switch --flake ~/yakko_wakko/
+  '')
 ]
 

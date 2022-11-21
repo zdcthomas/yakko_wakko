@@ -18,7 +18,9 @@ require("formatter").setup({
 		typescriptreact = {
 			require("formatter.filetypes.typescriptreact").prettierd,
 		},
-
+		yaml = {
+			require("formatter.filetypes.yaml").yamlfmt,
+		},
 		elixir = {
 			require("formatter.filetypes.elixir").mixformat,
 		},
