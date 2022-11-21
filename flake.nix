@@ -31,18 +31,23 @@
           overlays = overlays;
         };
 
-      mkMachine = { username, system, overlays ? [ ] }: {
+      mkMachine = { username, system, overlays ? [ ], homeDirectoryPrefix }: {
         username = username;
         pkgs = mk_pkgs_conf { system = system; overlays = overlays; };
-        home = mk_home_username_and_dir { username = username; };
+        home = mk_home_username_and_dir { username = username; homeDirectoryPrefix = homeDirectoryPrefix; };
         system = system;
+      };
+
+      home-serv = mkMachine {
+        username = "sadfrog";
+        system = "x86_64-linux";
+        homeDirectoryPrefix = "/home/";
       };
 
       work = mkMachine {
         username = "zdcthomas";
         system = "aarch64-darwin";
       };
-
 
       personal = mkMachine {
         username = "zacharythomas";
@@ -70,7 +75,7 @@
 
     in
     {
-      /* defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux; */
+      defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
       /* defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin; */
       /* defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin; */
       darwinConfigurations = {
@@ -92,21 +97,26 @@
         };
       };
       nixosConfigurations = {
-        sad_frog = nixpkgs.lib.nixosSystem {
-          inherit system;
+        lar = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
 
           modules = [
-            /* ./hardware-configuration.nix */
-            /* ./configuration.nix */
+            ./nix/nixos_configs/configuration.nix
+            ./nix/nixos_configs/hardware-configuration.nix
           ];
         };
 
-        specialArgs = {
-          pkgs = pkgs.legacyPackage;
-          unstable = unstable.legacyPackage;
-        };
       };
       homeConfigurations = {
+        /* HOME SERVER */
+        sadfrog = home-manager.lib.homeManagerConfiguration {
+          pkgs = home-serv.pkgs;
+          modules = [
+            ./home.nix
+            home-serv.home
+            ./nix/sadfrog.nix
+          ];
+        };
         /* WORK */
         zdcthomas = home-manager.lib.homeManagerConfiguration {
           pkgs = work.pkgs;
