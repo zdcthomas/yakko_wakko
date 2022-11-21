@@ -13,13 +13,137 @@ local function keybindings_setup(keybinds)
 		noremap = true,
 	})
 end
+local function start_neorg()
+	-- if not require("neorg").is_loaded() then
+	-- 	vim.cmd("NeorgStart silent=true")
+	-- end
+end
+
+local function gtd_views()
+	start_neorg()
+	vim.cmd("Neorg gtd views")
+end
+
+local function gtd_capture()
+	start_neorg()
+	vim.cmd("Neorg gtd captue")
+end
+
+local function today()
+	start_neorg()
+	vim.cmd("Neorg journal today")
+end
+
+local function tomorrow()
+	start_neorg()
+	vim.cmd("Neorg journal tomorrow")
+end
+
+local function yesterday()
+	start_neorg()
+	vim.cmd("Neorg journal yesterday")
+end
+
+local function make_hydra()
+	local Hydra = Pquire("hydra")
+	if Hydra then
+		local main_hint = [[
+
+		       ^^  -^- ^ 
+		       ^^ / ^/|^
+		       ^^/./^ |^.--.
+		      -^^|W|^ /^  /|
+		     / ^^|r|^.-^./ |
+		    .--^^|i|^  ^|  |
+		    |日^^|t|_g_ |<\\|
+		    |記^^|i|^ t^| \\\
+		   /|_n_ |n|^d ^| /\\\    /
+		  / |  ^^|g|^  ^|/  \\>  /
+		▄▄▄▄▄▄▄^^▄▄▄^▄▄^▄▄▄▄▄▄▄▄▄▄
+   
+
+    ]]
+		local journal_hint = [[
+                           
+     /¯¯¯¯¯¯/,  _k_ 今日   
+    / 日記 //   _a_ 明日   
+   /      //    _y_ 昨日   
+  (¯¯¯¯¯¯(/
+   ¯¯¯¯¯¯¯
+    ]]
+		local gtd_hydra = Hydra({
+			name = "Getting Things Done!",
+			mode = "n",
+			config = {
+				color = "blue",
+				hint = {
+					border = "double",
+				},
+			},
+			heads = {
+				{ "v", gtd_views },
+				{ "c", gtd_views },
+			},
+		})
+
+		local journal_hydra = Hydra({
+			name = "Journalin'",
+			mode = "n",
+			config = {
+				color = "blue",
+				hint = {
+					border = "double",
+				},
+			},
+			hint = journal_hint,
+			heads = {
+				{ "k", today },
+				{ "a", tomorrow },
+				{ "y", yesterday },
+			},
+		})
+		-- "Bookshelf" by
+		-- David S. Issel
+		local neorg_hyrda = Hydra({
+			config = {
+				color = "blue",
+				invoke_on_body = true,
+				hint = {
+					border = "double",
+				},
+			},
+			hint = main_hint,
+			mode = "n",
+			heads = {
+				{
+					"n",
+					function()
+						journal_hydra:activate()
+					end,
+				},
+				{
+					"g",
+					function()
+						gtd_hydra:activate()
+					end,
+				},
+			},
+		})
+
+		require("config.hydra").add_g_hydra({ key = "n", hydra = neorg_hyrda, desc = "Neorg!" })
+	end
+end
 
 Module.setup = function()
-	vim.keymap.set("n", "<leader><leader>nt", function()
+	make_hydra()
+
+	vim.keymap.set("n", "<leader>ntv", gtd_views)
+
+	vim.keymap.set("n", "<leader>ntn", function()
 		if not require("neorg").is_loaded() then
 			vim.cmd("NeorgStart silent=true")
 		end
-		vim.cmd("Neorg gtd views")
+		vim.cmd("Neorg gtd capture")
 	end)
 
 	require("neorg").setup({
@@ -34,6 +158,7 @@ Module.setup = function()
 			["core.integrations.nvim-cmp"] = {},
 			["core.export"] = {},
 			["core.tangle"] = {},
+			["external.kanban"] = {},
 			["core.export.markdown"] = {
 				config = {
 					extensions = "all",
@@ -107,6 +232,7 @@ Module.setup = function()
 	neorg_callbacks.on_event("core.autocommands.events.bufenter", function(event, event_content)
 		-- local log = require('neorg.external.log')
 		vim.opt_local.foldenable = false
+		vim.opt_local.textwidth = 80
 		-- log.warn("Entered a neorg buffer!")
 	end)
 

@@ -33,7 +33,7 @@ pcall(require, "impatient")
 require("settings")
 
 -- Utils are a series of globally available lua functions that
---provide common functionality accross my dotfiles.
+-- provide common functionality across my dotfiles.
 require("utils")
 
 -- Defines a list of plugins to pull down and use, as well as their
@@ -49,4 +49,9 @@ require("autocmds")
 -- Defines global keymaps. `:h vim.keymap` and `:h map` to learn more!
 require("keymaps")
 
-vim.cmd("colorscheme rose-pine")
+-- https://github.com/ronny/birds-of-paradise.vim
+-- pcall(vim.cmd.colorscheme, "nord")
+pcall(vim.cmd.colorscheme, "everforest")
+-- pcall(vim.cmd.colorscheme, "kanagawa")
+-- pcall(vim.cmd.colorscheme, "birds-of-paradise")
+-- pcall(vim.cmd, "colorscheme tokyonight")

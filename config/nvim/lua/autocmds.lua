@@ -18,19 +18,19 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	end,
 })
 -- show cursor line only in active window
-vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter", "CmdlineLeave" }, {
-	group = InitGroupId,
-	pattern = "*",
-	command = "set cursorline",
-	desc = "Enable cursorline",
-})
+-- vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter", "CmdlineLeave" }, {
+-- 	group = InitGroupId,
+-- 	pattern = "*",
+-- 	command = "set cursorline",
+-- 	desc = "Enable cursorline",
+-- })
 
-vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave", "CmdlineEnter" }, {
-	group = InitGroupId,
-	pattern = "*",
-	command = "set nocursorline",
-	desc = "Disable cursorline",
-})
+-- vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave", "CmdlineEnter" }, {
+-- 	group = InitGroupId,
+-- 	pattern = "*",
+-- 	command = "set nocursorline",
+-- 	desc = "Disable cursorline",
+-- })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = InitGroupId,
@@ -47,7 +47,58 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	desc = "Map q to close buffer",
 })
 
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+	group = InitGroupId,
+	callback = function()
+		vim.opt.formatoptions = vim.tbl_extend("force", vim.opt.formatoptions:get(), {
+			o = false, -- O and o, don't continue comments
+			r = true, -- Pressing Enter will continue comments
+		})
+	end,
+	desc = "Most ftplugins overwrite, so we'll overwrite their overwrite!",
+})
+
 vim.api.nvim_create_autocmd(
 	"FocusGained",
 	{ command = "checktime", desc = "Check if buffer was changed", group = InitGroupId }
 )
+
+-- This lets one delete entries from a quickfix list with `dd`
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = InitGroupId,
+	pattern = { "qf" },
+	callback = function()
+		vim.keymap.set("n", "dd", function()
+			local current_quick_fix_index = vim.fn.line(".")
+			local quickfix_list = vim.fn.getqflist()
+			table.remove(quickfix_list, current_quick_fix_index)
+			vim.fn.setqflist(quickfix_list, "r")
+			vim.fn.execute(current_quick_fix_index .. "cfirst")
+			vim.cmd("copen")
+		end, { buffer = true })
+	end,
+	desc = "Map q to close buffer",
+})
+
+vim.api.nvim_create_autocmd("RecordingEnter", {
+	pattern = "*",
+	callback = function()
+		vim.opt_local.cmdheight = 1
+	end,
+})
+
+vim.api.nvim_create_autocmd("RecordingLeave", {
+	pattern = "*",
+	callback = function()
+		local timer = vim.loop.new_timer()
+		-- NOTE: Timer is here because we need to close cmdheight AFTER
+		-- the macro is ended, not during the Leave event
+		timer:start(
+			50,
+			0,
+			vim.schedule_wrap(function()
+				vim.opt_local.cmdheight = 0
+			end)
+		)
+	end,
+})

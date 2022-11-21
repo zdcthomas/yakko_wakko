@@ -1,0 +1,11 @@
+commands = ["nvim"]
+number_of_panes = 2
+
+[js]
+session_name = "frontend"
+commands = ["nvim", "yarn install"]
+
+[javascript]
+number_of_panes = 3
+session_name = "frontend"
+commands = ["nvim", "fish", "yarn watch"]

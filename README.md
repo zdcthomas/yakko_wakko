@@ -31,7 +31,7 @@ me, are the honed tools of your craft, they take time care and personal
 attention to set up, get right, and maintain, and while using someone else's
 tools is fine at first, they should always just be a jumping off point.
 
----
+---                                                
 
 ## What's it look like?
 

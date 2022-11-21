@@ -1,0 +1,1419 @@
+#
+# boxes - Command line filter to draw/remove ASCII boxes around text
+# Copyright (c) 1999-2021 Thomas Jensen and the boxes contributors
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License, version 2, as published
+# by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+# for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# ____________________________________________________________________________
+#
+# Format:              ASCII Text
+# Syntax of this file: https://boxes.thomasjensen.com/config-syntax.html
+#=============================================================================
+
+
+BOX c
+
+author "Thomas Jensen"
+designer "(public domain)"
+revision "1.0"
+revdate "March 18, 1999 (Thursday, 15:25h)"
+created "March 18, 1999 (Thursday, 15:25h)"
+tags    "simple, programming, box"
+
+sample
+    /*************/
+    /*           */
+    /*           */
+    /*************/
+ends
+
+shapes {
+    nw ("/*") n ("*") ne ("*/")
+     w ("/*")          e ("*/")
+    sw ("/*") s ("*") se ("*/")
+}
+
+delim ?"
+replace "\*/" with "*\\/"         # escape closing comment tags
+reverse "\*\\/" to "*/"
+
+padding {
+    horiz 1
+}
+
+elastic (n,e,s,w)
+
+END c
+
+
+#=============================================================================
+
+
+BOX lua-string-list
+
+author "Zach Thomas"
+designer "(public domain)"
+revision "1.0"
+revdate "October 29, 2021 (Friday)"
+created "October 29, 2021 (Friday)"
+tags    "artwork, lua, programming"
+
+sample
+    local ascii = {
+    [[ Hey There ]],
+    [[   ZT      ]],
+    }
+ends
+shapes {
+    nw ("local") nnw (" ascii") n("= {") nne (" ")
+     w ("   [[")                        e ("]],")
+    sw ("    }")
+}
+
+
+
+elastic (nne,e,s,w)
+
+END lua-string-list
+# ============================================================================
+
+
+BOX parchment
+
+author   "Thomas Jensen"
+created  "March 12, 1999 (Friday, 17:05h)"
+revision "1.0"
+revdate  "March 12, 1999 (Friday, 17:05h)"
+tags     "artwork, box, scroll"
+
+sample
+     ________________________
+    /\                       \
+    \_|                       |
+      |                       |
+      |                       |
+      |   ____________________|_
+       \_/_____________________/
+ends
+
+shapes {
+    nw  (" __")
+    nnw ()
+    wnw ("/\\ ", "\\_|")
+    w   ("  |")
+    n   ("_")
+    ne ("   ")
+    ene ("\\  ")
+    e   ("|  ")
+    se  ("|_ ","__/")
+    s   ("_","_")
+    ssw ("   ", "\\_/")
+    sw  ("  |","   ")
+    ese ()
+}
+
+padding { top 1 h 1 }
+
+elastic (n,e,s,w)
+
+END parchment
+
+
+# ============================================================================
+
+
+BOX whirly
+
+author   "Thomas Jensen"
+created  "March 17, 1999 (Wednesday, 15:40h)"
+revdate  "March 17, 1999 (Wednesday, 15:40h)"
+revision "1.0"
+tags     "artwork, box"
+
+sample
+     .+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.
+    (                                                             )
+     )                                                           (
+    (                                                             )
+     "+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"
+ends
+
+shapes {
+    nw  (" .")
+    wnw ("( ")
+    w   (" )", "( ")
+    sw  (" \"")
+    n   ("+\"+.")
+    ne  (". ")
+    ene (" )")
+    e   ("( ", " )")
+    s   ("+.+\"")
+    nne ("+\"+")
+    sse ("+.+")
+    se  ("\" ")
+}
+
+elastic (n, w, s, e)
+
+END whirly
+
+
+# ============================================================================
+
+
+BOX html-cmt
+
+author   "Thomas Jensen"
+designer "(public domain)"
+revision "1.0"
+revdate  "June 17, 1999 (Thursday, 19:59h)"
+created  "June 17, 1999 (Thursday, 19:59h)"
+tags     "simple, programming, comment"
+
+sample
+    <!--                                     -->
+    <!-- regular comments used in HTML files -->
+    <!--                                     -->
+ends
+
+shapes {
+     w ("<!--")
+     e ("-->")
+}
+
+elastic (e, w)
+
+padding { h 1 }
+
+delim ?"
+replace "-->" with "-\\-\\>"
+reverse "-\\-\\>" to "-->"
+
+END html-cmt
+
+
+# ============================================================================
+
+
+BOX nuke
+
+author   "Thomas Jensen"
+designer "Joan G. Stark <spunk1111@juno.com>"
+revision "1.1"
+revdate  "August 22, 1999 (Sunday, 12:51h)"
+created  "March 30, 1999 (Tuesday, 15:55h)"
+tags     "artwork, box"
+
+sample
+                            _ ._  _ , _ ._
+                          (_ ' ( `  )_  .__)
+                        ( (  (    )   `)  ) _)
+                       (__ (_   (_ . _) _) ,__)
+                           `~~`\ ' . /`~~`
+                           ,::: ;   ; :::,
+                          ':::::::::::::::'
+     __________________________/_ __ \________________________
+    |                                                         |
+    |                 BAD, BAD, BUG HERE :-)                  |
+    |_________________________________________________________|
+ends
+
+shapes {
+    nw  (" "," "," "," "," "," "," "," ")
+    ne  (" "," "," "," "," "," "," "," ")
+    nnw (" "," "," "," "," "," "," ","_")
+    nne (" "," "," "," "," "," "," ","_")
+    n   ("      _ ._  _ , _ ._     ",
+         "    (_ ' ( `  )_  .__)   ",
+         "  ( (  (    )   `)  ) _) ",
+         " (__ (_   (_ . _) _) ,__)",
+         "     `~~`\\ ' . /`~~`     ",
+         "     ,::: ;   ; :::,     ",
+         "    ':::::::::::::::'    ",
+         "_________/_ __ \\_________")
+    w   ("|")              e ("|")
+    sw  ("|")   s ("_")   se ("|")
+}
+
+padding {
+    all 1
+    bottom 0
+}
+
+elastic (nne,nnw, s, e, w)
+
+END nuke
+
+
+# ============================================================================
+
+
+BOX diamonds
+
+author   "Thomas Jensen"
+designer "Joan G. Stark <spunk1111@juno.com>"
+revision "1.2"
+revdate  "February 13, 2021 (Saturday, 14:00h)"
+created  "March 30, 1999 (Tuesday, 15:59h)"
+tags     "artwork, box"
+
+Sample
+           /\          /\          /\          /\
+        /\//\\/\    /\//\\/\    /\//\\/\    /\//\\/\
+     /\//\\\///\\/\//\\\///\\/\//\\\///\\/\//\\\///\\/\
+    //\\\//\/\\///\\\//\/\\///\\\//\/\\///\\\//\/\\///\\
+    \\//\/                                        \/\\//
+     \/                                              \/
+     /\                                              /\
+    //\\      joan stark   spunk1111@juno.com       //\\
+    \\//    http://www.geocities.com/SoHo/7373/     \\//
+     \/                                              \/
+     /\                                              /\
+    //\\/\                                        /\//\\
+    \\///\\/\//\\\///\\/\//\\\///\\/\//\\\///\\/\//\\\//
+     \/\\///\\\//\/\\///\\\//\/\\///\\\//\/\\///\\\//\/
+        \/\\//\/    \/\\//\/    \/\\//\/    \/\\//\/
+           \/          \/          \/          \/
+Ends
+
+delimiter ?"
+
+shapes {
+    nw  ("      ", "    /\", " /\//\", "//\\\/")
+    nnw (" /\     ", "//\\/\  ", "\\///\\/", "/\/\\///")
+    n   ("     /\     ", "  /\//\\/\  ", "\//\\\///\\/",
+         "\\\//\/\\///")
+    nne ("     /\ ", "  /\//\\", "\//\\\//", "\\\//\/\")
+    ne  ("      ", "/\    ", "/\\/\ ", "\///\\")
+
+    ene ("\/\\//", "   \/ ")
+    e   ("   /\ ", "  //\\", "  \\//", "   \/ ")
+    ese ("   /\ ", "/\//\\")
+
+    wnw ("\\//\/", " \/   ")
+    w   (" /\   ", "//\\  ", "\\//  ", " \/   ")
+    wsw (" /\   ", "//\\/\")
+
+    sw  ("\\///\",
+         " \/\\/",
+         "    \/",
+         "      ")
+
+    ssw ("\/\//\\\",
+         "//\\\//\",
+         "\\//\/  ",
+         " \/     ")
+
+    s   ("///\\/\//\\\",
+         "/\\///\\\//\",
+         "  \/\\//\/  ",
+         "     \/     ")
+
+    sse ("///\\/\/",
+         "/\\///\\",
+         "  \/\\//",
+         "     \/ ")
+
+    se  ("/\\\//",
+         "\//\/ ",
+         "\/    ",
+         "      ")
+}
+
+elastic (n,s,e, w)
+
+END diamonds
+
+
+# ============================================================================
+
+
+BOX xes
+
+author   "Thomas Jensen"
+designer "Joan G. Stark <spunk1111@juno.com>"
+revision "1.2"
+revdate  "February 13, 2021 (Saturday, 14:00h)"
+created  "April 09, 1999 (Friday, 20:05h)"
+tags     "artwork, box"
+
+sample
+            <\/><\/><\/>
+        <\/></\></\></\><\/>
+        </\>            </\>
+     <\/>                  <\/>
+     </\>                  </\>
+    <\/>                    <\/>
+    </\>                    </\>
+     <\/>                  <\/>
+     </\>                  </\>
+        <\/>            <\/>
+        </\><\/><\/><\/></\>
+            </\></\></\>
+ends
+
+delim ?"
+
+shapes {
+    nw  ("     ", "    <", "    <")
+    nnw ("   ", "\/>", "/\>")
+    n   ("<\/>", "</\>", "    ")
+    nne ("   ", "<\/", "</\")
+    ne  ("     ", ">    ", ">    ")
+    wnw (" <\/>", " </\>")
+    w   ("<\/> ", "</\> ")
+    wsw (" <\/>", " </\>")
+    sw  ("    <", "    <", "     ")
+    ssw ("\/>", "/\>", "   ")
+    s   ("    ", "<\/>", "</\>")
+    sse ("<\/", "</\", "   ")
+    se  (">    ", ">    ", "     ")
+    ese ("<\/> ", "</\> ")
+    e   (" <\/>", " </\>")
+    ene ("<\/> ", "</\> ")
+}
+
+elastic (n, e, s, w)
+
+END xes
+
+
+# ============================================================================
+
+
+BOX spring
+
+author   "Thomas Jensen"
+designer "Joan G. Stark <spunk1111@juno.com>"
+revision "1.1"
+revdate  "August 18, 1999 (Wednesday, 17:05h)"
+created  "April 09, 1999 (Friday, 15:53h)"
+tags     "artwork"
+
+sample
+          ,
+      /\^/`\
+     | \/   |
+     | |    |               SPRING IS IN THE AIR!                 
+     \ \    /                                                _ _
+      '\\//'                                               _{ ' }_
+        ||                      joan stark                { `.!.` }
+        ||                  <spunk1111@juno.com>          ',_/Y\_,'
+        ||  ,                                               {_,_}
+    |\  ||  |\                                                |
+    | | ||  | |              ASCII ART GALLERY:             (\|  /)
+    | | || / /      <http://www.geocities.com/SoHo/7373/>    \| //
+     \ \||/ /                                                 |//
+      `\\//`   \\   \./    \\ /     //    \\./   \\   //   \\ |/ /
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ends
+
+delim ?"
+
+shapes {
+    nw  ("      ,    ")
+    wnw ("  /\^/`\   ",
+         " | \/   |  ",
+         " | |    |  ",
+         " \ \    /  ",
+         "  '\\//'   ")
+    w   ("    ||     ")
+    wsw ("    ||  ,  ",
+         "|\  ||  |\ ",
+         "| | ||  | |",
+         "| | || / / ",
+         " \ \||/ /  ")
+    sw  ("  `\\//`   ",
+         " ^^^^^^^^^^")
+    ene ("         ",
+         "         ",
+         "         ",
+         "   _ _   ",
+         " _{ ' }_ ",
+         "{ `.!.` }",
+         "',_/Y\_,'",
+         "  {_,_}  ")
+    e   ("    |    ")
+    ese ("  (\|  /)",
+         "   \| // ",
+         "    |//  ")
+    se  (" \\ |/ / ",
+         "^^^^^^^^^")
+
+    s   ("\   \./    \",
+         "^^^^^^^^^^^^")
+}
+
+elastic (s,e,w)
+
+END spring
+
+
+# ============================================================================
+
+
+BOX peek
+
+author   "Thomas Jensen"
+revision "1.0"
+revdate  "April 12, 1999 (Monday, 12:52h)"
+created  "April 12, 1999 (Monday, 12:52h)"
+tags     "programming, box"
+
+sample
+    /*       _\|/_
+             (o o)
+     +----oOO-{_}-OOo---------------------+
+     |                                    |
+     | C function headers?                |
+     |                                    |
+     |                                    |
+     +-----------------------------------*/
+ends
+
+shapes {
+    nw  ("/*", "  ", " +")
+    nnw ("       _\\|/_   ",
+         "       (o o)   ",
+         "----oOO-{_}-OOo")
+    n   (" ", " ", "-")
+    ne  (" ", " ", "+")
+    e   ("|")
+    w   (" |")
+    sw  (" +")
+    s   ("-")
+    sse ("*")
+    se  ("/")
+}
+
+replace "\\*\\/" with "*\\\\/"               # quote closing comment tags
+reverse "\\*\\\\/" to "*\\/"
+
+elastic (n,e,s,w)
+
+END peek
+
+
+# ============================================================================
+
+
+# As soon as boxes v2.1.0 is available everywhere, aliases will be activated:
+#BOX ada-box, lua-box, sql-box
+BOX ada-box
+
+author   "Neil Bird <neil.bird@rdel.co.uk>"
+designer "(public domain)"
+revision "1.0"
+revdate  "March 15, 2000 (Wednesday 12:24h)"
+created  "March 15, 2000 (Wednesday 12:24h)"
+tags     "simple, programming, box"
+
+sample
+    ---------------
+    --           --
+    --           --
+    ---------------
+ends
+
+shapes {
+    nw ("--") n ("-") ne ("--")
+     w ("--")          e ("--")
+    sw ("--") s ("-") se ("--")
+}
+
+padding {
+    horiz 1
+}
+
+elastic (n,e,s,w)
+
+END ada-box
+
+
+# ============================================================================
+
+
+BOX tex-box
+
+author   "Nic H"
+designer "(public domain)"
+revision "1.0"
+revdate  "December 01, 2016 (Thursday 15:21h)"
+created  "December 01, 2016 (Thursday 15:21h)"
+tags     "simple, programming, box"
+
+sample
+    %=============%
+    % TeX is love %
+    % Tex is life %
+    %=============%
+ends
+
+shapes {
+    nw ("%") n ("=") ne ("%")
+     w ("%")          e ("%")
+    sw ("%") s ("=") se ("%")
+}
+
+padding {
+    horiz 1
+}
+
+elastic (n,e,s,w)
+
+END tex-box
+
+
+# ============================================================================
+
+
+BOX cc
+
+author   "Bas van Gils <bvg@linuxfan.com>"
+designer "(public domain)"
+revision "1.0"
+revdate  "Tue Sep 19 12:06:51 CEST 2000"
+created  "Tue Sep 19 12:06:51 CEST 2000"
+tags     "simple, programming, box"
+
+sample
+    /****************
+     *              *
+     *              *
+     ****************/
+ends
+
+shapes {
+    nw ("/*") n ("*") ne ("* ")
+     w (" *")          e ("* ")
+    sw (" *") s ("*") se ("*/")
+}
+
+delim ?"
+replace "\*\/" with "*\\/"               # quote closing comment tags
+reverse "\*\\/" to "*\/"
+
+padding {
+    horiz 1
+}
+
+elastic (n,e,s,w)
+
+END cc
+
+
+# ============================================================================
+
+
+BOX stone
+
+author   "Fredrik Steen <fsteen@stone.nu>"
+designer "Fredrik Steen <fsteen@stone.nu>"
+revision "1.0"
+created  "April 25, 2001 (Wed 11:00)"
+tags     "simple, artwork, box"
+
+sample
+    +-------------+
+    |    stone    |
+    +-------------+
+ends
+
+shapes {
+    nw ("+") n ("-") ne ("+")
+     w ("|")          e ("|")
+    sw ("+") s ("-") se ("+")
+}
+
+padding {
+    horiz 1
+}
+
+elastic (n,e,s,w)
+
+END stone
+
+
+# ============================================================================
+
+
+BOX headline
+
+author   "Thomas Jensen"
+designer "Thomas Jensen"
+revision "1.3"
+revdate  "February 09, 2021 (Tuesday, 22:00h)"
+created  "March 18, 1999 (Thursday, 15:25h)"
+tags     "programming, box"
+
+sample
+    /*************/
+    /*           */
+    /*           */
+    /*************/
+ends
+
+shapes {
+    nw ("/*") n ("*") ne ("*/")
+     w ("/*")          e ("*/")
+    sw ("/*") s ("*") se ("*/")
+}
+
+delim ~"
+replace "((?:\x1b\[[0-9;]*m)+(?!\x1b).(?!$))|((?:\x1b\[[0-9;]*m)+$)|([^\x1b](?!$))" with "$0 "
+reverse "^        " to "          "
+reverse "^      " to "        "
+reverse "^    " to "      "
+reverse "^  " to "    "
+reverse "((?:\x1b\[[0-9;]*m)*(?!\x1b).) " to "$1"
+
+padding {
+    horizontal 2
+}
+
+elastic (n,e,s,w)
+
+END headline
+
+
+#============================================================================
+
+
+BOX unicornthink
+
+author   "Mike Meyer <boxes@meyer.fm>"
+revision "1.1"
+revdate  "November 08, 2014 (Saturday, 11:08h)"
+created  "September 02, 2013 (Monday, 14:43h)"
+tags     "artwork, speech"
+
+sample
+     _________________________________
+    /                                 \
+    |     E L E C T R O L Y T E S     |
+    \______________________________ '\
+                               ()    \\
+                                 O    \\  .
+                                   o  |\\/|
+                                      / " '\
+                                      . .   .
+                                     /    ) |
+                                    '  _.'  |
+                                    '-'/    \
+ends
+
+shapes {
+    nw  (" ")
+    wnw ("/")
+    w   ("|")
+    sw  ("\\",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ")
+
+    n   ("_")
+
+    s   ("_",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ")
+
+    ne  ("       ")
+    ene ("\\      ")
+    e   ("|      ")
+    se  ("       ",
+         "\\      ",
+         "\\\\  .  ",
+         "|\\\\/|  ",
+         "/ \" '\\ ",
+         ". .   .",
+         "    ) |",
+         " _.'  |",
+         "'/    \\")
+
+    sse ("____ '\\",
+         "()    \\",
+         "  O    ",
+         "    o  ",
+         "       ",
+         "       ",
+         "      /",
+         "     ' ",
+         "     '-")
+}
+
+elastic (n, s, e, w)
+
+padding {
+    horiz 2
+    top 1
+}
+
+END unicornthink
+
+
+# ============================================================================
+
+
+BOX unicornsay
+
+author   "Mike Meyer <boxes@meyer.fm>"
+revision "1.2"
+revdate  "February 21, 2019 (Thursday, 18:45h)"
+created  "September 02, 2013 (Monday, 14:43h)"
+tags     "artwork, speech"
+
+sample
+     _________________________________
+    /                                 \
+    |     E L E C T R O L Y T E S     |
+    \___________________________  __'\
+                                |/   \\
+                                 \    \\  .
+                                      |\\/|
+                                      / " '\
+                                      . .   .
+                                     /    ) |
+                                    '  _.'  |
+                                    '-'/    \
+ends
+
+shapes {
+    nw  (" ",
+         "/")
+    n   ("_",
+         " ")
+    ne  ("__        ",
+         "  \\       ")
+
+    sw  ("\\",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ")
+
+    s   ("_",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ")
+
+    w   ("|")
+    e   ("  |       ")
+    se  ("'\\        ",
+         " \\\\       ",
+         "  \\\\  .   ",
+         "  |\\\\/|   ",
+         "  / \" '\\  ",
+         "  . .   . ",
+         " /    ) | ",
+         "'  _.'  | ",
+         "'-'/    \\ ")
+
+    sse ("_  __",
+         " |/  ",
+         "  \\  ",
+         "     ",
+         "     ",
+         "     ",
+         "     ",
+         "     ",
+         "     ")
+}
+
+elastic (n, s, e, w)
+
+padding {
+    left 2
+}
+
+END unicornsay
+
+
+# ============================================================================
+
+
+BOX caml
+
+author   "Michael Tiernan <Michael.Tiernan@gMail.com>"
+designer "Michael Tiernan <Michael.Tiernan@gMail.com>"
+revision "1.5"
+revdate  "Wed May 14 11:41:27 EDT 2014"
+created  "Wed May 14 11:41:27 EDT 2014"
+tags     "simple, artwork, box"
+
+sample
+    (*************)
+    (*           *)
+    (*           *)
+    (*************)
+ends
+
+shapes {
+    nw ("(*") n ("*") ne ("*)")
+     w ("(*")          e ("*)")
+    sw ("(*") s ("*") se ("*)")
+}
+
+elastic (n,e,s,w)
+
+padding {
+    horiz 1
+}
+
+replace "\\(\\*" with "(+*"
+replace "\\*\\)" with "*+)"
+
+reverse "\\(\\+\\*" to "(*"
+reverse "\\*\\+\\)" to "*)"
+
+END caml
+
+
+# ============================================================================
+
+
+BOX twisted
+
+author   "Tristano Ajmone <tajmone@gmail.com>"
+designer "Michael Naylor <mnaylor@math.fsu.edu>"
+revision "1.0"
+created  "Saturday, 02-Jan-16 12:42:31 UTC+1"
+revdate  "Saturday, 02-Jan-16 12:42:31 UTC+1"
+tags     "artwork, box, large"
+
+sample
+    ._____. ._____. .________________________________________. ._____. ._____.
+    | ._. | | ._. | | .____________________________________. | | ._. | | ._. |
+    | !_| |_|_|_! | | !____________________________________! | | !_| |_|_|_! |
+    !___| |_______! !________________________________________! !___| |_______!
+    .___|_|_| |____________________________________________________|_|_| |___.
+    | ._____| |________________________________________________________| |_. |
+    | !_! | | |                                                    | | ! !_! |
+    !_____! | | * * * * * * * * * * * TWISTED * * * * * * * * * *  | | !_____!
+    ._____. | | -----------------------|-------------------------  | | ._____.
+    | ._. | | | Just another cool ascii frame, brought to you by:  | | | ._. |
+    | | | | | |                                                    | | | | | |
+    | | | | | |              -~{ Tristano Ajmone }~-               | | | | | |
+    | !_! | | | -----------------------|-------------------------  | | ! !_! |
+    !_____! | | Derived from an ascii frame originally created by: | | !_____!
+    ._____. | |                                                    | | ._____.
+    | ._. | | |               -~{ Michael Naylor }~                | | | ._. |
+    | !_| |_|_|____________________________________________________| |_|_|_! |
+    !___| |________________________________________________________| |_______!
+    .___|_|_| |___. .________________________________________. .___|_|_| |___.
+    | ._____| |_. | | .____________________________________. | | ._____| |_. |
+    | !_! | | !_! | | !____________________________________! | | !_! | | !_! |
+    !_____! !_____! !________________________________________! !_____! !_____!
+ends
+
+shapes {
+
+ NW ("._____. .__",
+     "| ._. | | .",
+     "| !_| |_|_|",
+     "!___| |____",
+     ".___|_|_| |",
+     "| ._____| |")
+
+WNW ("| !_! | | |",
+     "!_____! | |",
+     "._____. | |",
+     "| ._. | | |")
+
+  W ("| | | | | |")
+
+WSW ("| !_! | | |",
+     "!_____! | |",
+     "._____. | |",
+     "| ._. | | |")
+
+ SW ("| !_| |_|_|",
+     "!___| |____",
+     ".___|_|_| |",
+     "| ._____| |",
+     "| !_! | | !",
+     "!_____! !__")
+
+NNW ("___. .___",
+     "_. | | ._",
+     "_! | | !_",
+     "___! !___",
+     "_________",
+     "_________")
+
+  N ("_",
+     "_",
+     "_",
+     "_",
+     "_",
+     "_")
+
+NNE ("___. .___",
+     "_. | | ._",
+     "_! | | !_",
+     "___! !___",
+     "_________",
+     "_________")
+
+ NE ("__. ._____.",
+     ". | | ._. |",
+     "| |_|_|_! |",
+     "| |_______!",
+     "|_|_| |___.",
+     "____| |_. |")
+
+ENE ("| | ! !_! |",
+     "| | !_____!",
+     "| | ._____.",
+     "| | | ._. |")
+
+  E ("| | | | | |")
+
+ESE ("| | ! !_! |",
+     "| | !_____!",
+     "| | ._____.",
+     "| | | ._. |")
+
+ SE ("| |_|_|_! |",
+     "| |_______!",
+     "|_|_| |___.",
+     "____| |_. |",
+     "! | | !_! |",
+     "__! !_____!")
+
+  S ("_",
+     "_",
+     "_",
+     "_",
+     "_",
+     "_")
+
+SSE ("________",
+     "________",
+     "__. .___",
+     ". | | ._",
+     "! | | !_",
+     "__! !___")
+
+SSW ("_________",
+     "_________",
+     "___. .___",
+     "_. | | ._",
+     "_! | | !_",
+     "___! !___")
+}
+
+padding {
+    all 1
+    bottom 0
+}
+
+elastic (n,e,s,w)
+
+END twisted
+
+
+# ============================================================================
+
+
+BOX jstone
+
+author   "Ed Schaller"
+designer "schallee_@_darkmist.net"
+revision "1.0"
+revdate  "3 Oct 2019"
+created  "3 Oct 2019"
+tags     "simple, programming, box"
+
+sample
+    /*----------------+
+     | toast is yummy |
+     +----------------*/
+ends
+
+shapes {
+    nw ("/*")  n ("-")  ne ("+ ")
+    w  (" |")            e ("| ")
+    sw (" +")  s ("-")  se ("*/")
+}
+
+elastic (n, e, s, w)
+
+delim ?"
+replace "\*\/" with "*\\/"
+reverse "\*\\/" to "*\/"
+
+padding {
+    horiz 1
+}
+
+END jstone
+
+
+# ============================================================================
+
+
+BOX vim-box
+
+author   "Ricky Anderson <ricky.anderson2696@gmail.com>"
+designer "(public domain)"
+revision "1.0"
+created  "2019-11-17"
+tags     "simple, programming, box"
+
+sample
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " Header seperator on your vim config's file (.vimrc) "
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""
+ends
+
+delim \'
+
+shapes {
+    nw ('"') n ('"') ne ('"')
+     w ('"')          e ('"')
+    sw ('"') s ('"') se ('"')
+}
+
+padding {
+    horiz 1
+}
+
+elastic (n, e, s, w)
+
+END vim-box
+
+
+# ============================================================================
+
+
+BOX weave
+
+author   "Thomas Jensen"
+designer "dc"
+revision "1.0"
+created  "2021-06-13"
+tags     "artwork, box, large"
+
+sample
+              _       _       _       _       _       _       _       _       _       _       _
+     .-"-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-,_,-'_`-,.
+    (  ,-'_,-<.>-'_,-<.>-'_,-<.>-'_,-<.>-'_,-<.>-'_,-<.>-'_,-<.>-'_,-<.>-'_,-<.>-'_,-<.>-'_,-~-} ;.
+     \ \.'_>-._`-<_>-._`-<_>-._`-<_>-._`-<_>-._`-<_>-._`-<_>-._`-<_>-._`-<_>-._`-<_>-._`-._~--. \ .
+     /\ \/ ,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._`./ \ \ .
+    ( (`/ /                                                                                `/ /.) ) .
+     \ \ / \                                                                               / / \ / .
+      \ \') )                                                                             ( (,\ \ .
+     / \ / /     Thank you for visiting https://asciiart.website/                          \ / \ \ .
+    ( (`/ /      This ASCII pic can be found at                                             / /.) ) .
+     \ \ / \     https://asciiart.website/index.php?art=art%20and%20design/borders         / / \ / .
+      \ \') )                                                                             ( (,\ \ .
+     / \ / /                                                                               \ / \ \ .
+    ( (`/ /                                                                                 / /.) ) .
+     \ \ / \       _       _       _       _       _       _       _       _       _       / / \ /.
+      \ `.\ `-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_`-._,-'_/,\ \ .
+     ( `. `,~-._`-<,>-._`-<,>-._`-<,>-._`-<,>-._`-<,>-._`-<,>-._`-<,>-._`-<,>-._`-<,>-._`-=,' ,\ \ .
+      `. `'_,-<_>-'_,-<_>-'_,-<_>-'_,-<_>-'_,-<_>-'_,-<_>-'_,-<_>-'_,-<_>-'_,-<_>-'_,-<_>-'_,"-' ; .
+        `-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-._,-' `-.-' .
+ends
+
+delim |"
+
+shapes {
+     nw ("         ",
+         " .-|"-._,-",
+         "(  ,-'_,-",
+         " \ \.'_>-",
+         " /\ \/ ,-")
+    wnw ("dc(`/ /  ")
+      w (" \ \ / \ ",
+         "  \ \') )",
+         " / \ / / ",
+         "( (`/ /  ")
+     sw (" \ \ / \ ",
+         "  \ `.\ `",
+         " ( `. `,~",
+         "  `. `'_,",
+         "    `-' `")
+
+    nnw (" _   ",
+         "'_`-.",
+         "<.>-'",
+         "._`-<",
+         "' `-.")
+
+      n ("    _   ",
+         "_,-'_`-,",
+         "_,-<.>-'",
+         "_>-._`-.",
+         "_,-' `-.")
+
+     ne ("    _      ",
+         "_,-'_`-,.  ",
+         "_,-~-} ;.  ",
+         "_~--. \ .  ",
+         "_`./ \ \ . ")
+    ene (" `/ /.) ) .")
+      e (" / / \ / . ",
+         "( (,\ \ .  ",
+         " \ / \ \ . ",
+         "  / /.) ) .")
+     se (" / / \ /.  ",
+         "'_/,\ \ .  ",
+         "=,' ,\ \ . ",
+         "'_,|"-' ; . ",
+         "' `-.-' .  ")
+
+    ssw ("     ",
+         "-._,-",
+         "-._`-",
+         "-<_>-",
+         "-._,-")
+
+      s (" _      ",
+         "'_`-._,-",
+         "<,>-._`-",
+         "'_,-<_>-",
+         "' `-._,-")
+}
+
+padding {
+    top 2
+    bottom 1
+    horizontal 4
+}
+
+elastic (n, e, s, w)
+
+END weave
+
+
+# ============================================================================
+
+
+BOX normand
+
+author   "Thomas Jensen"
+designer "Normand Veilleux"
+revision "1.0"
+created  "2021-06-13"
+tags     "artwork, box, large"
+
+sample
+            __,:,__               __,:,__               __,:,__               __,:,__
+         ,ad88P`Y88ba,         ,ad88P`Y88ba,         ,ad88P`Y88ba,         ,ad88P`Y88ba,
+       ad88888' `88888ba     ad88888' `88888ba     ad88888' `88888ba     ad88888' `88888ba
+     ,d88888P'   `Y88888b, ,d88888P'   `Y88888b, ,d88888P'   `Y88888b, ,d88888P'   `Y88888b,
+    ,d888P"'       `"Y888b,d888P"'       `"Y888b,d888P"'       `"Y888b,d888P"'       `"Y888b,
+    :(["               ``":"''               ``":"''               ``":"''               "]):
+    `Y88ba,                                                                           ,ad88P'
+     `88888ba                                                                       ad88888'
+      `Y88888b,                                                                   ,d88888P'
+        `"Y888b,    Thank you for visiting https://asciiart.website/             ,d888P"'
+            "]):    This ASCII pic can be found at                               :(["
+         ,ad88P'    https://asciiart.website/?art=art%20and%20design/borders     `Y88ba,
+       ad88888'                                                                   `88888ba
+     ,d88888P'                                                                     `Y88888b,
+    ,d888P"'                                                                         `"Y888b,
+    :(["               __,:,__               __,:,__               __,:,__               "]):
+    `Y88ba,         ,ad88P`Y88ba,         ,ad88P`Y88ba,         ,ad88P`Y88ba,         ,ad88P'
+     `88888ba     ad88888' `88888ba     ad88888' `88888ba     ad88888' `88888ba     ad88888'
+      `Y88888b, ,d88888P'   `Y88888b, ,d88888P'   `Y88888b, ,d88888P'   `Y88888b, ,d88888P'
+        `"Y888b,d888P"'       `"Y888b,d888P"'       `"Y888b,d888P"'       `"Y888b,d888P"'
+            ``":"''               ``":"''               ``":"''               ``":"''
+ends
+
+shapes {
+     nw ("        __,:",
+         "     ,ad88P`",
+         "   ad88888' ",
+         " ,d88888P'  ",
+         ",d888P\"'    ",
+         ":([\"        ")
+      w ("`Y88ba,     ",
+         " `88888ba   ",
+         "  `Y88888b, ",
+         "    `\"Y888b,",
+         "        \"]):",
+         "     ,ad88P'",
+         "   ad88888' ",
+         " ,d88888P'  ",
+         ",d888P\"'    ")
+     sw (":([\"        ",
+         "`Y88ba,     ",
+         " `88888ba   ",
+         "  `Y88888b, ",
+         "    `\"Y888b,",
+         "        ``\":")
+
+      n (",__               __,:",
+         "Y88ba,         ,ad88P`",
+         "`88888ba     ad88888' ",
+         " `Y88888b, ,d88888P'  ",
+         "   `\"Y888b,d888P\"'    ",
+         "       ``\":\"''        ")
+
+    nne (",__               __,",
+         "Y88ba,         ,ad88P",
+         "`88888ba     ad88888'",
+         " `Y88888b, ,d88888P' ",
+         "   `\"Y888b,d888P\"'   ",
+         "       ``\":\"''       ")
+
+     ne (":,__        ",
+         "`Y88ba,     ",
+         " `88888ba   ",
+         "  `Y88888b, ",
+         "    `\"Y888b,",
+         "        \"]):")
+      e ("     ,ad88P'",
+         "   ad88888' ",
+         " ,d88888P'  ",
+         ",d888P\"'    ",
+         ":([\"        ",
+         "`Y88ba,     ",
+         " `88888ba   ",
+         "  `Y88888b, ",
+         "    `\"Y888b,")
+     se ("        \"]):",
+         "     ,ad88P'",
+         "   ad88888' ",
+         " ,d88888P'  ",
+         ",d888P\"'    ",
+         ":\"''        ")
+
+      s ("       __,:,__        ",
+         "    ,ad88P`Y88ba,     ",
+         "  ad88888' `88888ba   ",
+         ",d88888P'   `Y88888b, ",
+         "d888P\"'       `\"Y888b,",
+         "\"''               ``\":")
+
+    sse ("       __,:,__       ",
+         "    ,ad88P`Y88ba,    ",
+         "  ad88888' `88888ba  ",
+         ",d88888P'   `Y88888b,",
+         "d888P\"'       `\"Y888b",
+         "\"''               ``\"")
+}
+
+padding {
+    vertical 1
+    horizontal 3
+}
+
+elastic (n, e, s, w)
+
+END normand
+
+
+# ============================================================================
+
+
+BOX cowsay
+
+author   "David Yang <davidyang6us@gmail.com>"
+designer "Tony Monroe"
+revision "1.0"
+created  "2021-08-16"
+tags     "artwork, speech"
+
+sample
+     _____________________________
+    /                             \
+    |  Boxes can have the cow too |
+    \                             /
+     -----------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+ends
+
+shapes {
+    ssw  ("                       ",
+         "-----------------------",
+         "   \\   ^__^            ",
+         "    \\  (oo)\\_______    ",
+         "       (__)\\       )\\/\\",
+         "           ||----w |   ",
+         "           ||     ||   ")
+    n   ("_",
+         " ")
+    s   (" ",
+         "-",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ")
+    sse (" ",
+         "-",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ")
+    nw  (" ",
+         "/")
+    sw  ("\\",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ")
+    ne  (" ",
+         "\\")
+    se  ("/",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ",
+         " ")
+    w   ("|")
+    e   ("|")
+    
+}
+
+elastic (n, s, e, w)
+
+padding {
+    left 2
+    right 1
+}
+
+END cowsay
+
+END tux

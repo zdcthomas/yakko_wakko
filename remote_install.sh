@@ -29,3 +29,5 @@ else
   eval $INSTALL_CMD
 fi
 
+# TODO: add nix install here
+# and initial flake run
