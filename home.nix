@@ -174,13 +174,12 @@ in
       historyLimit = 200000;
       customPaneNavigationAndResize = true;
       keyMode = "vi";
+      terminal = "xterm-256color";
       extraConfig = ''
-        set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
         # undercurl support
-        set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
-        # underscore colours - needs tmux-3.0
-        set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
-
+        set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+        set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
+        set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
 
         set-option -g status "on"
         set -g status-justify centre
