@@ -6,7 +6,7 @@ vim.opt.autoindent = true
 vim.opt.autoread = true
 vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.backup = false
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard:append("unnamedplus")
 vim.opt.laststatus = 3
 vim.opt.copyindent = true
 vim.opt.encoding = "UTF-8"
@@ -47,7 +47,7 @@ vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
-vim.opt.undodir = vim.fn.expand("~/.vim/undo")
+vim.opt.undodir = vim.fn.expand("~/.config/nvim/undo")
 vim.opt.undofile = true
 vim.opt.updatetime = 100
 vim.opt.virtualedit = "block"
@@ -107,3 +107,9 @@ local disabled_built_ins = {
 for _, plugin in pairs(disabled_built_ins) do
 	vim.g["loaded_" .. plugin] = 1
 end
+
+vim.filetype.add({
+	extension = {
+		gleam = "gleam",
+	},
+})

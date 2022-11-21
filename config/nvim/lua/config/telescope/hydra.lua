@@ -6,29 +6,28 @@ if not Hydra then
 	return
 end
 
--- local function cmd(command)
--- 	return "<CMD>" .. command .. "<CR>"
--- end
+local function cmd(command)
+	return "<CMD>" .. command .. "<CR>"
+end
 
 local cmd = require("hydra.keymap-util").cmd
 
 local telescope_hint = [[
-                 _p_: Files        
+                 _p_: Files
    🭇🬭🬭🬭🬭🬭🬭🬭🬭🬼    _b_: Buffers      _F_: Live Grep
   🭉🭁🭠🭘    🭣🭕🭌🬾   _c_: Colorschemes _/_: Search in File
   🭅█ ▁     █🭐   _g_: Git Status   _r_: Resume
-  ██🬿      🭊██   _h_: Vim Help     
+  ██🬿      🭊██   _h_: Vim Help
  🭋█🬝🮄🮄🮄🮄🮄🮄🮄🮄🬆█🭀                    _:_: Commands
  🭤🭒🬺🬹🬱🬭🬭🬭🬭🬵🬹🬹🭝🭙  _R_: Registers    _?_: Search History
 
-                 _<Enter>_: All Pickers        _<Esc>_ 
+                 _<Enter>_: All Pickers        _<Esc>_
 ]]
 Module.hydra = Hydra({
 	name = "Telescope",
 	hint = telescope_hint,
 	config = {
 		color = "teal",
-		invoke_on_body = true,
 		hint = {
 			position = "middle",
 			border = "rounded",
