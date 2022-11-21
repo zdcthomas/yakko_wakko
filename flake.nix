@@ -118,21 +118,21 @@
           ];
         };
         /* WORK */
-        zdcthomas = home-manager.lib.homeManagerConfiguration {
-          pkgs = work.pkgs;
-          modules = [
-            ./home.nix
-            ./nix/work.nix
-          ];
-        };
+        /* zdcthomas = home-manager.lib.homeManagerConfiguration { */
+        /*   pkgs = work.pkgs; */
+        /*   modules = [ */
+        /*     ./home.nix */
+        /*     ./nix/work.nix */
+        /*   ]; */
+        /* }; */
         /* HOME */
-        zacharythomas = home-manager.lib.homeManagerConfiguration {
-          pkgs = personal.pkgs;
-          modules = [
-            ./home.nix
-            ./nix/personal.nix
-          ];
-        };
+        /* zacharythomas = home-manager.lib.homeManagerConfiguration { */
+        /*   pkgs = personal.pkgs; */
+        /*   modules = [ */
+        /*     ./home.nix */
+        /*     ./nix/personal.nix */
+        /*   ]; */
+        /* }; */
       };
     };
 }
