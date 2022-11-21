@@ -33,7 +33,7 @@ pcall(require, "impatient")
 require("settings")
 
 -- Utils are a series of globally available lua functions that
---provide common functionality accross my dotfiles.
+-- provide common functionality across my dotfiles.
 require("utils")
 
 -- Defines a list of plugins to pull down and use, as well as their

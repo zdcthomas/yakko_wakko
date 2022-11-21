@@ -23,6 +23,7 @@ end
 
 return require("packer").startup({
 	function(use)
+		local arch = vim.loop.os_uname()
 		use("wbthomason/packer.nvim")
 		use({
 			"mfussenegger/nvim-lint",
@@ -313,6 +314,10 @@ return require("packer").startup({
 			end,
 		})
 
+		local fzf_make_command = "make"
+		if arch == "arch64" then
+			fzf_make_command = "arch -arch64 make"
+		end
 		use({
 			"nvim-telescope/telescope.nvim",
 			cmd = "Telescope",
@@ -334,7 +339,7 @@ return require("packer").startup({
 				-- There's some type of fatal issue here but it'd be amazing if it got resolved
 				-- { "nvim-telescope/telescope-fzf-writer.nvim" },
 				-- { "nvim-telescope/telescope-file-browser.nvim" },
-				{ "nvim-telescope/telescope-fzf-native.nvim", run = "arch -arm64 make" },
+				{ "nvim-telescope/telescope-fzf-native.nvim", run = fzf_make_command },
 			},
 			config = function()
 				require("config.telescope").setup()
@@ -467,6 +472,10 @@ return require("packer").startup({
 
 		use({
 			"anuvyklack/hydra.nvim",
+			-- known bad:
+			-- commit = "41a1475588f8bb15190a47fc8c18410e87eeebae",
+			-- known good:
+			commit = "0a3a033c9ebe341751258ecedf64af7e04690135",
 			config = function()
 				require("config.hydra").setup()
 			end,

@@ -71,11 +71,12 @@ function conf.setup()
 	local telescope = require("telescope")
 	telescope.setup({
 		pickers = {
-			-- live_grep = {
-			-- 	mappings = {
-			-- 		i = { ["<c-f>"] = actions.to_fuzzy_refine },
-			-- 	},
-			-- },
+			live_grep = {
+				scroll_strategy = "limit",
+				-- mappings = {
+				-- 	i = { ["<c-f>"] = actions.to_fuzzy_refine },
+				-- },
+			},
 			git_status = {
 				initial_mode = "normal",
 				git_icons = {
@@ -124,7 +125,7 @@ function conf.setup()
 					["<c-j>"] = actions.move_selection_next,
 				},
 			},
-			sorting_strategy = "descending",
+			-- sorting_strategy = "descending",
 			-- layout_strategy = "vertical",
 			dynamic_preview_title = true,
 			buffer_previewer_maker = new_maker,
