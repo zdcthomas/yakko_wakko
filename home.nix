@@ -12,7 +12,7 @@ in
   nix = {
 
     checkConfig = true;
-    package = pkgs.nixVersions.stable;
+    /* package = pkgs.nixFlakes; */
 
     extraOptions = ''
       keep-outputs = true
@@ -109,7 +109,7 @@ in
       ".config/nvim/" = {
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/nvim";
       };
-      ".tmux.conf".source = ./tmux.conf;
+      /* ".tmux.conf".source = ./tmux.conf; */
       ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;
       ".boxes".source = ./config/boxes/.boxes;
     };
@@ -164,6 +164,63 @@ in
       /* la = "${pkgs.exa}/bin/exa -a"; */
       /* lt = "${pkgs.exa}/bin/exa --tree"; */
       /* lla = "${pkgs.exa}/bin/exa -la"; */
+    };
+
+    tmux = {
+      enable = true;
+      /* extraConfig = (builtins.readFile ./tmux.conf); */
+      shell = "${pkgs.zsh}/bin/zsh";
+      sensibleOnTop = true;
+      historyLimit = 200000;
+      customPaneNavigationAndResize = true;
+      keyMode = "vi";
+      extraConfig = ''
+        set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+        # undercurl support
+        set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
+        # underscore colours - needs tmux-3.0
+        set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
+
+
+        set-option -g status "on"
+        set -g status-justify centre
+        set -g status-position top
+
+        # default statusbar color
+        set-option -g status-style bg=colour237,fg=colour223 # bg=bg1, fg=fg1
+
+        # default window title colors
+        set-window-option -g window-status-style fg=white # bg=yellow, fg=bg1
+
+        # default window with an activity alert
+        # set-window-option -g window-status-activity-style bg=colour237,fg=colour248 # bg=bg1, fg=fg3
+
+        # set-window-option -g window-active-style bg=colour236 # bg=bg1, fg=fg3
+        # set-window-option -g window-style bg=default
+
+        # active window title colors
+        set-window-option -g window-status-current-style bg=cyan,fg=default # fg=bg1
+
+        # pane border
+        set-option -g pane-active-border-style fg=red
+        set-option -g pane-border-style fg=colour6
+
+        # message infos
+        set-option -g message-style bg=colour239,fg=colour223 # bg=bg2, fg=fg1
+
+        # writing commands inactive
+        set-option -g message-command-style bg=colour239,fg=colour223 # bg=fg3, fg=bg1
+
+        # pane number display
+        # set-option -g display-panes-active-colour colour250 #fg2
+        # set-option -g display-panes-colour colour237 #bg1
+
+        # clock
+        set-window-option -g clock-mode-colour colour109 #blue
+
+        # bell
+        set-window-option -g window-status-bell-style bg=colour167,fg=colour235 # bg=red, fg=bg
+      '';
     };
 
     man = {
