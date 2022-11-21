@@ -56,8 +56,8 @@ local tab_mapping = {
 	i = function(fallback)
 		if cmp.visible() then
 			cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-		elseif has_words_before() then
-			vim.fn.feedkeys(replace_termcodes("<Tab>"), "n")
+		-- elseif has_words_before() then
+		-- 	vim.fn.feedkeys(replace_termcodes("<Tab>"), "n")
 		else
 			fallback()
 		end
@@ -79,8 +79,8 @@ local shift_tab_mapping = {
 	i = function(fallback)
 		if cmp.visible() then
 			cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-		elseif has_words_before() then
-			vim.fn.feedkeys(replace_termcodes("<S-Tab>"), "n")
+		-- elseif has_words_before() then
+		-- 	vim.fn.feedkeys(replace_termcodes("<S-Tab>"), "n")
 		else
 			fallback()
 		end
@@ -129,7 +129,7 @@ local function mappings()
 		end, { "i", "c" }),
 		["<C-c>"] = cmp.mapping(cmp.mapping.close(), { "i", "c" }),
 		["<CR>"] = cmp.mapping({
-			i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
+			i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false }),
 		}),
 		["<Tab>"] = cmp.mapping(tab_mapping),
 		["<S-Tab>"] = cmp.mapping(shift_tab_mapping),
@@ -198,14 +198,24 @@ function conf.setup()
 			{ name = "calc" },
 		}),
 		experimental = {
-			ghost_text = true,
+			-- This is super super buggy for whatever reason
+			ghost_text = false,
 		},
 	})
 
-	cmp.setup.cmdline("/", {
+	cmp.setup.cmdline({ "/", "?" }, {
 		sources = {
 			{ name = "buffer" },
 		},
+	})
+
+	cmp.setup.cmdline(":", {
+		mapping = cmp.mapping.preset.cmdline(),
+		sources = cmp.config.sources({
+			{ name = "path" },
+		}, {
+			{ name = "cmdline" },
+		}),
 	})
 	setup_cmp_highlighting()
 end

@@ -6,62 +6,54 @@ Module.setup = function()
 	local runtime_path = vim.split(package.path, ";")
 	table.insert(runtime_path, "lua/?.lua")
 	table.insert(runtime_path, "lua/?/init.lua")
-	local config = {
-		on_attach = function(client, bufnr)
-			-- I'm a little upset at the lack of trailing commas in the sumneko bundled formatter
-			client.server_capabilities.documentFormattingProvider = false
-			client.server_capabilities.documentRangeFormattingProvider = false
-			client.resolved_capabilities.document_formatting = false
-
-			common_on_attach(client, bufnr)
-			-- Stylua has been fucking up hard
-			-- vim.api.nvim_create_autocmd("BufWritePre", {
-			-- 	buffer = bufnr,
-			-- 	group = lspconfig_augroup,
-			-- 	callback = function()
-			-- 		require("stylua-nvim").format_file({ error_display_strategy = "none" })
-			-- 	end,
-			-- })
+	require("neodev").setup({
+		override = function(root_dir, library)
+			if require("neodev.util").has_file(root_dir, "/etc/nixos") then
+				library.enabled = true
+				library.plugins = true
+			end
 		end,
+	})
+
+	-- then setup your lsp server as usual
+	local lspconfig = require("lspconfig")
+
+	-- example to setup sumneko and enable call snippets
+	lspconfig.sumneko_lua.setup({
 		capabilities = capabilities,
-		flags = {
-			debounce_text_changes = 150,
-		},
+		on_attach = function(client, bufnr)
+			client.server_capabilities.documentFormattingProvider = false
+			common_on_attach(client, bufnr)
+		end,
 		settings = {
 			Lua = {
-				format = {
-					enable = false,
-				},
-				-- runtime = {
-				-- 	-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-				-- 	version = "LuaJIT",
-				-- 	-- Setup your lua path
-				-- 	path = runtime_path,
-				-- },
-				diagnostics = {
-					-- Get the language server to recognize the `vim` global
-					globals = { "vim" },
+				runtime = {
+					-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+					version = "LuaJIT",
+					-- Setup your lua path
+					path = runtime_path,
 				},
 				workspace = {
-					-- Make the server aware of Neovim runtime files
+					checkThirdParty = false,
 					library = {
 						[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 						[vim.fn.stdpath("config") .. "/lua"] = true,
 					},
 				},
-				-- Do not send telemetry data containing a randomized but unique identifier
 				telemetry = {
 					enable = false,
 				},
+
+				diagnostics = {
+					-- Get the language server to recognize the `vim` global
+					globals = { "vim" },
+				},
+				completion = {
+					callSnippet = "Replace",
+				},
 			},
 		},
-	}
-	local lua_dev = pcall(require, "lua-dev")
-	if lua_dev then
-		config = require("lua-dev").setup({ lspconfig = config })
-	end
-
-	require("lspconfig")["sumneko_lua"].setup(config)
+	})
 end
 
 return Module

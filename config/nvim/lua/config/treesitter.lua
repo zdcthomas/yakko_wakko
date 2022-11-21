@@ -6,6 +6,7 @@ function Conf.setup()
 			enable = true,
 		},
 		autopairs = { enable = true },
+		auto_install = false,
 		query_linter = {
 			enable = true,
 			use_virtual_text = true,
@@ -19,35 +20,47 @@ function Conf.setup()
 		context_commentstring = {
 			enable = true,
 		},
+		-- TODO: Figure out if this is slowing this down
 		ensure_installed = {
 			"bash",
 			"comment",
+			"comment",
 			"dockerfile",
+			"fennel",
 			"fish",
 			"gleam",
-			"vim",
-			"org",
+			"go",
+			"gomod",
 			"graphql",
+			"help",
+			"html",
+			"http",
+			"javascript",
+			"json",
+			"json5",
+			"lua",
+			"make",
 			"markdown",
 			"markdown_inline",
-			"lua",
+			"nix",
 			"norg",
+			"org",
+			"python",
+			"regex",
+			"ruby",
 			"rust",
+			"toml",
+			"tsx",
+			"typescript",
+			"vim",
+			"vim",
 		},
 		highlight = {
 			enable = true,
-			disable = { "elixir" },
-			additional_vim_regex_highlighting = { "org" },
+			-- disable = { "elixir" },
+			-- additional_vim_regex_highlighting = { "org" },
 		},
 	})
-
-	require("nvim-treesitter.parsers").get_parser_configs().markdown = {
-		install_info = {
-			url = "https://github.com/ikatyang/tree-sitter-markdown",
-			files = { "src/parser.c", "src/scanner.cc" },
-		},
-		filetype = "markdown",
-	}
 end
 
 return Conf

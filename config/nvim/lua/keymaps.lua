@@ -1,65 +1,78 @@
-vim.keymap.set("n", "<Leader>wl", ":rightbelow vsp<CR>", { silent = true, desc = "Split right" })
-vim.keymap.set("n", "<Leader>wh", ":leftabove vsp<CR>", { silent = true, desc = "Split right" })
-vim.keymap.set("n", "<Leader>wk", ":leftabove sp<CR>", { silent = true, desc = "Split right" })
-vim.keymap.set("n", "<Leader>wj", ":rightbelow sp<CR>", { silent = true, desc = "Split down" })
-vim.keymap.set("n", "<C-j>", "<C-W><C-J>", { silent = true, desc = "select window below" })
-vim.keymap.set("n", "<C-k>", "<C-W><C-k>", { silent = true, desc = "select window above" })
-vim.keymap.set("n", "<C-l>", "<C-W><C-l>", { silent = true, desc = "select window to the right" })
-vim.keymap.set("n", "<C-h>", "<C-W><C-h>", { silent = true, desc = "select window to the left" })
+local map = vim.keymap.set
 
-vim.keymap.set("n", "<Leader>wL", "<C-W>L", { silent = true, desc = "Move window right" })
-vim.keymap.set("n", "<Leader>wK", "<C-W>K", { silent = true, desc = "Move window up" })
-vim.keymap.set("n", "<Leader>wJ", "<C-W>J", { silent = true, desc = "Move window down" })
-vim.keymap.set("n", "<Leader>wH", "<C-W>H", { silent = true, desc = "Move window left" })
+map("n", "<Leader>wl", ":rightbelow vsp<CR>", { silent = true, desc = "Split right" })
+map("n", "<Leader>wh", ":leftabove vsp<CR>", { silent = true, desc = "Split right" })
+map("n", "<Leader>wk", ":leftabove sp<CR>", { silent = true, desc = "Split right" })
+map("n", "<Leader>wj", ":rightbelow sp<CR>", { silent = true, desc = "Split down" })
+map("n", "<C-j>", "<C-W><C-J>", { silent = true, desc = "select window below" })
+map("n", "<C-k>", "<C-W><C-k>", { silent = true, desc = "select window above" })
+map("n", "<C-l>", "<C-W><C-l>", { silent = true, desc = "select window to the right" })
+map("n", "<C-h>", "<C-W><C-h>", { silent = true, desc = "select window to the left" })
 
-vim.keymap.set("n", "<Up>", ":res +5<Cr>", { silent = true })
-vim.keymap.set("n", "<Down>", ":res -5<Cr>", { silent = true })
-vim.keymap.set("n", "<Left>", ":vertical resize -5<Cr>", { silent = true })
-vim.keymap.set("n", "<Right>", ":vertical resize +5<Cr>", { silent = true })
-vim.keymap.set("n", "<C-n>", ":let @/=expand('<cword>')<cr>cgn", { silent = true })
-vim.keymap.set("n", "Q", "<nop>", { silent = true })
-vim.keymap.set("n", "<Leader>yf", ":Yf<Cr>", { silent = true, desc = "copy file path to clipboard" })
-vim.keymap.set("n", "<Leader>yF", ":YF<Cr>", { silent = true, desc = "copy file path with line no to clipboard" })
+local function append(char)
+	return [[:s/\(.\)$/\1]] .. char .. [[/<cr>]]
+end
 
-vim.keymap.set("i", "<C-A>", "<c-o>^", { desc = "Beginning of line" })
-vim.keymap.set("i", "<C-E>", "<c-o>$", { desc = "End of line" })
-vim.keymap.set("i", "<C-B>", "<Left>", { desc = "Move 1 char left" })
-vim.keymap.set("i", "<C-F>", "<Right>", { desc = "Move 1 char right" })
-vim.keymap.set("i", "<A-f>", "<Esc>lwi", { desc = "Move 1 `word` right" })
-vim.keymap.set("i", "<A-b>", "<c-o>b", { desc = "Move 1 `word` left" })
+map("n", "<LocalLeader>,", append(","), { silent = true, desc = "Append comma" })
+map("n", "<LocalLeader>;", append(";"), { silent = true, desc = "Append semicolon" })
 
-vim.keymap.set("x", ".", ":norm .<cr>", {})
+map("n", "<Leader>wL", "<C-W>L", { silent = true, desc = "Move window right" })
+map("n", "<Leader>wK", "<C-W>K", { silent = true, desc = "Move window up" })
+map("n", "<Leader>wJ", "<C-W>J", { silent = true, desc = "Move window down" })
+map("n", "<Leader>wH", "<C-W>H", { silent = true, desc = "Move window left" })
 
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { silent = false, desc = "Go to previous diagnostic" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { silent = false, desc = "Go to next diagnostic" })
-vim.keymap.set("n", "<Leader><Leader>q", function()
+map("n", "<Up>", ":res +5<Cr>", { silent = true })
+map("n", "<Down>", ":res -5<Cr>", { silent = true })
+map("n", "<Left>", ":vertical resize -5<Cr>", { silent = true })
+map("n", "<Right>", ":vertical resize +5<Cr>", { silent = true })
+map("n", "<C-n>", ":let @/=expand('<cword>')<cr>cgn", { silent = true })
+map("n", "Q", "<nop>", { silent = true })
+map("n", "<Leader>yf", ":Yf<Cr>", { silent = true, desc = "copy file path to clipboard" })
+map("n", "<Leader>yF", ":YF<Cr>", { silent = true, desc = "copy file path with line no to clipboard" })
+
+map("i", "<C-A>", "<c-o>^", { desc = "Beginning of line" })
+map("i", "<C-E>", "<c-o>$", { desc = "End of line" })
+map("i", "<C-B>", "<Left>", { desc = "Move 1 char left" })
+map("i", "<C-F>", "<Right>", { desc = "Move 1 char right" })
+map("i", "<A-f>", "<Esc>lwi", { desc = "Move 1 `word` right" })
+map("i", "<A-b>", "<c-o>b", { desc = "Move 1 `word` left" })
+
+map("x", ".", ":norm .<cr>", {})
+
+map("n", "[d", vim.diagnostic.goto_prev, { silent = false, desc = "Go to previous diagnostic" })
+map("n", "]d", vim.diagnostic.goto_next, { silent = false, desc = "Go to next diagnostic" })
+map("n", "<Leader><Leader>q", function()
 	vim.diagnostic.set_loclist()
 end, {
 	silent = false,
 	desc = "Send diagnostics to location list",
 })
-vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, { silent = false, desc = "Show diagnostic in float" })
-local remove_qf_item = function()
-	local current_quick_fix_index = vim.fn.line(".")
-	local quickfix_list = vim.fn.getqflist()
-	table.remove(quickfix_list, current_quick_fix_index)
-	vim.fn.setqflist(quickfix_list, "r")
-	vim.cmd("execute " .. current_quick_fix_index .. "cfirst")
-end
 
--- TODO: add autocmd to qf list ft
+map("n", "<Leader>e", vim.diagnostic.open_float, { silent = false, desc = "Show diagnostic in float" })
 
-vim.cmd([[
-  " When using `dd` in the quickfix list, remove the item from the quickfix list.
-  function! RemoveQFItem()
-    let curqfidx = line('.') - 1
-    let qfall = getqflist()
-    call remove(qfall, curqfidx)
-    call setqflist(qfall, 'r')
-    execute curqfidx + 1 . "cfirst"
-    :copen
-  endfunction
-  :command! RemoveQFItem :call RemoveQFItem()
-  " Use map <buffer> to only map dd in the quickfix window. Requires +localmap
-  autocmd FileType qf map <buffer> dd :RemoveQFItem<cr>
-]])
+map("c", "<C-f>", '<C-R>=expand("%:p")<CR>', { silent = false })
+map("c", "<C-a>", "<Home>", { silent = false })
+map("c", "<C-e>", "<End>", { silent = false })
+map("c", "<C-h>", "<Left>", { silent = false })
+map("c", "<C-j>", "<Down>", { silent = false })
+map("c", "<C-k>", "<Up>", { silent = false })
+map("c", "<C-l>", "<Right>", { silent = false })
+map("c", "<C-d>", "<Del>", { silent = false })
+
+-- let g:mc = "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>"
+
+-- nnoremap cn *``cgn
+-- nnoremap cN *``cgN
+
+-- vnoremap <expr> cn g:mc . "``cgn"
+-- vnoremap <expr> cN g:mc . "``cgN"
+
+-- function! SetupCR()
+--   nnoremap <Enter> :nnoremap <lt>Enter> n@z<CR>q:<C-u>let @z=strpart(@z,0,strlen(@z)-1)<CR>n@z
+-- endfunction
+
+-- nnoremap cq :call SetupCR()<CR>*``qz
+-- nnoremap cQ :call SetupCR()<CR>#``qz
+
+-- vnoremap <expr> cq ":\<C-u>call SetupCR()\<CR>" . "gv" . g:mc . "``qz"
+-- vnoremap <expr> cQ ":\<C-u>call SetupCR()\<CR>" . "gv" . substitute(g:mc, '/', '?', 'g') . "``qz"

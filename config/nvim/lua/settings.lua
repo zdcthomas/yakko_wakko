@@ -1,25 +1,19 @@
 -- maps leader to space
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
--- Nvim recently introduced entirely-in-lua filetype detection to do away with
--- the slower `filetype.vim` which is the default.
--- https://neovim.discourse.group/t/introducing-filetype-lua-and-a-call-for-help/1806
-vim.g.do_filetype_lua = 1
-vim.g.did_load_filetypes = 0
-
-vim.g.diminactive_enable_focus = 1
-
+vim.g.maplocalleader = ","
+vim.g.netrw_list_hide = ""
 vim.opt.autoindent = true
 vim.opt.autoread = true
 vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.backup = false
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard:append("unnamedplus")
+vim.opt.laststatus = 3
 vim.opt.copyindent = true
-vim.opt.cursorline = true
 vim.opt.encoding = "UTF-8"
 vim.opt.equalalways = false
 vim.opt.expandtab = true
+vim.opt.spellfile = vim.fn.expand("~") .. "/.config/nvim/spell/en.utf-8.add"
+vim.opt.spelllang:append("cjk")
 vim.opt.fillchars = {
 	eob = " ",
 	vert = "║",
@@ -40,7 +34,7 @@ vim.opt.mouse = { h = true, a = true }
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 5
-vim.opt.shell = "sh"
+vim.opt.shell = "bash"
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 2
 vim.opt.showmode = false
@@ -53,13 +47,14 @@ vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
-vim.opt.undodir = vim.fn.expand("~/.vim/undo")
+vim.opt.undodir = vim.fn.expand("~/.config/nvim/undo")
 vim.opt.undofile = true
 vim.opt.updatetime = 100
 vim.opt.virtualedit = "block"
 vim.opt.wildmenu = true
 vim.opt.wrap = false
-vim.opt.pumblend = 25
+vim.opt.cmdheight = 0
+-- vim.opt.path:append("**")
 
 vim.diagnostic.config({
 	header = false,
@@ -71,4 +66,50 @@ vim.diagnostic.config({
 	virtual_text = true,
 	underline = true,
 	update_in_insert = false,
+})
+
+-- doesn't work right since most ftplugins redefine formatoptions
+vim.opt.formatoptions = vim.tbl_extend("force", vim.opt.formatoptions:get(), {
+	c = false,
+	o = false, -- O and o, don't continue comments
+	r = true, -- Pressing Enter will continue comments
+})
+
+-- TODO: link this to a non cmp highlight, it's for netrw
+vim.cmd([[
+hi link netrwMarkFile CmpItemAbbrMatchFuzzy
+" set Vim-specific sequences for RGB colors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+]])
+
+local disabled_built_ins = {
+	"2html_plugin",
+	"getscript",
+	"getscriptPlugin",
+	"gzip",
+	"logipat",
+	"netrw",
+	"netrwPlugin",
+	"netrwSettings",
+	"netrwFileHandlers",
+	-- "matchit",
+	-- "matchparen",
+	"tar",
+	"tarPlugin",
+	"rrhelper",
+	"vimball",
+	"vimballPlugin",
+	-- "zip",
+	-- "zipPlugin",
+}
+
+for _, plugin in pairs(disabled_built_ins) do
+	vim.g["loaded_" .. plugin] = 1
+end
+
+vim.filetype.add({
+	extension = {
+		gleam = "gleam",
+	},
 })
