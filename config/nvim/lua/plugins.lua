@@ -472,10 +472,6 @@ return require("packer").startup({
 
 		use({
 			"anuvyklack/hydra.nvim",
-			-- known bad:
-			-- commit = "41a1475588f8bb15190a47fc8c18410e87eeebae",
-			-- known good:
-			commit = "0a3a033c9ebe341751258ecedf64af7e04690135",
 			config = function()
 				require("config.hydra").setup()
 			end,
