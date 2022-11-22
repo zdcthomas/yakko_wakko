@@ -12,7 +12,7 @@ in
   nix = {
 
     checkConfig = true;
-    /* package = pkgs.nixFlakes; */
+    /* package = pkgs.nixVersions.stable; */
 
     extraOptions = ''
       keep-outputs = true
@@ -86,6 +86,7 @@ in
           fonts = [
             "FiraCode"
             "Meslo"
+            "Monofur"
           ];
         }
       )
@@ -245,7 +246,7 @@ in
       theme = "Everforest Dark Medium";
       font = {
         size = 15;
-        name = "Monaco";
+        name = "Monofur Nerd Font";
       };
       settings = {
         hide_window_decorations = "titlebar-only";
