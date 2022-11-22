@@ -4,16 +4,17 @@ if not Hydra then
 end
 
 local hint = [[
-  ^ ^     EEEVERYTHING
-  ^
-  _t_ Telescope
-  _g_ Git Mode
-  _w_ Windows
-  _p_ Packer Managment
-  _o_ Options
-  _v_ Venn (drawin')
-  ^
+  EEEVERYTHING
 ]]
+
+-- Taken care of by the hint builder
+-- _t_ Telescope
+-- _g_ Git Mode
+-- _w_ Windows
+-- _p_ Packer Managment
+-- _o_ Options
+-- _v_ Venn (drawin')
+-- ^
 
 local Module = {
 	g_hydras = {
@@ -55,6 +56,8 @@ local function rebuild_hydra()
 			end,
 			{ desc = hydra.desc or "", exit = true },
 		})
+
+		beeg_boi.hint = beeg_boi.hint .. "\n _" .. key .. "_ " .. (hydra.desc or "")
 	end
 
 	Hydra(beeg_boi)
@@ -72,19 +75,19 @@ function Module.add_g_hydra(hyd)
 	rebuild_hydra()
 end
 
-local function side_scroll(Hydra)
-	return Hydra({
-		name = "Side scroll",
-		mode = "n",
-		body = "z",
-		heads = {
-			{ "h", "5zh" },
-			{ "l", "5zl", { desc = "←/→" } },
-			{ "H", "zH" },
-			{ "L", "zL", { desc = "half screen ←/→" } },
-		},
-	})
-end
+-- local function side_scroll(Hydra)
+-- 	return Hydra({
+-- 		name = "Side scroll",
+-- 		mode = "n",
+-- 		body = "z",
+-- 		heads = {
+-- 			{ "h", "5zh" },
+-- 			{ "l", "5zl", { desc = "←/→" } },
+-- 			{ "H", "zH" },
+-- 			{ "L", "zL", { desc = "half screen ←/→" } },
+-- 		},
+-- 	})
+-- end
 
 Module.setup = function()
 	require("config.hydra.hy_side_scroll")
@@ -96,7 +99,7 @@ Module.setup = function()
 	Module.add_g_hydra({ key = "p", hydra = packer, desc = "Packer" })
 
 	local options = require("config.hydra.hy_options")
-	Module.add_g_hydra({ key = "o", hydra = options, desc = "Packer" })
+	Module.add_g_hydra({ key = "o", hydra = options, desc = "Options" })
 
 	local venn = require("config.hydra.hy_venn")
 	Module.add_g_hydra({ key = "v", hydra = venn, desc = "Venn" })
