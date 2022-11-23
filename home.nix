@@ -175,7 +175,7 @@ in
       historyLimit = 200000;
       customPaneNavigationAndResize = true;
       keyMode = "vi";
-      terminal = "xterm-256color";
+      terminal = "screen-256color";
       extraConfig = ''
         # undercurl support
         set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
@@ -220,6 +220,13 @@ in
 
         # bell
         set-window-option -g window-status-bell-style bg=colour167,fg=colour235 # bg=red, fg=bg
+
+        bind M-l split-window -h -c "#{pane_current_path}"
+        bind M-h split-window -hb -c "#{pane_current_path}"
+
+        # PREFIX j: Create a new horizontal pane.
+        bind M-j split-window -v -c "#{pane_current_path}" 
+        bind M-k split-window -vb -c "#{pane_current_path}" 
       '';
     };
 
