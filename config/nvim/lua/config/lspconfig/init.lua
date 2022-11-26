@@ -15,19 +15,6 @@ function conf.lightbulb()
 	})
 end
 
--- I __think__ this is causing an error...
--- vim.lsp.handlers["window/showMessage"] = function(_, result, ctx)
--- 	local client = vim.lsp.get_client_by_id(ctx.client_id)
--- 	local lvl = ({ "ERROR", "WARN", "INFO", "DEBUG" })[result.type]
--- 	vim.notify({ result.message }, lvl, {
--- 		title = "LSP | " .. client.name,
--- 		timeout = 10000,
--- 		keep = function()
--- 			return lvl == "ERROR" or lvl == "WARN"
--- 		end,
--- 	})
--- end
-
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 vim.lsp.handlers["textDocument/signatureHelp"] =
 	vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", close_events = { "CursorMoved", "BufHidden" } })
@@ -60,12 +47,13 @@ function conf.setup()
 
 	require("config.lspconfig.lua").setup()
 	require("config.lspconfig.rust").setup()
-	-- lspconfig["rust_analyzer"].setup({
-	-- 	on_attach = common_on_attach,
-	-- 	capabilities = capabilities,
-	-- })
 
 	lspconfig["jsonls"].setup({
+		on_attach = common_on_attach,
+		capabilities = capabilities,
+	})
+
+	lspconfig["marksman"].setup({
 		on_attach = common_on_attach,
 		capabilities = capabilities,
 	})
@@ -92,24 +80,6 @@ function conf.setup()
 		on_attach = common_on_attach,
 		capabilities = capabilities,
 	})
-	-- require("mason-lspconfig").setup_handlers({
-	-- 	function(server_name) -- default handler (optional)
-	-- 		-- vim.pretty_print(server_name)
-	-- 		lspconfig[server_name].setup({
-	-- 			on_attach = common_on_attach,
-	-- 			capabilities = capabilities,
-	-- 		})
-	-- 	end,
-	-- 	["sumneko_lua"] = function()
-	-- 		require("config.lspconfig.lua").setup()
-	-- 	end,
-	-- 	["tsserver"] = function()
-	-- 		require("config.lspconfig.typescript").setup()
-	-- 	end,
-	-- 	["eslint"] = function()
-	-- 		require("config.lspconfig.eslint").setup()
-	-- 	end,
-	-- })
 end
 
 return conf

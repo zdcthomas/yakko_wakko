@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	group = formatter_group,
 	pattern = "*",
 	callback = function()
-		if vim.g.save_format then
+		if vim.g.format_on_save then
 			vim.cmd("FormatWrite")
 		end
 	end,

@@ -58,28 +58,14 @@ Module.common_on_attach = function(client, bufnr)
 
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
-	vim.keymap.set({ "i" }, "<c-l>", vim.lsp.buf.signature_help, opts)
-	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+	vim.keymap.set({ "i", "s" }, "<c-l>", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-
-	-- vim.keymap.set("n", "<Leader>ca", "<cmd>CodeActionMenu<cr>", opts)
 	vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, opts)
-
-	if client.server_capabilities.typeDefinitionProvider then
-		vim.keymap.set("n", "gD", vim.lsp.buf.type_definition, bufopts)
-	end
-
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-
+	vim.keymap.set("n", "gD", vim.lsp.buf.type_definition, opts)
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 	require("config.telescope").lsp_bindings_for_buffer(bufnr)
-
-	if client.server_capabilities.hoverProvider then
-		vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
-	end
-
-	if client.server_capabilities.renameProvider then
-		vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
-	end
+	vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
+	vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
 
 	if client.server_capabilities.codeLensProvider then
 		vim.keymap.set("n", "<Leader>cl", vim.lsp.codelens.run, opts)
@@ -94,7 +80,9 @@ Module.common_on_attach = function(client, bufnr)
 		vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 			buffer = bufnr,
 			callback = function()
-				vim.lsp.buf.format()
+				if vim.g.format_on_save then
+					vim.lsp.buf.format()
+				end
 			end,
 			group = Module.lspconfig_augroup,
 		})
