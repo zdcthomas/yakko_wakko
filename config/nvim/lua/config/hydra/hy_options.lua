@@ -6,13 +6,14 @@ end
 local hint = [[
   ^ ^        Options
   ^
-  _v_ %{ve} virtual edit
-  _i_ %{list} invisible characters
-  _s_ %{spell} spell
-  _w_ %{wrap} wrap
-  _c_ %{cul} cursor line
-  _n_ %{number} number
-  _r_ %{rnu} relative number
+  _v_ %{ve} Virtual Edit
+  _i_ %{list} Invisible Characters
+  _s_ %{spell} Spell
+  _w_ %{wrap} Wrap
+  _c_ %{cul} Cursor Line
+  _n_ %{number} Number
+  _r_ %{rnu} Relative Number
+  _f_ %{format_on_save} Format On Save?
   ^
        ^^^^                _<Esc>_
 ]]
@@ -43,6 +44,9 @@ return Hydra({
 			position = "middle",
 			funcs = {
 				number = option_check("number"),
+				format_on_save = check(function()
+					return not not vim.g.format_on_save
+				end),
 			},
 		},
 	},
@@ -137,6 +141,13 @@ return Hydra({
 				else
 					vim.o.cursorline = true
 				end
+			end,
+			{ desc = "cursor line" },
+		},
+		{
+			"f",
+			function()
+				vim.g.format_on_save = not vim.g.format_on_save
 			end,
 			{ desc = "cursor line" },
 		},

@@ -7,7 +7,7 @@
 
   nix = {
     # enable flakes per default
-    /* package = pkgs.nixFlakes; */
+    package = pkgs.nixVersions.unstable;
     settings = {
       allowed-users = [ "zacharythomas" ];
       experimental-features = [ "nix-command" "flakes" ];

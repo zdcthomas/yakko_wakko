@@ -12,7 +12,7 @@ in
   nix = {
 
     checkConfig = true;
-    /* package = pkgs.nixVersions.stable; */
+    /* package = pkgs.nixVersions.unstable; */
 
     extraOptions = ''
       keep-outputs = true
@@ -176,6 +176,8 @@ in
       customPaneNavigationAndResize = true;
       keyMode = "vi";
       terminal = "screen-256color";
+      aggressiveResize = true;
+      escapeTime = 0;
       extraConfig = ''
         # undercurl support
         set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'

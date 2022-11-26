@@ -46,4 +46,4 @@ Ever watch [animaniacs](https://www.youtube.com/watch?v=CWnWwN1z_UM)?
 ---
 
 ## This is a blog!
-Take a look around! If you're interesting in NeoVim related stuff, head over
+Take a look around! If you're interesting in NeoVim related stuff, head over to [neovim](/config/nvim/README.md)
