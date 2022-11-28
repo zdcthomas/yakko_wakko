@@ -7,7 +7,7 @@
 
   nix = {
     # enable flakes per default
-    package = pkgs.nixVersions.unstable;
+    package = pkgs.nixUnstable;
     settings = {
       allowed-users = [ "zacharythomas" ];
       experimental-features = [ "nix-command" "flakes" ];
@@ -55,6 +55,12 @@
   /* services.skhd.enable = true; */
 
   system = {
+    activationScripts.postUserActivation.text = ''
+      # Install homebrew if it isn't there
+      if [[ ! -f "/usr/local/bin/brew" ]]; then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      fi
+    '';
 
     keyboard = {
       enableKeyMapping = true;
@@ -63,8 +69,16 @@
 
     defaults = {
       /* NSGlobalDomain.NSAutomaticWindowAnimationsEnabled = false; */
+      NSGlobalDomain = {
+        "com.apple.swipescrolldirection" = true;
+        AppleShowAllFiles = true;
+        NSAutomaticQuoteSubstitutionEnabled = false;
+        _HIHideMenuBar = true;
+      };
       finder = {
         AppleShowAllExtensions = true;
+        ShowPathbar = true;
+        ShowStatusBar = true;
       };
 
       dock = {

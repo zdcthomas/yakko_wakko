@@ -229,6 +229,9 @@ in
         # PREFIX j: Create a new horizontal pane.
         bind M-j split-window -v -c "#{pane_current_path}" 
         bind M-k split-window -vb -c "#{pane_current_path}" 
+
+        # Mouse
+        set -g mouse on
       '';
     };
 
