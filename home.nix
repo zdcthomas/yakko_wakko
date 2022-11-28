@@ -54,7 +54,6 @@ in
       fish
       font-awesome_5
       fzf
-      gcc
       gh
       git
       go
