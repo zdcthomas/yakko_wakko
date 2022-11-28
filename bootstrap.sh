@@ -7,9 +7,7 @@
 pushd ~/yakko_wakko/
 
 if [[ "$OSTYPE" =~ "darwin" ]]; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  nix --extra-experimental-features nix-command --extra-experimental-features flakes build .#darwinConfigurations.$(hostname -s).system && ./result/sw/bin/darwin-rebuild switch --flake .
-else
+  nix --extra-experimental-features nix-command --extra-experimental-features flakes build .#darwinConfigurations.$(hostname -s).system && ./result/sw/bin/darwin-rebuild switch --flake . else
   echo "No known setup for non darwin env, Sorry!"
 fi
 # nix --extra-experimental-features nix-command --extra-experimental-features flakes build .#homeConfigurations.zacharythomas.activationPackage

@@ -14,7 +14,9 @@ in
       gum
       hugo
       skim
+      /* qflipper  BROKEN */
       weechat
+      ffmpeg
       nodejs-18_x
       nodePackages_latest.pnpm
     ];
