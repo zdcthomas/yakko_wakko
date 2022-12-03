@@ -188,12 +188,11 @@ function conf.setup()
 		preselect = cmp.PreselectMode.None,
 		mapping = mappings(),
 		sources = cmp.config.sources({
+			{ name = "nvim_lsp", priority = 9 },
 			{ name = "luasnip", priority = 10 },
 			{ name = "buffer", priority = 7, keyword_length = 3 },
-			{ name = "nvim_lsp", priority = 9 },
 			{ name = "path", priority = 5 },
 			{ name = "neorg", priority = 6 },
-			{ name = "orgmode", priority = 6 },
 		}, {
 			{ name = "calc" },
 		}),

@@ -206,7 +206,7 @@ function conf.lsp_bindings_for_buffer(bufnr)
 	local opts = { buffer = bufnr, silent = false }
 	vim.keymap.set("n", "<Leader>q", require("config.telescope").diagnostics, opts)
 	vim.keymap.set("n", "<Leader>/", require("telescope.builtin").lsp_document_symbols, opts)
-	vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
+	-- vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
 end
 
 return conf

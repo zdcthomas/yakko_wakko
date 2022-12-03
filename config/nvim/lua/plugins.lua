@@ -329,7 +329,7 @@ return require("packer").startup({
 				"<Leader>b",
 				"<Leader>F",
 				"<Leader>*",
-				"gd",
+				-- "gd",
 			},
 			requires = {
 				{ "nvim-lua/popup.nvim" },

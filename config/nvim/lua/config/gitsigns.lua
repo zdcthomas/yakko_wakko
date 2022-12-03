@@ -102,8 +102,6 @@ if Hydra then
 				{ exit = true },
 			}, -- show the base of the file
 			{ "<Esc>", nil, { exit = true, nowait = true } },
-			{ "<c-n>", ":cn<CR>" },
-			{ "<c-p>", ":cp<CR>" },
 		},
 	})
 

@@ -63,6 +63,11 @@ Module.common_on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, opts)
 	vim.keymap.set("n", "gD", vim.lsp.buf.type_definition, opts)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+	-- gdd for current buf
+	-- gdl for split right
+	-- gdj for split down
+	-- MAYBE
+	-- gdp for preview in floating window
 	require("config.telescope").lsp_bindings_for_buffer(bufnr)
 	vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
 	vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
