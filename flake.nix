@@ -83,7 +83,7 @@
         /* ------------------------*/
         /* |    Work config       |*/
         /* ------------------------*/
-        zacharys-mbp = mkDarConf work {
+        Zacharys-MacBook-Pro = mkDarConf work {
           darwinModules = [ ./nix/work_dar_conf.nix ];
           homeModules = [ ./home.nix ./nix/work.nix ./nix/hammerspoon.nix ];
         };
