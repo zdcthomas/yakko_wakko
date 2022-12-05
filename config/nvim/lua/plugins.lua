@@ -25,6 +25,7 @@ return require("packer").startup({
 	function(use)
 		local arch = vim.loop.os_uname()
 		use("wbthomason/packer.nvim")
+		use("eandrju/cellular-automaton.nvim")
 		use({
 			"mfussenegger/nvim-lint",
 			ft = { "sh" },
