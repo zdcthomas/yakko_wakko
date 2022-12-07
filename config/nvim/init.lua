@@ -51,7 +51,7 @@ require("keymaps")
 
 -- https://github.com/ronny/birds-of-paradise.vim
 -- pcall(vim.cmd.colorscheme, "nord")
-pcall(vim.cmd.colorscheme, "everforest")
+pcall(vim.cmd.colorscheme, "kanagawa")
 -- pcall(vim.cmd.colorscheme, "kanagawa")
 -- pcall(vim.cmd.colorscheme, "birds-of-paradise")
 -- pcall(vim.cmd, "colorscheme tokyonight")

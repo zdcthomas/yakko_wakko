@@ -71,6 +71,9 @@ function conf.setup()
 	local telescope = require("telescope")
 	telescope.setup({
 		pickers = {
+			colorscheme = {
+				enable_preview = true,
+			},
 			live_grep = {
 				scroll_strategy = "limit",
 				-- mappings = {
