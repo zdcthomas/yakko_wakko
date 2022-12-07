@@ -25,7 +25,16 @@ return require("packer").startup({
 	function(use)
 		local arch = vim.loop.os_uname()
 		use("wbthomason/packer.nvim")
+		use("frenzyexists/aquarium-vim")
+		use("EdenEast/nightfox.nvim")
+		use("kvrohit/substrata.nvim")
 		use("eandrju/cellular-automaton.nvim")
+		use({
+			"https://gitlab.com/yorickpeterse/nvim-pqf.git",
+			config = function()
+				require("pqf").setup()
+			end,
+		})
 		use({
 			"mfussenegger/nvim-lint",
 			ft = { "sh" },
@@ -89,6 +98,7 @@ return require("packer").startup({
 				"nvim-lua/plenary.nvim",
 				"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
 				"MunifTanjim/nui.nvim",
+				"mrbjarksen/neo-tree-diagnostics.nvim",
 			},
 			config = function()
 				require("config.neo_tree").config()
@@ -483,6 +493,7 @@ return require("packer").startup({
 		end
 	end,
 	config = {
+		max_jobs = 10,
 		compile_path = vim.fn.stdpath("config") .. "/plugin/packer_compiled.lua",
 		display = {
 			open_fn = function()

@@ -138,7 +138,8 @@ in
       FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
       FZF_DEFAULT_COMMAND = "fd --hidden --type f";
       FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
-      PATH = "$PATH:$HOME/.cargo/bin/";
+      PATH = "$PATH:$HOME/.cargo/bin/:/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+
     };
 
     sessionPath = [ "$HOME/.cargo/bin" ];
@@ -169,7 +170,7 @@ in
     tmux = {
       enable = true;
       /* extraConfig = (builtins.readFile ./tmux.conf); */
-      shell = "${pkgs.zsh}/bin/zsh";
+      /* shell = "${pkgs.fish}"; */
       sensibleOnTop = true;
       historyLimit = 200000;
       customPaneNavigationAndResize = true;
@@ -228,6 +229,20 @@ in
         # PREFIX j: Create a new horizontal pane.
         bind M-j split-window -v -c "#{pane_current_path}" 
         bind M-k split-window -vb -c "#{pane_current_path}" 
+
+        unbind-key -T copy-mode-vi MouseDragEnd1Pane
+
+        # Scroll 3 lines at a time instead of default 5; don't extend dragged selections.
+        bind-key -T copy-mode-vi WheelUpPane select-pane\; send-keys -t'{mouse}' -X clear-selection\; send-keys -t'{mouse}' -X -N 3 scroll-up
+        bind-key -T copy-mode-vi WheelDownPane select-pane\; send-keys -t'{mouse}' -X clear-selection\; send-keys -t'{mouse}' -X -N 3 scroll-down
+
+        # Don't exit copy mode on double or triple click.
+        bind-key -T copy-mode-vi DoubleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' "send-keys -M" "copy-mode -t'{mouse}'; send-keys -t'{mouse}' -X select-word"
+        bind-key -T copy-mode-vi TripleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' "send-keys -M" "copy-mode -t'{mouse}'; send-keys -t'{mouse}' -X select-line"
+
+        bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'pbcopy'
+        bind -T copy-mode-vi v send-keys -X begin-selection
+        bind -T copy-mode-vi r send-keys -X rectangle-toggle
 
         # Mouse
         set -g mouse on

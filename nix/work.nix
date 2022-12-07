@@ -12,6 +12,8 @@ in
       hurl
       awscli2
       git-remote-codecommit
+      /* docker */
+      /* docker-compose */
       /* wrong version */
       /* vector */
     ];

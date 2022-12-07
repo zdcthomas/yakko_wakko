@@ -5,3 +5,4 @@ unsetopt BEEP
 setopt interactive_comments
 
 zstyle ':completion:*' menu select
+. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"

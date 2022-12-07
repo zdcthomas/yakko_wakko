@@ -4,6 +4,7 @@
     home = "/Users/zdcthomas";
     shell = pkgs.fish;
   };
+  programs.fish.enable = true;
 
   nix = {
     # enable flakes per default
@@ -22,6 +23,7 @@
 
     brews = [
       /* "yabai" */
+      "gnu-sed"
       "vector"
     ];
     casks = [
@@ -56,18 +58,7 @@
   /* services.yabai.package = pkgs.yabai; */
   /* services.skhd.enable = true; */
 
-
-  /* environment.variables = { */
-  /*   HOMEBREW_PREFIX = "/opt/homebrew"; */
-  /*   HOMEBREW_CELLAR = "/opt/homebrew/Cellar"; */
-  /*   HOMEBREW_REPOSITORY = "/opt/homebrew"; */
-  /*   MANPATH = "/opt/homebrew/share/man${MANPATH+:$MANPATH}:"; */
-  /*   INFOPATH = "/opt/homebrew/share/info:${INFOPATH:-}"; */
-  /*   PATH = "/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}"; */
-  /* }; */
-
   system = {
-
     keyboard = {
       enableKeyMapping = true;
       remapCapsLockToControl = true;
