@@ -12,13 +12,13 @@ local on_attach = function(client, bufnr)
 	-- vim.keymap.set("n", "gH", rt.hover_actions.hover_actions, { buffer = bufnr })
 	-- Code action groups
 	-- vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-	setup_dap_keybindings(bufnr)
+	-- setup_dap_keybindings(bufnr)
 end
 
 Module.setup = function()
-	local path = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/")
-	local rt = require("rust-tools")
+	-- local path = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/")
 	local opts = {
+		inlay_hints = false,
 		hover_actions = {
 
 			-- the border that is used for the hover window
@@ -33,28 +33,30 @@ Module.setup = function()
 			on_attach = on_attach,
 		},
 	}
-	local codelldb_path = path .. "adapter/codelldb"
-	local liblldb_path = path .. "lldb/lib/liblldb.so"
+	-- local codelldb_path = path .. "adapter/codelldb"
+	-- local liblldb_path = path .. "lldb/lib/liblldb.so"
 
-	if vim.fn.has("mac") == 1 then
-		liblldb_path = path .. "lldb/lib/liblldb.dylib"
-	end
+	-- if vim.fn.has("mac") == 1 then
+	-- 	liblldb_path = path .. "lldb/lib/liblldb.dylib"
+	-- end
 
-	if vim.fn.filereadable(codelldb_path) and vim.fn.filereadable(liblldb_path) then
-		local adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
-		opts.dap = {
-			adapter = adapter,
-		}
-	else
-		vim.notify("please reinstall codellb, i cannot find liblldb or codelldb itself", vim.log.levels.WARN)
-	end
-	rt.setup(opts)
+	-- if vim.fn.filereadable(codelldb_path) and vim.fn.filereadable(liblldb_path) then
+	-- 	local adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
+	-- 	opts.dap = {
+	-- 		adapter = adapter,
+	-- 	}
+	-- else
+	-- 	vim.notify("please reinstall codellb, i cannot find liblldb or codelldb itself", vim.log.levels.WARN)
+	-- end
+	require("rust-tools").setup(opts)
 
-	require("rust-tools.dap").setup_adapter()
+	-- require("rust-tools.dap").setup_adapter()
 
-	local dap = require("dap")
+	-- local dap = require("dap")
 	-- Pr(dap.configurations)
-	dap.configurations.rust = dap.configurations.rt_lldb
+	-- dap.configurations.rust = dap.configurations.rt_lldb
+
+	require("rust-tools").inlay_hints.disable()
 end
 
 return Module

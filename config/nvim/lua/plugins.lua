@@ -25,7 +25,16 @@ return require("packer").startup({
 	function(use)
 		local arch = vim.loop.os_uname()
 		use("wbthomason/packer.nvim")
+		use("frenzyexists/aquarium-vim")
+		use("EdenEast/nightfox.nvim")
+		use("kvrohit/substrata.nvim")
 		use("eandrju/cellular-automaton.nvim")
+		use({
+			"https://gitlab.com/yorickpeterse/nvim-pqf.git",
+			config = function()
+				require("pqf").setup()
+			end,
+		})
 		use({
 			"mfussenegger/nvim-lint",
 			ft = { "sh" },
@@ -39,6 +48,16 @@ return require("packer").startup({
 						require("lint").try_lint()
 					end,
 				})
+			end,
+		})
+		use({
+			"sainnhe/everforest",
+			config = function()
+				-- vim.g.everforest_enable_italic = 1
+				-- vim.g.everforest_transparent_background = 1
+				-- vim.g.everforest_sign_column_background = "grey"
+				vim.g.everforest_diagnostic_virtual_text = "colored"
+				vim.cmd.colorscheme("everforest")
 			end,
 		})
 
@@ -63,7 +82,6 @@ return require("packer").startup({
 			},
 			"folke/tokyonight.nvim",
 			"ronny/birds-of-paradise.vim",
-			"sainnhe/everforest",
 		})
 
 		use({ "mechatroner/rainbow_csv", ft = "csv" })
@@ -89,6 +107,7 @@ return require("packer").startup({
 				"nvim-lua/plenary.nvim",
 				"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
 				"MunifTanjim/nui.nvim",
+				"mrbjarksen/neo-tree-diagnostics.nvim",
 			},
 			config = function()
 				require("config.neo_tree").config()
@@ -325,7 +344,7 @@ return require("packer").startup({
 			module_pattern = "telescope.*",
 			keys = {
 				"<Leader>p",
-				"<Leader>q",
+				-- "<Leader>q",
 				"<Leader>/",
 				"<Leader>b",
 				"<Leader>F",
@@ -483,6 +502,7 @@ return require("packer").startup({
 		end
 	end,
 	config = {
+		max_jobs = 10,
 		compile_path = vim.fn.stdpath("config") .. "/plugin/packer_compiled.lua",
 		display = {
 			open_fn = function()

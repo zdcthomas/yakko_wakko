@@ -92,20 +92,6 @@ Module.common_on_attach = function(client, bufnr)
 			group = Module.lspconfig_augroup,
 		})
 	end
-
-	-- require("lsp_signature").on_attach({
-	-- 	bind = true,
-	-- 	floating_window = true,
-	-- 	hint_enable = false,
-	-- 	zindex = 40,
-	-- 	transparency = 40,
-	-- 	toggle_key = "<C-x>",
-	-- 	auto_close_after = 4,
-	-- 	max_width = 60,
-	-- 	handler_opts = {
-	-- 		border = "double", -- double, rounded, single, shadow, none
-	-- 	},
-	-- })
 end
 
 return Module
