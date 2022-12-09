@@ -59,13 +59,11 @@ in
       go
       graphviz
       htop
-      /* httpie */
       jq
       lua
       neovim
       nodePackages.prettier_d_slim
       pandoc
-      /* readline */
       ripgrep
       rustup
       sd
@@ -138,7 +136,8 @@ in
       FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
       FZF_DEFAULT_COMMAND = "fd --hidden --type f";
       FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
-      PATH = "$PATH:$HOME/.cargo/bin/";
+      PATH = "$PATH:$HOME/.cargo/bin/:/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+
     };
 
     sessionPath = [ "$HOME/.cargo/bin" ];
@@ -169,15 +168,17 @@ in
     tmux = {
       enable = true;
       /* extraConfig = (builtins.readFile ./tmux.conf); */
-      shell = "${pkgs.zsh}/bin/zsh";
-      sensibleOnTop = true;
+      shell = "${pkgs.fish}/bin/fish";
+      sensibleOnTop = false;
       historyLimit = 200000;
       customPaneNavigationAndResize = true;
       keyMode = "vi";
-      terminal = "screen-256color";
+      terminal = "$TERM";
       aggressiveResize = true;
       escapeTime = 0;
       extraConfig = ''
+        set -g status-left '#(curl "wttr.in/denver?format=3") '
+
         # undercurl support
         set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
         set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
@@ -228,6 +229,20 @@ in
         # PREFIX j: Create a new horizontal pane.
         bind M-j split-window -v -c "#{pane_current_path}" 
         bind M-k split-window -vb -c "#{pane_current_path}" 
+
+        unbind-key -T copy-mode-vi MouseDragEnd1Pane
+
+        # Scroll 3 lines at a time instead of default 5; don't extend dragged selections.
+        bind-key -T copy-mode-vi WheelUpPane select-pane\; send-keys -t'{mouse}' -X clear-selection\; send-keys -t'{mouse}' -X -N 3 scroll-up
+        bind-key -T copy-mode-vi WheelDownPane select-pane\; send-keys -t'{mouse}' -X clear-selection\; send-keys -t'{mouse}' -X -N 3 scroll-down
+
+        # Don't exit copy mode on double or triple click.
+        bind-key -T copy-mode-vi DoubleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' "send-keys -M" "copy-mode -t'{mouse}'; send-keys -t'{mouse}' -X select-word"
+        bind-key -T copy-mode-vi TripleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' "send-keys -M" "copy-mode -t'{mouse}'; send-keys -t'{mouse}' -X select-line"
+
+        bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'pbcopy'
+        bind -T copy-mode-vi v send-keys -X begin-selection
+        bind -T copy-mode-vi r send-keys -X rectangle-toggle
 
         # Mouse
         set -g mouse on
@@ -330,12 +345,9 @@ in
       {
         defaultKeymap = "emacs";
         enable = true;
-        /* enableAutosuggestions = true; */
+        enableAutosuggestions = true;
         enableCompletion = true;
         history.extended = true;
-        /* sessionVariables = rec { */
-        /*   EDITOR = "nvim"; */
-        /* }; */
         autocd = true;
         initExtraFirst = builtins.readFile ./zsh_extra_config.zsh;
         plugins = [
@@ -360,8 +372,8 @@ in
             src = pkgs.fetchFromGitHub {
               owner = "zsh-users";
               repo = "zsh-syntax-highlighting";
-              rev = "0.6.0";
-              sha256 = "hH4qrpSotxNB7zIT3u7qcog51yTQr5j5Lblq9ZsxuH4=";
+              rev = "0.7.1";
+              sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
             };
           }
           {
@@ -378,8 +390,8 @@ in
             src = pkgs.fetchFromGitHub {
               owner = "zsh-users";
               repo = "zsh-autosuggestions";
-              rev = "v0.6.3";
-              sha256 = "rCTKzRg2DktT5X/f99pYTwZmSGD3XEFf9Vdenn4VEME=";
+              rev = "v0.7.0";
+              sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
             };
           }
         ];

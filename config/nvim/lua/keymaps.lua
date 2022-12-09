@@ -47,10 +47,34 @@ map("i", "<A-b>", "<c-o>b", { desc = "Move 1 `word` left" })
 
 map("x", ".", ":norm .<cr>", {})
 
-map("n", "[d", vim.diagnostic.goto_prev, { silent = false, desc = "Go to previous diagnostic" })
-map("n", "]d", vim.diagnostic.goto_next, { silent = false, desc = "Go to next diagnostic" })
-map("n", "<Leader><Leader>q", function()
-	vim.diagnostic.setqflist()
+map("n", "[d", function()
+	vim.diagnostic.goto_prev({ wrap = false })
+end, { silent = false, desc = "Go to previous diagnostic" })
+map("n", "]d", function()
+	vim.diagnostic.goto_next({ wrap = false })
+end, { silent = false, desc = "Go to next diagnostic" })
+
+map("n", "[e", function()
+	vim.diagnostic.goto_prev({ wrap = false, severity = vim.diagnostic.severity.ERROR })
+end, { silent = false, desc = "Go to previous diagnostic" })
+map("n", "]e", function()
+	vim.diagnostic.goto_next({ wrap = false, severity = vim.diagnostic.severity.ERROR })
+end, { silent = false, desc = "Go to next diagnostic" })
+map("n", "<Leader>q", function()
+	local all = { -- ALL
+		vim.diagnostic.severity.ERROR,
+		vim.diagnostic.severity.WARN,
+		vim.diagnostic.severity.INFO,
+		vim.diagnostic.severity.HINT,
+	}
+
+	local sevs = {
+		e = vim.diagnostic.severity.ERROR,
+		w = { vim.diagnostic.severity.ERROR, vim.diagnostic.severity.WARN },
+	}
+
+	local level = sevs[vim.fn.getcharstr()] or all
+	vim.diagnostic.setqflist({ severity = level })
 end, {
 	silent = false,
 	desc = "Send diagnostics to location list",

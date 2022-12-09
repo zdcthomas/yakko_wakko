@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Don't sudo this script!
 
-# sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume --daemon
-# . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume --daemon
+. '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 
 pushd ~/yakko_wakko/
 
