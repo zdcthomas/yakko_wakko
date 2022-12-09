@@ -63,10 +63,11 @@ vim.diagnostic.config({
 		source = "always",
 		border = "rounded",
 	},
+	severity_sort = true,
 	signs = false,
-	virtual_text = true,
 	underline = true,
 	update_in_insert = false,
+	virtual_text = true,
 })
 
 -- doesn't work right since most ftplugins redefine formatoptions
