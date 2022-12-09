@@ -59,13 +59,11 @@ in
       go
       graphviz
       htop
-      /* httpie */
       jq
       lua
       neovim
       nodePackages.prettier_d_slim
       pandoc
-      /* readline */
       ripgrep
       rustup
       sd
@@ -170,15 +168,17 @@ in
     tmux = {
       enable = true;
       /* extraConfig = (builtins.readFile ./tmux.conf); */
-      /* shell = "${pkgs.fish}"; */
-      sensibleOnTop = true;
+      shell = "${pkgs.fish}/bin/fish";
+      sensibleOnTop = false;
       historyLimit = 200000;
       customPaneNavigationAndResize = true;
       keyMode = "vi";
-      terminal = "screen-256color";
+      terminal = "$TERM";
       aggressiveResize = true;
       escapeTime = 0;
       extraConfig = ''
+        set -g status-left '#(curl "wttr.in/denver?format=3") '
+
         # undercurl support
         set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
         set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
@@ -345,12 +345,9 @@ in
       {
         defaultKeymap = "emacs";
         enable = true;
-        /* enableAutosuggestions = true; */
+        enableAutosuggestions = true;
         enableCompletion = true;
         history.extended = true;
-        /* sessionVariables = rec { */
-        /*   EDITOR = "nvim"; */
-        /* }; */
         autocd = true;
         initExtraFirst = builtins.readFile ./zsh_extra_config.zsh;
         plugins = [
@@ -375,8 +372,8 @@ in
             src = pkgs.fetchFromGitHub {
               owner = "zsh-users";
               repo = "zsh-syntax-highlighting";
-              rev = "0.6.0";
-              sha256 = "hH4qrpSotxNB7zIT3u7qcog51yTQr5j5Lblq9ZsxuH4=";
+              rev = "0.7.1";
+              sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
             };
           }
           {
@@ -393,8 +390,8 @@ in
             src = pkgs.fetchFromGitHub {
               owner = "zsh-users";
               repo = "zsh-autosuggestions";
-              rev = "v0.6.3";
-              sha256 = "rCTKzRg2DktT5X/f99pYTwZmSGD3XEFf9Vdenn4VEME=";
+              rev = "v0.7.0";
+              sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
             };
           }
         ];

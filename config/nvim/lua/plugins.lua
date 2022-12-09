@@ -50,6 +50,16 @@ return require("packer").startup({
 				})
 			end,
 		})
+		use({
+			"sainnhe/everforest",
+			config = function()
+				-- vim.g.everforest_enable_italic = 1
+				-- vim.g.everforest_transparent_background = 1
+				-- vim.g.everforest_sign_column_background = "grey"
+				vim.g.everforest_diagnostic_virtual_text = "colored"
+				vim.cmd.colorscheme("everforest")
+			end,
+		})
 
 		use({
 			{
@@ -72,7 +82,6 @@ return require("packer").startup({
 			},
 			"folke/tokyonight.nvim",
 			"ronny/birds-of-paradise.vim",
-			"sainnhe/everforest",
 		})
 
 		use({ "mechatroner/rainbow_csv", ft = "csv" })
@@ -335,7 +344,7 @@ return require("packer").startup({
 			module_pattern = "telescope.*",
 			keys = {
 				"<Leader>p",
-				"<Leader>q",
+				-- "<Leader>q",
 				"<Leader>/",
 				"<Leader>b",
 				"<Leader>F",
