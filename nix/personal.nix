@@ -16,7 +16,7 @@ in
       skim
       /* qflipper  BROKEN */
       weechat
-      ffmpeg
+      ffmpeg_5
       nodejs-18_x
       nodePackages_latest.pnpm
     ];
