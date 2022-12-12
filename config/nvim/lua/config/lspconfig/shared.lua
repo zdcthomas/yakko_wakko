@@ -59,15 +59,17 @@ Module.common_on_attach = function(client, bufnr)
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
 	vim.keymap.set({ "i", "s" }, "<c-l>", vim.lsp.buf.signature_help, opts)
+	vim.keymap.set("n", "gl", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 	vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, opts)
-	vim.keymap.set("n", "gD", vim.lsp.buf.type_definition, opts)
+	vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 	-- gdd for current buf
 	-- gdl for split right
 	-- gdj for split down
 	-- MAYBE
 	-- gdp for preview in floating window
+	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 	require("config.telescope").lsp_bindings_for_buffer(bufnr)
 	vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
 	vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
@@ -81,7 +83,7 @@ Module.common_on_attach = function(client, bufnr)
 	end
 
 	if client.server_capabilities.documentFormattingProvider then
-		vim.keymap.set("n", "<leader>gq", vim.lsp.buf.formatting, opts)
+		vim.keymap.set("n", "<leader>gq", vim.lsp.buf.format, opts)
 		vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 			buffer = bufnr,
 			callback = function()

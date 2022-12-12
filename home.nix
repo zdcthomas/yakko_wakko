@@ -84,6 +84,7 @@ in
             "FiraCode"
             "Meslo"
             "Monofur"
+            "Iosevka"
           ];
         }
       )
@@ -168,7 +169,7 @@ in
     tmux = {
       enable = true;
       /* extraConfig = (builtins.readFile ./tmux.conf); */
-      shell = "${pkgs.fish}/bin/fish";
+      /* shell = "${pkgs.fish}/bin/fish"; */
       sensibleOnTop = false;
       historyLimit = 200000;
       customPaneNavigationAndResize = true;
@@ -272,7 +273,7 @@ in
       theme = "Everforest Dark Medium";
       font = {
         size = 15;
-        name = "Monofur Nerd Font";
+        name = "Iosevka Nerd Font Mono";
       };
       settings = {
         hide_window_decorations = "titlebar-only";
