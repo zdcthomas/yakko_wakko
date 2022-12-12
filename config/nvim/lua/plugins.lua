@@ -53,10 +53,8 @@ return require("packer").startup({
 		use({
 			"sainnhe/everforest",
 			config = function()
-				-- vim.g.everforest_enable_italic = 1
-				-- vim.g.everforest_transparent_background = 1
-				-- vim.g.everforest_sign_column_background = "grey"
 				vim.g.everforest_diagnostic_virtual_text = "colored"
+				vim.g.everforest_enable_italic = 1
 				vim.cmd.colorscheme("everforest")
 			end,
 		})
@@ -344,12 +342,12 @@ return require("packer").startup({
 			module_pattern = "telescope.*",
 			keys = {
 				"<Leader>p",
-				-- "<Leader>q",
 				"<Leader>/",
 				"<Leader>b",
 				"<Leader>F",
 				"<Leader>*",
 				-- "gd",
+				-- "<Leader>q",
 			},
 			requires = {
 				{ "nvim-lua/popup.nvim" },

@@ -24,6 +24,7 @@
     brews = [
       /* "yabai" */
       "gnu-sed"
+      "json-table"
       "vector"
     ];
     casks = [

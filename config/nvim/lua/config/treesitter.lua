@@ -2,9 +2,7 @@ local Conf = {}
 
 function Conf.setup()
 	require("nvim-treesitter.configs").setup({
-		indent = {
-			enable = true,
-		},
+		indent = { enable = true },
 		autopairs = { enable = true },
 		auto_install = false,
 		query_linter = {
