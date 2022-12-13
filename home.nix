@@ -228,8 +228,8 @@ in
         bind M-h split-window -hb -c "#{pane_current_path}"
 
         # PREFIX j: Create a new horizontal pane.
-        bind M-j split-window -v -c "#{pane_current_path}" 
-        bind M-k split-window -vb -c "#{pane_current_path}" 
+        bind M-j split-window -v -c "#{pane_current_path}"
+        bind M-k split-window -vb -c "#{pane_current_path}"
 
         unbind-key -T copy-mode-vi MouseDragEnd1Pane
 
@@ -275,13 +275,7 @@ in
         size = 15;
         name = "Iosevka Nerd Font Mono";
       };
-      settings = {
-        hide_window_decorations = "titlebar-only";
-        enable_audio_bell = false;
-        background_opacity = "0.95";
-        macos_quit_when_last_window_closed = true;
-        macos_option_as_alt = true;
-      };
+      extraConfig = builtins.readFile ./config/kitty/kitty.conf;
     };
 
     # Let Home Manager install and manage itself.
@@ -344,13 +338,12 @@ in
 
     zsh =
       {
-        defaultKeymap = "emacs";
         enable = true;
         enableAutosuggestions = true;
         enableCompletion = true;
         history.extended = true;
         autocd = true;
-        initExtraFirst = builtins.readFile ./zsh_extra_config.zsh;
+        initExtraFirst = builtins.readFile ./zsh_extra_config.zsh + "\nsource ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
         plugins = [
           {
             name = "_git";

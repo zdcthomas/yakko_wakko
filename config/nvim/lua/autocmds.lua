@@ -17,6 +17,35 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.cmd("highlight WinSeparator guibg=None")
 	end,
 })
+
+-- vim.api.nvim_create_autocmd("CursorMoved", {
+-- 	group = InitGroupId,
+-- 	callback = function()
+-- 		local ns = vim.api.nvim_create_namespace("diag_lines")
+
+-- 		local timer = vim.loop.new_timer()
+-- 		timer:start(
+-- 			100,
+-- 			0,
+-- 			vim.schedule_wrap(function()
+-- 				require("utils.render_diagnostic").hide(ns, 0)
+-- 			end)
+-- 		)
+-- 		-- vim.api.nvim_win_get_cursor(0)
+-- 	end,
+-- })
+
+-- vim.api.nvim_create_autocmd("CursorHold", {
+-- 	pattern = "*",
+-- 	group = InitGroupId,
+-- 	callback = function()
+-- 		local diagnostic = vim.diagnostic.get(0, { lnum = vim.fn.line(".") - 1 })
+-- 		local ns = vim.api.nvim_create_namespace("diag_lines")
+-- 		-- require("utils.render_diagnostic").hide(ns, 0)
+-- 		require("utils.render_diagnostic").show(ns, 0, diagnostic)
+-- 	end,
+-- })
+
 -- show cursor line only in active window
 -- vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter", "CmdlineLeave" }, {
 -- 	group = InitGroupId,
