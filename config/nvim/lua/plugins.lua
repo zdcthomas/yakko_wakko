@@ -30,6 +30,12 @@ return require("packer").startup({
 		use("kvrohit/substrata.nvim")
 		use("eandrju/cellular-automaton.nvim")
 		use({
+			"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+			config = function()
+				require("lsp_lines").setup()
+			end,
+		})
+		use({
 			"https://gitlab.com/yorickpeterse/nvim-pqf.git",
 			config = function()
 				require("pqf").setup()
