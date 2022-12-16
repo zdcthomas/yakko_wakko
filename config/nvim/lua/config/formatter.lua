@@ -24,6 +24,9 @@ require("formatter").setup({
 		elixir = {
 			require("formatter.filetypes.elixir").mixformat,
 		},
+		sh = {
+			require("formatter.filetypes.sh").shfmt,
+		},
 		lua = {
 			require("formatter.filetypes.lua").stylua,
 		},
