@@ -43,10 +43,10 @@ return require("packer").startup({
 		})
 		use({
 			"mfussenegger/nvim-lint",
-			ft = { "sh" },
 			config = function()
 				require("lint").linters_by_ft = {
 					sh = { "shellcheck" },
+					nix = { "nix" },
 				}
 
 				vim.api.nvim_create_autocmd({ "BufWritePost" }, {

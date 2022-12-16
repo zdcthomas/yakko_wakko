@@ -189,7 +189,13 @@ function M.show(namespace, bufnr, diagnostics, source)
 			end
 		end
 
-		vim.api.nvim_buf_set_extmark(bufnr, namespace, lnum, 0, { virt_lines = virt_lines })
+		vim.api.nvim_buf_set_extmark(
+			bufnr,
+			namespace,
+			lnum,
+			0,
+			{ virt_lines = virt_lines, ui_watched = true, virt_text_hide = true }
+		)
 	end
 end
 
@@ -197,6 +203,11 @@ end
 ---@param bufnr number
 function M.hide(namespace, bufnr)
 	vim.api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
+
+	-- local e_marks = vim.api.nvim_buf_get_extmarks(bufnr, namespace, 0, -1, {})
+	-- for _, em in ipairs(e_marks) do
+	-- 	vim.api.nvim_buf_del_extmark(bufnr, namespace, em[1])
+	-- end
 	-- vim.api.nvim_buf_set_extmark(0, namespace, line_nr, 0, { id = 1, vir_text = { { "", "" } }, virt_text_pos = "eol" })
 end
 

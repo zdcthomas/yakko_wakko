@@ -22,16 +22,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 -- 	group = InitGroupId,
 -- 	callback = function()
 -- 		local ns = vim.api.nvim_create_namespace("diag_lines")
-
--- 		local timer = vim.loop.new_timer()
--- 		timer:start(
--- 			100,
--- 			0,
--- 			vim.schedule_wrap(function()
--- 				require("utils.render_diagnostic").hide(ns, 0)
--- 			end)
--- 		)
--- 		-- vim.api.nvim_win_get_cursor(0)
+-- 		require("utils.render_diagnostic").hide(ns, 0)
+-- 		vim.api.nvim_win_set_cursor(0, vim.api.nvim_win_get_cursor(0))
 -- 	end,
 -- })
 
