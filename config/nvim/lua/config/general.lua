@@ -94,46 +94,46 @@ function Config.venn()
 	-- end
 end
 
-function Config.notify()
-	require("notify").setup({
-		stages = "slide",
-		timeout = 3000,
-		-- Minimum width for notification windows
-		minimum_width = 30,
-		icons = {
-			ERROR = "",
-			WARN = "",
-			INFO = "",
-			DEBUG = "",
-			TRACE = "✎",
-		},
-	})
-	vim.notify = require("notify")
-end
+-- function Config.notify()
+-- 	require("notify").setup({
+-- 		stages = "slide",
+-- 		timeout = 3000,
+-- 		-- Minimum width for notification windows
+-- 		minimum_width = 30,
+-- 		icons = {
+-- 			ERROR = "",
+-- 			WARN = "",
+-- 			INFO = "",
+-- 			DEBUG = "",
+-- 			TRACE = "✎",
+-- 		},
+-- 	})
+-- 	vim.notify = require("notify")
+-- end
 
-function Config.camelsnek_keybinds()
-	vim.g.camelsnek_alternative_camel_commands = 1
+-- function Config.camelsnek_keybinds()
+-- 	vim.g.camelsnek_alternative_camel_commands = 1
 
-	vim.keymap.set("n", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })
-	vim.keymap.set("x", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })
+-- 	vim.keymap.set("n", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })
+-- 	vim.keymap.set("x", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })
 
-	vim.keymap.set("n", "crp", ":Pascal<CR>", { silent = true, desc = "PascalCase" })
-	vim.keymap.set("x", "crp", ":Pascal<CR>", { silent = true, desc = "PascalCase" })
+-- 	vim.keymap.set("n", "crp", ":Pascal<CR>", { silent = true, desc = "PascalCase" })
+-- 	vim.keymap.set("x", "crp", ":Pascal<CR>", { silent = true, desc = "PascalCase" })
 
-	vim.keymap.set("n", "crc", ":Camel<CR>", { silent = true, desc = "camelCase" })
-	vim.keymap.set("x", "crc", ":Camel<CR>", { silent = true, desc = "camel_case" })
+-- 	vim.keymap.set("n", "crc", ":Camel<CR>", { silent = true, desc = "camelCase" })
+-- 	vim.keymap.set("x", "crc", ":Camel<CR>", { silent = true, desc = "camel_case" })
 
-	vim.keymap.set("n", "crk", ":Kebab<CR>", { silent = true, desc = "kebab-case" })
-	vim.keymap.set("x", "crk", ":Kebab<CR>", { silent = true, desc = "kebab-case" })
-end
+-- 	vim.keymap.set("n", "crk", ":Kebab<CR>", { silent = true, desc = "kebab-case" })
+-- 	vim.keymap.set("x", "crk", ":Kebab<CR>", { silent = true, desc = "kebab-case" })
+-- end
 
-function Config.autopairs()
-	require("nvim-autopairs").setup({
-		fast_wrap = {},
-		check_ts = true,
-		disable_in_macro = true,
-	})
-end
+-- function Config.autopairs()
+-- 	require("nvim-autopairs").setup({
+-- 		fast_wrap = {},
+-- 		check_ts = true,
+-- 		disable_in_macro = true,
+-- 	})
+-- end
 
 function Config.dirvish()
 	vim.g.loaded_netrwPlugin = 1
@@ -149,11 +149,6 @@ end
 function Config.md_links()
 	require("follow-md-links")
 	vim.keymap.set("", "<bs>", ":edit #<cr>", { silent = true })
-end
-
-function Config.easy_align()
-	vim.keymap.set("x", "ga", "<Plug>(EasyAlign)", { noremap = false })
-	vim.keymap.set("n", "ga", "<Plug>(EasyAlign)", { noremap = false })
 end
 
 return Config
