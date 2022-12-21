@@ -91,7 +91,7 @@
         /* -----------------------*/
         /* |    Home config       |*/
         /* -----------------------*/
-        Prime = mkDarConf personal {
+        prime = mkDarConf personal {
           darwinModules = [ ./nix/dar_conf.nix ];
           homeModules = [ ./home.nix ./nix/personal.nix ./nix/hammerspoon.nix ];
         };

@@ -343,7 +343,7 @@ in
         enableCompletion = true;
         history.extended = true;
         autocd = true;
-        initExtraFirst = builtins.readFile ./zsh_extra_config.zsh + "\nsource ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+        initExtraFirst = "source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh\n" + builtins.readFile ./zsh_extra_config.zsh;
         plugins = [
           {
             name = "_git";
