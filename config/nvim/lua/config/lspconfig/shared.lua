@@ -45,10 +45,24 @@ end
 Module.common_on_attach = function(client, bufnr)
 	vim.api.nvim_clear_autocmds({ buffer = bufnr, group = Module.lspconfig_augroup })
 
-	vim.api.nvim_create_autocmd(
-		{ "CursorHold", "CursorHoldI" },
-		{ callback = require("config.lspconfig").lightbulb, buffer = bufnr, group = Module.lspconfig_augroup }
-	)
+	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+		callback = function()
+			require("nvim-lightbulb").update_lightbulb({
+				sign = {
+					enabled = false,
+				},
+				virtual_text = {
+					enabled = true,
+					-- Text to show at virtual text
+					text = "💡",
+					-- highlight mode to use for virtual text (replace, combine, blend), see :help nvim_buf_set_extmark() for reference
+					hl_mode = "combine",
+				},
+			})
+		end,
+		buffer = bufnr,
+		group = Module.lspconfig_augroup,
+	})
 
 	local function buf_set_option(...)
 		vim.api.nvim_buf_set_option(bufnr, ...)
