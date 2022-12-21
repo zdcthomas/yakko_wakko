@@ -9,7 +9,6 @@ local _slow_to_load_in_TS = {
 -- 	local actions = require("telescope.actions")
 
 -- 	print("prompt_bufnr", prompt_bufnr)
-asdf
 -- 	local symbol = action_state.get_selected_entry().value
 -- 	print("telescope:9 -> action_state.get_selected_entry().value", action_state.get_selected_entry().value)
 -- 	actions._close(prompt_bufnr, true)
