@@ -1,4 +1,4 @@
-local  hydra_loaded, Hydra = pcall(require, "hydra")
+local hydra_loaded, Hydra = pcall(require, "hydra")
 if not hydra_loaded then
 	return
 end

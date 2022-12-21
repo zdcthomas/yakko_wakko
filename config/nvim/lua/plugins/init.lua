@@ -6,7 +6,7 @@ return {
 			vim.g.everforest_enable_italic = 1
 		end,
 	},
-	{ "tpope/vim-commentary" },
+	{ "tpope/vim-commentary", event = "BufReadPost" },
 	{ "michaeljsmith/vim-indent-object", event = "BufReadPost" },
 	{ "mechatroner/rainbow_csv", ft = "csv" },
 	{ "tpope/vim-vinegar", keys = { "-" }, cmd = { "Explore" } },
@@ -53,39 +53,6 @@ return {
 		branch = "center",
 		config = function()
 			require("config.startify").setup()
-		end,
-	},
-	{
-		"lewis6991/gitsigns.nvim",
-		event = "BufReadPost",
-		requires = {
-			"nvim-lua/plenary.nvim",
-		},
-		config = require("config.gitsigns").setup,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		event = "BufReadPost",
-		dependencies = {
-			"weilbith/nvim-code-action-menu",
-			"j-hui/fidget.nvim",
-			"hrsh7th/nvim-cmp",
-			"kosayoda/nvim-lightbulb",
-			"nvim-telescope/telescope.nvim",
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-			"simrat39/rust-tools.nvim",
-			{
-				"folke/neodev.nvim",
-				ft = "lua",
-			},
-		},
-		config = function()
-			require("fidget").setup({})
-			-- Ok I really don't understand this. If I remove this function
-			-- wrapper, then any local function defined within config/lspconfig
-			-- won't be usable by the setup function. This makes no sense.
-			require("config.lspconfig").setup()
 		end,
 	},
 }
