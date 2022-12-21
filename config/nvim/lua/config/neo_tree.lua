@@ -1,6 +1,6 @@
 local Module = {}
 
-local function setup_keymaps()
+Module.setup_keymaps = function()
 	vim.keymap.set("n", "-", "<cmd>Neotree reveal<cr>", {})
 end
 
@@ -292,8 +292,6 @@ Module.config = function()
 	setup_diagnostic_hl()
 
 	setup_neo_tree()
-
-	setup_keymaps()
 end
 
 return Module

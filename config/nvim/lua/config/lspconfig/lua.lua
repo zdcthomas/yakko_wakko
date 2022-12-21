@@ -46,7 +46,7 @@ Module.setup = function()
 
 				diagnostics = {
 					-- Get the language server to recognize the `vim` global
-					globals = { "vim", "hs", "packer_plugins" },
+					globals = { "vim", "hs" },
 				},
 				completion = {
 					callSnippet = "Replace",

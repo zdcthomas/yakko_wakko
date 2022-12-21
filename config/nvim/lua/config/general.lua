@@ -111,7 +111,7 @@ function Config.notify()
 	vim.notify = require("notify")
 end
 
-function Config.camelsnek()
+function Config.camelsnek_keybinds()
 	vim.g.camelsnek_alternative_camel_commands = 1
 
 	vim.keymap.set("n", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })

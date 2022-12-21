@@ -10,6 +10,13 @@ function Conf.setup()
 			use_virtual_text = true,
 			lint_events = { "BufWrite", "CursorHold" },
 		},
+		refactor = {
+			highlight_definitions = {
+				enable = true,
+				-- Set to false if you have an `updatetime` of ~100.
+				clear_on_cursor_move = true,
+			},
+		},
 		rainbow = {
 			enable = true,
 			extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean

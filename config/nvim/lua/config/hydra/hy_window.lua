@@ -1,5 +1,5 @@
-local Hydra = Pquire("hydra")
-if not Hydra then
+local hydra_loaded, Hydra = pcall(require, "hydra")
+if not hydra_loaded then
 	return vim.notify("hydra not available", "ERROR")
 end
 

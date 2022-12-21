@@ -335,8 +335,7 @@ function conf.setup()
 	vim.g.startify_center = 58
 	vim.g.startify_commands = {
 		{ p = { "Files", ":Telescope find_files" } },
-		{ s = { "Sync Packer", ":PackerSync" } },
-		{ c = { "Compile Packer", ":PackerCompile" } },
+		{ l = { "Lazy", ":Lazy" } },
 		{ d = { "Open dotfiles", ":!dmux ~/yakko_wakko" } },
 		{ D = { "Dmux", ":!dmux" } },
 	}
