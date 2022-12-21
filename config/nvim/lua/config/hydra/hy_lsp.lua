@@ -1,7 +1,7 @@
 local Module = {}
 
-local Hydra = Pquire("Hydra")
-if not Hydra then
+local Hydra, hydra_loaded = pcall(require, "hydra")
+if not hydra_loaded then
 	vim.notify("Hydra not found in Telescope hydra config!", "Error")
 	return
 end

@@ -1,5 +1,5 @@
-local Hydra = Pquire("hydra")
-if not Hydra then
+local succ, Hydra  = pcall(require, "hydra")
+if not succ then
 	return
 end
 

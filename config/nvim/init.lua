@@ -23,9 +23,25 @@
 -- | ._____| |_. | | ._________________________________________________. | | ._____| |_. |
 -- | !_! | | !_! | | !_________________________________________________! | | !_! | | !_! |
 -- !_____! !_____! !_____________________________________________________! !_____! !_____!
+---@diagnostic disable: assign-type-mismatch
 
--- On first install, this won't be here
-pcall(require, "impatient")
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"--single-branch",
+		"https://github.com/folke/lazy.nvim.git",
+		lazypath,
+	})
+end
+vim.opt.runtimepath:prepend(lazypath)
+
+require("lazy").setup("plugins", {})
 
 -- Settings.lua contains all global options that are set. Most of these will
 -- should have a description. This has to come first, since it defines the
@@ -51,6 +67,8 @@ require("keymaps")
 
 -- https://github.com/ronny/birds-of-paradise.vim
 -- vim.cmd.colorscheme("slate")
+
+vim.cmd.colorscheme("everforest")
 -- pcall(vim.cmd.colorscheme, "nord")
 -- pcall(vim.cmd.colorscheme, "everforest")
 -- pcall(vim.cmd.colorscheme, "kanagawa")

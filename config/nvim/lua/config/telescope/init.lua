@@ -5,7 +5,7 @@ local _slow_to_load_in_TS = {
 	".*%.exs",
 }
 
-require("telescope.actions")
+-- require("telescope.actions")
 -- local local_insert_symbol_i = function(prompt_bufnr)
 -- 	local action_state = require("telescope.actions.state")
 -- 	local actions = require("telescope.actions")
@@ -21,8 +21,6 @@ require("telescope.actions")
 -- 	end)
 -- end
 
-local action_layout = require("telescope.actions.layout")
-
 local bad_files = function(filepath)
 	for _, v in ipairs(_slow_to_load_in_TS) do
 		if filepath:match(v) then
@@ -33,9 +31,9 @@ local bad_files = function(filepath)
 	return true
 end
 
-local previewers = require("telescope.previewers")
 -- Stops previewer for troublesome fts, and for biggggg files
 local new_maker = function(filepath, bufnr, opts)
+	local previewers = require("telescope.previewers")
 	opts = opts or {}
 	if opts.use_ft_detect == nil then
 		opts.use_ft_detect = true
@@ -62,13 +60,15 @@ local function fb_action(f)
 end
 
 function conf.setup()
-	require("config.hydra").add_g_hydra({
-		key = "t",
-		hydra = require("config.telescope.hydra").hydra,
-		desc = "Telescope",
-	})
+	-- require("config.hydra").add_g_hydra({
+	-- 	key = "t",
+	-- 	hydra = require("config.telescope.hydra").hydra,
+	-- 	desc = "Telescope",
+	-- })
 	local actions = require("telescope.actions")
 	local telescope = require("telescope")
+
+	local action_layout = require("telescope.actions.layout")
 	telescope.setup({
 		pickers = {
 			colorscheme = {
@@ -172,13 +172,21 @@ function conf.setup()
 	-- telescope.load_extension("fzf_writer")
 	-- telescope.load_extension("ui-select")
 	local default_opts = { noremap = true, silent = true }
+end
 
+function conf.keymaps()
 	vim.keymap.set("n", "<leader>p", function()
 		require("config.telescope").find_files()
 	end, { silent = true, desc = "Find files" })
-	vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, default_opts)
-	vim.keymap.set("n", "<leader>F", require("telescope.builtin").live_grep, default_opts)
-	vim.keymap.set("n", "<leader>*", require("telescope.builtin").grep_string, default_opts)
+	vim.keymap.set("n", "<leader>b", function()
+		require("telescope.builtin").buffers()
+	end, default_opts)
+	vim.keymap.set("n", "<leader>F", function()
+		require("telescope.builtin").live_grep()
+	end, default_opts)
+	vim.keymap.set("n", "<leader>*", function()
+		require("telescope.builtin").grep_string()
+	end, default_opts)
 end
 
 function conf.find_files()
@@ -205,7 +213,6 @@ function conf.diagnostics()
 end
 
 function conf.lsp_bindings_for_buffer(bufnr)
-	require("packer").loader("telescope.nvim")
 	local opts = { buffer = bufnr, silent = false }
 	-- vim.keymap.set("n", "<Leader>q", require("config.telescope").diagnostics, opts)
 	vim.keymap.set("n", "<Leader>/", require("telescope.builtin").lsp_document_symbols, opts)

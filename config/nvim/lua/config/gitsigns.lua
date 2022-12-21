@@ -1,7 +1,7 @@
 local Module = {}
-local Hydra = Pquire("hydra")
+local hydra_available, Hydra = pcall(require, "hydra")
 
-if Hydra then
+if hydra_available then
 	Module.hydra = Hydra({
 		-- hint = hint,
 		config = {
@@ -102,6 +102,8 @@ if Hydra then
 				{ exit = true },
 			}, -- show the base of the file
 			{ "<Esc>", nil, { exit = true, nowait = true } },
+			{ "]q", ":cn<CR>" },
+			{ "[q", ":cp<CR>" },
 		},
 	})
 

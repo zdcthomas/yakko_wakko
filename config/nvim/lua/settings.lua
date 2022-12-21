@@ -1,6 +1,3 @@
--- maps leader to space
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","
 vim.g.netrw_list_hide = ""
 vim.g.format_on_save = true -- This is NOT a builtin var of any meaning, grep for it in this repo to see how it works!
 vim.opt.autoindent = true
@@ -66,8 +63,7 @@ vim.diagnostic.config({
 	signs = false,
 	underline = true,
 	update_in_insert = false,
-	virtual_text = false,
-	virtual_lines = { only_current_line = false },
+	virtual_text = true,
 })
 
 -- doesn't work right since most ftplugins redefine formatoptions
@@ -91,8 +87,8 @@ local disabled_built_ins = {
 	"getscriptPlugin",
 	"gzip",
 	"logipat",
-	"netrw",
-	"netrwPlugin",
+	-- "netrw",
+	-- "netrwPlugin",
 	"netrwSettings",
 	"netrwFileHandlers",
 	-- "matchit",

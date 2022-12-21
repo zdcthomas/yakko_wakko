@@ -1,7 +1,3 @@
-vim.g.save_format = true
-vim.keymap.set("n", "<leader><leader>f", ":Format<CR>", { silent = true })
-local util = require("formatter.util")
-
 -- Provides the Format and FormatWrite commands
 require("formatter").setup({
 	-- Enable or disable logging
@@ -33,15 +29,3 @@ require("formatter").setup({
 	},
 })
 
-local formatter_group = vim.api.nvim_create_augroup("formatter_group", { clear = true })
-
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	group = formatter_group,
-	pattern = "*",
-	callback = function()
-		if vim.g.format_on_save then
-			vim.cmd("FormatWrite")
-		end
-	end,
-	desc = "Map q to close buffer",
-})
