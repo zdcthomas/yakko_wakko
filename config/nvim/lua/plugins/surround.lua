@@ -1,6 +1,16 @@
 return {
 	"kylechui/nvim-surround",
-	event = "BufReadPost",
+	keys = {
+		{ "ys", mode = "n" },
+		{ "yss", mode = "n" },
+		{ "ds", mode = "n" },
+		{ "cs", mode = "n" },
+		{ "S", mode = "x" },
+		{ "gS", mode = "x" },
+		{ "<c-g>s", mode = "i" },
+		{ "<c-g>S", mode = "i" },
+	},
+	-- event = "BufReadPost",
 	config = function()
 		require("nvim-surround").setup({})
 

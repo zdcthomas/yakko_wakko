@@ -30,7 +30,6 @@ return {
 	},
 	{
 		"sainnhe/everforest",
-		lazy = true,
 		config = function()
 			vim.g.everforest_diagnostic_virtual_text = "colored"
 			vim.g.everforest_enable_italic = 1
@@ -91,21 +90,20 @@ return {
 	},
 	{
 		"nicwest/vim-camelsnek",
-		cmd = { "Snek", "Pascal", "Camel", "Kebab" },
+		-- cmd = { "Snek", "Pascal", "Camel", "Kebab" },
+		keys = {
+
+			{ "crs", ":Snek<CR>", mode = "n", { silent = true, desc = "snake_case" } },
+			{ "crs", ":Snek<CR>", mode = "x", { silent = true, desc = "snake_case" } },
+			{ "crp", ":Pascal<CR>", mode = "n", { silent = true, desc = "PascalCase" } },
+			{ "crp", ":Pascal<CR>", mode = "x", { silent = true, desc = "PascalCase" } },
+			{ "crc", ":Camel<CR>", mode = "n", { silent = true, desc = "camelCase" } },
+			{ "crc", ":Camel<CR>", mode = "x", { silent = true, desc = "camel_case" } },
+			{ "crk", ":Kebab<CR>", mode = "n", { silent = true, desc = "kebab-case" } },
+			{ "crk", ":Kebab<CR>", mode = "x", { silent = true, desc = "kebab-case" } },
+		},
 		init = function()
 			vim.g.camelsnek_alternative_camel_commands = 1
-
-			vim.keymap.set("n", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })
-			vim.keymap.set("x", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })
-
-			vim.keymap.set("n", "crp", ":Pascal<CR>", { silent = true, desc = "PascalCase" })
-			vim.keymap.set("x", "crp", ":Pascal<CR>", { silent = true, desc = "PascalCase" })
-
-			vim.keymap.set("n", "crc", ":Camel<CR>", { silent = true, desc = "camelCase" })
-			vim.keymap.set("x", "crc", ":Camel<CR>", { silent = true, desc = "camel_case" })
-
-			vim.keymap.set("n", "crk", ":Kebab<CR>", { silent = true, desc = "kebab-case" })
-			vim.keymap.set("x", "crk", ":Kebab<CR>", { silent = true, desc = "kebab-case" })
 		end,
 	},
 	{

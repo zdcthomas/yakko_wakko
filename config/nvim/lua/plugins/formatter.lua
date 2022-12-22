@@ -17,7 +17,7 @@ return {
 					vim.cmd("FormatWrite")
 				end
 			end,
-			desc = "Map q to close buffer",
+			desc = "Format Buffer",
 		})
 	end,
 	config = function()
