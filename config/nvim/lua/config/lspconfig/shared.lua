@@ -84,7 +84,6 @@ Module.common_on_attach = function(client, bufnr)
 	-- MAYBE
 	-- gdp for preview in floating window
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-	require("config.telescope").lsp_bindings_for_buffer(bufnr)
 	vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
 	vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
 

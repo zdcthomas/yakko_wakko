@@ -133,8 +133,6 @@ local function setup()
 			layout_config = {
 				prompt_position = "top",
 			},
-			-- width = 0.95,
-			-- height = 0.85,
 		},
 		extensions = {
 			-- file_browser = {

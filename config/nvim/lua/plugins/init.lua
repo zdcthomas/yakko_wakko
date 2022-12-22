@@ -1,6 +1,36 @@
 return {
 	{
+		"luukvbaal/stabilize.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("stabilize").setup()
+		end,
+	},
+	{
+		"stevearc/dressing.nvim",
+		event = "BufReadPost",
+		config = function()
+			require("dressing").setup({
+				input = {
+					enabled = true,
+					default_prompt = "➤ ",
+					insert_only = false,
+
+					-- These are passed to nvim_open_win
+					anchor = "SW",
+					relative = "cursor",
+					border = "rounded",
+				},
+				select = {
+					enabled = true,
+					backend = { "builtin", "telescope", "nui" },
+				},
+			})
+		end,
+	},
+	{
 		"sainnhe/everforest",
+		lazy = true,
 		config = function()
 			vim.g.everforest_diagnostic_virtual_text = "colored"
 			vim.g.everforest_enable_italic = 1
@@ -12,6 +42,7 @@ return {
 	{ "tpope/vim-vinegar", keys = { "-" }, cmd = { "Explore" } },
 	{
 		"rcarriga/nvim-notify",
+		event = "VeryLazy",
 		config = function()
 			require("notify").setup({
 				stages = "slide",
