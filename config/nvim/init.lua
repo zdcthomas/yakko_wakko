@@ -45,7 +45,9 @@ vim.opt.runtimepath:prepend(lazypath)
 -- Defines a list of plugins to pull down and use, as well as their
 -- configurations.
 require("lazy").setup("plugins", {
-
+	defaults = {
+		lazy = true,
+	},
 	performance = {
 		rtp = {
 			disabled_plugins = {
@@ -70,10 +72,6 @@ require("lazy").setup("plugins", {
 -- should have a description. This has to come first, since it defines the
 -- mapleader, and many many other keymappings require that to be set.
 require("settings")
-
--- Utils are a series of globally available lua functions that
--- provide common functionality across my dotfiles.
--- require("utils")
 
 -- Defines global autocmds. `:h autocmd` and `:h nvim_create_autocmd`
 require("autocmds")

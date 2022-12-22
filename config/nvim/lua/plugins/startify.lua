@@ -328,6 +328,7 @@ end
 return {
 	"mhinz/vim-startify",
 	branch = "center",
+	lazy = false,
 	config = function()
 		local trees = generate_trees()
 		vim.g.startify_center = 58
