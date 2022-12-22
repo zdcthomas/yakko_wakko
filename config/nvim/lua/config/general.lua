@@ -2,24 +2,7 @@
 -- out not into their own files but for now it's what I'm trying.
 local Config = {}
 
-function Config.dressing()
-	require("dressing").setup({
-		input = {
-			enabled = true,
-			default_prompt = "➤ ",
-			insert_only = false,
-
-			-- These are passed to nvim_open_win
-			anchor = "SW",
-			relative = "cursor",
-			border = "rounded",
-		},
-		select = {
-			enabled = true,
-			backend = { "builtin", "telescope", "nui" },
-		},
-	})
-end
+-- These are all old configs, that are just kept around for posterity
 
 function Config.hardtime()
 	vim.g.hardtime_default_on = 0
@@ -93,47 +76,6 @@ function Config.venn()
 	-- else
 	-- end
 end
-
--- function Config.notify()
--- 	require("notify").setup({
--- 		stages = "slide",
--- 		timeout = 3000,
--- 		-- Minimum width for notification windows
--- 		minimum_width = 30,
--- 		icons = {
--- 			ERROR = "",
--- 			WARN = "",
--- 			INFO = "",
--- 			DEBUG = "",
--- 			TRACE = "✎",
--- 		},
--- 	})
--- 	vim.notify = require("notify")
--- end
-
--- function Config.camelsnek_keybinds()
--- 	vim.g.camelsnek_alternative_camel_commands = 1
-
--- 	vim.keymap.set("n", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })
--- 	vim.keymap.set("x", "crs", ":Snek<CR>", { silent = true, desc = "snake_case" })
-
--- 	vim.keymap.set("n", "crp", ":Pascal<CR>", { silent = true, desc = "PascalCase" })
--- 	vim.keymap.set("x", "crp", ":Pascal<CR>", { silent = true, desc = "PascalCase" })
-
--- 	vim.keymap.set("n", "crc", ":Camel<CR>", { silent = true, desc = "camelCase" })
--- 	vim.keymap.set("x", "crc", ":Camel<CR>", { silent = true, desc = "camel_case" })
-
--- 	vim.keymap.set("n", "crk", ":Kebab<CR>", { silent = true, desc = "kebab-case" })
--- 	vim.keymap.set("x", "crk", ":Kebab<CR>", { silent = true, desc = "kebab-case" })
--- end
-
--- function Config.autopairs()
--- 	require("nvim-autopairs").setup({
--- 		fast_wrap = {},
--- 		check_ts = true,
--- 		disable_in_macro = true,
--- 	})
--- end
 
 function Config.dirvish()
 	vim.g.loaded_netrwPlugin = 1

@@ -1,6 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
-	event = "BufReadPost",
+	event = "VeryLazy",
 	config = function()
 		require("lualine").setup({
 			extensions = { "quickfix", "man" },

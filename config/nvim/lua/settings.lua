@@ -51,7 +51,6 @@ vim.opt.virtualedit = "block"
 vim.opt.wildmenu = true
 vim.opt.wrap = false
 vim.opt.cmdheight = 0
--- vim.opt.path:append("**")
 
 vim.diagnostic.config({
 	header = false,
@@ -80,31 +79,6 @@ hi link netrwMarkFile CmpItemAbbrMatchFuzzy
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 ]])
-
-local disabled_built_ins = {
-	"2html_plugin",
-	"getscript",
-	"getscriptPlugin",
-	"gzip",
-	"logipat",
-	-- "netrw",
-	-- "netrwPlugin",
-	-- "netrwSettings",
-	-- "netrwFileHandlers",
-	-- "matchit",
-	-- "matchparen",
-	"tar",
-	"tarPlugin",
-	"rrhelper",
-	"vimball",
-	"vimballPlugin",
-	-- "zip",
-	-- "zipPlugin",
-}
-
-for _, plugin in pairs(disabled_built_ins) do
-	vim.g["loaded_" .. plugin] = 1
-end
 
 vim.filetype.add({
 	extension = {

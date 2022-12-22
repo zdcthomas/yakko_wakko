@@ -53,13 +53,12 @@ local function setup_lua(capabilities, common_on_attach)
 end
 return {
 	"neovim/nvim-lspconfig",
-	event = "BufReadPost",
+	event = "BufReadPre",
 	dependencies = {
 		"weilbith/nvim-code-action-menu",
 		"j-hui/fidget.nvim",
 		"hrsh7th/nvim-cmp",
 		"kosayoda/nvim-lightbulb",
-		"nvim-telescope/telescope.nvim",
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
 		"simrat39/rust-tools.nvim",
@@ -98,8 +97,31 @@ return {
 		local capabilities = require("config.lspconfig.shared").capabilities()
 		local lspconfig = require("lspconfig")
 
-		require("config.lspconfig.eslint").setup()
-		require("config.lspconfig.typescript").setup()
+		require("lspconfig")["eslint"].setup({
+			on_attach = function(client, bufnr)
+				client.server_capabilities.documentFormattingProvider = false
+				common_on_attach(client, bufnr)
+			end,
+			capabilities = capabilities,
+			handlers = {
+				["eslint/probeFailed"] = function()
+					vim.notify("ESLint probe failed.", vim.log.levels.WARN)
+					return {}
+				end,
+				["eslint/noLibrary"] = function()
+					vim.notify("Unable to find ESLint library.", vim.log.levels.WARN)
+					return {}
+				end,
+			},
+		})
+
+		require("lspconfig")["tsserver"].setup({
+			on_attach = function(client, bufnr)
+				client.server_capabilities.documentFormattingProvider = false
+				common_on_attach(client, bufnr)
+			end,
+			capabilities = capabilities,
+		})
 
 		setup_lua(capabilities, common_on_attach)
 		require("rust-tools").setup({
