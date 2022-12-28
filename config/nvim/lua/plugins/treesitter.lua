@@ -3,6 +3,7 @@ local function setup()
 		indent = { enable = true },
 		autopairs = { enable = true },
 		auto_install = false,
+		sync_install = false,
 		query_linter = {
 			enable = true,
 			use_virtual_text = true,

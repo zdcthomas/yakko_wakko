@@ -20,6 +20,7 @@
     enable = true;
 
     brews = [
+      "gnu-sed"
       /* "yabai" */
     ];
     casks = [
