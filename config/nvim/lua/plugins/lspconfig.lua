@@ -95,78 +95,63 @@ return {
 
 		local common_on_attach = require("config.lspconfig.shared").common_on_attach
 		local capabilities = require("config.lspconfig.shared").capabilities()
-		local lspconfig = require("lspconfig")
 
-		require("lspconfig")["eslint"].setup({
-			on_attach = function(client, bufnr)
-				client.server_capabilities.documentFormattingProvider = false
-				common_on_attach(client, bufnr)
+		require("mason-lspconfig").setup_handlers({
+			-- The first entry (without a key) will be the default handler
+			-- and will be called for each installed server that doesn't have
+			-- a dedicated handler.
+			function(server_name) -- default handler (optional)
+				require("lspconfig")[server_name].setup({
+					on_attach = common_on_attach,
+					capabilities = capabilities,
+				})
 			end,
-			capabilities = capabilities,
-			handlers = {
-				["eslint/probeFailed"] = function()
-					vim.notify("ESLint probe failed.", vim.log.levels.WARN)
-					return {}
-				end,
-				["eslint/noLibrary"] = function()
-					vim.notify("Unable to find ESLint library.", vim.log.levels.WARN)
-					return {}
-				end,
-			},
-		})
-
-		require("lspconfig")["tsserver"].setup({
-			on_attach = function(client, bufnr)
-				client.server_capabilities.documentFormattingProvider = false
-				common_on_attach(client, bufnr)
+			["sumneko_lua"] = function()
+				setup_lua(capabilities, common_on_attach)
 			end,
-			capabilities = capabilities,
-		})
-
-		setup_lua(capabilities, common_on_attach)
-		require("rust-tools").setup({
-			inlay_hints = false,
-			hover_actions = {
-				border = "rounded",
-			},
-			server = {
-				on_attach = common_on_attach,
-			},
-		})
-
-		require("rust-tools").inlay_hints.disable()
-
-		lspconfig["jsonls"].setup({
-			on_attach = common_on_attach,
-			capabilities = capabilities,
-		})
-
-		lspconfig["marksman"].setup({
-			on_attach = common_on_attach,
-			capabilities = capabilities,
-		})
-
-		lspconfig["yamlls"].setup({
-			on_attach = common_on_attach,
-			capabilities = capabilities,
-		})
-
-		lspconfig["gopls"].setup({
-			on_attach = common_on_attach,
-			capabilities = capabilities,
-			settings = {
-				gopls = {
-					analyses = {
-						unusedparams = true,
+			-- Next, you can provide a dedicated handler for specific servers.
+			-- For example, a handler override for the `rust_analyzer`:
+			["tsserver"] = function()
+				require("lspconfig")["tsserver"].setup({
+					on_attach = function(client, bufnr)
+						client.server_capabilities.documentFormattingProvider = false
+						common_on_attach(client, bufnr)
+					end,
+					capabilities = capabilities,
+				})
+			end,
+			["eslint"] = function()
+				require("lspconfig")["eslint"].setup({
+					on_attach = function(client, bufnr)
+						client.server_capabilities.documentFormattingProvider = false
+						common_on_attach(client, bufnr)
+					end,
+					capabilities = capabilities,
+					handlers = {
+						["eslint/probeFailed"] = function()
+							vim.notify("ESLint probe failed.", vim.log.levels.WARN)
+							return {}
+						end,
+						["eslint/noLibrary"] = function()
+							vim.notify("Unable to find ESLint library.", vim.log.levels.WARN)
+							return {}
+						end,
 					},
-					staticcheck = true,
-				},
-			},
-		})
+				})
+			end,
+			["rust_analyzer"] = function()
+				require("rust-tools").setup({
+					inlay_hints = false,
+					hover_actions = {
+						border = "rounded",
+					},
+					server = {
+						on_attach = common_on_attach,
+					},
+				})
 
-		lspconfig["rnix"].setup({
-			on_attach = common_on_attach,
-			capabilities = capabilities,
+				require("rust-tools").inlay_hints.disable()
+			end,
 		})
 	end,
 }
