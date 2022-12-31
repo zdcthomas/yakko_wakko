@@ -23,36 +23,59 @@
 -- | ._____| |_. | | ._________________________________________________. | | ._____| |_. |
 -- | !_! | | !_! | | !_________________________________________________! | | !_! | | !_! |
 -- !_____! !_____! !_____________________________________________________! !_____! !_____!
+---@diagnostic disable: assign-type-mismatch
 
--- On first install, this won't be here
-pcall(require, "impatient")
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
+
+-- Configuration for my package manager: [ Lazy.nvim ](https://github.com/folke/lazy.nvim.git)
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"--single-branch",
+		"https://github.com/folke/lazy.nvim.git",
+		lazypath,
+	})
+end
+vim.opt.runtimepath:prepend(lazypath)
+
+-- Defines a list of plugins to pull down and use, as well as their
+-- configurations.
+require("lazy").setup("plugins", {
+	defaults = {
+		lazy = true,
+	},
+	install = { colorscheme = { "everforest", "slate" } },
+	performance = {
+		rtp = {
+			disabled_plugins = {
+				"2html_plugin",
+				"getscript",
+				"getscriptPlugin",
+				"gzip",
+				"logipat",
+				"tohtml",
+				"tutor",
+				"tar",
+				"tarPlugin",
+				"rrhelper",
+				"vimball",
+				"vimballPlugin",
+			},
+		},
+	},
+})
 
 -- Settings.lua contains all global options that are set. Most of these will
 -- should have a description. This has to come first, since it defines the
 -- mapleader, and many many other keymappings require that to be set.
 require("settings")
 
--- Utils are a series of globally available lua functions that
--- provide common functionality across my dotfiles.
-require("utils")
-
--- Defines a list of plugins to pull down and use, as well as their
--- configurations.
-require("plugins")
-
--- This defines user commands. `:h user-commands` to learn more!
-require("commands")
-
 -- Defines global autocmds. `:h autocmd` and `:h nvim_create_autocmd`
 require("autocmds")
 
 -- Defines global keymaps. `:h vim.keymap` and `:h map` to learn more!
 require("keymaps")
-
--- https://github.com/ronny/birds-of-paradise.vim
--- vim.cmd.colorscheme("slate")
--- pcall(vim.cmd.colorscheme, "nord")
--- pcall(vim.cmd.colorscheme, "everforest")
--- pcall(vim.cmd.colorscheme, "kanagawa")
--- pcall(vim.cmd.colorscheme, "birds-of-paradise")
--- pcall(vim.cmd, "colorscheme tokyonight")
