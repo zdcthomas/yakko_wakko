@@ -1,11 +1,9 @@
-local conf = {}
-
 local _slow_to_load_in_TS = {
 	".*%.ex",
 	".*%.exs",
 }
 
-require("telescope.actions")
+-- require("telescope.actions")
 -- local local_insert_symbol_i = function(prompt_bufnr)
 -- 	local action_state = require("telescope.actions.state")
 -- 	local actions = require("telescope.actions")
@@ -21,8 +19,6 @@ require("telescope.actions")
 -- 	end)
 -- end
 
-local action_layout = require("telescope.actions.layout")
-
 local bad_files = function(filepath)
 	for _, v in ipairs(_slow_to_load_in_TS) do
 		if filepath:match(v) then
@@ -33,9 +29,9 @@ local bad_files = function(filepath)
 	return true
 end
 
-local previewers = require("telescope.previewers")
 -- Stops previewer for troublesome fts, and for biggggg files
 local new_maker = function(filepath, bufnr, opts)
+	local previewers = require("telescope.previewers")
 	opts = opts or {}
 	if opts.use_ft_detect == nil then
 		opts.use_ft_detect = true
@@ -55,20 +51,22 @@ local new_maker = function(filepath, bufnr, opts)
 	end)
 end
 
-local function fb_action(f)
-	return function(b)
-		require("telescope").extensions.file_browser.actions[f](b)
-	end
-end
+-- local function fb_action(f)
+-- 	return function(b)
+-- 		require("telescope").extensions.file_browser.actions[f](b)
+-- 	end
+-- end
 
-function conf.setup()
-	require("config.hydra").add_g_hydra({
-		key = "t",
-		hydra = require("config.telescope.hydra").hydra,
-		desc = "Telescope",
-	})
+local function setup()
+	-- require("config.hydra").add_g_hydra({
+	-- 	key = "t",
+	-- 	hydra = require("config.telescope.hydra").hydra,
+	-- 	desc = "Telescope",
+	-- })
 	local actions = require("telescope.actions")
 	local telescope = require("telescope")
+
+	local action_layout = require("telescope.actions.layout")
 	telescope.setup({
 		pickers = {
 			colorscheme = {
@@ -135,8 +133,6 @@ function conf.setup()
 			layout_config = {
 				prompt_position = "top",
 			},
-			-- width = 0.95,
-			-- height = 0.85,
 		},
 		extensions = {
 			-- file_browser = {
@@ -171,17 +167,9 @@ function conf.setup()
 	telescope.load_extension("fzf")
 	-- telescope.load_extension("fzf_writer")
 	-- telescope.load_extension("ui-select")
-	local default_opts = { noremap = true, silent = true }
-
-	vim.keymap.set("n", "<leader>p", function()
-		require("config.telescope").find_files()
-	end, { silent = true, desc = "Find files" })
-	vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, default_opts)
-	vim.keymap.set("n", "<leader>F", require("telescope.builtin").live_grep, default_opts)
-	vim.keymap.set("n", "<leader>*", require("telescope.builtin").grep_string, default_opts)
 end
 
-function conf.find_files()
+local function find_files()
 	require("telescope.builtin").find_files(require("telescope.themes").get_dropdown({
 		results_height = 30,
 		winblend = 20,
@@ -200,16 +188,50 @@ function conf.find_files()
 	}))
 end
 
-function conf.diagnostics()
-	require("telescope.builtin").diagnostics(require("telescope.themes").get_ivy())
+-- local function diagnostics()
+-- 	require("telescope.builtin").diagnostics(require("telescope.themes").get_ivy())
+-- end
+
+-- local function lsp_bindings_for_buffer(bufnr)
+-- 	local opts = { buffer = bufnr, silent = false }
+-- 	-- vim.keymap.set("n", "<Leader>q", require("config.telescope").diagnostics, opts)
+-- 	vim.keymap.set("n", "<Leader>/", require("telescope.builtin").lsp_document_symbols, opts)
+-- 	-- vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
+-- end
+
+local arch = vim.loop.os_uname()
+local fzf_make_command = "make"
+if arch == "arch64" then
+	fzf_make_command = "arch -arch64 make"
 end
 
-function conf.lsp_bindings_for_buffer(bufnr)
-	require("packer").loader("telescope.nvim")
-	local opts = { buffer = bufnr, silent = false }
-	-- vim.keymap.set("n", "<Leader>q", require("config.telescope").diagnostics, opts)
-	vim.keymap.set("n", "<Leader>/", require("telescope.builtin").lsp_document_symbols, opts)
-	-- vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
-end
+return {
+	"nvim-telescope/telescope.nvim",
+	cmd = "Telescope",
+	dependencies = {
+		"nvim-lua/popup.nvim",
+		"nvim-lua/plenary.nvim",
+		"kyazdani42/nvim-web-devicons",
+		"nvim-telescope/telescope-ui-select.nvim",
+		-- Maybe a cool alternative to Netrw
+		-- { "nvim-telescope/telescope-file-browser.nvim" },
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = fzf_make_command },
+	},
+	init = function()
+		local default_opts = { noremap = true, silent = true }
 
-return conf
+		vim.keymap.set("n", "<leader>p", find_files, { silent = true, desc = "Find files" })
+		vim.keymap.set("n", "<leader>b", function()
+			require("telescope.builtin").buffers()
+		end, default_opts)
+		vim.keymap.set("n", "<leader>F", function()
+			require("telescope.builtin").live_grep()
+		end, default_opts)
+		vim.keymap.set("n", "<leader>*", function()
+			require("telescope.builtin").grep_string()
+		end, default_opts)
+	end,
+	config = function()
+		setup()
+	end,
+}

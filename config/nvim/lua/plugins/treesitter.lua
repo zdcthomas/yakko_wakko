@@ -1,14 +1,20 @@
-local Conf = {}
-
-function Conf.setup()
+local function setup()
 	require("nvim-treesitter.configs").setup({
 		indent = { enable = true },
 		autopairs = { enable = true },
 		auto_install = false,
+		sync_install = false,
 		query_linter = {
 			enable = true,
 			use_virtual_text = true,
 			lint_events = { "BufWrite", "CursorHold" },
+		},
+		refactor = {
+			highlight_definitions = {
+				enable = true,
+				-- Set to false if you have an `updatetime` of ~100.
+				clear_on_cursor_move = true,
+			},
 		},
 		rainbow = {
 			enable = true,
@@ -61,4 +67,17 @@ function Conf.setup()
 	})
 end
 
-return Conf
+return {
+	"nvim-treesitter/nvim-treesitter",
+	dev = false,
+	build = ":TSUpdate",
+	event = "BufReadPost",
+	dependencies = {
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		"p00f/nvim-ts-rainbow",
+		{ "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
+	},
+	config = function()
+		setup()
+	end,
+}

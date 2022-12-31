@@ -1,6 +1,3 @@
--- maps leader to space
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","
 vim.g.netrw_list_hide = ""
 vim.g.format_on_save = true -- This is NOT a builtin var of any meaning, grep for it in this repo to see how it works!
 vim.opt.autoindent = true
@@ -54,7 +51,6 @@ vim.opt.virtualedit = "block"
 vim.opt.wildmenu = true
 vim.opt.wrap = false
 vim.opt.cmdheight = 0
--- vim.opt.path:append("**")
 
 vim.diagnostic.config({
 	header = false,
@@ -66,8 +62,7 @@ vim.diagnostic.config({
 	signs = false,
 	underline = true,
 	update_in_insert = false,
-	virtual_text = false,
-	virtual_lines = { only_current_line = false },
+	virtual_text = true,
 })
 
 -- doesn't work right since most ftplugins redefine formatoptions
@@ -84,31 +79,6 @@ hi link netrwMarkFile CmpItemAbbrMatchFuzzy
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 ]])
-
-local disabled_built_ins = {
-	"2html_plugin",
-	"getscript",
-	"getscriptPlugin",
-	"gzip",
-	"logipat",
-	"netrw",
-	"netrwPlugin",
-	"netrwSettings",
-	"netrwFileHandlers",
-	-- "matchit",
-	-- "matchparen",
-	"tar",
-	"tarPlugin",
-	"rrhelper",
-	"vimball",
-	"vimballPlugin",
-	-- "zip",
-	-- "zipPlugin",
-}
-
-for _, plugin in pairs(disabled_built_ins) do
-	vim.g["loaded_" .. plugin] = 1
-end
 
 vim.filetype.add({
 	extension = {
