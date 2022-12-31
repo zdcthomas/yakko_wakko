@@ -48,6 +48,7 @@ require("lazy").setup("plugins", {
 	defaults = {
 		lazy = true,
 	},
+	install = { colorscheme = { "everforest", "slate" } },
 	performance = {
 		rtp = {
 			disabled_plugins = {
