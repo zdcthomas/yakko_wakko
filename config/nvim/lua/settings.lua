@@ -1,4 +1,3 @@
-vim.g.netrw_list_hide = ""
 vim.g.format_on_save = true -- This is NOT a builtin var of any meaning, grep for it in this repo to see how it works!
 vim.opt.autoindent = true
 vim.opt.autoread = true
@@ -72,7 +71,12 @@ vim.opt.formatoptions = vim.tbl_extend("force", vim.opt.formatoptions:get(), {
 	r = true, -- Pressing Enter will continue comments
 })
 
+--  ---------------
+--  |    NETRW    |
+--  ---------------
+
 -- TODO: link this to a non cmp highlight, it's for netrw
+vim.g.netrw_list_hide = ""
 vim.cmd([[
 hi link netrwMarkFile CmpItemAbbrMatchFuzzy
 " set Vim-specific sequences for RGB colors
