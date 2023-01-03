@@ -28,7 +28,6 @@ local function setup()
 		ensure_installed = {
 			"bash",
 			"comment",
-			"comment",
 			"dockerfile",
 			"fennel",
 			"fish",
@@ -41,7 +40,6 @@ local function setup()
 			"http",
 			"javascript",
 			"json",
-			"json5",
 			"lua",
 			"make",
 			"markdown",
@@ -56,7 +54,6 @@ local function setup()
 			"toml",
 			"tsx",
 			"typescript",
-			"vim",
 			"vim",
 		},
 		highlight = {
@@ -73,7 +70,6 @@ return {
 	build = ":TSUpdate",
 	event = "BufReadPost",
 	dependencies = {
-		"nvim-treesitter/nvim-treesitter-textobjects",
 		"p00f/nvim-ts-rainbow",
 		{ "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
 	},
