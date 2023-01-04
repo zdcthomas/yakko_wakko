@@ -48,13 +48,13 @@ return {
 			vim.cmd.colorscheme("everforest")
 		end,
 	},
-	{
-		"michaeljsmith/vim-indent-object",
-		keys = {
-			{ "a", mode = { "o", "x" } },
-			{ "i", mode = { "o", "x" } },
-		},
-	},
+	-- {
+	-- 	"michaeljsmith/vim-indent-object",
+	-- 	keys = {
+	-- 		{ "a", mode = { "o", "x" } },
+	-- 		{ "i", mode = { "o", "x" } },
+	-- 	},
+	-- },
 	{ "mechatroner/rainbow_csv", ft = "csv" },
 	{ "tpope/vim-vinegar", keys = { "-" }, cmd = { "Explore" } },
 }
