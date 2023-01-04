@@ -48,27 +48,13 @@ return {
 			vim.cmd.colorscheme("everforest")
 		end,
 	},
-	{ "tpope/vim-commentary", event = "BufReadPost" },
-	{ "michaeljsmith/vim-indent-object", event = "BufReadPost" },
+	{
+		"michaeljsmith/vim-indent-object",
+		keys = {
+			{ "a", mode = { "o", "x" } },
+			{ "i", mode = { "o", "x" } },
+		},
+	},
 	{ "mechatroner/rainbow_csv", ft = "csv" },
 	{ "tpope/vim-vinegar", keys = { "-" }, cmd = { "Explore" } },
-	{
-		"williamboman/mason.nvim",
-		-- requires = { "williamboman/mason-lspconfig.nvim" },
-		cmd = { "Mason", "MasonInstall", "MasonLog", "MasonUninstall", "MasonUninstallAll" },
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		config = function()
-			require("nvim-autopairs").setup({
-				fast_wrap = {},
-				check_ts = true,
-				disable_in_macro = true,
-			})
-		end,
-	},
 }
