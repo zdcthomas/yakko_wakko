@@ -360,7 +360,7 @@ return {
 		local day = tonumber(vim.fn.strftime("%H"))
 		local interval = 24 / #boxes
 		local index = math.floor(day / interval)
-		local ascii = boxes[index]
+		local ascii = boxes[index + 1]
 
 		if not ascii then
 			ascii = default
