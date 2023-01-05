@@ -40,6 +40,27 @@ return {
 		vim.keymap.set({ "o", "x" }, "ak", function()
 			require("various-textobjs").key(false)
 		end)
+
+		local text_obj_group = vim.api.nvim_create_augroup("TextObjectPluginGroup", { clear = true })
+		vim.api.nvim_create_autocmd("FileType", {
+			group = text_obj_group,
+			pattern = { "md" },
+			callback = function()
+				vim.keymap.set({ "o", "x" }, "il", function()
+					require("various-textobjs").mdlink(true)
+				end)
+				vim.keymap.set({ "o", "x" }, "al", function()
+					require("various-textobjs").mdlink(false)
+				end)
+				vim.keymap.set({ "o", "x" }, "iC", function()
+					require("various-textobjs").mdFencedCodeBlock(true)
+				end)
+				vim.keymap.set({ "o", "x" }, "aC", function()
+					require("various-textobjs").mdFencedCodeBlock(false)
+				end)
+			end,
+			desc = "Map q to close buffer",
+		})
 	end,
 	config = function()
 		require("various-textobjs").setup({ useDefaultKeymaps = false })

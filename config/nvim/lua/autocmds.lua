@@ -1,4 +1,4 @@
-InitGroupId = vim.api.nvim_create_augroup("InitGroup", { clear = true })
+local init_group_id = vim.api.nvim_create_augroup("InitGroup", { clear = true })
 
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 
@@ -12,14 +12,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "*",
-	group = InitGroupId,
+	group = init_group_id,
 	callback = function()
 		vim.cmd("highlight WinSeparator guibg=None")
 	end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	group = InitGroupId,
+	group = init_group_id,
 	pattern = { "help", "startuptime", "qf", "lspinfo", "man" },
 	callback = function()
 		vim.keymap.set("n", "q", function()
@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
-	group = InitGroupId,
+	group = init_group_id,
 	callback = function()
 		vim.opt.formatoptions = vim.tbl_extend("force", vim.opt.formatoptions:get(), {
 			o = false, -- O and o, don't continue comments
@@ -46,12 +46,12 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 
 vim.api.nvim_create_autocmd(
 	"FocusGained",
-	{ command = "checktime", desc = "Check if buffer was changed", group = InitGroupId }
+	{ command = "checktime", desc = "Check if buffer was changed", group = init_group_id }
 )
 
 -- This lets one delete entries from a quickfix list with `dd`
 vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = InitGroupId,
+	group = init_group_id,
 	pattern = { "qf" },
 	callback = function()
 		vim.keymap.set("n", "dd", function()
