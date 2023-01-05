@@ -163,10 +163,71 @@ local function setup()
 			},
 		},
 	})
-	-- telescope.load_extension("file_browser")
+	telescope.load_extension("file_browser")
 	telescope.load_extension("fzf")
 	-- telescope.load_extension("fzf_writer")
 	-- telescope.load_extension("ui-select")
+end
+
+local function file_browser()
+	local opts
+	local action_state = require("telescope.actions.state")
+
+	local fb_actions = require("telescope").extensions.file_browser.actions
+	opts = {
+		sorting_strategy = "ascending",
+		mappings = {
+			["n"] = {
+				-- unmap toggling `fb_actions.toggle_browser`
+				-- f = false,
+				["gg"] = fb_actions.goto_home_dir,
+			},
+		},
+		path = "%:p:h",
+		theme = "ivy",
+		initial_mode = "normal",
+		scroll_strategy = "cycle",
+		layout_config = {
+			prompt_position = "top",
+		},
+
+		attach_mappings = function(prompt_bufnr, map)
+			local current_picker = action_state.get_current_picker(prompt_bufnr)
+			local modify_cwd = function(new_cwd)
+				local finder = current_picker.finder
+
+				finder.path = new_cwd
+				finder.files = true
+				current_picker:refresh(false, { reset_prompt = true })
+			end
+
+			-- map("i", "-", function()
+			-- 	modify_cwd(current_picker.cwd .. "/..")
+			-- end)
+			-- ["<C-h>"] =
+			-- 	fb_actions.goto_home_dir
+
+			-- local modify_depth = function(mod)
+			--   return function()
+			--     opts.depth = opts.depth + mod
+			--
+			--     current_picker:refresh(false, { reset_prompt = true })
+			--   end
+			-- end
+			--
+			-- map("i", "<M-=>", modify_depth(1))
+			-- map("i", "<M-+>", modify_depth(-1))
+
+			-- map("n", "yy", function()
+			-- 	local entry = action_state.get_selected_entry()
+			-- 	vim.fn.setreg("+", entry.value)
+			-- end)
+
+			return true
+		end,
+	}
+
+	require("telescope").extensions.file_browser.file_browser(opts)
 end
 
 local function find_files()
@@ -214,13 +275,14 @@ return {
 		"kyazdani42/nvim-web-devicons",
 		"nvim-telescope/telescope-ui-select.nvim",
 		-- Maybe a cool alternative to Netrw
-		-- { "nvim-telescope/telescope-file-browser.nvim" },
+		{ "nvim-telescope/telescope-file-browser.nvim" },
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = fzf_make_command },
 	},
 	init = function()
 		local default_opts = { noremap = true, silent = true }
 
 		vim.keymap.set("n", "<leader>p", find_files, { silent = true, desc = "Find files" })
+		vim.keymap.set("n", "<leader>fb", file_browser, { silent = true, desc = "File Browser" })
 		vim.keymap.set("n", "<leader>b", function()
 			require("telescope.builtin").buffers()
 		end, default_opts)

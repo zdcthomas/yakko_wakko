@@ -46,5 +46,4 @@ return {
 		end,
 	},
 	{ "mechatroner/rainbow_csv", ft = "csv" },
-	{ "tpope/vim-vinegar", keys = { "-" }, cmd = { "Explore" } },
 }
