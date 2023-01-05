@@ -15,13 +15,6 @@ return {
 	},
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 	{
-		"Julian/vim-textobj-variable-segment",
-		event = "BufReadPost",
-		dependencies = {
-			"kana/vim-textobj-user",
-		},
-	},
-	{
 		"mattn/emmet-vim",
 		ft = { "html", "js", "ts" },
 		config = function()
@@ -48,13 +41,6 @@ return {
 			vim.cmd.colorscheme("everforest")
 		end,
 	},
-	-- {
-	-- 	"michaeljsmith/vim-indent-object",
-	-- 	keys = {
-	-- 		{ "a", mode = { "o", "x" } },
-	-- 		{ "i", mode = { "o", "x" } },
-	-- 	},
-	-- },
 	{ "mechatroner/rainbow_csv", ft = "csv" },
 	{ "tpope/vim-vinegar", keys = { "-" }, cmd = { "Explore" } },
 }
