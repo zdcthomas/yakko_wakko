@@ -1,3 +1,7 @@
+--  --------------------------------------
+--  |    Catch All For Random Plugins    |
+--  --------------------------------------
+
 return {
 	{
 		"luukvbaal/stabilize.nvim",
