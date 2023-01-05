@@ -333,7 +333,6 @@ return {
 		local trees = generate_trees()
 		vim.g.startify_center = 58
 		vim.g.startify_commands = {
-			{ p = { "Files", ":Telescope find_files" } },
 			{ l = { "Lazy", ":Lazy" } },
 			{ d = { "Open dotfiles", ":!dmux ~/yakko_wakko" } },
 			{ D = { "Dmux", ":!dmux" } },
@@ -341,21 +340,21 @@ return {
 
 		vim.g.startify_lists = {
 			{ type = "commands", header = center({ "めいれい" }) },
-			-- { type = "dir", header = center({ "MRU " .. vim.fn.getcwd() }) },
+			{ type = "dir", header = center({ "MRU " .. vim.fn.getcwd() }) },
 		}
 
 		vim.g.sttartify_change_to_dir = 0
 		vim.g.startify_change_to_vcs_root = 1
-		local default = adult_boxed
+		local default = running_man
 		local win_height = vim.fn.winheight("%")
 		local win_width = vim.fn.winwidth("%")
 
 		local boxes
-		if (win_width > 120) and (win_height > 50) then
-			boxes = trees["boxed"]
-		else
-			boxes = trees["unboxed"]
-		end
+		-- if (win_width > 120) and (win_height > 50) then
+		-- 	boxes = trees["boxed"]
+		-- else
+		boxes = trees["unboxed"]
+		-- end
 
 		local day = tonumber(vim.fn.strftime("%H"))
 		local interval = 24 / #boxes
