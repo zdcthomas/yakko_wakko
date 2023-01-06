@@ -169,9 +169,9 @@ return {
 				end, { desc = "Show full git blame" })
 				map("n", "<leader>gtb", gs.toggle_current_line_blame, { desc = "show git blame line" })
 
-				map("n", "<leader>gd", function()
-					gs.diffthis("~")
-				end, { desc = "Show side by side git diff" })
+				-- map("n", "<leader>gd", function()
+				-- 	gs.diffthis("~")
+				-- end, { desc = "Show side by side git diff" })
 
 				map("n", "<leader>gtd", gs.toggle_deleted, { desc = "show deleted" })
 
