@@ -12,6 +12,7 @@ return {
 			"MunifTanjim/nui.nvim",
 			"mrbjarksen/neo-tree-diagnostics.nvim",
 		},
+
 		config = function()
 			vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 			vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
