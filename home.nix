@@ -178,8 +178,6 @@ in
       aggressiveResize = true;
       escapeTime = 0;
       extraConfig = ''
-        set -g status-left '#(curl "wttr.in/denver?format=3") '
-
         # undercurl support
         set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
         set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
