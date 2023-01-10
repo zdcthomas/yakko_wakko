@@ -38,7 +38,7 @@ local filesystem_config = {
 	follow_current_file = false, -- This will find and focus the file in the active buffer every
 	-- time the current file is changed while the tree is open.
 	group_empty_dirs = true, -- when true, empty folders will be grouped together
-	hijack_netrw_behavior = "open_current", -- netrw disabled, opening a directory opens neo-tree
+	-- hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
 	-- in whatever position is specified in window.position
 	-- "open_current",  -- netrw disabled, opening a directory opens within the
 	-- window like netrw would, regardless of window.position
@@ -93,31 +93,10 @@ local function setup_neo_tree()
 			-- ...and any additional source
 		},
 		diagnostics = {
-			-- autopreview = true, -- Whether to automatically enable preview mode
-			-- autopreview_config = { use_float = true }, -- Config table to pass to autopreview (for example `{ use_float = true }`)
-			-- autopreview_event = "neo_tree_buffer_enter", -- The event to enable autopreview upon (for example `"neo_tree_window_after_open"`)
-			-- bind_to_cwd = true,
-			-- diag_sort_function = "severity", -- "severity" means diagnostic items are sorted by severity in addition to their positions.
-			-- -- "position" means diagnostic items are sorted strictly by their positions.
-			-- -- May also be a function.
-			-- follow_behavior = { -- Behavior when `follow_current_file` is true
-			-- 	always_focus_file = false, -- Focus the followed file, even when focus is currently on a diagnostic item belonging to that file.
-			-- 	expand_followed = true, -- Ensure the node of the followed file is expanded
-			-- 	collapse_others = true, -- Ensure other nodes are collapsed
-			-- },
-			-- follow_current_file = true,
-			-- group_dirs_and_files = true, -- when true, empty folders and files will be grouped together
-			-- group_empty_dirs = true, -- when true, empty directories will be grouped together
-			-- show_unloaded = true, -- show diagnostics from unloaded buffers
+			autopreview = true, -- Whether to automatically enable preview mode
+			autopreview_config = { use_float = true }, -- Config table to pass to autopreview (for example `{ use_float = true }`)
 		},
 		sort_function = nil, -- use a custom function for sorting files and directories in the tree
-		-- sort_function = function (a,b)
-		--       if a.type == b.type then
-		--           return a.path > b.path
-		--       else
-		--           return a.type > b.type
-		--       end
-		--   end , -- this sorts files and directories descendantly
 		renderers = {
 			directory = {
 				{ "indent" },
@@ -150,55 +129,6 @@ local function setup_neo_tree()
 				{ "diagnostics", zindex = 20, align = "right" },
 				{ "git_status" },
 			},
-		},
-		default_component_configs = {
-			-- indent = {
-			-- 	indent_size = 2,
-			-- 	padding = 1, -- extra padding on left hand side
-			-- 	-- indent guides
-			-- 	with_markers = true,
-			-- 	indent_marker = "│",
-			-- 	last_indent_marker = "└",
-			-- 	highlight = "NeoTreeIndentMarker",
-			-- 	-- expander config, needed for nesting files
-			-- 	with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
-			-- 	expander_collapsed = "",
-			-- 	expander_expanded = "",
-			-- 	expander_highlight = "NeoTreeExpander",
-			-- },
-			-- icon = {
-			-- 	folder_closed = "",
-			-- 	folder_open = "",
-			-- 	folder_empty = "ﰊ",
-			-- 	-- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
-			-- 	-- then these will never be used.
-			-- 	default = "*",
-			-- 	highlight = "NeoTreeFileIcon",
-			-- },
-			-- modified = {
-			-- 	symbol = "[+]",
-			-- 	highlight = "NeoTreeModified",
-			-- },
-			-- name = {
-			-- 	trailing_slash = true,
-			-- 	use_git_status_colors = true,
-			-- 	highlight = "NeoTreeFileName",
-			-- },
-			-- git_status = {
-			-- 	symbols = {
-			-- 		-- Change type
-			-- 		added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-			-- 		modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
-			-- 		deleted = "✖", -- this can only be used in the git_status source
-			-- 		renamed = "", -- this can only be used in the git_status source
-			-- 		-- Status type
-			-- 		untracked = "",
-			-- 		ignored = "",
-			-- 		unstaged = "",
-			-- 		staged = "",
-			-- 		conflict = "",
-			-- 	},
-			-- },
 		},
 		source_selector = {
 			winbar = true,
