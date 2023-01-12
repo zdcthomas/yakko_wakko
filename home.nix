@@ -47,7 +47,7 @@ in
       bash
       bashInteractive
       bat
-      gnumake
+      zk
       boxes
       exa
       fd
@@ -56,13 +56,14 @@ in
       fzf
       gh
       git
+      gnumake
       go
       graphviz
       htop
       jq
       lua
       neovim
-      nodePackages.prettier_d_slim
+      nodejs
       pandoc
       ripgrep
       rustup
@@ -107,6 +108,10 @@ in
     file = {
       ".config/nvim/" = {
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/nvim";
+      };
+
+      ".config/zk/" = {
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
       };
       /* ".tmux.conf".source = ./tmux.conf; */
       ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;

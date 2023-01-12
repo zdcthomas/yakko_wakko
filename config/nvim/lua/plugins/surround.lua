@@ -10,38 +10,35 @@ return {
 		{ "<c-g>s", mode = "i" },
 		{ "<c-g>S", mode = "i" },
 	},
-	-- event = "BufReadPost",
-	config = function()
-		require("nvim-surround").setup({})
-
+	init = function()
 		local surround_group = vim.api.nvim_create_augroup("zdcthomasSurroundGroup", { clear = true })
 
 		vim.api.nvim_create_autocmd({ "FileType" }, {
 			group = surround_group,
-			pattern = { "markdown" },
+			pattern = "markdown",
 			callback = function()
+				vim.notify("setting up markdown surrounds")
 				require("nvim-surround").buffer_setup({
 					surrounds = {
 						["l"] = {
 							add = function()
-								local clipboard = vim.fn.getreg("+"):gsub("\n", "")
 								return {
 									{ "[" },
-									{ "](" .. clipboard .. ")" },
+									{ "]( )" },
 								}
 							end,
 							find = "%b[]%b()",
 							delete = "^(%[)().-(%]%b())()$",
-							change = {
-								target = "^()()%b[]%((.-)()%)$",
-								replacement = function()
-									local clipboard = vim.fn.getreg("+"):gsub("\n", "")
-									return {
-										{ "" },
-										{ clipboard },
-									}
-								end,
-							},
+							-- change = {
+							-- 	target = "^()()%b[]%((.-)()%)$",
+							-- 	replacement = function()
+							-- 		local clipboard = vim.fn.getreg("+"):gsub("\n", "")
+							-- 		return {
+							-- 			{ "" },
+							-- 			{ clipboard },
+							-- 		}
+							-- 	end,
+							-- },
 						},
 					},
 				})
@@ -83,5 +80,9 @@ return {
 			end,
 			desc = "setup surround for eliixr",
 		})
+	end,
+	-- event = "BufReadPost",
+	config = function()
+		require("nvim-surround").setup({})
 	end,
 }

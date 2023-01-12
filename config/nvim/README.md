@@ -3,8 +3,6 @@
   toying with my config and tinkering. My editing-env is the garden that I like
   to trim, and I'd love to show you around!
 
-<!-- # A tour through the garden! -->
-
 ## Starting out at the gate
   My [./init.lua](init.lua) is the entry point for my nvim config. It used to
   contain a lot of settings and commands, but now it's almost entirely
