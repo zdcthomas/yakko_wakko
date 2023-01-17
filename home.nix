@@ -81,6 +81,7 @@ in
       (
         nerdfonts.override {
           fonts = [
+            "Terminus"
             "FiraCode"
             "Meslo"
             "Monofur"
@@ -272,8 +273,8 @@ in
       enable = true;
       theme = "Everforest Dark Medium";
       font = {
-        size = 15;
-        name = "Iosevka Nerd Font Mono";
+        size = 17;
+        name = "TerminessTTF Nerd Font Mono";
       };
       extraConfig = builtins.readFile ./config/kitty/kitty.conf;
     };
