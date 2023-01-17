@@ -89,7 +89,7 @@ return {
 				view = {
 					-- The `view` bindings are active in the diff buffers, only when the current
 					-- tabpage is a Diffview.
-					{ "n", "q", actions.close, { desc = "Close DiffView" } },
+					{ "n", "q", ":DiffviewClose<cr>", { desc = "Close DiffView" } },
 					{
 						"n",
 						"<tab>",
@@ -218,7 +218,7 @@ return {
 					{ "n", "g?", actions.help({ "view", "diff4" }), { desc = "Open the help panel" } },
 				},
 				file_panel = {
-					{ "n", "q", actions.close, { desc = "Close DiffView" } },
+					{ "n", "q", ":DiffviewClose<cr>", { desc = "Close DiffView" } },
 					{
 						"n",
 						"j",
@@ -325,7 +325,7 @@ return {
 				},
 				file_history_panel = {
 
-					{ "n", "q", actions.close, { desc = "Close DiffView" } },
+					{ "n", "q", ":DiffviewClose<cr>", { desc = "Close DiffView" } },
 					{ "n", "g!", actions.options, { desc = "Open the option panel" } },
 					{
 						"n",
