@@ -13,7 +13,7 @@ return {
 	{
 		url = "https://gitlab.com/yorickpeterse/nvim-pqf.git",
 		ft = "qf",
-		config = function()
+		config = function(opts)
 			require("pqf").setup()
 		end,
 	},

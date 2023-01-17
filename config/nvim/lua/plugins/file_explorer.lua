@@ -1,6 +1,23 @@
 return {
 	{
+		"stevearc/oil.nvim",
+		init = function()
+			vim.keymap.set("n", "-", function()
+				require("oil").open()
+			end, { desc = "Open parent directory" })
+		end,
+		config = function()
+			require("oil").setup({
+				view_options = {
+					-- Show files and directories that start with "."
+					show_hidden = false,
+				},
+			})
+		end,
+	},
+	{
 		"nvim-neo-tree/neo-tree.nvim",
+		enabled = false,
 		cmd = "Neotree",
 		branch = "v2.x",
 		init = function()
