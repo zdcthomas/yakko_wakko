@@ -4,6 +4,17 @@
 
 return {
 	{
+		"simrat39/symbols-outline.nvim",
+		cmd = {
+			"SymbolsOutlineClose",
+			"SymbolsOutlineOpen",
+			"SymbolsOutline",
+		},
+		config = function()
+			require("symbols-outline").setup()
+		end,
+	},
+	{
 		"luukvbaal/stabilize.nvim",
 		event = "VeryLazy",
 		config = function()
