@@ -141,6 +141,35 @@ local function setup_lspconfig()
 end
 
 return {
+
+	{
+		"folke/trouble.nvim",
+		dependencies = "kyazdani42/nvim-web-devicons",
+		cmd = {
+			"Trouble",
+			"TroubleClose",
+			"TroubleToggle",
+			"TroubleRefresh",
+		},
+		config = function()
+			require("trouble").setup({
+				-- your configuration comes here
+				-- or leave it empty to use the default settings
+				-- refer to the configuration section below
+			})
+		end,
+	},
+	{
+		"simrat39/symbols-outline.nvim",
+		cmd = {
+			"SymbolsOutlineClose",
+			"SymbolsOutlineOpen",
+			"SymbolsOutline",
+		},
+		config = function()
+			require("symbols-outline").setup()
+		end,
+	},
 	{
 		"williamboman/mason.nvim",
 		cmd = { "Mason", "MasonInstall", "MasonLog", "MasonUninstall", "MasonUninstallAll" },
@@ -152,9 +181,9 @@ return {
 		"neovim/nvim-lspconfig",
 		event = "BufReadPre",
 		dependencies = {
-			"weilbith/nvim-code-action-menu",
+			{ "weilbith/nvim-code-action-menu", cmd = "CodeActionMenu" },
 			"j-hui/fidget.nvim",
-			"hrsh7th/nvim-cmp",
+			-- "hrsh7th/nvim-cmp",
 			"kosayoda/nvim-lightbulb",
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",

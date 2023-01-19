@@ -75,7 +75,7 @@ Module.common_on_attach = function(client, bufnr)
 	vim.keymap.set({ "i", "s" }, "<c-l>", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "gl", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-	vim.keymap.set({ "x", "n" }, "<Leader>ca", vim.lsp.buf.range_code_action, opts)
+	vim.keymap.set({ "x", "n" }, "<Leader>ca", "<cmd>CodeActionMenu<cr>", opts)
 	vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 	-- gdd for current buf

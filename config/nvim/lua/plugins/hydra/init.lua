@@ -49,7 +49,8 @@ return {
 				},
 			},
 			heads = {
-				{ "o", ":SymbolsOutline<cr>", { exit = true, silent = true, desc = "stage hunk" } },
+				{ "o", ":SymbolsOutline<cr>", { exit = true, silent = true, desc = "symbol outline" } },
+				{ "t", ":TroubleToggle<cr>", { exit = true, silent = true, desc = "show diagnostics" } },
 				{ "<Esc>", nil, { exit = true } },
 			},
 		})

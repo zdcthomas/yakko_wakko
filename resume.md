@@ -22,8 +22,12 @@ care deeply about the people that I work with and the products I work on.
   work with them both on their technical skills and career development.
 
 ## Experience
+### SENIOR ENGINEER
+  Kevel Inc. (Formerly Adzerk) / OCT 2022 - Present
+
+
 ### PLATFORM ARCHITECT
-  Blinker Inc, Denver, CO / Apr 2021 - Present
+  Blinker Inc, Denver, CO / Apr 2021 - Aug 2022
   * Leading decisions and discussions on code base architectures and best practices
   * Contributing to all active code bases (Elixir, Rust, Typescript/React,)
   * Creating and facilitating technical processes and standards throughout the
