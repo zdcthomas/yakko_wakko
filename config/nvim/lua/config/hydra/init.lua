@@ -95,9 +95,6 @@ Module.setup = function()
 	local window_h = require("config.hydra.hy_window")
 	Module.add_g_hydra({ key = "w", hydra = window_h, desc = "Window managment" })
 
-	local packer = require("config.hydra.hy_packer")
-	Module.add_g_hydra({ key = "p", hydra = packer, desc = "Packer" })
-
 	local options = require("config.hydra.hy_options")
 	Module.add_g_hydra({ key = "o", hydra = options, desc = "Options" })
 

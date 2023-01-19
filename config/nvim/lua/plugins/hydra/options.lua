@@ -38,7 +38,7 @@ return Hydra({
 		invoke_on_body = true,
 		hint = {
 			border = "rounded",
-			position = "middle",
+			position = "top-right",
 			funcs = {
 				number = option_check("number"),
 				format_on_save = check(function()

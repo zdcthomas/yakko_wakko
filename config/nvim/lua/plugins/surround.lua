@@ -17,7 +17,6 @@ return {
 			group = surround_group,
 			pattern = "markdown",
 			callback = function()
-				vim.notify("setting up markdown surrounds")
 				require("nvim-surround").buffer_setup({
 					surrounds = {
 						["l"] = {
