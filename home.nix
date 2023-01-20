@@ -411,6 +411,7 @@ in
       enable = true;
       userName = "zdcthomas";
       userEmail = "zdcthomas@yahoo.com";
+      iniContent.merge.conflictstyle = "diff3";
       extraConfig = {
         core = {
           editor = "nvim";
