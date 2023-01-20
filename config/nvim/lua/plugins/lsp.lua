@@ -141,24 +141,6 @@ local function setup_lspconfig()
 end
 
 return {
-
-	{
-		"folke/trouble.nvim",
-		dependencies = "kyazdani42/nvim-web-devicons",
-		cmd = {
-			"Trouble",
-			"TroubleClose",
-			"TroubleToggle",
-			"TroubleRefresh",
-		},
-		config = function()
-			require("trouble").setup({
-				-- your configuration comes here
-				-- or leave it empty to use the default settings
-				-- refer to the configuration section below
-			})
-		end,
-	},
 	{
 		"simrat39/symbols-outline.nvim",
 		cmd = {

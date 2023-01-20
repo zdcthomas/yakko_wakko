@@ -35,7 +35,7 @@ return {
 			hint = [[
         ^ ^        LSP
         ^
-        _o_ Symbol Outline
+        _o_ symbol Outline
         ^
             ^^^^                _<Esc>_
       ]],
@@ -50,7 +50,6 @@ return {
 			},
 			heads = {
 				{ "o", ":SymbolsOutline<cr>", { exit = true, silent = true, desc = "symbol outline" } },
-				{ "t", ":TroubleToggle<cr>", { exit = true, silent = true, desc = "show diagnostics" } },
 				{ "<Esc>", nil, { exit = true } },
 			},
 		})
