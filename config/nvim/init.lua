@@ -58,6 +58,7 @@ require("lazy").setup("plugins", {
 	performance = {
 		rtp = {
 			disabled_plugins = {
+				"netrw",
 				"2html_plugin",
 				"getscript",
 				"getscriptPlugin",
