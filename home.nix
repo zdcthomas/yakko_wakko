@@ -47,7 +47,6 @@ in
       bash
       bashInteractive
       bat
-      zk
       boxes
       exa
       fd
@@ -78,6 +77,7 @@ in
       weechat
       wget
       zip
+      zk
 
       (
         nerdfonts.override {
