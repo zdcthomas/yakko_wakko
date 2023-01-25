@@ -76,11 +76,38 @@ Module.common_on_attach = function(client, bufnr)
 	vim.keymap.set("n", "gl", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 	vim.keymap.set({ "x", "n" }, "<Leader>ca", "<cmd>CodeActionMenu<cr>", opts)
-	vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-	-- gdd for current buf
-	-- gdl for split right
-	-- gdj for split down
+	vim.keymap.set("n", "gt", function()
+		local key = vim.fn.getcharstr()
+		local cmd = {
+			j = ":rightbelow sp",
+			l = ":rightbelow vsp",
+			k = ":leftabove sp",
+			h = ":leftabove vsp",
+			t = "",
+		}
+		if cmd[key] == nil then
+			return
+		end
+		vim.cmd(cmd[key])
+
+		vim.lsp.buf.type_definition()
+	end, opts)
+	vim.keymap.set("n", "gd", function()
+		local key = vim.fn.getcharstr()
+		local cmd = {
+			j = ":rightbelow sp",
+			l = ":rightbelow vsp",
+			k = ":leftabove sp",
+			h = ":leftabove vsp",
+			d = "",
+		}
+		if cmd[key] == nil then
+			return
+		end
+		vim.cmd(cmd[key])
+
+		vim.lsp.buf.definition()
+	end, opts)
 	-- MAYBE
 	-- gdp for preview in floating window
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)

@@ -277,7 +277,7 @@ in
       theme = "Everforest Dark Medium";
       font = {
         size = 17;
-        name = "TerminessTTF Nerd Font Mono";
+        name = "Monofur Nerd Font";
       };
       extraConfig = builtins.readFile ./config/kitty/kitty.conf;
     };
