@@ -21,25 +21,25 @@ local sort = function(lines, _)
 	end
 end
 
-local heading = function(lines)
-	if lines[1]:sub(1, 1) == "#" or lines[1]:sub(1, 1) == "#" then
-		lines[1] = "#" .. lines[1]
-	else
-		lines[1] = "# " .. lines[1]
+local function search(lines)
+	-- Multiple lines can't be searched for
+	if #lines > 1 then
+		return
 	end
-	return lines
+	require("telescope.builtin").grep_string({ search = lines[1] })
 end
 
 return {
 	{
 		"zdcthomas/yop.nvim",
-		keys = { "gs", "<leader>#" },
-		dev = true,
+		dependencies = {
+			"nvim-telescope/telescope.nvim",
+		},
+		keys = { "gs", "<leader>f" },
 		config = function()
 			require("yop").setup({ debug_level = 1 })
-			require("yop").op_map("n", "<leader>#", heading, { linewise = true })
-
-			vim.keymap.set({ "n", "v" }, "gs", sort, { expr = true })
+			require("yop").op_map("n", "gs", sort)
+			require("yop").op_map("n", "<leader>f", search)
 		end,
 	},
 }
