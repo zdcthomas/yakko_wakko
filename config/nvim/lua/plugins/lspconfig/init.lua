@@ -78,8 +78,8 @@ local function setup_lspconfig()
 		{ border = "rounded", close_events = { "CursorMoved", "BufHidden" } }
 	)
 
-	local common_on_attach = require("config.lspconfig.shared").common_on_attach
-	local capabilities = require("config.lspconfig.shared").capabilities()
+	local common_on_attach = require("plugins.lspconfig.shared").common_on_attach
+	local capabilities = require("plugins.lspconfig.shared").capabilities()
 
 	require("mason-lspconfig").setup_handlers({
 		-- The first entry (without a key) will be the default handler
