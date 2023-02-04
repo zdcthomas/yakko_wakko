@@ -99,7 +99,7 @@ local function setup_lspconfig()
 		["tsserver"] = function()
 			require("lspconfig")["tsserver"].setup({
 				on_attach = function(client, bufnr)
-					client.server_capabilities.documentFormattingProvider = false
+					-- client.server_capabilities.documentFormattingProvider = false
 					common_on_attach(client, bufnr)
 				end,
 				capabilities = capabilities,

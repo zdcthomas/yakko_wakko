@@ -338,4 +338,5 @@ ls.add_snippets("markdown", {
 require("luasnip.loaders.from_vscode").lazy_load({
 	paths = { "~/yakko_wakko/config/nvim/snippets" },
 })
+require("config.luasnip.todo_comments")
 require("config.luasnip.choice_popup")
