@@ -149,12 +149,12 @@ local function setup()
 			-- 		},
 			-- 	},
 			-- },
-			["ui-select"] = {
-				require("telescope.themes").get_cursor({
-					initial_mode = "normal",
-					winblend = 20,
-				}),
-			},
+			-- ["ui-select"] = {
+			-- 	require("telescope.themes").get_cursor({
+			-- 		initial_mode = "normal",
+			-- 		winblend = 20,
+			-- 	}),
+			-- },
 			fzf = {
 				fuzzy = true, -- false will only do exact matching
 				override_generic_sorter = true, -- override the generic sorter
@@ -273,7 +273,7 @@ return {
 		"nvim-lua/popup.nvim",
 		"nvim-lua/plenary.nvim",
 		"kyazdani42/nvim-web-devicons",
-		"nvim-telescope/telescope-ui-select.nvim",
+		-- "nvim-telescope/telescope-ui-select.nvim",
 		-- Maybe a cool alternative to Netrw
 		{ "nvim-telescope/telescope-file-browser.nvim" },
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = fzf_make_command },
