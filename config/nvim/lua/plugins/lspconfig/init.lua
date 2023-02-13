@@ -15,7 +15,7 @@ local function setup_lua(capabilities, common_on_attach)
 	local lspconfig = require("lspconfig")
 
 	-- example to setup sumneko and enable call snippets
-	lspconfig.sumneko_lua.setup({
+	lspconfig.lua_ls.setup({
 		capabilities = capabilities,
 		on_attach = function(client, bufnr)
 			client.server_capabilities.documentFormattingProvider = false
@@ -63,7 +63,7 @@ local function setup_lspconfig()
 	-- 	"rnix",
 	-- 	"bashls",
 	-- 	"elixirls",
-	-- 	"sumneko_lua",
+	-- 	"lua_ls",
 	-- 	"tsserver",
 	-- 	"eslint",
 	-- }
@@ -91,7 +91,7 @@ local function setup_lspconfig()
 				capabilities = capabilities,
 			})
 		end,
-		["sumneko_lua"] = function()
+		["lua_ls"] = function()
 			setup_lua(capabilities, common_on_attach)
 		end,
 		-- Next, you can provide a dedicated handler for specific servers.
