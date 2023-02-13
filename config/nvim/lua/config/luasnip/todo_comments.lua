@@ -32,21 +32,21 @@ _G.luasnip.vars = {
 }
 
 local marks = {
-	signature = function()
-		return t("<" .. _G.luasnip.vars.username .. ">")
-	end,
+	-- signature = function()
+	-- 	return t("<" .. _G.luasnip.vars.username .. ">")
+	-- end,
 	date_signature = function()
 		return t("<" .. os.date("%d-%m-%y") .. ", " .. _G.luasnip.vars.username .. ">")
 	end,
-	date = function()
-		return t("<" .. os.date("%d-%m-%y") .. ">")
-	end,
-	empty = function()
-		return fmt("<{}>", { i(1, _G.luasnip.vars.username) })
-	end,
-	blank = function()
-		return t("")
-	end,
+	-- date = function()
+	-- 	return t("<" .. os.date("%d-%m-%y") .. ">")
+	-- end,
+	-- empty = function()
+	-- 	return fmt("<{}>", { i(1, _G.luasnip.vars.username) })
+	-- end,
+	-- blank = function()
+	-- 	return t("")
+	-- end,
 }
 
 local todo_snippet_nodes = function(aliases, opts)
