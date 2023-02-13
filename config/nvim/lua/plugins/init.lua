@@ -20,7 +20,7 @@ return {
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 	{
 		"mattn/emmet-vim",
-		ft = { "html", "js", "ts" },
+		ft = { "html", "js", "ts", "tsx", "typescriptreact" },
 		config = function()
 			vim.g.user_emmet_mode = "a"
 		end,
