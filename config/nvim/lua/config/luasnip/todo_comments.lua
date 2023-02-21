@@ -23,8 +23,8 @@ local get_cstring = function(ctype)
 	return { left, right }
 end
 
-_G.luasnip = {}
-_G.luasnip.vars = {
+-- personal_info = {}
+local personal_info = {
 	username = "zdcthomas",
 	email = "zach.thomas@hey.com",
 	github = "https://github.com/zdcthomas",
@@ -33,16 +33,16 @@ _G.luasnip.vars = {
 
 local marks = {
 	-- signature = function()
-	-- 	return t("<" .. _G.luasnip.vars.username .. ">")
+	-- 	return t("<" .. personal_info .. ">")
 	-- end,
 	date_signature = function()
-		return t("<" .. os.date("%d-%m-%y") .. ", " .. _G.luasnip.vars.username .. ">")
+		return t("<" .. os.date("%d-%m-%y") .. ", " .. personal_info.username .. ">")
 	end,
 	-- date = function()
 	-- 	return t("<" .. os.date("%d-%m-%y") .. ">")
 	-- end,
 	-- empty = function()
-	-- 	return fmt("<{}>", { i(1, _G.luasnip.vars.username) })
+	-- 	return fmt("<{}>", { i(1, personal_info })
 	-- end,
 	-- blank = function()
 	-- 	return t("")

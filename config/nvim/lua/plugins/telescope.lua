@@ -3,22 +3,6 @@ local _slow_to_load_in_TS = {
 	".*%.exs",
 }
 
--- require("telescope.actions")
--- local local_insert_symbol_i = function(prompt_bufnr)
--- 	local action_state = require("telescope.actions.state")
--- 	local actions = require("telescope.actions")
-
--- 	print("prompt_bufnr", prompt_bufnr)
--- 	local symbol = action_state.get_selected_entry().value
--- 	print("telescope:9 -> action_state.get_selected_entry().value", action_state.get_selected_entry().value)
--- 	actions._close(prompt_bufnr, true)
--- 	local cursor = vim.api.nvim_win_get_cursor(0)
--- 	vim.api.nvim_buf_set_text(0, cursor[1] - 1, cursor[2], cursor[1] - 1, cursor[2], { symbol })
--- 	vim.schedule(function()
--- 		vim.api.nvim_win_set_cursor(0, { cursor[1], cursor[2] + #symbol })
--- 	end)
--- end
-
 local bad_files = function(filepath)
 	for _, v in ipairs(_slow_to_load_in_TS) do
 		if filepath:match(v) then
@@ -51,18 +35,7 @@ local new_maker = function(filepath, bufnr, opts)
 	end)
 end
 
--- local function fb_action(f)
--- 	return function(b)
--- 		require("telescope").extensions.file_browser.actions[f](b)
--- 	end
--- end
-
 local function setup()
-	-- require("config.hydra").add_g_hydra({
-	-- 	key = "t",
-	-- 	hydra = require("config.telescope.hydra").hydra,
-	-- 	desc = "Telescope",
-	-- })
 	local actions = require("telescope.actions")
 	local telescope = require("telescope")
 
@@ -135,26 +108,6 @@ local function setup()
 			},
 		},
 		extensions = {
-			-- file_browser = {
-			-- 	-- theme = "ivy",
-			-- 	-- hijack_netrw = true,
-			-- 	initial_mode = "insert",
-			-- 	path = "%:p:h",
-			-- 	mappings = {
-			-- 		n = {
-			-- 			["-"] = fb_action("goto_parent_dir"),
-			-- 		},
-			-- 		i = {
-			-- 			["<c-p>"] = fb_action("goto_parent_dir"),
-			-- 		},
-			-- 	},
-			-- },
-			-- ["ui-select"] = {
-			-- 	require("telescope.themes").get_cursor({
-			-- 		initial_mode = "normal",
-			-- 		winblend = 20,
-			-- 	}),
-			-- },
 			fzf = {
 				fuzzy = true, -- false will only do exact matching
 				override_generic_sorter = true, -- override the generic sorter
@@ -163,71 +116,7 @@ local function setup()
 			},
 		},
 	})
-	telescope.load_extension("file_browser")
 	telescope.load_extension("fzf")
-	-- telescope.load_extension("fzf_writer")
-	-- telescope.load_extension("ui-select")
-end
-
-local function file_browser()
-	local opts
-	local action_state = require("telescope.actions.state")
-
-	local fb_actions = require("telescope").extensions.file_browser.actions
-	opts = {
-		sorting_strategy = "ascending",
-		mappings = {
-			["n"] = {
-				-- unmap toggling `fb_actions.toggle_browser`
-				-- f = false,
-				["gg"] = fb_actions.goto_home_dir,
-			},
-		},
-		path = "%:p:h",
-		theme = "ivy",
-		initial_mode = "normal",
-		scroll_strategy = "cycle",
-		layout_config = {
-			prompt_position = "top",
-		},
-
-		attach_mappings = function(prompt_bufnr, map)
-			local current_picker = action_state.get_current_picker(prompt_bufnr)
-			local modify_cwd = function(new_cwd)
-				local finder = current_picker.finder
-
-				finder.path = new_cwd
-				finder.files = true
-				current_picker:refresh(false, { reset_prompt = true })
-			end
-
-			-- map("i", "-", function()
-			-- 	modify_cwd(current_picker.cwd .. "/..")
-			-- end)
-			-- ["<C-h>"] =
-			-- 	fb_actions.goto_home_dir
-
-			-- local modify_depth = function(mod)
-			--   return function()
-			--     opts.depth = opts.depth + mod
-			--
-			--     current_picker:refresh(false, { reset_prompt = true })
-			--   end
-			-- end
-			--
-			-- map("i", "<M-=>", modify_depth(1))
-			-- map("i", "<M-+>", modify_depth(-1))
-
-			-- map("n", "yy", function()
-			-- 	local entry = action_state.get_selected_entry()
-			-- 	vim.fn.setreg("+", entry.value)
-			-- end)
-
-			return true
-		end,
-	}
-
-	require("telescope").extensions.file_browser.file_browser(opts)
 end
 
 local function find_files()
@@ -249,17 +138,6 @@ local function find_files()
 	}))
 end
 
--- local function diagnostics()
--- 	require("telescope.builtin").diagnostics(require("telescope.themes").get_ivy())
--- end
-
--- local function lsp_bindings_for_buffer(bufnr)
--- 	local opts = { buffer = bufnr, silent = false }
--- 	-- vim.keymap.set("n", "<Leader>q", require("config.telescope").diagnostics, opts)
--- 	vim.keymap.set("n", "<Leader>/", require("telescope.builtin").lsp_document_symbols, opts)
--- 	-- vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
--- end
-
 local arch = vim.loop.os_uname()
 local fzf_make_command = "make"
 if arch == "arch64" then
@@ -273,16 +151,12 @@ return {
 		"nvim-lua/popup.nvim",
 		"nvim-lua/plenary.nvim",
 		"kyazdani42/nvim-web-devicons",
-		-- "nvim-telescope/telescope-ui-select.nvim",
-		-- Maybe a cool alternative to Netrw
-		{ "nvim-telescope/telescope-file-browser.nvim" },
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = fzf_make_command },
 	},
 	init = function()
 		local default_opts = { noremap = true, silent = true }
 
 		vim.keymap.set("n", "<leader>p", find_files, { silent = true, desc = "Find files" })
-		vim.keymap.set("n", "<leader>fb", file_browser, { silent = true, desc = "File Browser" })
 		vim.keymap.set("n", "<leader>b", function()
 			require("telescope.builtin").buffers()
 		end, default_opts)
