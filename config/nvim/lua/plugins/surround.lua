@@ -44,6 +44,21 @@ return {
 			end,
 			desc = "setup surround for eliixr",
 		})
+
+		vim.api.nvim_create_autocmd({ "FileType" }, {
+			group = surround_group,
+			pattern = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+			callback = function()
+				require("nvim-surround").buffer_setup({
+					surrounds = {
+						["F"] = {
+							add = { "() => { ", " }" },
+						},
+					},
+				})
+			end,
+			desc = "setup surround for eliixr",
+		})
 		vim.api.nvim_create_autocmd({ "FileType" }, {
 			group = surround_group,
 			pattern = { "lua" },

@@ -70,7 +70,8 @@ return {
 	build = ":TSUpdate",
 	event = "BufReadPost",
 	dependencies = {
-		"p00f/nvim-ts-rainbow",
+		"HiPhish/nvim-ts-rainbow2",
+		"JoosepAlviste/nvim-ts-context-commentstring",
 		{ "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
 	},
 	config = function()

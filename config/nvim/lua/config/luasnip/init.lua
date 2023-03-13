@@ -89,7 +89,6 @@ local function comment()
 end
 
 ls.add_snippets("all", {
-
 	s("box", {
 		f(comment),
 		t("-----"),
@@ -244,19 +243,24 @@ ls.add_snippets("rust", {
 			{ delimiters = "<>" }
 		)
 	),
-
-	-- add choice nodes for return type of test
-	-- maybe use tj's anyhow check also
-	-- "test": {
-	--   "prefix": "test",
-	--   "body": [
-	--     "#[test]",
-	--     "fn ${1:name}() {",
-	--     "    ${2:unimplemented!();}",
-	--     "}"
-	--   ],
-	--   "description": "#[test]"
-	-- }
+	s("derivedebug", t("#[derive(Debug)]")),
+	s(":turbofish", { t({ "::<" }), i(0), t({ ">" }) }),
+	s(
+		"test",
+		fmt(
+			[[
+    #[test]
+    fn <>() {
+      <>
+    }
+  ]],
+			{
+				i(1, "test"),
+				i(2, "unimplemented!();"),
+			},
+			{ delimiters = "<>" }
+		)
+	),
 }, { key = "rust" })
 
 ls.add_snippets("norg", {
@@ -272,6 +276,16 @@ ls.add_snippets("norg", {
 		)
 	),
 }, { key = "norg" })
+
+ls.add_snippets("ts", {
+	postfix(
+		{ trig = ".log", match_pattern = non_space },
+		d(1, function(_, snippet)
+			local content = snippet.env.POSTFIX_MATCH
+			return sn(nil, t("console.log(" .. content .. ")"))
+		end)
+	),
+}, { key = "typescriptreact" })
 
 ls.add_snippets("markdown", {
 	s(
