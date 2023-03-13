@@ -79,7 +79,7 @@ return {
 					},
 				})
 			end,
-			desc = "setup surround for eliixr",
+			desc = "setup surround for lua",
 		})
 
 		vim.api.nvim_create_autocmd({ "FileType" }, {
