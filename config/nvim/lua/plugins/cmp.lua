@@ -26,7 +26,7 @@ local function mappings()
 			if luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump(1)
 			else
-				fallback()
+				cmp.complete()
 			end
 		end, {
 			"i",
