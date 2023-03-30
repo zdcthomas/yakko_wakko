@@ -125,17 +125,18 @@ local function setup_lspconfig()
 			})
 		end,
 		["rust_analyzer"] = function()
-			require("rust-tools").setup({
-				inlay_hints = false,
-				hover_actions = {
-					border = "rounded",
-				},
-				server = {
-					on_attach = common_on_attach,
+			require("lspconfig")["rust_analyzer"].setup({
+				settings = {
+					["rust-analyzer"] = {
+						diagnostics = {
+							experimental = { enable = true },
+						},
+						files = {
+							excludeDirs = { "./relay-ui" },
+						},
+					},
 				},
 			})
-
-			require("rust-tools").inlay_hints.disable()
 		end,
 	})
 end
@@ -169,7 +170,7 @@ return {
 			"kosayoda/nvim-lightbulb",
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"simrat39/rust-tools.nvim",
+			-- "simrat39/rust-tools.nvim",
 			{
 				"folke/neodev.nvim",
 				ft = "lua",
