@@ -121,18 +121,12 @@ end
 
 local function find_files()
 	require("telescope.builtin").find_files(require("telescope.themes").get_dropdown({
-		results_height = 30,
-		winblend = 20,
+		results_height = 40,
+		winblend = 30,
 		width = 0.8,
 		prompt_title = "",
 		prompt_prefix = "ファイル>",
 		previewer = false,
-		borderchars = {
-			{ "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-			prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-			results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-			preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-		},
 		path_display = { "smart" },
 		find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
 	}))
