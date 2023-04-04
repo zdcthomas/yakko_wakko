@@ -125,16 +125,57 @@ local function setup_lspconfig()
 			})
 		end,
 		["rust_analyzer"] = function()
-			require("lspconfig")["rust_analyzer"].setup({
-				settings = {
-					["rust-analyzer"] = {
-						diagnostics = {
-							experimental = { enable = true },
+			require("rust-tools").setup({
+				tools = {
+					autoSetHints = false,
+					inlay_hints = {
+						auto = false,
+					},
+					hover_actions = {
+						border = {
+							{ "╭", "FloatBorder" },
+							{ "─", "FloatBorder" },
+							{ "╮", "FloatBorder" },
+							{ "│", "FloatBorder" },
+							{ "╯", "FloatBorder" },
+							{ "─", "FloatBorder" },
+							{ "╰", "FloatBorder" },
+							{ "│", "FloatBorder" },
 						},
-						files = {
-							excludeDirs = { "./relay-ui" },
+						auto_focus = false,
+					},
+					runnables = {
+						use_telescope = true,
+					},
+					dap = {
+						adapter = {
+							type = "executable",
+							command = "lldb-vscode",
+							name = "rt_lldb",
 						},
 					},
+				},
+				server = {
+					capabilities = capabilities,
+					settings = {
+						["rust-analyzer"] = {
+							procMacro = {
+								enable = true,
+							},
+							diagnostics = {
+								experimental = { enable = true },
+							},
+							files = {
+								excludeDirs = { "./relay-ui" },
+							},
+						},
+					},
+					on_attach = function(client, bufnr)
+						common_on_attach(client, bufnr)
+						local rt = require("rust-tools")
+						vim.keymap.set("n", "gh", rt.hover_actions.hover_actions, { buffer = bufnr })
+						vim.keymap.set("n", "<leader>ca", rt.code_action_group.code_action_group, { buffer = bufnr })
+					end,
 				},
 			})
 		end,
@@ -170,7 +211,7 @@ return {
 			"kosayoda/nvim-lightbulb",
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			-- "simrat39/rust-tools.nvim",
+			"simrat39/rust-tools.nvim",
 			{
 				"folke/neodev.nvim",
 				ft = "lua",
