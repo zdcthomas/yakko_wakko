@@ -12,7 +12,27 @@ return {
 	},
 	init = function()
 		local surround_group = vim.api.nvim_create_augroup("zdcthomasSurroundGroup", { clear = true })
+		local get_input = require("nvim-surround.input").get_input
 
+		vim.api.nvim_create_autocmd({ "FileType" }, {
+			group = surround_group,
+			pattern = "rust",
+			callback = function()
+				require("nvim-surround").buffer_setup({
+					surrounds = {
+						["g"] = {
+							add = function()
+								local input = get_input("Enter the Generic: ")
+								if input then
+									return { { input .. "<" }, { ">" } }
+								end
+							end,
+						},
+					},
+				})
+			end,
+			desc = "setup surround for eliixr",
+		})
 		vim.api.nvim_create_autocmd({ "FileType" }, {
 			group = surround_group,
 			pattern = "markdown",

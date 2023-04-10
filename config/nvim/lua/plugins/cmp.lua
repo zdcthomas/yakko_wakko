@@ -160,7 +160,6 @@ return {
 				{ name = "luasnip", priority = 10 },
 				{ name = "buffer", priority = 7, keyword_length = 3 },
 				{ name = "path", priority = 5 },
-				{ name = "neorg", priority = 6 },
 			}, {
 				{ name = "calc" },
 			}),

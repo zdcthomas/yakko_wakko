@@ -43,7 +43,7 @@ return Hydra({
 
 		{ "w", ":w<cr>" },
 		{ "q", ":q<cr>" },
-		{ "z", ":<silent>ZenMode<cr>", { nowait = true, exit = true } },
+		{ "z", ":ZenMode<cr>", { nowait = true, exit = true } },
 		{ "<ESC>", nil, { exit = true, nowait = true } },
 	},
 })
