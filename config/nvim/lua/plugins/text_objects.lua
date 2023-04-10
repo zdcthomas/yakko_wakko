@@ -41,6 +41,10 @@ return {
 			require("various-textobjs").key(false)
 		end)
 
+		vim.keymap.set({ "o", "x" }, "iL", function()
+			require("various-textobjs").url()
+		end)
+
 		local text_obj_group = vim.api.nvim_create_augroup("TextObjectPluginGroup", { clear = true })
 		vim.api.nvim_create_autocmd("FileType", {
 			group = text_obj_group,
@@ -63,6 +67,9 @@ return {
 		})
 	end,
 	config = function()
-		require("various-textobjs").setup({ useDefaultKeymaps = false })
+		require("various-textobjs").setup({
+			useDefaultKeymaps = false,
+			lookForwardLines = 0, -- set to 0 to only look in the current line
+		})
 	end,
 }
