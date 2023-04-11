@@ -4,6 +4,18 @@
 
 return {
 	{
+		"echasnovski/mini.splitjoin",
+		version = false,
+		keys = { {
+			"gS",
+			mode = { "n", "x" },
+		} },
+		config = function()
+			require("mini.splitjoin").setup()
+		end,
+	},
+
+	{
 		"luukvbaal/stabilize.nvim",
 		event = "VeryLazy",
 		config = function()
@@ -33,24 +45,6 @@ return {
 		},
 		config = function()
 			require("gitlinker").setup()
-		end,
-	},
-	{
-		"savq/melange-nvim",
-		priority = 1000,
-		lazy = false,
-		config = function()
-			-- vim.cmd.colorscheme("melange")
-		end,
-	},
-	{
-		"sainnhe/everforest",
-		priority = 1000,
-		lazy = false,
-		config = function()
-			vim.g.everforest_diagnostic_virtual_text = "colored"
-			vim.g.everforest_enable_italic = 1
-			vim.cmd.colorscheme("everforest")
 		end,
 	},
 	{ "mechatroner/rainbow_csv", ft = "csv" },
