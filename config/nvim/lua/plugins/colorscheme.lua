@@ -21,8 +21,7 @@ return {
 	{
 		"rebelot/kanagawa.nvim",
 		priority = 1000,
-		-- cmd = "colorscheme",
-		-- lazy = false,
+		lazy = false,
 		config = function()
 			require("kanagawa").setup({
 				compile = true, -- enable compiling the colorscheme
@@ -37,7 +36,19 @@ return {
 				terminalColors = true, -- define vim.g.terminal_color_{0,17}
 				colors = { -- add/modify theme and palette colors
 					palette = {},
-					theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+					theme = {
+						wave = {},
+						lotus = {},
+						dragon = {},
+						all = {
+							ui = {
+								float = {
+									bg = "none",
+								},
+								bg_gutter = "none",
+							},
+						},
+					},
 				},
 				overrides = function(colors) -- add/modify highlights
 					return {}

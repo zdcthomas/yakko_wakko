@@ -1,4 +1,6 @@
-vim.g.format_on_save = true -- This is NOT a builtin var of any meaning, grep for it in this repo to see how it works!
+vim.g.format_on_save = true
+-- This is NOT a builtin var of any meaning, grep for it in this repo to see how it works!
+
 vim.opt.autoindent = true
 vim.opt.autoread = true
 vim.opt.backspace = { "indent", "eol", "start" }
@@ -24,7 +26,6 @@ vim.opt.hidden = true
 vim.opt.hlsearch = false
 vim.opt.ignorecase = true
 vim.opt.inccommand = "nosplit"
-vim.opt.lazyredraw = true
 vim.opt.modeline = false
 vim.opt.mouse = { h = true, a = true }
 vim.opt.number = true
