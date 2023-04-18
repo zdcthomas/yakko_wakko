@@ -62,6 +62,7 @@ local function setup()
 			"tsx",
 			"typescript",
 			"vim",
+			"vimdoc",
 		},
 		highlight = {
 			enable = true,
