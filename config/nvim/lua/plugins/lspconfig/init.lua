@@ -205,6 +205,14 @@ return {
 		"neovim/nvim-lspconfig",
 		event = "BufReadPre",
 		dependencies = {
+			{
+				"SmiteshP/nvim-navbuddy",
+				dependencies = {
+					"SmiteshP/nvim-navic",
+					"MunifTanjim/nui.nvim",
+				},
+				opts = { lsp = { auto_attach = true } },
+			},
 			{ "weilbith/nvim-code-action-menu", cmd = "CodeActionMenu" },
 			"j-hui/fidget.nvim",
 			-- "hrsh7th/nvim-cmp",

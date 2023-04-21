@@ -2,9 +2,14 @@
 {
   users.users.zdcthomas = {
     home = "/Users/zdcthomas";
-    shell = pkgs.fish;
+    shell = pkgs.zsh;
   };
-  programs.fish.enable = true;
+  environment.shells = [
+    pkgs.zsh
+    pkgs.fish
+    pkgs.bashInteractive
+  ];
+
 
   nix = {
     # enable flakes per default
@@ -23,9 +28,7 @@
 
     brews = [
       /* "yabai" */
-      "gnu-sed"
       "json-table"
-      "vector"
     ];
     casks = [
       "hammerspoon"
@@ -46,10 +49,6 @@
       "homebrew/cask-fonts"
       "homebrew/core"
       "homebrew/services"
-
-      /* for vector */
-      "vectordotdev/brew"
-
       /* "koekeishiya/formulae" # yabai */
     ];
   };
