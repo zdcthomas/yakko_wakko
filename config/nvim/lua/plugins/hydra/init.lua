@@ -35,7 +35,7 @@ return {
 			hint = [[
         ^ ^        LSP
         ^
-        _o_ symbol Outline
+        _n_ NavBuddy! zoom
         ^
             ^^^^                _<Esc>_
       ]],
@@ -49,7 +49,8 @@ return {
 				},
 			},
 			heads = {
-				{ "o", ":SymbolsOutline<cr>", { exit = true, silent = true, desc = "symbol outline" } },
+				-- { "o", ":SymbolsOutline<cr>", { exit = true, silent = true, desc = "symbol outline" } },
+				{ "n", ":Navbuddy<cr>", { exit = true, silent = true, desc = "symbol outline" } },
 				{ "<Esc>", nil, { exit = true } },
 			},
 		})
