@@ -143,7 +143,7 @@ in
       FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
       FZF_DEFAULT_COMMAND = "fd --hidden --type f";
       FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
-      PATH = "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+      PATH = "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin";
 
     };
 
@@ -277,7 +277,7 @@ in
       theme = "Everforest Dark Medium";
       font = {
         size = 17;
-        name = "Monofur Nerd Font";
+        name = "Terminus Nerd Font";
       };
       extraConfig = builtins.readFile ./config/kitty/kitty.conf;
     };
