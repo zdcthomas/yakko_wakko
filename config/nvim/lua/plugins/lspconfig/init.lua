@@ -162,6 +162,9 @@ local function setup_lspconfig()
 							procMacro = {
 								enable = true,
 							},
+							checkOnSave = {
+								command = "clippy",
+							},
 							diagnostics = {
 								experimental = { enable = true },
 							},
