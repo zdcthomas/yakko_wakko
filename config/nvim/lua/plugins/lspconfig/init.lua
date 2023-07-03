@@ -217,7 +217,7 @@ return {
 				opts = { lsp = { auto_attach = true } },
 			},
 			{ "weilbith/nvim-code-action-menu", cmd = "CodeActionMenu" },
-			"j-hui/fidget.nvim",
+			{ "j-hui/fidget.nvim", tag = "legacy" },
 			-- "hrsh7th/nvim-cmp",
 			"kosayoda/nvim-lightbulb",
 			"williamboman/mason.nvim",

@@ -4,6 +4,36 @@
 
 return {
 	{
+		"lukas-reineke/indent-blankline.nvim",
+		-- lazy = false,
+		-- cmd = "VeryLazy",
+		lazy = false,
+		config = function()
+			require("indent_blankline").setup({
+				-- for example, context is off by default, use this to turn it on
+				-- show_current_context = true,
+				-- show_current_context_start = true,
+				-- buftype_exclude = { "terminal", "nofile", "quickfix", "prompt" },
+				filetype_exclude = {
+					"lspinfo",
+					"packer",
+					"checkhealth",
+					"help",
+					"man",
+					"",
+					"startify",
+					"help",
+					"startify",
+					"dashboard",
+					"packer",
+					"neogitstatus",
+					"NvimTree",
+					"Trouble",
+				},
+			})
+		end,
+	},
+	{
 		"echasnovski/mini.splitjoin",
 		version = false,
 		keys = { {
@@ -45,6 +75,12 @@ return {
 		ft = { "html", "js", "ts", "tsx", "typescriptreact" },
 		config = function()
 			vim.g.user_emmet_mode = "a"
+		end,
+	},
+	{
+		"Bekaboo/dropbar.nvim",
+		init = function()
+			vim.keymap.set("n", "<cr>", require("dropbar.api").pick, {})
 		end,
 	},
 	{
