@@ -45,17 +45,6 @@ return {
 		end,
 	},
 	{
-		"AckslD/muren.nvim",
-		cmd = {
-			"MurenToggle",
-			"MurenOpen",
-			"MurenClose",
-			"MurenFresh",
-			"MurenUnique",
-		},
-		config = true,
-	},
-	{
 		"luukvbaal/stabilize.nvim",
 		event = "VeryLazy",
 		config = function()
@@ -63,38 +52,13 @@ return {
 		end,
 	},
 	{
-		url = "https://gitlab.com/yorickpeterse/nvim-pqf.git",
-		ft = "qf",
-		config = function(opts)
-			require("pqf").setup()
-		end,
-	},
-	{ "kevinhwang91/nvim-bqf", ft = "qf" },
-	{
 		"mattn/emmet-vim",
 		ft = { "html", "js", "ts", "tsx", "typescriptreact" },
 		config = function()
 			vim.g.user_emmet_mode = "a"
 		end,
 	},
-	{
-		"Bekaboo/dropbar.nvim",
-		init = function()
-			vim.keymap.set("n", "<cr>", require("dropbar.api").pick, {})
-		end,
-	},
-	{
-		"ruifm/gitlinker.nvim",
-		dependencies = "nvim-lua/plenary.nvim",
-		keys = {
-			"<leader>gy",
-		},
-		config = function()
-			require("gitlinker").setup()
-		end,
-	},
 	{ "mechatroner/rainbow_csv", ft = "csv" },
-
 	{
 		"codethread/qmk.nvim",
 		cmd = { "QMKFormat" },
