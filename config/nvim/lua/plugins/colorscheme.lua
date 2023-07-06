@@ -75,4 +75,8 @@ return {
 			-- vim.cmd.colorscheme("kanagawa")
 		end,
 	},
+	{
+		"zootedb0t/citruszest.nvim",
+		priority = 1000,
+	},
 }
