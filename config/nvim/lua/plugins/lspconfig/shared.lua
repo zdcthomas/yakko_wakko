@@ -1,5 +1,24 @@
 local Module = {}
 
+local function window_splittable(mode, map, func, opts)
+	vim.keymap.set(mode, map, function()
+		local key = vim.fn.getcharstr()
+		local cmd = {
+			j = ":rightbelow sp",
+			l = ":rightbelow vsp",
+			k = ":leftabove sp",
+			h = ":leftabove vsp",
+			t = "",
+		}
+		if cmd[key] == nil then
+			return
+		end
+		vim.cmd(cmd[key])
+
+		func()
+	end, opts)
+end
+
 Module.lspconfig_augroup = vim.api.nvim_create_augroup("LspConfigAuGroup", { clear = false })
 
 function Module.setup_dap_keybindings(bufnr)
@@ -76,38 +95,8 @@ Module.common_on_attach = function(client, bufnr)
 	vim.keymap.set("n", "gl", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 	vim.keymap.set({ "x", "n" }, "<Leader>ca", "<cmd>CodeActionMenu<cr>", opts)
-	vim.keymap.set("n", "gt", function()
-		local key = vim.fn.getcharstr()
-		local cmd = {
-			j = ":rightbelow sp",
-			l = ":rightbelow vsp",
-			k = ":leftabove sp",
-			h = ":leftabove vsp",
-			t = "",
-		}
-		if cmd[key] == nil then
-			return
-		end
-		vim.cmd(cmd[key])
-
-		vim.lsp.buf.type_definition()
-	end, opts)
-	vim.keymap.set("n", "gd", function()
-		local key = vim.fn.getcharstr()
-		local cmd = {
-			j = ":rightbelow sp",
-			l = ":rightbelow vsp",
-			k = ":leftabove sp",
-			h = ":leftabove vsp",
-			d = "",
-		}
-		if cmd[key] == nil then
-			return
-		end
-		vim.cmd(cmd[key])
-
-		vim.lsp.buf.definition()
-	end, opts)
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+	vim.keymap.set("n", "gt", vim.lsp.buf.type_definition)
 	-- MAYBE
 	-- gdp for preview in floating window
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
