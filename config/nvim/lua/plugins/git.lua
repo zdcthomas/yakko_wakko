@@ -1,7 +1,6 @@
 local function setup_hydra()
 	local Hydra = require("hydra")
 	local hydra = Hydra({
-		-- hint = hint,
 		config = {
 			color = "pink",
 			invoke_on_body = true,
@@ -655,5 +654,17 @@ return {
 			})
 		end,
 	},
-	{ "NeogitOrg/neogit", cmd = { "NeoGit" }, dependencies = "nvim-lua/plenary.nvim" },
+	{
+		"NeogitOrg/neogit",
+		cmd = { "NeoGit" },
+		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+		config = function()
+			require("neogit").setup({
+				disable_commit_confirmation = false,
+				integrations = {
+					diffview = true,
+				},
+			})
+		end,
+	},
 }
