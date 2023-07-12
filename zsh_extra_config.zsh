@@ -2,6 +2,8 @@
 PROMPT=$'┏╸%(?..%F{red}%?%f · )%B%~%b$(gitprompt)\n┗╸%F{blue}❯%f%F{cyan}❯%f%F{green}❯%f '
 
 unsetopt BEEP
+autoload -Uz run-help
+alias help='run-help'
 # setopt interactive_comments
 
 
