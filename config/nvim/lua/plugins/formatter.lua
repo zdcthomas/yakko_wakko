@@ -37,7 +37,17 @@ return {
 					require("formatter.filetypes.typescriptreact").prettierd,
 				},
 				yaml = {
-					require("formatter.filetypes.yaml").yamlfmt,
+					-- require("formatter.filetypes.yaml").yamlfmt,
+					function()
+						return {
+							exe = "yamlfmt",
+							args = {
+								"-in",
+								"-formatter retain_line_breaks=true",
+							},
+							stdin = true,
+						}
+					end,
 				},
 				elixir = {
 					require("formatter.filetypes.elixir").mixformat,
