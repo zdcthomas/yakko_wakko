@@ -146,8 +146,7 @@ in
       FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
       FZF_DEFAULT_COMMAND = "fd --hidden --type f";
       FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
-      PATH = "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin";
-
+      PATH = "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:$HOME/bin";
     };
 
     sessionPath = [ "$HOME/.cargo/bin" ];
@@ -377,16 +376,16 @@ in
               sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
             };
           }
-          {
-            name = "zsh-nix-shell";
-            file = "nix-shell.plugin.zsh";
-            src = pkgs.fetchFromGitHub {
-              owner = "chisui";
-              repo = "zsh-nix-shell";
-              rev = "v0.5.0";
-              sha256 = "0za4aiwwrlawnia4f29msk822rj9bgcygw6a8a6iikiwzjjz0g91";
-            };
-          }
+          # {
+          #   name = "zsh-nix-shell";
+          #   file = "nix-shell.plugin.zsh";
+          #   src = pkgs.fetchFromGitHub {
+          #     owner = "chisui";
+          #     repo = "zsh-nix-shell";
+          #     rev = "v0.5.0";
+          #     sha256 = "0za4aiwwrlawnia4f29msk822rj9bgcygw6a8a6iikiwzjjz0g91";
+          #   };
+          # }
           {
             name = "git-prompt";
             src = pkgs.fetchFromGitHub {
