@@ -336,6 +336,7 @@ return {
 			{ l = { "Lazy", ":Lazy" } },
 			{ d = { "Open dotfiles", ":!dmux ~/yakko_wakko" } },
 			{ D = { "Dmux", ":!dmux" } },
+			{ g = { "NeoGit", "lua require('neogit').open({ kind = 'replace' })" } },
 		}
 
 		vim.g.startify_lists = {
