@@ -117,7 +117,6 @@ return {
 	event = "InsertEnter",
 	dependencies = {
 		"hrsh7th/cmp-buffer",
-		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-calc",
 		"hrsh7th/cmp-cmdline",
 		"hrsh7th/cmp-nvim-lsp",
@@ -142,8 +141,9 @@ return {
 			},
 			formatting = {
 				format = require("lspkind").cmp_format({
-					maxwidth = 50,
-					mode = "symbol_text",
+					maxwidth = 20,
+					mode = "symbol",
+					menu = {}, -- this is too help with rust menu width issues, see https://github.com/hrsh7th/nvim-cmp/issues/1154
 					symbol_map = {
 						nvim_lsp = "[LSP]",
 						Unit = "u",
