@@ -62,7 +62,7 @@ return {
 					nvim_wd_heel = false,
 					update = false,
 				},
-				wrap = false,
+				wrap = true,
 				bib = {
 					default_path = nil,
 					find_in_root = true,
@@ -98,7 +98,7 @@ return {
 					bib = { override = false },
 				},
 				mappings = {
-					MkdnEnter = { { "n", "v" }, "<CR>" },
+					MkdnEnter = { { "i", "n", "v" }, "<CR>" },
 					MkdnTab = false,
 					MkdnSTab = false,
 					MkdnNextLink = { "n", "<Tab>" },
@@ -113,8 +113,8 @@ return {
 					MkdnDestroyLink = { "n", "<M-CR>" },
 					MkdnTagSpan = { "v", "<M-CR>" },
 					MkdnMoveSource = { "n", "<F2>" },
-					MkdnYankAnchorLink = false,
-					MkdnYankFileAnchorLink = false,
+					MkdnYankAnchorLink = { "n", "yaa" },
+					MkdnYankFileAnchorLink = { "n", "yfa" },
 					MkdnIncreaseHeading = { "n", "+" },
 					MkdnDecreaseHeading = { "n", "=" },
 					MkdnToggleToDo = { { "n", "v" }, "<C-Space>" },
