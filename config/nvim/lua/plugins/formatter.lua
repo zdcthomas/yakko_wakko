@@ -52,6 +52,13 @@ return {
 				elixir = {
 					require("formatter.filetypes.elixir").mixformat,
 				},
+				sql = {
+					{
+						exe = "sql-formatter",
+						-- args = { "-" },
+						stdin = true,
+					},
+				},
 				sh = {
 					require("formatter.filetypes.sh").shfmt,
 				},
