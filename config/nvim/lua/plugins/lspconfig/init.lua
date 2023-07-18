@@ -66,6 +66,7 @@ local function setup_lspconfig()
 	-- 	"lua_ls",
 	-- 	"tsserver",
 	-- 	"eslint",
+	--  "sql_formatter",
 	-- }
 
 	require("mason-lspconfig").setup({
