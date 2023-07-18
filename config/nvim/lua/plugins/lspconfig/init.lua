@@ -222,7 +222,7 @@ return {
 			"kosayoda/nvim-lightbulb",
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"simrat39/rust-tools.nvim",
+			"dodomorandi/rust-tools.nvim",
 			{
 				"folke/neodev.nvim",
 				ft = "lua",
