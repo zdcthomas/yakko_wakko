@@ -1,3 +1,7 @@
+--  ----------------------------------------------------------------------------------------
+--  |    NOTE: This file is no longer used! See Lazy's performance config for more info    |
+--  ----------------------------------------------------------------------------------------
+
 -- Vim (and therefore neovim) come with a wide variety of builtin plugins to
 -- handle a wide variety of things. Netrw (the builtin file explorer) is
 -- probably the most widely known/used, but there are many others. These affect
