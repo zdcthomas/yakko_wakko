@@ -8,11 +8,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 	group = highlight_group,
 	pattern = "*",
+	desc = "Highlight yanked text regions",
 })
 
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "*",
 	group = init_group_id,
+	desc = "Remove background for all WinSeparator sections",
 	callback = function()
 		vim.cmd("highlight WinSeparator guibg=None")
 	end,
@@ -30,7 +32,7 @@ vim.api.nvim_create_autocmd("FileType", {
 			buffer = true,
 		})
 	end,
-	desc = "Map q to close buffer",
+	desc = "Map q to close specific, read only buffers",
 })
 
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
@@ -41,7 +43,7 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 			r = true, -- Pressing Enter will continue comments
 		})
 	end,
-	desc = "Most ftplugins overwrite, so we'll overwrite their overwrite!",
+	desc = "Set format options. Most ftplugins overwrite this, so we'll overwrite their overwrite!",
 })
 
 vim.api.nvim_create_autocmd(
@@ -63,11 +65,12 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 			vim.cmd("copen")
 		end, { buffer = true })
 	end,
-	desc = "Map q to close buffer",
+	desc = "Delete entry from Quickfix list",
 })
 
 vim.api.nvim_create_autocmd("RecordingEnter", {
 	pattern = "*",
+	desc = "Fix broken macro recording notification for cmdheight 0, pt1",
 	callback = function()
 		vim.opt_local.cmdheight = 1
 	end,
@@ -75,6 +78,7 @@ vim.api.nvim_create_autocmd("RecordingEnter", {
 
 vim.api.nvim_create_autocmd("RecordingLeave", {
 	pattern = "*",
+	desc = "Fix broken macro recording notification for cmdheight 0, pt2",
 	callback = function()
 		local timer = vim.loop.new_timer()
 		-- NOTE: Timer is here because we need to close cmdheight AFTER
