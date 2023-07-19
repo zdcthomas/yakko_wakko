@@ -97,14 +97,23 @@
         };
       };
       nixosConfigurations = {
+        nixos = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+
+          modules = [
+            ./nix/nixos_configs/thinkpad/configuration.nix
+            ./nix/nixos_configs/thinkpad/hardware-configuration.nix
+          ];
+        };
         lar = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
 
           modules = [
-            ./nix/nixos_configs/configuration.nix
-            ./nix/nixos_configs/hardware-configuration.nix
+            ./nix/nixos_configs/lar/configuration.nix
+            ./nix/nixos_configs/lar/hardware-configuration.nix
           ];
         };
+
 
       };
       homeConfigurations = {
