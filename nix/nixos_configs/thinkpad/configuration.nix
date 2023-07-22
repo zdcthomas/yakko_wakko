@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -87,10 +88,12 @@
     isNormalUser = true;
     description = "Zachary Thomas";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
     packages = with pkgs; [
-      firefox
       vim
-    #  thunderbird
+      gcc
+      # neovim
+      #  thunderbird
     ];
   };
 
@@ -100,9 +103,14 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
+    # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    # wget
+    # firefox
   ];
+
+  programs.zsh = {
+    enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

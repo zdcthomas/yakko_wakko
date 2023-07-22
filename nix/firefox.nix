@@ -1,22 +1,38 @@
 { pkgs, ... }: {
-  # home.file.".mozilla/native-messaging-hosts/ff2mpv.json".source = "${pkgs.ff2mpv}/lib/mozilla/native-messaging-hosts/ff2mpv.json";
-
   programs.firefox = {
-    enable = pkgs.hostPlatform.system == "x86_64-linux";
-    package = pkgs.firefox-bin;
-
-    # https://ffprofile.com/
+    enable = true;
     profiles = {
-      default = {
-        isDefault = true;
-        settings = { };
-
+      zdcthomas = {
         extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+          vimium
         ];
-      };
-      travail = {
-        isDefault = false;
-        id = 1;
+        bookmarks = [
+          {
+            name = "wikipedia";
+            tags = [ "wiki" ];
+            keyword = "wiki";
+            url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go";
+          }
+          {
+            name = "kernel.org";
+            url = "https://www.kernel.org";
+          }
+          {
+            name = "Nix sites";
+            toolbar = true;
+            bookmarks = [
+              {
+                name = "homepage";
+                url = "https://nixos.org/";
+              }
+              {
+                name = "wiki";
+                tags = [ "wiki" "nix" ];
+                url = "https://nixos.wiki/";
+              }
+            ];
+          }
+        ];
       };
     };
   };

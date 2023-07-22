@@ -4,7 +4,7 @@
 
   inputs =
     {
-      nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+      nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       darwin = {
         url = "github:lnl7/nix-darwin/master";
         inputs.nixpkgs.follows = "nixpkgs";
@@ -13,11 +13,21 @@
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
       };
-      /* neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay"; */
+      neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+      nur = {
+        url = "github:nix-community/NUR";
+      };
     };
 
-  outputs = { nixpkgs, home-manager, darwin, ... }:
+  outputs = { nixpkgs, home-manager, darwin, ... }@inputs:
     let
+      # overlays get passed to home manager to add/change values in pkgs, e.g
+      # change neovim version/ add NUR
+      overlays = [
+        inputs.neovim-nightly-overlay.overlay
+        inputs.nur.overlay
+      ];
+
       mk_home_username_and_dir = { username, homeDirectoryPrefix ? "/Users/" }: { config, pkgs, ... }: {
         home.username = username;
         home.homeDirectory = homeDirectoryPrefix + username;
@@ -103,16 +113,25 @@
           modules = [
             ./nix/nixos_configs/thinkpad/configuration.nix
             ./nix/nixos_configs/thinkpad/hardware-configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = false;
+              home-manager.useUserPackages = false;
+              home-manager.users.zdcthomas = import ./thinkpad_home.nix;
+              home-manager.extraSpecialArgs = {
+                inherit overlays;
+              };
+            }
           ];
         };
-        lar = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-
-          modules = [
-            ./nix/nixos_configs/lar/configuration.nix
-            ./nix/nixos_configs/lar/hardware-configuration.nix
-          ];
-        };
+        lar = nixpkgs.lib.nixosSystem
+          {
+            system = "x86_64-linux";
+            modules = [
+              ./nix/nixos_configs/lar/configuration.nix
+              ./nix/nixos_configs/lar/hardware-configuration.nix
+            ];
+          };
 
 
       };
