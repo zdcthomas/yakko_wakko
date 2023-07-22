@@ -72,7 +72,7 @@ in
       nurl
       pandoc
       ripgrep
-      rustup
+      # rustup
       sd
       silver-searcher
       skim
@@ -90,10 +90,18 @@ in
       lua-language-server
       prettierd
       eslint_d
-      # rust-analyzer-nightly
+      rust-analyzer-nightly
       yamlfmt
       marksman
       nixd
+      xdg-utils
+      discord
+      (fenix.complete.withComponents [
+        "cargo"
+        "clippy"
+        "rust-src"
+        "rustc"
+      ])
 
       (
         nerdfonts.override {
