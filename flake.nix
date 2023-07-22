@@ -5,6 +5,14 @@
   inputs =
     {
       nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+      discord = {
+        url = "github:InternetUnexplorer/discord-overlay";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      fenix = {
+        url = "github:nix-community/fenix";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
       darwin = {
         url = "github:lnl7/nix-darwin/master";
         inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +34,8 @@
       overlays = [
         inputs.neovim-nightly-overlay.overlay
         inputs.nur.overlay
+        inputs.fenix.overlays.default
+        inputs.discord.overlay
       ];
 
       mk_home_username_and_dir = { username, homeDirectoryPrefix ? "/Users/" }: { config, pkgs, ... }: {
