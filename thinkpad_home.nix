@@ -4,8 +4,10 @@ let
   management_scripts = import ./nix/nix_management_scripts_pkgs.nix { pkgs = pkgs; homeDirectory = config.home.homeDirectory; };
 in
 {
+  fonts.fontconfig.enable = true;
   imports = [
     ./nix/firefox.nix
+    ./nix/ssh.nix
   ];
   # manual.html.enable = true;
   nixpkgs.overlays = overlays;
@@ -424,6 +426,9 @@ in
       enable = true;
       userName = "zdcthomas";
       userEmail = "zdcthomas@yahoo.com";
+      extraConfig = {
+        init.defaultBranch = "main";
+      };
       iniContent.merge.conflictstyle = "diff3";
       extraConfig = {
         core = {
@@ -431,6 +436,7 @@ in
         };
       };
       aliases = {
+        graph = "log --graph --decorate --oneline";
         co = "switch";
         cnv = "commit --no-verify";
         ap = "add --patch";
@@ -440,6 +446,8 @@ in
         "*.swp"
         "2"
         ".DS_Store"
+        ".DS_Store?"
+        ".Trashes"
       ];
     };
 
