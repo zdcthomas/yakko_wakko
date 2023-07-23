@@ -14,8 +14,20 @@
             url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go";
           }
           {
-            name = "kernel.org";
-            url = "https://www.kernel.org";
+            name = "News";
+            toolbar = true;
+            bookmarks = [
+              {
+                name = "Hacker News";
+                tags = [ "news" "tech" ];
+                url = "https://news.ycombinator.com/";
+              }
+              {
+                name = "Lobsters";
+                tags = [ "news" "tech" ];
+                url = "https://lobste.rs";
+              }
+            ];
           }
           {
             name = "Nix sites";
@@ -24,6 +36,10 @@
               {
                 name = "homepage";
                 url = "https://nixos.org/";
+              }
+              {
+                name = "Home Manager Appendix";
+                url = "https://nix-community.github.io/home-manager/options.html";
               }
               {
                 name = "wiki";
