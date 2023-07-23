@@ -291,8 +291,8 @@ in
       enable = true;
       theme = "Everforest Dark Medium";
       font = {
-        size = 13;
-        name = "Terminus Nerd Font";
+        size = 11;
+        name = "FiraCode Nerd Font";
       };
       extraConfig = builtins.readFile ./config/kitty/kitty.conf;
     };
@@ -306,9 +306,9 @@ in
       };
     };
 
-    go = {
-      enable = true;
-    };
+    # go = {
+    #   enable = true;
+    # };
 
     fzf = {
       enable = true;
