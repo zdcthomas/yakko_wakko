@@ -7,8 +7,7 @@
     settings = {
       window = {
         title = "Terminal";
-
-        padding = { y = 5; };
+        opacity = 0.3;
         dimensions = {
           lines = 75;
           columns = 100;
@@ -19,9 +18,6 @@
         normal.family = "FiraCode Nerd Font";
         size = 8.0;
       };
-
-      background_opacity = 0.3;
-
       colors = {
         primary = {
           background = "0x000000";
