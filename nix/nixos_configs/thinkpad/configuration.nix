@@ -50,7 +50,7 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    xkbOptions = "esc:nocaps";
+    xkbOptions = "caps:escape";
 
     # Enable the GNOME Desktop Environment.
     displayManager.gdm.enable = true;
@@ -60,6 +60,7 @@
     layout = "us";
     xkbVariant = "";
   };
+  console.useXkbConfig = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

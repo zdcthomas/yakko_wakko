@@ -14,6 +14,8 @@ if ! nix_loc="$(type -p nix)" || [[ -z $nix_loc ]]; then
   fi
 fi
 
+export BLAFF="asdlfkj"
+
 # Future proof against OSX breakage
 # zstyle ':completion:*' menu select
-. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+# . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
