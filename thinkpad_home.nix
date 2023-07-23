@@ -9,6 +9,7 @@ in
     ./nix/firefox.nix
     ./nix/ssh.nix
     ./nix/zsh/zsh.nix
+    ./nix/alacritty.nix
   ];
   # manual.html.enable = true;
   nixpkgs.overlays = overlays;
