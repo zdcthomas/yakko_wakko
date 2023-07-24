@@ -47,35 +47,79 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  services.journald.extraConfig = "SystemMaxUse=1G";
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    xkbOptions = "caps:escape";
-
-    # Enable the GNOME Desktop Environment.
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-
-    # Configure keymap in X11
+    # xkbOptions = "caps:escape";
     layout = "us";
-    xkbVariant = "";
+    autorun = true;
+    displayManager = {
+      defaultSession = "none+i3";
+      autoLogin = {
+        enable = true;
+        user = "zdcthomas";
+      };
+      lightdm = {
+        enable = true;
+      };
+    };
+
     desktopManager = {
       xterm.enable = false;
     };
 
-    displayManager = {
-      defaultSession = "none+i3";
+    windowManager = {
+      i3 = {
+        # package = pkgs.i3-gaps;
+        enable = true;
+        # extraPackages = with pkgs; [
+        #   rofi
+        #   dmenu
+        #   i3status
+        #   i3lock
+        # ];
+      };
     };
 
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [
-        dmenu #application launcher most people use
-        i3status # gives you the default i3 status bar
-        i3lock #default i3 screen locker
-        i3blocks #if you are planning on using i3blocks over i3status
-      ];
-    };
+    # Configure keymap in X11
+    # desktopManager = {
+    #   xterm.enable = false;
+    # };
+    #
+    # displayManager = {
+    #   defaultSession = "none+i3";
+    # };
+
+    # windowManager.i3 = {
+    #   enable = true;
+    #   package = pkgs.i3-gaps;
+    #   extraPackages = with pkgs; [
+    #     dmenu #application launcher most people use
+    #     i3status # gives you the default i3 status bar
+    #     i3lock #default i3 screen locker
+    #     i3blocks #if you are planning on using i3blocks over i3status
+    #   ];
+    # };
+    # desktopManager = {
+    #   xterm.enable = false;
+    # };
+    #
+    # displayManager = {
+    #   defaultSession = "none+i3";
+    # };
+    #
+    # windowManager.i3 = {
+    #   enable = true;
+    #   package = pkgs.i3-gaps;
+    #   extraPackages = with pkgs; [
+    #     dmenu #application launcher most people use
+    #     i3status # gives you the default i3 status bar
+    #     i3lock #default i3 screen locker
+    #     i3blocks #if you are planning on using i3blocks over i3status
+    #   ];
+    # };
+
   };
   console.useXkbConfig = true;
 

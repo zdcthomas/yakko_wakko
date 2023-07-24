@@ -35,8 +35,10 @@ in
     enable = true;
 
     package = pkgs.polybar.override {
-      i3GapsSupport = true;
+      i3Support = true;
+      # iwSupport = true;
       alsaSupport = true;
+      # pulseSupport = true;
     };
 
     script = "polybar -q -r top & polybar -q -r bottom &";
@@ -65,8 +67,8 @@ in
 
         radius = 0;
 
-        font-0 = "FuraCode Nerd Font:size=12;3";
-        font-1 = "FuraCode Nerd Font:style=Bold:size=12;3";
+        font-0 = "FiraCode Nerd Font";
+        font-1 = "FiraCode Nerd Font";
 
         modules-left = "distro-icon dulS ddrT i3 dulT";
         modules-center = "title";
@@ -99,8 +101,8 @@ in
         tray-scale = 1;
         padding = 0;
 
-        font-0 = "FuraCode Nerd Font:size=12;3";
-        font-1 = "FuraCode Nerd Font:style=Bold:size=12;3";
+        font-0 = "FiraCode Nerd Font:size=12;3";
+        font-1 = "FiraCode Nerd Font:style=Bold:size=12;3";
 
         modules-left = "powermenu ddlS";
 
@@ -144,7 +146,7 @@ in
       "module/audio" = {
         type = "internal/alsa";
 
-        format-volume = "墳 VOL <label-volume>";
+        format-volume = "VOL <label-volume>";
         format-volume-padding = 1;
         format-volume-foreground = secondary;
         format-volume-background = tertiary;
@@ -235,16 +237,16 @@ in
         format = "<label-state> <label-mode>";
         format-background = tertiary;
 
-        ws-icon-0 = "1;";
-        ws-icon-1 = "2;";
-        ws-icon-2 = "3;﬏";
-        ws-icon-3 = "4;";
-        ws-icon-4 = "5;";
-        ws-icon-5 = "6;";
-        ws-icon-6 = "7;";
-        ws-icon-7 = "8;";
-        ws-icon-8 = "9;";
-        ws-icon-9 = "10;";
+        ws-icon-0 = "1";
+        ws-icon-1 = "2";
+        ws-icon-2 = "3";
+        ws-icon-3 = "4";
+        ws-icon-4 = "5";
+        ws-icon-5 = "6";
+        ws-icon-6 = "7";
+        ws-icon-7 = "8";
+        ws-icon-8 = "9";
+        ws-icon-9 = "10";
 
         label-mode = "%mode%";
         label-mode-padding = 1;

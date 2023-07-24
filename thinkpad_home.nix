@@ -57,6 +57,7 @@ in
     packages = with pkgs; [
 
       # bash
+      feh
       bashInteractive
       bat
       boxes
