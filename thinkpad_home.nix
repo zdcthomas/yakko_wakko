@@ -10,6 +10,9 @@ in
     ./nix/ssh.nix
     ./nix/zsh/zsh.nix
     ./nix/alacritty.nix
+    ./nix/i3.nix
+    ./nix/polybar.nix
+    ./nix/picom.nix
   ];
   # manual.html.enable = true;
   nixpkgs.overlays = overlays;
@@ -86,6 +89,17 @@ in
       weechat
       wget
       zip
+      (
+        nerdfonts.override {
+          fonts = [
+            "Terminus"
+            "FiraCode"
+            "Meslo"
+            "Monofur"
+            "Iosevka"
+          ];
+        }
+      )
 
       rnix-lsp
       stylua
@@ -104,18 +118,6 @@ in
         "rust-src"
         "rustc"
       ])
-
-      (
-        nerdfonts.override {
-          fonts = [
-            "Terminus"
-            "FiraCode"
-            "Meslo"
-            "Monofur"
-            "Iosevka"
-          ];
-        }
-      )
     ];
 
     # This value determines the Home Manager release that your
@@ -142,6 +144,11 @@ in
       /* ".tmux.conf".source = ./tmux.conf; */
       ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;
       ".boxes".source = ./config/boxes/.boxes;
+    };
+    keyboard = {
+      # variant = "colemak";
+      layout = "us";
+      options = [ "caps:escape" ];
     };
 
 
