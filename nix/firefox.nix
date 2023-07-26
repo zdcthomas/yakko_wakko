@@ -34,11 +34,18 @@
             toolbar = true;
             bookmarks = [
               {
-                name = "homepage";
-                url = "https://nixos.org/";
+                name = "Packages search";
+                tags = [ "search" "nix" ];
+                url = "https://search.nixos.org/packages";
+              }
+              {
+                name = "Options search";
+                tags = [ "search" "nix" ];
+                url = "https://search.nixos.org/options";
               }
               {
                 name = "Home Manager Appendix";
+                tags = [ "wiki" "nix" ];
                 url = "https://nix-community.github.io/home-manager/options.html";
               }
               {
