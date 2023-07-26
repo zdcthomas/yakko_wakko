@@ -108,7 +108,9 @@ in
       prettierd
       eslint_d
       rust-analyzer-nightly
+      rofi-power-menu
       yamlfmt
+      brightnessctl
       marksman
       nixd
       xdg-utils

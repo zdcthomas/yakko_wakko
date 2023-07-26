@@ -5,6 +5,12 @@
     rofi = {
       enable = true;
       theme = "gruvbox-dark-soft";
+      plugins = [ pkgs.rofi-power-menu ];
+      extraConfig = {
+        disable-history = true;
+        show-icons = true;
+        terminal = "alacritty";
+      };
     };
   };
   xsession.enable = true;
@@ -34,6 +40,7 @@
         "XF86MonBrightnessUp" = "exec brightnessctl set 4%+";
         "${modifier}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
         "${modifier}+d" = "exec ${pkgs.rofi}/bin/rofi -modi drun -show drun";
+        "${modifier}+p" = "exec ${pkgs.rofi}/bin/rofi -show p -modi p:'rofi-power-menu'";
         "${modifier}+Tab" = "exec ${pkgs.rofi}/bin/rofi -show window";
         "${modifier}+b" = "exec ${pkgs.firefox}/bin/firefox";
         "${modifier}+Shift+x" = "exec systemctl suspend";
