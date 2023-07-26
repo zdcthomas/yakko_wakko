@@ -13,6 +13,7 @@ in
     ./nix/i3.nix
     ./nix/polybar.nix
     ./nix/picom.nix
+    ./nix/rofi.nix
   ];
   # manual.html.enable = true;
   nixpkgs.overlays = overlays;
@@ -90,6 +91,9 @@ in
       weechat
       wget
       zip
+
+      minecraft
+      prismlauncher
       (
         nerdfonts.override {
           fonts = [
