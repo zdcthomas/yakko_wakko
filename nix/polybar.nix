@@ -67,8 +67,8 @@ in
 
         radius = 0;
 
-        font-0 = "FiraCode Nerd Font";
-        font-1 = "FiraCode Nerd Font";
+        font-0 = "FiraCode Nerd Font:size=12;3";
+        font-1 = "FiraCode Nerd Font:style=Bold:size=12;3";
 
         modules-left = "distro-icon dulS ddrT i3 dulT";
         modules-center = "title";
@@ -104,7 +104,7 @@ in
         font-0 = "FiraCode Nerd Font:size=12;3";
         font-1 = "FiraCode Nerd Font:style=Bold:size=12;3";
 
-        modules-left = "powermenu ddlS";
+        # modules-left = "wireless-network ddlS";
 
         modules-right = "ddrS cpu dulS ddrT memory dulT ddrP battery";
 
@@ -366,11 +366,10 @@ in
         menu-0-2-exec = "systemctl poweroff";
       };
 
-      #"module/wireless-network" = {
-      #  type = "internal/network";
-      #  interval = "wlp2s0";
-      #};
-
+      # "module/wireless-network" = {
+      #   type = "internal/network";
+      #   interval = "wlp2s0";
+      # };
       #--------------------SOLID TRANSITIONS--------------------#
 
       "module/dsPT" = {

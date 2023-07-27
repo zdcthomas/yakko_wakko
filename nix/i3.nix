@@ -46,6 +46,11 @@
           notification = false;
         }
         {
+          command = "nm-applet";
+          always = true;
+          notification = false;
+        }
+        {
           command = "systemctl --user restart polybar.service";
           always = true;
           notification = false;

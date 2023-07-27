@@ -7,7 +7,7 @@
     settings = {
       window = {
         title = "Terminal";
-        opacity = 0.7;
+        opacity = 0.8;
         dimensions = {
           lines = 75;
           columns = 100;
