@@ -61,6 +61,7 @@ in
       feh
       bashInteractive
       bat
+      btop
       boxes
       exa
       fd
@@ -91,6 +92,7 @@ in
       weechat
       wget
       zip
+      networkmanagerapplet
 
       minecraft
       prismlauncher

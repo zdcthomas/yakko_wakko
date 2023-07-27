@@ -11,10 +11,18 @@
       ./hardware-configuration.nix
     ];
 
-  nix.package = pkgs.nixUnstable;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
+  nix = {
+    package = pkgs.nixUnstable;
+
+    # extraOptions = ''
+    #   experimental-features = nix-command flakes
+    # '';
+    settings = {
+
+      experimental-features = [ "nix-command" "flakes" ];
+    };
+    distributedBuilds = true;
+  };
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -119,10 +127,6 @@
     packages = with pkgs; [
       vim
       gcc
-      minecraft
-      prismlauncher
-      # neovim
-      #  thunderbird
     ];
   };
 

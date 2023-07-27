@@ -14,6 +14,12 @@
             url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go";
           }
           {
+            name = "i3 docs";
+            tags = [ "i3" ];
+            keyword = "i3";
+            url = "https://i3wm.org/docs/user-contributed/lzap-config.html";
+          }
+          {
             name = "News";
             toolbar = true;
             bookmarks = [
