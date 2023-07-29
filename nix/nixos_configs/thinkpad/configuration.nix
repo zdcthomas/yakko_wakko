@@ -5,6 +5,8 @@
 { config, pkgs, overlays, ... }:
 
 {
+  # config.z.de = "i3";
+  zdct.de = "i3";
   imports =
     [
       # Include the results of the hardware scan.
