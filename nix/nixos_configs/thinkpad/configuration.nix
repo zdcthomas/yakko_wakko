@@ -2,13 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, overlays, ... }:
 
 {
   imports =
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./de.nix
     ];
 
   nix = {
@@ -56,29 +57,6 @@
   };
 
   services.journald.extraConfig = "SystemMaxUse=1G";
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    # xkbOptions = "caps:escape";
-    layout = "us";
-    autorun = true;
-    displayManager = {
-      defaultSession = "none+i3";
-      autoLogin = {
-        enable = true;
-        user = "zdcthomas";
-      };
-      lightdm = {
-        enable = true;
-      };
-    };
-
-    desktopManager = {
-      xterm.enable = false;
-    };
-
-    windowManager.i3.enable = true;
-  };
 
   console.useXkbConfig = true;
 
@@ -131,8 +109,11 @@
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.pulseaudio = true;
+  nixpkgs = {
+    config.allowUnfree = true;
+    config.pulseaudio = true;
+    overlays = overlays;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
