@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, overlays, ... }:
+args@{ config, pkgs, overlays, inputs, ... }:
 
 {
   # config.z.de = "i3";
@@ -12,7 +12,16 @@
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./de.nix
+      inputs.home-manager.nixosModules.home-manager
     ];
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.zdcthomas = import ./home.nix;
+  home-manager.extraSpecialArgs = {
+    inherit overlays;
+    inherit inputs;
+  };
 
   nix = {
     package = pkgs.nixUnstable;
@@ -41,7 +50,7 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "America/New_York";
+  time.timeZone = "America/Denver";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -124,6 +133,7 @@
     # wget
     # firefox
   ];
+
 
   programs.zsh = {
     enable = true;

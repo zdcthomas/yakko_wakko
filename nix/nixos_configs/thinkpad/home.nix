@@ -58,7 +58,7 @@ in
     packages = with pkgs; [
 
       # bash
-      feh
+      # feh
       bashInteractive
       bat
       btop
