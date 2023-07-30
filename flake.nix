@@ -4,6 +4,7 @@
 
   inputs =
     {
+      hyprland.url = "github:hyprwm/Hyprland";
       nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       discord = {
         url = "github:InternetUnexplorer/discord-overlay";
@@ -119,19 +120,9 @@
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-
+          specialArgs = { inherit inputs; inherit overlays; };
           modules = [
             ./nix/nixos_configs/thinkpad/configuration.nix
-            ./nix/nixos_configs/thinkpad/hardware-configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = false;
-              home-manager.useUserPackages = false;
-              home-manager.users.zdcthomas = import ./thinkpad_home.nix;
-              home-manager.extraSpecialArgs = {
-                inherit overlays;
-              };
-            }
           ];
         };
         lar = nixpkgs.lib.nixosSystem

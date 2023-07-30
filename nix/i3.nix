@@ -1,6 +1,11 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 
 {
+  home.packages = with pkgs; [
+    networkmanagerapplet
+    rofi-power-menu
+    brightnessctl
+  ];
   xsession.enable = true;
   xsession.windowManager.i3 = {
     enable = true;
@@ -52,6 +57,11 @@
         }
         {
           command = "systemctl --user restart polybar.service";
+          always = true;
+          notification = false;
+        }
+        {
+          command = "${pkgs.unclutter}/bin/unclutter --idle 2";
           always = true;
           notification = false;
         }
