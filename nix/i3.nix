@@ -1,11 +1,23 @@
 { pkgs, lib, config, ... }:
 
 {
-  home.packages = with pkgs; [
-    networkmanagerapplet
-    rofi-power-menu
-    brightnessctl
+  imports = [
+    ./polybar.nix
+    ./picom.nix
+    ./rofi.nix
   ];
+
+  home.packages = with pkgs;
+    [
+      networkmanagerapplet
+      rofi-power-menu
+      brightnessctl
+      feh
+    ];
+  services.unclutter = {
+    enable = true;
+    timeout = 1;
+  };
   xsession.enable = true;
   xsession.windowManager.i3 = {
     enable = true;
@@ -37,7 +49,12 @@
         "${modifier}+Tab" = "exec ${pkgs.rofi}/bin/rofi -show window";
         "${modifier}+b" = "exec ${pkgs.firefox}/bin/firefox";
         "${modifier}+Shift+x" = "exec systemctl suspend";
+        "${modifier}+j" = "focus left";
+        "${modifier}+k" = "focus down";
+        "${modifier}+l" = "focus up";
+        "${modifier}+semicolon" = "focus right";
       };
+      focus.followMouse = false;
 
       startup = [
         {
@@ -57,11 +74,6 @@
         }
         {
           command = "systemctl --user restart polybar.service";
-          always = true;
-          notification = false;
-        }
-        {
-          command = "${pkgs.unclutter}/bin/unclutter --idle 2";
           always = true;
           notification = false;
         }

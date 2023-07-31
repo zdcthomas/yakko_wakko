@@ -1,4 +1,4 @@
-{ de, lib, config, ... }:
+{ de, lib, config, pkgs, inputs, ... }:
 let
   cfg = config.zdct.de;
 in
@@ -43,23 +43,41 @@ with lib;
             windowManager.i3.enable = true;
           };
 
-          # programs.hyprland = {
-          #   enable = true;
-          #   package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-          #   nvidiaPatches = true;
-          #   xwayland.enable = true;
-          # };
 
-          # environment.sessionVariables = {
-          #   WLR_NO_HARDWARE_CURSORS = "1";
-          # };
         }
 
     )
     (
       mkIf
-        (de == "hyprland")
-        { }
+        (cfg == "hyprland")
+        {
+          environment.sessionVariables = {
+            # If your cursor becomes invisible
+            WLR_NO_HARDWARE_CURSORS = "1";
+
+            # hint Electron apps to use wayland
+            NIXOS_OZONE_WL = "1";
+          };
+          xdg.portal = {
+            enable = true;
+            extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+          };
+          security.rtkit.enable = true;
+
+          security.pam.services.swaylock = {
+            #Swaylock fix for wrong password
+            text = ''
+              auth include login
+            '';
+          };
+
+          programs.hyprland = {
+            enable = true;
+            # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+            nvidiaPatches = true;
+            xwayland.enable = true;
+          };
+        }
     )
   ];
 }

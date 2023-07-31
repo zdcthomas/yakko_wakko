@@ -10,10 +10,8 @@ in
     ../../ssh.nix
     ../../zsh/zsh.nix
     ../../alacritty.nix
-    ../../i3.nix
-    ../../polybar.nix
-    ../../picom.nix
-    ../../rofi.nix
+    # ../../i3.nix
+    ../../hyprland.nix
   ];
   # manual.html.enable = true;
   # nixpkgs.overlays = overlays;
