@@ -21,29 +21,19 @@
   imports = [
     ./rofi.nix
   ];
-  # wayland.windowManager.hyprland = {
-  #   enable = true;
-  #   enableNvidiaPatches = true;
-  #   # xwayland = {
-  #   #   hidpi = true;
-  #   # };
-  # };
   home.packages = with pkgs; [
-    hyprpicker
-
     (waybar.overrideAttrs (oldAttrs: {
       mesonFlags = oldAttrs.mesonFlags ++ [
         "-Dexperimental=true"
       ];
     }))
 
-    killall
+    hyprpicker
     inotify-tools
     dunst
     libnotify
     swww
     swayidle
-    bemenu
     fuzzel
     tofi
     networkmanagerapplet

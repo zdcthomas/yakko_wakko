@@ -11,6 +11,7 @@
       enable = true;
       theme = "gruvbox-dark-soft";
       plugins = [ pkgs.rofi-power-menu ];
+      font = "FiraCode";
       extraConfig = {
         disable-history = true;
         show-icons = true;

@@ -57,6 +57,8 @@ in
 
       # bash
       # feh
+      cava
+      imv
       bashInteractive
       bat
       btop
