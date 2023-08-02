@@ -1,7 +1,14 @@
 { config, pkgs, lib, ... }:
 {
   programs.waybar = {
-    enable = true;
+    # enable = true;
+    package =
+      (pkgs.waybar.overrideAttrs (oldAttrs: {
+        mesonFlags = oldAttrs.mesonFlags ++ [
+          "-Dexperimental=true"
+        ];
+      }));
+
     systemd = {
       enable = false;
     };

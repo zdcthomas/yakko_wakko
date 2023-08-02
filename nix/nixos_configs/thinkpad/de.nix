@@ -64,6 +64,16 @@ with lib;
           };
           security.rtkit.enable = true;
 
+          services.xserver.enable = true;
+          services.xserver.displayManager = {
+            defaultSession = "hyprland";
+            sddm = {
+              enable = true;
+              theme = "elarun";
+            };
+          };
+
+
           security.pam.services.swaylock = {
             #Swaylock fix for wrong password
             text = ''
