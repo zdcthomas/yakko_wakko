@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, overlays, ... }:
 
 let
   _ = builtins.trace pkgs;
@@ -7,6 +7,7 @@ in
 {
   manual.html.enable = true;
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = overlays;
   news.display = "show";
 
   nix = {
@@ -337,10 +338,8 @@ in
         export PS1="$cyan\u$white@$yellow \w$white \$(git_branch) \$(dirty) \n$in_prompt"
         export PS2=$in_prompt
         export PS2="| ?> "
-        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
       '';
     };
-
 
     zsh =
       {
@@ -349,7 +348,7 @@ in
         enableCompletion = true;
         history.extended = true;
         autocd = true;
-        initExtraFirst = "source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh\n" + builtins.readFile ./zsh_extra_config.zsh;
+        initExtraFirst = "source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh\n" + builtins.readFile ./nix/zsh/zsh_extra_config.zsh;
         plugins = [
           {
             name = "_git";
