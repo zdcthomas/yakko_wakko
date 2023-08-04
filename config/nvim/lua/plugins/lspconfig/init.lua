@@ -177,10 +177,10 @@ local function setup_lspconfig()
 		setup_eslint(capabilities, common_on_attach)
 		setup_tsserver(capabilities, common_on_attach)
 		local lspconfig = require("lspconfig")
-		lspconfig.rnix.setup({
-			on_attach = common_on_attach,
-			capabilities = capabilities,
-		})
+		-- lspconfig.rnix.setup({
+		-- 	on_attach = common_on_attach,
+		-- 	capabilities = capabilities,
+		-- })
 		lspconfig.nixd.setup({
 			on_attach = common_on_attach,
 			capabilities = capabilities,

@@ -1,6 +1,13 @@
 { de, lib, config, pkgs, inputs, ... }:
 let
   cfg = config.zdct.de;
+  greeterHypr = pkgs.writeText "greetd-hypr-config" ''
+    $mainMod = SUPER
+    bind = $mainMod + SHIFT, Q, exit, 
+    bind = $mainMod, Return, exec, alacritty
+
+    exec-once "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l; hyprctl dispatch exit"
+  '';
 in
 with lib;
 {
@@ -64,12 +71,24 @@ with lib;
           };
           security.rtkit.enable = true;
 
-          services.xserver.enable = true;
-          services.xserver.displayManager = {
-            defaultSession = "hyprland";
-            sddm = {
-              enable = true;
-              theme = "elarun";
+          # services.xserver.enable = true;
+          # services.xserver.displayManager = {
+          #   defaultSession = "hyprland";
+          #   sddm = {
+          #     enable = true;
+          #     theme = "elarun";
+          #   };
+          # };
+
+
+
+          services.greetd = {
+            enable = true;
+            settings = {
+              default_session = {
+                # command = "${pkgs.hyprland}/bin/Hyprland --config ${greeterHypr}";
+                user = "zdcthomas";
+              };
             };
           };
 
@@ -80,6 +99,10 @@ with lib;
               auth include login
             '';
           };
+
+          environment.systemPackages = with pkgs; [
+            greetd.gtkgreet
+          ];
 
           programs.hyprland = {
             enable = true;

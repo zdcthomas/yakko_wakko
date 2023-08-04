@@ -42,7 +42,7 @@ local function setup()
 			"go",
 			"gomod",
 			"graphql",
-			"help",
+			-- "help",
 			"html",
 			"http",
 			"javascript",
