@@ -6,7 +6,7 @@ let
     bind = $mainMod + SHIFT, Q, exit, 
     bind = $mainMod, Return, exec, alacritty
 
-    exec-once "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l; hyprctl dispatch exit"
+    exec-once "${pkgs.greetd.regreet}/bin/regreet; hyprctl dispatch exit"
   '';
 in
 with lib;
@@ -82,15 +82,14 @@ with lib;
 
 
 
-          services.greetd = {
-            enable = true;
-            settings = {
-              default_session = {
-                # command = "${pkgs.hyprland}/bin/Hyprland --config ${greeterHypr}";
-                user = "zdcthomas";
-              };
-            };
-          };
+          # services.greetd = {
+          #   enable = true;
+          #   settings = {
+          #     default_session = {
+          #       command = "${pkgs.greetd.regreet}/bin/agreety --cmd ${pkgs.hyprland}/bin/Hyprland";
+          #     };
+          #   };
+          # };
 
 
           security.pam.services.swaylock = {
@@ -100,9 +99,12 @@ with lib;
             '';
           };
 
-          environment.systemPackages = with pkgs; [
-            greetd.gtkgreet
-          ];
+          # environment.systemPackages = with pkgs; [
+          #   greetd.gtkgreet
+          # ];
+          programs.regreet = {
+            enable = true;
+          };
 
           programs.hyprland = {
             enable = true;
