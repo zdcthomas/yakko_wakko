@@ -5,8 +5,15 @@
       zdcthomas = {
         extensions = with pkgs.nur.repos.rycee.firefox-addons; [
           vimium
+          onepassword-password-manager
         ];
         bookmarks = [
+          {
+            name = "github";
+            tags = [ "git" ];
+            keyword = "git";
+            url = "https://github.com";
+          }
           {
             name = "wikipedia";
             tags = [ "wiki" ];
