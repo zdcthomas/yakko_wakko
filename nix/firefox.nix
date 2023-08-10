@@ -3,6 +3,36 @@
     enable = true;
     profiles = {
       zdcthomas = {
+        isDefault = true;
+        settings = {
+          # https://github.com/arkenfox/user.js/blob/master/user.js
+          "browser.startup.page" = 0;
+          "browser.aboutConfig.showWarning" = false;
+          "browser.startup.homepage" = "about:blank";
+          "browser.newtabpage.activity-stream.showSponsored" = false;
+          "browser.newtabpage.enabled" = false;
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+          "toolkit.telemetry.unified" = false;
+          "toolkit.telemetry.enabled" = false;
+          "toolkit.telemetry.server" = "data:,";
+          "toolkit.telemetry.archive.enabled" = false;
+          "toolkit.telemetry.newProfilePing.enabled" = false;
+          "toolkit.telemetry.shutdownPingSender.enabled" = false;
+          "toolkit.telemetry.updatePing.enabled" = false;
+          "toolkit.telemetry.bhrPing.enabled" = false;
+          "toolkit.telemetry.firstShutdownPing.enabled" = false;
+          "datareporting.policy.dataSubmissionEnabled" = false;
+          "toolkit.telemetry.coverage.opt-out" = true;
+          "toolkit.coverage.opt-out" = true;
+          "toolkit.coverage.endpoint.base" = "";
+          "browser.ping-centre.telemetry" = false;
+          "browser.newtabpage.activity-stream.feeds.telemetry" = false;
+          "browser.newtabpage.activity-stream.telemetry" = false;
+          "app.shield.optoutstudies.enabled" = false;
+          "app.normandy.enabled" = false;
+          "app.normandy.api_url" = "";
+          "network.connectivity-service.enabled" = false;
+        };
         extensions = with pkgs.nur.repos.rycee.firefox-addons; [
           vimium
           onepassword-password-manager
