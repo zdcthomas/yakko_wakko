@@ -123,6 +123,22 @@ ls.add_snippets("sh", {
 		t({ [[-----"]], "" }),
 	}),
 }, { key = "sh" })
+ls.add_snippets("tex", {
+
+	s("header", {
+		t([[echo "-----]]),
+		l(l._1:gsub(".", "-"), 1),
+		t({ [[-----"]], "" }),
+
+		t([[echo "|    ]]),
+		i(1, "header title"),
+		t({ [[    |"]], "" }),
+
+		t([[echo "-----]]),
+		l(l._1:gsub(".", "-"), 1),
+		t({ [[-----"]], "" }),
+	}),
+}, { key = "sh" })
 
 ls.add_snippets("elixir", {
 	s(
