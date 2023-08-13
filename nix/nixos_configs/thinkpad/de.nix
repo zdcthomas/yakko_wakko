@@ -62,6 +62,7 @@ with lib;
             # If your cursor becomes invisible
             WLR_NO_HARDWARE_CURSORS = "1";
 
+            MOZ_ENABLE_WAYLAND = "1";
             # hint Electron apps to use wayland
             NIXOS_OZONE_WL = "1";
           };

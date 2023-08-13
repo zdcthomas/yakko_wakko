@@ -3,7 +3,9 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 args@{ config, pkgs, overlays, inputs, ... }:
-
+let
+  username = "zdcthomas";
+in
 {
   # config.z.de = "i3";
   zdct.de = "hyprland";
@@ -18,7 +20,7 @@ args@{ config, pkgs, overlays, inputs, ... }:
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.users.zdcthomas = import ./home.nix;
+  home-manager.users.${username} = import ./home.nix;
   home-manager.extraSpecialArgs = {
     inherit overlays;
     inherit inputs;
@@ -35,6 +37,11 @@ args@{ config, pkgs, overlays, inputs, ... }:
       experimental-features = [ "nix-command" "flakes" ];
     };
     distributedBuilds = true;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -51,7 +58,7 @@ args@{ config, pkgs, overlays, inputs, ... }:
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "America/Denver";
+  time.timeZone = "America/New_York";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -109,7 +116,7 @@ args@{ config, pkgs, overlays, inputs, ... }:
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.zdcthomas = {
+  users.users.${username} = {
     isNormalUser = true;
     description = "Zachary Thomas";
     extraGroups = [ "audio" "networkmanager" "wheel" ];
@@ -138,6 +145,14 @@ args@{ config, pkgs, overlays, inputs, ... }:
 
   programs.zsh = {
     enable = true;
+  };
+
+  programs._1password.enable = true;
+  programs._1password-gui = {
+    enable = true;
+    # Certain features, including CLI integration and system authentication support,
+    # require enabling PolKit integration on some desktop environments (e.g. Plasma).
+    polkitPolicyOwners = [ "zdcthomas" ];
   };
 
   # Some programs need SUID wrappers, can be configured further or are

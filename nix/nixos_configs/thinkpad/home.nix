@@ -10,8 +10,9 @@ in
     ../../ssh.nix
     ../../zsh/zsh.nix
     ../../alacritty.nix
-    # ../../i3.nix
+    ../../zellij.nix
     ../../hyprland.nix
+    ../../neofetch
   ];
   # manual.html.enable = true;
   # nixpkgs.overlays = overlays;
@@ -57,8 +58,6 @@ in
 
       # bash
       # feh
-      cava
-      imv
       bashInteractive
       bat
       btop
@@ -108,6 +107,9 @@ in
       )
 
       # rnix-lsp
+      pavucontrol
+      cava
+      imv
       nixpkgs-fmt
       stylua
       lua-language-server
@@ -288,9 +290,6 @@ in
       generateCaches = true;
     };
 
-    # alacritty = {
-    #   enable = true;
-    # };
 
     kitty = {
       /* cool kitty colors */
@@ -302,13 +301,27 @@ in
       /* moonlight */
       /* Flat */
       /* zenwritten_dark */
+
+      # theme = "Everforest Dark Medium";
       enable = true;
-      theme = "Everforest Dark Medium";
+      # theme = "Catppuccin-Mocha";
+      # theme = "Galaxy";
+      # theme = "Lavandula";
+      # theme = "Royal";
+      theme = "Sea Shells";
       font = {
         size = 11;
         name = "FiraCode Nerd Font";
       };
-      extraConfig = builtins.readFile ../../../config/kitty/kitty.conf;
+      settings = {
+        disable_ligatures = "cursor";
+        hide_window_decorations = "titlebar-only";
+        enable_audio_bell = false;
+        background_opacity = "0.7";
+        macos_quit_when_last_window_closed = true;
+        macos_option_as_alt = true;
+      };
+      # extraConfig = builtins.readFile ../../../config/kitty/kitty.conf;
     };
 
     # Let Home Manager install and manage itself.

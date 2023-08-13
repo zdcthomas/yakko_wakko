@@ -45,11 +45,18 @@
             url = "https://github.com";
           }
           {
+            name = "hyprland wiki";
+            tags = [ "wiki" "hyprland" ];
+            keyword = "hyprland";
+            url = "https://wiki.hyprland.org/";
+          }
+          {
             name = "wikipedia";
             tags = [ "wiki" ];
             keyword = "wiki";
-            url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go";
+            url = "https://en.wikipedia.org";
           }
+
           {
             name = "i3 docs";
             tags = [ "i3" ];
