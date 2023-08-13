@@ -2,10 +2,33 @@
 
 # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
 {
+  # services.dunst = {
+  #   enable = true;
+  # };
   services.mako = {
     enable = true;
     borderRadius = 10;
-    defaultTimeout = 3;
+    defaultTimeout = 4000; # milliseconds
+    anchor = "top-right";
+    backgroundColor = "#131718b3";
+    borderColor = "#c4c4c4";
+    font = "FiraCode";
+  };
+
+  services.swayidle = {
+    enable = true;
+    timeouts = [
+      {
+        timeout = 10;
+        command = "${pkgs.swaylock}/bin/swaylock -f -i ~/wallpapers/5.png";
+      }
+    ];
+    events = [
+      {
+        event = "before-sleep";
+        command = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
+      }
+    ];
   };
 
   home.file = {
@@ -28,7 +51,6 @@
   programs.wofi = {
     enable = true;
     settings = {
-
       width = 420;
       height = 550;
       location = "center";
@@ -49,7 +71,7 @@
     };
 
     style = ''
-          * {
+      * {
         transition: 0.2s;
       }
 
@@ -62,9 +84,9 @@
           margin: 0px;
           border: 2px solid #cba6f7;
       /*
-          background-color: #161925;
-      */
           background-color: transparent;
+      */
+          background-color: #161925;
           border-radius: 16px;
       }
 
@@ -157,18 +179,20 @@
       ];
     }))
 
+    wl-gammactl
+    wl-clipboard
     brightnessctl
     hyprpicker
     inotify-tools
-    dunst
     libnotify
     swww
-    swayidle
-    fuzzel
+    networkmanagerapplet
+    hyprpaper
+
     tofi
     wofi
-    networkmanagerapplet
+
     swaylock
-    hyprpaper
+    swayidle
   ];
 }
