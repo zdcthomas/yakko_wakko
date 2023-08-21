@@ -61,7 +61,7 @@
   };
 
   imports = [
-    ./rofi.nix
+    ../rofi.nix
   ];
   programs.wofi = {
     enable = true;
