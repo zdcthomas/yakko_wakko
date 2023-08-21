@@ -1,19 +1,31 @@
-{ config, pkgs, overlays, ... }:
+{ config, modulesPath, pkgs, overlays, lib, ... }:
 
 let
-  _ = builtins.trace pkgs;
-  management_scripts = import ./nix/nix_management_scripts_pkgs.nix { pkgs = pkgs; homeDirectory = config.home.homeDirectory; };
+  management_scripts = import ../../nix_management_scripts_pkgs.nix { pkgs = pkgs; homeDirectory = config.home.homeDirectory; };
 in
 {
-  manual.html.enable = true;
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = overlays;
+  fonts.fontconfig.enable = true;
+  imports = [
+    ../../firefox.nix
+    ../../ssh.nix
+    ../../zsh
+    ../../alacritty.nix
+    # ../../zellij.nix
+    ../../hyprland
+    ../../neofetch
+  ];
+  # manual.html.enable = true;
+  # nixpkgs.overlays = overlays;
+  # nixpkgs.config = {
+  #   allowUnfree = true;
+  # };
+
   news.display = "show";
 
   nix = {
 
     checkConfig = true;
-    /* package = pkgs.nixVersions.unstable; */
+    # package = pkgs.nixVersions.unstable;
 
     extraOptions = ''
       keep-outputs = true
@@ -42,34 +54,32 @@ in
     /* stateVersion = "22.05"; */
 
     /* extraOutputsToInstall = [ "man" ]; */
-
     packages = with pkgs; [
 
-      bash
-      nurl
-      deno
-      nix-init
+      # bash
+      # feh
       bashInteractive
       bat
+      btop
       boxes
       exa
       fd
+      firefox
       fish
       font-awesome_5
       fzf
       gh
       git
       gnumake
-      go
-      graphviz
       htop
       jq
-      lua
-      # neovim
-      nodejs
+      kitty
+      neovim
+      nix-init
+      nurl
       pandoc
       ripgrep
-      rustup
+      # rustup
       sd
       silver-searcher
       skim
@@ -81,8 +91,9 @@ in
       weechat
       wget
       zip
-      zk
 
+      minecraft
+      prismlauncher
       (
         nerdfonts.override {
           fonts = [
@@ -95,7 +106,28 @@ in
         }
       )
 
-    ] ++ management_scripts;
+      # rnix-lsp
+      pavucontrol
+      cava
+      imv
+      nixpkgs-fmt
+      stylua
+      lua-language-server
+      prettierd
+      eslint_d
+      rust-analyzer-nightly
+      yamlfmt
+      marksman
+      nixd
+      xdg-utils
+      discord
+      (fenix.complete.withComponents [
+        "cargo"
+        "clippy"
+        "rust-src"
+        "rustc"
+      ])
+    ];
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
@@ -105,7 +137,7 @@ in
     # You can update Home Manager without changing this value. See
     # the Home Manager release notes for a list of state version
     # changes in each release.
-    stateVersion = "22.05";
+    stateVersion = "23.05";
 
 
     /* symlink the config directory. I know this isn't the nix way, but it's
@@ -119,35 +151,31 @@ in
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
       };
       /* ".tmux.conf".source = ./tmux.conf; */
-      ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;
-      ".boxes".source = ./config/boxes/.boxes;
+      ".config/dmux/dmux.conf.toml".source = ../../../config/dmux/dmux.conf.toml;
+      ".boxes".source = ../../../config/boxes/.boxes;
+    };
+    keyboard = {
+      # variant = "colemak";
+      layout = "us";
+      options = [ "caps:escape" ];
     };
 
 
     sessionVariables = {
       /* TODO: Split these out into another module */
-      /* ----------------------------*/
-      /* |    homebrew variables    |*/
-      /* ----------------------------*/
-
-      HOMEBREW_PREFIX = "/opt/homebrew";
-      HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
-      HOMEBREW_REPOSITORY = "/opt/homebrew";
       MANPATH = "/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
       INFOPATH = "/opt/homebrew/share/info:${INFOPATH:-}";
 
       EDITOR = "nvim";
       DIFFPROG = "nvim -d";
       SKIM_DEFAULT_COMMAND = "fd --hidden --type f";
-      ERL_AFLAGS = "-kernel shell_history enabled";
-      ELIXIR_EDITOR = "nvim +__LINE__ __FILE__";
       /* Move these to fzf program config */
       FZF_ALT_C_COMMAND = "fd -t d";
       FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
       FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
       FZF_DEFAULT_COMMAND = "fd --hidden --type f";
       FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
-      PATH = "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:$HOME/bin";
+      PATH = "$PATH:$HOME/.cargo/bin/:$HOME/bin";
     };
 
     sessionPath = [ "$HOME/.cargo/bin" ];
@@ -165,6 +193,9 @@ in
   };
 
   programs = {
+    qutebrowser = {
+      enable = true;
+    };
     exa = {
       enable = true;
       enableAliases = true;
@@ -262,9 +293,6 @@ in
       generateCaches = true;
     };
 
-    alacritty = {
-      enable = true;
-    };
 
     kitty = {
       /* cool kitty colors */
@@ -276,13 +304,27 @@ in
       /* moonlight */
       /* Flat */
       /* zenwritten_dark */
+
+      # theme = "Everforest Dark Medium";
       enable = true;
-      theme = "Everforest Dark Medium";
+      # theme = "Catppuccin-Mocha";
+      # theme = "Galaxy";
+      # theme = "Lavandula";
+      # theme = "Royal";
+      theme = "Sea Shells";
       font = {
-        size = 17;
-        name = "Terminus Nerd Font";
+        size = 11;
+        name = "FiraCode Nerd Font";
       };
-      extraConfig = builtins.readFile ./config/kitty/kitty.conf;
+      settings = {
+        disable_ligatures = "cursor";
+        hide_window_decorations = "titlebar-only";
+        enable_audio_bell = false;
+        background_opacity = "0.7";
+        macos_quit_when_last_window_closed = true;
+        macos_option_as_alt = true;
+      };
+      # extraConfig = builtins.readFile ../../../config/kitty/kitty.conf;
     };
 
     # Let Home Manager install and manage itself.
@@ -294,9 +336,9 @@ in
       };
     };
 
-    go = {
-      enable = true;
-    };
+    # go = {
+    #   enable = true;
+    # };
 
     fzf = {
       enable = true;
@@ -306,105 +348,6 @@ in
       enableFishIntegration = true;
     };
 
-    bash = {
-      enable = true;
-      enableCompletion = true;
-      shellOptions = [
-        "histappend"
-        "checkwinsize"
-        "extglob"
-      ];
-      initExtra = ''
-        bind '"\e[A": history-search-backward'
-        bind '"\e[B": history-search-forward'
-
-        git_branch() {
-            # git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-            git branch 2>/dev/null | grep '^*' | colrm 1 2
-        }
-
-        function dirty(){
-        	if [[ $(git status --porcelain 2> /dev/null)  ]];
-        		then 
-        			echo "*"; 
-        	fi
-        }
-
-        cyan="\[\033[36m\]"
-        white="\[\033[m\]"
-        green="\[\033[32m\]"
-        yellow="\[\033[33;1m\]"
-        in_prompt="| => "
-        export PS1="$cyan\u$white@$yellow \w$white \$(git_branch) \$(dirty) \n$in_prompt"
-        export PS2=$in_prompt
-        export PS2="| ?> "
-      '';
-    };
-
-    zsh =
-      {
-        enable = true;
-        enableAutosuggestions = true;
-        enableCompletion = true;
-        history.extended = true;
-        autocd = true;
-        initExtraFirst = "source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh\n" + builtins.readFile ./nix/zsh/zsh_extra_config.zsh;
-        plugins = [
-          {
-            name = "_git";
-            src = pkgs.fetchurl {
-              url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
-              sha256 = "sha256-9gddKDJQeF7c8JKBmSvea0vMQ+stynRIjYgKUvdlnAk=";
-            };
-          }
-          {
-            name = "zsh-history-substring-search";
-            src = pkgs.fetchFromGitHub {
-              owner = "zsh-users";
-              repo = "zsh-history-substring-search";
-              rev = "1.0.2";
-              sha256 = "0zmq66dzasmr5pwribyh4kbkk23jxbpdw4rjxx0i7dx8jjp2lzl4";
-            };
-          }
-          {
-            name = "zsh-syntax-highlighting";
-            src = pkgs.fetchFromGitHub {
-              owner = "zsh-users";
-              repo = "zsh-syntax-highlighting";
-              rev = "0.7.1";
-              sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
-            };
-          }
-          # {
-          #   name = "zsh-nix-shell";
-          #   file = "nix-shell.plugin.zsh";
-          #   src = pkgs.fetchFromGitHub {
-          #     owner = "chisui";
-          #     repo = "zsh-nix-shell";
-          #     rev = "v0.5.0";
-          #     sha256 = "0za4aiwwrlawnia4f29msk822rj9bgcygw6a8a6iikiwzjjz0g91";
-          #   };
-          # }
-          {
-            name = "git-prompt";
-            src = pkgs.fetchFromGitHub {
-              owner = "woefe";
-              repo = "git-prompt.zsh";
-              rev = "v2.3.0";
-              sha256 = "i5UemJNwlKjMJzStkUc1XHNm/kZQfC5lvtz6/Y0AwRU=";
-            };
-          }
-          {
-            name = "zsh-autosuggestions";
-            src = pkgs.fetchFromGitHub {
-              owner = "zsh-users";
-              repo = "zsh-autosuggestions";
-              rev = "v0.7.0";
-              sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
-            };
-          }
-        ];
-      };
     gh = {
       enable = true;
       settings = {
@@ -422,6 +365,9 @@ in
       enable = true;
       userName = "zdcthomas";
       userEmail = "zdcthomas@yahoo.com";
+      extraConfig = {
+        init.defaultBranch = "main";
+      };
       iniContent.merge.conflictstyle = "diff3";
       extraConfig = {
         core = {
@@ -429,6 +375,7 @@ in
         };
       };
       aliases = {
+        graph = "log --graph --decorate --oneline";
         co = "switch";
         cnv = "commit --no-verify";
         ap = "add --patch";
@@ -438,6 +385,8 @@ in
         "*.swp"
         "2"
         ".DS_Store"
+        ".DS_Store?"
+        ".Trashes"
       ];
     };
 
