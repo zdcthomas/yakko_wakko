@@ -96,7 +96,7 @@
 
     in
     {
-      defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+      # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
       /* defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin; */
       /* defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin; */
       darwinConfigurations = {
@@ -118,10 +118,11 @@
         };
       };
       nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem {
+        nixos = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; inherit overlays; };
           modules = [
+            ({ ... }: { nixpkgs.overlays = overlays; })
             ./nix/nixos_configs/thinkpad/configuration.nix
           ];
         };
