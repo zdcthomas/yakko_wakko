@@ -49,7 +49,7 @@
   };
 
   home.file = {
-    ".config/hypr/hyprpaper.conf".source = ./hyprland/hyprpaper.conf;
+    ".config/hypr/hyprpaper.conf".source = ./hyprpaper.conf;
 
     ".config/tofi/" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/tofi";
