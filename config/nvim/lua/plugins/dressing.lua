@@ -9,7 +9,6 @@ return {
 				insert_only = false,
 
 				-- These are passed to nvim_open_win
-				anchor = "SW",
 				relative = "cursor",
 				border = "rounded",
 			},
