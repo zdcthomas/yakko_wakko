@@ -15,7 +15,6 @@ in
       ./hardware-configuration.nix
       ./de.nix
       inputs.home-manager.nixosModules.home-manager
-      # inputs.hyprland.nixosModules.default
     ];
 
   home-manager.useGlobalPkgs = true;
