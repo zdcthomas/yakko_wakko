@@ -1,13 +1,12 @@
 { de, lib, config, pkgs, inputs, ... }:
 let
   cfg = config.zdct.de;
-  greeterHypr = pkgs.writeText "greetd-hypr-config" ''
-    $mainMod = SUPER
-    bind = $mainMod + SHIFT, Q, exit, 
-    bind = $mainMod, Return, exec, alacritty
-
-    exec-once "${pkgs.greetd.regreet}/bin/regreet; hyprctl dispatch exit"
-  '';
+  art = lib.strings.concatStringsSep "\n" [
+    "──────▄▀▄─────▄▀▄──────"
+    "─────▄█░░▀▀▀▀▀░░█▄─────"
+    "─▄▄──█░░░░░░░░░░░█──▄▄─"
+    "█▄▄█─█░░▀░░┬░░▀░░█─█▄▄█"
+  ];
 in
 with lib;
 {
@@ -72,39 +71,20 @@ with lib;
           };
           security.rtkit.enable = true;
 
-          # services.xserver.enable = true;
-          # services.xserver.displayManager = {
-          #   defaultSession = "hyprland";
-          #   sddm = {
-          #     enable = true;
-          #     theme = "elarun";
-          #   };
-          # };
-
-
-
-          # services.greetd = {
-          #   enable = true;
-          #   settings = {
-          #     default_session = {
-          #       command = "${pkgs.greetd.regreet}/bin/agreety --cmd ${pkgs.hyprland}/bin/Hyprland";
-          #     };
-          #   };
-          # };
-
+          services.greetd = {
+            enable = true;
+            settings = {
+              default_session = {
+                command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${pkgs.hyprland}/bin/Hyprland -g \"${art}\" --remember --user-menu --asterisks";
+              };
+            };
+          };
 
           security.pam.services.swaylock = {
             #Swaylock fix for wrong password
             text = ''
               auth include login
             '';
-          };
-
-          # environment.systemPackages = with pkgs; [
-          #   greetd.gtkgreet
-          # ];
-          programs.regreet = {
-            enable = true;
           };
 
           programs.hyprland = {

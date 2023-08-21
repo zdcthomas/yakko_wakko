@@ -1,7 +1,6 @@
 /* Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked into git */
 {
   description = "Hopefully this _is_ my final form";
-
   inputs =
     {
       hyprland.url = "github:hyprwm/Hyprland";
@@ -22,6 +21,7 @@
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
       };
+      dmux.url = "github:zdcthomas/dmux";
       neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
       nur = {
         url = "github:nix-community/NUR";
