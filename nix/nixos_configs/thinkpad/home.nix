@@ -8,7 +8,7 @@ in
   imports = [
     ../../firefox.nix
     ../../ssh.nix
-    ../../zsh/zsh
+    ../../zsh
     ../../alacritty.nix
     # ../../zellij.nix
     ../../hyprland
