@@ -8,10 +8,10 @@ in
   imports = [
     ../../firefox.nix
     ../../ssh.nix
-    ../../zsh/zsh.nix
+    ../../zsh/zsh
     ../../alacritty.nix
-    ../../zellij.nix
-    ../../hyprland.nix
+    # ../../zellij.nix
+    ../../hyprland
     ../../neofetch
   ];
   # manual.html.enable = true;
@@ -193,6 +193,9 @@ in
   };
 
   programs = {
+    qutebrowser = {
+      enable = true;
+    };
     exa = {
       enable = true;
       enableAliases = true;

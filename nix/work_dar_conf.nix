@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, username, ... }:
 {
   users.users.zdcthomas = {
     home = "/Users/zdcthomas";

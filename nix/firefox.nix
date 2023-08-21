@@ -45,6 +45,13 @@
             url = "https://github.com";
           }
           {
+            name = "example nixos configurations";
+            tags = [ "nixos" "nix" ];
+            keyword = "example config";
+            url = "https://nixos.wiki/wiki/Configuration_Collection";
+          }
+
+          {
             name = "hyprland wiki";
             tags = [ "wiki" "hyprland" ];
             keyword = "hyprland";
