@@ -128,9 +128,8 @@ local function setup_lua(capabilities, common_on_attach)
 				telemetry = {
 					enable = false,
 				},
-
 				diagnostics = {
-					-- Get the language server to recognize the `vim` global
+					-- Get the language server to recognize the `vim` and `hs` (hammerspoon) global
 					globals = { "vim", "hs" },
 				},
 				completion = {
@@ -249,7 +248,7 @@ return {
 			"kosayoda/nvim-lightbulb",
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"dodomorandi/rust-tools.nvim",
+			{ "dodomorandi/rust-tools.nvim", dependencies = { "mfussenegger/nvim-dap" } },
 			{
 				"folke/neodev.nvim",
 				ft = "lua",
