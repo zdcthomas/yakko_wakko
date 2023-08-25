@@ -1,10 +1,25 @@
-{ pkgs, ... }:
-
+{ pkgs, config, ... }:
+let
+  hex = color: ("#" + config.colorScheme.colors.${color});
+in
 {
   programs.alacritty = {
     enable = true;
 
     settings = {
+      key_bindings = [
+
+        {
+          key = "Plus";
+          mods = "Control";
+          action = "IncreaseFontSize";
+        }
+        {
+          key = "Minus";
+          mods = "Control";
+          action = "DecreaseFontSize";
+        }
+      ];
       window = {
         title = "Terminal";
         opacity = 0.8;
@@ -21,75 +36,33 @@
       colors = {
         # Default colors
         primary = {
-          background = "#061923";
-          foreground = "#e5c49e";
+          background = hex "base00";
+          foreground = hex "base05";
         };
 
         # Colors the cursor will use if `custom_cursor_colors` is true
         cursor = {
-          text = "#061822";
-          cursor = "#feaf3c";
+          text = hex "base00";
+          cursor = hex "base0A";
         };
 
         selection = {
-          text = "#ffe9d7";
-          background = "#265b75";
+          text = hex "base07";
+          background = hex "base0D";
         };
 
         # Normal colors
         normal = {
-          black = "#1d485f";
-          red = "#db662d";
-          green = "#008eab";
-          yellow = "#feaf3c";
-          blue = "#255a62";
-          magenta = "#77dbf4";
-          cyan = "#5fb1c2";
-          white = "#e5c49e";
-        };
-
-        # Bright colors
-        bright = {
-          black = "#545d65";
-          red = "#dd998a";
-          green = "#739da8";
-          yellow = "#fedaae";
-          blue = "#0bc7e3";
-          magenta = "#c6e8f1";
-          cyan = "#97b9c0";
-          white = "#ffe9d7";
+          black = hex "base00";
+          red = hex "base08";
+          green = hex "base0B";
+          yellow = hex "base0A";
+          blue = hex "base0D";
+          magenta = hex "base0E";
+          cyan = hex "base0C";
+          white = hex "base07";
         };
       };
-      # colors = {
-      #   primary = {
-      #     background = "0x000000";
-      #     foreground = "0xEBEBEB";
-      #   };
-      #   cursor = {
-      #     text = "0xFF261E";
-      #     cursor = "0xFF261E";
-      #   };
-      #   normal = {
-      #     black = "0x0D0D0D";
-      #     red = "0xFF301B";
-      #     green = "0xA0E521";
-      #     yellow = "0xFFC620";
-      #     blue = "0x178AD1";
-      #     magenta = "0x9f7df5";
-      #     cyan = "0x21DEEF";
-      #     white = "0xEBEBEB";
-      #   };
-      #   bright = {
-      #     black = "0x6D7070";
-      #     red = "0xFF4352";
-      #     green = "0xB8E466";
-      #     yellow = "0xFFD750";
-      #     blue = "0x1BA6FA";
-      #     magenta = "0xB978EA";
-      #     cyan = "0x73FBF1";
-      #     white = "0xFEFEF8";
-      #   };
-      # };
     };
   };
 }
