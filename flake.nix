@@ -28,7 +28,7 @@
       };
     };
 
-  outputs = { nixpkgs, home-manager, darwin, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, darwin, ... }@inputs:
     let
       # overlays get passed to home manager to add/change values in pkgs, e.g
       # change neovim version/ add NUR
@@ -78,6 +78,7 @@
       mkDarConf = { username, pkgs, home, system }: { darwinModules, homeModules }: darwin.lib.darwinSystem {
         system = system;
         modules = darwinModules ++ [
+          { nixpkgs = pkgs; }
           home-manager.darwinModule
           {
             home-manager = {
@@ -99,23 +100,36 @@
       # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
       /* defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin; */
       /* defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin; */
+      # overlays = overlays;
       darwinConfigurations = {
 
         /* ------------------------*/
         /* |    Work config       |*/
         /* ------------------------*/
-        Zacharys-MacBook-Pro = mkDarConf work {
-          darwinModules = [ ./nix/work_dar_conf.nix ];
-          homeModules = [ ./home.nix ./nix/work.nix ./nix/hammerspoon.nix ];
-        };
+        Zacharys-MacBook-Pro =
+          let
+            username = "zdcthomas";
+          in
+          darwin.lib.darwinSystem rec {
+
+            system = "aarch64-darwin";
+            specialArgs = { inherit system username overlays; };
+            modules = [
+              ./nix/work_dar_conf.nix
+              { nixpkgs.overlays = overlays; }
+              home-manager.darwinModule
+            ];
+          };
 
         /* -----------------------*/
         /* |    Home config       |*/
         /* -----------------------*/
-        Prime = mkDarConf personal {
-          darwinModules = [ ./nix/dar_conf.nix ];
-          homeModules = [ ./home.nix ./nix/personal.nix ./nix/hammerspoon.nix ];
-        };
+        Prime = mkDarConf
+          personal
+          {
+            darwinModules = [ ./nix/dar_conf.nix ];
+            homeModules = [ ./home.nix ./nix/personal.nix ./nix/hammerspoon.nix ];
+          };
       };
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem rec {
