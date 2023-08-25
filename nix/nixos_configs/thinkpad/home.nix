@@ -1,4 +1,4 @@
-{ config, modulesPath, pkgs, overlays, lib, ... }:
+{ config, modulesPath, pkgs, overlays, lib, inputs, ... }:
 
 let
   management_scripts = import ../../nix_management_scripts_pkgs.nix { pkgs = pkgs; homeDirectory = config.home.homeDirectory; };
@@ -6,20 +6,24 @@ in
 {
   fonts.fontconfig.enable = true;
   imports = [
+    inputs.nix-colors.homeManagerModules.default
     ../../firefox.nix
     ../../ssh.nix
     ../../zsh
+    ../../zathura
     ../../alacritty.nix
     # ../../zellij.nix
     ../../hyprland
-    ../../neofetch
+    # ../../neofetch
   ];
   # manual.html.enable = true;
   # nixpkgs.overlays = overlays;
   # nixpkgs.config = {
   #   allowUnfree = true;
   # };
-
+  colorScheme = inputs.nix-colors.colorSchemes.everforest;
+  # colorScheme = inputs.nix-colors.colorSchemes.dracula;
+  # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
   news.display = "show";
 
   nix = {
@@ -58,6 +62,9 @@ in
 
       # bash
       # feh
+      # texlive.combined.scheme-basic
+      texlive.combined.scheme-full
+      zathura
       bashInteractive
       bat
       btop
@@ -307,11 +314,11 @@ in
 
       # theme = "Everforest Dark Medium";
       enable = true;
-      # theme = "Catppuccin-Mocha";
+      theme = "Catppuccin-Mocha";
       # theme = "Galaxy";
       # theme = "Lavandula";
       # theme = "Royal";
-      theme = "Sea Shells";
+      # theme = config.colorScheme.name;
       font = {
         size = 11;
         name = "FiraCode Nerd Font";
@@ -335,10 +342,6 @@ in
         theme = "1337";
       };
     };
-
-    # go = {
-    #   enable = true;
-    # };
 
     fzf = {
       enable = true;
