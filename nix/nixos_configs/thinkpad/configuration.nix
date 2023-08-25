@@ -1,8 +1,7 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-args@{ config, pkgs, overlays, inputs, ... }:
+#  ----------------------------------------------------------------
+#  |    L580 (type 20LW, 20LX) Laptops (ThinkPad) - Type 20LW |
+#  ----------------------------------------------------------------
+args@{ config, pkgs, overlays, inputs, lib, ... }:
 let
   username = "zdcthomas";
 in
@@ -17,6 +16,9 @@ in
       inputs.home-manager.nixosModules.home-manager
     ];
 
+  services.tailscale = {
+    enable = true;
+  };
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.${username} = import ./home.nix;
@@ -41,10 +43,16 @@ in
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
+
+    optimise = {
+      automatic = true;
+      dates = [ "weekly" ];
+    };
   };
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  console.earlySetup = true;
 
   networking = {
     dhcpcd.wait = "background";
@@ -79,6 +87,7 @@ in
   };
 
   services.journald.extraConfig = "SystemMaxUse=1G";
+  services.locate.enable = true;
 
   console.useXkbConfig = true;
 
@@ -127,15 +136,7 @@ in
     packages = with pkgs; [
       vim
       gcc
-      # (inputs.naersk.buildPackage {
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "zdcthomas";
-      #     repo = "dmux";
-      #     rev = "0.6.3";
-      #     sha256 = "er1KI2xSUtTlQd9jZl1AjqeArrfBxrgBLcw5OqinuAM=";
-      #   };
-      # })
-      inputs.dmux.defaultPackage."x86_64-linux"
+      dmux
     ];
   };
 
@@ -163,7 +164,7 @@ in
     enable = true;
     # Certain features, including CLI integration and system authentication support,
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = [ "zdcthomas" ];
+    polkitPolicyOwners = [ username ];
   };
 
   # Some programs need SUID wrappers, can be configured further or are
