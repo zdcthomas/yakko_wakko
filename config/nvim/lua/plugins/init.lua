@@ -15,6 +15,31 @@ return {
 		end,
 	},
 	{
+		"uga-rosa/ccc.nvim",
+		-- lazy = false,
+		ft = { "nix", "txt", "conf" },
+		cmd = {
+			"CccPick",
+			"CccConvert",
+			"CccHighlighterToggle",
+			"CccHighlighterEnable",
+			"CccHighlighterDisable",
+		},
+		config = function()
+			local ccc = require("ccc")
+			-- local mapping = ccc.mapping
+
+			ccc.setup({
+				-- Your preferred settings
+				-- Example: enable highlighter
+				highlighter = {
+					auto_enable = true,
+					lsp = true,
+				},
+			})
+		end,
+	},
+	{
 		"luukvbaal/stabilize.nvim",
 		event = "VeryLazy",
 		config = function()
