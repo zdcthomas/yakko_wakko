@@ -12,7 +12,6 @@ return {
           ]])
 				end,
 			})
-			-- do whatever you want for further customization~
 		end,
 	},
 

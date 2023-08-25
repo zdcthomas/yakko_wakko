@@ -4,6 +4,7 @@
   inputs =
     {
       hyprland.url = "github:hyprwm/Hyprland";
+      nixos-hardware.url = "github:NixOS/nixos-hardware/master";
       nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       discord = {
         url = "github:InternetUnexplorer/discord-overlay";
@@ -23,20 +24,22 @@
       };
       dmux.url = "github:zdcthomas/dmux";
       neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-      nur = {
-        url = "github:nix-community/NUR";
-      };
+      nur.url = "github:nix-community/NUR";
+      nix-colors.url = "github:misterio77/nix-colors";
     };
 
-  outputs = { nixpkgs, home-manager, darwin, ... }@inputs:
+  outputs = { nixpkgs, home-manager, darwin, nixos-hardware, ... }@inputs:
     let
-      # overlays get passed to home manager to add/change values in pkgs, e.g
+      # overlays add/change values in pkgs, e.g
       # change neovim version/ add NUR
       overlays = [
         inputs.neovim-nightly-overlay.overlay
         inputs.nur.overlay
         inputs.fenix.overlays.default
         inputs.discord.overlay
+        (final: prev: {
+          dmux = inputs.dmux.defaultPackage.${prev.system};
+        })
       ];
 
       mk_home_username_and_dir = { username, homeDirectoryPrefix ? "/Users/" }: { config, pkgs, ... }: {
@@ -120,9 +123,14 @@
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; inherit overlays; };
+          specialArgs = {
+            inherit inputs; inherit overlays; inherit system;
+          };
           modules = [
-            ({ ... }: { nixpkgs.overlays = overlays; })
+            nixos-hardware.nixosModules.lenovo-thinkpad
+            ({ ... }: {
+              nixpkgs. overlays = overlays;
+            })
             ./nix/nixos_configs/thinkpad/configuration.nix
           ];
         };
