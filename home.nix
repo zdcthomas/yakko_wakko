@@ -45,7 +45,6 @@ in
 
     packages = with pkgs; [
 
-      bash
       nurl
       deno
       nix-init

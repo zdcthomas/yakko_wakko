@@ -1,14 +1,32 @@
-{ pkgs, lib, username, ... }:
+{ pkgs, lib, username, inputs, overlays, ... }:
 {
-  users.users.zdcthomas = {
-    home = "/Users/zdcthomas";
+  users.users.${username} = {
+    home = "/Users/${username}";
     shell = pkgs.zsh;
   };
-  environment.shells = [
-    pkgs.zsh
-    pkgs.fish
-    pkgs.bashInteractive
-  ];
+  # environment.shells = [
+  #   pkgs.zsh
+  #   pkgs.fish
+  #   pkgs.bashInteractive
+  # ];
+
+  # environment.systemPackages = with pkgs; [
+  #   kitty
+  # ];
+  home-manager = {
+    extraSpecialArgs =
+      {
+        inherit overlays;
+        inherit inputs;
+      };
+    users.${username} = { ... }: {
+      imports = [
+        ../home.nix
+        ./work.nix
+        ./hammerspoon.nix
+      ];
+    };
+  };
 
 
   nix = {
@@ -28,6 +46,8 @@
 
     brews = [
       /* "yabai" */
+      "coreutils"
+      "awscurl"
       "json-table"
     ];
     casks = [
@@ -76,9 +96,7 @@
         tilesize = 45;
       };
     };
-
   };
-
 }
 
 /* aom                     fd                      jemalloc                libx11                  numpy                   screenresolution */
