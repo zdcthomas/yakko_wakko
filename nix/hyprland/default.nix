@@ -5,9 +5,6 @@ in
 
 # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
 {
-  # services.dunst = {
-  #   enable = true;
-  # };
   services.mako = {
     enable = true;
     borderRadius = 10;
@@ -36,11 +33,11 @@ in
     systemdTarget = "hyprland-session.target";
     timeouts = [
       {
-        timeout = 90;
+        timeout = 180;
         command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
       }
       {
-        timeout = 95;
+        timeout = 185;
         command = "${pkgs.swaylock}/bin/swaylock -f";
       }
     ];

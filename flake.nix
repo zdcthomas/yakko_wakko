@@ -3,6 +3,7 @@
   description = "Hopefully this _is_ my final form";
   inputs =
     {
+      ags.url = "github:Aylur/ags";
       hyprland.url = "github:hyprwm/Hyprland";
       nixos-hardware.url = "github:NixOS/nixos-hardware/master";
       nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -39,6 +40,7 @@
         inputs.discord.overlay
         (final: prev: {
           dmux = inputs.dmux.defaultPackage.${prev.system};
+          ags = inputs.ags.packages.${prev.system}.default;
         })
       ];
 

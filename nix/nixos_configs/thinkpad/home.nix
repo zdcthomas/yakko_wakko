@@ -63,6 +63,7 @@ in
       # bash
       # feh
       # texlive.combined.scheme-basic
+      (pkgs.writeScriptBin "dot" "sudo nixos-rebuild switch --flake ~/yakko_wakko/")
       texlive.combined.scheme-full
       zathura
       bashInteractive

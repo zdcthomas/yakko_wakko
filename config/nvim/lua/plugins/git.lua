@@ -658,14 +658,17 @@ return {
 	{
 		"NeogitOrg/neogit",
 		cmd = { "NeoGit" },
-		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
-		config = function()
-			require("neogit").setup({
-				disable_commit_confirmation = false,
-				integrations = {
-					diffview = true,
-				},
-			})
-		end,
+		dependencies = {
+			"nvim-telescope/telescope.nvim",
+			"nvim-lua/plenary.nvim",
+			"sindrets/diffview.nvim",
+		},
+		config = {
+			disable_commit_confirmation = false,
+			integrations = {
+				diffview = true,
+				telescope = true,
+			},
+		},
 	},
 }
