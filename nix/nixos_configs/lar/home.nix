@@ -3,6 +3,8 @@
 
   imports = [
     ../../nix.hm/
+    ../../nvim.hm/
+
   ];
 
   # stateVersion = "23.05";
