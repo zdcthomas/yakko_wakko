@@ -27,8 +27,10 @@
     ''
   )
 
-  (pkgs.writeScriptBin "os-switch" ''
-    sudo nixos-rebuild switch --flake ~/yakko_wakko/
-  '')
+  (
+    pkgs.writeScriptBin "os-switch" ''
+      sudo nixos-rebuild switch --flake ~/yakko_wakko/
+    ''
+  )
 ]
 

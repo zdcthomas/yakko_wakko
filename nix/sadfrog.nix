@@ -6,10 +6,15 @@
       ffmpeg
       firefox
       lshw
+      beets
       nodejs-18_x
       soulseekqt
       /* expressvpn */
     ];
+
+    file = {
+      ".config/beets/config.yaml".source = ../config/beets/config.yaml;
+    };
   };
 
   programs = {
