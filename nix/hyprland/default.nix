@@ -1,4 +1,7 @@
 { pkgs, lib, inputs, config, ... }:
+let
+  col = color: (lib.strings.removePrefix "#" config.colorScheme.colors.${color});
+in
 
 # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
 {
@@ -10,34 +13,35 @@
     borderRadius = 10;
     defaultTimeout = 4000; # milliseconds
     anchor = "top-right";
-    backgroundColor = "#131718b3";
-    borderColor = "#c4c4c4";
+    backgroundColor = col "base00";
+    borderColor = col "base07";
     font = "FiraCode";
   };
 
-  # programs.swaylock = {
-  #   enable = true;
-  #   settings = {
-  #     color = "808080";
-  #     font-size = 24;
-  #     indicator-idle-visible = false;
-  #     indicator-radius = 100;
-  #     line-color = "ffffff";
-  #     show-failed-attempts = true;
-  #   };
-  # };
-  #
+  programs.swaylock = {
+    enable = true;
+    settings = {
+      color = col "base0D";
+      font-size = 24;
+      indicator-idle-visible = true;
+      indicator-radius = 100;
+      line-color = col "base01";
+      show-failed-attempts = true;
+    };
+  };
+
 
   services.swayidle = {
     enable = true;
+    systemdTarget = "hyprland-session.target";
     timeouts = [
       {
-        timeout = 295;
+        timeout = 90;
         command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
       }
       {
-        timeout = 300;
-        command = "${pkgs.swaylock}/bin/swaylock -f -i ~/wallpapers/3.png";
+        timeout = 95;
+        command = "${pkgs.swaylock}/bin/swaylock -f";
       }
     ];
     events = [
@@ -63,130 +67,130 @@
   imports = [
     ../rofi.nix
   ];
-  programs.wofi = {
-    enable = true;
-    settings = {
-      width = 420;
-      height = 550;
-      location = "center";
-      show = "drun";
-      matching = "fuzzy";
-      prompt = "Search...";
-      filter_rate = 100;
-      allow_markup = true;
-      no_actions = true;
-      halign = "fill";
-      orientation = "vertical";
-      content_halign = "fill";
-      insensitive = true;
-      allow_images = true;
-      image_size = 28;
-      gtk_dark = false;
-      term = "alacritty";
-    };
-
-    style = ''
-      * {
-        transition: 0.2s;
-      }
-
-      window {
-      	font-family: "FiraCode Nerd Font Mono";
-      	font-size: 13px;
-      }
-
-      window {
-          margin: 0px;
-          border: 2px solid #cba6f7;
-      /*
-          background-color: transparent;
-      */
-          background-color: #161925;
-          border-radius: 16px;
-      }
-
-      #input {
-          padding: 4px;
-          margin: 20px;
-          padding-left: 20px;
-          border: none;
-          color: #fff;
-          font-weight: bold;
-          background: linear-gradient(90deg, #cba6f7 0%, #94e2d5 100%);
-         	outline: none;
-          border-radius: 16px;
-      }
-
-      #input image {
-          color: #fff;
-      }
-
-      #input:focus {
-          border: none;
-         	outline: none;
-      }
-
-      #inner-box {
-          margin: 20px;
-          margin-top: 0px;
-          border: none;
-          color: #cba6f7;
-          border-radius: 16px;
-      }
-
-      #inner-box * {
-          transition: none;
-      }
-
-      #outer-box {
-          margin: 0px;
-          border: none;
-          padding: 0px;
-          border-radius: 16px;
-      }
-
-      #scroll {
-          margin-top: 5px;
-          border: none;
-          border-radius: 16px;
-          margin-bottom: 5px;
-      }
-
-      #text:selected {
-          color: #fff;
-          font-weight: bold;
-      }
-
-      #img {
-          margin-right: 20px;
-          background: transparent;
-      }
-
-      #text {
-          margin: 0px;
-          border: none;
-          padding: 0px;
-          background: transparent;
-      }
-
-      #entry {
-          margin: 0px;
-          border: none;
-          border-radius: 16px;
-          background-color: transparent;
-          min-height:32px;
-          font-weight: bold;
-      }
-
-      #entry:selected {
-          outline: none;
-          margin: 0px;
-          border: none;
-          border-radius: 16px;
-          background: linear-gradient(90deg, #cba6f7 0%, #94e2d5 100%);
-      }
-    '';
-  };
+  # programs.wofi = {
+  #   enable = true;
+  #   settings = {
+  #     width = 420;
+  #     height = 550;
+  #     location = "center";
+  #     show = "drun";
+  #     matching = "fuzzy";
+  #     prompt = "Search...";
+  #     filter_rate = 100;
+  #     allow_markup = true;
+  #     no_actions = true;
+  #     halign = "fill";
+  #     orientation = "vertical";
+  #     content_halign = "fill";
+  #     insensitive = true;
+  #     allow_images = true;
+  #     image_size = 28;
+  #     gtk_dark = false;
+  #     term = "alacritty";
+  #   };
+  #
+  #   style = ''
+  #     * {
+  #       transition: 0.2s;
+  #     }
+  #
+  #     window {
+  #     	font-family: "FiraCode Nerd Font Mono";
+  #     	font-size: 13px;
+  #     }
+  #
+  #     window {
+  #         margin: 0px;
+  #         border: 2px solid #cba6f7;
+  #     /*
+  #         background-color: transparent;
+  #     */
+  #         background-color: #161925;
+  #         border-radius: 16px;
+  #     }
+  #
+  #     #input {
+  #         padding: 4px;
+  #         margin: 20px;
+  #         padding-left: 20px;
+  #         border: none;
+  #         color: #fff;
+  #         font-weight: bold;
+  #         background: linear-gradient(90deg, #cba6f7 0%, #94e2d5 100%);
+  #        	outline: none;
+  #         border-radius: 16px;
+  #     }
+  #
+  #     #input image {
+  #         color: #fff;
+  #     }
+  #
+  #     #input:focus {
+  #         border: none;
+  #        	outline: none;
+  #     }
+  #
+  #     #inner-box {
+  #         margin: 20px;
+  #         margin-top: 0px;
+  #         border: none;
+  #         color: #cba6f7;
+  #         border-radius: 16px;
+  #     }
+  #
+  #     #inner-box * {
+  #         transition: none;
+  #     }
+  #
+  #     #outer-box {
+  #         margin: 0px;
+  #         border: none;
+  #         padding: 0px;
+  #         border-radius: 16px;
+  #     }
+  #
+  #     #scroll {
+  #         margin-top: 5px;
+  #         border: none;
+  #         border-radius: 16px;
+  #         margin-bottom: 5px;
+  #     }
+  #
+  #     #text:selected {
+  #         color: #fff;
+  #         font-weight: bold;
+  #     }
+  #
+  #     #img {
+  #         margin-right: 20px;
+  #         background: transparent;
+  #     }
+  #
+  #     #text {
+  #         margin: 0px;
+  #         border: none;
+  #         padding: 0px;
+  #         background: transparent;
+  #     }
+  #
+  #     #entry {
+  #         margin: 0px;
+  #         border: none;
+  #         border-radius: 16px;
+  #         background-color: transparent;
+  #         min-height:32px;
+  #         font-weight: bold;
+  #     }
+  #
+  #     #entry:selected {
+  #         outline: none;
+  #         margin: 0px;
+  #         border: none;
+  #         border-radius: 16px;
+  #         background: linear-gradient(90deg, #cba6f7 0%, #94e2d5 100%);
+  #     }
+  #   '';
+  # };
   wayland.windowManager.hyprland = {
     enable = true;
     enableNvidiaPatches = true;
@@ -205,8 +209,8 @@
         "$terminal" = "${pkgs.alacritty}/bin/alacritty";
         "$browser" = "${pkgs.firefox}/bin/firefox";
         "$rofi-power-menu" = rofi_power_menu;
-        "$launcher_alt" = tofi;
-        "$launcher" = rofi;
+        "$launcher_alt" = rofi;
+        "$launcher" = tofi;
         "$mainMod" = "SUPER";
         input = {
 
@@ -234,32 +238,31 @@
         monitor = [ ",preferred,auto,auto" ];
         bind = [
 
-          "${mainMod} + SHIFT, TAB, focusmonitor,"
-          "${mainMod}, TAB, focusurgentorlast,,title:^(alacritty-btop)$"
+          "${mainMod} + SHIFT, TAB,    focusmonitor,                  "
+          "${mainMod},         TAB,    focusurgentorlast,             , title:^(alacritty-btop)$"
 
-          # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-          "${mainMod}, Return, exec, $terminal"
-          "${mainMod}, b, exec, $browser"
-          "${mainMod}, C, killactive,"
-          "${mainMod} + SHIFT, Q, exit,"
-          "${mainMod}, F, fullscreen,"
-          "${mainMod}, D, exec, $launcher"
-          "${mainMod}, P, exec, $rofi-power-menu"
-          "${mainMod} + SHIFT, m, layoutmsg, swapwithmaster master"
-          "${mainMod} + SHIFT, d, exec, $launcher_alt"
-          "${mainMod} + ALT, c, exec, ${ pkgs.hyprpicker }/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy"
-          "${mainMod} + CTRL, left, movecurrentworkspacetomonitor, l"
-          "${mainMod} + CTRL, right, movecurrentworkspacetomonitor, r"
+          "${mainMod},         Return, exec,                          $terminal"
+          "${mainMod},         b,      exec,                          $browser"
+          "${mainMod} + SHIFT, W,      killactive,                    "
+          "${mainMod} + SHIFT, Q,      exit,                          "
+          "${mainMod},         F,      fullscreen,                    "
+          "${mainMod},         D,      exec,                          $launcher"
+          "${mainMod},         P,      exec,                          $rofi-power-menu"
+          "${mainMod} + SHIFT, m,      layoutmsg,                     swapwithmaster master"
+          "${mainMod} + SHIFT, d,      exec,                          $launcher_alt"
+          "${mainMod} + ALT,   c,      exec,                          ${ pkgs.hyprpicker }/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy"
+          "${mainMod} + CTRL,  left,   movecurrentworkspacetomonitor, l"
+          "${mainMod} + CTRL,  right,  movecurrentworkspacetomonitor, r"
 
-          "${mainMod}, h, movefocus, l"
-          "${mainMod}, l, movefocus, r"
-          "${mainMod}, k, movefocus, u"
-          "${mainMod}, j, movefocus, d"
+          "${mainMod},         h,      movefocus,                     l"
+          "${mainMod},         l,      movefocus,                     r"
+          "${mainMod},         k,      movefocus,                     u"
+          "${mainMod},         j,      movefocus,                     d"
 
-          "${mainMod}+SHIFT, h, movewindow, l"
-          "${mainMod}+SHIFT, l, movewindow, r"
-          "${mainMod}+SHIFT, k, movewindow, u"
-          "${mainMod}+SHIFT, j, movewindow, d"
+          "${mainMod}+SHIFT,   h,      movewindow,                    l"
+          "${mainMod}+SHIFT,   l,      movewindow,                    r"
+          "${mainMod}+SHIFT,   k,      movewindow,                    u"
+          "${mainMod}+SHIFT,   j,      movewindow,                    d"
 
           # Switch workspaces with mainMod + [0-9]
           "${mainMod}, 1, workspace, 1"
@@ -311,8 +314,11 @@
           #  -------------------------
           #  |    Spaceman colors    |
           #  -------------------------
-          col.active_border = rgba(02FC96ee) rgba(F95666ee) 45deg
-          col.inactive_border = rgba(2A598Eaa)
+          col.active_border = rgba(${col "base0C"}FF) rgba(${col "base09"}FF) 45deg
+          col.inactive_border = rgba(${col "base00"}aa)
+
+          # col.active_border = rgba(02FC96ee) rgba(F95666ee) 45deg
+          # col.inactive_border = rgba(2A598Eaa)
           # </spaceman>
 
           layout = master
