@@ -1,7 +1,6 @@
 { config, pkgs, overlays, ... }:
 
 let
-  _ = builtins.trace pkgs;
   management_scripts = import ./nix/nix_management_scripts_pkgs.nix { pkgs = pkgs; homeDirectory = config.home.homeDirectory; };
 in
 {
@@ -13,7 +12,7 @@ in
   nix = {
 
     checkConfig = true;
-    /* package = pkgs.nixVersions.unstable; */
+    package = pkgs.nixVersions.unstable;
 
     extraOptions = ''
       keep-outputs = true
@@ -56,6 +55,7 @@ in
       fd
       fish
       font-awesome_5
+      du-dust
       fzf
       gh
       git
