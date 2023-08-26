@@ -42,6 +42,14 @@
       mk_home_username_and_dir = { username, homeDirectoryPrefix ? "/Users/" }: { config, pkgs, ... }: {
         home.username = username;
         home.homeDirectory = homeDirectoryPrefix + username;
+
+        # This value determines the NixOS release from which the default
+        # settings for stateful data, like file locations and database versions
+        # on your system were taken. It‘s perfectly fine and recommended to leave
+        # this value at the release version of the first install of this system.
+        # Before changing this value read the documentation for this option
+        # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+        home.stateVersion = "22.05"; # Did you read the comment?
       };
       mk_pkgs_conf = { system, overlays ? [ ] }:
         import nixpkgs {
@@ -139,6 +147,9 @@
       };
       homeConfigurations = {
         /* HOME SERVER */
+
+        /* /nix/store/akka8ims65hcqvha5dqq8d780b149x3q-source/pkgs/stdenv/generic/make-derivation.nix */
+
         sadfrog = home-manager.lib.homeManagerConfiguration {
           pkgs = home-serv.pkgs;
           modules = [

@@ -33,17 +33,17 @@
   i18n.defaultLocale = "en_US.utf8";
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  /* services.xserver.enable = true; */
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  /* # Enable the GNOME Desktop Environment. */
+  /* services.xserver.displayManager.gdm.enable = true; */
+  /* services.xserver.desktopManager.gnome.enable = true; */
 
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
+  /* # Configure keymap in X11 */
+  /* services.xserver = { */
+  /*   layout = "us"; */
+  /*   xkbVariant = ""; */
+  /* }; */
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -73,19 +73,41 @@
     isNormalUser = true;
     description = "Sad Frog";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    /* packages = with pkgs; [ */
-    /*   /1* firefox *1/ */
-    /*   #  thunderbird */
-    /* ]; */
+    packages = with pkgs; [
+      tailscale
+    ];
   };
 
+  services.tailscale.enable = true;
+
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "sadfrog";
+  /* services.xserver.displayManager.autoLogin.enable = true; */
+  /* services.xserver.displayManager.autoLogin.user = "sadfrog"; */
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
+
+  /* systemd.services.tailscale-autoconnect = */
+  /*   { */
+  /*     description = "auto connect to tailscale"; */
+  /*     after = [ "network-pre.target" "tailscale.service" ]; */
+  /*     wants = [ "network-pre.target" "tailscale.service" ]; */
+  /*     wantedBy = [ "multi-user.target" ]; */
+
+  /*     serviceConfig.Type = "oneshot"; */
+
+  /*     script = with pkgs; '' */
+  /*       sleep 2 */
+
+  /*       # status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackenState)" */
+  /*       # if [ $status = "Running" ]; then */
+  /*       #   exit 0 */
+  /*       # fi */
+
+  /*       ${tailscale}/bin/tailscale up --auth-key tskey-auth-kj37926CNTRL-N8fuDAwoGUKPT6f97MvXZKgqGYeSYgEN */
+  /*     ''; */
+  /*   }; */
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -126,8 +148,10 @@
     networkmanager.enable = true;
     hostName = "lar"; # Define your hostname.
     firewall = {
-      allowedTCPPorts = [ 8096 8920 8080 8123 63584 ];
-      allowedUDPPorts = [ 1900 7359 ];
+      checkReversePath = "loose";
+      trustedInterfaces = [ "tailscale0" ];
+      allowedTCPPorts = [ 8096 8920 8080 8123 63584 22 8080 ];
+      allowedUDPPorts = [ 1900 7359 config.services.tailscale.port ];
     };
   };
   # Open ports in the firewall.
