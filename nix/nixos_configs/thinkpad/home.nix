@@ -12,9 +12,10 @@ in
     ../../zsh
     ../../zathura
     ../../alacritty.nix
-    # ../../zellij.nix
     ../../hyprland
+    ../../nix.hm/
     # ../../neofetch
+    # ../../zellij.nix
   ];
   # manual.html.enable = true;
   # nixpkgs.overlays = overlays;
@@ -25,21 +26,6 @@ in
   # colorScheme = inputs.nix-colors.colorSchemes.dracula;
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
   news.display = "show";
-
-  nix = {
-
-    checkConfig = true;
-    # package = pkgs.nixVersions.unstable;
-
-    extraOptions = ''
-      keep-outputs = true
-      keep-derivations = true
-      auto-optimise-store = true
-      # assuming the builder has a faster internet connection
-      builders-use-substitutes = true
-      experimental-features = nix-command flakes
-    '';
-  };
 
   home = {
     /*     enableNixpkgsReleaseCheck = true; */

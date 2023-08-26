@@ -2,15 +2,33 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
-
+{ config, pkgs, overlays, inputs, ... }:
+let 
+  username = "sadfrog";
+in
 {
   imports =
     [
       # Include the results of the hardware scan.
+      inputs.home-manager.nixosModules.home-manager
       ./hardware-configuration.nix
       /* <nixos-unstable/nixos/modules/services/networking/expressvpn.nix> */
     ];
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.${username} = {
+    imports = [
+      # abstract this guy
+      ../../../home.nix
+      ./home.nix
+    ];
+  };
+  home-manager.extraSpecialArgs = {
+    inherit overlays;
+    inherit inputs;
+    inherit username;
+  };
 
   /* services.expressvpn.enable = true; */
 
@@ -75,6 +93,8 @@
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       tailscale
+      gcc
+      vim
     ];
   };
 
@@ -112,8 +132,8 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
-
+  # nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
+  #
   nix = {
     /* package = pkgs.nixFlakes; */
     extraOptions = "experimental-features = nix-command flakes";
