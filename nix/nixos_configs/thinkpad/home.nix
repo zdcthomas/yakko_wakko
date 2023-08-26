@@ -7,12 +7,12 @@ in
   fonts.fontconfig.enable = true;
   imports = [
     inputs.nix-colors.homeManagerModules.default
-    ../../firefox.nix
+    ../../firefox.hm.nix
     ../../ssh.hm.nix
-    ../../zsh
-    ../../zathura
-    ../../alacritty.nix
-    ../../hyprland
+    ../../zsh.hm
+    ../../zathura.hm
+    ../../alacritty.hm.nix
+    ../../hyprland.hm
     ../../nix.hm
     # ../../neofetch
     # ../../zellij.nix
