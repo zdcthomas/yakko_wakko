@@ -8,12 +8,12 @@ in
   imports = [
     inputs.nix-colors.homeManagerModules.default
     ../../firefox.nix
-    ../../ssh.nix
+    ../../ssh.hm.nix
     ../../zsh
     ../../zathura
     ../../alacritty.nix
     ../../hyprland
-    ../../nix.hm/
+    ../../nix.hm
     # ../../neofetch
     # ../../zellij.nix
   ];

@@ -2,9 +2,9 @@
 {
 
   imports = [
-    ../../nix.hm/
-    ../../nvim.hm/
-
+    ../../nix.hm
+    ../../nvim.hm
+    ../../ssh.hm.nix
   ];
 
   # stateVersion = "23.05";
