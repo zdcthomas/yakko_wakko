@@ -38,7 +38,8 @@
         inputs.fenix.overlays.default
         inputs.discord.overlay
         (final: prev: {
-          dmux = inputs.dmux.defaultPackage.${prev.system}; })
+          dmux = inputs.dmux.defaultPackage.${prev.system};
+        })
       ];
 
       mk_home_username_and_dir = { username, homeDirectoryPrefix ? "/Users/" }: { config, pkgs, ... }: {
@@ -137,8 +138,8 @@
         Prime = mkDarConf
           personal
           {
-            darwinModules = [ ./nix/dar_conf.nix ];
-            homeModules = [ ./home.nix ./nix/personal.nix ./nix/hammerspoon.nix ];
+            darwinModules = [ ./nix/personal.dar.nix ];
+            homeModules = [ ./home.nix ./nix/personal.hm.nix ./nix/hammerspoon.hm.nix ];
           };
       };
       nixosConfigurations = {

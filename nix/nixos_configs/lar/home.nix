@@ -5,7 +5,10 @@
     ../../nix.hm
     ../../nvim.hm
     ../../ssh.hm.nix
+    inputs.nix-colors.homeManagerModules.default
   ];
+
+  colorScheme = inputs.nix-colors.colorSchemes.everforest;
 
   # stateVersion = "23.05";
   home = {
