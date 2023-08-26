@@ -1,4 +1,4 @@
-{...}: 
+{ config, pkgs, ... }:
 {
   home = {
 
@@ -17,26 +17,22 @@
       ripgrep
       silver-searcher
       statix
-      pavucontrol
-      cava
-      imv
+
       nixpkgs-fmt
       stylua
       lua-language-server
       prettierd
       eslint_d
-      rust-analyzer-nightly
+      # rust-analyzer-nightly
       yamlfmt
       marksman
       nixd
-      xdg-utils
-      discord
-      (fenix.complete.withComponents [
-        "cargo"
-        "clippy"
-        "rust-src"
-        "rustc"
-      ])
+      # (fenix.complete.withComponents [
+      #   "cargo"
+      #   "clippy"
+      #   "rust-src"
+      #   "rustc"
+      # ])
     ];
 
   };
