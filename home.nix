@@ -5,14 +5,14 @@ let
 in
 {
   manual.html.enable = true;
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = overlays;
+  # nixpkgs.config.allowUnfree = true;
+  # nixpkgs.overlays = overlays;
   news.display = "show";
 
   nix = {
 
     checkConfig = true;
-    package = pkgs.nixVersions.unstable;
+    # package = pkgs.nixVersions.unstable;
 
     extraOptions = ''
       keep-outputs = true

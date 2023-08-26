@@ -38,8 +38,7 @@
         inputs.fenix.overlays.default
         inputs.discord.overlay
         (final: prev: {
-          dmux = inputs.dmux.defaultPackage.${prev.system};
-        })
+          dmux = inputs.dmux.defaultPackage.${prev.system}; })
       ];
 
       mk_home_username_and_dir = { username, homeDirectoryPrefix ? "/Users/" }: { config, pkgs, ... }: {
@@ -157,9 +156,15 @@
           ];
         };
         lar = nixpkgs.lib.nixosSystem
-          {
+          rec {
             system = "x86_64-linux";
+            specialArgs = {
+              inherit inputs; inherit overlays; inherit system;
+            };
             modules = [
+              ({ ... }: {
+                nixpkgs.overlays = overlays;
+              })
               ./nix/nixos_configs/lar/configuration.nix
               ./nix/nixos_configs/lar/hardware-configuration.nix
             ];
