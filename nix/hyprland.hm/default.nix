@@ -1,31 +1,29 @@
 { pkgs, lib, inputs, config, ... }:
 let
-  col = color: (lib.strings.removePrefix "#" config.colorScheme.colors.${color});
+  # col = color: (lib.strings.removePrefix "#" config.colorScheme.colors.${color});
+  col = lib.attrsets.mapAttrs
+    (name: value: (lib.strings.removePrefix "#" value))
+    config.colorScheme.colors;
 in
-
 # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
 {
-  # services.dunst = {
-  #   enable = true;
-  # };
   services.mako = {
     enable = true;
     borderRadius = 10;
     defaultTimeout = 4000; # milliseconds
     anchor = "top-right";
-    backgroundColor = col "base00";
-    borderColor = col "base07";
+    backgroundColor = col.base00;
+    borderColor = col.base07;
     font = "FiraCode";
   };
-
   programs.swaylock = {
     enable = true;
     settings = {
-      color = col "base0D";
+      color = col.base0D;
       font-size = 24;
       indicator-idle-visible = true;
       indicator-radius = 100;
-      line-color = col "base01";
+      line-color = col.base01;
       show-failed-attempts = true;
     };
   };
@@ -314,8 +312,8 @@ in
           #  -------------------------
           #  |    Spaceman colors    |
           #  -------------------------
-          col.active_border = rgba(${col "base0C"}FF) rgba(${col "base09"}FF) 45deg
-          col.inactive_border = rgba(${col "base00"}aa)
+          col.active_border = rgba(${col.base0C}FF) rgba(${col.base09}FF) 45deg
+          col.inactive_border = rgba(${col.base00}aa)
 
           # col.active_border = rgba(02FC96ee) rgba(F95666ee) 45deg
           # col.inactive_border = rgba(2A598Eaa)
@@ -467,6 +465,10 @@ in
     swww
     networkmanagerapplet
     hyprpaper
+
+    pavucontrol
+    cava
+    imv
 
     tofi
     wofi
