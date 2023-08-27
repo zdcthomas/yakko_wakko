@@ -4,7 +4,7 @@
     ags
   ];
 
-  home.file.".config/ags/config.js" = {
-    source = ./config.js;
+  home.file.".config/ags/" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/ags";
   };
 }

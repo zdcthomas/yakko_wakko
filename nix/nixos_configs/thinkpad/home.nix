@@ -11,6 +11,7 @@ in
     ../../ssh.nix
     ../../zsh
     ../../zathura
+    ../../ags
     ../../alacritty.nix
     # ../../zellij.nix
     ../../hyprland
