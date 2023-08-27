@@ -1,11 +1,11 @@
 { config, pkgs, lib, ... }:
 let
-  cfg = config.custom.home.nvim;
+  cfg = config.custom.hm.nvim;
 in
 with lib;
 {
   options = {
-    custom.home.nvim = {
+    custom.hm.nvim = {
       enable = mkEnableOption "Custom Nvim config";
 
       language_servers = {
