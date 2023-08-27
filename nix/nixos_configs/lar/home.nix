@@ -3,8 +3,13 @@
 
   imports = [
     ../../nix.hm
+    ../../bash.hm
+    ../../zsh.hm
+    ../../git.hm
     ../../nvim.hm
     ../../ssh.hm.nix
+    ../../tmux.hm
+    ../../cli.hm
     inputs.nix-colors.homeManagerModules.default
   ];
 
@@ -18,13 +23,9 @@
   home = {
     packages = with pkgs; [
       ffmpeg
-      firefox
       lshw
-      neovim
       beets
       nodejs-18_x
-      soulseekqt
-      fzf
       /* expressvpn */
     ];
 
