@@ -1,5 +1,8 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
+  home.packages = with pkgs; [
+    tmuxPlugins.tmux-fzf
+  ];
   programs = {
     tmux = {
       enable = true;
