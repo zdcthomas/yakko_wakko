@@ -28,7 +28,6 @@ in
     };
   };
 
-
   services.swayidle = {
     enable = true;
     systemdTarget = "hyprland-session.target";
@@ -298,53 +297,83 @@ in
           # bind = $mainMod, Tab, cyclenext,          # change focus to another window
           # bind = SUPER,Tab,bringactivetotop,   # bring it to the top
         ];
+        general = {
 
-      };
-    extraConfig = ''
-      env = XCURSOR_SIZE,24
-      general {
-          # See https://wiki.hyprland.org/Configuring/Variables/ for more
-
-          gaps_in = 5
-          gaps_out = 10
-          border_size = 1
+          gaps_in = 5;
+          gaps_out = 10;
+          border_size = 1;
 
           #  -------------------------
           #  |    Spaceman colors    |
           #  -------------------------
-          col.active_border = rgba(${col.base0C}FF) rgba(${col.base09}FF) 45deg
-          col.inactive_border = rgba(${col.base00}aa)
+          "col.active_border" = "rgba(${col.base0C}FF) rgba(${col.base09}FF) 45deg";
+          "col.inactive_border" = "rgba(${col.base00}aa)";
 
           # col.active_border = rgba(02FC96ee) rgba(F95666ee) 45deg
           # col.inactive_border = rgba(2A598Eaa)
           # </spaceman>
 
-          layout = master
-      }
+          layout = "master";
+        };
 
-      decoration {
+        decoration = {
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
-          col.shadow = 0x99161925
-          col.shadow_inactive = 0x55161925
+          "col.shadow" = "0x99161925";
+          "col.shadow_inactive" = "0x55161925";
 
-          rounding = 10
-          blur = yes
-          blur_size = 5
-          blur_passes = 1
-          blur_new_optimizations = true
-          blur_xray = true
-          blur_ignore_opacity = true
+          rounding = 10;
+          blur = "yes";
+          blur_size = 5;
+          blur_passes = 1;
+          blur_new_optimizations = true;
+          blur_xray = true;
+          blur_ignore_opacity = true;
 
-          shadow_ignore_window = true
+          shadow_ignore_window = true;
 
           # drop_shadow = yes
           # shadow_range = 4
           # shadow_render_power = 3
           # col.shadow = rgba(1a1a1aee)
-          multisample_edges = 1 # enable antialiasing for rounded corners
-          blurls = wofi
-          blurls = tofi
-          blurls = launcher
+          multisample_edges = 1; # enable antialiasing for rounded corners
+          blurls = [ "wofi" "tofi" "launcher" ];
+        };
+
+        dwindle = {
+          pseudotile = "yes";
+          preserve_split = "yes";
+        };
+
+        master = {
+          # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
+          new_is_master = false;
+          orientation = "left";
+        };
+
+        gestures = {
+          # See https://wiki.hyprland.org/Configuring/Variables/ for more
+          workspace_swipe = "on";
+        };
+
+        misc = {
+          animate_manual_resizes = true;
+        };
+
+        "device:epic-mouse-v1" = {
+          sensitivity = -0.5;
+        };
+      };
+    extraConfig = ''
+      env = XCURSOR_SIZE,24
+
+      # Example per-device config
+      # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
+
+      input {
+        touchpad {
+          disable_while_typing = true
+          tap-to-click = false
+        }
       }
 
       animations {
@@ -361,40 +390,6 @@ in
           animation = borderangle, 1, 100, default, once
           animation = fade, 1, 7, default
           animation = workspaces, 1, 6, default
-      }
-
-      dwindle {
-          # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-          pseudotile = yes # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-          preserve_split = yes # you probably want this
-      }
-
-      master {
-          # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-          new_is_master = false
-          orientation = left
-      }
-
-      gestures {
-          # See https://wiki.hyprland.org/Configuring/Variables/ for more
-          workspace_swipe = on
-      }
-
-      misc {
-        animate_manual_resizes = true
-      }
-
-      # Example per-device config
-      # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
-      device:epic-mouse-v1 {
-          sensitivity = -0.5
-      }
-
-      input {
-        touchpad {
-          disable_while_typing = true
-          tap-to-click = false
-        }
       }
 
       bindl=, XF86AudioMute, exec, amixer set Master toggle
