@@ -1,118 +1,155 @@
-{ pkgs, ... }: {
-  programs.firefox = {
-    enable = true;
-    profiles = {
-      zdcthomas = {
-        isDefault = true;
-        settings = {
-          # https://github.com/arkenfox/user.js/blob/master/user.js
-          "browser.startup.page" = 0;
-          "browser.aboutConfig.showWarning" = false;
-          "browser.startup.homepage" = "about:blank";
-          "browser.newtabpage.activity-stream.showSponsored" = false;
-          "browser.newtabpage.enabled" = false;
-          "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-          "toolkit.telemetry.unified" = false;
-          "toolkit.telemetry.enabled" = false;
-          "toolkit.telemetry.server" = "data:,";
-          "toolkit.telemetry.archive.enabled" = false;
-          "toolkit.telemetry.newProfilePing.enabled" = false;
-          "toolkit.telemetry.shutdownPingSender.enabled" = false;
-          "toolkit.telemetry.updatePing.enabled" = false;
-          "toolkit.telemetry.bhrPing.enabled" = false;
-          "toolkit.telemetry.firstShutdownPing.enabled" = false;
-          "datareporting.policy.dataSubmissionEnabled" = false;
-          "toolkit.telemetry.coverage.opt-out" = true;
-          "toolkit.coverage.opt-out" = true;
-          "toolkit.coverage.endpoint.base" = "";
-          "browser.ping-centre.telemetry" = false;
-          "browser.newtabpage.activity-stream.feeds.telemetry" = false;
-          "browser.newtabpage.activity-stream.telemetry" = false;
-          "app.shield.optoutstudies.enabled" = false;
-          "app.normandy.enabled" = false;
-          "app.normandy.api_url" = "";
-          "network.connectivity-service.enabled" = false;
+{ pkgs, lib, config, ... }:
+let
+  cfg = config.custom.hm.firefox;
+in
+with lib;{
+  options = {
+    custom.hm.firefox = {
+      enable = mkEnableOption "Custom Firefox config";
+
+      bookmarks = mkOption {
+        type =
+          let
+            bookmarkSubmodule = types.submodule
+              ({ config, name, ... }: {
+                options = {
+                  name = mkOption {
+                    type = types.str;
+                    default = name;
+                    description = "Bookmark name.";
+                  };
+
+                  tags = mkOption {
+                    type = types.listOf types.str;
+                    default = [ ];
+                    description = "Bookmark tags.";
+                  };
+
+                  keyword = mkOption {
+                    type = types.nullOr types.str;
+                    default = null;
+                    description = "Bookmark search keyword.";
+                  };
+
+                  url = mkOption {
+                    type = types.str;
+                    description = "Bookmark url, use %s for search terms.";
+                  };
+                };
+              }) // {
+              description = "bookmark submodule";
+            };
+
+            bookmarkType = types.addCheck bookmarkSubmodule (x: x ? "url");
+
+            directoryType = types.submodule
+              ({ config, name, ... }: {
+                options = {
+                  name = mkOption {
+                    type = types.str;
+                    default = name;
+                    description = "Directory name.";
+                  };
+
+                  bookmarks = mkOption {
+                    type = types.listOf nodeType;
+                    default = [ ];
+                    description = "Bookmarks within directory.";
+                  };
+
+                  toolbar = mkOption {
+                    type = types.bool;
+                    default = false;
+                    description = "If directory should be shown in toolbar.";
+                  };
+                };
+              }) // {
+              description = "directory submodule";
+            };
+
+            nodeType = types.either bookmarkType directoryType;
+          in
+          with types;
+          coercedTo (attrsOf nodeType) attrValues (listOf nodeType);
+        default = [ ];
+        example = literalExpression ''
+          [
+            {
+              name = "wikipedia";
+              tags = [ "wiki" ];
+              keyword = "wiki";
+              url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go";
+            }
+            {
+              name = "kernel.org";
+              url = "https://www.kernel.org";
+            }
+            {
+              name = "Nix sites";
+              toolbar = true;
+              bookmarks = [
+                {
+                  name = "homepage";
+                  url = "https://nixos.org/";
+                }
+                {
+                  name = "wiki";
+                  tags = [ "wiki" "nix" ];
+                  url = "https://nixos.wiki/";
+                }
+              ];
+            }
+          ]
+        '';
+        description = ''
+          Preloaded bookmarks. Note, this may silently overwrite any
+          previously existing bookmarks!
+        '';
+      };
+
+    };
+  };
+  config = mkIf cfg.enable {
+    programs.firefox = {
+      enable = true;
+      profiles = {
+        zdcthomas = {
+          isDefault = true;
+          settings = {
+            # https://github.com/arkenfox/user.js/blob/master/user.js
+            "browser.startup.page" = 0;
+            "browser.aboutConfig.showWarning" = false;
+            "browser.startup.homepage" = "about:blank";
+            "browser.newtabpage.activity-stream.showSponsored" = false;
+            "browser.newtabpage.enabled" = false;
+            "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+            "toolkit.telemetry.unified" = false;
+            "toolkit.telemetry.enabled" = false;
+            "toolkit.telemetry.server" = "data:,";
+            "toolkit.telemetry.archive.enabled" = false;
+            "toolkit.telemetry.newProfilePing.enabled" = false;
+            "toolkit.telemetry.shutdownPingSender.enabled" = false;
+            "toolkit.telemetry.updatePing.enabled" = false;
+            "toolkit.telemetry.bhrPing.enabled" = false;
+            "toolkit.telemetry.firstShutdownPing.enabled" = false;
+            "datareporting.policy.dataSubmissionEnabled" = false;
+            "toolkit.telemetry.coverage.opt-out" = true;
+            "toolkit.coverage.opt-out" = true;
+            "toolkit.coverage.endpoint.base" = "";
+            "browser.ping-centre.telemetry" = false;
+            "browser.newtabpage.activity-stream.feeds.telemetry" = false;
+            "browser.newtabpage.activity-stream.telemetry" = false;
+            "app.shield.optoutstudies.enabled" = false;
+            "app.normandy.enabled" = false;
+            "app.normandy.api_url" = "";
+            "network.connectivity-service.enabled" = false;
+          };
+          extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+            vimium
+            onepassword-password-manager
+          ];
+          bookmarks = cfg.bookmarks;
         };
-        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-          vimium
-          onepassword-password-manager
-        ];
-        bookmarks = [
-          {
-            name = "github";
-            tags = [ "git" ];
-            keyword = "git";
-            url = "https://github.com";
-          }
-          {
-            name = "example nixos configurations";
-            tags = [ "nixos" "nix" ];
-            keyword = "example config";
-            url = "https://nixos.wiki/wiki/Configuration_Collection";
-          }
-
-          {
-            name = "hyprland wiki";
-            tags = [ "wiki" "hyprland" ];
-            keyword = "hyprland";
-            url = "https://wiki.hyprland.org/";
-          }
-          {
-            name = "wikipedia";
-            tags = [ "wiki" ];
-            keyword = "wiki";
-            url = "https://en.wikipedia.org";
-          }
-
-          {
-            name = "i3 docs";
-            tags = [ "i3" ];
-            keyword = "i3";
-            url = "https://i3wm.org/docs/user-contributed/lzap-config.html";
-          }
-          {
-            name = "News";
-            toolbar = true;
-            bookmarks = [
-              {
-                name = "Hacker News";
-                tags = [ "news" "tech" ];
-                url = "https://news.ycombinator.com/";
-              }
-              {
-                name = "Lobsters";
-                tags = [ "news" "tech" ];
-                url = "https://lobste.rs";
-              }
-            ];
-          }
-          {
-            name = "Nix sites";
-            toolbar = true;
-            bookmarks = [
-              {
-                name = "Packages search";
-                tags = [ "search" "nix" ];
-                url = "https://search.nixos.org/packages";
-              }
-              {
-                name = "Options search";
-                tags = [ "search" "nix" ];
-                url = "https://search.nixos.org/options";
-              }
-              {
-                name = "Home Manager Appendix";
-                tags = [ "wiki" "nix" ];
-                url = "https://nix-community.github.io/home-manager/options.html";
-              }
-              {
-                name = "wiki";
-                tags = [ "wiki" "nix" ];
-                url = "https://nixos.wiki/";
-              }
-            ];
-          }
-        ];
       };
     };
   };
