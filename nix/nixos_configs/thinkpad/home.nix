@@ -136,6 +136,7 @@ in
       nix-init
       nurl
       weechat
+      openssh
 
       minecraft
       prismlauncher

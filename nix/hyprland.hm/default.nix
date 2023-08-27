@@ -4,6 +4,10 @@ let
   col = lib.attrsets.mapAttrs
     (name: value: (lib.strings.removePrefix "#" value))
     config.colorScheme.colors;
+
+  col_hash = lib.attrsets.mapAttrs
+    (name: value: ("#" + value + "FF"))
+    config.colorScheme.colors;
 in
 # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
 {
@@ -12,8 +16,8 @@ in
     borderRadius = 10;
     defaultTimeout = 4000; # milliseconds
     anchor = "top-right";
-    backgroundColor = col.base00;
-    borderColor = col.base07;
+    backgroundColor = col_hash.base00;
+    borderColor = col_hash.base07;
     font = "FiraCode";
   };
   programs.swaylock = {
@@ -322,12 +326,14 @@ in
           "col.shadow_inactive" = "0x55161925";
 
           rounding = 10;
-          blur = "yes";
-          blur_size = 5;
-          blur_passes = 1;
-          blur_new_optimizations = true;
-          blur_xray = true;
-          blur_ignore_opacity = true;
+          blur = {
+            size = 5;
+            passes = 1;
+            new_optimizations = true;
+            xray = true;
+            ignore_opacity = true;
+          };
+          # blur = "yes";
 
           shadow_ignore_window = true;
 

@@ -1,4 +1,9 @@
 { pkgs, config, ... }: {
+  home = {
+    packages = with pkgs;[
+      # openssh
+    ];
+  };
   programs.ssh = {
     compression = true;
     enable = true;
