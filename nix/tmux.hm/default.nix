@@ -2,7 +2,6 @@
 {
   programs = {
     tmux = {
-
       enable = true;
       /* extraConfig = (builtins.readFile ./tmux.conf); */
       /* shell = "${pkgs.fish}/bin/fish"; */

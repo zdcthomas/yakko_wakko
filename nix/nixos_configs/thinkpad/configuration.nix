@@ -23,8 +23,7 @@ in
   home-manager.useUserPackages = true;
   home-manager.users.${username} = import ./home.nix;
   home-manager.extraSpecialArgs = {
-    inherit overlays;
-    inherit inputs;
+    inherit overlays inputs username;
   };
 
   nix = {
@@ -145,15 +144,6 @@ in
     config.allowUnfree = true;
     config.pulseaudio = true;
   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  # wget
-  # firefox
-  # ];
-
 
   programs.zsh = {
     enable = true;

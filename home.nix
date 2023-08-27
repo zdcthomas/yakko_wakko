@@ -9,20 +9,20 @@ in
   # nixpkgs.overlays = overlays;
   news.display = "show";
 
-  nix = {
-
-    checkConfig = true;
-    # package = pkgs.nixVersions.unstable;
-
-    extraOptions = ''
-      keep-outputs = true
-      keep-derivations = true
-      auto-optimise-store = true
-      # assuming the builder has a faster internet connection
-      builders-use-substitutes = true
-      experimental-features = nix-command flakes
-    '';
-  };
+  # nix = {
+  #
+  #   checkConfig = true;
+  #   # package = pkgs.nixVersions.unstable;
+  #
+  #   extraOptions = ''
+  #     keep-outputs = true
+  #     keep-derivations = true
+  #     auto-optimise-store = true
+  #     # assuming the builder has a faster internet connection
+  #     builders-use-substitutes = true
+  #     experimental-features = nix-command flakes
+  #   '';
+  # };
 
   home = {
     /*     enableNixpkgsReleaseCheck = true; */
@@ -110,9 +110,9 @@ in
     /* symlink the config directory. I know this isn't the nix way, but it's
       * ridiculous to invent another layer of rconfiguration languages */
     file = {
-      ".config/nvim/" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/nvim";
-      };
+      # ".config/nvim/" = {
+      #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/nvim";
+      # };
 
       ".config/zk/" = {
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
@@ -347,7 +347,7 @@ in
         enableCompletion = true;
         history.extended = true;
         autocd = true;
-        initExtraFirst = "source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh\n" + builtins.readFile ./nix/zsh/zsh_extra_config.zsh;
+        initExtraFirst = "source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh\n" + builtins.readFile ./nix/zsh.hm/zsh_extra_config.zsh;
         plugins = [
           {
             name = "_git";
@@ -404,6 +404,7 @@ in
           }
         ];
       };
+
     gh = {
       enable = true;
       settings = {

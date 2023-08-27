@@ -124,7 +124,9 @@
           darwin.lib.darwinSystem rec {
 
             system = "aarch64-darwin";
-            specialArgs = { inherit system username overlays; };
+            specialArgs = {
+              inherit system username overlays;
+            };
             modules = [
               ./nix/work_dar_conf.nix
               { nixpkgs.overlays = overlays; }
@@ -160,7 +162,7 @@
           rec {
             system = "x86_64-linux";
             specialArgs = {
-              inherit inputs; inherit overlays; inherit system;
+              inherit inputs overlays system;
             };
             modules = [
               ({ ... }: {
@@ -178,14 +180,14 @@
 
         /* /nix/store/akka8ims65hcqvha5dqq8d780b149x3q-source/pkgs/stdenv/generic/make-derivation.nix */
 
-        sadfrog = home-manager.lib.homeManagerConfiguration {
-          pkgs = home-serv.pkgs;
-          modules = [
-            ./home.nix
-            home-serv.home
-            ./nix/sadfrog.nix
-          ];
-        };
+        # sadfrog = home-manager.lib.homeManagerConfiguration {
+        #   pkgs = home-serv.pkgs;
+        #   modules = [
+        #     ./home.nix
+        #     home-serv.home
+        #     ./nix/sadfrog.nix
+        #   ];
+        # };
         /* WORK */
         /* zdcthomas = home-manager.lib.homeManagerConfiguration { */
         /*   pkgs = work.pkgs; */
