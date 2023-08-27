@@ -1,6 +1,21 @@
-{ ... }:
+{ pkgs, ... }:
 {
   home = {
+    packages = with pkgs; [
+      btop
+      fd
+      htop
+      jq
+      pandoc
+      ripgrep
+      sd
+      silver-searcher
+      skim
+      tree
+      unzip
+      wget
+      zip
+    ];
     sessionVariables = {
       /* TODO: Split these out into an option for this module */
       MANPATH = "/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
