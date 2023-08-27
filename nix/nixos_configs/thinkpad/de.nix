@@ -90,7 +90,7 @@ with lib;
           programs.hyprland = {
             enable = true;
             # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-            nvidiaPatches = true;
+            enableNvidiaPatches = true;
             xwayland.enable = true;
           };
         }

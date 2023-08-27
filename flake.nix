@@ -3,7 +3,9 @@
   description = "Hopefully this _is_ my final form";
   inputs =
     {
-      hyprland.url = "github:hyprwm/Hyprland";
+      # nixpkgs.url = "nixpkgs/nixos-23.05";
+      # unstable.url = "nixpkgs/nixos-unstable";
+      # hyprland.url = "github:hyprwm/Hyprland";
       nixos-hardware.url = "github:NixOS/nixos-hardware/master";
       nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       discord = {
@@ -151,7 +153,7 @@
           modules = [
             nixos-hardware.nixosModules.lenovo-thinkpad
             ({ ... }: {
-              nixpkgs. overlays = overlays;
+              nixpkgs.overlays = overlays;
             })
             ./nix/nixos_configs/thinkpad/configuration.nix
           ];
