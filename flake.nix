@@ -108,12 +108,7 @@
 
     in
     {
-      # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
-      /* defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin; */
-      /* defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin; */
-      # overlays = overlays;
       darwinConfigurations = {
-
         /* ------------------------*/
         /* |    Work config       |*/
         /* ------------------------*/
@@ -145,6 +140,9 @@
           };
       };
       nixosConfigurations = {
+        #  ------------------
+        #  |    Thinkpad    |
+        #  ------------------
         nixos = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
@@ -158,6 +156,9 @@
             ./nix/nixos_configs/thinkpad/configuration.nix
           ];
         };
+        #  ---------------------
+        #  |    Home Server    |
+        #  ---------------------
         lar = nixpkgs.lib.nixosSystem
           rec {
             system = "x86_64-linux";
@@ -174,36 +175,6 @@
           };
 
 
-      };
-      homeConfigurations = {
-        /* HOME SERVER */
-
-        /* /nix/store/akka8ims65hcqvha5dqq8d780b149x3q-source/pkgs/stdenv/generic/make-derivation.nix */
-
-        # sadfrog = home-manager.lib.homeManagerConfiguration {
-        #   pkgs = home-serv.pkgs;
-        #   modules = [
-        #     ./home.nix
-        #     home-serv.home
-        #     ./nix/sadfrog.nix
-        #   ];
-        # };
-        /* WORK */
-        /* zdcthomas = home-manager.lib.homeManagerConfiguration { */
-        /*   pkgs = work.pkgs; */
-        /*   modules = [ */
-        /*     ./home.nix */
-        /*     ./nix/work.nix */
-        /*   ]; */
-        /* }; */
-        /* HOME */
-        /* zacharythomas = home-manager.lib.homeManagerConfiguration { */
-        /*   pkgs = personal.pkgs; */
-        /*   modules = [ */
-        /*     ./home.nix */
-        /*     ./nix/personal.nix */
-        /*   ]; */
-        /* }; */
       };
     };
 }
