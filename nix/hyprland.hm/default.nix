@@ -8,6 +8,7 @@ let
   col_hash = lib.attrsets.mapAttrs
     (name: value: ("#" + value + "FF"))
     config.colorScheme.colors;
+  swaylock = pkgs.swaylock-effects;
 in
 # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
 {
@@ -22,13 +23,61 @@ in
   };
   programs.swaylock = {
     enable = true;
+    package = swaylock;
     settings = {
-      color = col.base0D;
+      # color = col.base0D;
+      clock = true;
+      effect-pixelate = 20;
+      fade-in = 0.2;
+      screenshots = true;
       font-size = 24;
       indicator-idle-visible = true;
+      indicator = true;
+      indicator-caps-lock = true;
       indicator-radius = 100;
-      line-color = col.base01;
+      indicator-thickness = 20;
+      line-color = col.base05 + "60";
+      ring-color = col.base06 + "60";
+      inside-color = col.base07 + "60";
       show-failed-attempts = true;
+      # base00: "#2f383e" # bg0,       palette1 dark (medium)
+      # base01: "#374247" # bg1,       palette1 dark (medium)
+      # base02: "#4a555b" # bg3,       palette1 dark (medium)
+      # base03: "#859289" # grey1,     palette2 dark
+      # base04: "#9da9a0" # grey2,     palette2 dark
+      # base05: "#d3c6aa" # fg,        palette2 dark
+      # base06: "#e4e1cd" # bg3,       palette1 light (medium)
+      # base07: "#fdf6e3" # bg0,       palette1 light (medium)
+      # base08: "#7fbbb3" # blue,      palette2 dark
+      # base09: "#d699b6" # purple,    palette2 dark
+      # base0A: "#dbbc7f" # yellow,    palette2 dark
+      # base0B: "#83c092" # aqua,      palette2 dark
+      # base0C: "#e69875" # orange,    palette2 dark
+      # base0D: "#a7c080" # green,     palette2 dark
+      # base0E: "#e67e80" # red,       palette2 dark
+      # base0F: "#eaedc8" # bg_visual, palette1 dark (medium)
+      # image = "/home/zdcthomas/wallpapers/ocean-rock.jpg";
+      # inside-clear-color = "ffd20400";
+      # inside-caps-lock-color = "009ddc00";
+      # inside-ver-color = "d9d8d800";
+      # inside-wrong-color = "ee2e2400";
+      # ring-clear-color = "231f20D9";
+      # ring-caps-lock-color = "231f20D9";
+      # ring-ver-color = "231f20D9";
+      # ring-wrong-color = "231f20D9";
+      # line-color = "00000000";
+      # line-clear-color = "ffd204FF";
+      # line-caps-lock-color = "009ddcFF";
+      # line-ver-color = "d9d8d8FF";
+      # line-wrong-color = "ee2e24FF";
+      # text-clear-color = "ffd20400";
+      # text-ver-color = "d9d8d800";
+      # text-wrong-color = "ee2e2400";
+      # bs-hl-color = "ee2e24FF";
+      # caps-lock-key-hl-color = "ffd204FF";
+      # caps-lock-bs-hl-color = "ee2e24FF";
+      # disable-caps-lock-text = true;
+      # text-caps-lock-color = "009ddc";
     };
   };
 
@@ -37,18 +86,18 @@ in
     systemdTarget = "hyprland-session.target";
     timeouts = [
       {
-        timeout = 90;
+        timeout = 115;
         command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
       }
       {
-        timeout = 95;
-        command = "${pkgs.swaylock}/bin/swaylock -f";
+        timeout = 120;
+        command = "${swaylock}/bin/swaylock -f";
       }
     ];
     events = [
       {
         event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock";
+        command = "${swaylock}/bin/swaylock";
       }
     ];
   };
@@ -66,7 +115,7 @@ in
   };
 
   imports = [
-    ../rofi.nix
+    ../rofi.hm
   ];
   # programs.wofi = {
   #   enable = true;
@@ -474,7 +523,6 @@ in
     tofi
     wofi
 
-    swaylock
     swayidle
   ];
 }
