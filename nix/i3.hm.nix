@@ -4,7 +4,7 @@
   imports = [
     ./polybar.nix
     ./picom.nix
-    ./rofi.nix
+    ./rofi.hm
   ];
 
   home.packages = with pkgs;

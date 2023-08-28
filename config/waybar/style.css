@@ -1,95 +1,156 @@
+@define-color bg-hover #1A1A28;
+@define-color bg #1E1E2E;
+@define-color blue #89B4FA;
+@define-color sky #89DCEB;
+@define-color red #F38BA8;
+@define-color pink #F5C2E7;
+@define-color lavender #B4BEFE;
+@define-color rosewater #F5E0DC;
+@define-color flamingo #F2CDCD;
+@define-color fg #D9E0EE;
+@define-color green #A6E3A1;
+@define-color dark-fg #161320;
+@define-color peach #FAB387;
+@define-color border @lavender;
+@define-color gray2 #6E6C7E;
+@define-color black4 #575268;
+@define-color black3 #302D41;
+@define-color maroon #EBA0AC;
+
 * {
-    border: none;
-    font-family: Iosevka;
-    font-size: 13px;
-    color: #ffffff;
-    border-radius: 20px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  font-family: "Terminus", "Lilex Nerd Font";
+  font-size: 11pt;
+  padding-bottom: 0;
 }
 
-window {
-	/*font-weight: bold;*/
+tooltip {
+  background: @bg;
+  border-radius: 7px;
+  border: 2px solid @border;
 }
+
 window#waybar {
-    background: rgba(0, 0, 0, 0);
-}
-/*-----module groups----*/
-.modules-right {
-	background-color: rgba(0,43,51,0.3);
-    margin: 2px 10px 0 0;
-}
-.modules-center {
-	background-color: rgba(0,43,51,0.0);
-    margin: 2px 0 0 0;
-}
-.modules-left {
-    margin: 2px 0 0 5px;
-	background-color: rgba(0,119,179,0.4);
-}
-/*-----modules indv----*/
-#workspaces button {
-    padding: 1px 5px;
-    background-color: transparent;
-}
-#workspaces button:hover {
-    box-shadow: inherit;
-	background-color: rgba(0,153,153,1);
+  background-color: transparent;
+  color: @lavender;
 }
 
-#workspaces button.active {
-	background-color: rgba(0,43,51,0.85);
+window#waybar.solo {
+  background-color: @bg;
+  color: @lavender;
 }
 
-#clock,
-#battery,
+window#waybar.solo #workspaces button {
+  border-radius: 5px;
+}
+
+#custom-arch-pill {
+  margin: 5px;
+  padding-left: 10px;
+  padding-right: 15px;
+  border-radius: 7px;
+  background-color: @lavender;
+  color: @dark-fg;
+}
+
+#mode {
+  margin: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 7px;
+  background-color: @bg;
+  color: @peach;
+}
+
+#tray {
+  margin: 5px 0 5px 5px;
+  padding-left: 10px;
+  border-radius: 7px 0 0 7px;
+  background-color: @bg;
+}
+
+#network {
+  margin: 5px 5px 5px 0;
+  padding-left: 10px;
+  padding-right: 15px;
+  border-radius: 0 7px 7px 0;
+  background-color: @bg;
+  color: @lavender;
+}
+/* #network.wifi, */
+/* #network.ethernet { */
+/*   color: @green; */
+/* } */
+#network.linked {
+  color: @peach;
+}
+#network.disconnected,
+#network.disabled {
+  color: @red;
+}
+
+#pulseaudio,
 #cpu,
 #memory,
 #temperature,
-#network,
-#pulseaudio,
-#custom-media,
-#tray,
-#mode,
-#custom-power,
-#custom-menu,
-#idle_inhibitor {
-    padding: 0 7px;
+#backlight,
+#battery {
+  margin: 5px;
+  padding-left: 10px;
+  padding-right: 15px;
+  border-radius: 7px;
+  color: @lavender;
+  background-color: @bg;
 }
-#mode {
-    color: #cc3436;
-    font-weight: bold;
+
+#custom-playerctl {
+  margin: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 7px;
+  color: @lavender;
+  background-color: @bg;
 }
-#custom-power {
-    background-color: rgba(0,119,179,0.6);
-    border-radius: 100px;
-    margin: 5px 5px;
-    padding: 1px 1px 1px 6px;
+
+#custom-cafeine {
+  margin: 5px;
+  padding-left: 10px;
+  padding-right: 15px;
+  border-radius: 7px;
+  color: @lavender;
+  background-color: @bg;
 }
-/*-----Indicators----*/
-#idle_inhibitor.activated {
-    color: #2dcc36;
-}
-#idle_inhibitor.deactivated {
-    color: #EE2735;
-}
+
 #pulseaudio.muted {
-    color: #cc3436;
+  background-color: @red;
+  color: @dark-fg;
 }
-#battery.charging {
-    color: #2dcc36;
+
+#clock {
+  margin: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 7px;
+  color: @lavender;
+  background-color: @bg;
 }
-#battery.warning:not(.charging) {
-	color: #e6e600;
+
+#workspaces {
+  margin: 5px;
+  padding-left: 10px;
+  padding-right: 5px;
+  border-radius: 7px;
+  background-color: @bg;
 }
-#battery.critical:not(.charging) {
-    color: #cc3436;
+
+#workspaces button {
+  color: @lavender;
 }
-#temperature.critical {
-    color: #cc3436;
+
+#workspaces button.active {
+  color: @red;
 }
-/*-----Colors----*/
-/*
- *rgba(0,85,102,1),#005566 --> Indigo(dye)
- *rgba(0,43,51,1),#002B33 --> Dark Green 
- *rgba(0,153,153,1),#009999 --> Persian Green 
- *
- */
+/* bottom waybar */
