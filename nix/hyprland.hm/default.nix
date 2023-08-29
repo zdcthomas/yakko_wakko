@@ -109,13 +109,14 @@ in
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/tofi";
     };
 
-    ".config/waybar/" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/waybar";
-    };
+    # ".config/waybar/" = {
+    #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/waybar";
+    # };
   };
 
   imports = [
     ../rofi.hm
+    ../waybar.hm
   ];
   # programs.wofi = {
   #   enable = true;
@@ -281,9 +282,9 @@ in
           "wlsunset -l 40.7 -L -74.0 &"
         ];
 
-        exec = [
-          "pkill waybar; waybar"
-        ];
+        # exec = [
+        #   "pkill waybar; waybar"
+        # ];
 
         monitor = [ ",preferred,auto,auto" ];
         bind = [
