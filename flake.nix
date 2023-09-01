@@ -35,7 +35,6 @@
       # overlays add/change values in pkgs, e.g
       # change neovim version/ add NUR
       overlays = [
-        inputs.neovim-nightly-overlay.overlay
         inputs.nur.overlay
         inputs.fenix.overlays.default
         inputs.discord.overlay
@@ -125,9 +124,9 @@
               inherit system username overlays;
             };
             modules = [
-              ./nix/work_dar_conf.nix
               { nixpkgs.overlays = overlays; }
               home-manager.darwinModule
+              ./nix/work.dar.nix
             ];
           };
 
@@ -153,7 +152,9 @@
           modules = [
             nixos-hardware.nixosModules.lenovo-thinkpad
             ({ ... }: {
-              nixpkgs.overlays = overlays;
+              nixpkgs.overlays = overlays ++ [
+                inputs.neovim-nightly-overlay.overlay
+              ];
             })
             ./nix/nixos_configs/thinkpad/configuration.nix
           ];

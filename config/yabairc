@@ -92,7 +92,7 @@ yabai -m config active_window_opacity 1.0
 #yabai -m config window_border                on | off
 
 ## WITH SIP ENABLED (Installed Limelight seperately, Don't need this)
-yabai -m config window_border off
+yabai -m config window_border on
 
 ## WTIH SIP DISABLED (Limelight build into Yabai, enable it here)
 #yabai -m config window_border on
