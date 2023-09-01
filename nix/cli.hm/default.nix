@@ -39,7 +39,6 @@
       {
         gco = "git switch";
         gs = "git status";
-        n = "nvim";
         ".." = "cd ..";
         "..." = "cd ../..";
         "...." = "cd ../../..";

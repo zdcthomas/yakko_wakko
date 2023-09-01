@@ -1,4 +1,9 @@
 { config, pkgs, lib, ... }:
+let
+  col = lib.attrsets.mapAttrs
+    (name: value: ("#" + value))
+    config.colorScheme.colors;
+in
 {
   programs.waybar = {
     enable = true;
@@ -97,7 +102,6 @@
           format = "{percent}% {icon}";
           format-icons = [ "" "" "" "" "" "" "" "" "" ];
         };
-
         battery = {
           states = {
             warning = 30;
@@ -124,8 +128,8 @@
         pulseaudio = {
           format = "{volume}% {icon} {format_source}";
           format-bluetooth = "{volume}% {icon} {format_source}";
-          format-bluetooth-muted = " {icon} {format_source}";
-          format-muted = "X {format_source}";
+          format-bluetooth-muted = "X {icon} {format_source}";
+          format-muted = "{format-source-muted} {format_source}";
           format-source = "{volume}% ";
           format-source-muted = "";
           format-icons = {
@@ -139,39 +143,39 @@
           };
           on-click = "pavucontrol";
         };
-        # "custom/media" = {
-        #   format = "{icon} {}";
-        #   return-type = "json";
-        #   max-length = 40;
-        #   format-icons = {
-        #     spotify = "";
-        #     default = "🎜";
-        #   };
-        #   escape = true;
-        #   exec = "$HOME/.config/waybar/mediaplayer.py 2> /dev/null";
-        # };
+        "custom/media" = {
+          format = "{icon} {}";
+          return-type = "json";
+          max-length = 40;
+          format-icons = {
+            spotify = "";
+            default = "🎜";
+          };
+          escape = true;
+          exec = "$HOME/.config/waybar/mediaplayer.py 2> /dev/null";
+        };
       };
     };
 
     style = ''
-      @define-color bg-hover #1A1A28;
-      @define-color bg #1E1E2E;
-      @define-color blue #89B4FA;
-      @define-color sky #89DCEB;
-      @define-color red #F38BA8;
-      @define-color pink #F5C2E7;
-      @define-color lavender #B4BEFE;
-      @define-color rosewater #F5E0DC;
-      @define-color flamingo #F2CDCD;
-      @define-color fg #D9E0EE;
-      @define-color green #A6E3A1;
-      @define-color dark-fg #161320;
-      @define-color peach #FAB387;
-      @define-color border @lavender;
-      @define-color gray2 #6E6C7E;
-      @define-color black4 #575268;
-      @define-color black3 #302D41;
-      @define-color maroon #EBA0AC;
+      @define-color bg-hover ${col.base01};
+      @define-color bg ${col.base00};
+      @define-color blue ${col.base08};
+      @define-color sky ${col.base08};
+      @define-color red ${col.base0E};
+      @define-color pink ${col.base09};
+      @define-color lavender ${col.base0B};
+      @define-color rosewater ${col.base05};
+      @define-color flamingo ${col.base0A};
+      @define-color fg ${col.base0F};
+      @define-color green ${col.base0D};
+      @define-color dark-fg ${col.base03};
+      @define-color peach ${col.base0C};
+      @define-color gray2 ${col.base04};
+      @define-color black4 ${col.base02};
+      @define-color black3 ${col.base00};
+      @define-color maroon ${col.base09};
+      @define-color border @dark-fg;
 
       ${builtins.readFile ./style.css}
     '';

@@ -24,9 +24,13 @@ in
     # ../../neofetch
     # ../../zellij.nix
   ];
+  # colorScheme = inputs.nix-colors.colorSchemes.everforest;
+  # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-light-soft;
+  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
     nvim = {
       enable = true;
+      # colorscheme = "onedark";
     };
     firefox = {
       enable = true;
@@ -109,7 +113,6 @@ in
 
     };
   };
-  colorScheme = inputs.nix-colors.colorSchemes.everforest;
   news.display = "show";
   home = {
     # This value determines the Home Manager release that your
