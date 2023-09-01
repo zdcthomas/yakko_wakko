@@ -4,6 +4,7 @@
     home = "/Users/${username}";
     shell = pkgs.zsh;
   };
+  # imports = [ ./yabai.dar.nix ];
   # environment.shells = [
   #   pkgs.zsh
   #   pkgs.fish
@@ -14,6 +15,9 @@
   #   kitty
   # ];
   home-manager = {
+
+    useGlobalPkgs = true;
+    # useUserPackages = true;
     extraSpecialArgs =
       {
         inherit overlays;
@@ -23,7 +27,7 @@
       imports = [
         ../home.nix
         ./work.nix
-        ./hammerspoon.nix
+        ./hammerspoon.hm.nix
       ];
     };
   };
@@ -45,7 +49,7 @@
     };
 
     brews = [
-      /* "yabai" */
+      # "yabai"
       "coreutils"
       "awscurl"
       "json-table"
@@ -69,14 +73,11 @@
       "homebrew/cask-fonts"
       "homebrew/core"
       "homebrew/services"
-      /* "koekeishiya/formulae" # yabai */
+      # "koekeishiya/formulae" # yabai
     ];
   };
 
   services.nix-daemon.enable = true;
-  /* services.yabai.enable = true; */
-  /* services.yabai.package = pkgs.yabai; */
-  /* services.skhd.enable = true; */
 
   system = {
     keyboard = {

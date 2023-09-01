@@ -72,14 +72,6 @@ with lib;
         jq
         ripgrep
         silver-searcher
-      ] ++ optionals cfg.language_servers.rust [
-        rust-analyzer-nightly
-        (fenix.complete.withComponents [
-          "cargo"
-          "clippy"
-          "rust-src"
-          "rustc"
-        ])
       ] ++ optionals cfg.language_servers.nix [
         nixpkgs-fmt
         statix

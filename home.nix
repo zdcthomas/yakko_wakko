@@ -68,7 +68,7 @@ in
       nodejs
       pandoc
       ripgrep
-      rustup
+      # rustup
       sd
       silver-searcher
       skim
