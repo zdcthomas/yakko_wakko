@@ -98,6 +98,9 @@ with lib;
     in
     mkIf cfg.enable {
       home = {
+        shellAliases = {
+          n = "nvim";
+        };
 
         file = {
           ".config/nvim/" = {

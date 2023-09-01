@@ -48,16 +48,18 @@ window#waybar.solo #workspaces button {
 
 #tray {
   margin: 5px 0 5px 5px;
-  padding-left: 10px;
-  border-radius: 7px 0 0 7px;
+  /* padding-left: 10px; */
+  border-radius: 7px;
+  border: 2px solid @border;
   background-color: @bg;
 }
 
 #network {
   margin: 5px 5px 5px 0;
-  padding-left: 10px;
-  padding-right: 15px;
-  border-radius: 0 7px 7px 0;
+  padding-left: 7px;
+  padding-right: 12px;
+  border-radius: 7px;
+  border: 2px solid @border;
   background-color: @bg;
   color: @lavender;
 }
@@ -66,11 +68,12 @@ window#waybar.solo #workspaces button {
 /*   color: @green; */
 /* } */
 #network.linked {
-  color: @peach;
+  color: @sky;
 }
 #network.disconnected,
 #network.disabled {
   color: @red;
+  border: 2px solid @border
 }
 
 #pulseaudio,
@@ -80,10 +83,11 @@ window#waybar.solo #workspaces button {
 #backlight,
 #battery {
   margin: 5px;
-  padding-left: 10px;
-  padding-right: 15px;
+  padding-left: 7px;
+  padding-right: 12px;
   border-radius: 7px;
-  color: @lavender;
+  border: 2px solid @border;
+  color: @fg;
   background-color: @bg;
 }
 
@@ -117,21 +121,24 @@ window#waybar.solo #workspaces button {
   border-radius: 7px;
   color: @lavender;
   background-color: @bg;
+
+  border-radius: 7px;
+  border: 2px solid @border;
 }
 
 #workspaces {
   margin: 5px;
-  padding-left: 10px;
-  padding-right: 5px;
+  /* padding-left: 10px; */
+  /* padding-right: 5px; */
   border-radius: 7px;
+  border: 2px solid @border;
   background-color: @bg;
 }
 
 #workspaces button {
-  color: @lavender;
+  color: @fg;
 }
 
 #workspaces button.active {
-  color: @red;
+  color: @peach;
 }
-/* bottom waybar */
