@@ -64,8 +64,8 @@ with lib;
   config =
     let
       packages = with pkgs;[
-        neovim
         fzf
+        cfg.package
         # zathura
         boxes
         fd

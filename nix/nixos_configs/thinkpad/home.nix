@@ -30,7 +30,7 @@ in
   custom.hm = {
     nvim = {
       enable = true;
-      # colorscheme = "onedark";
+      package = pkgs.neovim-nightly;
     };
     firefox = {
       enable = true;
