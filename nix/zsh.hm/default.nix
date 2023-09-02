@@ -21,8 +21,8 @@
           src = pkgs.fetchFromGitHub {
             owner = "zsh-users";
             repo = "zsh-history-substring-search";
-            rev = "1.0.2";
-            sha256 = "0zmq66dzasmr5pwribyh4kbkk23jxbpdw4rjxx0i7dx8jjp2lzl4";
+            rev = "v1.1.0";
+            sha256 = "sha256-GSEvgvgWi1rrsgikTzDXokHTROoyPRlU0FVpAoEmXG4=";
           };
         }
         {
@@ -40,8 +40,8 @@
           src = pkgs.fetchFromGitHub {
             owner = "chisui";
             repo = "zsh-nix-shell";
-            rev = "v0.5.0";
-            sha256 = "0za4aiwwrlawnia4f29msk822rj9bgcygw6a8a6iikiwzjjz0g91";
+            rev = "v0.7.0";
+            sha256 = "sha256-oQpYKBt0gmOSBgay2HgbXiDoZo5FoUKwyHSlUrOAP5E=";
           };
         }
         {
