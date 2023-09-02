@@ -181,7 +181,10 @@ local function setup_lspconfig()
 		-- 	capabilities = capabilities,
 		-- })
 		lspconfig.nixd.setup({
-			on_attach = common_on_attach,
+			on_attach = function(client, bufnr)
+				client.server_capabilities.documentFormattingProvider = false
+				common_on_attach(client, bufnr)
+			end,
 			capabilities = capabilities,
 		})
 	else

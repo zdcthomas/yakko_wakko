@@ -1,13 +1,16 @@
-{ config, pkgs, overlays, inputs, ... }:
-let
-  username = "sadfrog";
-in
 {
-  imports =
-    [
-      inputs.home-manager.nixosModules.home-manager
-      ./hardware-configuration.nix
-    ];
+  config,
+  pkgs,
+  overlays,
+  inputs,
+  ...
+}: let
+  username = "sadfrog";
+in {
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    ./hardware-configuration.nix
+  ];
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
@@ -41,7 +44,7 @@ in
   users.users.sadfrog = {
     isNormalUser = true;
     description = "Sad Frog";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = ["networkmanager" "wheel" "docker"];
     packages = with pkgs; [
       tailscale
       gcc
@@ -51,31 +54,62 @@ in
 
   services.tailscale.enable = true;
 
-
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
 
-  /* systemd.services.tailscale-autoconnect = */
-  /*   { */
-  /*     description = "auto connect to tailscale"; */
-  /*     after = [ "network-pre.target" "tailscale.service" ]; */
-  /*     wants = [ "network-pre.target" "tailscale.service" ]; */
-  /*     wantedBy = [ "multi-user.target" ]; */
+  /*
+  systemd.services.tailscale-autoconnect =
+  */
+  /*
+  {
+  */
+  /*
+  description = "auto connect to tailscale";
+  */
+  /*
+  after = [ "network-pre.target" "tailscale.service" ];
+  */
+  /*
+  wants = [ "network-pre.target" "tailscale.service" ];
+  */
+  /*
+  wantedBy = [ "multi-user.target" ];
+  */
 
-  /*     serviceConfig.Type = "oneshot"; */
+  /*
+  serviceConfig.Type = "oneshot";
+  */
 
-  /*     script = with pkgs; '' */
-  /*       sleep 2 */
+  /*
+  script = with pkgs; ''
+  */
+  /*
+  sleep 2
+  */
 
-  /*       # status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackenState)" */
-  /*       # if [ $status = "Running" ]; then */
-  /*       #   exit 0 */
-  /*       # fi */
+  /*
+  # status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackenState)"
+  */
+  /*
+  # if [ $status = "Running" ]; then
+  */
+  /*
+  #   exit 0
+  */
+  /*
+  # fi
+  */
 
-  /*       ${tailscale}/bin/tailscale up --auth-key tskey-auth-kj37926CNTRL-N8fuDAwoGUKPT6f97MvXZKgqGYeSYgEN */
-  /*     ''; */
-  /*   }; */
+  /*
+  ${tailscale}/bin/tailscale up --auth-key tskey-auth-kj37926CNTRL-N8fuDAwoGUKPT6f97MvXZKgqGYeSYgEN
+  */
+  /*
+  '';
+  */
+  /*
+  };
+  */
 
   nixpkgs.config.allowUnfree = true;
 
@@ -96,9 +130,9 @@ in
     hostName = "lar"; # Define your hostname.
     firewall = {
       checkReversePath = "loose";
-      trustedInterfaces = [ "tailscale0" ];
-      allowedTCPPorts = [ 8096 8920 8080 8123 63584 22 8080 ];
-      allowedUDPPorts = [ 1900 7359 config.services.tailscale.port ];
+      trustedInterfaces = ["tailscale0"];
+      allowedTCPPorts = [8096 8920 8080 8123 63584 22 8080];
+      allowedUDPPorts = [1900 7359 config.services.tailscale.port];
     };
   };
   # Open ports in the firewall.

@@ -1,7 +1,6 @@
-{ config, ... }:
-let col = config.colorScheme.colors;
-in
-{
+{config, ...}: let
+  col = config.colorScheme.colors;
+in {
   programs.zathura = {
     enable = true;
     extraConfig = ''

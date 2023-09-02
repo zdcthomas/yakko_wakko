@@ -1,9 +1,14 @@
-{ config, pkgs, overlays, ... }:
-
-let
-  management_scripts = import ./nix/nix_management_scripts_pkgs.nix { pkgs = pkgs; homeDirectory = config.home.homeDirectory; };
-in
 {
+  config,
+  pkgs,
+  overlays,
+  ...
+}: let
+  management_scripts = import ./nix/nix_management_scripts_pkgs.nix {
+    pkgs = pkgs;
+    homeDirectory = config.home.homeDirectory;
+  };
+in {
   manual.html.enable = true;
   # nixpkgs.config.allowUnfree = true;
   # nixpkgs.overlays = overlays;
@@ -25,10 +30,18 @@ in
   # };
 
   home = {
-    /*     enableNixpkgsReleaseCheck = true; */
-    /*     enableDebugInfo = true; */
-    /*     username = "zdcthomas"; */
-    /*     homeDirectory = "/Users/zdcthomas"; */
+    /*
+    enableNixpkgsReleaseCheck = true;
+    */
+    /*
+    enableDebugInfo = true;
+    */
+    /*
+    username = "zdcthomas";
+    */
+    /*
+    homeDirectory = "/Users/zdcthomas";
+    */
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
@@ -38,63 +51,67 @@ in
     # You can update Home Manager without changing this value. See
     # the Home Manager release notes for a list of state version
     # changes in each release.
-    /* stateVersion = "22.05"; */
+    /*
+    stateVersion = "22.05";
+    */
 
-    /* extraOutputsToInstall = [ "man" ]; */
+    /*
+    extraOutputsToInstall = [ "man" ];
+    */
 
-    packages = with pkgs; [
+    packages = with pkgs;
+      [
+        nurl
+        deno
+        nix-init
+        bashInteractive
+        bat
+        boxes
+        exa
+        fd
+        fish
+        font-awesome_5
+        du-dust
+        fzf
+        gh
+        git
+        gnumake
+        go
+        graphviz
+        htop
+        jq
+        lua
+        # neovim
+        nodejs
+        pandoc
+        ripgrep
+        # rustup
+        sd
+        silver-searcher
+        skim
+        statix
+        tmux
+        tmuxPlugins.tmux-fzf
+        tree
+        unzip
+        weechat
+        wget
+        zip
+        zk
 
-      nurl
-      deno
-      nix-init
-      bashInteractive
-      bat
-      boxes
-      exa
-      fd
-      fish
-      font-awesome_5
-      du-dust
-      fzf
-      gh
-      git
-      gnumake
-      go
-      graphviz
-      htop
-      jq
-      lua
-      # neovim
-      nodejs
-      pandoc
-      ripgrep
-      # rustup
-      sd
-      silver-searcher
-      skim
-      statix
-      tmux
-      tmuxPlugins.tmux-fzf
-      tree
-      unzip
-      weechat
-      wget
-      zip
-      zk
-
-      (
-        nerdfonts.override {
-          fonts = [
-            "Terminus"
-            "FiraCode"
-            "Meslo"
-            "Monofur"
-            "Iosevka"
-          ];
-        }
-      )
-
-    ] ++ management_scripts;
+        (
+          nerdfonts.override {
+            fonts = [
+              "Terminus"
+              "FiraCode"
+              "Meslo"
+              "Monofur"
+              "Iosevka"
+            ];
+          }
+        )
+      ]
+      ++ management_scripts;
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
@@ -106,9 +123,10 @@ in
     # changes in each release.
     stateVersion = "22.05";
 
-
-    /* symlink the config directory. I know this isn't the nix way, but it's
-      * ridiculous to invent another layer of rconfiguration languages */
+    /*
+     symlink the config directory. I know this isn't the nix way, but it's
+    * ridiculous to invent another layer of rconfiguration languages
+    */
     file = {
       # ".config/nvim/" = {
       #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/nvim";
@@ -117,17 +135,26 @@ in
       ".config/zk/" = {
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
       };
-      /* ".tmux.conf".source = ./tmux.conf; */
+      /*
+      ".tmux.conf".source = ./tmux.conf;
+      */
       ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;
       ".boxes".source = ./config/boxes/.boxes;
     };
 
-
     sessionVariables = {
-      /* TODO: Split these out into another module */
-      /* ----------------------------*/
-      /* |    homebrew variables    |*/
-      /* ----------------------------*/
+      /*
+      TODO: Split these out into another module
+      */
+      /*
+      ----------------------------
+      */
+      /*
+      |    homebrew variables    |
+      */
+      /*
+      ----------------------------
+      */
 
       HOMEBREW_PREFIX = "/opt/homebrew";
       HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
@@ -140,7 +167,9 @@ in
       SKIM_DEFAULT_COMMAND = "fd --hidden --type f";
       ERL_AFLAGS = "-kernel shell_history enabled";
       ELIXIR_EDITOR = "nvim +__LINE__ __FILE__";
-      /* Move these to fzf program config */
+      /*
+      Move these to fzf program config
+      */
       FZF_ALT_C_COMMAND = "fd -t d";
       FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
       FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
@@ -149,35 +178,48 @@ in
       PATH = "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:$HOME/bin";
     };
 
-    sessionPath = [ "$HOME/.cargo/bin" ];
+    sessionPath = ["$HOME/.cargo/bin"];
 
-    shellAliases =
-      {
-        gco = "git switch";
-        gs = "git status";
-        n = "nvim";
-        ".." = "cd ..";
-        "..." = "cd ../..";
-        "...." = "cd ../../..";
-        vimdiff = "nvim -d";
-      };
+    shellAliases = {
+      gco = "git switch";
+      gs = "git status";
+      n = "nvim";
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "...." = "cd ../../..";
+      vimdiff = "nvim -d";
+    };
   };
 
   programs = {
     exa = {
       enable = true;
       enableAliases = true;
-      /* ls = "${pkgs.exa}/bin/exa"; */
-      /* ll = "${pkgs.exa}/bin/exa -l"; */
-      /* la = "${pkgs.exa}/bin/exa -a"; */
-      /* lt = "${pkgs.exa}/bin/exa --tree"; */
-      /* lla = "${pkgs.exa}/bin/exa -la"; */
+      /*
+      ls = "${pkgs.exa}/bin/exa";
+      */
+      /*
+      ll = "${pkgs.exa}/bin/exa -l";
+      */
+      /*
+      la = "${pkgs.exa}/bin/exa -a";
+      */
+      /*
+      lt = "${pkgs.exa}/bin/exa --tree";
+      */
+      /*
+      lla = "${pkgs.exa}/bin/exa -la";
+      */
     };
 
     tmux = {
       enable = true;
-      /* extraConfig = (builtins.readFile ./tmux.conf); */
-      /* shell = "${pkgs.fish}/bin/fish"; */
+      /*
+      extraConfig = (builtins.readFile ./tmux.conf);
+      */
+      /*
+      shell = "${pkgs.fish}/bin/fish";
+      */
       sensibleOnTop = false;
       historyLimit = 200000;
       customPaneNavigationAndResize = true;
@@ -266,15 +308,33 @@ in
     };
 
     kitty = {
-      /* cool kitty colors */
-      /* Forest Night */
-      /* kanagawabones */
-      /* Nova */
-      /* Obsidian */
-      /* Rose Pine */
-      /* moonlight */
-      /* Flat */
-      /* zenwritten_dark */
+      /*
+      cool kitty colors
+      */
+      /*
+      Forest Night
+      */
+      /*
+      kanagawabones
+      */
+      /*
+      Nova
+      */
+      /*
+      Obsidian
+      */
+      /*
+      Rose Pine
+      */
+      /*
+      moonlight
+      */
+      /*
+      Flat
+      */
+      /*
+      zenwritten_dark
+      */
       enable = true;
       theme = "Everforest Dark Medium";
       font = {
@@ -324,8 +384,8 @@ in
 
         function dirty(){
         	if [[ $(git status --porcelain 2> /dev/null)  ]];
-        		then 
-        			echo "*"; 
+        		then
+        			echo "*";
         	fi
         }
 
@@ -340,70 +400,69 @@ in
       '';
     };
 
-    zsh =
-      {
-        enable = true;
-        enableAutosuggestions = true;
-        enableCompletion = true;
-        history.extended = true;
-        autocd = true;
-        initExtraFirst = "source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh\n" + builtins.readFile ./nix/zsh.hm/zsh_extra_config.zsh;
-        plugins = [
-          {
-            name = "_git";
-            src = pkgs.fetchurl {
-              url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
-              sha256 = "sha256-9gddKDJQeF7c8JKBmSvea0vMQ+stynRIjYgKUvdlnAk=";
-            };
-          }
-          {
-            name = "zsh-history-substring-search";
-            src = pkgs.fetchFromGitHub {
-              owner = "zsh-users";
-              repo = "zsh-history-substring-search";
-              rev = "1.0.2";
-              sha256 = "0zmq66dzasmr5pwribyh4kbkk23jxbpdw4rjxx0i7dx8jjp2lzl4";
-            };
-          }
-          {
-            name = "zsh-syntax-highlighting";
-            src = pkgs.fetchFromGitHub {
-              owner = "zsh-users";
-              repo = "zsh-syntax-highlighting";
-              rev = "0.7.1";
-              sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
-            };
-          }
-          # {
-          #   name = "zsh-nix-shell";
-          #   file = "nix-shell.plugin.zsh";
-          #   src = pkgs.fetchFromGitHub {
-          #     owner = "chisui";
-          #     repo = "zsh-nix-shell";
-          #     rev = "v0.5.0";
-          #     sha256 = "0za4aiwwrlawnia4f29msk822rj9bgcygw6a8a6iikiwzjjz0g91";
-          #   };
-          # }
-          {
-            name = "git-prompt";
-            src = pkgs.fetchFromGitHub {
-              owner = "woefe";
-              repo = "git-prompt.zsh";
-              rev = "v2.3.0";
-              sha256 = "i5UemJNwlKjMJzStkUc1XHNm/kZQfC5lvtz6/Y0AwRU=";
-            };
-          }
-          {
-            name = "zsh-autosuggestions";
-            src = pkgs.fetchFromGitHub {
-              owner = "zsh-users";
-              repo = "zsh-autosuggestions";
-              rev = "v0.7.0";
-              sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
-            };
-          }
-        ];
-      };
+    zsh = {
+      enable = true;
+      enableAutosuggestions = true;
+      enableCompletion = true;
+      history.extended = true;
+      autocd = true;
+      initExtraFirst = "source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh\n" + builtins.readFile ./nix/zsh.hm/zsh_extra_config.zsh;
+      plugins = [
+        {
+          name = "_git";
+          src = pkgs.fetchurl {
+            url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
+            sha256 = "sha256-9gddKDJQeF7c8JKBmSvea0vMQ+stynRIjYgKUvdlnAk=";
+          };
+        }
+        {
+          name = "zsh-history-substring-search";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-history-substring-search";
+            rev = "1.0.2";
+            sha256 = "0zmq66dzasmr5pwribyh4kbkk23jxbpdw4rjxx0i7dx8jjp2lzl4";
+          };
+        }
+        {
+          name = "zsh-syntax-highlighting";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-syntax-highlighting";
+            rev = "0.7.1";
+            sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
+          };
+        }
+        # {
+        #   name = "zsh-nix-shell";
+        #   file = "nix-shell.plugin.zsh";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "chisui";
+        #     repo = "zsh-nix-shell";
+        #     rev = "v0.5.0";
+        #     sha256 = "0za4aiwwrlawnia4f29msk822rj9bgcygw6a8a6iikiwzjjz0g91";
+        #   };
+        # }
+        {
+          name = "git-prompt";
+          src = pkgs.fetchFromGitHub {
+            owner = "woefe";
+            repo = "git-prompt.zsh";
+            rev = "v2.3.0";
+            sha256 = "i5UemJNwlKjMJzStkUc1XHNm/kZQfC5lvtz6/Y0AwRU=";
+          };
+        }
+        {
+          name = "zsh-autosuggestions";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-autosuggestions";
+            rev = "v0.7.0";
+            sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
+          };
+        }
+      ];
+    };
 
     gh = {
       enable = true;
@@ -416,7 +475,6 @@ in
         };
       };
     };
-
 
     git = {
       enable = true;
@@ -444,7 +502,9 @@ in
     fish = {
       enable = true;
       functions = {
-        /* Move this to local bin idealy */
+        /*
+        Move this to local bin idealy
+        */
         fish_prompt = ''
           set -l last_status $status
           set -g fish_prompt_pwd_dir_length 0
@@ -453,7 +513,7 @@ in
           echo -n (__fish_git_prompt)
           printf '\n| '
           if [ $last_status -ne 0 ]
-            set_color red 
+            set_color red
             echo -n '>'
             echo -n '<'
             set_color normal
@@ -461,7 +521,7 @@ in
             set_color red
             echo -n '>'
           else
-            set_color cyan 
+            set_color cyan
             echo -n '>'
             set_color red
             echo -n '<'
@@ -492,27 +552,28 @@ in
           open https://circleci.com/gh/"$org_and_repo"/tree/"$branch"
         '';
       };
-      plugins = [{
-        name = "foreign-env";
-        src = pkgs.fetchFromGitHub {
-          owner = "oh-my-fish";
-          repo = "plugin-foreign-env";
-          rev = "dddd9213272a0ab848d474d0cbde12ad034e65bc";
-          sha256 = "er1KI2xSUtTlQd9jZl1AjqeArrfBxrgBLcw5OqinuAM=";
-        };
-      }];
-      shellInit =
-        ''
-          set __fish_git_prompt_color_branch yellow
-          set __fish_git_prompt_color_upstream_ahead green
-          set __fish_git_prompt_color_upstream_behind red
-          set __fish_git_prompt_show_informative_status
-          
-          # Status Chars
-          #set __fish_git_prompt_char_stashstate '↩'
-          set __fish_git_prompt_char_upstream_ahead '⤵'
-          set __fish_git_prompt_char_upstream_ahead '⤴'
-        '';
+      plugins = [
+        {
+          name = "foreign-env";
+          src = pkgs.fetchFromGitHub {
+            owner = "oh-my-fish";
+            repo = "plugin-foreign-env";
+            rev = "dddd9213272a0ab848d474d0cbde12ad034e65bc";
+            sha256 = "er1KI2xSUtTlQd9jZl1AjqeArrfBxrgBLcw5OqinuAM=";
+          };
+        }
+      ];
+      shellInit = ''
+        set __fish_git_prompt_color_branch yellow
+        set __fish_git_prompt_color_upstream_ahead green
+        set __fish_git_prompt_color_upstream_behind red
+        set __fish_git_prompt_show_informative_status
+
+        # Status Chars
+        #set __fish_git_prompt_char_stashstate '↩'
+        set __fish_git_prompt_char_upstream_ahead '⤵'
+        set __fish_git_prompt_char_upstream_ahead '⤴'
+      '';
     };
   };
 }

@@ -1,8 +1,5 @@
-{...}:
-{
-
+{...}: {
   nix = {
-
     checkConfig = true;
     # package = pkgs.nixVersions.unstable;
 

@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   services.yabai = {
     enable = true;
     enableScriptingAddition = true;
@@ -51,7 +50,7 @@
       # yabai -m space 5 --label five
       # yabai -m space 6 --label six
       # yabai -m space 9 --label nine
- 
+
       # float system preferences. Most of these just diable Yabai form resizing them.
        yabai -m rule --add app="^System Preferences$" sticky=on layer=above manage=off
        yabai -m rule --add app="^Finder$" sticky=on layer=above manage=off
@@ -71,7 +70,7 @@
        yabai -m rule --add app="^Private Internet Access$" manage=off
 
       #find ~/Library/Parallels/Applications\ Menus/ -maxdepth 3 -type f | awk -F'/' '{ print $NF; }' | awk '{$1=$1};1' | sort | uniq | tr "\n" "\0" | xargs -0 -I{} yabai -m rule --add app="^{}\$" title=".*" manage=on
- 
+
       ## Some random global settings
       #yabai -m config focus_follows_mouse          autoraise
       #yabai -m config focus_follows_mouse          on
@@ -84,17 +83,17 @@
         yabai -m config active_window_opacity 1.0
       #yabai -m config normal_window_opacity        0.97
       #yabai -m config window_border                on | off
- 
+
       ## WITH SIP ENABLED (Installed Limelight seperately, Don't need this)
         yabai -m config window_border on
- 
+
       ## WTIH SIP DISABLED (Limelight build into Yabai, enable it here)
       #yabai -m config window_border on
       #yabai -m config window_border_width 3
       #yabai -m config active_window_border_color 0xFF40FF00
       #yabai -m config normal_window_border_color 0x00FFFFFF
       #yabai -m config insert_feedback_color        0xffd75f5f
- 
+
       ## some other settings
         yabai -m config auto_balance off
         yabai -m config split_ratio 0.50
@@ -104,11 +103,11 @@
         yabai -m config mouse_action2 resize
       # set modifier + left-click drag to resize window (default: move)
         yabai -m config mouse_action1 move
- 
+
       # general space settings
       #yabai -m config focused_border_skip_floating  1
       #yabai -m config --space 3 layout             float
- 
+
       ## Change how yabai looks
         yabai -m config layout bsp
         yabai -m config top_padding 2
@@ -116,31 +115,31 @@
         yabai -m config left_padding 2
         yabai -m config right_padding 2
         yabai -m config window_gap 10
- 
+
       #Limelight addon (Kill it and start it each time Yabai starts)
         killall limelight &>/dev/null
         limelight &>/dev/null &
- 
+
       # #Ubersicht widget bar stuff
       #yabai -m signal --add event=space_changed \
       #action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"nibar-spaces-primary-jsx\"'"
       #yabai -m signal --add event=display_changed \
       #action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"nibar-spaces-primary-jsx\"'"
- 
+
       #yabai -m signal --add event=space_changed \
       #action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"nibar-spaces-secondary-jsx\"'"
       #yabai -m signal --add event=display_changed \
       #action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"nibar-spaces-secondary-jsx\"'"
- 
+
       # signals
       # yabai -m signal --add event=window_destroyed action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
       #yabai -m signal --add event=space_changed action="yabai -m window --focus $(yabai -m query --windows --window | jq ".id")"
       # yabai -m signal --add event=application_terminated action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
- 
+
       #testing signals
       # yabai -m signal --add event=window_destroyed action="terminal-notifier -message 'window_destroyed'"
       # yabai -m signal --add event=application_terminated action="terminal-notifier -message 'application_terminated'"
- 
+
       ## If I close the active window, focus on any other visible window.
         yabai -m signal --add event=window_destroyed action="bash /Users/jesseskelton/CustomScripts/SwitchSpaces/window-focus-on-destroy.sh"
       # yabai -m signal --add event=space_changed action="export CUR_ACTIVE_APP=\"iTerm2\""

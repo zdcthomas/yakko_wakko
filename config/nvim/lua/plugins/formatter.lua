@@ -36,6 +36,9 @@ return {
 				typescriptreact = {
 					require("formatter.filetypes.typescriptreact").prettierd,
 				},
+				nix = function()
+					return { exe = "alejandra", stdin = true }
+				end,
 				yaml = {
 					-- require("formatter.filetypes.yaml").yamlfmt,
 					function()

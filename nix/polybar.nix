@@ -1,9 +1,7 @@
-{ pkgs, ... }:
-
+{pkgs, ...}:
 # Created By @icanwalkonwater
 # Edited and ported to Nix by Th0rgal
 # stolen by @zdcthomas
-
 let
   ac = "#1E88E5";
   mf = "#383838";
@@ -28,9 +26,7 @@ let
 
   # Red
   urgency = "#e74c3c";
-
-in
-{
+in {
   services.polybar = {
     enable = true;
 
@@ -131,8 +127,7 @@ in
 
       "module/distro-icon" = {
         type = "custom/script";
-        exec =
-          "${pkgs.coreutils}/bin/uname -r | ${pkgs.coreutils}/bin/cut -d- -f1";
+        exec = "${pkgs.coreutils}/bin/uname -r | ${pkgs.coreutils}/bin/cut -d- -f1";
         interval = 999999999;
 
         format = " <label>";

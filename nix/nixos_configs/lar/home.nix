@@ -1,6 +1,13 @@
-{ config, username, modulesPath, pkgs, overlays, lib, inputs, ... }:
 {
-
+  config,
+  username,
+  modulesPath,
+  pkgs,
+  overlays,
+  lib,
+  inputs,
+  ...
+}: {
   imports = [
     ../../nix.hm
     ../../bash.hm
@@ -26,14 +33,13 @@
       lshw
       beets
       nodejs-18_x
-      /* expressvpn */
+      /*
+      expressvpn
+      */
     ];
 
     # file = {
     #   ".config/beets/config.yaml".source = ../config/beets/config.yaml;
     # };
   };
-
-
-
 }

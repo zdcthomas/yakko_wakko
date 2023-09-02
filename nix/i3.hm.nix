@@ -1,19 +1,21 @@
-{ pkgs, lib, config, ... }:
-
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
   imports = [
     ./polybar.nix
     ./picom.nix
     ./rofi.hm
   ];
 
-  home.packages = with pkgs;
-    [
-      networkmanagerapplet
-      rofi-power-menu
-      brightnessctl
-      feh
-    ];
+  home.packages = with pkgs; [
+    networkmanagerapplet
+    rofi-power-menu
+    brightnessctl
+    feh
+  ];
   services.unclutter = {
     enable = true;
     timeout = 1;
@@ -25,7 +27,7 @@
 
     config = rec {
       modifier = "Mod4";
-      bars = [ ];
+      bars = [];
 
       window = {
         border = 0;
@@ -86,4 +88,3 @@
     };
   };
 }
-
