@@ -1,17 +1,25 @@
-{ pkgs, lib, config, ... }:
-let
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
   cfg = config.custom.hm.firefox;
 in
-with lib;{
-  options = {
-    custom.hm.firefox = {
-      enable = mkEnableOption "Custom Firefox config";
+  with lib; {
+    options = {
+      custom.hm.firefox = {
+        enable = mkEnableOption "Custom Firefox config";
 
-      bookmarks = mkOption {
-        type =
-          let
-            bookmarkSubmodule = types.submodule
-              ({ config, name, ... }: {
+        bookmarks = mkOption {
+          type = let
+            bookmarkSubmodule =
+              types.submodule
+              ({
+                config,
+                name,
+                ...
+              }: {
                 options = {
                   name = mkOption {
                     type = types.str;
@@ -21,7 +29,7 @@ with lib;{
 
                   tags = mkOption {
                     type = types.listOf types.str;
-                    default = [ ];
+                    default = [];
                     description = "Bookmark tags.";
                   };
 
@@ -36,14 +44,20 @@ with lib;{
                     description = "Bookmark url, use %s for search terms.";
                   };
                 };
-              }) // {
-              description = "bookmark submodule";
-            };
+              })
+              // {
+                description = "bookmark submodule";
+              };
 
             bookmarkType = types.addCheck bookmarkSubmodule (x: x ? "url");
 
-            directoryType = types.submodule
-              ({ config, name, ... }: {
+            directoryType =
+              types.submodule
+              ({
+                config,
+                name,
+                ...
+              }: {
                 options = {
                   name = mkOption {
                     type = types.str;
@@ -53,7 +67,7 @@ with lib;{
 
                   bookmarks = mkOption {
                     type = types.listOf nodeType;
-                    default = [ ];
+                    default = [];
                     description = "Bookmarks within directory.";
                   };
 
@@ -63,107 +77,107 @@ with lib;{
                     description = "If directory should be shown in toolbar.";
                   };
                 };
-              }) // {
-              description = "directory submodule";
-            };
+              })
+              // {
+                description = "directory submodule";
+              };
 
             nodeType = types.either bookmarkType directoryType;
           in
-          with types;
-          coercedTo (attrsOf nodeType) attrValues (listOf nodeType);
-        default = [ ];
-        example = literalExpression ''
-          [
-            {
-              name = "wikipedia";
-              tags = [ "wiki" ];
-              keyword = "wiki";
-              url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go";
-            }
-            {
-              name = "kernel.org";
-              url = "https://www.kernel.org";
-            }
-            {
-              name = "Nix sites";
-              toolbar = true;
-              bookmarks = [
-                {
-                  name = "homepage";
-                  url = "https://nixos.org/";
-                }
-                {
-                  name = "wiki";
-                  tags = [ "wiki" "nix" ];
-                  url = "https://nixos.wiki/";
-                }
-              ];
-            }
-          ]
-        '';
-        description = ''
-          Preloaded bookmarks. Note, this may silently overwrite any
-          previously existing bookmarks!
-        '';
-      };
-
-    };
-  };
-  config = mkIf cfg.enable {
-    programs.firefox = {
-      enable = true;
-      profiles = {
-        zdcthomas = {
-          isDefault = true;
-          settings = {
-            # https://github.com/arkenfox/user.js/blob/master/user.js
-            "browser.startup.page" = 0;
-            "browser.aboutConfig.showWarning" = false;
-            "browser.startup.homepage" = "about:blank";
-            "browser.newtabpage.activity-stream.showSponsored" = false;
-            "browser.newtabpage.enabled" = false;
-            "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-            "toolkit.telemetry.unified" = false;
-            "toolkit.telemetry.enabled" = false;
-            "toolkit.telemetry.server" = "data:,";
-            "toolkit.telemetry.archive.enabled" = false;
-            "toolkit.telemetry.newProfilePing.enabled" = false;
-            "toolkit.telemetry.shutdownPingSender.enabled" = false;
-            "toolkit.telemetry.updatePing.enabled" = false;
-            "toolkit.telemetry.bhrPing.enabled" = false;
-            "toolkit.telemetry.firstShutdownPing.enabled" = false;
-            "datareporting.policy.dataSubmissionEnabled" = false;
-            "toolkit.telemetry.coverage.opt-out" = true;
-            "toolkit.coverage.opt-out" = true;
-            "toolkit.coverage.endpoint.base" = "";
-            "browser.ping-centre.telemetry" = false;
-            "browser.newtabpage.activity-stream.feeds.telemetry" = false;
-            "browser.newtabpage.activity-stream.telemetry" = false;
-            "app.shield.optoutstudies.enabled" = false;
-            "app.normandy.enabled" = false;
-            "app.normandy.api_url" = "";
-            "network.connectivity-service.enabled" = false;
-          };
-          extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-            vimium
-            onepassword-password-manager
-          ];
-          bookmarks = cfg.bookmarks;
+            with types;
+              coercedTo (attrsOf nodeType) attrValues (listOf nodeType);
+          default = [];
+          example = literalExpression ''
+            [
+              {
+                name = "wikipedia";
+                tags = [ "wiki" ];
+                keyword = "wiki";
+                url = "https://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go";
+              }
+              {
+                name = "kernel.org";
+                url = "https://www.kernel.org";
+              }
+              {
+                name = "Nix sites";
+                toolbar = true;
+                bookmarks = [
+                  {
+                    name = "homepage";
+                    url = "https://nixos.org/";
+                  }
+                  {
+                    name = "wiki";
+                    tags = [ "wiki" "nix" ];
+                    url = "https://nixos.wiki/";
+                  }
+                ];
+              }
+            ]
+          '';
+          description = ''
+            Preloaded bookmarks. Note, this may silently overwrite any
+            previously existing bookmarks!
+          '';
         };
       };
     };
-  };
+    config = mkIf cfg.enable {
+      programs.firefox = {
+        enable = true;
+        profiles = {
+          zdcthomas = {
+            isDefault = true;
+            settings = {
+              # https://github.com/arkenfox/user.js/blob/master/user.js
+              "browser.startup.page" = 0;
+              "browser.aboutConfig.showWarning" = false;
+              "browser.startup.homepage" = "about:blank";
+              "browser.newtabpage.activity-stream.showSponsored" = false;
+              "browser.newtabpage.enabled" = false;
+              "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+              "toolkit.telemetry.unified" = false;
+              "toolkit.telemetry.enabled" = false;
+              "toolkit.telemetry.server" = "data:,";
+              "toolkit.telemetry.archive.enabled" = false;
+              "toolkit.telemetry.newProfilePing.enabled" = false;
+              "toolkit.telemetry.shutdownPingSender.enabled" = false;
+              "toolkit.telemetry.updatePing.enabled" = false;
+              "toolkit.telemetry.bhrPing.enabled" = false;
+              "toolkit.telemetry.firstShutdownPing.enabled" = false;
+              "datareporting.policy.dataSubmissionEnabled" = false;
+              "toolkit.telemetry.coverage.opt-out" = true;
+              "toolkit.coverage.opt-out" = true;
+              "toolkit.coverage.endpoint.base" = "";
+              "browser.ping-centre.telemetry" = false;
+              "browser.newtabpage.activity-stream.feeds.telemetry" = false;
+              "browser.newtabpage.activity-stream.telemetry" = false;
+              "app.shield.optoutstudies.enabled" = false;
+              "app.normandy.enabled" = false;
+              "app.normandy.api_url" = "";
+              "network.connectivity-service.enabled" = false;
+            };
+            extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+              vimium
+              onepassword-password-manager
+            ];
+            bookmarks = cfg.bookmarks;
+          };
+        };
+      };
+    };
 
-  # xdg.mimeApps.defaultApplications = {
-  #   "application/x-extension-htm" = "firefox.desktop";
-  #   "application/x-extension-html" = "firefox.desktop";
-  #   "application/x-extension-shtml" = "firefox.desktop";
-  #   "application/x-extension-xht" = "firefox.desktop";
-  #   "application/x-extension-xhtml" = "firefox.desktop";
-  #   "application/xhtml+xml" = "firefox.desktop";
-  #   "text/html" = "firefox.desktop";
-  #   "x-scheme-handler/chrome" = "firefox.desktop";
-  #   "x-scheme-handler/http" = "firefox.desktop";
-  #   "x-scheme-handler/https" = "firefox.desktop";
-  # };
-}
+    # xdg.mimeApps.defaultApplications = {
+    #   "application/x-extension-htm" = "firefox.desktop";
+    #   "application/x-extension-html" = "firefox.desktop";
+    #   "application/x-extension-shtml" = "firefox.desktop";
+    #   "application/x-extension-xht" = "firefox.desktop";
+    #   "application/x-extension-xhtml" = "firefox.desktop";
+    #   "application/xhtml+xml" = "firefox.desktop";
+    #   "text/html" = "firefox.desktop";
+    #   "x-scheme-handler/chrome" = "firefox.desktop";
+    #   "x-scheme-handler/http" = "firefox.desktop";
+    #   "x-scheme-handler/https" = "firefox.desktop";
+    # };
+  }

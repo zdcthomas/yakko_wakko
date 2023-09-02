@@ -1,18 +1,23 @@
-{ config, pkgs, lib, ... }:
-let
-  col = lib.attrsets.mapAttrs
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  col =
+    lib.attrsets.mapAttrs
     (name: value: ("#" + value))
     config.colorScheme.colors;
-in
-{
+in {
   programs.waybar = {
     enable = true;
-    package =
-      (pkgs.waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [
+    package = pkgs.waybar.overrideAttrs (oldAttrs: {
+      mesonFlags =
+        oldAttrs.mesonFlags
+        ++ [
           "-Dexperimental=true"
         ];
-      }));
+    });
 
     systemd = {
       enable = true;
@@ -23,9 +28,9 @@ in
         layer = "top"; # Waybar at top layer
         height = 30; # Waybar height (to be removed for auto height)
         spacing = 4; # Gaps between modules (4px)
-        modules-left = [ "wlr/workspaces" "hyprland/submap" ];
-        modules-center = [ ];
-        modules-right = [ "tray" "pulseaudio" "network" "cpu" "memory" "temperature" "backlight" "keyboard-state" "battery" "clock" ];
+        modules-left = ["wlr/workspaces" "hyprland/submap"];
+        modules-center = [];
+        modules-right = ["tray" "pulseaudio" "network" "cpu" "memory" "temperature" "backlight" "keyboard-state" "battery" "clock"];
 
         keyboard-state = {
           numlock = true;
@@ -96,11 +101,11 @@ in
           critical-threshold = 80;
           format-critical = "{temperatureC}°C {icon}";
           format = "{temperatureC}°C {icon}";
-          format-icons = [ "" "" "" ];
+          format-icons = ["" "" ""];
         };
         backlight = {
           format = "{percent}% {icon}";
-          format-icons = [ "" "" "" "" "" "" "" "" "" ];
+          format-icons = ["" "" "" "" "" "" "" "" ""];
         };
         battery = {
           states = {
@@ -111,7 +116,7 @@ in
           format-charging = "{capacity}% ";
           format-plugged = "{capacity}% ";
           format-alt = "{time} {icon}";
-          format-icons = [ "" "" "" "" "" ];
+          format-icons = ["" "" "" "" ""];
         };
         "battery#bat2" = {
           bat = "BAT2";
@@ -139,7 +144,7 @@ in
             phone = "";
             portable = "";
             car = "";
-            default = [ "" "" "" ];
+            default = ["" "" ""];
           };
           on-click = "pavucontrol";
         };

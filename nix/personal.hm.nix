@@ -1,9 +1,10 @@
-{ config, pkgs, ... }:
-
-
-let user_name = "zacharythomas";
-in
 {
+  config,
+  pkgs,
+  ...
+}: let
+  user_name = "zacharythomas";
+in {
   home = {
     username = user_name;
     homeDirectory = "/Users/" + user_name;
@@ -14,7 +15,9 @@ in
       gum
       hugo
       skim
-      /* qflipper  BROKEN */
+      /*
+      qflipper  BROKEN
+      */
       weechat
       ffmpeg_5
       nodejs-18_x

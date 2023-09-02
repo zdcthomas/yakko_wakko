@@ -1,4 +1,8 @@
-{ pkgs, config, ... }: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   programs.bash = {
     enable = true;
     enableCompletion = true;
@@ -18,8 +22,8 @@
 
       function dirty(){
       	if [[ $(git status --porcelain 2> /dev/null)  ]];
-      		then 
-      			echo "*"; 
+      		then
+      			echo "*";
       	fi
       }
 
@@ -34,4 +38,3 @@
     '';
   };
 }
-

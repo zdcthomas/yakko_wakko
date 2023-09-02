@@ -1,14 +1,15 @@
-{ pkgs, config, ... }:
-let
-  hex = color: ("#" + config.colorScheme.colors.${color});
-in
 {
+  pkgs,
+  config,
+  ...
+}: let
+  hex = color: ("#" + config.colorScheme.colors.${color});
+in {
   programs.alacritty = {
     enable = true;
 
     settings = {
       key_bindings = [
-
         {
           key = "Plus";
           mods = "Control";
