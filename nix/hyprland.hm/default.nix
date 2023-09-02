@@ -29,7 +29,7 @@ in
       clock = true;
       effect-pixelate = 20;
       fade-in = 0.2;
-      screenshots = true;
+      # screenshots = true;
       font-size = 24;
       indicator-idle-visible = true;
       indicator = true;
@@ -93,11 +93,19 @@ in
         timeout = 120;
         command = "${swaylock}/bin/swaylock -f";
       }
+      {
+        timeout = 135;
+        command = "hyprctl dispatch dpms off";
+      }
     ];
     events = [
       {
         event = "before-sleep";
         command = "${swaylock}/bin/swaylock";
+      }
+      {
+        event = "after-resume";
+        command = "hyprctl dispatch dpms on";
       }
     ];
   };
@@ -276,10 +284,12 @@ in
 
           "sensitivity" = "0"; # -1.0 - 1.0, 0 means no modification.
         };
-        exec-once = [
-          "${ pkgs.hyprpaper }/bin/hyprpaper &"
+        exec-once = with pkgs; [
+          "${ hyprpaper }/bin/hyprpaper &"
           "nm-applet &"
-          "wlsunset -l 40.7 -L -74.0 &"
+          "${wlsunset}/bin/wlsunset -l 40.7 -L -74.0 &"
+          "${udiskie}/bin/udiskie &"
+          "[workspace 2 silent] ${pkgs.firefox}/bin/firefox"
         ];
 
         # exec = [
@@ -288,6 +298,13 @@ in
 
         monitor = [ ",preferred,auto,auto" ];
         bind = [
+          # cycle workspaces
+          "${mainMod}, bracketleft, workspace, m-1"
+          "${mainMod}, bracketright, workspace, m+1"
+
+          # cycle monitors
+          "${mainMod} + SHIFT, bracketleft, focusmonitor, l"
+          "${mainMod} + SHIFT, bracketright, focusmonitor, r"
 
           "${mainMod} + SHIFT, TAB,    focusmonitor,                  "
           "${mainMod},         TAB,    focusurgentorlast,             , title:^(alacritty-btop)$"
@@ -301,7 +318,7 @@ in
           "${mainMod},         P,      exec,                          $rofi-power-menu"
           "${mainMod} + SHIFT, m,      layoutmsg,                     swapwithmaster master"
           "${mainMod} + SHIFT, d,      exec,                          $launcher_alt"
-          "${mainMod} + ALT,   c,      exec,                          ${ pkgs.hyprpicker }/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy"
+          "${mainMod} + ALT,   c,      exec,                          ${pkgs.hyprpicker}/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy"
           "${mainMod} + CTRL,  left,   movecurrentworkspacetomonitor, l"
           "${mainMod} + CTRL,  right,  movecurrentworkspacetomonitor, r"
 
@@ -413,6 +430,8 @@ in
 
         misc = {
           animate_manual_resizes = true;
+          disable_hyprland_logo = true;
+          disable_splash_rendering = true;
         };
 
         "device:epic-mouse-v1" = {
@@ -448,11 +467,12 @@ in
           animation = workspaces, 1, 6, default
       }
 
-      bindl=, XF86AudioMute, exec, amixer set Master toggle
-      bindle=, XF86AudioLowerVolume, exec, amixer set Master 4%-
-      bindle=, XF86AudioRaiseVolume, exec, amixer set Master 4%+
-      bindle=, XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%-
-      bindle=, XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%+
+      bindl  =, XF86AudioMicMute,      exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+      bindl  =, XF86AudioMute,         exec, amixer set Master toggle
+      bindle =, XF86AudioLowerVolume,  exec, amixer set Master 4%-
+      bindle =, XF86AudioRaiseVolume,  exec, amixer set Master 4%+
+      bindle =, XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%-
+      bindle =, XF86MonBrightnessUp,   exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%+
 
       # Move focus with mainMod + arrow keys
       bindm = $mainMod, mouse:272, movewindow
