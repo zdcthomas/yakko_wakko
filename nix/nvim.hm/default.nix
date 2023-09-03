@@ -33,13 +33,6 @@ in
             type = types.bool;
           };
 
-          js_stuff = mkOption {
-            default = true;
-            example = true;
-            description = "enable language server and config for js_stuff";
-            type = types.bool;
-          };
-
           yml = mkOption {
             default = true;
             example = true;
@@ -84,10 +77,6 @@ in
         ++ optionals cfg.language_servers.lua [
           stylua
           lua-language-server
-        ]
-        ++ optionals cfg.language_servers.js_stuff [
-          prettierd
-          eslint_d
         ]
         ++ optionals cfg.language_servers.yml [
           yamlfmt
