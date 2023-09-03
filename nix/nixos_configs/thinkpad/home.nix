@@ -1,9 +1,17 @@
-{ config, modulesPath, pkgs, overlays, lib, inputs, ... }:
-
-let
-  management_scripts = import ../../nix_management_scripts_pkgs.nix { pkgs = pkgs; homeDirectory = config.home.homeDirectory; };
-in
 {
+  config,
+  modulesPath,
+  pkgs,
+  overlays,
+  lib,
+  inputs,
+  ...
+}: let
+  management_scripts = import ../../nix_management_scripts_pkgs.nix {
+    pkgs = pkgs;
+    homeDirectory = config.home.homeDirectory;
+  };
+in {
   fonts.fontconfig.enable = true;
   imports = [
     inputs.nix-colors.homeManagerModules.default
@@ -37,33 +45,33 @@ in
       bookmarks = [
         {
           name = "github";
-          tags = [ "git" ];
+          tags = ["git"];
           keyword = "git";
           url = "https://github.com";
         }
         {
           name = "example nixos configurations";
-          tags = [ "nixos" "nix" ];
+          tags = ["nixos" "nix"];
           keyword = "example config";
           url = "https://nixos.wiki/wiki/Configuration_Collection";
         }
 
         {
           name = "hyprland wiki";
-          tags = [ "wiki" "hyprland" ];
+          tags = ["wiki" "hyprland"];
           keyword = "hyprland";
           url = "https://wiki.hyprland.org/";
         }
         {
           name = "wikipedia";
-          tags = [ "wiki" ];
+          tags = ["wiki"];
           keyword = "wiki";
           url = "https://en.wikipedia.org";
         }
 
         {
           name = "i3 docs";
-          tags = [ "i3" ];
+          tags = ["i3"];
           keyword = "i3";
           url = "https://i3wm.org/docs/user-contributed/lzap-config.html";
         }
@@ -73,12 +81,12 @@ in
           bookmarks = [
             {
               name = "Hacker News";
-              tags = [ "news" "tech" ];
+              tags = ["news" "tech"];
               url = "https://news.ycombinator.com/";
             }
             {
               name = "Lobsters";
-              tags = [ "news" "tech" ];
+              tags = ["news" "tech"];
               url = "https://lobste.rs";
             }
           ];
@@ -89,28 +97,27 @@ in
           bookmarks = [
             {
               name = "Packages search";
-              tags = [ "search" "nix" ];
+              tags = ["search" "nix"];
               url = "https://search.nixos.org/packages";
             }
             {
               name = "Options search";
-              tags = [ "search" "nix" ];
+              tags = ["search" "nix"];
               url = "https://search.nixos.org/options";
             }
             {
               name = "Home Manager Appendix";
-              tags = [ "wiki" "nix" ];
+              tags = ["wiki" "nix"];
               url = "https://nix-community.github.io/home-manager/options.html";
             }
             {
               name = "wiki";
-              tags = [ "wiki" "nix" ];
+              tags = ["wiki" "nix"];
               url = "https://nixos.wiki/";
             }
           ];
         }
       ];
-
     };
   };
   news.display = "show";
@@ -123,11 +130,26 @@ in
     # You can update Home Manager without changing this value. See
     # the Home Manager release notes for a list of state version
     # changes in each release.
-    /* stateVersion = "22.05"; */
+    /*
+    stateVersion = "22.05";
+    */
 
-    /* extraOutputsToInstall = [ "man" ]; */
+    /*
+    extraOutputsToInstall = [ "man" ];
+    */
     packages = with pkgs; [
+      (
+        writeShellApplication
+        {
+          name = "show-nixos-org";
 
+          runtimeInputs = [curl w3m];
+
+          text = ''
+            curl -s 'https://nixos.org' | w3m -dump -T text/html
+          '';
+        }
+      )
       # bash
       # feh
       # texlive.combined.scheme-basic
@@ -180,15 +202,17 @@ in
     # changes in each release.
     stateVersion = "23.05";
 
-
-    /* symlink the config directory. I know this isn't the nix way, but it's
-      * ridiculous to invent another layer of rconfiguration languages */
+    /*
+     symlink the config directory. I know this isn't the nix way, but it's
+    * ridiculous to invent another layer of rconfiguration languages
+    */
     file = {
-
       ".config/zk/" = {
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
       };
-      /* ".tmux.conf".source = ./tmux.conf; */
+      /*
+      ".tmux.conf".source = ./tmux.conf;
+      */
       ".config/dmux/dmux.conf.toml".source = ../../../config/dmux/dmux.conf.toml;
       ".boxes".source = ../../../config/boxes/.boxes;
     };
@@ -196,15 +220,23 @@ in
     keyboard = {
       # variant = "colemak";
       layout = "us";
-      options = [ "caps:escape" ];
+      options = ["caps:escape"];
     };
   };
 
   programs = {
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
     qutebrowser = {
       enable = true;
     };
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
+  };
+  services = {
+    blueman-applet.enable = true;
   };
 }

@@ -1,6 +1,10 @@
-{ pkgs, config, ... }: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   home = {
-    packages = with pkgs;[
+    packages = with pkgs; [
       # openssh
     ];
   };
@@ -23,7 +27,6 @@
       "Include" = "${config.home.homeDirectory}/.ssh/config.local";
     };
   };
-
 
   # xdg.mimeApps.defaultApplications = {
   #   "application/x-extension-htm" = "firefox.desktop";

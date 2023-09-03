@@ -1,9 +1,10 @@
-{ config, pkgs, ... }:
-
-let user_name = "zdcthomas";
-in
 {
-
+  config,
+  pkgs,
+  ...
+}: let
+  user_name = "zdcthomas";
+in {
   imports = [
     ./nvim.hm
     ./cli.hm
@@ -21,10 +22,18 @@ in
       awscli2
       git-remote-codecommit
       nodePackages.aws-cdk
-      /* docker */
-      /* docker-compose */
-      /* wrong version */
-      /* vector */
+      /*
+      docker
+      */
+      /*
+      docker-compose
+      */
+      /*
+      wrong version
+      */
+      /*
+      vector
+      */
     ];
   };
 }

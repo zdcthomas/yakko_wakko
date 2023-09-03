@@ -1,5 +1,11 @@
-{ de, lib, config, pkgs, inputs, ... }:
-let
+{
+  de,
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}: let
   cfg = config.zdct.de;
   art = lib.strings.concatStringsSep "\n" [
     "──────▄▀▄─────▄▀▄──────"
@@ -8,11 +14,10 @@ let
     "█▄▄█─█░░▀░░┬░░▀░░█─█▄▄█"
   ];
 in
-with lib;
-{
-  options =
-    {
-      zdct.de = mkOption
+  with lib; {
+    options = {
+      zdct.de =
+        mkOption
         {
           type = types.enum [
             "i3"
@@ -21,9 +26,9 @@ with lib;
           default = "i3";
         };
     };
-  config = mkMerge [
-    (
-      mkIf (cfg == "i3")
+    config = mkMerge [
+      (
+        mkIf (cfg == "i3")
         {
           # Enable the X11 windowing system.
           services.xserver = {
@@ -48,13 +53,10 @@ with lib;
 
             windowManager.i3.enable = true;
           };
-
-
         }
-
-    )
-    (
-      mkIf
+      )
+      (
+        mkIf
         (cfg == "hyprland")
         {
           environment.sessionVariables = {
@@ -67,7 +69,7 @@ with lib;
           };
           xdg.portal = {
             enable = true;
-            extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+            extraPortals = [pkgs.xdg-desktop-portal-gtk];
           };
           security.rtkit.enable = true;
 
@@ -94,6 +96,6 @@ with lib;
             xwayland.enable = true;
           };
         }
-    )
-  ];
-}
+      )
+    ];
+  }

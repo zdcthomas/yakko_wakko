@@ -1,7 +1,5 @@
-{ ... }:
-{
+{...}: {
   programs = {
-
     gh = {
       enable = true;
       settings = {
@@ -13,7 +11,6 @@
         };
       };
     };
-
 
     git = {
       enable = true;

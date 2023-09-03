@@ -1,20 +1,24 @@
 #  ----------------------------------------------------------------
 #  |    L580 (type 20LW, 20LX) Laptops (ThinkPad) - Type 20LW |
 #  ----------------------------------------------------------------
-args@{ config, pkgs, overlays, inputs, lib, ... }:
-let
+args @ {
+  config,
+  pkgs,
+  overlays,
+  inputs,
+  lib,
+  ...
+}: let
   username = "zdcthomas";
-in
-{
+in {
   # config.z.de = "i3";
   zdct.de = "hyprland";
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./de.nix
-      inputs.home-manager.nixosModules.home-manager
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./de.nix
+    inputs.home-manager.nixosModules.home-manager
+  ];
 
   services.tailscale = {
     enable = true;
@@ -33,8 +37,7 @@ in
     #   experimental-features = nix-command flakes
     # '';
     settings = {
-
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = ["nix-command" "flakes"];
     };
     distributedBuilds = true;
     gc = {
@@ -45,7 +48,7 @@ in
 
     optimise = {
       automatic = true;
-      dates = [ "weekly" ];
+      dates = ["weekly"];
     };
   };
   # Bootloader.
@@ -65,7 +68,6 @@ in
     # Enable networking
     networkmanager.enable = true;
   };
-
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -109,6 +111,7 @@ in
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
+  hardware.bluetooth.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -122,6 +125,7 @@ in
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+  services.blueman.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -130,7 +134,7 @@ in
   users.users.${username} = {
     isNormalUser = true;
     description = "Zachary Thomas";
-    extraGroups = [ "audio" "networkmanager" "wheel" ];
+    extraGroups = ["audio" "networkmanager" "wheel"];
     shell = pkgs.zsh;
     packages = with pkgs; [
       vim
@@ -154,7 +158,7 @@ in
     enable = true;
     # Certain features, including CLI integration and system authentication support,
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = [ username ];
+    polkitPolicyOwners = [username];
   };
 
   # Some programs need SUID wrappers, can be configured further or are

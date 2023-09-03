@@ -1,16 +1,33 @@
-{ config, ... }:
-{
+{config, ...}: {
   programs = {
     kitty = {
-      /* cool kitty colors */
-      /* Forest Night */
-      /* kanagawabones */
-      /* Nova */
-      /* Obsidian */
-      /* Rose Pine */
-      /* moonlight */
-      /* Flat */
-      /* zenwritten_dark */
+      /*
+      cool kitty colors
+      */
+      /*
+      Forest Night
+      */
+      /*
+      kanagawabones
+      */
+      /*
+      Nova
+      */
+      /*
+      Obsidian
+      */
+      /*
+      Rose Pine
+      */
+      /*
+      moonlight
+      */
+      /*
+      Flat
+      */
+      /*
+      zenwritten_dark
+      */
 
       # theme = "Everforest Dark Medium";
       enable = true;

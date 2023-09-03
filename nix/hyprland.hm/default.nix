@@ -1,270 +1,274 @@
-{ pkgs, lib, inputs, config, ... }:
-let
+{
+  pkgs,
+  lib,
+  inputs,
+  config,
+  ...
+}: let
   # col = color: (lib.strings.removePrefix "#" config.colorScheme.colors.${color});
-  col = lib.attrsets.mapAttrs
+  col =
+    lib.attrsets.mapAttrs
     (name: value: (lib.strings.removePrefix "#" value))
     config.colorScheme.colors;
 
-  col_hash = lib.attrsets.mapAttrs
+  col_hash =
+    lib.attrsets.mapAttrs
     (name: value: ("#" + value + "FF"))
     config.colorScheme.colors;
   swaylock = pkgs.swaylock-effects;
 in
-# https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
-{
-  services.mako = {
-    enable = true;
-    borderRadius = 10;
-    defaultTimeout = 4000; # milliseconds
-    anchor = "top-right";
-    backgroundColor = col_hash.base00;
-    borderColor = col_hash.base07;
-    font = "FiraCode";
-  };
-  programs.swaylock = {
-    enable = true;
-    package = swaylock;
-    settings = {
-      # color = col.base0D;
-      clock = true;
-      effect-pixelate = 20;
-      fade-in = 0.2;
-      # screenshots = true;
-      font-size = 24;
-      indicator-idle-visible = true;
-      indicator = true;
-      indicator-caps-lock = true;
-      indicator-radius = 100;
-      indicator-thickness = 20;
-      line-color = col.base05 + "60";
-      ring-color = col.base06 + "60";
-      inside-color = col.base07 + "60";
-      show-failed-attempts = true;
-      # base00: "#2f383e" # bg0,       palette1 dark (medium)
-      # base01: "#374247" # bg1,       palette1 dark (medium)
-      # base02: "#4a555b" # bg3,       palette1 dark (medium)
-      # base03: "#859289" # grey1,     palette2 dark
-      # base04: "#9da9a0" # grey2,     palette2 dark
-      # base05: "#d3c6aa" # fg,        palette2 dark
-      # base06: "#e4e1cd" # bg3,       palette1 light (medium)
-      # base07: "#fdf6e3" # bg0,       palette1 light (medium)
-      # base08: "#7fbbb3" # blue,      palette2 dark
-      # base09: "#d699b6" # purple,    palette2 dark
-      # base0A: "#dbbc7f" # yellow,    palette2 dark
-      # base0B: "#83c092" # aqua,      palette2 dark
-      # base0C: "#e69875" # orange,    palette2 dark
-      # base0D: "#a7c080" # green,     palette2 dark
-      # base0E: "#e67e80" # red,       palette2 dark
-      # base0F: "#eaedc8" # bg_visual, palette1 dark (medium)
-      # image = "/home/zdcthomas/wallpapers/ocean-rock.jpg";
-      # inside-clear-color = "ffd20400";
-      # inside-caps-lock-color = "009ddc00";
-      # inside-ver-color = "d9d8d800";
-      # inside-wrong-color = "ee2e2400";
-      # ring-clear-color = "231f20D9";
-      # ring-caps-lock-color = "231f20D9";
-      # ring-ver-color = "231f20D9";
-      # ring-wrong-color = "231f20D9";
-      # line-color = "00000000";
-      # line-clear-color = "ffd204FF";
-      # line-caps-lock-color = "009ddcFF";
-      # line-ver-color = "d9d8d8FF";
-      # line-wrong-color = "ee2e24FF";
-      # text-clear-color = "ffd20400";
-      # text-ver-color = "d9d8d800";
-      # text-wrong-color = "ee2e2400";
-      # bs-hl-color = "ee2e24FF";
-      # caps-lock-key-hl-color = "ffd204FF";
-      # caps-lock-bs-hl-color = "ee2e24FF";
-      # disable-caps-lock-text = true;
-      # text-caps-lock-color = "009ddc";
+  # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
+  {
+    services.mako = {
+      enable = true;
+      borderRadius = 10;
+      defaultTimeout = 4000; # milliseconds
+      anchor = "top-right";
+      backgroundColor = col_hash.base00;
+      borderColor = col_hash.base07;
+      font = "FiraCode";
     };
-  };
-
-  services.swayidle = {
-    enable = true;
-    systemdTarget = "hyprland-session.target";
-    timeouts = [
-      {
-        timeout = 115;
-        command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
-      }
-      {
-        timeout = 120;
-        command = "${swaylock}/bin/swaylock -f";
-      }
-      {
-        timeout = 135;
-        command = "hyprctl dispatch dpms off";
-      }
-    ];
-    events = [
-      {
-        event = "before-sleep";
-        command = "${swaylock}/bin/swaylock";
-      }
-      {
-        event = "after-resume";
-        command = "hyprctl dispatch dpms on";
-      }
-    ];
-  };
-
-  home.file = {
-    ".config/hypr/hyprpaper.conf".source = ./hyprpaper.conf;
-
-    ".config/tofi/" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/tofi";
+    programs.swaylock = {
+      enable = true;
+      package = swaylock;
+      settings = {
+        # color = col.base0D;
+        clock = true;
+        effect-pixelate = 20;
+        fade-in = 0.2;
+        # screenshots = true;
+        font-size = 24;
+        indicator-idle-visible = true;
+        indicator = true;
+        indicator-caps-lock = true;
+        indicator-radius = 100;
+        indicator-thickness = 20;
+        line-color = col.base05 + "60";
+        ring-color = col.base06 + "60";
+        inside-color = col.base07 + "60";
+        show-failed-attempts = true;
+        # base00: "#2f383e" # bg0,       palette1 dark (medium)
+        # base01: "#374247" # bg1,       palette1 dark (medium)
+        # base02: "#4a555b" # bg3,       palette1 dark (medium)
+        # base03: "#859289" # grey1,     palette2 dark
+        # base04: "#9da9a0" # grey2,     palette2 dark
+        # base05: "#d3c6aa" # fg,        palette2 dark
+        # base06: "#e4e1cd" # bg3,       palette1 light (medium)
+        # base07: "#fdf6e3" # bg0,       palette1 light (medium)
+        # base08: "#7fbbb3" # blue,      palette2 dark
+        # base09: "#d699b6" # purple,    palette2 dark
+        # base0A: "#dbbc7f" # yellow,    palette2 dark
+        # base0B: "#83c092" # aqua,      palette2 dark
+        # base0C: "#e69875" # orange,    palette2 dark
+        # base0D: "#a7c080" # green,     palette2 dark
+        # base0E: "#e67e80" # red,       palette2 dark
+        # base0F: "#eaedc8" # bg_visual, palette1 dark (medium)
+        # image = "/home/zdcthomas/wallpapers/ocean-rock.jpg";
+        # inside-clear-color = "ffd20400";
+        # inside-caps-lock-color = "009ddc00";
+        # inside-ver-color = "d9d8d800";
+        # inside-wrong-color = "ee2e2400";
+        # ring-clear-color = "231f20D9";
+        # ring-caps-lock-color = "231f20D9";
+        # ring-ver-color = "231f20D9";
+        # ring-wrong-color = "231f20D9";
+        # line-color = "00000000";
+        # line-clear-color = "ffd204FF";
+        # line-caps-lock-color = "009ddcFF";
+        # line-ver-color = "d9d8d8FF";
+        # line-wrong-color = "ee2e24FF";
+        # text-clear-color = "ffd20400";
+        # text-ver-color = "d9d8d800";
+        # text-wrong-color = "ee2e2400";
+        # bs-hl-color = "ee2e24FF";
+        # caps-lock-key-hl-color = "ffd204FF";
+        # caps-lock-bs-hl-color = "ee2e24FF";
+        # disable-caps-lock-text = true;
+        # text-caps-lock-color = "009ddc";
+      };
     };
 
-    # ".config/waybar/" = {
-    #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/waybar";
+    services.swayidle = {
+      enable = true;
+      systemdTarget = "hyprland-session.target";
+      timeouts = [
+        {
+          timeout = 115;
+          command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
+        }
+        {
+          timeout = 120;
+          command = "${swaylock}/bin/swaylock -f";
+        }
+        {
+          timeout = 135;
+          command = "hyprctl dispatch dpms off";
+        }
+      ];
+      events = [
+        {
+          event = "before-sleep";
+          command = "${swaylock}/bin/swaylock";
+        }
+        {
+          event = "after-resume";
+          command = "hyprctl dispatch dpms on";
+        }
+      ];
+    };
+
+    home.file = {
+      ".config/hypr/hyprpaper.conf".source = ./hyprpaper.conf;
+
+      ".config/tofi/" = {
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/tofi";
+      };
+
+      # ".config/waybar/" = {
+      #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/waybar";
+      # };
+    };
+
+    imports = [
+      ../rofi.hm
+      ../waybar.hm
+    ];
+    # programs.wofi = {
+    #   enable = true;
+    #   settings = {
+    #     width = 420;
+    #     height = 550;
+    #     location = "center";
+    #     show = "drun";
+    #     matching = "fuzzy";
+    #     prompt = "Search...";
+    #     filter_rate = 100;
+    #     allow_markup = true;
+    #     no_actions = true;
+    #     halign = "fill";
+    #     orientation = "vertical";
+    #     content_halign = "fill";
+    #     insensitive = true;
+    #     allow_images = true;
+    #     image_size = 28;
+    #     gtk_dark = false;
+    #     term = "alacritty";
+    #   };
+    #
+    #   style = ''
+    #     * {
+    #       transition: 0.2s;
+    #     }
+    #
+    #     window {
+    #     	font-family: "FiraCode Nerd Font Mono";
+    #     	font-size: 13px;
+    #     }
+    #
+    #     window {
+    #         margin: 0px;
+    #         border: 2px solid #cba6f7;
+    #     /*
+    #         background-color: transparent;
+    #     */
+    #         background-color: #161925;
+    #         border-radius: 16px;
+    #     }
+    #
+    #     #input {
+    #         padding: 4px;
+    #         margin: 20px;
+    #         padding-left: 20px;
+    #         border: none;
+    #         color: #fff;
+    #         font-weight: bold;
+    #         background: linear-gradient(90deg, #cba6f7 0%, #94e2d5 100%);
+    #        	outline: none;
+    #         border-radius: 16px;
+    #     }
+    #
+    #     #input image {
+    #         color: #fff;
+    #     }
+    #
+    #     #input:focus {
+    #         border: none;
+    #        	outline: none;
+    #     }
+    #
+    #     #inner-box {
+    #         margin: 20px;
+    #         margin-top: 0px;
+    #         border: none;
+    #         color: #cba6f7;
+    #         border-radius: 16px;
+    #     }
+    #
+    #     #inner-box * {
+    #         transition: none;
+    #     }
+    #
+    #     #outer-box {
+    #         margin: 0px;
+    #         border: none;
+    #         padding: 0px;
+    #         border-radius: 16px;
+    #     }
+    #
+    #     #scroll {
+    #         margin-top: 5px;
+    #         border: none;
+    #         border-radius: 16px;
+    #         margin-bottom: 5px;
+    #     }
+    #
+    #     #text:selected {
+    #         color: #fff;
+    #         font-weight: bold;
+    #     }
+    #
+    #     #img {
+    #         margin-right: 20px;
+    #         background: transparent;
+    #     }
+    #
+    #     #text {
+    #         margin: 0px;
+    #         border: none;
+    #         padding: 0px;
+    #         background: transparent;
+    #     }
+    #
+    #     #entry {
+    #         margin: 0px;
+    #         border: none;
+    #         border-radius: 16px;
+    #         background-color: transparent;
+    #         min-height:32px;
+    #         font-weight: bold;
+    #     }
+    #
+    #     #entry:selected {
+    #         outline: none;
+    #         margin: 0px;
+    #         border: none;
+    #         border-radius: 16px;
+    #         background: linear-gradient(90deg, #cba6f7 0%, #94e2d5 100%);
+    #     }
+    #   '';
     # };
-  };
-
-  imports = [
-    ../rofi.hm
-    ../waybar.hm
-  ];
-  # programs.wofi = {
-  #   enable = true;
-  #   settings = {
-  #     width = 420;
-  #     height = 550;
-  #     location = "center";
-  #     show = "drun";
-  #     matching = "fuzzy";
-  #     prompt = "Search...";
-  #     filter_rate = 100;
-  #     allow_markup = true;
-  #     no_actions = true;
-  #     halign = "fill";
-  #     orientation = "vertical";
-  #     content_halign = "fill";
-  #     insensitive = true;
-  #     allow_images = true;
-  #     image_size = 28;
-  #     gtk_dark = false;
-  #     term = "alacritty";
-  #   };
-  #
-  #   style = ''
-  #     * {
-  #       transition: 0.2s;
-  #     }
-  #
-  #     window {
-  #     	font-family: "FiraCode Nerd Font Mono";
-  #     	font-size: 13px;
-  #     }
-  #
-  #     window {
-  #         margin: 0px;
-  #         border: 2px solid #cba6f7;
-  #     /*
-  #         background-color: transparent;
-  #     */
-  #         background-color: #161925;
-  #         border-radius: 16px;
-  #     }
-  #
-  #     #input {
-  #         padding: 4px;
-  #         margin: 20px;
-  #         padding-left: 20px;
-  #         border: none;
-  #         color: #fff;
-  #         font-weight: bold;
-  #         background: linear-gradient(90deg, #cba6f7 0%, #94e2d5 100%);
-  #        	outline: none;
-  #         border-radius: 16px;
-  #     }
-  #
-  #     #input image {
-  #         color: #fff;
-  #     }
-  #
-  #     #input:focus {
-  #         border: none;
-  #        	outline: none;
-  #     }
-  #
-  #     #inner-box {
-  #         margin: 20px;
-  #         margin-top: 0px;
-  #         border: none;
-  #         color: #cba6f7;
-  #         border-radius: 16px;
-  #     }
-  #
-  #     #inner-box * {
-  #         transition: none;
-  #     }
-  #
-  #     #outer-box {
-  #         margin: 0px;
-  #         border: none;
-  #         padding: 0px;
-  #         border-radius: 16px;
-  #     }
-  #
-  #     #scroll {
-  #         margin-top: 5px;
-  #         border: none;
-  #         border-radius: 16px;
-  #         margin-bottom: 5px;
-  #     }
-  #
-  #     #text:selected {
-  #         color: #fff;
-  #         font-weight: bold;
-  #     }
-  #
-  #     #img {
-  #         margin-right: 20px;
-  #         background: transparent;
-  #     }
-  #
-  #     #text {
-  #         margin: 0px;
-  #         border: none;
-  #         padding: 0px;
-  #         background: transparent;
-  #     }
-  #
-  #     #entry {
-  #         margin: 0px;
-  #         border: none;
-  #         border-radius: 16px;
-  #         background-color: transparent;
-  #         min-height:32px;
-  #         font-weight: bold;
-  #     }
-  #
-  #     #entry:selected {
-  #         outline: none;
-  #         margin: 0px;
-  #         border: none;
-  #         border-radius: 16px;
-  #         background: linear-gradient(90deg, #cba6f7 0%, #94e2d5 100%);
-  #     }
-  #   '';
-  # };
-  wayland.windowManager.hyprland = {
-    enable = true;
-    enableNvidiaPatches = true;
-    systemdIntegration = true;
-    xwayland.enable = true;
-    settings =
-      let
+    wayland.windowManager.hyprland = {
+      enable = true;
+      enableNvidiaPatches = true;
+      systemdIntegration = true;
+      xwayland.enable = true;
+      settings = let
         rofi = "pkill rofi || ${pkgs.rofi}/bin/rofi -show drun";
         rofi_power_menu = "${pkgs.rofi}/bin/rofi -show p -modi p:'rofi-power-menu'";
         wofi = "pkill wofi || ${pkgs.wofi}/bin/wofi --show drun -n";
         tofi = " ${pkgs.tofi}/bin/tofi-drun -c ~/.config/tofi/tofi.launcher.conf";
         mainMod = "SUPER";
-
-      in
-      {
+      in {
         "$terminal" = "${pkgs.alacritty}/bin/alacritty";
         "$browser" = "${pkgs.firefox}/bin/firefox";
         "$rofi-power-menu" = rofi_power_menu;
@@ -272,7 +276,6 @@ in
         "$launcher" = tofi;
         "$mainMod" = "SUPER";
         input = {
-
           "kb_layout" = "us";
           "kb_options" = "caps:escape";
 
@@ -285,7 +288,7 @@ in
           "sensitivity" = "0"; # -1.0 - 1.0, 0 means no modification.
         };
         exec-once = with pkgs; [
-          "${ hyprpaper }/bin/hyprpaper &"
+          "${hyprpaper}/bin/hyprpaper &"
           "nm-applet &"
           "${wlsunset}/bin/wlsunset -l 40.7 -L -74.0 &"
           "${udiskie}/bin/udiskie &"
@@ -296,7 +299,7 @@ in
         #   "pkill waybar; waybar"
         # ];
 
-        monitor = [ ",preferred,auto,auto" ];
+        monitor = [",preferred,auto,auto"];
         bind = [
           # cycle workspaces
           "${mainMod}, bracketleft, workspace, m-1"
@@ -369,7 +372,6 @@ in
           # bind = SUPER,Tab,bringactivetotop,   # bring it to the top
         ];
         general = {
-
           gaps_in = 5;
           gaps_out = 10;
           border_size = 1;
@@ -409,7 +411,7 @@ in
           # shadow_render_power = 3
           # col.shadow = rgba(1a1a1aee)
           multisample_edges = 1; # enable antialiasing for rounded corners
-          blurls = [ "wofi" "tofi" "launcher" ];
+          blurls = ["wofi" "tofi" "launcher"];
         };
 
         dwindle = {
@@ -438,112 +440,114 @@ in
           sensitivity = -0.5;
         };
       };
-    extraConfig = ''
-      env = XCURSOR_SIZE,24
+      extraConfig = ''
+        env = XCURSOR_SIZE,24
 
-      # Example per-device config
-      # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
+        # Example per-device config
+        # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
 
-      input {
-        touchpad {
-          disable_while_typing = true
-          tap-to-click = false
+        input {
+          touchpad {
+            disable_while_typing = true
+            tap-to-click = false
+          }
         }
-      }
 
-      animations {
-          enabled = yes
+        animations {
+            enabled = yes
 
-          # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
+            # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
 
-          bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+            bezier = myBezier, 0.05, 0.9, 0.1, 1.05
 
-          animation = windows, 1, 7, myBezier
-          animation = windowsIn, 1, 7, myBezier
-          animation = windowsOut, 1, 7, default, slide
-          animation = border, 1, 10, myBezier
-          animation = borderangle, 1, 100, default, once
-          animation = fade, 1, 7, default
-          animation = workspaces, 1, 6, default
-      }
+            animation = windows, 1, 7, myBezier
+            animation = windowsIn, 1, 7, myBezier
+            animation = windowsOut, 1, 7, default, slide
+            animation = border, 1, 10, myBezier
+            animation = borderangle, 1, 100, default, once
+            animation = fade, 1, 7, default
+            animation = workspaces, 1, 6, default
+        }
 
-      bindl  =, XF86AudioMicMute,      exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
-      bindl  =, XF86AudioMute,         exec, amixer set Master toggle
-      bindle =, XF86AudioLowerVolume,  exec, amixer set Master 4%-
-      bindle =, XF86AudioRaiseVolume,  exec, amixer set Master 4%+
-      bindle =, XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%-
-      bindle =, XF86MonBrightnessUp,   exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%+
+        bindl  =, XF86AudioMicMute,      exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+        bindl  =, XF86AudioMute,         exec, amixer set Master toggle
+        bindle =, XF86AudioLowerVolume,  exec, amixer set Master 4%-
+        bindle =, XF86AudioRaiseVolume,  exec, amixer set Master 4%+
+        bindle =, XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%-
+        bindle =, XF86MonBrightnessUp,   exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%+
 
-      # Move focus with mainMod + arrow keys
-      bindm = $mainMod, mouse:272, movewindow
-      bindm = $mainMod, mouse:273, resizewindow
-
-
-      submap = resize
-      binde  = , l, resizeactive, 10 0
-      binde  = , h, resizeactive, -10 0
-      binde  = , k, resizeactive, 0 -10
-      binde  = , j, resizeactive, 0 10
-      bind   = , escape, submap, reset
-      submap = reset
-
-      windowrulev2 = workspace 2,            title:^(.*Firefox.*)
-      windowrulev2 = workspace 3,            title:^(.*Discord.*)$
-      windowrulev2 = workspace 4,            title:^(.*1Password.*)$
-      windowrulev2 = idleinhibit focus,      class:^(mpv|.+exe)$
-      windowrulev2 = idleinhibit focus,      class:^(firefox)$, title:^(.*YouTube.*)$
-      windowrulev2 = idleinhibit fullscreen, class:^(firefox)$
-      windowrulev2 = move 100%-433 53, class:^(wofi)$, title:^(clippick)$
-      windowrulev2 = float,class:(pavucontrol),
-      windowrulev2 = float,class:(nmtui),
-      windowrulev2 = center,class:(nmtui),
-      windowrulev2 = float,class:(imv),
-      windowrule   = float,^(nm-connection-editor)
-      windowrule = float, ^(abtop)$
+        # Move focus with mainMod + arrow keys
+        bindm = $mainMod, mouse:272, movewindow
+        bindm = $mainMod, mouse:273, resizewindow
 
 
-      # dialog
-      windowrule = float,title:^(Open File)(.*)$
-      windowrule = float,title:^(Open Folder)(.*)$
-      windowrule = float,title:^(Open)$
-      windowrule = float,title:^(Save As)(.*)$
-      windowrule = float,title:^(Library)(.*)$
-      windowrule = float,title:^(Choose Files)$
-      windowrule = float,title:^(Confirm to replace files)$
-      windowrule = float,title:^(File Operation Progress)$
+        submap = resize
+        binde  = , l, resizeactive, 10 0
+        binde  = , h, resizeactive, -10 0
+        binde  = , k, resizeactive, 0 -10
+        binde  = , j, resizeactive, 0 10
+        bind   = , escape, submap, reset
+        submap = reset
+
+        windowrulev2 = workspace 2,            title:^(.*Firefox.*)
+        windowrulev2 = workspace 3,            title:^(.*Discord.*)$
+        windowrulev2 = workspace 4,            title:^(.*1Password.*)$
+        windowrulev2 = idleinhibit focus,      class:^(mpv|.+exe)$
+        windowrulev2 = idleinhibit focus,      class:^(firefox)$, title:^(.*YouTube.*)$
+        windowrulev2 = idleinhibit fullscreen, class:^(firefox)$
+        windowrulev2 = move 100%-433 53, class:^(wofi)$, title:^(clippick)$
+        windowrulev2 = float,class:(pavucontrol),
+        windowrulev2 = float,class:(nmtui),
+        windowrulev2 = center,class:(nmtui),
+        windowrulev2 = float,class:(imv),
+        windowrule   = float,^(nm-connection-editor)
+        windowrule = float, ^(abtop)$
 
 
-      # # workspace binding
-      workspace=5, monitor:DP-2
-      workspace=6, monitor:DP-2
-      workspace=7, monitor:DP-2
-      workspace=8, monitor:DP-2
-    '';
-  };
-  home.packages = with pkgs; [
-    (waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [
-        "-Dexperimental=true"
-      ];
-    }))
+        # dialog
+        windowrule = float,title:^(Open File)(.*)$
+        windowrule = float,title:^(Open Folder)(.*)$
+        windowrule = float,title:^(Open)$
+        windowrule = float,title:^(Save As)(.*)$
+        windowrule = float,title:^(Library)(.*)$
+        windowrule = float,title:^(Choose Files)$
+        windowrule = float,title:^(Confirm to replace files)$
+        windowrule = float,title:^(File Operation Progress)$
 
-    wl-gammactl
-    wl-clipboard
-    brightnessctl
-    hyprpicker
-    inotify-tools
-    libnotify
-    swww
-    networkmanagerapplet
-    hyprpaper
 
-    pavucontrol
-    cava
-    imv
+        # # workspace binding
+        workspace=5, monitor:DP-2
+        workspace=6, monitor:DP-2
+        workspace=7, monitor:DP-2
+        workspace=8, monitor:DP-2
+      '';
+    };
+    home.packages = with pkgs; [
+      (waybar.overrideAttrs (oldAttrs: {
+        mesonFlags =
+          oldAttrs.mesonFlags
+          ++ [
+            "-Dexperimental=true"
+          ];
+      }))
 
-    tofi
-    wofi
+      wl-gammactl
+      wl-clipboard
+      brightnessctl
+      hyprpicker
+      inotify-tools
+      libnotify
+      swww
+      networkmanagerapplet
+      hyprpaper
 
-    swayidle
-  ];
-}
+      pavucontrol
+      cava
+      imv
+
+      tofi
+      wofi
+
+      swayidle
+    ];
+  }
