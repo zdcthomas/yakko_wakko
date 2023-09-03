@@ -225,10 +225,18 @@ in {
   };
 
   programs = {
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
     qutebrowser = {
       enable = true;
     };
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
+  };
+  services = {
+    blueman-applet.enable = true;
   };
 }

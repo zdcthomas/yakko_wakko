@@ -43,5 +43,6 @@
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     opengl.enable = true;
     nvidia.modesetting.enable = true;
+    bluetooth.enable = true;
   };
 }

@@ -44,11 +44,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1689109245,
-        "narHash": "sha256-ODWM4v8k1ToSgr/l6rABhQ1g3C/om3036xj2hVa+75M=",
+        "lastModified": 1693413023,
+        "narHash": "sha256-2W18PgDJUHkcEVqiFb2f8J108Ii89qbzxB6qw6yEozs=",
         "owner": "InternetUnexplorer",
         "repo": "discord-overlay",
-        "rev": "7fa291a3f84ca92835d0fa39ef40e1851d57ced2",
+        "rev": "b6344fd726325e57c93993c314131c0bac8030fd",
         "type": "github"
       },
       "original": {
