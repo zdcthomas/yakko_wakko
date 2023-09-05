@@ -93,36 +93,37 @@ in
       systemdTarget = "hyprland-session.target";
       timeouts = [
         {
-          timeout = 115;
-          command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
+          timeout = 290;
+          command = "${pkgs.libnotify}/bin/notify-send 'Locking in 10 seconds' -t 10000";
         }
         {
-          timeout = 120;
+          timeout = 300;
           command = "${swaylock}/bin/swaylock -f";
         }
-        {
-          timeout = 135;
-          command = "hyprctl dispatch dpms off";
-        }
+        # {
+        #   timeout = 600;
+        #   command = "${pkgs.hyprland}/bin/hyprctl 'output * dpms off'";
+        #   resumeCommand = "${pkgs.hyprland}/bin/hyprctl 'output * dpms on'";
+        # }
       ];
       events = [
         {
           event = "before-sleep";
-          command = "${swaylock}/bin/swaylock";
+          command = "${swaylock}/bin/swaylock -f";
         }
-        {
-          event = "after-resume";
-          command = "hyprctl dispatch dpms on";
-        }
+        # {
+        #   event = "after-resume";
+        #   command = "hyprctl dispatch dpms on";
+        # }
       ];
     };
 
     home.file = {
       ".config/hypr/hyprpaper.conf".source = ./hyprpaper.conf;
 
-      ".config/tofi/" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/tofi";
-      };
+      # ".config/tofi/" = {
+      #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/tofi";
+      # };
 
       # ".config/waybar/" = {
       #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/waybar";
@@ -132,6 +133,7 @@ in
     imports = [
       ../rofi.hm
       ../waybar.hm
+      ../tofi.hm
     ];
     # programs.wofi = {
     #   enable = true;
@@ -282,7 +284,9 @@ in
           "follow_mouse" = "0";
 
           touchpad = {
-            "natural_scroll" = "no";
+            natural_scroll = "no";
+            disable_while_typing = true;
+            tap-to-click = false;
           };
 
           "sensitivity" = "0"; # -1.0 - 1.0, 0 means no modification.
@@ -300,6 +304,22 @@ in
         # ];
 
         monitor = [",preferred,auto,auto"];
+
+        bindl = [
+          ", XF86AudioMicMute,      exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+          ", XF86AudioMute,         exec, amixer set Master toggle"
+        ];
+        bindle = [
+          ", XF86AudioLowerVolume,  exec, amixer set Master 4%-"
+          ", XF86AudioRaiseVolume,  exec, amixer set Master 4%+"
+          ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%-"
+          ", XF86MonBrightnessUp,   exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%+"
+        ];
+        bindm = [
+          "${mainMod}, mouse:272, movewindow"
+          "${mainMod}, mouse:273, resizewindow"
+        ];
+
         bind = [
           # cycle workspaces
           "${mainMod}, bracketleft, workspace, m-1"
@@ -374,7 +394,7 @@ in
         general = {
           gaps_in = 5;
           gaps_out = 10;
-          border_size = 1;
+          border_size = 2;
 
           #  -------------------------
           #  |    Spaceman colors    |
@@ -393,7 +413,6 @@ in
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
           "col.shadow" = "0x99161925";
           "col.shadow_inactive" = "0x55161925";
-
           rounding = 10;
           blur = {
             size = 5;
@@ -446,13 +465,6 @@ in
         # Example per-device config
         # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
 
-        input {
-          touchpad {
-            disable_while_typing = true
-            tap-to-click = false
-          }
-        }
-
         animations {
             enabled = yes
 
@@ -469,18 +481,6 @@ in
             animation = workspaces, 1, 6, default
         }
 
-        bindl  =, XF86AudioMicMute,      exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
-        bindl  =, XF86AudioMute,         exec, amixer set Master toggle
-        bindle =, XF86AudioLowerVolume,  exec, amixer set Master 4%-
-        bindle =, XF86AudioRaiseVolume,  exec, amixer set Master 4%+
-        bindle =, XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%-
-        bindle =, XF86MonBrightnessUp,   exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%+
-
-        # Move focus with mainMod + arrow keys
-        bindm = $mainMod, mouse:272, movewindow
-        bindm = $mainMod, mouse:273, resizewindow
-
-
         submap = resize
         binde  = , l, resizeactive, 10 0
         binde  = , h, resizeactive, -10 0
@@ -489,19 +489,18 @@ in
         bind   = , escape, submap, reset
         submap = reset
 
-        windowrulev2 = workspace 2,            title:^(.*Firefox.*)
         windowrulev2 = workspace 3,            title:^(.*Discord.*)$
         windowrulev2 = workspace 4,            title:^(.*1Password.*)$
         windowrulev2 = idleinhibit focus,      class:^(mpv|.+exe)$
         windowrulev2 = idleinhibit focus,      class:^(firefox)$, title:^(.*YouTube.*)$
         windowrulev2 = idleinhibit fullscreen, class:^(firefox)$
-        windowrulev2 = move 100%-433 53, class:^(wofi)$, title:^(clippick)$
-        windowrulev2 = float,class:(pavucontrol),
-        windowrulev2 = float,class:(nmtui),
-        windowrulev2 = center,class:(nmtui),
-        windowrulev2 = float,class:(imv),
-        windowrule   = float,^(nm-connection-editor)
-        windowrule = float, ^(abtop)$
+        windowrulev2 = move 100%-433 53,       class:^(wofi)$, title:^(clippick)$
+        windowrulev2 = float,                  class:(pavucontrol),
+        windowrulev2 = float,                  class:(nmtui),
+        windowrulev2 = center,                 class:(nmtui),
+        windowrulev2 = float,                  class:(imv),
+        windowrule   = float,                  ^(nm-connection-editor)
+        windowrule   = float,                  ^(abtop)$
 
 
         # dialog
@@ -545,7 +544,6 @@ in
       cava
       imv
 
-      tofi
       wofi
 
       swayidle

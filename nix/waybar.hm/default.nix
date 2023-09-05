@@ -28,7 +28,7 @@ in {
         layer = "top"; # Waybar at top layer
         height = 30; # Waybar height (to be removed for auto height)
         spacing = 4; # Gaps between modules (4px)
-        modules-left = ["wlr/workspaces" "hyprland/submap"];
+        modules-left = ["hyprland/workspaces" "idle_inhibitor" "hyprland/submap"];
         modules-center = [];
         modules-right = ["tray" "pulseaudio" "network" "cpu" "memory" "temperature" "backlight" "keyboard-state" "battery" "clock"];
 
@@ -42,12 +42,12 @@ in {
           };
         };
 
-        "wlr/workspaces" = {
-          on-click = "activate";
-          disable-scroll = true;
-          on-scroll-up = "hyprctl dispatch workspace m-1 > /dev/null";
-          on-scroll-down = "hyprctl dispatch workspace m+1 > /dev/null";
-        };
+        # "wlr/workspaces" = {
+        #   on-click = "activate";
+        #   disable-scroll = true;
+        #   on-scroll-up = "hyprctl dispatch workspace m-1 > /dev/null";
+        #   on-scroll-down = "hyprctl dispatch workspace m+1 > /dev/null";
+        # };
         mpd = {
           format = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ";
           format-disconnected = "Disconnected ";

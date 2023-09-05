@@ -30,6 +30,7 @@ in {
     inherit overlays inputs username;
   };
 
+  environment.etc.nixpkgs.source = inputs.nixpkgs;
   nix = {
     package = pkgs.nixUnstable;
 
@@ -37,6 +38,7 @@ in {
     #   experimental-features = nix-command flakes
     # '';
     settings = {
+      auto-optimise-store = true;
       experimental-features = ["nix-command" "flakes"];
     };
     distributedBuilds = true;

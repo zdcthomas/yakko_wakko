@@ -36,9 +36,7 @@ return {
 				typescriptreact = {
 					require("formatter.filetypes.typescriptreact").prettierd,
 				},
-				nix = function()
-					return { exe = "alejandra", stdin = true }
-				end,
+				nix = { require("formatter.filetypes.nix").alejandra },
 				yaml = {
 					-- require("formatter.filetypes.yaml").yamlfmt,
 					function()
@@ -67,6 +65,15 @@ return {
 				},
 				lua = {
 					require("formatter.filetypes.lua").stylua,
+				},
+				markdown = {
+					function()
+						return {
+							exe = "glow",
+							args = { "-" },
+							stdin = true,
+						}
+					end,
 				},
 			},
 		})

@@ -28,24 +28,6 @@ window#waybar.solo #workspaces button {
   border-radius: 5px;
 }
 
-#custom-arch-pill {
-  margin: 5px;
-  padding-left: 10px;
-  padding-right: 15px;
-  border-radius: 7px;
-  background-color: @lavender;
-  color: @dark-fg;
-}
-
-#mode {
-  margin: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-radius: 7px;
-  background-color: @bg;
-  color: @peach;
-}
-
 #tray {
   margin: 5px 0 5px 5px;
   /* padding-left: 10px; */

@@ -187,6 +187,11 @@ local function setup_lspconfig()
 			end,
 			capabilities = capabilities,
 		})
+
+		lspconfig.marksman.setup({
+			on_attach = common_on_attach,
+			capabilities = capabilities,
+		})
 	else
 		require("mason-lspconfig").setup_handlers({
 			-- The first entry (without a key) will be the default handler

@@ -67,6 +67,7 @@ in
           jq
           ripgrep
           silver-searcher
+          shfmt
         ]
         ++ optionals cfg.language_servers.nix [
           # nixpkgs-fmt
@@ -83,6 +84,7 @@ in
         ]
         ++ optionals cfg.language_servers.markdown [
           marksman
+          glow
         ];
     in
       mkIf cfg.enable {
