@@ -7,7 +7,7 @@
   # TODO two files
   home.file.hammerspoon = {
     target = ".hammerspoon/";
-    source = ../hammerspoon;
+    source = ../config/hammerspoon;
     recursive = true;
   };
 }

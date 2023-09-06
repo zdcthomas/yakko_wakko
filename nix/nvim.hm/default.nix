@@ -68,6 +68,7 @@ in
           ripgrep
           silver-searcher
           shfmt
+          prettierd
         ]
         ++ optionals cfg.language_servers.nix [
           # nixpkgs-fmt

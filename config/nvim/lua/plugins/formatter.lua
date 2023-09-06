@@ -67,13 +67,7 @@ return {
 					require("formatter.filetypes.lua").stylua,
 				},
 				markdown = {
-					function()
-						return {
-							exe = "glow",
-							args = { "-" },
-							stdin = true,
-						}
-					end,
+					require("formatter.filetypes.markdown").prettierd,
 				},
 			},
 		})
