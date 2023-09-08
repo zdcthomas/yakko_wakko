@@ -8,6 +8,12 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
     # unstable.url = "nixpkgs/nixos-unstable";
     # hyprland.url = "github:hyprwm/Hyprland";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    eza = {
+      url = "github:eza-community/eza/v0.11.0";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     discord = {
       url = "github:InternetUnexplorer/discord-overlay";
@@ -47,6 +53,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       inputs.discord.overlay
       (final: prev: {
         dmux = inputs.dmux.defaultPackage.${prev.system};
+        eza = inputs.eza.packages.${prev.system}.default;
       })
     ];
 

@@ -28,7 +28,7 @@ in {
         layer = "top"; # Waybar at top layer
         height = 30; # Waybar height (to be removed for auto height)
         spacing = 4; # Gaps between modules (4px)
-        modules-left = ["hyprland/workspaces" "idle_inhibitor" "hyprland/submap"];
+        modules-left = ["hyprland/workspaces" "idle_inhibitor" "hyprland/submap" "bluetooth"];
         modules-center = [];
         modules-right = ["tray" "pulseaudio" "network" "cpu" "memory" "temperature" "backlight" "keyboard-state" "battery" "clock"];
 
@@ -130,10 +130,20 @@ in {
           format-alt = "{ifname}: {ipaddr}/{cidr}";
           on-click = "alacritty -e nmtui";
         };
+        bluetooth = {
+          format = " {status}";
+          "format-connected" = " {device_alias}";
+          "format-connected-battery" = " {device_alias} {device_battery_percentage}%";
+          # // "format-device-preference" = [ "device1" "device2" ], // preference list deciding the displayed device;
+          "tooltip-format" = "{controller_alias}\t{controller_address}\n\n{num_connections} connected";
+          "tooltip-format-connected" = "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}";
+          "tooltip-format-enumerate-connected" = "{device_alias}\t{device_address}";
+          "tooltip-format-enumerate-connected-battery" = "{device_alias}\t{device_address}\t{device_battery_percentage}%";
+        };
         pulseaudio = {
           format = "{volume}% {icon} {format_source}";
           format-bluetooth = "{volume}% {icon} {format_source}";
-          format-bluetooth-muted = "X {icon} {format_source}";
+          format-bluetooth-muted = "{format-source-muted} {icon} {format_source}";
           format-muted = "{format-source-muted} {format_source}";
           format-source = "{volume}% ";
           format-source-muted = "";

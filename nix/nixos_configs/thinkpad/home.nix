@@ -33,6 +33,10 @@ in {
     # ../../zellij.nix
   ];
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
+  # colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
+  # colorScheme = inputs.nix-colors.colorSchemes.chalk;
+  # colorScheme = inputs.nix-colors.colorSchemes.rose-pine;
+  # colorScheme = inputs.nix-colors.colorSchemes.windows-95;
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-light-soft;
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
@@ -138,21 +142,10 @@ in {
     extraOutputsToInstall = [ "man" ];
     */
     packages = with pkgs; [
-      (
-        writeShellApplication
-        {
-          name = "show-nixos-org";
-
-          runtimeInputs = [curl w3m];
-
-          text = ''
-            curl -s 'https://nixos.org' | w3m -dump -T text/html
-          '';
-        }
-      )
       # bash
       # feh
       # texlive.combined.scheme-basic
+      eza
       texlive.combined.scheme-full
       zathura
       bashInteractive
