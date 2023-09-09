@@ -307,12 +307,12 @@ in
         monitor = [",preferred,auto,auto"];
 
         bindl = [
-          ", XF86AudioMicMute,      exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-          ", XF86AudioMute,         exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+          ", XF86AudioMute,         exec, ${pkgs.alsa-utils}/bin/amixer set Master toggle"
+          ", XF86AudioMicMute,         exec, ${pkgs.alsa-utils}/bin/amixer set Capture toggle"
         ];
         bindle = [
-          ", XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-          ", XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
+          ", XF86AudioLowerVolume, exec, ${pkgs.alsa-utils}/bin/amixer set Master 10%-"
+          ", XF86AudioRaiseVolume, exec, ${pkgs.alsa-utils}/bin/amixer set Master 10%+"
           ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%-"
           ", XF86MonBrightnessUp,   exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%+"
         ];

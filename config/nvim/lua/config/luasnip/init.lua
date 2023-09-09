@@ -311,6 +311,24 @@ ls.add_snippets("markdown", {
 			i(2),
 		})
 	),
+	s(
+		"front_matter",
+		fmt(
+			[[
+      ---
+      title: {}
+      draft: {}
+      tags:
+        - {}
+      ---
+    ]],
+			{
+				i(1),
+				i(2),
+				i(3),
+			}
+		)
+	),
 	postfix(
 		{ trig = ".link", match_pattern = non_space },
 		d(1, function(_, snippet)

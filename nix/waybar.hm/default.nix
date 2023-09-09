@@ -30,7 +30,7 @@ in {
         spacing = 4; # Gaps between modules (4px)
         modules-left = ["hyprland/workspaces" "idle_inhibitor" "hyprland/submap" "bluetooth"];
         modules-center = [];
-        modules-right = ["tray" "pulseaudio" "network" "cpu" "memory" "temperature" "backlight" "keyboard-state" "battery" "clock"];
+        modules-right = ["tray" "pulseaudio" "network" "cpu" "memory" "temperature" "backlight" "battery" "clock"];
 
         keyboard-state = {
           numlock = true;
@@ -42,12 +42,6 @@ in {
           };
         };
 
-        # "wlr/workspaces" = {
-        #   on-click = "activate";
-        #   disable-scroll = true;
-        #   on-scroll-up = "hyprctl dispatch workspace m-1 > /dev/null";
-        #   on-scroll-down = "hyprctl dispatch workspace m+1 > /dev/null";
-        # };
         mpd = {
           format = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ";
           format-disconnected = "Disconnected ";

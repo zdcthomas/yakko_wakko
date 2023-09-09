@@ -145,6 +145,8 @@ in {
       # bash
       # feh
       # texlive.combined.scheme-basic
+      sassc
+      ags
       eza
       texlive.combined.scheme-full
       zathura
@@ -155,6 +157,11 @@ in {
       nurl
       weechat
       openssh
+
+      jp2a
+      vhs
+      slides
+      gum
 
       minecraft
       prismlauncher

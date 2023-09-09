@@ -7,6 +7,10 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
     # nixpkgs.url = "nixpkgs/nixos-23.05";
     # unstable.url = "nixpkgs/nixos-unstable";
     # hyprland.url = "github:hyprwm/Hyprland";
+    ags = {
+      url = "github:Aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     eza = {
       url = "github:eza-community/eza/v0.11.0";
@@ -31,7 +35,10 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    dmux.url = "github:zdcthomas/dmux";
+    dmux = {
+      url = "github:zdcthomas/dmux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nur.url = "github:nix-community/NUR";
     nix-colors.url = "github:misterio77/nix-colors";
@@ -54,6 +61,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       (final: prev: {
         dmux = inputs.dmux.defaultPackage.${prev.system};
         eza = inputs.eza.packages.${prev.system}.default;
+        ags = inputs.ags.packages.${prev.system}.default;
       })
     ];
 

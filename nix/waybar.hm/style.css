@@ -59,6 +59,8 @@ window#waybar.solo #workspaces button {
 }
 
 #pulseaudio,
+#keyboard-state,
+#wireplumber,
 #cpu,
 #memory,
 #temperature,
