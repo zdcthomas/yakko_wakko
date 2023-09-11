@@ -277,6 +277,7 @@ in
           "${wlsunset}/bin/wlsunset -l 40.7 -L -74.0 &"
           "${udiskie}/bin/udiskie &"
           "[workspace 2 silent] ${pkgs.firefox}/bin/firefox"
+          "xwaylandvideobridge"
         ];
 
         exec = [
@@ -396,6 +397,25 @@ in
           layout = "master";
         };
 
+        windowrulev2 = [
+          "opacity 0.0 override 0.0 override, class:^(xwaylandvideobridge)$"
+          "noanim,                            class:^(xwaylandvideobridge)$"
+          "nofocus,                           class:^(xwaylandvideobridge)$"
+          "noinitialfocus,                    class:^(xwaylandvideobridge)$"
+          "noblur,                            class:^(xwaylandvideobridge)$"
+          "noshadow,                          class:^(xwaylandvideobridge)$"
+          "workspace 3,                       title:^(.*Discord.*)$"
+          "workspace 4,                       title:^(.*1Password.*)$"
+          "idleinhibit focus,                 class:^(mpv|.+exe)$"
+          "idleinhibit focus,                 class:^(firefox)$, title:^(.*YouTube.*)$"
+          "idleinhibit fullscreen,            class:^(firefox)$"
+          "move 100%-433 53,                  class:^(wofi)$, title:^(clippick)$"
+          "float,                             class:(pavucontrol),"
+          "float,                             class:(nmtui),"
+          "center,                            class:(nmtui),"
+          "float,                             class:(imv),"
+        ];
+
         decoration = {
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
           "col.shadow" = "0x99161925";
@@ -476,18 +496,9 @@ in
         bind   = , escape, submap, reset
         submap = reset
 
-        windowrulev2 = workspace 3,            title:^(.*Discord.*)$
-        windowrulev2 = workspace 4,            title:^(.*1Password.*)$
-        windowrulev2 = idleinhibit focus,      class:^(mpv|.+exe)$
-        windowrulev2 = idleinhibit focus,      class:^(firefox)$, title:^(.*YouTube.*)$
-        windowrulev2 = idleinhibit fullscreen, class:^(firefox)$
-        windowrulev2 = move 100%-433 53,       class:^(wofi)$, title:^(clippick)$
-        windowrulev2 = float,                  class:(pavucontrol),
-        windowrulev2 = float,                  class:(nmtui),
-        windowrulev2 = center,                 class:(nmtui),
-        windowrulev2 = float,                  class:(imv),
         windowrule   = float,                  ^(nm-connection-editor)
         windowrule   = float,                  ^(abtop)$
+        # windowrule=float,nmtui
 
 
         # dialog
@@ -499,6 +510,7 @@ in
         windowrule = float,title:^(Choose Files)$
         windowrule = float,title:^(Confirm to replace files)$
         windowrule = float,title:^(File Operation Progress)$
+
 
 
         monitor = eDP-1,1366x768@60, 2560x0, 1
@@ -520,6 +532,7 @@ in
           ];
       }))
 
+      (pkgs.libsForQt5.callPackage ./xwaylandvideobridge.nix {})
       wl-gammactl
       wl-clipboard
       brightnessctl

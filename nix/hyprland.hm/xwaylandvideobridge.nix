@@ -18,7 +18,7 @@ stdenv.mkDerivation {
     owner = "system";
     repo = "xwaylandvideobridge";
     rev = "16091a997d40eb9e5a46f3f0eecceff8fe348c87";
-    hash = "sha256-enGDIPGdEA9DaqIiVUprdnGuuuQ/B2dq8H7nnid61QE=";
+    hash = "sha256-Wzd48cIB/MCbzjBBfdmUfjA43oG0jtg7tWFl91FaDtk=";
   };
 
   nativeBuildInputs = [cmake extra-cmake-modules pkg-config wrapQtAppsHook];

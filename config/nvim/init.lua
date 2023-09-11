@@ -25,6 +25,7 @@
 -- !_____! !_____! !_____________________________________________________! !_____! !_____!
 ---@diagnostic disable: assign-type-mismatch
 
+vim.loader.enable()
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
@@ -58,7 +59,7 @@ require("lazy").setup("plugins", {
 	performance = {
 		rtp = {
 			disabled_plugins = {
-				"netrw",
+				-- "netrw",
 				"2html_plugin",
 				"getscript",
 				"getscriptPlugin",
