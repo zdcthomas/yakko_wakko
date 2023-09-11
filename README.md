@@ -1,6 +1,6 @@
 # Welcome to my dotfiles!
 
-[![Haiku for you](https://readme-typing-svg.demolab.com?font=Fira+Code&duration=4000&pause=500&center=true&vCenter=true&multiline=true&&lines=Where+neat+hedges+sing;The+sheds+are+glorious+hues;and+the+yaks+tremble)](https://git.io/typing-svg)
+[![Haiku for you](https://readme-typing-svg.demolab.com?font=Fira+Code&duration=4000&pause=500&center=true&vCenter=true&multiline=true&height=100&lines=Where+neat+hedges+sing;The+sheds+are+glorious+hues;and+the+yaks+tremble)](https://git.io/typing-svg)
 
 ---
 
