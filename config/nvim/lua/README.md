@@ -12,10 +12,10 @@ the tables here run at all until `Lazy` decides that they should.
 ### A digression about best practices.
 
 It's **very** important, if you want an editor config that doesn't become
-unusable after every change to any plugin, to closely bind the configuration of
-a plugin to that specific plugin. Many people will simply specify a list of
-plugins and then configure all of them in a file (or collection of files) which
-is always evaluated. This means that:
+unusable after every change to any plugin, to closely bind together
+configuration, installation, and dependencies. Many people will simply specify
+a list of plugins to install and then write their configurations in a file (or
+collection of files) which is always evaluated. This means that:
 
 - lazy-loading has to be abandoned almost entirely
 - If a plugin is removed or it's spec changes, you will always get an error
@@ -25,5 +25,13 @@ is always evaluated. This means that:
 
 These are all bad, and are many of the reasons most people who structure their
 configurations this way complain vociferously across the boards about how
-Neovim is so unstable and their config is unmaintainable. It's simply because
-they haven't maintained it.
+Neovim is so unstable and their config is unmaintainable. It's not entirely
+their fault though.
+
+Long ago, in the days of yore, when plugins where just files on pastebin (and
+for a while after but dramatic effect is cool), configuration was done through
+global variables, e.g `let g:surround_insert_tail = "<++>"`. These are just
+placing data in the global namespace, and therefore don't break when a plugin
+isn't present or changes, it just does nothing. But nowadays, we require
+modules from plugins to configure them, and that doesn't work if the module
+isn't loaded.

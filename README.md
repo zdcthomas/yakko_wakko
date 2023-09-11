@@ -4,6 +4,12 @@
 
 ---
 
+![](http://ForTheBadge.com/images/badges/built-with-love.svg)
+![](https://img.shields.io/badge/NixOS-5277C3?style=for-the-badge&logo=nixos&logoColor=white)
+![](https://img.shields.io/badge/NeoVim-%2357A143.svg?&style=for-the-badge&logo=neovim&logoColor=white)
+![](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)
+![](https://img.shields.io/badge/tmux-1BB91F?style=for-the-badge&logo=tmux&logoColor=white)
+
 Please, look around! I really love working on my dotfiles but it's usually in
 some type of flux so things might move from where I've documented them here.
 Right now I'm using [Nix](https://nixos.org/) to manage all of my machines.
