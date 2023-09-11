@@ -55,8 +55,18 @@ require("lazy").setup("plugins", {
 	defaults = {
 		lazy = true,
 	},
-	install = { colorscheme = { "everforest", "slate" } },
+	ui = {
+		title = "Plugins!",
+		border = "double",
+	},
+	install = { colorscheme = { "everforest", "habamax" } },
+	readme = {
+		enabled = false,
+	},
 	performance = {
+		cache = {
+			enabled = true,
+		},
 		rtp = {
 			disabled_plugins = {
 				-- "netrw",
