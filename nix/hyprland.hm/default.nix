@@ -300,11 +300,9 @@ in
           "[workspace 2 silent] ${pkgs.firefox}/bin/firefox"
         ];
 
-        # exec = [
-        #   "pkill waybar; waybar"
-        # ];
-
-        monitor = [",preferred,auto,auto"];
+        exec = [
+          "pkill waybar; waybar"
+        ];
 
         bindl = [
           ", XF86AudioMute,         exec, ${pkgs.alsa-utils}/bin/amixer set Master toggle"
@@ -313,6 +311,10 @@ in
         bindle = [
           ", XF86AudioLowerVolume, exec, ${pkgs.alsa-utils}/bin/amixer set Master 10%-"
           ", XF86AudioRaiseVolume, exec, ${pkgs.alsa-utils}/bin/amixer set Master 10%+"
+
+          "SHIFT, XF86AudioLowerVolume, exec, ${pkgs.alsa-utils}/bin/amixer set Capture 10%-"
+          "SHIFT, XF86AudioRaiseVolume, exec, ${pkgs.alsa-utils}/bin/amixer set Capture 10%+"
+
           ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%-"
           ", XF86MonBrightnessUp,   exec, ${pkgs.brightnessctl}/bin/brightnessctl set 4%+"
         ];
@@ -330,31 +332,36 @@ in
           "${mainMod} + SHIFT, bracketleft, focusmonitor, l"
           "${mainMod} + SHIFT, bracketright, focusmonitor, r"
 
-          "${mainMod} + SHIFT, TAB,    focusmonitor,                  "
-          "${mainMod},         TAB,    focusurgentorlast,             , title:^(alacritty-btop)$"
+          "${mainMod} + SHIFT, TAB, focusmonitor,      "
+          "${mainMod},         TAB, focusurgentorlast, "
 
-          "${mainMod},         Return, exec,                          $terminal"
-          "${mainMod},         b,      exec,                          $browser"
-          "${mainMod} + SHIFT, W,      killactive,                    "
-          "${mainMod} + SHIFT, Q,      exit,                          "
-          "${mainMod},         F,      fullscreen,                    "
-          "${mainMod},         D,      exec,                          $launcher"
-          "${mainMod},         P,      exec,                          $rofi-power-menu"
-          "${mainMod} + SHIFT, m,      layoutmsg,                     swapwithmaster master"
-          "${mainMod} + SHIFT, d,      exec,                          $launcher_alt"
-          "${mainMod} + ALT,   c,      exec,                          ${pkgs.hyprpicker}/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy"
-          "${mainMod} + CTRL,  left,   movecurrentworkspacetomonitor, l"
-          "${mainMod} + CTRL,  right,  movecurrentworkspacetomonitor, r"
+          "${mainMod} + SHIFT, W,     killactive,     "
+          "${mainMod} + SHIFT, Q,     exit,           "
+          "${mainMod},         F,     fullscreen,     "
+          "${mainMod} + SHIFT, Space, togglefloating, "
+          "${mainMod} + SHIFT, m,     layoutmsg,      swapwithmaster master"
 
-          "${mainMod},         h,      movefocus,                     l"
-          "${mainMod},         l,      movefocus,                     r"
-          "${mainMod},         k,      movefocus,                     u"
-          "${mainMod},         j,      movefocus,                     d"
+          "${mainMod},         D,      exec, $launcher"
+          "${mainMod},         P,      exec, $rofi-power-menu"
+          "${mainMod},         n,      exec, $terminal --class nmtui -e  nmtui"
+          "${mainMod} + SHIFT, d,      exec, $launcher_alt"
+          "${mainMod} + ALT,   c,      exec, ${pkgs.hyprpicker}/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy"
+          "${mainMod},         Return, exec, $terminal"
+          "${mainMod} + SHIFT, Return, exec, $terminal --class termfloat"
+          "${mainMod},         b,      exec, $browser"
 
-          "${mainMod}+SHIFT,   h,      movewindow,                    l"
-          "${mainMod}+SHIFT,   l,      movewindow,                    r"
-          "${mainMod}+SHIFT,   k,      movewindow,                    u"
-          "${mainMod}+SHIFT,   j,      movewindow,                    d"
+          "${mainMod} + CTRL, left,  movecurrentworkspacetomonitor, l"
+          "${mainMod} + CTRL, right, movecurrentworkspacetomonitor, r"
+
+          "${mainMod}, h, movefocus, l"
+          "${mainMod}, l, movefocus, r"
+          "${mainMod}, k, movefocus, u"
+          "${mainMod}, j, movefocus, d"
+
+          "${mainMod}+SHIFT, h, movewindow, l"
+          "${mainMod}+SHIFT, l, movewindow, r"
+          "${mainMod}+SHIFT, k, movewindow, u"
+          "${mainMod}+SHIFT, j, movewindow, d"
 
           # Switch workspaces with mainMod + [0-9]
           "${mainMod}, 1, workspace, 1"
@@ -514,6 +521,9 @@ in
         windowrule = float,title:^(Confirm to replace files)$
         windowrule = float,title:^(File Operation Progress)$
 
+
+        monitor = eDP-1,1366x768@60, 2560x0, 1
+        monitor = DP-2,2560x1440@60, 0x0, 1
 
         # # workspace binding
         workspace=5, monitor:DP-2

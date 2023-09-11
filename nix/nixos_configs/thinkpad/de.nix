@@ -67,10 +67,10 @@ in
             # hint Electron apps to use wayland
             NIXOS_OZONE_WL = "1";
           };
-          xdg.portal = {
-            enable = true;
-            extraPortals = [pkgs.xdg-desktop-portal-gtk];
-          };
+          # xdg.portal = {
+          #   enable = true;
+          #   extraPortals = [pkgs.xdg-desktop-portal-gtk];
+          # };
           security.rtkit.enable = true;
 
           services.greetd = {

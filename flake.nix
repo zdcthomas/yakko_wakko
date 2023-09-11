@@ -11,6 +11,14 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprsome = {
+      url = "github:sopa0/hyprsome";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     eza = {
       url = "github:eza-community/eza/v0.11.0";
@@ -39,9 +47,16 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       url = "github:zdcthomas/dmux";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-    nur.url = "github:nix-community/NUR";
-    nix-colors.url = "github:misterio77/nix-colors";
+    neovim-nightly-overlay = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/neovim-nightly-overlay";
+    };
+    nur = {
+      url = "github:nix-community/NUR";
+    };
+    nix-colors = {
+      url = "github:misterio77/nix-colors";
+    };
   };
 
   outputs = {
@@ -62,6 +77,8 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
         dmux = inputs.dmux.defaultPackage.${prev.system};
         eza = inputs.eza.packages.${prev.system}.default;
         ags = inputs.ags.packages.${prev.system}.default;
+        hyprland = inputs.hyprland.packages.${prev.system}.default;
+        hyprsome = inputs.hyprsome.packages.${prev.system}.default;
       })
     ];
 
@@ -217,6 +234,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
         };
         modules = [
           nixos-hardware.nixosModules.lenovo-thinkpad
+          inputs.hyprland.nixosModules.default
           ({...}: {
             nixpkgs.overlays =
               overlays
@@ -246,5 +264,15 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
           ];
         };
     };
+  };
+  nixConfig = {
+    extra-substituters = [
+      "https://nix-community.cachix.org"
+      "https://hyprland.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+    ];
   };
 }

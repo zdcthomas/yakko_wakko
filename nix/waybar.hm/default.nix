@@ -20,7 +20,7 @@ in {
     });
 
     systemd = {
-      enable = true;
+      enable = false;
       target = "hyprland-session.target";
     };
     settings = {
