@@ -285,8 +285,8 @@ in
         ];
 
         bindl = [
-          ", XF86AudioMute,         exec, ${pkgs.alsa-utils}/bin/amixer set Master toggle"
-          ", XF86AudioMicMute,         exec, ${pkgs.alsa-utils}/bin/amixer set Capture toggle"
+          ", XF86AudioMute,    exec, ${pkgs.alsa-utils}/bin/amixer set Master toggle"
+          ", XF86AudioMicMute, exec, ${pkgs.alsa-utils}/bin/amixer set Capture toggle"
         ];
         bindle = [
           ", XF86AudioLowerVolume, exec, ${pkgs.alsa-utils}/bin/amixer set Master 10%-"

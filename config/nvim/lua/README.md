@@ -5,7 +5,7 @@ meant to be, specifically the [plugins](#plugins) directory.
 
 ## Plugins
 
-This is the directory monitored by Lazy and defines all the plugins and their
+This is the [directory](./plugins/) monitored by Lazy and defines all the plugins and their
 configurations. These are just data and none of the `config` fields in any of
 the tables here run at all until `Lazy` decides that they should.
 

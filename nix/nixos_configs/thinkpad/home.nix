@@ -145,6 +145,7 @@ in {
       # bash
       # feh
       # texlive.combined.scheme-basic
+      godot_4
       sassc
       ags
       eza

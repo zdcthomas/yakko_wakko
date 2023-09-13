@@ -29,7 +29,7 @@ in {
         height = 30; # Waybar height (to be removed for auto height)
         spacing = 4; # Gaps between modules (4px)
         modules-left = ["hyprland/workspaces" "idle_inhibitor" "hyprland/submap" "bluetooth"];
-        modules-center = [];
+        modules-center = ["mpd"];
         modules-right = ["tray" "pulseaudio" "network" "cpu" "memory" "temperature" "backlight" "battery" "clock"];
 
         keyboard-state = {
@@ -52,7 +52,7 @@ in {
             on = " ";
           };
           random-icons = {
-            off = "<span color=\"#f53c3c\"></span> ";
+            off = "<span color=\"${col.base0C}\"></span> ";
             on = " ";
           };
           repeat-icons = {
@@ -133,6 +133,12 @@ in {
           "tooltip-format-connected" = "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}";
           "tooltip-format-enumerate-connected" = "{device_alias}\t{device_address}";
           "tooltip-format-enumerate-connected-battery" = "{device_alias}\t{device_address}\t{device_battery_percentage}%";
+        };
+        wireplumber = {
+          format = "{volume}% {icon}";
+          "format-muted" = "";
+          "on-click" = "helvum";
+          "format-icons" = ["" "" ""];
         };
         pulseaudio = {
           format = "{volume}% {icon} {format_source}";
