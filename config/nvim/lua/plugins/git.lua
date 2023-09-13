@@ -664,6 +664,7 @@ return {
 				disable_commit_confirmation = false,
 				integrations = {
 					diffview = true,
+					telescope = true,
 				},
 			})
 		end,

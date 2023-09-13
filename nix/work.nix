@@ -1,10 +1,11 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
+{ config
+, pkgs
+, ...
+}:
+let
   user_name = "zdcthomas";
-in {
+in
+{
   imports = [
     ./nvim.hm
     ./cli.hm
@@ -23,16 +24,16 @@ in {
       git-remote-codecommit
       nodePackages.aws-cdk
       /*
-      docker
+        docker
       */
       /*
-      docker-compose
+        docker-compose
       */
       /*
-      wrong version
+        wrong version
       */
       /*
-      vector
+        vector
       */
     ];
   };

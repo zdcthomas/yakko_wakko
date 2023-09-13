@@ -1,14 +1,15 @@
-{
-  config,
-  pkgs,
-  overlays,
-  ...
-}: let
+{ config
+, pkgs
+, overlays
+, ...
+}:
+let
   management_scripts = import ./nix/nix_management_scripts_pkgs.nix {
     pkgs = pkgs;
     homeDirectory = config.home.homeDirectory;
   };
-in {
+in
+{
   manual.html.enable = true;
   # nixpkgs.config.allowUnfree = true;
   # nixpkgs.overlays = overlays;
@@ -31,16 +32,16 @@ in {
 
   home = {
     /*
-    enableNixpkgsReleaseCheck = true;
+      enableNixpkgsReleaseCheck = true;
     */
     /*
-    enableDebugInfo = true;
+      enableDebugInfo = true;
     */
     /*
-    username = "zdcthomas";
+      username = "zdcthomas";
     */
     /*
-    homeDirectory = "/Users/zdcthomas";
+      homeDirectory = "/Users/zdcthomas";
     */
 
     # This value determines the Home Manager release that your
@@ -52,11 +53,11 @@ in {
     # the Home Manager release notes for a list of state version
     # changes in each release.
     /*
-    stateVersion = "22.05";
+      stateVersion = "22.05";
     */
 
     /*
-    extraOutputsToInstall = [ "man" ];
+      extraOutputsToInstall = [ "man" ];
     */
 
     packages = with pkgs;
@@ -124,8 +125,8 @@ in {
     stateVersion = "22.05";
 
     /*
-     symlink the config directory. I know this isn't the nix way, but it's
-    * ridiculous to invent another layer of rconfiguration languages
+      symlink the config directory. I know this isn't the nix way, but it's
+      * ridiculous to invent another layer of rconfiguration languages
     */
     file = {
       # ".config/nvim/" = {
@@ -136,7 +137,7 @@ in {
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
       };
       /*
-      ".tmux.conf".source = ./tmux.conf;
+        ".tmux.conf".source = ./tmux.conf;
       */
       ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;
       ".boxes".source = ./config/boxes/.boxes;
@@ -144,16 +145,16 @@ in {
 
     sessionVariables = {
       /*
-      TODO: Split these out into another module
+        TODO: Split these out into another module
       */
       /*
-      ----------------------------
+        ----------------------------
       */
       /*
-      |    homebrew variables    |
+        |    homebrew variables    |
       */
       /*
-      ----------------------------
+        ----------------------------
       */
 
       HOMEBREW_PREFIX = "/opt/homebrew";
@@ -168,7 +169,7 @@ in {
       ERL_AFLAGS = "-kernel shell_history enabled";
       ELIXIR_EDITOR = "nvim +__LINE__ __FILE__";
       /*
-      Move these to fzf program config
+        Move these to fzf program config
       */
       FZF_ALT_C_COMMAND = "fd -t d";
       FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
@@ -178,7 +179,7 @@ in {
       PATH = "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:$HOME/bin";
     };
 
-    sessionPath = ["$HOME/.cargo/bin"];
+    sessionPath = [ "$HOME/.cargo/bin" ];
 
     shellAliases = {
       gco = "git switch";
@@ -196,29 +197,29 @@ in {
       enable = true;
       enableAliases = true;
       /*
-      ls = "${pkgs.exa}/bin/exa";
+        ls = "${pkgs.exa}/bin/exa";
       */
       /*
-      ll = "${pkgs.exa}/bin/exa -l";
+        ll = "${pkgs.exa}/bin/exa -l";
       */
       /*
-      la = "${pkgs.exa}/bin/exa -a";
+        la = "${pkgs.exa}/bin/exa -a";
       */
       /*
-      lt = "${pkgs.exa}/bin/exa --tree";
+        lt = "${pkgs.exa}/bin/exa --tree";
       */
       /*
-      lla = "${pkgs.exa}/bin/exa -la";
+        lla = "${pkgs.exa}/bin/exa -la";
       */
     };
 
     tmux = {
       enable = true;
       /*
-      extraConfig = (builtins.readFile ./tmux.conf);
+        extraConfig = (builtins.readFile ./tmux.conf);
       */
       /*
-      shell = "${pkgs.fish}/bin/fish";
+        shell = "${pkgs.fish}/bin/fish";
       */
       sensibleOnTop = false;
       historyLimit = 200000;
@@ -309,37 +310,37 @@ in {
 
     kitty = {
       /*
-      cool kitty colors
+        cool kitty colors
       */
       /*
-      Forest Night
+        Forest Night
       */
       /*
-      kanagawabones
+        kanagawabones
       */
       /*
-      Nova
+        Nova
       */
       /*
-      Obsidian
+        Obsidian
       */
       /*
-      Rose Pine
+        Rose Pine
       */
       /*
-      moonlight
+        moonlight
       */
       /*
-      Flat
+        Flat
       */
       /*
-      zenwritten_dark
+        zenwritten_dark
       */
       enable = true;
       theme = "Everforest Dark Medium";
       font = {
         size = 17;
-        name = "Terminus Nerd Font";
+        name = "Iosevka Nerd Font";
       };
       extraConfig = builtins.readFile ./config/kitty/kitty.conf;
     };
@@ -503,7 +504,7 @@ in {
       enable = true;
       functions = {
         /*
-        Move this to local bin idealy
+          Move this to local bin idealy
         */
         fish_prompt = ''
           set -l last_status $status

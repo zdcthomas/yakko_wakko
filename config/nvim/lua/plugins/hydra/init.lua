@@ -36,6 +36,8 @@ return {
         ^ ^        LSP
         ^
         _n_ NavBuddy! zoom
+        _e_ Errors (in qf)
+        _r_ References
         ^
             ^^^^                _<Esc>_
       ]],
@@ -51,6 +53,14 @@ return {
 			heads = {
 				-- { "o", ":SymbolsOutline<cr>", { exit = true, silent = true, desc = "symbol outline" } },
 				{ "n", ":Navbuddy<cr>", { exit = true, silent = true, desc = "symbol outline" } },
+				{
+					"e",
+					function()
+						vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR })
+					end,
+					{ exit = true, silent = true, desc = "symbol outline" },
+				},
+				{ "r", vim.lsp.buf.references, { exit = true, silent = true, desc = "symbol outline" } },
 				{ "<Esc>", nil, { exit = true } },
 			},
 		})
