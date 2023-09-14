@@ -17,6 +17,7 @@ in
     homeDirectory = "/Users/" + user_name;
 
     packages = with pkgs; [
+      dmux
       go
       rustup
       hurl
