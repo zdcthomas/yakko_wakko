@@ -120,9 +120,9 @@ window#waybar.solo #workspaces button {
 }
 
 #workspaces button {
-  color: @fg;
+  color: @peach;
 }
 
 #workspaces button.active {
-  color: @peach;
+  color: @fg;
 }

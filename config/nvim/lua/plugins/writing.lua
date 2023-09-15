@@ -57,8 +57,8 @@ return {
 				filetypes = { md = true, markdown = true },
 				create_dirs = true,
 				perspective = {
-					priority = "first",
-					fallback = "current",
+					priority = "current",
+					fallback = "first",
 					root_tell = false,
 					nvim_wd_heel = false,
 					update = false,

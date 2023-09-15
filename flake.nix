@@ -11,13 +11,10 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprsome = {
-      url = "github:sopa0/hyprsome";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # ?rev=f6473aa3adacb5fbd63fda7c39cc2e9fd9540e6a
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     eza = {
@@ -77,8 +74,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
         dmux = inputs.dmux.defaultPackage.${prev.system};
         eza = inputs.eza.packages.${prev.system}.default;
         ags = inputs.ags.packages.${prev.system}.default;
-        hyprland = inputs.hyprland.packages.${prev.system}.default;
-        hyprsome = inputs.hyprsome.packages.${prev.system}.default;
+        # hyprland = inputs.hyprland.packages.${prev.system}.default;
       })
     ];
 

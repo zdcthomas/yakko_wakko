@@ -164,8 +164,8 @@ in {
       slides
       gum
 
-      minecraft
-      prismlauncher
+      # minecraft
+      # prismlauncher
       (
         nerdfonts.override {
           fonts = [
@@ -183,7 +183,7 @@ in {
       cava
       imv
 
-      xdg-utils
+      # xdg-utils
       discord
       (fenix.complete.withComponents [
         "cargo"
