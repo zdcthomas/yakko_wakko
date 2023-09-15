@@ -70,7 +70,7 @@ end
 local function setup_eslint(capabilities, common_on_attach)
 	require("lspconfig")["eslint"].setup({
 		on_attach = function(client, bufnr)
-			client.server_capabilities.documentFormattingProvider = false
+			-- client.server_capabilities.documentFormattingProvider = false
 			common_on_attach(client, bufnr)
 		end,
 		capabilities = capabilities,
