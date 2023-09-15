@@ -18,24 +18,12 @@ in
 
     packages = with pkgs; [
       dmux
-      go
+      # go
       rustup
       hurl
       awscli2
       git-remote-codecommit
       nodePackages.aws-cdk
-      /*
-        docker
-      */
-      /*
-        docker-compose
-      */
-      /*
-        wrong version
-      */
-      /*
-        vector
-      */
     ];
   };
 }
