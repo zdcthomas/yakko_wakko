@@ -38,7 +38,7 @@ in
         clock = true;
         effect-pixelate = 20;
         fade-in = 0.2;
-        image = ../../images/wallpapers/alleyway.png;
+        image = "${../../images/wallpapers/alleyway.png}";
         font-size = 24;
         indicator-idle-visible = true;
         indicator = true;
