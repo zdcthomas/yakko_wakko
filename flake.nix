@@ -11,10 +11,12 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    split-monitor-workspaces = {
+      url = "github:Duckonaut/split-monitor-workspaces";
+      inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
+    };
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      # ?rev=f6473aa3adacb5fbd63fda7c39cc2e9fd9540e6a
-      # inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     eza = {
@@ -74,6 +76,9 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
         dmux = inputs.dmux.defaultPackage.${prev.system};
         eza = inputs.eza.packages.${prev.system}.default;
         ags = inputs.ags.packages.${prev.system}.default;
+
+        split-monitor-workspaces = inputs.split-monitor-workspaces.packages.${prev.system}.split-monitor-workspaces;
+        xdg-desktop-portal-hyprland = inputs.hyprland.packages.${prev.system}.xdg-desktop-portal-hyprland;
         # hyprland = inputs.hyprland.packages.${prev.system}.default;
       })
     ];

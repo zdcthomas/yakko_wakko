@@ -67,10 +67,6 @@ in
             # hint Electron apps to use wayland
             NIXOS_OZONE_WL = "1";
           };
-          # xdg.portal = {
-          #   enable = true;
-          #   extraPortals = [pkgs.xdg-desktop-portal-gtk];
-          # };
           security.rtkit.enable = true;
 
           services.greetd = {
@@ -91,6 +87,7 @@ in
 
           programs.hyprland = {
             enable = true;
+            portalPackage = pkgs.xdg-desktop-portal-hyprland;
             # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
             enableNvidiaPatches = true;
             xwayland.enable = true;

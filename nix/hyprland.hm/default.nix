@@ -114,6 +114,10 @@ in
       enableNvidiaPatches = true;
       systemdIntegration = true;
       xwayland.enable = true;
+      recommendedEnvironment = true;
+      plugins = [
+        # pkgs.split-monitor-workspaces
+      ];
       extraConfig = let
         data = {
           rofi = "pkill rofi || ${pkgs.rofi}/bin/rofi -show drun";
@@ -124,10 +128,10 @@ in
           firefox = "${pkgs.firefox}/bin/firefox";
           alacritty = "${pkgs.alacritty}/bin/alacritty";
           hyprPickerCmd = "${pkgs.hyprpicker}/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy";
-          speakerMute = "${pkgs.alsa-utils}/bin/amixer set Master toggle";
-          micMute = "${pkgs.alsa-utils}/bin/amixer set Capture toggle";
-          volumeLower = "${pkgs.alsa-utils}/bin/amixer set Master 10%-";
-          volumeRaise = "${pkgs.alsa-utils}/bin/amixer set Master 10%+";
+          speakerMute = "${pkgs.pamixer}/bin/pamixer -t";
+          micMute = "${pkgs.pamixer}/bin/pamixer --default-source -t";
+          volumeLower = "${pkgs.pamixer}/bin/pamixer -d 5";
+          volumeRaise = "${pkgs.pamixer}/bin/pamixer -i 5";
           inputLower = "${pkgs.alsa-utils}/bin/amixer set Capture 10%-";
           inputRaise = "${pkgs.alsa-utils}/bin/amixer set Capture 10%+";
           brightnessLower = "${pkgs.brightnessctl}/bin/brightnessctl set 4%-";
@@ -172,6 +176,7 @@ in
       swww
       networkmanagerapplet
       hyprpaper
+      pamixer
 
       pavucontrol
       cava

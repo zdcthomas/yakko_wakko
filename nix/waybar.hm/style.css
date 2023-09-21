@@ -69,7 +69,7 @@ window#waybar.solo #workspaces button {
   margin: 5px;
   padding-left: 7px;
   padding-right: 12px;
-  border-radius: 7px;
+  border-radius: 10px;
   border: 2px solid @border;
   color: @fg;
   background-color: @bg;

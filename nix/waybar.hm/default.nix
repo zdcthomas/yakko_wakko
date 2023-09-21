@@ -28,20 +28,9 @@ in {
         layer = "top"; # Waybar at top layer
         height = 30; # Waybar height (to be removed for auto height)
         spacing = 4; # Gaps between modules (4px)
-        modules-left = ["hyprland/workspaces" "idle_inhibitor" "hyprland/submap" "bluetooth"];
-        modules-center = ["mpd"];
-        modules-right = ["tray" "pulseaudio" "network" "cpu" "memory" "temperature" "backlight" "battery" "clock"];
-
-        keyboard-state = {
-          numlock = true;
-          capslock = true;
-          format = "{name} {icon}";
-          format-icons = {
-            locked = "";
-            unlocked = "";
-          };
-        };
-
+        modules-left = ["network" "tray" "pulseaudio" "idle_inhibitor" "bluetooth" "hyprland/submap"];
+        modules-center = ["hyprland/workspaces"];
+        modules-right = ["cpu" "memory" "temperature" "backlight" "battery" "clock"];
         mpd = {
           format = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ";
           format-disconnected = "Disconnected ";
@@ -68,7 +57,6 @@ in {
           tooltip-format = "MPD (connected)";
           tooltip-format-disconnected = "MPD (disconnected)";
         };
-
         idle_inhibitor = {
           format = "{icon}";
           format-icons = {
@@ -98,7 +86,7 @@ in {
           format-icons = ["" "" ""];
         };
         backlight = {
-          format = "{percent}% {icon}";
+          format = "{icon}";
           format-icons = ["" "" "" "" "" "" "" "" ""];
         };
         battery = {
@@ -116,13 +104,13 @@ in {
           bat = "BAT2";
         };
         network = {
-          format-wifi = "{essid} ({signalStrength}%) ";
+          format-wifi = "{essid}:{signalStrength}%";
           format-ethernet = "{ipaddr}/{cidr} ";
           tooltip-format = "{ifname} via {gwaddr} ";
           format-linked = "{ifname} (No IP) ";
           format-disconnected = "Disconnected ⚠";
           format-alt = "{ifname}: {ipaddr}/{cidr}";
-          on-click = "alacritty -e nmtui";
+          # on-click = "alacritty -e nmtui";
         };
         bluetooth = {
           format = " {status}";
@@ -157,17 +145,6 @@ in {
             default = ["" "" ""];
           };
           on-click = "pavucontrol";
-        };
-        "custom/media" = {
-          format = "{icon} {}";
-          return-type = "json";
-          max-length = 40;
-          format-icons = {
-            spotify = "";
-            default = "🎜";
-          };
-          escape = true;
-          exec = "$HOME/.config/waybar/mediaplayer.py 2> /dev/null";
         };
       };
     };

@@ -145,6 +145,8 @@ in {
       # bash
       # feh
       # texlive.combined.scheme-basic
+
+      xfce.thunar
       godot_4
       sassc
       ags
