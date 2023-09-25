@@ -21,6 +21,26 @@
         core = {
           editor = "nvim";
         };
+        init = {
+          defaultBranch = "main";
+        };
+        pull = {
+          rebase = false;
+        };
+        color = {
+          status = "auto";
+          branch = "auto";
+          interactive = "auto";
+          diff = "auto";
+        };
+        url = {
+          "https://github.com/" = {
+            insteadOf = [
+              "gh:"
+              "github:"
+            ];
+          };
+        };
       };
       aliases = {
         co = "switch";

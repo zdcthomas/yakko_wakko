@@ -1,5 +1,5 @@
 local function setup()
-	local rainbow = require("ts-rainbow")
+	-- local rainbow = require("ts-rainbow")
 	require("nvim-treesitter.configs").setup({
 		indent = { enable = true },
 		autopairs = { enable = true },
@@ -15,17 +15,6 @@ local function setup()
 				enable = true,
 				-- Set to false if you have an `updatetime` of ~100.
 				clear_on_cursor_move = true,
-			},
-		},
-		rainbow = {
-			enable = true,
-			query = {
-				"rainbow-parens",
-				html = "rainbow-tags",
-			},
-			strategy = {
-				rainbow.strategy.global,
-				commonlisp = rainbow.strategy["local"],
 			},
 		},
 		context_commentstring = {
@@ -104,7 +93,6 @@ return {
 			end,
 		},
 		{ "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
-		"HiPhish/nvim-ts-rainbow2",
 		"JoosepAlviste/nvim-ts-context-commentstring",
 	},
 	config = function()
