@@ -128,8 +128,44 @@ in
         enable = true;
         profiles = {
           zdcthomas = {
+            search = {
+              force = true;
+              engines = {
+                "Nix Package Search" = {
+                  urls = [
+                    {
+                      template = "https://search.nixos.org/packages";
+                      params = [
+                        {
+                          name = "type";
+                          value = "packages";
+                        }
+                        {
+                          name = "query";
+                          value = "{searchTerms}";
+                        }
+                      ];
+                    }
+                  ];
+
+                  icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                  definedAliases = ["@np"];
+                };
+
+                "NixOS Wiki" = {
+                  urls = [{template = "https://nixos.wiki/index.php?search={searchTerms}";}];
+                  iconUpdateURL = "https://nixos.wiki/favicon.png";
+                  updateInterval = 24 * 60 * 60 * 1000; # every day
+                  definedAliases = ["@nw"];
+                };
+
+                "Bing".metaData.hidden = true;
+                "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
+              };
+            };
             isDefault = true;
             settings = {
+              "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
               # https://github.com/arkenfox/user.js/blob/master/user.js
               "browser.startup.page" = 0;
               "browser.aboutConfig.showWarning" = false;
@@ -161,6 +197,7 @@ in
             extensions = with pkgs.nur.repos.rycee.firefox-addons; [
               vimium
               onepassword-password-manager
+              gruvbox-dark-theme
             ];
             bookmarks = cfg.bookmarks;
           };

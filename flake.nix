@@ -240,7 +240,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
             nixpkgs.overlays =
               overlays
               ++ [
-                inputs.neovim-nightly-overlay.overlay
+                # inputs.neovim-nightly-overlay.overlay
               ];
           })
           ./nix/nixos_configs/thinkpad/configuration.nix

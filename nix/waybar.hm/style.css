@@ -93,10 +93,10 @@ window#waybar.solo #workspaces button {
   background-color: @bg;
 }
 
-#pulseaudio.muted {
-  background-color: @red;
-  color: @dark-fg;
-}
+/* #pulseaudio.muted { */
+/*   background-color: @red; */
+/*   color: @dark-fg; */
+/* } */
 
 #clock {
   margin: 5px;

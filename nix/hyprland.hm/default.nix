@@ -115,13 +115,13 @@ in
       systemdIntegration = true;
       xwayland.enable = true;
       recommendedEnvironment = true;
-      plugins = [
-        # pkgs.split-monitor-workspaces
-      ];
+      # plugins = [
+      #   # pkgs.split-monitor-workspaces
+      # ];
       extraConfig = let
         data = {
-          rofi = "pkill rofi || ${pkgs.rofi}/bin/rofi -show drun";
-          rofi_power_menu = "${pkgs.rofi}/bin/rofi -show p -modi p:'rofi-power-menu'";
+          rofi = "pkill rofi || ${pkgs.rofi-wayland}/bin/rofi -show drun";
+          rofi_power_menu = "${pkgs.rofi-wayland}/bin/rofi -show p -modi p:'rofi-power-menu'";
           wofi = "pkill wofi || ${pkgs.wofi}/bin/wofi --show drun -n";
           tofi = "${pkgs.tofi}/bin/tofi-drun -c ~/.config/tofi/tofi.launcher.conf";
           mainMod = "SUPER";
@@ -155,7 +155,7 @@ in
             10);
         };
       in
-        builtins.readFile (templateFile "hyrpconf" ./hyprland.conf data);
+        builtins.readFile (templateFile "hyprconf" ./hyprland.conf data);
     };
     home.packages = with pkgs; [
       (waybar.overrideAttrs (oldAttrs: {
@@ -165,6 +165,10 @@ in
             "-Dexperimental=true"
           ];
       }))
+      udiskie
+      udisks
+      gnome.nautilus
+      xwayland
 
       (pkgs.libsForQt5.callPackage ./xwaylandvideobridge.nix {})
       wl-gammactl

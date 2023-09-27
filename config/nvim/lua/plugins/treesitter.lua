@@ -1,5 +1,6 @@
 local function setup()
 	-- local rainbow = require("ts-rainbow")
+	---@diagnostic disable-next-line: missing-fields
 	require("nvim-treesitter.configs").setup({
 		indent = { enable = true },
 		autopairs = { enable = true },

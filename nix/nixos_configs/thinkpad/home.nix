@@ -42,7 +42,7 @@ in {
   custom.hm = {
     nvim = {
       enable = true;
-      package = pkgs.neovim-nightly;
+      # package = pkgs.neovim-nightly;
     };
     firefox = {
       enable = true;

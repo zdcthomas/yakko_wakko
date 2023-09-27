@@ -20,9 +20,6 @@ in {
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  services.tailscale = {
-    enable = true;
-  };
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.${username} = import ./home.nix;
@@ -42,8 +39,8 @@ in {
       experimental-features = ["nix-command" "flakes"];
       substituters = ["https://hyprland.cachix.org"];
       trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+      trusted-users = [username];
     };
-    distributedBuilds = true;
     gc = {
       automatic = true;
       dates = "weekly";
@@ -71,6 +68,8 @@ in {
 
     # Enable networking
     networkmanager.enable = true;
+
+    firewall.allowedTCPPorts = [8080];
   };
 
   # Set your time zone.
@@ -91,9 +90,6 @@ in {
     LC_TIME = "en_US.UTF-8";
   };
 
-  services.journald.extraConfig = "SystemMaxUse=1G";
-  services.locate.enable = true;
-
   console.useXkbConfig = true;
 
   fonts.packages = with pkgs; [
@@ -113,23 +109,38 @@ in {
     pamixer
   ];
 
+  services = {
+    calibre-server = {
+      enable = true;
+      user = "zdcthomas";
+    };
+    journald.extraConfig = "SystemMaxUse=1G";
+    locate.enable = true;
+
+    tailscale = {
+      enable = true;
+    };
+
+    printing.enable = true;
+    blueman.enable = true;
+
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      jack.enable = true;
+      wireplumber.enable = true;
+    };
+  };
+
   # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # Enable sound with pipewire.
   # sound.enable = true;
   # hardware.pulseaudio.enable = true;
   hardware.bluetooth.enable = true;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-    wireplumber.enable = true;
-  };
-  services.blueman.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -148,6 +159,7 @@ in {
       pamixer
       mpd
       helvum
+      xwayland
     ];
   };
 
@@ -169,17 +181,6 @@ in {
     polkitPolicyOwners = [username];
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
   # Open ports in the firewall.

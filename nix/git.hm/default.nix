@@ -16,6 +16,8 @@
       enable = true;
       userName = "zdcthomas";
       userEmail = "zdcthomas@yahoo.com";
+      diff-so-fancy.enable = true;
+      # difftastic.enable = true;
       iniContent.merge.conflictstyle = "diff3";
       extraConfig = {
         core = {

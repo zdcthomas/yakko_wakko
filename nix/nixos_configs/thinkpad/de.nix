@@ -85,6 +85,11 @@ in
             '';
           };
 
+          # xdg.portal = {
+          #   enable = true;
+          #   extraPortals = [pkgs.xdg-desktop-portal-gnome];
+          # };
+
           programs.hyprland = {
             enable = true;
             portalPackage = pkgs.xdg-desktop-portal-hyprland;
