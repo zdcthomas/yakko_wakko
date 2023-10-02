@@ -34,9 +34,12 @@ in {
     # extraOptions = ''
     #   experimental-features = nix-command flakes
     # '';
+    registry = lib.mapAttrs (_: v: {flake = v;}) inputs;
     settings = {
+      warn-dirty = false;
       auto-optimise-store = true;
       experimental-features = ["nix-command" "flakes"];
+      flake-registry = "/etc/nix/registry.json";
       substituters = ["https://hyprland.cachix.org"];
       trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
       trusted-users = [username];
@@ -110,6 +113,9 @@ in {
   ];
 
   services = {
+    udisks2 = {
+      enable = true;
+    };
     calibre-server = {
       enable = true;
       user = "zdcthomas";

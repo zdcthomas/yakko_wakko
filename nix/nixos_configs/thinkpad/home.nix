@@ -147,6 +147,8 @@ in {
       # texlive.combined.scheme-basic
 
       xfce.thunar
+      aseprite
+      rx
       godot_4
       sassc
       ags

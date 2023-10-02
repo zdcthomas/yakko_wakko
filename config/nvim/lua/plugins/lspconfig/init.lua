@@ -183,6 +183,16 @@ local function setup_lspconfig()
 			end,
 			capabilities = capabilities,
 		})
+		lspconfig.gdscript.setup({
+			on_attach = common_on_attach,
+			capabilities = capabilities,
+		})
+
+		-- lspconfig.elixirls.setup({
+		-- 	cmd = { "elixir-ls" },
+		-- 	on_attach = on_attach,
+		-- 	capabilities = capabilities,
+		-- })
 
 		lspconfig.marksman.setup({
 			on_attach = common_on_attach,

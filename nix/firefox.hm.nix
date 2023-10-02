@@ -196,6 +196,8 @@ in
             };
             extensions = with pkgs.nur.repos.rycee.firefox-addons; [
               vimium
+              ublock-origin
+
               onepassword-password-manager
               gruvbox-dark-theme
             ];

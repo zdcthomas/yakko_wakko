@@ -17,6 +17,7 @@ stdenv.mkDerivation {
     domain = "invent.kde.org";
     owner = "system";
     repo = "xwaylandvideobridge";
+    # 1b5c5d3dc7e3110592469ceda459ff8ef6610e22
     rev = "16091a997d40eb9e5a46f3f0eecceff8fe348c87";
     hash = "sha256-Wzd48cIB/MCbzjBBfdmUfjA43oG0jtg7tWFl91FaDtk=";
   };

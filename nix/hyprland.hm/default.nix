@@ -126,6 +126,7 @@ in
           tofi = "${pkgs.tofi}/bin/tofi-drun -c ~/.config/tofi/tofi.launcher.conf";
           mainMod = "SUPER";
           firefox = "${pkgs.firefox}/bin/firefox";
+          thunar = "${pkgs.xfce.thunar}/bin/thunar";
           alacritty = "${pkgs.alacritty}/bin/alacritty";
           hyprPickerCmd = "${pkgs.hyprpicker}/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy";
           speakerMute = "${pkgs.pamixer}/bin/pamixer -t";
@@ -167,7 +168,6 @@ in
       }))
       udiskie
       udisks
-      gnome.nautilus
       xwayland
 
       (pkgs.libsForQt5.callPackage ./xwaylandvideobridge.nix {})

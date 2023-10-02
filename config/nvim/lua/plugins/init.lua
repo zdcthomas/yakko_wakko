@@ -58,6 +58,7 @@ return {
 		"codethread/qmk.nvim",
 		cmd = { "QMKFormat" },
 		config = function()
+			---@diagnostic disable-next-line: missing-fields
 			require("qmk").setup({
 				name = "LAYOUT_preonic_grid", -- identify your layout name
 				comment_preview = {
