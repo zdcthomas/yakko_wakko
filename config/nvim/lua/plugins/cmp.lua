@@ -119,6 +119,8 @@ return {
 				group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
 				pattern = "Cargo.toml",
 				callback = function()
+					local cmp = require("cmp")
+					---@diagnostic disable-next-line: missing-fields
 					cmp.setup.buffer({ sources = { { name = "crates" } } })
 				end,
 			})
@@ -148,6 +150,7 @@ return {
 		config = function()
 			-- See lspconfig comment on why this is in a function wrapper
 			local cmp = require("cmp")
+			---@diagnostic disable-next-line: missing-fields
 			cmp.setup({
 				snippet = {
 					expand = snippet_func,
@@ -157,6 +160,7 @@ return {
 					completion = cmp.config.window.bordered(),
 					documentation = cmp.config.window.bordered(),
 				},
+				---@diagnostic disable-next-line: missing-fields
 				formatting = {
 					format = require("lspkind").cmp_format({
 						maxwidth = 20,
@@ -170,6 +174,7 @@ return {
 						},
 					}),
 				},
+				---@diagnostic disable-next-line: missing-fields
 				matching = { disallow_fuzzy_matching = false },
 				preselect = cmp.PreselectMode.None,
 				mapping = mappings(),
@@ -187,6 +192,7 @@ return {
 				},
 			})
 
+			---@diagnostic disable-next-line: missing-fields
 			cmp.setup.filetype("gitcommit", {
 				sources = cmp.config.sources({
 					{ name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
@@ -195,12 +201,14 @@ return {
 				}),
 			})
 
+			---@diagnostic disable-next-line: missing-fields
 			cmp.setup.cmdline({ "/", "?" }, {
 				sources = {
 					{ name = "buffer" },
 				},
 			})
 
+			---@diagnostic disable-next-line: missing-fields
 			cmp.setup.cmdline(":", {
 				mapping = cmp.mapping.preset.cmdline(),
 				sources = cmp.config.sources({

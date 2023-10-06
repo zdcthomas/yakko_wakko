@@ -71,8 +71,28 @@ window#waybar.solo #workspaces button {
   padding-right: 12px;
   border-radius: 10px;
   border: 2px solid @border;
-  color: @peach;
+  /* color: @peach; */
   background-color: @bg;
+}
+
+#cpu {
+  color: @peach
+}
+
+#backlight {
+  color: @sky
+}
+
+#temperature {
+  color: @maroon
+}
+
+#memory {
+  color: @lavender
+}
+
+#pulseaudio {
+  color: @rosewater
 }
 
 #custom-playerctl {
