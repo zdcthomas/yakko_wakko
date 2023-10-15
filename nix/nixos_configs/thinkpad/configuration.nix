@@ -27,6 +27,7 @@ in {
     inherit overlays inputs username;
   };
 
+  virtualisation.docker.enable = true;
   environment.etc.nixpkgs.source = inputs.nixpkgs;
   nix = {
     package = pkgs.nixUnstable;
@@ -52,7 +53,7 @@ in {
 
     optimise = {
       automatic = true;
-      dates = ["weekly"];
+      dates = ["04:00"];
     };
   };
   # Bootloader.
@@ -110,11 +111,17 @@ in {
     alsa-lib
     alsa-utils
     pamixer
+    # calibre
+    mariadb
   ];
 
   services = {
     udisks2 = {
       enable = true;
+    };
+    mysql = {
+      enable = true;
+      package = pkgs.mariadb;
     };
     calibre-server = {
       enable = true;
@@ -155,7 +162,7 @@ in {
   users.users.${username} = {
     isNormalUser = true;
     description = "Zachary Thomas";
-    extraGroups = ["audio" "input" "networkmanager" "wheel"];
+    extraGroups = ["audio" "input" "networkmanager" "wheel" "docker"];
     shell = pkgs.zsh;
     packages = with pkgs; [
       alsa-utils
@@ -185,6 +192,16 @@ in {
     # Certain features, including CLI integration and system authentication support,
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
     polkitPolicyOwners = [username];
+  };
+
+  documentation = {
+    doc.enable = false;
+    nixos.enable = true;
+    info.enable = false;
+    man = {
+      enable = lib.mkDefault true;
+      generateCaches = lib.mkDefault true;
+    };
   };
 
   # services.openssh.enable = true;

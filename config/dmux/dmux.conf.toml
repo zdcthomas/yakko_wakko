@@ -1,6 +1,10 @@
 commands = ["nvim"]
 number_of_panes = 2
 
+[gd]
+session_name = "godot"
+commands = ["nvim --listen /tmp/nvim.pipe"]
+
 [js]
 session_name = "frontend"
 commands = ["nvim", "yarn install"]

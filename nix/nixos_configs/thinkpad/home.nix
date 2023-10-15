@@ -162,7 +162,7 @@ in {
       aseprite
       rx
       godot_4
-      sassc
+      sass
       ags
       eza
       texlive.combined.scheme-full
@@ -177,11 +177,25 @@ in {
 
       jp2a
       vhs
-      slides
+      # slides
       gum
 
       # minecraft
-      # prismlauncher
+      (prismlauncher.override {
+        jdks = with pkgs; [
+          # Java 8
+          temurin-jre-bin-8
+          zulu8
+          # Java 11
+          temurin-jre-bin-11
+          # Java 17
+          temurin-jre-bin-17
+          # Latest
+          temurin-jre-bin
+          zulu
+          graalvm-ce
+        ];
+      })
       (
         nerdfonts.override {
           fonts = [

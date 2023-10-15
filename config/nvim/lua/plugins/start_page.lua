@@ -325,59 +325,106 @@ local generate_trees = function()
 	}
 end
 
+local function pick_header(hour_of_day)
+	local default = running_man
+	local win_height = vim.fn.winheight("%")
+	local win_width = vim.fn.winwidth("%")
+
+	local boxes
+	-- if (win_width > 120) and (win_height > 50) then
+	-- 	boxes = trees["boxed"]
+	-- else
+
+	local trees = generate_trees()
+	boxes = trees["unboxed"]
+	-- end
+
+	local hour = tonumber(hour_of_day)
+	local interval = 24 / #boxes
+	local index = math.floor(hour / interval)
+	local ascii = boxes[index + 1]
+
+	if not ascii then
+		ascii = default
+	end
+	return ascii
+end
+
 return {
-	"mhinz/vim-startify",
-	branch = "center",
-	lazy = false,
-	config = function()
-		local trees = generate_trees()
-		vim.g.startify_center = 58
-		vim.g.startify_commands = {
-			{ l = { "Lazy", ":Lazy" } },
-			{ d = { "Open dotfiles", ":!dmux ~/yakko_wakko" } },
-			{ D = { "Dmux", ":!dmux" } },
-			{ g = { "NeoGit", "lua require('neogit').open({ kind = 'replace' })" } },
-		}
+	{
+		"glepnir/dashboard-nvim",
+		event = "VimEnter",
+		opts = {
+			theme = "doom",
+			shortcut_type = "number",
+			disable_move = false,
+			config = {
+				header = pick_header(vim.fn.strftime("%H")),
+				center = {
+					{
+						desc = "Dmux",
+						key = "d",
+						desc_hl = "String",
+						action = ":!dmux",
+					},
+					{
+						desc = "Lazy",
+						key = "l",
+						desc_hl = "String",
+						action = ":Lazy",
+					},
+					{
+						desc = "Neogit",
+						desc_hl = "String",
+						key = "g",
+						action = "lua require('neogit').open({ kind = 'replace' })",
+					},
+					{
+						desc = "quit",
+						key = "q",
+						action = ":q!",
+					},
+				},
+				footer = {}, --your footer
+			},
+		},
+		dependencies = { { "nvim-tree/nvim-web-devicons" } },
+	},
+	{
+		"mhinz/vim-startify",
+		cond = false,
+		branch = "center",
+		lazy = false,
+		config = function()
+			vim.g.startify_center = 58
+			vim.g.startify_commands = {
+				{ l = { "Lazy", ":Lazy" } },
+				{ d = { "Open dotfiles", ":!dmux ~/yakko_wakko" } },
+				{ D = { "Dmux", ":!dmux" } },
+				{ g = { "NeoGit", "lua require('neogit').open({ kind = 'replace' })" } },
+			}
 
-		vim.g.startify_lists = {
-			{ type = "commands", header = center({ "めいれい" }) },
-			{ type = "dir", header = center({ "MRU " .. vim.fn.getcwd() }) },
-		}
+			vim.g.startify_lists = {
+				{ type = "commands", header = center({ "めいれい" }) },
+				{ type = "dir", header = center({ "MRU " .. vim.fn.getcwd() }) },
+			}
 
-		vim.g.sttartify_change_to_dir = 0
-		vim.g.startify_change_to_vcs_root = 1
-		local default = running_man
-		local win_height = vim.fn.winheight("%")
-		local win_width = vim.fn.winwidth("%")
+			vim.g.sttartify_change_to_dir = 0
+			vim.g.startify_change_to_vcs_root = 1
+			local ascii = pick_header(vim.fn.strftime("%H"))
+			vim.g.startify_custom_header = center(ascii)
 
-		local boxes
-		-- if (win_width > 120) and (win_height > 50) then
-		-- 	boxes = trees["boxed"]
-		-- else
-		boxes = trees["unboxed"]
-		-- end
-
-		local day = tonumber(vim.fn.strftime("%H"))
-		local interval = 24 / #boxes
-		local index = math.floor(day / interval)
-		local ascii = boxes[index + 1]
-
-		if not ascii then
-			ascii = default
-		end
-
-		vim.g.startify_custom_header = center(ascii)
-
-		-- local startify_group = vim.api.nvim_create_augroup("startify", { clear = true })
-		-- vim.api.nvim_create_autocmd({ "User" }, {
-		-- 	group = startify_group,
-		-- 	pattern = "StartifyReady",
-		-- 	callback = function()
-		-- 		vim.keymap.set("n", "-", function()
-		-- 			vim.cmd("bwipe")
-		-- 			vim.cmd("Dirvish")
-		-- 		end, { silent = true, buffer = true })
-		-- 	end,
-		-- })
-	end,
+			-- local startify_group = vim.api.nvim_create_augroup("startify", { clear = true })
+			-- vim.api.nvim_create_autocmd({ "User" }, {
+			-- 	group = startify_group,
+			-- 	pattern = "StartifyReady",
+			-- 	callback = function()
+			-- 		vim.keymap.set("n", "-", function()
+			-- 			vim.cmd("bwipe")
+			-- 			vim.cmd("Dirvish")
+			-- 		end, { silent = true, buffer = true })
+			-- 	end,
+			-- })
+		end,
+	},
 }
