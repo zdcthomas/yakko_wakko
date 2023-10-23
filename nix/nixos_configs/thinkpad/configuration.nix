@@ -111,7 +111,6 @@ in {
     alsa-lib
     alsa-utils
     pamixer
-    # calibre
     mariadb
   ];
 
@@ -123,10 +122,10 @@ in {
       enable = true;
       package = pkgs.mariadb;
     };
-    calibre-server = {
-      enable = true;
-      user = "zdcthomas";
-    };
+    # calibre-server = {
+    #   enable = true;
+    #   user = "zdcthomas";
+    # };
     journald.extraConfig = "SystemMaxUse=1G";
     locate.enable = true;
 

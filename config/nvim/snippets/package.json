@@ -28,6 +28,12 @@
       },
       {
         "language": [
+          "gdscript"
+        ],
+        "path": "gdscript.json"
+      },
+      {
+        "language": [
           "markdown"
         ],
         "path": "markdown.json"

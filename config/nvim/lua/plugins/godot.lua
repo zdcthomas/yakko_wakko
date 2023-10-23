@@ -1,0 +1,36 @@
+return {
+	-- 	{
+	-- 		"Lommix/godot.nvim",
+	-- 		cmd = {
+	-- 			"GodotDebug",
+	-- 			"GodotBreakAtCursor",
+	-- 			"GodotStep",
+	-- 			"GodotQuit",
+	-- 			"GodotContinue",
+	-- 		},
+	-- 		ft = {
+	-- 			"gdscript",
+	-- 		},
+	-- 		config = function()
+	-- 			local godot = require("godot")
+	-- 			local config = {
+	-- 				bin = "/etc/profiles/per-user/zdcthomas/bin/godot4",
+	-- 				-- 	gui = {
+	-- 				-- 		console_config = @config for vim.api.nvim_open_win
+	-- 				-- 	},
+	-- 			}
+	--
+	-- 			godot.setup(config)
+	--
+	-- 			local function map(m, k, v)
+	-- 				vim.keymap.set(m, k, v, { silent = true })
+	-- 			end
+	--
+	-- 			map("n", "<leader>dr", godot.debugger.debug)
+	-- 			map("n", "<leader>dd", godot.debugger.debug_at_cursor)
+	-- 			map("n", "<leader>dq", godot.debugger.quit)
+	-- 			map("n", "<leader>dc", godot.debugger.continue)
+	-- 			map("n", "<leader>ds", godot.debugger.step)
+	-- 		end,
+	-- 	},
+}

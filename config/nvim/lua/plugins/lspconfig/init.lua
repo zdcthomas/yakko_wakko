@@ -176,7 +176,12 @@ local function setup_lspconfig()
 		setup_rust(capabilities, common_on_attach)
 		setup_eslint(capabilities, common_on_attach)
 		setup_tsserver(capabilities, common_on_attach)
+
 		local lspconfig = require("lspconfig")
+		lspconfig.solargraph.setup({
+			on_attach = common_on_attach,
+			capabilities = capabilities,
+		})
 		lspconfig.nixd.setup({
 			on_attach = function(client, bufnr)
 				client.server_capabilities.documentFormattingProvider = false

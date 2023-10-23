@@ -81,8 +81,8 @@ in {
         };
         temperature = {
           critical-threshold = 80;
-          format-critical = "{temperatureC}°C {icon}";
-          format = "{temperatureC}°C {icon}";
+          format-critical = "{temperatureC}°C";
+          format = "{temperatureC}°C";
           format-icons = ["" "" ""];
         };
         backlight = {

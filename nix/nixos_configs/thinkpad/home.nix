@@ -158,6 +158,7 @@ in {
       # hivelytracker # another one
       # helio-workstation # midi composer
 
+      pamixer
       xfce.thunar
       aseprite
       rx
@@ -175,6 +176,7 @@ in {
       weechat
       openssh
 
+      calibre
       jp2a
       vhs
       # slides
