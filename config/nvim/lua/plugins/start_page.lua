@@ -354,54 +354,33 @@ return {
 	{
 		"glepnir/dashboard-nvim",
 		event = "VimEnter",
-		opts = {
-			theme = "doom",
-			shortcut_type = "number",
-			disable_move = false,
-			config = {
-				header = pick_header(vim.fn.strftime("%H")),
-				center = {
-					{
-						desc = " Dmux",
-						key = "d",
-						desc_hl = "String",
-						action = ":!dmux",
-						icon = " ",
+		opts = function()
+			local opts = {
+				theme = "doom",
+				shortcut_type = "number",
+				disable_move = false,
+				config = {
+					header = pick_header(vim.fn.strftime("%H")),
+          -- stylua: ignore
+					center = {
+						{ action = ":!dmux",                                           desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
+						{ action = " Telescope oldfiles",                              desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
+						{ action = ":Lazy",                                            desc = " Lazy",         desc_hl = "String", icon = "󰒲 ", key = "l", },
+						{ action = "lua require('neogit').open({ kind = 'replace' })", desc = " Neogit",       desc_hl = "String", icon = " ", key = "g", },
+						{ action = ":q!",                                              desc = " Quit",         desc_hl = "String", icon = " ", key = "q", },
 					},
-					{
-						action = " Telescope oldfiles",
-						desc = " Recent files",
-						icon = " ",
-						key = "o",
-					},
-					{
-						desc = " Lazy",
-						icon = "󰒲 ",
-						key = "l",
-						desc_hl = "String",
-						action = ":Lazy",
-					},
-					{
-						desc = " Neogit",
-						icon = " ",
-						desc_hl = "String",
-						key = "g",
-						action = "lua require('neogit').open({ kind = 'replace' })",
-					},
-					{
-						desc = " Quit",
-						icon = " ",
-						key = "q",
-						action = ":q!",
-					},
+					footer = function()
+						local stats = require("lazy").stats()
+						local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+						return {
+							"⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
+						}
+					end,
 				},
-				footer = function()
-					local stats = require("lazy").stats()
-					local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-					return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
-				end,
-			},
-		},
+			}
+
+			return opts
+		end,
 		dependencies = { { "nvim-tree/nvim-web-devicons" } },
 	},
 	{
