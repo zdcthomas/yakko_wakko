@@ -103,7 +103,7 @@ return {
 				---@diagnostic disable-next-line: missing-fields
 				formatting = {
 					format = require("lspkind").cmp_format({
-						maxwidth = 20,
+						maxwidth = 50,
 						mode = "symbol",
 						menu = {}, -- this is too help with rust menu width issues, see https://github.com/hrsh7th/nvim-cmp/issues/1154
 						symbol_map = {
