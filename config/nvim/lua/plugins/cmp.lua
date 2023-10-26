@@ -216,7 +216,10 @@ return {
 				}),
 				experimental = {
 					-- This is super super buggy for whatever reason
-					ghost_text = false,
+					ghost_text = {
+						enabled = true,
+						-- hl_group = "CmpGhostText",
+					},
 				},
 			})
 

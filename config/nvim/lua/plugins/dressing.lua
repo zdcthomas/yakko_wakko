@@ -1,6 +1,5 @@
 return {
 	"stevearc/dressing.nvim",
-	-- event = "BufReadPost",
 	init = function()
 		---@diagnostic disable-next-line: duplicate-set-field
 		vim.ui.select = function(...)
@@ -15,17 +14,13 @@ return {
 	end,
 	opts = {
 		input = {
-			enabled = true,
 			default_prompt = "➤ ",
 			insert_only = false,
-
+			start_in_insert = false,
 			-- These are passed to nvim_open_win
 			relative = "cursor",
 			border = "rounded",
 		},
-		select = {
-			enabled = true,
-			backend = { "builtin", "telescope", "nui" },
-		},
+		select = {},
 	},
 }
