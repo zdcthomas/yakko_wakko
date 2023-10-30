@@ -363,10 +363,10 @@ return {
 					header = pick_header(vim.fn.strftime("%H")),
           -- stylua: ignore
 					center = {
-						{ action = ":!dmux",                                           desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
-						{ action = " Telescope oldfiles",                              desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
-						{ action = ":Lazy",                                            desc = " Lazy",         desc_hl = "String", icon = "󰒲 ", key = "l", },
+						{ action = ":Telescope oldfiles",                              desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
 						{ action = "lua require('neogit').open({ kind = 'replace' })", desc = " Neogit",       desc_hl = "String", icon = " ", key = "g", },
+						{ action = ":Lazy",                                            desc = " Lazy",         desc_hl = "String", icon = "󰒲 ", key = "l", },
+						{ action = ":!dmux",                                           desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
 						{ action = ":q!",                                              desc = " Quit",         desc_hl = "String", icon = " ", key = "q", },
 					},
 					footer = function()
