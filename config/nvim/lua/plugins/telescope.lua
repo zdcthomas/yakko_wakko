@@ -103,9 +103,9 @@ local function setup()
 			-- layout_strategy = "vertical",
 			dynamic_preview_title = true,
 			buffer_previewer_maker = new_maker,
-			layout_config = {
-				prompt_position = "top",
-			},
+			-- layout_config = {
+			-- 	prompt_position = "top",
+			-- },
 		},
 		extensions = {
 			fzf = {
@@ -122,7 +122,6 @@ end
 local function find_files()
 	require("telescope.builtin").find_files(require("telescope.themes").get_dropdown({
 		results_height = 40,
-		winblend = 30,
 		width = 0.8,
 		prompt_title = "",
 		prompt_prefix = "ファイル>",
@@ -161,9 +160,7 @@ return {
 		vim.keymap.set("n", "<leader>b", function()
 			require("telescope.builtin").buffers()
 		end, default_opts)
-		vim.keymap.set("n", "<leader>F", function()
-			require("telescope.builtin").live_grep()
-		end, default_opts)
+		vim.keymap.set("n", "<leader>F", live_search, default_opts)
 		vim.keymap.set("n", "<leader>*", function()
 			require("telescope.builtin").grep_string()
 		end, default_opts)
