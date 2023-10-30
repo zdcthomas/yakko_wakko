@@ -1,34 +1,11 @@
 return {
+
 	{
 		"nvim-treesitter/nvim-treesitter",
-		dev = false,
 		build = ":TSUpdate",
-		event = { "BufReadPost", "BufNewFile" },
-		cmd = { "TSUpdateSync" },
+		event = { "BufReadPost", "BufNewFile", "VeryLazy" },
+		cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
 		dependencies = {
-			{
-				"nvim-treesitter/nvim-treesitter-context",
-				opts = {
-					enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
-					max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-					min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-					line_numbers = true,
-					multiline_threshold = 20, -- Maximum number of lines to show for a single context
-					trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-					mode = "topline", -- Line used to calculate context. Choices: 'cursor', 'topline'
-					-- Separator between context and content. Should be a single character string, like '-'.
-					-- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-					separator = "-",
-					zindex = 20, -- The Z-index of the context window
-					on_attach = function(bufnr)
-						if vim.fn.winheight(0) < 25 then
-							return false
-						end
-						local fts = { rust = true }
-						return fts[vim.bo[bufnr].filetype] or false
-					end,
-				},
-			},
 			{ "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
 			"JoosepAlviste/nvim-ts-context-commentstring",
 		},
@@ -89,6 +66,38 @@ return {
 				enable = true,
 				additional_vim_regex_highlighting = { "org" },
 			},
+		},
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		cmd = {
+			"TSContextToggle",
+			"TSContextEnable",
+			"TSContextDisable",
+		},
+		keys = {
+			{ "<leader>ut", "<cmd>TSContextToggle<cr>" },
+		},
+		opts = {
+			enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
+			max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+			min_window_height = 30, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+			line_numbers = true,
+			multiline_threshold = 20, -- Maximum number of lines to show for a single context
+			trim_scope = "inner", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+			mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
+			-- Separator between context and content. Should be a single character string, like '-'.
+			-- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+			separator = "-",
+			zindex = 20, -- The Z-index of the context window
+			-- on_attach = function(bufnr)
+			-- 	if vim.fn.winheight(0) < 25 then
+			-- 		return false
+			-- 	end
+			-- 	local fts = { rust = true }
+			-- 	return fts[vim.bo[bufnr].filetype] or false
+			-- end,
 		},
 	},
 }
