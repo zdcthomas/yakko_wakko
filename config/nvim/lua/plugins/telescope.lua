@@ -138,6 +138,13 @@ if arch == "arch64" then
 	fzf_make_command = "arch -arch64 make"
 end
 
+local function live_search()
+	require("telescope.builtin").live_grep(require("telescope.themes").get_ivy({
+		-- I'm not funny
+		prompt_title = "ウォルドはどこですか",
+	}))
+end
+
 return {
 	"nvim-telescope/telescope.nvim",
 	cmd = "Telescope",
