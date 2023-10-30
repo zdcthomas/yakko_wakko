@@ -359,6 +359,11 @@ return {
 				theme = "doom",
 				shortcut_type = "number",
 				disable_move = false,
+				hide = {
+					-- statusline = false,
+					tabline = false,
+					-- winbar = false,
+				},
 				config = {
 					header = pick_header(vim.fn.strftime("%H")),
           -- stylua: ignore
