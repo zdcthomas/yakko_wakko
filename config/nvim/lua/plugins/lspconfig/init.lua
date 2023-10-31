@@ -138,7 +138,7 @@ return {
 		keys = {
 			{ "gpd", "<cmd>Glance definitions<CR>" },
 			{ "gpr", "<cmd>Glance references<CR>" },
-			{ "gpy", "<cmd>Glance type_definitions<CR>" },
+			{ "gpt", "<cmd>Glance type_definitions<CR>" },
 			{ "gpi", "<cmd>Glance implementations<CR>" },
 		},
 		opts = function()
