@@ -51,12 +51,6 @@ local function setup_lspconfig()
 			capabilities = capabilities,
 		})
 
-		-- lspconfig.elixirls.setup({
-		-- 	cmd = { "elixir-ls" },
-		-- 	on_attach = on_attach,
-		-- 	capabilities = capabilities,
-		-- })
-
 		lspconfig.marksman.setup({
 			on_attach = common_on_attach,
 			capabilities = capabilities,
@@ -89,17 +83,17 @@ local function setup_lspconfig()
 end
 
 return {
-	{
-		"simrat39/symbols-outline.nvim",
-		cmd = {
-			"SymbolsOutlineClose",
-			"SymbolsOutlineOpen",
-			"SymbolsOutline",
-		},
-		config = function()
-			require("symbols-outline").setup()
-		end,
-	},
+	-- {
+	-- 	"simrat39/symbols-outline.nvim",
+	-- 	cmd = {
+	-- 		"SymbolsOutlineClose",
+	-- 		"SymbolsOutlineOpen",
+	-- 		"SymbolsOutline",
+	-- 	},
+	-- 	config = function()
+	-- 		require("symbols-outline").setup()
+	-- 	end,
+	-- },
 	{
 		"williamboman/mason.nvim",
 		cmd = { "Mason", "MasonInstall", "MasonLog", "MasonUninstall", "MasonUninstallAll" },
@@ -150,6 +144,15 @@ return {
 		opts = function()
 			local actions = require("glance").actions
 			return {
+				theme = { -- This feature might not work properly in nvim-0.7.2
+					enable = true, -- Will generate colors for the plugin based on your current colorscheme
+					mode = "brighten", -- 'brighten'|'darken'|'auto', 'auto' will set mode based on the brightness of your colorscheme
+				},
+				list = {
+					position = "left", -- Position of the list window 'left'|'right'
+					width = 0.33, -- 33% width relative to the active window, min 0.1, max 0.5
+				},
+				detached = true,
 				folds = {
 					fold_closed = "󰅂", -- 󰅂 
 					fold_open = "󰅀", -- 󰅀 

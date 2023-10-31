@@ -1,6 +1,7 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "0236521ea582747b58869cb72f70ccfa967d2e89" },
   "LuaSnip": { "branch": "master", "commit": "80a8528f084a97b624ae443a6f50ff8074ba486b" },
+  "catppuccin": { "branch": "main", "commit": "b359f3eec32dcc6b7c9a26901dc235bbb6cd8a0b" },
   "ccc.nvim": { "branch": "main", "commit": "cd2a10557b4a13e80929f59a7076ae792b2c60fa" },
   "cellular-automaton.nvim": { "branch": "main", "commit": "b7d056dab963b5d3f2c560d92937cb51db61cb5b" },
   "citruszest.nvim": { "branch": "main", "commit": "e62a976cf979dcc6ce104fef84579c1e9f282d3b" },
