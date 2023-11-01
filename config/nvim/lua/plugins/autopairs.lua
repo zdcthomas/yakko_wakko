@@ -13,20 +13,18 @@ return {
 		})
 
 		local Rule = require("nvim-autopairs.rule")
-		local npairs = require("nvim-autopairs")
 		local cond = require("nvim-autopairs.conds")
 
-		npairs.add_rules({
+		autopairs.add_rules({
 			Rule("<", ">", { "rust" }):with_pair(cond.before_regex("%a+")):with_move(function(opts)
 				return opts.char == ">"
 			end),
 		})
 
+		-- autopairs.get_rule('"')[1]:with_pair(cond.not_before_regex("(")):with_pair(cond.not_filetypes({"l"}))
+
 		local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 		local cmp = require("cmp")
-		-- if not cmp_status_ok then
-		-- 	return
-		-- end
 		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 	end,
 }
