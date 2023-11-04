@@ -35,6 +35,7 @@ return {
 				"comment",
 				"dockerfile",
 				"fennel",
+				"elixir",
 				"fish",
 				"gleam",
 				"go",

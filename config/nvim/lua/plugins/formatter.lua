@@ -50,9 +50,9 @@ return {
 						}
 					end,
 				},
-				elixir = {
-					require("formatter.filetypes.elixir").mixformat,
-				},
+				-- elixir = {
+				-- 	require("formatter.filetypes.elixir").mixformat,
+				-- },
 				sql = {
 					{
 						exe = "sql-formatter",

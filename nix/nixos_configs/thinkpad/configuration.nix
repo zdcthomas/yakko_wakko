@@ -29,6 +29,16 @@ in {
 
   virtualisation.docker.enable = true;
   environment.etc.nixpkgs.source = inputs.nixpkgs;
+  environment.etc = {
+    "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
+      bluez_monitor.properties = {
+        ["bluez5.enable-sbc-xq"] = true,
+        ["bluez5.enable-msbc"] = true,
+        ["bluez5.enable-hw-volume"] = true,
+        ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+      }
+    '';
+  };
   nix = {
     package = pkgs.nixUnstable;
 
@@ -138,8 +148,10 @@ in {
 
     pipewire = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
       pulse.enable = true;
       jack.enable = true;
       wireplumber.enable = true;
@@ -151,7 +163,20 @@ in {
   # Enable sound with pipewire.
   # sound.enable = true;
   # hardware.pulseaudio.enable = true;
-  hardware.bluetooth.enable = true;
+
+  hardware.bluetooth = {
+    enable = true;
+    package = pkgs.bluez5-experimental;
+    #hsphfpd.enable = true;
+    powerOnBoot = true;
+    disabledPlugins = ["sap"];
+    settings = {
+      General = {
+        JustWorksRepairing = "always";
+        MultiProfile = "multiple";
+      };
+    };
+  };
   security.rtkit.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).

@@ -6,6 +6,18 @@
         /*
         Move this to local bin idealy
         */
+        fish_user_key_bindings = ''
+
+          # Execute this once per mode that emacs bindings should be used in
+          fish_default_key_bindings -M insert
+
+          # Then execute the vi-bindings so they take precedence when there's a conflict.
+          # Without --no-erase fish_vi_key_bindings will default to
+          # resetting all bindings.
+          # The argument specifies the initial mode (insert, "default" or visual).
+          fish_vi_key_bindings --no-erase insert
+
+        '';
         fish_prompt = ''
           set -l last_status $status
           set -g fish_prompt_pwd_dir_length 0
@@ -74,6 +86,12 @@
         #set __fish_git_prompt_char_stashstate '↩'
         set __fish_git_prompt_char_upstream_ahead '⤵'
         set __fish_git_prompt_char_upstream_ahead '⤴'
+
+        fish_vi_cursor
+        set fish_cursor_default block
+        set fish_cursor_insert line
+        set fish_cursor_replace_one underscore
+        set fish_cursor_visual block
       '';
     };
   };
