@@ -1,7 +1,9 @@
 local Module = {}
 
 Module.setup = function(capabilities, common_on_attach)
-	require("rust-tools").setup({
+	local extension_path = vim.env.RUST_DAP
+	local opts = {
+
 		tools = {
 			autoSetHints = false,
 			inlay_hints = {
@@ -23,18 +25,17 @@ Module.setup = function(capabilities, common_on_attach)
 			runnables = {
 				use_telescope = true,
 			},
-			dap = {
-				adapter = {
-					type = "executable",
-					command = "lldb-vscode",
-					name = "rt_lldb",
-				},
-			},
 		},
 		server = {
 			capabilities = capabilities,
+			standalone = true,
 			settings = {
 				["rust-analyzer"] = {
+					typing = {
+						autoClosingAngleBrackets = {
+							enable = true,
+						},
+					},
 					procMacro = {
 						enable = true,
 					},
@@ -56,7 +57,25 @@ Module.setup = function(capabilities, common_on_attach)
 				vim.keymap.set("n", "<leader>ca", rt.code_action_group.code_action_group, { buffer = bufnr })
 			end,
 		},
-	})
+	}
+	if extension_path then
+		local codelldb_path = extension_path .. "adapter/codelldb"
+		local liblldb_path = extension_path .. "lldb/lib/liblldb"
+		local this_os = vim.loop.os_uname().sysname
+
+		vim.print(codelldb_path)
+		vim.print(liblldb_path)
+		vim.print(this_os)
+
+		-- The path in windows is different
+		-- The liblldb extension is .so for linux and .dylib for macOS
+		liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
+		opts.dap = {
+			adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+		}
+	end
+
+	require("rust-tools").setup(opts)
 end
 
 return Module

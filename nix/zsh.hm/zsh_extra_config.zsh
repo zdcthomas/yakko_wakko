@@ -22,9 +22,10 @@ if ! nix_loc="$(type -p nix)" || [[ -z $nix_loc ]]; then
   fi
 fi
 
-# Future proof against OSX breakage
 zstyle ':completion:*' menu select
+bindkey '^[[Z' reverse-menu-complete
 
+# Future proof against OSX breakage
 if ! nix_loc="$(type -p nix)" || [[ -z $nix_loc ]]; then
 . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 fi

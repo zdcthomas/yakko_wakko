@@ -21,6 +21,8 @@
       */
       MANPATH = "/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
       INFOPATH = "/opt/homebrew/share/info:${INFOPATH:-}";
+      RUST_DAP = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/";
+      RD = "asdflkajsdflkj";
 
       EDITOR = "nvim";
       DIFFPROG = "nvim -d";

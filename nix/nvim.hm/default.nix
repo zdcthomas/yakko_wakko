@@ -69,6 +69,8 @@ in
           silver-searcher
           shfmt
           prettierd
+          # for rust debugging
+          vscode-extensions.vadimcn.vscode-lldb
         ]
         ++ optionals cfg.language_servers.nix [
           # nixpkgs-fmt
@@ -90,6 +92,9 @@ in
     in
       mkIf cfg.enable {
         home = {
+          sessionVariables = {
+            RUST_DAP = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/";
+          };
           shellAliases = {
             n = "nvim";
           };
