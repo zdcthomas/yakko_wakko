@@ -59,6 +59,7 @@ with lib; {
   config =
     let
       packages = with pkgs;
+        # it'd be super super cool to wrap all these so they're only available in the nvim process
         [
           fzf
           cfg.package
@@ -70,7 +71,8 @@ with lib; {
           silver-searcher
           shfmt
           prettierd
-          # for rust debugging
+          # entirely for dap rust codelldb
+          python3
         ]
         ++ optionals cfg.language_servers.nix [
           # nixpkgs-fmt

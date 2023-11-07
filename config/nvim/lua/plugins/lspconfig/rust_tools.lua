@@ -1,7 +1,17 @@
 local Module = {}
+Module.dap_adapter = function()
+	local extension_path = vim.env.RUST_DAP
+
+	if extension_path then
+		local codelldb_path = extension_path .. "adapter/codelldb"
+		local liblldb_path = extension_path .. "lldb/lib/liblldb"
+		local this_os = vim.loop.os_uname().sysname
+		liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
+		return require("rust-tools.dap").get_codelldb_adapter(vim.fn.expand(codelldb_path), vim.fn.expand(liblldb_path))
+	end
+end
 
 Module.setup = function(capabilities, common_on_attach)
-	local extension_path = vim.env.RUST_DAP
 	local opts = {
 
 		tools = {
@@ -58,16 +68,11 @@ Module.setup = function(capabilities, common_on_attach)
 			end,
 		},
 	}
-	if extension_path then
-		local codelldb_path = extension_path .. "adapter/codelldb"
-		local liblldb_path = extension_path .. "lldb/lib/liblldb"
-		local this_os = vim.loop.os_uname().sysname
-		liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
+
+	local adapter = Module.dap_adapter()
+	if adapter then
 		opts.dap = {
-			adapter = require("rust-tools.dap").get_codelldb_adapter(
-				vim.fn.expand(codelldb_path),
-				vim.fn.expand(liblldb_path)
-			),
+			adapter = adapter,
 		}
 	end
 

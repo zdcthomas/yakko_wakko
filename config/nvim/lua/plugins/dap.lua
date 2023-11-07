@@ -12,7 +12,46 @@ end
 return {
 	{
 		"rcarriga/nvim-dap-ui",
-		opts = {},
+		opts = {
+			layouts = {
+				{
+					elements = {
+						{
+							id = "console",
+							size = 0.1,
+						},
+						{
+							id = "breakpoints",
+							size = 0.1,
+						},
+						{
+							id = "stacks",
+							size = 0.1,
+						},
+						{
+							id = "watches",
+							size = 0.1,
+						},
+						{
+							id = "scopes",
+							size = 0.5,
+						},
+					},
+					position = "left",
+					size = 40,
+				},
+				{
+					elements = {
+						{
+							id = "repl",
+							size = 1,
+						},
+					},
+					position = "bottom",
+					size = 10,
+				},
+			},
+		},
 		keys = {
 			{
 				"<leader>du",
@@ -84,7 +123,43 @@ return {
 		"mfussenegger/nvim-dap",
 		dependencies = {
 
-			"jbyuki/one-small-step-for-vimkind",
+			{
+				"jbyuki/one-small-step-for-vimkind",
+				config = function()
+					local dap = require("dap")
+					dap.adapters.nlua = function(callback, conf)
+						local adapter = {
+							type = "server",
+							host = conf.host or "127.0.0.1",
+							port = conf.port or 8086,
+						}
+						if conf.start_neovim then
+							local dap_run = dap.run
+							dap.run = function(c)
+								adapter.port = c.port
+								adapter.host = c.host
+							end
+							require("osv").run_this()
+							dap.run = dap_run
+						end
+						callback(adapter)
+					end
+					dap.configurations.lua = {
+						{
+							type = "nlua",
+							request = "attach",
+							name = "Run this file",
+							start_neovim = {},
+						},
+						{
+							type = "nlua",
+							request = "attach",
+							name = "Attach to running Neovim instance (port = 8086)",
+							port = 8086,
+						},
+					}
+				end,
+			},
 			"theHamsta/nvim-dap-virtual-text",
 			{
 				"nvim-telescope/telescope-dap.nvim",
@@ -99,13 +174,6 @@ return {
 				"rcarriga/cmp-dap",
 				dependencies = {
 					"hrsh7th/nvim-cmp",
-					config = function()
-						require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
-							sources = {
-								{ name = "dap" },
-							},
-						})
-					end,
 				},
 			},
 
@@ -234,18 +302,6 @@ return {
 		},
 		config = function()
 			local dap = require("dap")
-			dap.configurations.lua = {
-				{
-					type = "nlua",
-					request = "attach",
-					name = "Attach to running Neovim instance",
-				},
-			}
-
-			dap.adapters.nlua = function(callback, config)
-				callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
-			end
-
 			dap.adapters.godot = {
 				type = "server",
 				host = "127.0.0.1",
@@ -258,6 +314,18 @@ return {
 					name = "Launch scene",
 					project = "${workspaceFolder}",
 					launch_scene = true,
+				},
+			}
+			dap.adapters.rust = require("plugins.lspconfig.rust_tools").dap_adapter()
+			dap.configurations.rust = {
+				{
+					-- If you get an "Operation not permitted" error using this, try disabling YAMA:
+					--  echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+					name = "Attach to process",
+					type = "rust", -- Adjust this to match your adapter name (`dap.adapters.<name>`)
+					request = "attach",
+					pid = require("dap.utils").pick_process,
+					args = {},
 				},
 			}
 		end,
