@@ -1,12 +1,10 @@
 return {
-
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		event = { "BufReadPost", "BufNewFile", "VeryLazy" },
 		cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
 		dependencies = {
-			{ "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
 			"JoosepAlviste/nvim-ts-context-commentstring",
 		},
 		opts = {
@@ -68,6 +66,11 @@ return {
 				additional_vim_regex_highlighting = { "org" },
 			},
 		},
+	},
+	{
+		"nvim-treesitter/playground",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		cmd = "TSPlaygroundToggle",
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-context",

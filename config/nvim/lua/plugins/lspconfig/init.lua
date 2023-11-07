@@ -163,6 +163,23 @@ return {
 					top_char = "―",
 					bottom_char = "―",
 				},
+				hooks = {
+					---@diagnostic disable-next-line: unused-local
+					before_open = function(results, open, jump, method)
+						local uri = vim.uri_from_bufnr(0)
+						if #results == 1 then
+							local target_uri = results[1].uri or results[1].targetUri
+
+							if target_uri == uri then
+								jump(results[1])
+							else
+								open(results)
+							end
+						else
+							open(results)
+						end
+					end,
+				},
 				mappings = {
 					list = {
 						["<C-u>"] = actions.preview_scroll_win(5),

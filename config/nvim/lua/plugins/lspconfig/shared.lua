@@ -96,13 +96,12 @@ Module.common_on_attach = function(client, bufnr)
 
 	vim.keymap.set({ "i", "s" }, "<c-l>", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "gl", vim.lsp.buf.signature_help, opts)
-	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+	vim.keymap.set("n", "gr", "<cmd>Glance references<CR>", opts)
 	vim.keymap.set({ "x", "n" }, "<Leader>ca", "<cmd>CodeActionMenu<cr>", opts)
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition)
-	vim.keymap.set("n", "gt", vim.lsp.buf.type_definition)
-	-- MAYBE
-	-- gdp for preview in floating window
-	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+	vim.keymap.set("i", "<c-a>", "<cmd>CodeActionMenu<cr>", opts)
+	vim.keymap.set("n", "gd", "<cmd>Glance definitions<CR>", opts)
+	vim.keymap.set("n", "gt", "<cmd>Glance type_definitions<CR>", opts)
+	vim.keymap.set("n", "gi", "<cmd>Glance implementations<CR>", opts)
 	vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
 	vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
 

@@ -96,9 +96,10 @@ local todo_snippet = function(context, aliases, opts)
 end
 
 local todo_snippet_specs = {
-	{ { trig = "todo" }, { "TODO", "HACK", "FIX", "BUG", "ISSUE", "WARN", "INFO", "NOTE" } },
+	{ { trig = "todo" }, { "TODO", "HACK", "FIX", "BUG", "ISSUE", "WARN", "INFO", "NOTE", "IDEA" } },
 	{ { trig = "fix" }, { "FIX", "BUG", "ISSUE", "FIXIT" } },
 	{ { trig = "hack" }, "HACK" },
+	{ { trig = "idea" }, "IDEA" },
 	{ { trig = "warn" }, { "WARN", "WARNING", "XXX" } },
 	{ { trig = "perf" }, { "PERF", "PERFORMANCE", "OPTIM", "OPTIMIZE" } },
 	{ { trig = "note" }, { "NOTE", "INFO" } },
