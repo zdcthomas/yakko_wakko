@@ -62,13 +62,6 @@ Module.setup = function(capabilities, common_on_attach)
 		local codelldb_path = extension_path .. "adapter/codelldb"
 		local liblldb_path = extension_path .. "lldb/lib/liblldb"
 		local this_os = vim.loop.os_uname().sysname
-
-		vim.print(codelldb_path)
-		vim.print(liblldb_path)
-		vim.print(this_os)
-
-		-- The path in windows is different
-		-- The liblldb extension is .so for linux and .dylib for macOS
 		liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
 		opts.dap = {
 			adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
