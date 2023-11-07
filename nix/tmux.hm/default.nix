@@ -1,7 +1,6 @@
-{
-  config,
-  pkgs,
-  ...
+{ config
+, pkgs
+, ...
 }: {
   home.packages = with pkgs; [
     tmuxPlugins.tmux-fzf
@@ -10,10 +9,10 @@
     tmux = {
       enable = true;
       /*
-      extraConfig = (builtins.readFile ./tmux.conf);
+        extraConfig = (builtins.readFile ./tmux.conf);
       */
       /*
-      shell = "${pkgs.fish}/bin/fish";
+        shell = "${pkgs.fish}/bin/fish";
       */
       sensibleOnTop = false;
       historyLimit = 200000;

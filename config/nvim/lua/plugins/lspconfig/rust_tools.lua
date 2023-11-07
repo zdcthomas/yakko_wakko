@@ -64,7 +64,10 @@ Module.setup = function(capabilities, common_on_attach)
 		local this_os = vim.loop.os_uname().sysname
 		liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
 		opts.dap = {
-			adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+			adapter = require("rust-tools.dap").get_codelldb_adapter(
+				vim.fn.expand(codelldb_path),
+				vim.fn.expand(liblldb_path)
+			),
 		}
 	end
 

@@ -84,6 +84,7 @@ return {
 		"mfussenegger/nvim-dap",
 		dependencies = {
 
+			"jbyuki/one-small-step-for-vimkind",
 			"theHamsta/nvim-dap-virtual-text",
 			{
 				"nvim-telescope/telescope-dap.nvim",
@@ -232,7 +233,33 @@ return {
 			},
 		},
 		config = function()
-			-- vim.api.nvim_create_augroup(name, opts?)
+			local dap = require("dap")
+			dap.configurations.lua = {
+				{
+					type = "nlua",
+					request = "attach",
+					name = "Attach to running Neovim instance",
+				},
+			}
+
+			dap.adapters.nlua = function(callback, config)
+				callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
+			end
+
+			dap.adapters.godot = {
+				type = "server",
+				host = "127.0.0.1",
+				port = 6006,
+			}
+			dap.configurations.gdscript = {
+				{
+					type = "godot",
+					request = "launch",
+					name = "Launch scene",
+					project = "${workspaceFolder}",
+					launch_scene = true,
+				},
+			}
 		end,
 	},
 }
