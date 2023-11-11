@@ -243,13 +243,13 @@ return {
 				end,
 				desc = "Up",
 			},
-			{
-				"<leader>dl",
-				function()
-					require("dap").run_last()
-				end,
-				desc = "Run Last",
-			},
+			-- {
+			-- 	"<leader>dl",
+			-- 	function()
+			-- 		require("dap").run_last()
+			-- 	end,
+			-- 	desc = "Run Last",
+			-- },
 			{
 				"<leader>do",
 				function()
@@ -258,7 +258,7 @@ return {
 				desc = "Step Out",
 			},
 			{
-				"<leader>dO",
+				"<leader>dl",
 				function()
 					require("dap").step_over()
 				end,

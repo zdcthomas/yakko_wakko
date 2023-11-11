@@ -8,20 +8,7 @@ local c = ls.choice_node
 local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 
-local calculate_comment_string = require("Comment.ft").calculate
-local utils = require("Comment.utils")
-
---- Get the comment string {beg,end} table
----@param ctype integer 1 for `line`-comment and 2 for `block`-comment
----@return table comment_strings {begcstring, endcstring}
-local get_cstring = function(ctype)
-	-- use the `Comments.nvim` API to fetch the comment string for the region (eq. '--%s' or '--[[%s]]' for `lua`)
-	local cstring = calculate_comment_string({ ctype = ctype, range = utils.get_region() }) or vim.bo.commentstring
-	-- as we want only the strings themselves and not strings ready for using `format` we want to split the left and right side
-	local left, right = utils.unwrap_cstr(cstring)
-	-- create a `{left, right}` table for it
-	return { left, right }
-end
+local get_cstring = require("config.luasnip.get_comment_string")
 
 -- personal_info = {}
 local personal_info = {
@@ -95,8 +82,15 @@ local todo_snippet = function(context, aliases, opts)
 	return s(context, comment_node, opts) -- the final todo-snippet constructed from our parameters
 end
 
+all_todo_types = {}
+
+for key, _ in pairs(require("todo-comments.config").keywords) do
+	table.insert(all_todo_types, key)
+end
+
 local todo_snippet_specs = {
 	{ { trig = "todo" }, { "TODO", "HACK", "FIX", "BUG", "ISSUE", "WARN", "INFO", "NOTE", "IDEA" } },
+	{ { trig = "todoa" }, all_todo_types },
 	{ { trig = "fix" }, { "FIX", "BUG", "ISSUE", "FIXIT" } },
 	{ { trig = "hack" }, "HACK" },
 	{ { trig = "idea" }, "IDEA" },
