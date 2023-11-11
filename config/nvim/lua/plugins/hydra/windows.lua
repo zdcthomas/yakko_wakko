@@ -1,5 +1,3 @@
-local Hydra = require("hydra")
-
 local window_hint = [[
       ^^^^^^     Move     ^^^^^^   ^^   Split   ^^   ^ ^    Other
       ^^^^^^--------------^^^^^^   ^^-----------^^   ^-^------------
@@ -9,7 +7,7 @@ local window_hint = [[
       focus^^^^^^   window^^^^^^   ^_=_: equalize^   _w_: Save
     ]]
 
-return Hydra({
+return {
 	config = {
 		hint = {
 			border = "rounded",
@@ -46,4 +44,4 @@ return Hydra({
 		{ "z", ":ZenMode<cr>", { nowait = true, exit = true } },
 		{ "<ESC>", nil, { exit = true, nowait = true } },
 	},
-})
+}

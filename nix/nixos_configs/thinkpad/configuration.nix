@@ -27,7 +27,7 @@ in {
     inherit overlays inputs username;
   };
 
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
   environment.etc.nixpkgs.source = inputs.nixpkgs;
   environment.etc = {
     "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
@@ -106,32 +106,65 @@ in {
 
   console.useXkbConfig = true;
 
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    iosevka
-    mplus-outline-fonts.githubRelease
-    dina-font
-    proggyfonts
-    pulsemixer
-    alsa-lib
-    alsa-utils
-    pamixer
-    mariadb
-  ];
+  fonts = {
+    enableDefaultFonts = true;
+    fontconfig = {
+      localConf = ''
+        <match target="scan">
+            <test name="family">
+                <string>Iosevka</string>
+            </test>
+            <edit name="spacing">
+                <int>100</int>
+            </edit>
+        </match>
+      '';
+      defaultFonts = {
+        monospace = [
+          "Iosevka"
+        ];
+      };
+    };
+
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    packages = with pkgs; [
+      terminus_font
+      corefonts
+      noto-fonts
+      # iosevka
+      (
+        nerdfonts.override {
+          fonts = [
+            "Terminus"
+            "FiraCode"
+            "Meslo"
+            "Monofur"
+            "Iosevka"
+          ];
+        }
+      )
+      # noto-fonts
+      # noto-fonts-cjk
+      # noto-fonts-emoji
+      # liberation_ttf
+      # fira-code
+      # fira-code-symbols
+      # iosevka
+      # mplus-outline-fonts.githubRelease
+      # dina-font
+      # proggyfonts
+    ];
+  };
 
   services = {
     udisks2 = {
       enable = true;
     };
-    mysql = {
-      enable = true;
-      package = pkgs.mariadb;
-    };
+    # mysql = {
+    #   enable = true;
+    #   package = pkgs.mariadb;
+    # };
     # calibre-server = {
     #   enable = true;
     #   user = "zdcthomas";
@@ -190,6 +223,10 @@ in {
     shell = pkgs.zsh;
     packages = with pkgs; [
       alsa-utils
+      pulsemixer
+      alsa-lib
+      alsa-utils
+      pamixer
       vim
       gcc
       dmux

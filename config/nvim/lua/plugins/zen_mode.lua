@@ -3,12 +3,10 @@ return {
 	cmd = {
 		"ZenMode",
 	},
-	config = function()
-		require("zen-mode").setup({
-			window = {
-				width = 135,
-				backdrop = 1,
-			},
-		})
-	end,
+	opts = {
+		window = {
+			width = 135,
+			backdrop = 1,
+		},
+	},
 }

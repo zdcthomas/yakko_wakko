@@ -198,17 +198,6 @@ in {
           graalvm-ce
         ];
       })
-      (
-        nerdfonts.override {
-          fonts = [
-            "Terminus"
-            "FiraCode"
-            "Meslo"
-            "Monofur"
-            "Iosevka"
-          ];
-        }
-      )
 
       # rnix-lsp
       pavucontrol

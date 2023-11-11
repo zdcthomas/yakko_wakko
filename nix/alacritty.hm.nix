@@ -31,7 +31,6 @@ in {
       };
 
       font = {
-        normal.family = "FiraCode Nerd Font";
         size = 11.0;
       };
       colors = {

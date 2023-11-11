@@ -16,8 +16,14 @@ return {
 	},
 	{
 		"uga-rosa/ccc.nvim",
-		-- lazy = false,
-		event = "FileType",
+		ft = {
+			"lua",
+			"css",
+			"js",
+			"ts",
+			"jsx",
+			"tsx",
+		},
 		cmd = {
 			"CccPick",
 			"CccConvert",

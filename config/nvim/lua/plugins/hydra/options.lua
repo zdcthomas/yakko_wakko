@@ -1,4 +1,4 @@
-local Hydra = require("hydra")
+-- local Hydra = require("hydra")
 
 local hint = [[
   ^ ^        Options
@@ -30,7 +30,7 @@ local function option_check(opt_name)
 	end)
 end
 
-return Hydra({
+return {
 	name = "Options",
 	hint = hint,
 	config = {
@@ -150,4 +150,4 @@ return Hydra({
 		},
 		{ "<Esc>", nil, { exit = true } },
 	},
-})
+}
