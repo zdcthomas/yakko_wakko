@@ -1,6 +1,5 @@
 local function setup_hydra()
-	local Hydra = require("hydra")
-	local hydra = Hydra({
+	local hydra = {
 		config = {
 			color = "pink",
 			invoke_on_body = true,
@@ -13,7 +12,6 @@ local function setup_hydra()
 			end,
 		},
 		mode = "n",
-		-- body = "<leader><leader>g",
 		heads = {
 
 			{
@@ -110,7 +108,7 @@ local function setup_hydra()
 			{ "]q", ":cn<CR>" },
 			{ "[q", ":cp<CR>" },
 		},
-	})
+	}
 
 	require("plugins.hydra.global_hydra").add_g_hydra({ key = "g", hydra = hydra, desc = "Git" })
 end
