@@ -32,6 +32,7 @@ in {
     # ../../neofetch
     # ../../zellij.nix
   ];
+
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
   # colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
   # colorScheme = inputs.nix-colors.colorSchemes.chalk;
@@ -40,9 +41,9 @@ in {
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-light-soft;
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
+    wezterm.enable = true;
     nvim = {
       enable = true;
-      # package = pkgs.neovim-nightly;
     };
     firefox = {
       enable = true;

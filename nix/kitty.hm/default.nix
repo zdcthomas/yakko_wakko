@@ -31,14 +31,13 @@
 
       # theme = "Everforest Dark Medium";
       enable = true;
-      theme = "Catppuccin-Mocha";
+      theme = "Everforest Dark Medium";
       # theme = "Galaxy";
       # theme = "Lavandula";
       # theme = "Royal";
       # theme = config.colorScheme.name;
       font = {
         size = 11;
-        name = "FiraCode Nerd Font";
       };
       settings = {
         disable_ligatures = "cursor";
