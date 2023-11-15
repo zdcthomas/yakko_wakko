@@ -40,13 +40,6 @@ return {
 		},
 	},
 	{
-		"luukvbaal/stabilize.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("stabilize").setup()
-		end,
-	},
-	{
 		"mattn/emmet-vim",
 		ft = { "html", "js", "ts", "tsx", "typescriptreact" },
 		config = function()
