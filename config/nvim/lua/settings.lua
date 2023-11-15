@@ -9,6 +9,7 @@ vim.opt.clipboard:append("unnamedplus")
 vim.opt.laststatus = 3
 vim.opt.copyindent = true
 vim.opt.encoding = "UTF-8"
+vim.opt.splitkeep = "screen"
 vim.opt.equalalways = false
 vim.opt.expandtab = true
 vim.opt.spellfile = vim.fn.expand("~") .. "/.config/nvim/spell/en.utf-8.add"
