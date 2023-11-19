@@ -132,7 +132,7 @@ in {
       terminus_font
       corefonts
       noto-fonts
-      noto-sans-cjk
+      noto-fonts-cjk-sans
       (
         nerdfonts.override {
           fonts = [

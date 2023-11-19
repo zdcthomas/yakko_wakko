@@ -29,6 +29,7 @@ in {
     ../../tmux.hm
     ../../zathura.hm
     ../../zsh.hm
+    ../../wezterm.hm
     # ../../neofetch
     # ../../zellij.nix
   ];

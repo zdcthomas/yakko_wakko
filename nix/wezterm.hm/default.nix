@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  ...
 }: let
   cfg = config.custom.hm.wezterm;
 in
   with lib; {
     options = {
       custom.hm.wezterm = {
-        enable = mkEnableOption "Custom Nvim config";
+        enable = mkEnableOption "Enable custom wezterm";
       };
     };
     config = mkIf cfg.enable {

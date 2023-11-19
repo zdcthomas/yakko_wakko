@@ -38,6 +38,7 @@
       # theme = config.colorScheme.name;
       font = {
         size = 11;
+        name = "Iosevka Nerd Font";
       };
       settings = {
         disable_ligatures = "cursor";
