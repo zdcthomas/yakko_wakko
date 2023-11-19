@@ -30,6 +30,7 @@ return {
 			-- TODO: Figure out if this is slowing this down
 			ensure_installed = {
 				"bash",
+				"hurl",
 				"comment",
 				"dockerfile",
 				"fennel",

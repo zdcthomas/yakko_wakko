@@ -35,6 +35,16 @@ vim.api.nvim_create_autocmd("FileType", {
 	desc = "Map q to close specific, read only buffers",
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+	group = init_group_id,
+	pattern = { "hurl" },
+	callback = function()
+		vim.bo.commentstring = "# %s"
+		vim.cmd(":TSEnable highlight")
+	end,
+	desc = "Set comment string for hurl files",
+})
+
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	group = init_group_id,
 	callback = function()
