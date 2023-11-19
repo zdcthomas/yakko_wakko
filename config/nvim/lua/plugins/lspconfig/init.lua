@@ -118,7 +118,7 @@ return {
 				requires = "neovim/nvim-lspconfig",
 			},
 			{ "weilbith/nvim-code-action-menu", cmd = "CodeActionMenu" },
-			{ "j-hui/fidget.nvim", tag = "legacy" },
+			{ "j-hui/fidget.nvim", opts = { window = { blend = 0 } } },
 			"kosayoda/nvim-lightbulb",
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
