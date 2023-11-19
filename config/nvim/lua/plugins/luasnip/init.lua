@@ -5,6 +5,6 @@ return {
 	},
 	event = "InsertEnter",
 	config = function()
-		require("config.luasnip")
+		require("plugins.luasnip.base")
 	end,
 }
