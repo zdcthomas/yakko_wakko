@@ -121,6 +121,7 @@ in
       extraConfig = let
         data = {
           rofi = "pkill rofi || ${pkgs.rofi-wayland}/bin/rofi -show drun";
+          wezterm = "${pkgs.wezterm}/bin/wezterm";
           rofi_power_menu = "${pkgs.rofi-wayland}/bin/rofi -show p -modi p:'rofi-power-menu'";
           wofi = "pkill wofi || ${pkgs.wofi}/bin/wofi --show drun -n";
           tofi = "${pkgs.tofi}/bin/tofi-drun -c ~/.config/tofi/tofi.launcher.conf";

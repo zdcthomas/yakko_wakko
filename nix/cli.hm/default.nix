@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   home = {
     packages = with pkgs; [
       btop
@@ -17,7 +17,7 @@
     ];
     sessionVariables = {
       /*
-        TODO: Split these out into an option for this module
+      TODO: Split these out into an option for this module
       */
       MANPATH = "/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
       INFOPATH = "/opt/homebrew/share/info:${INFOPATH:-}";
@@ -26,7 +26,7 @@
       DIFFPROG = "nvim -d";
       SKIM_DEFAULT_COMMAND = "fd --hidden --type f";
       /*
-        Move these to fzf program config
+      Move these to fzf program config
       */
       FZF_ALT_C_COMMAND = "fd -t d";
       FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
@@ -36,7 +36,7 @@
       # PATH = "$PATH:$HOME/.cargo/bin/:$HOME/bin";
     };
 
-    sessionPath = [ "$HOME/.cargo/bin" ];
+    sessionPath = ["$HOME/.cargo/bin"];
 
     shellAliases = {
       gco = "git switch";
@@ -52,19 +52,19 @@
       enable = true;
       enableAliases = true;
       /*
-        ls = "${pkgs.exa}/bin/exa";
+      ls = "${pkgs.exa}/bin/exa";
       */
       /*
-        ll = "${pkgs.exa}/bin/exa -l";
+      ll = "${pkgs.exa}/bin/exa -l";
       */
       /*
-        la = "${pkgs.exa}/bin/exa -a";
+      la = "${pkgs.exa}/bin/exa -a";
       */
       /*
-        lt = "${pkgs.exa}/bin/exa --tree";
+      lt = "${pkgs.exa}/bin/exa --tree";
       */
       /*
-        lla = "${pkgs.exa}/bin/exa -la";
+      lla = "${pkgs.exa}/bin/exa -la";
       */
     };
 

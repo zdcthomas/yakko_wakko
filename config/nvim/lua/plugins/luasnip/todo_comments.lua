@@ -8,7 +8,7 @@ local c = ls.choice_node
 local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 
-local get_cstring = require("config.luasnip.get_comment_string")
+local get_cstring = require("plugins.luasnip.get_comment_string")
 
 -- personal_info = {}
 local personal_info = {
