@@ -295,6 +295,23 @@
         "type": "github"
       }
     },
+    "font": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1700435822,
+        "narHash": "sha256-2zcgxqRwWt3gRbpPA7zbqrYNSSV8LfetGz+/zR361To=",
+        "ref": "refs/heads/main",
+        "rev": "a2be51c6d60b0bc356438fc44ec195bde9e44588",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/zdcthomas/PP.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/zdcthomas/PP.git"
+      }
+    },
     "haskell-flake": {
       "locked": {
         "lastModified": 1684780604,
@@ -734,6 +751,7 @@
         "dmux": "dmux",
         "eza": "eza",
         "fenix": "fenix",
+        "font": "font",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "neovim-nightly-overlay": "neovim-nightly-overlay",

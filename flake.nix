@@ -56,6 +56,10 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
     nix-colors = {
       url = "github:misterio77/nix-colors";
     };
+    font = {
+      url = "git+ssh://git@github.com/zdcthomas/PP.git?shallow=1";
+      flake = false;
+    };
   };
 
   outputs = {

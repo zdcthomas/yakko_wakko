@@ -107,7 +107,7 @@ in {
   console.useXkbConfig = true;
 
   fonts = {
-    enableDefaultFonts = true;
+    enableDefaultPackages = true;
     fontconfig = {
       localConf = ''
         <match target="scan">
@@ -120,19 +120,34 @@ in {
         </match>
       '';
       defaultFonts = {
-        monospace = [
-          "Iosevka"
-        ];
+        monospace = ["PragmataPro Mono Liga"];
+        sansSerif = ["PragmataPro Liga"];
+        serif = ["PragmataPro Liga"];
       };
     };
 
-    enableFontDir = true;
+    fontDir.enable = true;
     enableGhostscriptFonts = true;
     packages = with pkgs; [
       terminus_font
       corefonts
       noto-fonts
       noto-fonts-cjk-sans
+      (pkgs.stdenv.mkDerivation {
+        pname = "PragmataPro";
+        version = "0.829";
+        src = inputs.font;
+        # buildInputs = [pkgs.unzip];
+        installPhase = ''
+
+          install_path=$out/share/fonts/truetype/pragmatapro
+          mkdir -p $install_path
+          ls -la
+          cd Release\ 0829
+
+          find -name "PragmataPro*.ttf" -exec mv {} $install_path \;
+        '';
+      })
       (
         nerdfonts.override {
           fonts = [
@@ -222,6 +237,11 @@ in {
     extraGroups = ["audio" "input" "networkmanager" "wheel" "docker"];
     shell = pkgs.zsh;
     packages = with pkgs; [
+      (
+        pkgs.writeScriptBin "switch" ''
+          nixos-rebuild switch --flake ~/yakko_wakko --use-remote-sudo
+        ''
+      )
       alsa-utils
       pulsemixer
       alsa-lib
@@ -242,6 +262,7 @@ in {
     config.allowUnfree = true;
     config.pulseaudio = true;
   };
+  programs.ssh.startAgent = true;
 
   programs.zsh = {
     enable = true;

@@ -31,6 +31,7 @@ in {
       };
 
       font = {
+        normal.family = "PragmataPro Mono Liga";
         size = 11.0;
       };
       colors = {
