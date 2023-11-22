@@ -4,9 +4,6 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
 {
   description = "Hopefully this _is_ my final form";
   inputs = {
-    # nixpkgs.url = "nixpkgs/nixos-23.05";
-    # unstable.url = "nixpkgs/nixos-unstable";
-    # hyprland.url = "github:hyprwm/Hyprland";
     ags = {
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -83,7 +80,6 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
 
         split-monitor-workspaces = inputs.split-monitor-workspaces.packages.${prev.system}.split-monitor-workspaces;
         xdg-desktop-portal-hyprland = inputs.hyprland.packages.${prev.system}.xdg-desktop-portal-hyprland;
-        # hyprland = inputs.hyprland.packages.${prev.system}.default;
       })
     ];
 

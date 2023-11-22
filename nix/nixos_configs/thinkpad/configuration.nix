@@ -173,6 +173,11 @@ in {
   };
 
   services = {
+    avahi = {
+      enable = true;
+      nssmdns = true;
+      openFirewall = true;
+    };
     udisks2 = {
       enable = true;
     };
