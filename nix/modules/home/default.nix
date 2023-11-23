@@ -10,5 +10,6 @@
     ./fish
     ./bash
     ./cli
+    ./zsh
   ];
 }

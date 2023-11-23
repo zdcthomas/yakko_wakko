@@ -320,7 +320,7 @@ in {
       enable = lib.mkEnableOption "Enable custom <module>";
     };
   };
-  config = {};
+  config = lib.mkIf cfg.enable {};
 }
   ]],
 			{

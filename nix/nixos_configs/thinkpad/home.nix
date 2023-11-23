@@ -20,7 +20,6 @@ in {
     ../../kitty.hm
     ../../ssh.hm.nix
     ../../zathura.hm
-    ../../zsh.hm
   ];
 
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
@@ -39,6 +38,7 @@ in {
     tmux.enable = true;
     bash.enable = true;
     fish.enable = true;
+    zsh.enable = true;
     nvim = {
       enable = true;
     };
