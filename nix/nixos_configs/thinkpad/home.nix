@@ -15,8 +15,7 @@ in {
   fonts.fontconfig.enable = true;
   imports = [
     inputs.nix-colors.homeManagerModules.default
-    ../../alacritty.hm.nix
-    ../../firefox.hm.nix
+    ../../modules/home
     ../../fish.hm
     ../../bash.hm
     ../../cli.hm
@@ -24,7 +23,6 @@ in {
     ../../hyprland.hm
     ../../kitty.hm
     ../../nix.hm
-    ../../nvim.hm
     ../../ssh.hm.nix
     ../../tmux.hm
     ../../zathura.hm
