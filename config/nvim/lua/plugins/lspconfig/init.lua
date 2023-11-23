@@ -1,5 +1,5 @@
 local function setup_lspconfig()
-	require("fidget").setup({})
+	require("fidget").setup()
 	-- local servers = {
 	-- 	"rust_analyzer",
 	-- 	"jsonls",
@@ -118,7 +118,7 @@ return {
 				requires = "neovim/nvim-lspconfig",
 			},
 			{ "weilbith/nvim-code-action-menu", cmd = "CodeActionMenu" },
-			{ "j-hui/fidget.nvim", opts = { window = { blend = 0 } } },
+			"j-hui/fidget.nvim",
 			"kosayoda/nvim-lightbulb",
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
