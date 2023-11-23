@@ -302,6 +302,34 @@ ls.add_snippets("ts", {
 		end)
 	),
 }, { key = "typescriptreact" })
+ls.add_snippets("nix", {
+	s(
+		"module",
+		fmt(
+			[[
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  cfg = config.custom.hm.<module>;
+in {
+  options = {
+    custom.hm.<module> = {
+      enable = lib.mkEnableOption "Enable custom <module>";
+    };
+  };
+  config = {};
+}
+  ]],
+			{
+				module = i(1, "module"),
+			},
+			{ delimiters = "<>", repeat_duplicates = true }
+		)
+	),
+})
 
 ls.add_snippets("markdown", {
 	s(
