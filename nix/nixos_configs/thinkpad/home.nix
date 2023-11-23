@@ -16,7 +16,6 @@ in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
     ../../modules/home
-    ../../cli.hm
     ../../hyprland.hm
     ../../kitty.hm
     ../../ssh.hm.nix
@@ -35,6 +34,7 @@ in {
     nix.enable = true;
     wezterm.enable = true;
 
+    cli.enable = true;
     git.enable = true;
     tmux.enable = true;
     bash.enable = true;

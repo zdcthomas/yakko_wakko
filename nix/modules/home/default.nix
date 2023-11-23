@@ -9,5 +9,6 @@
     ./git
     ./fish
     ./bash
+    ./cli
   ];
 }
