@@ -16,7 +16,6 @@ in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
     ../../modules/home
-    ../../fish.hm
     ../../bash.hm
     ../../cli.hm
     ../../hyprland.hm
@@ -38,6 +37,7 @@ in {
     tmux.enable = true;
     nix.enable = true;
     wezterm.enable = true;
+    fish.enable = true;
     nvim = {
       enable = true;
     };

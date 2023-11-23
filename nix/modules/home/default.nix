@@ -7,5 +7,6 @@
     ./wezterm
     ./tmux
     ./git
+    ./fish
   ];
 }
