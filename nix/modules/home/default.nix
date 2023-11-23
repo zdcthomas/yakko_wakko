@@ -5,5 +5,7 @@
     ./firefox.nix
     ./nix
     ./wezterm
+    ./tmux
+    ./git
   ];
 }

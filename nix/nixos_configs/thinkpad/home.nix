@@ -19,16 +19,11 @@ in {
     ../../fish.hm
     ../../bash.hm
     ../../cli.hm
-    ../../git.hm
     ../../hyprland.hm
     ../../kitty.hm
     ../../ssh.hm.nix
-    ../../tmux.hm
     ../../zathura.hm
     ../../zsh.hm
-    # ../../wezterm.hm
-    # ../../neofetch
-    # ../../zellij.nix
   ];
 
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
@@ -39,6 +34,8 @@ in {
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-light-soft;
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
+    git.enable = true;
+    tmux.enable = true;
     nix.enable = true;
     wezterm.enable = true;
     nvim = {
