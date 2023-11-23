@@ -8,5 +8,6 @@
     ./tmux
     ./git
     ./fish
+    ./bash
   ];
 }

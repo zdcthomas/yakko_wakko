@@ -16,7 +16,6 @@ in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
     ../../modules/home
-    ../../bash.hm
     ../../cli.hm
     ../../hyprland.hm
     ../../kitty.hm
@@ -33,10 +32,12 @@ in {
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-light-soft;
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
-    git.enable = true;
-    tmux.enable = true;
     nix.enable = true;
     wezterm.enable = true;
+
+    git.enable = true;
+    tmux.enable = true;
+    bash.enable = true;
     fish.enable = true;
     nvim = {
       enable = true;
