@@ -22,7 +22,6 @@ in {
     ../../git.hm
     ../../hyprland.hm
     ../../kitty.hm
-    ../../nix.hm
     ../../ssh.hm.nix
     ../../tmux.hm
     ../../zathura.hm
@@ -40,6 +39,7 @@ in {
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-light-soft;
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
+    nix.enable = true;
     wezterm.enable = true;
     nvim = {
       enable = true;
