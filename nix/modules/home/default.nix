@@ -4,5 +4,6 @@
     ./nvim
     ./firefox.nix
     ./nix
+    ./wezterm
   ];
 }
