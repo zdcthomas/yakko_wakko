@@ -16,7 +16,6 @@ in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
     ../../modules/home
-    ../../ssh.hm.nix
     ../../zathura.hm
   ];
 
@@ -28,17 +27,18 @@ in {
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-light-soft;
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
+    bash.enable = true;
+    cli.enable = true;
+    fish.enable = true;
+    git.enable = true;
+    hyprland.enable = true;
     kitty.enable = true;
     nix.enable = true;
-    wezterm.enable = true;
-    hyprland.enable = true;
-
-    cli.enable = true;
-    git.enable = true;
+    ssh.enable = true;
     tmux.enable = true;
-    bash.enable = true;
-    fish.enable = true;
+    wezterm.enable = true;
     zsh.enable = true;
+
     nvim = {
       enable = true;
     };

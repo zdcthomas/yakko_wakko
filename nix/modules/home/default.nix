@@ -11,6 +11,7 @@
     ./nix
     ./nvim
     ./rofi
+    ./ssh.nix
     ./tmux
     ./tofi
     ./waybar
