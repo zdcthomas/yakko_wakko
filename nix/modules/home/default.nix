@@ -1,15 +1,16 @@
 {
   imports = [
     ./alacritty.nix
-    ./nvim
-    ./firefox.nix
-    ./nix
-    ./wezterm
-    ./tmux
-    ./git
-    ./fish
     ./bash
     ./cli
+    ./firefox.nix
+    ./fish
+    ./git
+    ./kitty
+    ./nix
+    ./nvim
+    ./tmux
+    ./wezterm
     ./zsh
   ];
 }

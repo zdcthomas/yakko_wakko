@@ -30,6 +30,7 @@ in {
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-light-soft;
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
+    kitty.enable = true;
     nix.enable = true;
     wezterm.enable = true;
 
