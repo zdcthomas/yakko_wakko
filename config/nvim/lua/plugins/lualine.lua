@@ -2,7 +2,7 @@ return {
 	"nvim-lualine/lualine.nvim",
 	event = "BufReadPost",
 	dependencies = {
-		"SmiteshP/nvim-navic",
+		"stevearc/aerial.nvim",
 	},
 	opts = {
 		extensions = { "quickfix", "man" },
@@ -54,19 +54,7 @@ return {
 		tabline = {
 			lualine_a = { "mode" },
 			lualine_b = { "branch" },
-			lualine_c = {
-				{
-					function()
-						return require("nvim-navic").get_location({
-							highlight = true,
-							click = true,
-						})
-					end,
-					cond = function()
-						return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-					end,
-				},
-			},
+			lualine_c = { "aerial" },
 			lualine_x = {},
 			lualine_y = {},
 			lualine_z = { "windows" },
