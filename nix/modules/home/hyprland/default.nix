@@ -1,11 +1,12 @@
 {
+  config,
   pkgs,
   lib,
   inputs,
-  config,
   ...
 }: let
-  # col = color: (lib.strings.removePrefix "#" config.colorScheme.colors.${color});
+  cfg = config.custom.hm.hyprland;
+
   col =
     lib.attrsets.mapAttrs
     (name: value: (lib.strings.removePrefix "#" value))
@@ -16,10 +17,18 @@
     (name: value: ("#" + value + "FF"))
     config.colorScheme.colors;
   swaylock = pkgs.swaylock-effects;
-  templateFile = import ../templateFile.nix {inherit pkgs;};
-in
-  # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
-  {
+  templateFile = import ../../../templateFile.nix {inherit pkgs;};
+in {
+  imports = [
+    inputs.hyprland.homeManagerModules.default
+  ];
+  options = {
+    custom.hm.hyprland = {
+      enable = lib.mkEnableOption "Enable custom hyprland";
+    };
+  };
+  config = lib.mkIf cfg.enable {
+    # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
     services.mako = {
       enable = true;
       borderRadius = 10;
@@ -38,7 +47,7 @@ in
         clock = true;
         effect-pixelate = 20;
         fade-in = 0.2;
-        image = "${../../images/wallpapers/alleyway.png}";
+        image = "${../../../../images/wallpapers/alleyway.png}";
         font-size = 24;
         indicator-idle-visible = true;
         indicator = true;
@@ -103,12 +112,12 @@ in
       ".config/hypr/hyprpaper.conf".source = ./hyprpaper.conf;
     };
 
-    imports = [
-      ../rofi.hm
-      ../waybar.hm
-      ../tofi.hm
-      inputs.hyprland.homeManagerModules.default
-    ];
+    custom.hm = {
+      tofi.enable = true;
+      rofi.enable = true;
+      waybar.enable = true;
+    };
+
     wayland.windowManager.hyprland = {
       enable = true;
       enableNvidiaPatches = true;
@@ -191,4 +200,5 @@ in
 
       swayidle
     ];
-  }
+  };
+}

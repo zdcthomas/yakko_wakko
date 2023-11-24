@@ -311,6 +311,7 @@ ls.add_snippets("nix", {
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }: let
   cfg = config.custom.hm.<module>;

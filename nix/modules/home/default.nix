@@ -6,10 +6,14 @@
     ./firefox.nix
     ./fish
     ./git
+    ./hyprland
     ./kitty
     ./nix
     ./nvim
+    ./rofi
     ./tmux
+    ./tofi
+    ./waybar
     ./wezterm
     ./zsh
   ];

@@ -16,8 +16,6 @@ in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
     ../../modules/home
-    ../../hyprland.hm
-    ../../kitty.hm
     ../../ssh.hm.nix
     ../../zathura.hm
   ];
@@ -33,6 +31,7 @@ in {
     kitty.enable = true;
     nix.enable = true;
     wezterm.enable = true;
+    hyprland.enable = true;
 
     cli.enable = true;
     git.enable = true;
