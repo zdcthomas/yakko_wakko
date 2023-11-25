@@ -6,6 +6,7 @@
 --
 -- You are like baby, watch this
 -- Zach from 12-20-2022
+
 local function snippet_func(args)
 	require("luasnip").lsp_expand(args.body)
 end
@@ -75,15 +76,16 @@ return {
 		-- wants = { "LuaSnip" },
 		event = "InsertEnter",
 		dependencies = {
+			"L3MON4D3/LuaSnip",
+			"davidmh/cmp-nerdfonts",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-calc",
 			"hrsh7th/cmp-cmdline",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
-			"saadparwaiz1/cmp_luasnip",
 			"onsails/lspkind-nvim",
 			"petertriho/cmp-git",
-			"L3MON4D3/LuaSnip",
+			"saadparwaiz1/cmp_luasnip",
 			"windwp/nvim-autopairs",
 		},
 		config = function()
@@ -210,6 +212,7 @@ return {
 					{ name = "luasnip", priority = 8 },
 					{ name = "buffer", priority = 7, keyword_length = 3 },
 					{ name = "path", priority = 5 },
+					{ name = "nerdfonts" },
 					{ name = "crates" },
 				}, {
 					{ name = "calc" },

@@ -37,6 +37,7 @@ in {
     ssh.enable = true;
     tmux.enable = true;
     wezterm.enable = true;
+    zathura.enable = true;
     zsh.enable = true;
 
     nvim = {

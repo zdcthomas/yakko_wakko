@@ -16,6 +16,7 @@
     ./tofi
     ./waybar
     ./wezterm
+    ./zathura
     ./zsh
   ];
 }

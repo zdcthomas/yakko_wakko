@@ -7,16 +7,18 @@ args @ {
   overlays,
   inputs,
   lib,
+  username,
   ...
-}: let
-  username = "zdcthomas";
-in {
+}: {
   # config.z.de = "i3";
-  zdct.de = "hyprland";
+  zdct = {
+    de = "hyprland";
+    nix.enable = true;
+  };
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./de.nix
+    ../../modules/nixos
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -38,33 +40,6 @@ in {
         ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
       }
     '';
-  };
-  nix = {
-    package = pkgs.nixUnstable;
-
-    # extraOptions = ''
-    #   experimental-features = nix-command flakes
-    # '';
-    registry = lib.mapAttrs (_: v: {flake = v;}) inputs;
-    settings = {
-      warn-dirty = false;
-      auto-optimise-store = true;
-      experimental-features = ["nix-command" "flakes"];
-      flake-registry = "/etc/nix/registry.json";
-      substituters = ["https://hyprland.cachix.org"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-      trusted-users = [username];
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-
-    optimise = {
-      automatic = true;
-      dates = ["04:00"];
-    };
   };
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -110,6 +85,11 @@ in {
     enableDefaultPackages = true;
     fontconfig = {
       localConf = ''
+        <match target="font">
+          <edit name="antialias" mode="assign">
+            <bool>false</bool>
+          </edit>
+        </match>
         <match target="scan">
             <test name="family">
                 <string>Iosevka</string>
@@ -181,10 +161,10 @@ in {
     udisks2 = {
       enable = true;
     };
-    # mysql = {
-    #   enable = true;
-    #   package = pkgs.mariadb;
-    # };
+    mysql = {
+      enable = true;
+      package = pkgs.mariadb;
+    };
     # calibre-server = {
     #   enable = true;
     #   user = "zdcthomas";

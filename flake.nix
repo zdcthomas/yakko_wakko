@@ -232,6 +232,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
           inherit inputs;
           inherit overlays;
           inherit system;
+          username = "zdcthomas";
         };
         modules = [
           nixos-hardware.nixosModules.lenovo-thinkpad
