@@ -17,6 +17,8 @@
     ./waybar
     ./wezterm
     ./zathura
+    ./zellij.nix
+    ./hammerspoon.nix
     ./zsh
   ];
 }

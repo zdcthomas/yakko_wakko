@@ -15,6 +15,10 @@ in {
     home.packages = with pkgs; [
       tmuxPlugins.tmux-fzf
     ];
+    home.file = {
+      ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;
+    };
+
     programs = {
       tmux = {
         enable = true;

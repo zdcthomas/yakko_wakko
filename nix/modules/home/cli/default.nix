@@ -13,6 +13,12 @@ in {
   };
   config = {
     home = {
+      file = {
+        ".config/zk/" = {
+          source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
+        };
+        ".boxes".source = ./config/boxes/.boxes;
+      };
       packages = with pkgs; [
         btop
         fd

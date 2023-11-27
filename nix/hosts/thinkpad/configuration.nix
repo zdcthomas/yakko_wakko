@@ -84,21 +84,23 @@ args @ {
   fonts = {
     enableDefaultPackages = true;
     fontconfig = {
-      localConf = ''
-        <match target="font">
-          <edit name="antialias" mode="assign">
-            <bool>false</bool>
-          </edit>
-        </match>
-        <match target="scan">
-            <test name="family">
-                <string>Iosevka</string>
-            </test>
-            <edit name="spacing">
-                <int>100</int>
-            </edit>
-        </match>
-      '';
+      antialias = true;
+      cache32Bit = true;
+      hinting.enable = true;
+      hinting.autohint = true;
+      # localConf = ''
+      #   <match target="font">
+      #     <test name="family" compare="eq" ignore-blanks="true">
+      #       <string>PragmataPro</string>
+      #     </test>
+      #     <edit name="fontfeatures" mode="append">
+      #       <string>ss13 on</string>
+      #       <string>ss11 on</string>
+      #       <string>calt on</string>
+      #       <string>frac on</string>
+      #     </edit>
+      #   </match>
+      # '';
       defaultFonts = {
         monospace = ["PragmataPro Mono Liga"];
         sansSerif = ["PragmataPro Liga"];
@@ -113,42 +115,7 @@ args @ {
       corefonts
       noto-fonts
       noto-fonts-cjk-sans
-      (pkgs.stdenv.mkDerivation {
-        pname = "PragmataPro";
-        version = "0.829";
-        src = inputs.font;
-        # buildInputs = [pkgs.unzip];
-        installPhase = ''
-
-          install_path=$out/share/fonts/truetype/pragmatapro
-          mkdir -p $install_path
-          ls -la
-          cd Release\ 0829
-
-          find -name "PragmataPro*.ttf" -exec mv {} $install_path \;
-        '';
-      })
-      (
-        nerdfonts.override {
-          fonts = [
-            "Terminus"
-            "FiraCode"
-            "Meslo"
-            "Monofur"
-            "Iosevka"
-          ];
-        }
-      )
-      # noto-fonts
-      # noto-fonts-cjk
-      # noto-fonts-emoji
-      # liberation_ttf
-      # fira-code
-      # fira-code-symbols
-      # iosevka
-      # mplus-outline-fonts.githubRelease
-      # dina-font
-      # proggyfonts
+      (import ../../pp.nix {inherit pkgs inputs;})
     ];
   };
 
@@ -227,6 +194,7 @@ args @ {
           nixos-rebuild switch --flake ~/yakko_wakko --use-remote-sudo
         ''
       )
+      soulseekqt
       alsa-utils
       pulsemixer
       alsa-lib

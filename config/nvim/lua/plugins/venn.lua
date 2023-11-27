@@ -32,6 +32,7 @@ return {
 					invoke_on_body = true,
 					hint = {
 						border = "rounded",
+						position = "top-right",
 					},
 					on_enter = function()
 						vim.o.virtualedit = "all"

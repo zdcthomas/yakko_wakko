@@ -201,7 +201,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
           modules = [
             {nixpkgs.overlays = overlays;}
             home-manager.darwinModule
-            ./nix/work.dar.nix
+            ./nix/hosts/work/dar_conf.nix
           ];
         };
 
@@ -219,7 +219,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
         personal
         {
           darwinModules = [./nix/personal.dar.nix];
-          homeModules = [./home.nix ./nix/personal.hm.nix ./nix/hammerspoon.hm.nix];
+          homeModules = [./home.nix ./nix/personal.hm.nix ./nix/modules/home];
         };
     };
     nixosConfigurations = {
@@ -244,7 +244,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
                 # inputs.neovim-nightly-overlay.overlay
               ];
           })
-          ./nix/nixos_configs/thinkpad/configuration.nix
+          ./nix/hosts/thinkpad/configuration.nix
         ];
       };
       #  ---------------------
@@ -261,8 +261,8 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
             ({...}: {
               nixpkgs.overlays = overlays;
             })
-            ./nix/nixos_configs/lar/configuration.nix
-            ./nix/nixos_configs/lar/hardware-configuration.nix
+            ./nix/hosts/lar/configuration.nix
+            ./nix/hosts/lar/hardware-configuration.nix
           ];
         };
     };
