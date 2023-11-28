@@ -14,9 +14,10 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       tmuxPlugins.tmux-fzf
+      dmux
     ];
     home.file = {
-      ".config/dmux/dmux.conf.toml".source = ./config/dmux/dmux.conf.toml;
+      ".config/dmux/dmux.conf.toml".source = ../../../../config/dmux/dmux.conf.toml;
     };
 
     programs = {

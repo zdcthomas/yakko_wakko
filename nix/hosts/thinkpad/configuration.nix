@@ -115,7 +115,7 @@ args @ {
       corefonts
       noto-fonts
       noto-fonts-cjk-sans
-      (import ../../pp.nix {inherit pkgs inputs;})
+      pragmataPro
     ];
   };
 
@@ -202,7 +202,6 @@ args @ {
       pamixer
       vim
       gcc
-      dmux
       pamixer
       mpd
       helvum

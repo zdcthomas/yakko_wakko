@@ -11,13 +11,13 @@ in {
       enable = lib.mkEnableOption "Enable a bunch of usefull cli tools";
     };
   };
-  config = {
+  config = lib.mkIf cfg.enable {
     home = {
       file = {
-        ".config/zk/" = {
+        "${config.xdg.configHome}/zk/" = {
           source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
         };
-        ".boxes".source = ./config/boxes/.boxes;
+        ".boxes".source = ../../../../config/boxes;
       };
       packages = with pkgs; [
         btop

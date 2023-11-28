@@ -168,7 +168,7 @@ in {
 
       # music
 
-      (import ../../pp.nix {inherit pkgs inputs;})
+      pragmataPro
       alda # music programming lang
       lenmus # music theory learning
       sonic-pi # live music env in python
@@ -250,16 +250,6 @@ in {
      symlink the config directory. I know this isn't the nix way, but it's
     * ridiculous to invent another layer of rconfiguration languages
     */
-    file = {
-      ".config/zk/" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
-      };
-      /*
-      ".tmux.conf".source = ./tmux.conf;
-      */
-      ".config/dmux/dmux.conf.toml".source = ../../../config/dmux/dmux.conf.toml;
-      ".boxes".source = ../../../config/boxes/.boxes;
-    };
 
     keyboard = {
       # variant = "colemak";

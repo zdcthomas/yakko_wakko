@@ -70,7 +70,7 @@ in {
             ];
           }
         )
-        (import ../../hurl.nix {inherit pkgs;})
+        hurl_2
         awscli2
         git-remote-codecommit
         nodePackages.aws-cdk

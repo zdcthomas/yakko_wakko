@@ -69,19 +69,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
   } @ inputs: let
     # overlays add/change values in pkgs, e.g
     # change neovim version/ add NUR
-    overlays = [
-      inputs.nur.overlay
-      inputs.fenix.overlays.default
-      inputs.discord.overlay
-      (final: prev: {
-        dmux = inputs.dmux.defaultPackage.${prev.system};
-        eza = inputs.eza.packages.${prev.system}.default;
-        ags = inputs.ags.packages.${prev.system}.default;
-
-        split-monitor-workspaces = inputs.split-monitor-workspaces.packages.${prev.system}.split-monitor-workspaces;
-        xdg-desktop-portal-hyprland = inputs.hyprland.packages.${prev.system}.xdg-desktop-portal-hyprland;
-      })
-    ];
+    overlays = import ./nix/overlays {inherit inputs;};
 
     mk_home_username_and_dir = {
       username,
