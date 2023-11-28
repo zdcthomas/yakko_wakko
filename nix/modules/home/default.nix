@@ -6,7 +6,9 @@
     ./firefox.nix
     ./fish
     ./git
+    ./hammerspoon.nix
     ./hyprland
+    ./i3.nix
     ./kitty
     ./nix
     ./nvim
@@ -18,7 +20,7 @@
     ./wezterm
     ./zathura
     ./zellij.nix
-    ./hammerspoon.nix
+    ./picom.nix
     ./zsh
   ];
 }

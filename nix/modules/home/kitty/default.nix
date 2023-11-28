@@ -51,7 +51,7 @@ in {
         # theme = config.colorScheme.name;
         font = {
           size = 11;
-          name = "Iosevka Nerd Font";
+          name = "PragmataPro Mono Liga";
         };
         settings = {
           disable_ligatures = "cursor";
