@@ -7,16 +7,18 @@ args @ {
   overlays,
   inputs,
   lib,
+  username,
   ...
-}: let
-  username = "zdcthomas";
-in {
+}: {
   # config.z.de = "i3";
-  zdct.de = "hyprland";
+  zdct = {
+    de = "hyprland";
+    nix.enable = true;
+  };
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./de.nix
+    ../../modules/nixos
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -38,33 +40,6 @@ in {
         ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
       }
     '';
-  };
-  nix = {
-    package = pkgs.nixUnstable;
-
-    # extraOptions = ''
-    #   experimental-features = nix-command flakes
-    # '';
-    registry = lib.mapAttrs (_: v: {flake = v;}) inputs;
-    settings = {
-      warn-dirty = false;
-      auto-optimise-store = true;
-      experimental-features = ["nix-command" "flakes"];
-      flake-registry = "/etc/nix/registry.json";
-      substituters = ["https://hyprland.cachix.org"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-      trusted-users = [username];
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-
-    optimise = {
-      automatic = true;
-      dates = ["04:00"];
-    };
   };
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -109,16 +84,23 @@ in {
   fonts = {
     enableDefaultPackages = true;
     fontconfig = {
-      localConf = ''
-        <match target="scan">
-            <test name="family">
-                <string>Iosevka</string>
-            </test>
-            <edit name="spacing">
-                <int>100</int>
-            </edit>
-        </match>
-      '';
+      antialias = true;
+      cache32Bit = true;
+      hinting.enable = true;
+      hinting.autohint = true;
+      # localConf = ''
+      #   <match target="font">
+      #     <test name="family" compare="eq" ignore-blanks="true">
+      #       <string>PragmataPro</string>
+      #     </test>
+      #     <edit name="fontfeatures" mode="append">
+      #       <string>ss13 on</string>
+      #       <string>ss11 on</string>
+      #       <string>calt on</string>
+      #       <string>frac on</string>
+      #     </edit>
+      #   </match>
+      # '';
       defaultFonts = {
         monospace = ["PragmataPro Mono Liga"];
         sansSerif = ["PragmataPro Liga"];
@@ -133,42 +115,7 @@ in {
       corefonts
       noto-fonts
       noto-fonts-cjk-sans
-      (pkgs.stdenv.mkDerivation {
-        pname = "PragmataPro";
-        version = "0.829";
-        src = inputs.font;
-        # buildInputs = [pkgs.unzip];
-        installPhase = ''
-
-          install_path=$out/share/fonts/truetype/pragmatapro
-          mkdir -p $install_path
-          ls -la
-          cd Release\ 0829
-
-          find -name "PragmataPro*.ttf" -exec mv {} $install_path \;
-        '';
-      })
-      (
-        nerdfonts.override {
-          fonts = [
-            "Terminus"
-            "FiraCode"
-            "Meslo"
-            "Monofur"
-            "Iosevka"
-          ];
-        }
-      )
-      # noto-fonts
-      # noto-fonts-cjk
-      # noto-fonts-emoji
-      # liberation_ttf
-      # fira-code
-      # fira-code-symbols
-      # iosevka
-      # mplus-outline-fonts.githubRelease
-      # dina-font
-      # proggyfonts
+      pragmataPro
     ];
   };
 
@@ -181,10 +128,10 @@ in {
     udisks2 = {
       enable = true;
     };
-    # mysql = {
-    #   enable = true;
-    #   package = pkgs.mariadb;
-    # };
+    mysql = {
+      enable = true;
+      package = pkgs.mariadb;
+    };
     # calibre-server = {
     #   enable = true;
     #   user = "zdcthomas";
@@ -247,6 +194,7 @@ in {
           nixos-rebuild switch --flake ~/yakko_wakko --use-remote-sudo
         ''
       )
+      soulseekqt
       alsa-utils
       pulsemixer
       alsa-lib
@@ -254,7 +202,6 @@ in {
       pamixer
       vim
       gcc
-      dmux
       pamixer
       mpd
       helvum

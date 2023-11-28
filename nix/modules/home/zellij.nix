@@ -1,16 +1,26 @@
 {
-  pkgs,
   config,
+  pkgs,
   lib,
+  inputs,
   ...
-}: {
-  home.file = {
-    ".config/zellij/" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zellij";
+}: let
+  cfg = config.custom.hm.zellij;
+in {
+  options = {
+    custom.hm.zellij = {
+      enable = lib.mkEnableOption "Enable custom zellij";
     };
   };
+  config = lib.mkIf cfg.enable {
+    home.file = {
+      ".config/zellij/" = {
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zellij";
+      };
+    };
 
-  programs.zellij = {
-    enable = true;
+    programs.zellij = {
+      enable = true;
+    };
   };
 }

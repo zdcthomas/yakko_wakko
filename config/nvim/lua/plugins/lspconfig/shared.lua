@@ -76,7 +76,7 @@ Module.common_on_attach = function(client, bufnr)
 				virtual_text = {
 					enabled = true,
 					-- Text to show at virtual text
-					text = "💡",
+					text = "",
 					-- highlight mode to use for virtual text (replace, combine, blend), see :help nvim_buf_set_extmark() for reference
 					hl_mode = "combine",
 				},

@@ -39,7 +39,7 @@ local function setup_lspconfig()
 			on_attach = common_on_attach,
 			capabilities = capabilities,
 		})
-		lspconfig.nixd.setup({
+		lspconfig.nil_ls.setup({
 			on_attach = function(client, bufnr)
 				client.server_capabilities.documentFormattingProvider = false
 				common_on_attach(client, bufnr)

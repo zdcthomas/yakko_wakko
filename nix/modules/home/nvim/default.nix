@@ -78,6 +78,7 @@ in
           alejandra
           statix
           nixd
+          nil
         ]
         ++ optionals cfg.language_servers.lua [
           stylua

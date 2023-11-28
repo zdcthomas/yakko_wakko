@@ -13,10 +13,30 @@
   };
 in {
   fonts.fontconfig.enable = true;
+  xdg.configFile = {
+    # Variant to use if the XML is in a separate file
+    # "fontconfig/conf.d/75-disable-fantasque-calt.conf".source = ./75-disable-fantasque-calt.conf;
+
+    "fontconfig/conf.d/75-disable-fantasque-calt.conf".text = ''
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+      <fontconfig>
+        <match target="font">
+          <test name="family" compare="contains" ignore-blanks="true">
+            <string>PragmataPro Mono Liga</string>
+          </test>
+          <edit name="fontfeatures" mode="append">
+            <string>calt on</string>
+            <string>ss11 on</string>
+            <string>ss13 on</string>
+          </edit>
+        </match>
+      </fontconfig>
+    '';
+  };
   imports = [
     inputs.nix-colors.homeManagerModules.default
     ../../modules/home
-    ../../zathura.hm
   ];
 
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
@@ -34,9 +54,11 @@ in {
     hyprland.enable = true;
     kitty.enable = true;
     nix.enable = true;
+    alacritty.enable = true;
     ssh.enable = true;
     tmux.enable = true;
     wezterm.enable = true;
+    zathura.enable = true;
     zsh.enable = true;
 
     nvim = {
@@ -145,6 +167,8 @@ in {
       # texlive.combined.scheme-basic
 
       # music
+
+      pragmataPro
       alda # music programming lang
       lenmus # music theory learning
       sonic-pi # live music env in python
@@ -226,16 +250,6 @@ in {
      symlink the config directory. I know this isn't the nix way, but it's
     * ridiculous to invent another layer of rconfiguration languages
     */
-    file = {
-      ".config/zk/" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
-      };
-      /*
-      ".tmux.conf".source = ./tmux.conf;
-      */
-      ".config/dmux/dmux.conf.toml".source = ../../../config/dmux/dmux.conf.toml;
-      ".boxes".source = ../../../config/boxes/.boxes;
-    };
 
     keyboard = {
       # variant = "colemak";

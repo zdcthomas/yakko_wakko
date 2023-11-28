@@ -69,19 +69,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
   } @ inputs: let
     # overlays add/change values in pkgs, e.g
     # change neovim version/ add NUR
-    overlays = [
-      inputs.nur.overlay
-      inputs.fenix.overlays.default
-      inputs.discord.overlay
-      (final: prev: {
-        dmux = inputs.dmux.defaultPackage.${prev.system};
-        eza = inputs.eza.packages.${prev.system}.default;
-        ags = inputs.ags.packages.${prev.system}.default;
-
-        split-monitor-workspaces = inputs.split-monitor-workspaces.packages.${prev.system}.split-monitor-workspaces;
-        xdg-desktop-portal-hyprland = inputs.hyprland.packages.${prev.system}.xdg-desktop-portal-hyprland;
-      })
-    ];
+    overlays = import ./nix/overlays {inherit inputs;};
 
     mk_home_username_and_dir = {
       username,
@@ -201,7 +189,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
           modules = [
             {nixpkgs.overlays = overlays;}
             home-manager.darwinModule
-            ./nix/work.dar.nix
+            ./nix/hosts/work/dar_conf.nix
           ];
         };
 
@@ -219,7 +207,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
         personal
         {
           darwinModules = [./nix/personal.dar.nix];
-          homeModules = [./home.nix ./nix/personal.hm.nix ./nix/hammerspoon.hm.nix];
+          homeModules = [./home.nix ./nix/personal.hm.nix ./nix/modules/home];
         };
     };
     nixosConfigurations = {
@@ -232,6 +220,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
           inherit inputs;
           inherit overlays;
           inherit system;
+          username = "zdcthomas";
         };
         modules = [
           nixos-hardware.nixosModules.lenovo-thinkpad
@@ -243,7 +232,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
                 # inputs.neovim-nightly-overlay.overlay
               ];
           })
-          ./nix/nixos_configs/thinkpad/configuration.nix
+          ./nix/hosts/thinkpad/configuration.nix
         ];
       };
       #  ---------------------
@@ -260,8 +249,8 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
             ({...}: {
               nixpkgs.overlays = overlays;
             })
-            ./nix/nixos_configs/lar/configuration.nix
-            ./nix/nixos_configs/lar/hardware-configuration.nix
+            ./nix/hosts/lar/configuration.nix
+            ./nix/hosts/lar/hardware-configuration.nix
           ];
         };
     };
