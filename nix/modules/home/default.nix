@@ -1,6 +1,7 @@
 {
   imports = [
     ./alacritty.nix
+    ./font.nix
     ./bash
     ./cli
     ./firefox.nix

@@ -32,6 +32,9 @@
       ];
     };
   };
+  fonts.fonts = [
+    pkgs.pragmataPro
+  ];
 
   nix = {
     # enable flakes per default

@@ -1,17 +1,22 @@
 {
   config,
+  inputs,
   pkgs,
   username,
   ...
 }: let
-  management_scripts = import ./nix/nix_management_scripts_pkgs.nix {
+  management_scripts = import ../../nix_management_scripts_pkgs.nix {
     pkgs = pkgs;
     homeDirectory = config.home.homeDirectory;
   };
 in {
   imports = [
+    inputs.nix-colors.homeManagerModules.default
     ../../modules/home
   ];
+
+  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
+
   custom.hm = {
     nvim.enable = true;
     bash.enable = true;
@@ -24,8 +29,9 @@ in {
     ssh.enable = true;
     tmux.enable = true;
     wezterm.enable = true;
-    zathura.enable = true;
     zsh.enable = true;
+    font.enable = true;
+    hammerspoon.enable = true;
   };
   home = {
     username = username;
