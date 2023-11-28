@@ -14,6 +14,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       tmuxPlugins.tmux-fzf
+      tmux
       dmux
     ];
     home.file = {

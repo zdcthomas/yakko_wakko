@@ -58,8 +58,6 @@ in {
         lua
         nodejs
         statix
-        tmux
-        tmuxPlugins.tmux-fzf
         weechat
         zk
         dmux
