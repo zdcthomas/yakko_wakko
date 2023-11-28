@@ -35,9 +35,6 @@ in {
         zip
       ];
       sessionVariables = {
-        /*
-        TODO: Split these out into an option for this module
-        */
         MANPATH = "/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
         INFOPATH = "/opt/homebrew/share/info:${INFOPATH:-}";
 
@@ -52,7 +49,6 @@ in {
         FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
         FZF_DEFAULT_COMMAND = "fd --hidden --type f";
         FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
-        # PATH = "$PATH:$HOME/.cargo/bin/:$HOME/bin";
       };
 
       sessionPath = ["$HOME/.cargo/bin"];

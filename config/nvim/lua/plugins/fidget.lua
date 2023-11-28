@@ -22,7 +22,7 @@ return {
 				window = {
 					normal_hl = "Comment", -- Base highlight group in the notification window
 					winblend = 0, -- Background color opacity in the notification window
-					align_bottom = false, -- Whether to bottom-align the notification window
+					align = "avoid_cursor",
 					relative = "editor", -- What the notification window position is relative to
 					border = {
 						{ "╭", "None" },

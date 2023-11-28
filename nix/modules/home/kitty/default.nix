@@ -57,7 +57,7 @@ in {
           disable_ligatures = "cursor";
           hide_window_decorations = "titlebar-only";
           enable_audio_bell = false;
-          background_opacity = "0.7";
+          background_opacity = "1";
           macos_quit_when_last_window_closed = true;
           macos_option_as_alt = true;
         };

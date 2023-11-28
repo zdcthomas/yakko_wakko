@@ -184,7 +184,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
         darwin.lib.darwinSystem rec {
           system = "aarch64-darwin";
           specialArgs = {
-            inherit system username overlays;
+            inherit system username overlays inputs;
           };
           modules = [
             {nixpkgs.overlays = overlays;}
