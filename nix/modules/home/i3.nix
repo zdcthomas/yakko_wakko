@@ -13,11 +13,6 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    imports = [
-      # ./polybar.nix
-      # ./picom.nix
-      # ./rofi.hm
-    ];
     custom.hm = {
       polybar.enable = true;
       picom.enable = true;

@@ -1,18 +1,21 @@
 {
   imports = [
     ./alacritty.nix
-    ./font.nix
     ./bash
     ./cli
     ./firefox.nix
     ./fish
+    ./font.nix
     ./git
     ./hammerspoon.nix
     ./hyprland
     ./i3.nix
     ./kitty
+    ./music_making.nix
     ./nix
     ./nvim
+    ./picom.nix
+    ./polybar.nix
     ./rofi
     ./ssh.nix
     ./tmux
@@ -21,7 +24,6 @@
     ./wezterm
     ./zathura
     ./zellij.nix
-    ./picom.nix
     ./zsh
   ];
 }
