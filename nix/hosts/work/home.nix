@@ -49,7 +49,6 @@ in {
         nurl
         deno
         nix-init
-        bashInteractive
         font-awesome_5
         du-dust
         gnumake
@@ -66,10 +65,6 @@ in {
         (
           nerdfonts.override {
             fonts = [
-              "Terminus"
-              "FiraCode"
-              "Meslo"
-              "Monofur"
               "Iosevka"
             ];
           }

@@ -27,9 +27,8 @@ in {
         /*
         extraConfig = (builtins.readFile ./tmux.conf);
         */
-        /*
-        shell = "${pkgs.fish}/bin/fish";
-        */
+        /**/
+        # shell = "${pkgs.zsh}/bin/zsh";
         sensibleOnTop = false;
         historyLimit = 200000;
         customPaneNavigationAndResize = true;

@@ -61,10 +61,8 @@
       /*
       "firefox"
       */
-      "font-fira-code-nerd-font"
       "aws-vpn-client"
     ];
-
     taps = [
       "homebrew/bundle"
       "homebrew/cask"
