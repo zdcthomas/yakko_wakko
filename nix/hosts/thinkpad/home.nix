@@ -143,6 +143,7 @@ in {
     extraOutputsToInstall = [ "man" ];
     */
     packages = with pkgs; [
+      spotify-player
       typst
 
       # hivelytracker # another one
