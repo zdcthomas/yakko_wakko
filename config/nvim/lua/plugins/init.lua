@@ -14,13 +14,6 @@ return {
 			require("mini.splitjoin").setup()
 		end,
 	},
-	{
-		"mattn/emmet-vim",
-		ft = { "html", "heex", "js", "ts", "tsx", "typescriptreact" },
-		config = function()
-			vim.g.user_emmet_mode = "a"
-		end,
-	},
 	{ "mechatroner/rainbow_csv", ft = "csv" },
 	{
 		"codethread/qmk.nvim",
