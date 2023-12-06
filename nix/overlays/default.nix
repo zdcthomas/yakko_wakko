@@ -2,6 +2,7 @@
   inputs.nur.overlay
   inputs.fenix.overlays.default
   inputs.discord.overlay
+  inputs.neovim-nightly-overlay.overlay
 
   (final: prev: {
     dmux = inputs.dmux.defaultPackage.${prev.system};

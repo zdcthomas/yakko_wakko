@@ -103,15 +103,15 @@ args @ {
       # '';
       defaultFonts = {
         monospace = ["PragmataPro Mono Liga"];
-        sansSerif = ["PragmataPro Liga"];
-        serif = ["PragmataPro Liga"];
+        sansSerif = ["PragmataPro"];
+        serif = ["PragmataPro"];
+        emoji = ["PragmataPro"];
       };
     };
 
     fontDir.enable = true;
     enableGhostscriptFonts = true;
     packages = with pkgs; [
-      terminus_font
       corefonts
       noto-fonts
       noto-fonts-cjk-sans

@@ -100,7 +100,7 @@ in
             enable = true;
             portalPackage = pkgs.xdg-desktop-portal-hyprland;
             # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-            enableNvidiaPatches = true;
+            # enableNvidiaPatches = true;
             xwayland.enable = true;
           };
         }

@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
 	group = init_group_id,
-	pattern = { "hurl" },
+	pattern = { "hurl", "heex" },
 	callback = function()
 		vim.bo.commentstring = "# %s"
 		vim.cmd(":TSEnable highlight")
