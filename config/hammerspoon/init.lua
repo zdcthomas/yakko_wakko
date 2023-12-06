@@ -9,8 +9,8 @@
 
 local meh = { "alt", "ctrl" }
 local super = { "cmd", "alt", "ctrl" }
-local preferedTerminal = "kitty"
-local preferedTerminal = "Firefox"
+local preferedTerminal = "wezterm"
+local preferedBrowser = "Firefox"
 local scarlett = "Scarlett 2i2 USB"
 
 --  ---------------
@@ -47,8 +47,8 @@ hs.alert.show("Config loaded")
 
 hs.hotkey.bind({ "alt", "cmd" }, "1", function()
 	local windowLayout = {
-		{ "Brave Browser", nil, laptopScreen, hs.layout.maximized, nil, nil },
-		{ "kitty", nil, bigHome, hs.layout.maximized, nil, nil },
+		{ preferedBrowser, nil, laptopScreen, hs.layout.maximized, nil, nil },
+		{ preferedTerminal, nil, bigHome, hs.layout.maximized, nil, nil },
 	}
 	hs.layout.apply(windowLayout)
 end)
@@ -74,7 +74,7 @@ hs.hotkey.bind(super, "return", function()
 	hs.application.launchOrFocus(preferedTerminal)
 end)
 
-hs.hotkey.bind(super, "k", function()
+hs.hotkey.bind(super, "b", function()
 	print("focusing " .. preferedBrowser)
 	hs.application.launchOrFocus(preferedBrowser)
 end)
@@ -118,21 +118,5 @@ end)
 hs.hotkey.bind(meh, "j", function()
 	wm.moveWindowToPosition(wm.screenPositions.bottomLeft)
 end)
-
--- hs.hotkey.bind({ "alt" }, "h", function()
--- 	hs.window.focusedWindow():focusWindowWest()
--- end)
-
--- hs.hotkey.bind({ "alt" }, "j", function()
--- 	hs.window.focusedWindow():focusWindowSouth()
--- end)
-
--- hs.hotkey.bind({ "alt" }, "k", function()
--- 	hs.window.focusedWindow():focusWindowNorth()
--- end)
-
--- hs.hotkey.bind({ "alt" }, "l", function()
--- 	hs.window.focusedWindow():focusWindowEast()
--- end)
 
 -- local yabai = require("yabai")
