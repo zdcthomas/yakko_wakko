@@ -15,31 +15,6 @@ return {
 		end,
 	},
 	{
-		"uga-rosa/ccc.nvim",
-		ft = {
-			"lua",
-			"css",
-			"js",
-			"ts",
-			"jsx",
-			"tsx",
-		},
-		cmd = {
-			"CccPick",
-			"CccConvert",
-			"CccHighlighterToggle",
-			"CccHighlighterEnable",
-			"CccHighlighterDisable",
-		},
-		opts = {
-			highlighter = {
-				auto_enable = true,
-				lsp = true,
-				excludes = { "lazy", "mason", "help", "neo-tree" },
-			},
-		},
-	},
-	{
 		"mattn/emmet-vim",
 		ft = { "html", "heex", "js", "ts", "tsx", "typescriptreact" },
 		config = function()
