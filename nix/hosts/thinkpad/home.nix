@@ -39,7 +39,10 @@ in {
     nix.enable = true;
     ssh.enable = true;
     tmux.enable = true;
-    wezterm.enable = true;
+    wezterm = {
+      enable = true;
+      opacity = "0.7";
+    };
     zathura.enable = true;
     zsh.enable = true;
     font.enable = true;

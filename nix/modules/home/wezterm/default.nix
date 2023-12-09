@@ -41,30 +41,9 @@ in
             };
           };
           extraConfig = ''
-            local wezterm = require("wezterm")
-
-            local config = {}
-
-            if wezterm.config_builder then
-            	config = wezterm.config_builder()
-            end
-            config.color_scheme = "Gruvbox Dark (Gogh)"
-
-            config.font = wezterm.font("PragmataPro Mono Liga")
-            config.allow_square_glyphs_to_overflow_width = "WhenFollowedBySpace"
-            config.adjust_window_size_when_changing_font_size = false
-            config.font_size = ${cfg.font-size}
-
-            config.window_background_opacity = ${cfg.opacity}
-            config.text_background_opacity = 1
-            config.hide_tab_bar_if_only_one_tab = true
-            config.window_padding = {
-              left = 2,
-            	right = 2,
-            	top = 2,
-            	bottom = 2,
-            }
-            return config
+            local FONT_SIZE = ${cfg.font-size}
+            local DEFAULT_OPACITY = ${cfg.opacity}
+            ${builtins.readFile ./wezterm.lua}
           '';
         };
       };
