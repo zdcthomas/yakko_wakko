@@ -14,38 +14,6 @@ return {
 			require("mini.splitjoin").setup()
 		end,
 	},
-	{
-		"uga-rosa/ccc.nvim",
-		ft = {
-			"lua",
-			"css",
-			"js",
-			"ts",
-			"jsx",
-			"tsx",
-		},
-		cmd = {
-			"CccPick",
-			"CccConvert",
-			"CccHighlighterToggle",
-			"CccHighlighterEnable",
-			"CccHighlighterDisable",
-		},
-		opts = {
-			highlighter = {
-				auto_enable = true,
-				lsp = true,
-				excludes = { "lazy", "mason", "help", "neo-tree" },
-			},
-		},
-	},
-	{
-		"mattn/emmet-vim",
-		ft = { "html", "heex", "js", "ts", "tsx", "typescriptreact" },
-		config = function()
-			vim.g.user_emmet_mode = "a"
-		end,
-	},
 	{ "mechatroner/rainbow_csv", ft = "csv" },
 	{
 		"codethread/qmk.nvim",

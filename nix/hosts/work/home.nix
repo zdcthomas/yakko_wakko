@@ -28,7 +28,10 @@ in {
     alacritty.enable = true;
     ssh.enable = true;
     tmux.enable = true;
-    wezterm.enable = true;
+    wezterm = {
+      enable = true;
+      font-size = "13";
+    };
     zsh.enable = true;
     font.enable = true;
     hammerspoon.enable = true;

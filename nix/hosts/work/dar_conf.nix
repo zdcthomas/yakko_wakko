@@ -47,6 +47,7 @@
     ];
     casks = [
       "hammerspoon"
+      "wezterm"
       /*
       "alacritty"
       */

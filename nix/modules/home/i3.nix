@@ -9,12 +9,11 @@
 in {
   options = {
     custom.hm.i3 = {
-      enable = lib.mkEnableOption "Enable custom i3";
+      enable = lib.mkEnableOption "Enable custom i3 config";
     };
   };
   config = lib.mkIf cfg.enable {
     custom.hm = {
-      polybar.enable = true;
       picom.enable = true;
       rofi.enable = true;
     };
