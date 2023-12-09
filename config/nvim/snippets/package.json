@@ -4,6 +4,13 @@
     "snippets": [
       {
         "language": [
+          "eelixir",
+          "heex"
+        ],
+        "path": "eelixir.json"
+      },
+      {
+        "language": [
           "elixir"
         ],
         "path": "elixir.json"

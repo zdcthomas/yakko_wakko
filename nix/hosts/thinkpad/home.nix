@@ -25,6 +25,9 @@ in {
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-light-soft;
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
+    qutebrowser = {
+      enable = true;
+    };
     alacritty.enable = true;
     bash.enable = true;
     cli.enable = true;
@@ -53,6 +56,12 @@ in {
           tags = ["git"];
           keyword = "git";
           url = "https://github.com";
+        }
+        {
+          name = "hey";
+          tags = ["email" "hey"];
+          keyword = "hey";
+          url = "https://app.hey.com/";
         }
         {
           name = "example nixos configurations";
@@ -232,9 +241,6 @@ in {
       enable = true;
       enableZshIntegration = true;
       nix-direnv.enable = true;
-    };
-    qutebrowser = {
-      enable = true;
     };
     # Let Home Manager install and manage itself.
     home-manager.enable = true;

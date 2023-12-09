@@ -176,6 +176,7 @@ in {
             "-Dexperimental=true"
           ];
       }))
+      hyprland-contrib.grimblast
       udiskie
       udisks
       xwayland

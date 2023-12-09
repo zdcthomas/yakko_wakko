@@ -16,6 +16,7 @@
     ./nvim
     ./picom.nix
     ./polybar.nix
+    ./qutebrowser
     ./rofi
     ./ssh.nix
     ./tmux

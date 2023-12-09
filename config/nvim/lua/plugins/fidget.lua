@@ -12,10 +12,6 @@ return {
 			notification = {
 				view = {
 					stack_upwards = false, -- Display notification items from bottom to top
-					icon_separator = " ", -- Separator between group name and icon
-					group_separator = "~~~~~~", -- Separator between notification groups
-					-- Highlight group used for group separator
-					group_separator_hl = "Comment",
 				},
 
 				-- Options related to the notification window and buffer

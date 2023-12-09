@@ -15,6 +15,10 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
+    hyprland-contrib = {
+      url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     eza = {
       url = "github:eza-community/eza/v0.11.0";

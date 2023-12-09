@@ -102,3 +102,12 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
 		)
 	end,
 })
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = init_group_id,
+	pattern = { "text", "markdown" },
+	callback = function()
+		vim.opt_local.textwidth = 80
+	end,
+	desc = "Delete entry from Quickfix list",
+})
