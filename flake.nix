@@ -15,6 +15,10 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
+    anyrun = {
+      url = "github:Kirottu/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland-contrib = {
       url = "github:hyprwm/contrib";
       inputs.nixpkgs.follows = "nixpkgs";

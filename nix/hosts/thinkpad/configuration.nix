@@ -189,6 +189,7 @@ args @ {
     extraGroups = ["audio" "input" "networkmanager" "wheel" "docker"];
     shell = pkgs.zsh;
     packages = with pkgs; [
+      dwarf-fortress-packages.dwarf-fortress-full
       (
         pkgs.writeScriptBin "switch" ''
           nixos-rebuild switch --flake ~/yakko_wakko --use-remote-sudo

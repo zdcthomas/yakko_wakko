@@ -8,6 +8,7 @@
     dmux = inputs.dmux.defaultPackage.${prev.system};
     eza = inputs.eza.packages.${prev.system}.default;
     ags = inputs.ags.packages.${prev.system}.default;
+    anyrun = inputs.anyrun.packages.${prev.system}.anyrun;
     qutebrowser = prev.qutebrowser.override {enableWideVine = true;};
     hyprland-contrib = inputs.hyprland-contrib.packages.${prev.system};
 

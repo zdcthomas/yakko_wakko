@@ -11,7 +11,6 @@
   };
 in {
   imports = [
-    inputs.nix-colors.homeManagerModules.default
     ../../modules/home
   ];
 
