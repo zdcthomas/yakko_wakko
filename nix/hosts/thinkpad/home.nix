@@ -13,7 +13,6 @@
   };
 in {
   imports = [
-    inputs.nix-colors.homeManagerModules.default
     ../../modules/home
   ];
 
@@ -28,6 +27,8 @@ in {
     qutebrowser = {
       enable = true;
     };
+    anyrun.enable = true;
+    game_dev.enable = true;
     alacritty.enable = true;
     bash.enable = true;
     cli.enable = true;
@@ -155,6 +156,7 @@ in {
     extraOutputsToInstall = [ "man" ];
     */
     packages = with pkgs; [
+      dwarf-fortress-packages.dwarf-fortress-full
       spotify-player
       typst
 
@@ -163,9 +165,6 @@ in {
 
       pamixer
       xfce.thunar
-      aseprite
-      rx
-      godot_4
       sass
       ags
       eza

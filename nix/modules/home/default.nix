@@ -1,15 +1,18 @@
 {
   imports = [
     ./alacritty.nix
+    ./anyrun
     ./bash
     ./cli
     ./firefox.nix
     ./fish
     ./font.nix
+    ./game_dev.nix
     ./git
     ./hammerspoon.nix
     ./hyprland
     ./i3.nix
+    ./imports.nix
     ./kitty
     ./music_making.nix
     ./nix

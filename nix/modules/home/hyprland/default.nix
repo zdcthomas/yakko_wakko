@@ -19,9 +19,6 @@
   swaylock = pkgs.swaylock-effects;
   templateFile = import ../../../templateFile.nix {inherit pkgs;};
 in {
-  imports = [
-    inputs.hyprland.homeManagerModules.default
-  ];
   options = {
     custom.hm.hyprland = {
       enable = lib.mkEnableOption "Enable custom hyprland";
@@ -150,7 +147,9 @@ in {
           hyprpaper = "${pkgs.hyprpaper}/bin/hyprpaper &";
           wlsunset = "${pkgs.wlsunset}/bin/wlsunset -l 40.7 -L -74.0 &";
           udiskie = "${pkgs.udiskie}/bin/udiskie &";
+          grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
           openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";
+          anyrun = "${pkgs.anyrun}/bin/anyrun";
           col = col;
           workspaceBindings = builtins.concatStringsSep "\n" (builtins.genList (
               x: let
