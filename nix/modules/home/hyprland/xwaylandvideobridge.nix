@@ -1,51 +1,47 @@
 {
+  lib,
   stdenv,
-  fetchFromGitLab,
-  fetchpatch,
+  fetchurl,
   cmake,
-  pkg-config,
   extra-cmake-modules,
-  qt5,
-  libsForQt5,
+  pkg-config,
+  qtbase,
+  qtquickcontrols2,
+  qtx11extras,
+  kdelibs4support,
+  kpipewire,
   wrapQtAppsHook,
 }:
-stdenv.mkDerivation {
+stdenv.mkDerivation (finalAttrs: {
   pname = "xwaylandvideobridge";
-  version = "unstable-2023-05-28";
+  version = "0.4.0";
 
-  src = fetchFromGitLab {
-    domain = "invent.kde.org";
-    owner = "system";
-    repo = "xwaylandvideobridge";
-    # 1b5c5d3dc7e3110592469ceda459ff8ef6610e22
-    rev = "16091a997d40eb9e5a46f3f0eecceff8fe348c87";
-    hash = "sha256-Wzd48cIB/MCbzjBBfdmUfjA43oG0jtg7tWFl91FaDtk=";
+  src = fetchurl {
+    url = "mirror://kde/stable/xwaylandvideobridge/xwaylandvideobridge-${finalAttrs.version}.tar.xz";
+    hash = "sha256-6nKseypnV46ZlNywYZYC6tMJekb7kzZmHaIA5jkn6+Y=";
   };
 
-  nativeBuildInputs = [cmake extra-cmake-modules pkg-config wrapQtAppsHook];
-
-  patches = [
-    (fetchpatch {
-      url = "https://aur.archlinux.org/cgit/aur.git/plain/cursor-mode.patch?h=xwaylandvideobridge-cursor-mode-2-git";
-      hash = "sha256-649kCs3Fsz8VCgGpZ952Zgl8txAcTgakLoMusaJQYa4";
-    })
+  nativeBuildInputs = [
+    cmake
+    extra-cmake-modules
+    pkg-config
+    wrapQtAppsHook
   ];
 
   buildInputs = [
-    qt5.qtbase
-    qt5.qtquickcontrols2
-    qt5.qtx11extras
-    libsForQt5.kdelibs4support
-    (libsForQt5.kpipewire.overrideAttrs (_oldAttrs: {
-      version = "unstable-2023-05-28";
-
-      src = fetchFromGitLab {
-        domain = "invent.kde.org";
-        owner = "plasma";
-        repo = "kpipewire";
-        rev = "176ac3da53dd09cc4d4ce37910c62c5cfb5dd190"; # Plasma/5.27 branch
-        hash = "sha256-u+CGk/jm5pHTPJYwKHwHc01c9E+ElsfKkzYg5NfIaJ8=";
-      };
-    }))
+    qtbase
+    qtquickcontrols2
+    qtx11extras
+    kdelibs4support
+    kpipewire
   ];
-}
+
+  meta = {
+    description = "Utility to allow streaming Wayland windows to X applications";
+    homepage = "https://invent.kde.org/system/xwaylandvideobridge";
+    license = with lib.licenses; [bsd3 cc0 gpl2Plus];
+    maintainers = with lib.maintainers; [stepbrobd];
+    platforms = lib.platforms.linux;
+    mainProgram = "xwaylandvideobridge";
+  };
+})

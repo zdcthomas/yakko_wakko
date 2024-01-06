@@ -37,12 +37,20 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
 	group = init_group_id,
-	pattern = { "hurl", "heex" },
+	pattern = { "hurl" },
 	callback = function()
 		vim.bo.commentstring = "# %s"
-		vim.cmd(":TSEnable highlight")
 	end,
 	desc = "Set comment string for hurl files",
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = init_group_id,
+	pattern = { "hurl", "heex", "yuck" },
+	callback = function()
+		vim.cmd(":TSEnable highlight")
+	end,
+	desc = "Enable hgihlighting, idk why this doesn't happen automatically",
 })
 
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {

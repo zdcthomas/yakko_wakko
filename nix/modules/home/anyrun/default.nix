@@ -65,7 +65,7 @@ in {
           list > #plugin:hover { padding: .6rem; }
 
           box#main {
-            background: rgba(31,31,40,0.7);
+            background: rgba(31,31,40,1);
             box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1), 0 0 0 1px rgba(0,0,0,0.5);
             border-radius: 24px;
             padding: .3rem;
@@ -82,6 +82,8 @@ in {
           layer = "overlay";
           closeOnClick = true;
           showResultsImmediately = true;
+          x = {fraction = 0.5;};
+          y = {fraction = 0.2;};
         };
       };
     };

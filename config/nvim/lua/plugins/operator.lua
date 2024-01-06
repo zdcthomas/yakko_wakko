@@ -38,7 +38,7 @@ return {
 		keys = { "gs", "<leader>f" },
 		config = function()
 			require("yop").setup({ debug_level = 1 })
-			require("yop").op_map("n", "gs", sort)
+			require("yop").op_map({ "x", "n" }, "gs", sort)
 			require("yop").op_map("n", "<leader>f", search)
 		end,
 	},
