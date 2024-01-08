@@ -9,7 +9,7 @@ end
 config.color_scheme = "Gruvbox Dark (Gogh)"
 
 config.font = wezterm.font("PragmataPro Mono Liga")
-config.enable_wayland = true
+config.enable_wayland = false
 config.adjust_window_size_when_changing_font_size = false
 ---@diagnostic disable-next-line: undefined-global
 config.font_size = FONT_SIZE

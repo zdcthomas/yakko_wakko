@@ -120,7 +120,7 @@ in {
       # enableNvidiaPatches = true;
       systemdIntegration = true;
       xwayland.enable = true;
-      recommendedEnvironment = true;
+      # recommendedEnvironment = true;
       # plugins = [
       #   # pkgs.split-monitor-workspaces
       # ];

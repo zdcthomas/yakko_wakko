@@ -126,7 +126,7 @@ in {
             {
               name = "Home Manager Appendix";
               tags = ["wiki" "nix"];
-              url = "https://nix-community.github.io/home-manager/options.html";
+              url = "https://nix-community.github.io/home-manager/options.xhtml";
             }
             {
               name = "wiki";
@@ -158,6 +158,7 @@ in {
     packages = with pkgs; [
       dwarf-fortress-packages.dwarf-fortress-full
       spotify-player
+      fltrdr
       typst
 
       # hivelytracker # another one

@@ -18,7 +18,7 @@ in {
         alda # music programming lang
         lenmus # music theory learning
         sonic-pi # live music env in python
-        kord # cli for playing/analyzing chords
+        # kord # cli for playing/analyzing chords
         denemo # write sheet music with keys
         milkytracker # tracker
         supercollider
