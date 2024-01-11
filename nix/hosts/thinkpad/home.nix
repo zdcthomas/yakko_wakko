@@ -157,6 +157,7 @@ in {
     */
     packages = with pkgs; [
       dwarf-fortress-packages.dwarf-fortress-full
+      keymapp
       spotify-player
       fltrdr
       typst
@@ -250,5 +251,6 @@ in {
   };
   services = {
     blueman-applet.enable = true;
+    mpris-proxy.enable = true;
   };
 }

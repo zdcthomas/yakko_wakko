@@ -72,6 +72,9 @@ in
             MOZ_ENABLE_WAYLAND = "1";
             # hint Electron apps to use wayland
             NIXOS_OZONE_WL = "1";
+            XDG_CURRENT_DESKTOP = "Hyprland";
+            XDG_SESSION_TYPE = "wayland";
+            XDG_SESSION_DESKTOP = "Hyprland";
           };
           security.rtkit.enable = true;
 
@@ -91,10 +94,15 @@ in
             '';
           };
 
-          # xdg.portal = {
-          #   enable = true;
-          #   extraPortals = [pkgs.xdg-desktop-portal-gnome];
-          # };
+          xdg = {
+            portal = {
+              enable = true;
+              extraPortals = with pkgs; [
+                xdg-desktop-portal-wlr
+                xdg-desktop-portal-gtk
+              ];
+            };
+          };
 
           programs.hyprland = {
             enable = true;

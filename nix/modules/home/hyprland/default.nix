@@ -121,9 +121,10 @@ in {
       systemdIntegration = true;
       xwayland.enable = true;
       # recommendedEnvironment = true;
-      # plugins = [
-      #   # pkgs.split-monitor-workspaces
-      # ];
+      plugins = [
+        # inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
+        # inputs.hyprland-plugins.packages.${pkgs.system}.hyprwinwrap
+      ];
       extraConfig = let
         data = {
           rofi = "pkill rofi || ${pkgs.rofi-wayland}/bin/rofi -show drun";
@@ -145,7 +146,7 @@ in {
           brightnessLower = "${pkgs.brightnessctl}/bin/brightnessctl set 4%-";
           brightnessRaise = "${pkgs.brightnessctl}/bin/brightnessctl set 4%+";
           hyprpaper = "${pkgs.hyprpaper}/bin/hyprpaper &";
-          wlsunset = "${pkgs.wlsunset}/bin/wlsunset -l 40.7 -L -74.0 &";
+          wlsunset = "${pkgs.wlsunset}/bin/wlsunset -l 40.7 -L -74.0 -s 15:00&";
           udiskie = "${pkgs.udiskie}/bin/udiskie &";
           grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
           openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";

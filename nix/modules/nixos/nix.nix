@@ -15,7 +15,7 @@ in {
   };
   config = lib.mkIf cfg.enable {
     nix = {
-      package = pkgs.nixUnstable;
+      package = pkgs.nixVersions.nix_2_18;
 
       # extraOptions = ''
       #   experimental-features = nix-command flakes
