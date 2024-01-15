@@ -20,6 +20,13 @@
     inputs.nix-colors.homeManagerModules.default
   ];
 
+  custom.hm = {
+    nvim = {
+      enable = true;
+      package = pkgs.neovim-nightly;
+    };
+  };
+
   colorScheme = inputs.nix-colors.colorSchemes.everforest;
 
   # stateVersion = "23.05";

@@ -12,6 +12,13 @@ in {
     ./hardware-configuration.nix
   ];
 
+  services.caddy = {
+    enable = true;
+    virtualHosts."localhost".extraConfig = ''
+      respond "Hello, world!"
+    '';
+  };
+
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.${username} = {
@@ -131,7 +138,7 @@ in {
     firewall = {
       checkReversePath = "loose";
       trustedInterfaces = ["tailscale0"];
-      allowedTCPPorts = [8096 8920 8080 8123 63584 22 8080];
+      allowedTCPPorts = [8096 8920 8080 8123 63584 22 8080 64699];
       allowedUDPPorts = [1900 7359 config.services.tailscale.port];
     };
   };
@@ -148,4 +155,29 @@ in {
   system.stateVersion = "22.05"; # Did you read the comment?
 
   virtualisation.docker.enable = true;
+
+  # virtualisation.oci-containers = {
+  #   backend = "docker";
+  #   containers = {
+  #     test = {
+  #       image = "jellyfin/jellyfin";
+  #       ports = ["8096:8096"];
+  #       volumes = [
+  #         "/dev/shm:/transcode:rw"
+  #         "~/lar/jellyfin/config:/config"
+  #         "~/lar/jellyfin/cache:/cache"
+  #         "~/media/TV/:/home/sadfrog/media/TV"
+  #         "~/media/MOVIES/:/home/sadfrog/media/MOVIES/"
+  #         "~/media/BOOKS/:/home/sadfrog/media/BOOKS/"
+  #         "~/media/MUSIC/:/home/sadfrog/media/MUSIC/"
+  #         "~/media/staging/complete/:/home/sadfrog/media/staging/"
+  #       ];
+  #       environment = {
+  #         PUID = "1000";
+  #         PGID = "1000";
+  #         TZ = "America/Denver";
+  #       };
+  #     };
+  #   };
+  # };
 }
