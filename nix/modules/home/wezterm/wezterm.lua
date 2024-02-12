@@ -51,4 +51,13 @@ wezterm.on("window-config-reloaded", function(window)
 	recompute_opacity(window)
 end)
 
+config.skip_close_confirmation_for_processes_named = {
+	"bash",
+	"sh",
+	"zsh",
+	"fish",
+	"tmux",
+	"nu",
+}
+
 return config

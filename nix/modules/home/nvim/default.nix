@@ -63,7 +63,7 @@ in
           fzf
           cfg.package
           # zathura
-          boxes
+          # boxes
           fd
           jq
           ripgrep
