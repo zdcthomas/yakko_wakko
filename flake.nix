@@ -191,7 +191,8 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       /*
       ------------------------
       */
-      Zacharys-MBP = let
+
+      Zacharys-MacBook-Pro = let
         username = "zdcthomas";
       in
         darwin.lib.darwinSystem rec {
