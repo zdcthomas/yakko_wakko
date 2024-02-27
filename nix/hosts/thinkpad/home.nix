@@ -49,7 +49,7 @@ in {
     font.enable = true;
 
     nvim = {
-      package = pkgs.neovim-nightly;
+      # package = pkgs.neovim-nightly;
       enable = true;
     };
     firefox = {
@@ -166,6 +166,7 @@ in {
       # helio-workstation # midi composer
 
       pamixer
+      exercism
       xfce.thunar
       sass
       ags
@@ -210,12 +211,12 @@ in {
 
       # xdg-utils
       discord
-      (fenix.complete.withComponents [
-        "cargo"
-        "clippy"
-        "rust-src"
-        "rustc"
-      ])
+      # (fenix.complete.withComponents [
+      #   "cargo"
+      #   "clippy"
+      #   "rust-src"
+      #   "rustc"
+      # ])
     ];
 
     # This value determines the Home Manager release that your

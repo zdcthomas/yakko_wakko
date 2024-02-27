@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   lib,
   ...
 }: let
@@ -28,6 +29,7 @@ in
     config = mkIf cfg.enable {
       programs = {
         wezterm = {
+          package = pkgs.unstable.wezterm;
           enable = true;
           colorSchemes = {
             myCoolTheme = {

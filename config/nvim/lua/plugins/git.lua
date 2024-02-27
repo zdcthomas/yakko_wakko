@@ -134,6 +134,7 @@ return {
 		config = function()
 			require("gitsigns").setup({
 				signcolumn = false,
+				attach_to_untracked = true,
 				numhl = true,
 				signs = {
 					add = { hl = "GitSignsAdd", text = ">", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },

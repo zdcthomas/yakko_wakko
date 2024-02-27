@@ -51,6 +51,11 @@ local function setup_lspconfig()
 			capabilities = capabilities,
 		})
 
+		lspconfig.ocamllsp.setup({
+			on_attach = common_on_attach,
+			capabilities = capabilities,
+		})
+
 		lspconfig.marksman.setup({
 			on_attach = common_on_attach,
 			capabilities = capabilities,
