@@ -40,6 +40,21 @@ in {
           init = {
             defaultBranch = "main";
           };
+          commit = {
+            verbose = true;
+          };
+          log = {
+            date = "local";
+          };
+          tag = {
+            sort = "version:refname";
+          };
+          branch = {
+            sort = "-committerdate";
+          };
+          rerere = {
+            enabled = true;
+          };
           pull = {
             rebase = false;
           };

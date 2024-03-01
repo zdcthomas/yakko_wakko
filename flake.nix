@@ -49,7 +49,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dmux = {
