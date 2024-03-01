@@ -89,6 +89,7 @@ vim.cmd([[
 vim.filetype.add({
 	extension = {
 		gleam = "gleam",
+		nix = "nix",
 		hurl = "hurl",
 	},
 })

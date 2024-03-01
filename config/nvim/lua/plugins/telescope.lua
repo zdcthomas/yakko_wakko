@@ -131,13 +131,15 @@ local function find_files()
 			"rg",
 			"--files",
 			"--hidden",
+			"--no-ignore",
 			"-g",
 			"!.git",
 			"-g",
-			"!node_modules",
+			"!.node_modules",
 			"-g",
 			"!target",
-			"--no-ignore",
+			"-g",
+			"!.direnv",
 		},
 	}))
 end
