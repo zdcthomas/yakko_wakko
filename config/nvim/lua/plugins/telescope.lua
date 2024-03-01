@@ -120,6 +120,17 @@ local function setup()
 end
 
 local function find_files()
+	local ignore_paths = { "target", ".git", "node_modules", ".direnv" }
+	local find_command = {
+		"rg",
+		"--files",
+		"--hidden",
+		"--no-ignore",
+	}
+	for _key, value in pairs(ignore_paths) do
+		table.insert(find_command, #find_command + 1, "-g")
+		table.insert(find_command, #find_command + 1, "!" .. value)
+	end
 	require("telescope.builtin").find_files(require("telescope.themes").get_dropdown({
 		results_height = 40,
 		width = 0.8,
@@ -127,20 +138,7 @@ local function find_files()
 		prompt_prefix = "ファイル>",
 		previewer = false,
 		path_display = { "smart" },
-		find_command = {
-			"rg",
-			"--files",
-			"--hidden",
-			"--no-ignore",
-			"-g",
-			"!.git",
-			"-g",
-			"!.node_modules",
-			"-g",
-			"!target",
-			"-g",
-			"!.direnv",
-		},
+		find_command = find_command,
 	}))
 end
 
