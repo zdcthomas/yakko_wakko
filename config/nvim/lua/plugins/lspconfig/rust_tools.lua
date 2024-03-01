@@ -46,14 +46,17 @@ Module.setup = function(capabilities, common_on_attach)
 							enable = true,
 						},
 					},
-					procMacro = {
-						enable = true,
+					trace = {
+						server = "verbose",
 					},
+					-- procMacro = {
+					-- 	enable = true,
+					-- },
 					checkOnSave = {
 						command = "clippy",
 					},
 					diagnostics = {
-						experimental = { enable = true },
+						-- experimental = { enable = true },
 					},
 					files = {
 						excludeDirs = { "./relay-ui" },
