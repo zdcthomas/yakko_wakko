@@ -57,7 +57,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       inputs.nixpkgs.follows = "nixpkgs";
     };
     neovim-nightly-overlay = {
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/neovim-nightly-overlay";
     };
     nur = {
