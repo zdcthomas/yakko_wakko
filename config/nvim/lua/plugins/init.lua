@@ -4,23 +4,6 @@
 
 return {
 	{
-		"chrisgrieser/nvim-scissors",
-		init = function()
-			vim.keymap.set("n", "<leader>Se", function()
-				require("scissors").editSnippet()
-			end)
-
-			-- When used in visual mode prefills the selection as body.
-			vim.keymap.set({ "n", "x" }, "<leader>Sa", function()
-				require("scissors").addNewSnippet()
-			end)
-		end,
-		dependencies = "nvim-telescope/telescope.nvim", -- optional
-		opts = {
-			snippetDir = "~/yakko_wakko/config/nvim/snippets",
-		},
-	},
-	{
 		"echasnovski/mini.splitjoin",
 		version = false,
 		keys = { {

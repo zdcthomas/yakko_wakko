@@ -127,7 +127,18 @@ local function find_files()
 		prompt_prefix = "ファイル>",
 		previewer = false,
 		path_display = { "smart" },
-		find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
+		find_command = {
+			"rg",
+			"--files",
+			"--hidden",
+			"-g",
+			"!.git",
+			"-g",
+			"!node_modules",
+			"-g",
+			"!target",
+			"--no-ignore",
+		},
 	}))
 end
 
