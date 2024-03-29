@@ -15,7 +15,9 @@ in
     config = mkIf cfg.enable {
       nix = {
         checkConfig = true;
+        package = pkgs.lib.mkForce pkgs.unstable.nixUnstable;
         # package = pkgs.nixVersions.unstable;
+        # package = pkgs.lib.mkForce pkgs.nixVersions.nix_2_19;
 
         extraOptions = ''
           keep-outputs = true

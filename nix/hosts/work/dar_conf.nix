@@ -27,7 +27,7 @@
   ];
 
   nix = {
-    package = pkgs.nixUnstable;
+    package = pkgs.lib.mkForce pkgs.unstable.nixUnstable;
     settings = {
       allowed-users = ["zdcthomas"];
       experimental-features = ["nix-command" "flakes"];
@@ -44,6 +44,7 @@
       "coreutils"
       "awscurl"
       "json-table"
+      "bazel"
     ];
     casks = [
       "hammerspoon"

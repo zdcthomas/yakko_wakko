@@ -55,6 +55,7 @@ in {
 
       shellAliases = {
         gco = "git switch";
+        gsw = "${pkgs.git}/bin/git branch --sort=-committerdate | grep -v \"^\*\" |  ${pkgs.fzf}/bin/fzf --height=20% --reverse --info=inline | xargs ${pkgs.git}/bin/git checkout";
         gs = "git status";
         ".." = "cd ..";
         "..." = "cd ../..";

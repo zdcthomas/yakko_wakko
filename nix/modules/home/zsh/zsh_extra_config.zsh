@@ -21,6 +21,9 @@ if ! nix_loc="$(type -p nix)" || [[ -z $nix_loc ]]; then
     . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
   fi
 fi
+zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 zstyle ':completion:*' menu select
 bindkey '^[[Z' reverse-menu-complete
