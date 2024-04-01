@@ -3,6 +3,8 @@ local _slow_to_load_in_TS = {
 	".*%.exs",
 }
 
+local ignore_paths = { "target", ".git", "node_modules", ".direnv", "vendor" }
+
 local bad_files = function(filepath)
 	for _, v in ipairs(_slow_to_load_in_TS) do
 		if filepath:match(v) then
@@ -116,11 +118,26 @@ local function setup()
 			},
 		},
 	})
+	telescope.load_extension("undo")
 	telescope.load_extension("fzf")
+end
+local function find_all_files()
+	local find_command = {
+		"rg",
+		"--files",
+	}
+	require("telescope.builtin").find_files({
+		results_height = 40,
+		width = 0.8,
+		-- prompt_title = "",
+		prompt_title = "ファイル>",
+		-- previewer = false,
+		path_display = { "smart" },
+		find_command = find_command,
+	})
 end
 
 local function find_files()
-	local ignore_paths = { "target", ".git", "node_modules", ".direnv" }
 	local find_command = {
 		"rg",
 		"--files",
@@ -156,27 +173,70 @@ local function live_search()
 end
 
 return {
-	"nvim-telescope/telescope.nvim",
-	cmd = "Telescope",
-	dependencies = {
-		"nvim-lua/popup.nvim",
-		"nvim-lua/plenary.nvim",
-		"nvim-tree/nvim-web-devicons",
-		{ "nvim-telescope/telescope-fzf-native.nvim", build = fzf_make_command },
-	},
-	init = function()
-		local default_opts = { noremap = true, silent = true }
+	{
+		"debugloop/telescope-undo.nvim",
+		dependencies = { -- note how they're inverted to above example
+			{
+				"nvim-telescope/telescope.nvim",
+				dependencies = { "nvim-lua/plenary.nvim" },
+			},
+		},
+		keys = {
+			{ -- lazy style key map
+				"<leader>uu",
+				"<cmd>Telescope undo<cr>",
+				desc = "undo history",
+			},
+		},
+		config = function()
+			require("telescope").setup({
+				extensions = {
+					undo = {
+						mappings = {
+							i = {
 
-		vim.keymap.set("n", "<leader>p", find_files, { silent = true, desc = "Find files" })
-		vim.keymap.set("n", "<leader>b", function()
-			require("telescope.builtin").buffers()
-		end, default_opts)
-		vim.keymap.set("n", "<leader>F", live_search, default_opts)
-		vim.keymap.set("n", "<leader>*", function()
-			require("telescope.builtin").grep_string()
-		end, default_opts)
-	end,
-	config = function()
-		setup()
-	end,
+								["<cr>"] = require("telescope-undo.actions").restore,
+								["<S-cr>"] = require("telescope-undo.actions").yank_deletions,
+								["<C-cr>"] = require("telescope-undo.actions").yank_additions,
+							},
+							n = {
+								["y"] = require("telescope-undo.actions").yank_additions,
+								["Y"] = require("telescope-undo.actions").yank_deletions,
+								["<cr>"] = require("telescope-undo.actions").restore,
+							},
+						},
+					},
+					-- no other extensions here, they can have their own spec too
+				},
+			})
+			require("telescope").load_extension("undo")
+		end,
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		cmd = "Telescope",
+		dependencies = {
+			"nvim-lua/popup.nvim",
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons",
+			"debugloop/telescope-undo.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = fzf_make_command },
+		},
+		init = function()
+			local default_opts = { noremap = true, silent = true }
+
+			vim.keymap.set("n", "<leader>p", find_files, { silent = true, desc = "Find files" })
+			vim.keymap.set("n", "<leader>P", find_all_files, { silent = true, desc = "Find files" })
+			vim.keymap.set("n", "<leader>b", function()
+				require("telescope.builtin").buffers()
+			end, default_opts)
+			vim.keymap.set("n", "<leader>F", live_search, default_opts)
+			vim.keymap.set("n", "<leader>*", function()
+				require("telescope.builtin").grep_string()
+			end, default_opts)
+		end,
+		config = function()
+			setup()
+		end,
+	},
 }
