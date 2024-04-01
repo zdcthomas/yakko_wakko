@@ -25,7 +25,9 @@ in {
       enableCompletion = true;
       history.extended = true;
       autocd = true;
-      initExtraFirst = "source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh\n";
+      initExtraFirst = ''
+        source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+      '';
       initExtra = builtins.readFile ./zsh_extra_config.zsh;
       plugins = [
         {
@@ -33,7 +35,7 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "Aloxaf";
             repo = "fzf-tab";
-            rev = "c2b4aa5ad2532cca91f23908ac7f00efb7ff09c9";
+            rev = "bf3ef5588af6d3bf7cc60f2ad2c1c95bca216241";
             sha256 = "1b4pksrc573aklk71dn2zikiymsvq19bgvamrdffpf7azpq6kxl2";
           };
         }
