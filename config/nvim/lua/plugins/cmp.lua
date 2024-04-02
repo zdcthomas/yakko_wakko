@@ -94,6 +94,12 @@ return {
 			local luasnip = require("luasnip")
 			---@diagnostic disable-next-line: missing-fields
 			cmp.setup({
+
+				view = {
+					entries = {
+						follow_cursor = true,
+					},
+				},
 				snippet = {
 					expand = snippet_func,
 				},
