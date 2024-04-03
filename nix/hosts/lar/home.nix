@@ -9,15 +9,15 @@
   ...
 }: {
   imports = [
-    ../../nix.hm
-    ../../bash.hm
-    ../../zsh.hm
-    ../../git.hm
-    ../../nvim.hm
-    ../../ssh.hm.nix
-    ../../tmux.hm
-    ../../cli.hm
-    inputs.nix-colors.homeManagerModules.default
+    # ../../nix.hm
+    # ../../bash.hm
+    # ../../zsh.hm
+    # ../../git.hm
+    # ../../nvim.hm
+    # ../../ssh.hm.nix
+    # ../../tmux.hm
+    # ../../cli.hm
+    ../../modules/home
   ];
 
   custom.hm = {
@@ -25,6 +25,13 @@
       enable = true;
       package = pkgs.neovim-nightly;
     };
+
+    cli.enable = true;
+    fish.enable = true;
+    zsh.enable = true;
+    git.enable = true;
+    nix.enable = true;
+    tmux.enable = true;
   };
 
   colorScheme = inputs.nix-colors.colorSchemes.everforest;

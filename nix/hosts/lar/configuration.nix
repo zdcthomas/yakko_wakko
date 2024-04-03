@@ -21,13 +21,7 @@ in {
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.users.${username} = {
-    imports = [
-      # abstract this guy
-      ../../../home.nix
-      ./home.nix
-    ];
-  };
+  home-manager.users.${username} = import ./home.nix;
   home-manager.extraSpecialArgs = {
     inherit overlays inputs username;
   };
@@ -53,6 +47,11 @@ in {
     description = "Sad Frog";
     extraGroups = ["networkmanager" "wheel" "docker"];
     packages = with pkgs; [
+      (
+        pkgs.writeScriptBin "switch" ''
+          nixos-rebuild switch --flake ~/yakko_wakko --use-remote-sudo
+        ''
+      )
       tailscale
       gcc
       vim
