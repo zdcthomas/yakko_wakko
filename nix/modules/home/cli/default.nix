@@ -24,6 +24,7 @@ in {
         fd
         htop
         jq
+        ijq
         pandoc
         ripgrep
         sd
