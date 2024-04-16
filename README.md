@@ -48,6 +48,7 @@ different themes.
 ### Nvim startup screen
 
 ![My Nvim Startup screen, showing a nice ascii bonsai tree](/images/nvim_startup.png)
+
 The tree changes ages and then withers throughout the day! Entropy!
 
 ### The gruvbox days
