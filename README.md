@@ -32,10 +32,10 @@ that's entirely vanilla, non-nix, lua-based configuration.
 
 Give
 [this](https://www.anishathalye.com/2014/08/03/managing-your-dotfiles/#dotfiles-are-not-meant-to-be-forked)
-a read. It's sums up my thoughts pretty well on forking dotfiles. Dotfiles, to
-me, are the honed tools of your craft, they take time care and personal
-attention to set up, get right, and maintain, and while using someone else's
-tools is fine at first, they should always just be a jumping off point.
+a read. It's sums up my thoughts pretty well on forking dotfiles. Dotfiles are
+the honed tools of your craft, they take time care and personal attention to set
+up, get right, maintain, and remember! And while using someone else's tools is
+fine at first, they should always just be a jumping off point.
 
 ---
 
@@ -45,7 +45,12 @@ Nowadays, this repo maintains configs for around four different machines,
 so it looks very different for different machines, as well as when using
 different themes.
 
-### Oldest and truest
+### Nvim startup screen
+
+![My Nvim Startup screen, showing a nice ascii bonsai tree](/images/nvim_startup.png)
+The tree changes ages and then withers throughout the day! Entropy!
+
+### The gruvbox days
 
 This is one of my first theme-ings
 ![Show and Tell](/images/show_and_tell.png)
