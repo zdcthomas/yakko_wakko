@@ -12,10 +12,16 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [git-absorb];
+    home.packages = with pkgs; [
+      git-absorb
+    ];
     programs = {
       gh = {
         enable = true;
+        extensions = with pkgs; [
+          gh-markdown-preview
+          gh-dash
+        ];
         settings = {
           git_protocol = "ssh";
           prompt = "enabled";
@@ -77,12 +83,20 @@ in {
           co = "switch";
           cnv = "commit --no-verify";
           ap = "add --patch";
-          lg = "log --graph --format='%Cred%h%Creset  %<|(15) %C(white)%s %<|(35) %Creset %Cgreen(%cr)%<|(55)  %C(blue)<%an>%Creset%C(yellow)%d%Creset'";
+          l = "log --graph --pretty='%Cred%h%Creset - %C(bold blue)<%an>%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)' --abbrev-commit --date=relative";
         };
         ignores = [
           "*.swp"
           "2"
           ".DS_Store"
+          ".cache/"
+          ".DS_Store"
+          ".direnv/"
+          ".idea/"
+          "built-in-stubs.jar"
+          ".elixir_ls/"
+          ".vscode/"
+          "npm-debug.log"
         ];
       };
     };
