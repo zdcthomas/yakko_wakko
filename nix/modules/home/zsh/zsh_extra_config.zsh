@@ -7,7 +7,7 @@ function sign {
   fi
 }
 
-PROMPT=$'┏╸%(?..%F{red}%?%f · )%B%~%b$(gitprompt)\n┗╸$(sign) '
+# PROMPT=$'┏╸%(?..%F{red}%?%f · )%B%~%b$(gitprompt)\n┗╸$(sign) '
 
 unsetopt BEEP
 autoload -Uz run-help
@@ -22,10 +22,15 @@ if ! nix_loc="$(type -p nix)" || [[ -z $nix_loc ]]; then
   fi
 fi
 zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':completion:*' menu no
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+# zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+zstyle ':completion:*:descriptions' format '[%d]'
+# zstyle ':completion:*' menu select=0 interactive
+# zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
-zstyle ':completion:*' menu select
+# zstyle ':completion:*' menu select
 bindkey '^[[Z' reverse-menu-complete
 
 # Future proof against OSX breakage

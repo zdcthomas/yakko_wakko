@@ -49,7 +49,7 @@ in {
         FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
         FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
         FZF_DEFAULT_COMMAND = "fd --hidden --type f";
-        FZF_DEFAULT_OPTS = "--height 40% --reverse --border=rounded";
+        FZF_DEFAULT_OPTS = "--reverse --border=rounded";
       };
 
       sessionPath = ["$HOME/.cargo/bin"];
@@ -65,6 +65,11 @@ in {
       };
     };
     programs = {
+      carapace = {
+        enable = true;
+        enableZshIntegration = true;
+        enableBashIntegration = true;
+      };
       direnv = {
         enable = true;
         enableZshIntegration = true;

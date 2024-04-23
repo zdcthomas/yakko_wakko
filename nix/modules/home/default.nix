@@ -22,6 +22,7 @@
     ./qutebrowser
     ./rofi
     ./ssh.nix
+    ./starship.nix
     ./tmux
     ./tofi
     ./waybar
