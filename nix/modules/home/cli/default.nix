@@ -73,7 +73,7 @@ in {
           format = let
             main_line = let
               # can't be $line_break because that will always be true and will break the conditional rendering
-              br = "\n|";
+              br = "\n┃";
               group = comps: let merged = lib.concatStrings comps; in "(${br}${merged})";
             in
               lib.concatStrings [
@@ -161,11 +161,12 @@ in {
                   "$crystal"
                 ])
                 (group [
+                  "$status"
+                  "$cmd_duration"
                   "$memory_usage"
                   "$sudo"
                   "$jobs"
                   "$battery"
-                  "$cmd_duration"
                 ])
               ];
           in ''
@@ -177,11 +178,21 @@ in {
             error_symbol = "[❯](red)[❯](red)[❯](red)";
             vimcmd_symbol = "[❯N❯](italic blue)";
           };
+          status = {
+            disabled = false;
+          };
           git_branch = {
             format = "[$symbol$branch(:$remote_branch)]($style) ";
           };
           nix_shell = {
-            heuristic = true;
+            heuristic = false;
+            format = "[$symbol$state( \\($name\\))]($style) ";
+          };
+          cmd_duration = {
+            format = "t=[$duration]($style)";
+          };
+          rust = {
+            format = "[\${symbol}(\${version} )]($style)";
           };
           git_status = {
             # staged = "[++\($count\)](green)";
