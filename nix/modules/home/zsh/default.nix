@@ -13,12 +13,6 @@ in {
   };
   config = lib.mkIf cfg.enable {
     # home.packages = [pkgs.carapace];
-    programs.carapace = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-      enableFishIntegration = true;
-    };
     programs.zsh = {
       enable = true;
       enableAutosuggestions = true;

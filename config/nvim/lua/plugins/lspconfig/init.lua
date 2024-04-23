@@ -150,18 +150,20 @@ return {
 			local actions = require("glance").actions
 			return {
 				theme = { -- This feature might not work properly in nvim-0.7.2
-					enable = true, -- Will generate colors for the plugin based on your current colorscheme
-					mode = "brighten", -- 'brighten'|'darken'|'auto', 'auto' will set mode based on the brightness of your colorscheme
+					-- enable = true, -- Will generate colors for the plugin based on your current colorscheme
+					-- mode = "brighten", -- 'brighten'|'darken'|'auto', 'auto' will set mode based on the brightness of your colorscheme
 				},
 				list = {
 					position = "left", -- Position of the list window 'left'|'right'
 					width = 0.33, -- 33% width relative to the active window, min 0.1, max 0.5
 				},
-				detached = true,
+				detached = function(winid)
+					return vim.api.nvim_win_get_width(winid) < 100
+				end,
 				folds = {
 					fold_closed = "󰅂", -- 󰅂 
 					fold_open = "󰅀", -- 󰅀 
-					folded = true,
+					folded = false,
 				},
 				border = {
 					enable = true, -- Show window borders. Only horizontal borders allowed
@@ -189,8 +191,8 @@ return {
 					list = {
 						["<C-u>"] = actions.preview_scroll_win(5),
 						["<C-d>"] = actions.preview_scroll_win(-5),
-						["sg"] = actions.jump_vsplit,
-						["sv"] = actions.jump_split,
+						["<C-l>"] = actions.jump_vsplit,
+						["<C-j>"] = actions.jump_split,
 						["st"] = actions.jump_tab,
 						["p"] = actions.enter_win("preview"),
 					},

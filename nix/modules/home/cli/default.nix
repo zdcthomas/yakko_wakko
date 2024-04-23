@@ -65,6 +65,12 @@ in {
       };
     };
     programs = {
+      carapace = {
+        enable = true;
+        enableZshIntegration = true;
+        enableBashIntegration = true;
+        enableFishIntegration = true;
+      };
       direnv = {
         enable = true;
         enableZshIntegration = true;
