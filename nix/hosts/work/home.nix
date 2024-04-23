@@ -17,23 +17,24 @@ in {
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
 
   custom.hm = {
-    nvim.enable = true;
+    alacritty.enable = true;
     bash.enable = true;
     cli.enable = true;
     fish.enable = true;
+    font.enable = true;
     git.enable = true;
+    hammerspoon.enable = true;
     kitty.enable = true;
     nix.enable = true;
-    alacritty.enable = true;
+    nvim.enable = true;
     ssh.enable = true;
+    starship.enable = true;
     tmux.enable = true;
     wezterm = {
       enable = true;
       font-size = "13";
     };
     zsh.enable = true;
-    font.enable = true;
-    hammerspoon.enable = true;
   };
   home = {
     username = username;
