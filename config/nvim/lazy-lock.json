@@ -20,6 +20,7 @@
   "dashboard-nvim": { "branch": "master", "commit": "6d06924b562de6f0bb136edf1bf549afbf6b7d00" },
   "diffview.nvim": { "branch": "main", "commit": "3dc498c9777fe79156f3d32dddd483b8b3dbd95f" },
   "dressing.nvim": { "branch": "master", "commit": "18e5beb3845f085b6a33c24112b37988f3f93c06" },
+  "eldritch.nvim": { "branch": "master", "commit": "06266551d614c9f92aad637209bad7e8a17efaa4" },
   "elixir-tools.nvim": { "branch": "main", "commit": "3048ae88235eb4c1a7ae789185aa23edb479a995" },
   "emmet-vim": { "branch": "master", "commit": "def5d57a1ae5afb1b96ebe83c4652d1c03640f4d" },
   "everforest": { "branch": "master", "commit": "4d67edd8d4701b00cee37073d53053a650264541" },

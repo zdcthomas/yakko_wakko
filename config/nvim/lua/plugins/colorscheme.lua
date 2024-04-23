@@ -1,5 +1,11 @@
 return {
 	{
+		"eldritch-theme/eldritch.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {},
+	},
+	{
 		"nyngwang/nvimgelion",
 		config = function()
 			vim.api.nvim_create_autocmd({ "ColorScheme", "FileType" }, {

@@ -19,8 +19,15 @@ in {
       enableCompletion = true;
       history.extended = true;
       autocd = true;
-      initExtraFirst = ''
-        source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+      initExtraFirst = let
+        foo = pkgs.fetchFromGitHub {
+          owner = "jeffreytse";
+          repo = "zsh-vi-mode";
+          rev = "287efa19ec492b2f24bb93d1f4eaac3049743a63";
+          sha256 = "sha256-HMfC4s7KW4bO7H6RYzLnSARoFr1Ez89Z2VGONKMpGbw=";
+        };
+      in ''
+        source ${foo}/zsh-vi-mode.plugin.zsh
       '';
       initExtra = builtins.readFile ./zsh_extra_config.zsh;
       plugins = [
@@ -68,15 +75,15 @@ in {
             sha256 = "sha256-oQpYKBt0gmOSBgay2HgbXiDoZo5FoUKwyHSlUrOAP5E=";
           };
         }
-        {
-          name = "git-prompt";
-          src = pkgs.fetchFromGitHub {
-            owner = "woefe";
-            repo = "git-prompt.zsh";
-            rev = "v2.3.0";
-            sha256 = "i5UemJNwlKjMJzStkUc1XHNm/kZQfC5lvtz6/Y0AwRU=";
-          };
-        }
+        # {
+        #   name = "git-prompt";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "woefe";
+        #     repo = "git-prompt.zsh";
+        #     rev = "v2.3.0";
+        #     sha256 = "i5UemJNwlKjMJzStkUc1XHNm/kZQfC5lvtz6/Y0AwRU=";
+        #   };
+        # }
         {
           name = "zsh-autosuggestions";
           src = pkgs.fetchFromGitHub {
