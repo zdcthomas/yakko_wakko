@@ -226,7 +226,7 @@ return {
 			local default_opts = { noremap = true, silent = true }
 
 			vim.keymap.set("n", "<leader>p", find_files, { silent = true, desc = "Find files" })
-			vim.keymap.set("n", "<leader>P", find_all_files, { silent = true, desc = "Find files" })
+			-- vim.keymap.set("n", "<leader>P", find_all_files, { silent = true, desc = "Find files" })
 			vim.keymap.set("n", "<leader>b", function()
 				require("telescope.builtin").buffers()
 			end, default_opts)

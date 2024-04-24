@@ -1,12 +1,12 @@
 # Depends on zsh git prompt
-function sign {
-  if [[ -v IN_NIX_SHELL ]]; then
-    echo -n "%F{blue}n%f%F{cyan}i%f%F{green}x%f"
-  else
-    echo -n "%F{blue}❯%f%F{cyan}❯%f%F{green}❯%f"
-  fi
-}
-
+# function sign {
+#   if [[ -v IN_NIX_SHELL ]]; then
+#     echo -n "%F{blue}n%f%F{cyan}i%f%F{green}x%f"
+#   else
+#     echo -n "%F{blue}❯%f%F{cyan}❯%f%F{green}❯%f"
+#   fi
+# }
+#
 # PROMPT=$'┏╸%(?..%F{red}%?%f · )%B%~%b$(gitprompt)\n┗╸$(sign) '
 
 unsetopt BEEP

@@ -20,14 +20,30 @@ in {
       history.extended = true;
       autocd = true;
       initExtraFirst = let
-        foo = pkgs.fetchFromGitHub {
+        vi_mode_plugin = pkgs.fetchFromGitHub {
           owner = "jeffreytse";
           repo = "zsh-vi-mode";
           rev = "287efa19ec492b2f24bb93d1f4eaac3049743a63";
           sha256 = "sha256-HMfC4s7KW4bO7H6RYzLnSARoFr1Ez89Z2VGONKMpGbw=";
         };
+        prompt =
+          if config.custom.hm.starship.enable
+          then ""
+          else ''
+            function sign {
+              if [[ -v IN_NIX_SHELL ]]; then
+                echo -n "%F{blue}n%f%F{cyan}i%f%F{green}x%f"
+              else
+                echo -n "%F{blue}❯%f%F{cyan}❯%f%F{green}❯%f"
+              fi
+            }
+
+            PROMPT=$'┏╸%(?..%F{red}%?%f · )%B%~%b$(gitprompt)\n┗╸$(sign) '
+          '';
       in ''
-        source ${foo}/zsh-vi-mode.plugin.zsh
+        source ${vi_mode_plugin}/zsh-vi-mode.plugin.zsh
+        ${prompt}
+
       '';
       initExtra = builtins.readFile ./zsh_extra_config.zsh;
       plugins = [
@@ -75,15 +91,15 @@ in {
             sha256 = "sha256-oQpYKBt0gmOSBgay2HgbXiDoZo5FoUKwyHSlUrOAP5E=";
           };
         }
-        # {
-        #   name = "git-prompt";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "woefe";
-        #     repo = "git-prompt.zsh";
-        #     rev = "v2.3.0";
-        #     sha256 = "i5UemJNwlKjMJzStkUc1XHNm/kZQfC5lvtz6/Y0AwRU=";
-        #   };
-        # }
+        {
+          name = "git-prompt";
+          src = pkgs.fetchFromGitHub {
+            owner = "woefe";
+            repo = "git-prompt.zsh";
+            rev = "v2.3.0";
+            sha256 = "i5UemJNwlKjMJzStkUc1XHNm/kZQfC5lvtz6/Y0AwRU=";
+          };
+        }
         {
           name = "zsh-autosuggestions";
           src = pkgs.fetchFromGitHub {

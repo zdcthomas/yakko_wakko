@@ -1,23 +1,23 @@
-{ config
-, pkgs
-, username
-, inputs
-, ...
-}:
-let
+{
+  config,
+  pkgs,
+  username,
+  inputs,
+  ...
+}: let
   # user_name = "zacharythomas";
   management_scripts = import ../../nix_management_scripts_pkgs.nix {
     pkgs = pkgs;
     homeDirectory = config.home.homeDirectory;
   };
-in
-{
+in {
   imports = [
     ../../modules/home
   ];
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
     nvim.enable = true;
+    starship.enable = false;
     bash.enable = true;
     cli.enable = true;
     fish.enable = true;
@@ -32,32 +32,32 @@ in
       bookmarks = [
         {
           name = "github";
-          tags = [ "git" ];
+          tags = ["git"];
           keyword = "git";
           url = "https://github.com";
         }
         {
           name = "hey";
-          tags = [ "email" "hey" ];
+          tags = ["email" "hey"];
           keyword = "hey";
           url = "https://app.hey.com/";
         }
         {
           name = "example nixos configurations";
-          tags = [ "nixos" "nix" ];
+          tags = ["nixos" "nix"];
           keyword = "example config";
           url = "https://nixos.wiki/wiki/Configuration_Collection";
         }
 
         {
           name = "hyprland wiki";
-          tags = [ "wiki" "hyprland" ];
+          tags = ["wiki" "hyprland"];
           keyword = "hyprland";
           url = "https://wiki.hyprland.org/";
         }
         {
           name = "wikipedia";
-          tags = [ "wiki" ];
+          tags = ["wiki"];
           keyword = "wiki";
           url = "https://en.wikipedia.org";
         }
@@ -67,12 +67,12 @@ in
           bookmarks = [
             {
               name = "Hacker News";
-              tags = [ "news" "tech" ];
+              tags = ["news" "tech"];
               url = "https://news.ycombinator.com/";
             }
             {
               name = "Lobsters";
-              tags = [ "news" "tech" ];
+              tags = ["news" "tech"];
               url = "https://lobste.rs";
             }
           ];
@@ -83,22 +83,22 @@ in
           bookmarks = [
             {
               name = "Packages search";
-              tags = [ "search" "nix" ];
+              tags = ["search" "nix"];
               url = "https://search.nixos.org/packages";
             }
             {
               name = "Options search";
-              tags = [ "search" "nix" ];
+              tags = ["search" "nix"];
               url = "https://search.nixos.org/options";
             }
             {
               name = "Home Manager Appendix";
-              tags = [ "wiki" "nix" ];
+              tags = ["wiki" "nix"];
               url = "https://nix-community.github.io/home-manager/options.xhtml";
             }
             {
               name = "wiki";
-              tags = [ "wiki" "nix" ];
+              tags = ["wiki" "nix"];
               url = "https://nixos.wiki/";
             }
           ];
@@ -121,7 +121,7 @@ in
         dmux
 
         /*
-          qflipper  BROKEN
+        qflipper  BROKEN
         */
         du-dust
         ffmpeg_5
