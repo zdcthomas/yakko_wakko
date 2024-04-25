@@ -22,7 +22,12 @@ in {
     };
 
     programs = {
-      tmux = {
+      tmux = let
+        copy =
+          if pkgs.stdenv.isLinux
+          then "pbcopy"
+          else "${pkgs.wl-clipboard}/bin/wl-copy";
+      in {
         enable = true;
         /*
         extraConfig = (builtins.readFile ./tmux.conf);
@@ -32,6 +37,16 @@ in {
         sensibleOnTop = false;
         historyLimit = 200000;
         customPaneNavigationAndResize = true;
+        plugins = with pkgs; [
+          tmuxPlugins.tmux-fzf
+          tmuxPlugins.urlview
+          {
+            plugin = tmuxPlugins.tmux-thumbs;
+            extraConfig = ''
+              set -g @thumbs-command 'echo -n {} | ${copy}'
+            '';
+          }
+        ];
         keyMode = "vi";
         terminal = "$TERM";
         aggressiveResize = true;
@@ -98,7 +113,7 @@ in {
           bind-key -T copy-mode-vi DoubleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' "send-keys -M" "copy-mode -t'{mouse}'; send-keys -t'{mouse}' -X select-word"
           bind-key -T copy-mode-vi TripleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' "send-keys -M" "copy-mode -t'{mouse}'; send-keys -t'{mouse}' -X select-line"
 
-          bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'pbcopy'
+          bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel '${copy}'
           bind -T copy-mode-vi v send-keys -X begin-selection
           bind -T copy-mode-vi r send-keys -X rectangle-toggle
 
