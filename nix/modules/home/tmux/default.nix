@@ -25,8 +25,19 @@ in {
       tmux = let
         copy =
           if pkgs.stdenv.isLinux
-          then "pbcopy"
-          else "${pkgs.wl-clipboard}/bin/wl-copy";
+          then "${pkgs.wl-clipboard}/bin/wl-copy"
+          else "pbcopy";
+        fzf-tmux-url = pkgs.tmuxPlugins.mkTmuxPlugin {
+          pluginName = "fzf-tmux-url";
+          rtpFilePath = "fzf-url.tmux";
+          version = "new";
+          src = pkgs.fetchFromGitHub {
+            owner = "wfxr";
+            repo = "tmux-fzf-url";
+            rev = "28ed7ce3c73a328d8463d4f4aaa6ccb851e520fa";
+            sha256 = "sha256-tl0SjG/CeolrN7OIHj6MgkB9lFmFgEuJevsSuwVs+78=";
+          };
+        };
       in {
         enable = true;
         /*
@@ -39,7 +50,13 @@ in {
         customPaneNavigationAndResize = true;
         plugins = with pkgs; [
           tmuxPlugins.tmux-fzf
-          tmuxPlugins.urlview
+          {
+            plugin = fzf-tmux-url;
+            # TODO: <25-04-24, zdcthomas> set to some config.custom.hm.browser value
+            extraConfig = ''
+              set -g @fzf-url-open "firefox"
+            '';
+          }
           {
             plugin = tmuxPlugins.tmux-thumbs;
             extraConfig = ''
