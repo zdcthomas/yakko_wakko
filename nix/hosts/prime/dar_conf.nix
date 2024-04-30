@@ -36,15 +36,15 @@
       allowed-users = [username];
       experimental-features = ["nix-command" "flakes"];
 
-      substituters = with caches; [
-        nixos-org.cache
-        nix-community.cache
-      ];
-      trusted-public-keys = with caches; [
-        nixos-org.publicKey
-        nix-community.publicKey
-      ];
-      trusted-substituters = substituters;
+      # substituters = with pkgs.caches; [
+      #   nixos-org.cache
+      #   nix-community.cache
+      # ];
+      # trusted-public-keys = with pkgs.caches; [
+      #   nixos-org.publicKey
+      #   nix-community.publicKey
+      # ];
+      # trusted-substituters = substituters;
       trusted-users = ["root" username];
     };
   };
