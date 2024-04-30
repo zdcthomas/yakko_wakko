@@ -28,7 +28,7 @@ in {
     nix.enable = true;
     nvim.enable = true;
     ssh.enable = true;
-    starship.enable = true;
+    # starship.enable = true;
     tmux.enable = true;
     wezterm = {
       enable = true;

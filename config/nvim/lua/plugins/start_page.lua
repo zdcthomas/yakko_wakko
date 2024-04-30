@@ -1,4 +1,8 @@
 local conf = {}
+local startify = "startify"
+local dashboard = "dashboard"
+local mini = "mini"
+local starter = mini
 
 local function center(list)
 	return vim.fn["startify#center"](list)
@@ -354,7 +358,8 @@ return {
 	{
 		"echasnovski/mini.starter",
 		version = false,
-		event = "VimEnter",
+		cond = starter == mini,
+		lazy = false,
 		opts = function()
 			local starter = require("mini.starter")
 
@@ -404,8 +409,6 @@ return {
 				content_hooks = {
 					starter.gen_hook.adding_bullet("|> "),
 					starter.gen_hook.aligning("center", "center"),
-
-					-- starter.gen_hook.indexing(),
 				},
 
 				-- Characters to update query. Each character will have special buffer
@@ -414,87 +417,88 @@ return {
 				query_updaters = "abcdefghijklmnopqrstuvwxyz0123456789_.",
 
 				-- Whether to disable showing non-error feedback
-				-- silent = false,
+				silent = true,
 			}
 		end,
 	},
-	-- {
-	-- 	"glepnir/dashboard-nvim",
-	-- 	-- event = "VimEnter",
-	-- 	opts = function()
-	-- 		local opts = {
-	-- 			theme = "doom",
-	-- 			shortcut_type = "number",
-	-- 			disable_move = false,
-	-- 			hide = {
-	-- 				-- statusline = false,
-	-- 				tabline = false,
-	-- 				-- winbar = false,
-	-- 			},
-	-- 			config = {
-	-- 				-- week_header = {
-	-- 				-- 	enable = true, --boolean use a week header
-	-- 				-- 	-- concat  --concat string after time string line
-	-- 				-- 	-- append  --table append after time string line
-	-- 				-- },
-	-- 				header = vim.split(pick_header(vim.fn.strftime("%H")), "\n"),
-	--          -- stylua: ignore
-	-- 				center = {
-	--              { action = ":!dmux",                                            desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
-	--              { action = " Telescope oldfiles only_cwd=true",                 desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
-	--              { action = "lua require('neogit').open({ kind = 'replace' })",  desc = " Neogit",       desc_hl = "String", icon = " ", key = "g", },
-	--              { action = ":Lazy",                                             desc = " Lazy",         desc_hl = "String", icon = " ", key = "l", },
-	--              { action = ":q!",                                               desc = " Quit",         desc_hl = "String", icon = " ", key = "q", },
-	-- 				},
-	-- 				footer = function()
-	-- 					local stats = require("lazy").stats()
-	-- 					local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-	-- 					return {
-	-- 						"⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
-	-- 					}
-	-- 				end,
-	-- 			},
-	-- 		}
-	--
-	-- 		return opts
-	-- 	end,
-	-- 	dependencies = { { "nvim-tree/nvim-web-devicons" } },
-	-- },
-	-- {
-	-- 	"mhinz/vim-startify",
-	-- 	cond = false,
-	-- 	branch = "center",
-	-- 	lazy = false,
-	-- 	config = function()
-	-- 		vim.g.startify_center = 58
-	-- 		vim.g.startify_commands = {
-	-- 			{ l = { "Lazy", ":Lazy" } },
-	-- 			{ d = { "Open dotfiles", ":!dmux ~/yakko_wakko" } },
-	-- 			{ D = { "Dmux", ":!dmux" } },
-	-- 			{ g = { "NeoGit", "lua require('neogit').open({ kind = 'replace' })" } },
-	-- 		}
-	--
-	-- 		vim.g.startify_lists = {
-	-- 			{ type = "commands", header = center({ "めいれい" }) },
-	-- 			{ type = "dir", header = center({ "MRU " .. vim.fn.getcwd() }) },
-	-- 		}
-	--
-	-- 		vim.g.sttartify_change_to_dir = 0
-	-- 		vim.g.startify_change_to_vcs_root = 1
-	-- 		local ascii = pick_header(vim.fn.strftime("%H"))
-	-- 		vim.g.startify_custom_header = center(ascii)
-	--
-	-- 		-- local startify_group = vim.api.nvim_create_augroup("startify", { clear = true })
-	-- 		-- vim.api.nvim_create_autocmd({ "User" }, {
-	-- 		-- 	group = startify_group,
-	-- 		-- 	pattern = "StartifyReady",
-	-- 		-- 	callback = function()
-	-- 		-- 		vim.keymap.set("n", "-", function()
-	-- 		-- 			vim.cmd("bwipe")
-	-- 		-- 			vim.cmd("Dirvish")
-	-- 		-- 		end, { silent = true, buffer = true })
-	-- 		-- 	end,
-	-- 		-- })
-	-- 	end,
-	-- },
+	{
+		"glepnir/dashboard-nvim",
+		cond = starter == dashboard,
+		lazy = false,
+		opts = function()
+			local opts = {
+				theme = "doom",
+				shortcut_type = "number",
+				disable_move = false,
+				hide = {
+					-- statusline = false,
+					tabline = false,
+					-- winbar = false,
+				},
+				config = {
+					-- week_header = {
+					-- 	enable = true, --boolean use a week header
+					-- 	-- concat  --concat string after time string line
+					-- 	-- append  --table append after time string line
+					-- },
+					header = vim.split(pick_header(vim.fn.strftime("%H")), "\n"),
+	         -- stylua: ignore
+					center = {
+	             { action = ":!dmux",                                            desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
+	             { action = " Telescope oldfiles only_cwd=true",                 desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
+	             { action = "lua require('neogit').open({ kind = 'replace' })",  desc = " Neogit",       desc_hl = "String", icon = " ", key = "g", },
+	             { action = ":Lazy",                                             desc = " Lazy",         desc_hl = "String", icon = " ", key = "l", },
+	             { action = ":q!",                                               desc = " Quit",         desc_hl = "String", icon = " ", key = "q", },
+					},
+					footer = function()
+						local stats = require("lazy").stats()
+						local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+						return {
+							"⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
+						}
+					end,
+				},
+			}
+
+			return opts
+		end,
+		dependencies = { { "nvim-tree/nvim-web-devicons" } },
+	},
+	{
+		"mhinz/vim-startify",
+		cond = starter == startify,
+		branch = "center",
+		lazy = false,
+		config = function()
+			vim.g.startify_center = 58
+			vim.g.startify_commands = {
+				{ l = { "Lazy", ":Lazy" } },
+				{ d = { "Open dotfiles", ":!dmux ~/yakko_wakko" } },
+				{ D = { "Dmux", ":!dmux" } },
+				{ g = { "NeoGit", "lua require('neogit').open({ kind = 'replace' })" } },
+			}
+
+			vim.g.startify_lists = {
+				{ type = "commands", header = center({ "めいれい" }) },
+				{ type = "dir", header = center({ "MRU " .. vim.fn.getcwd() }) },
+			}
+
+			vim.g.sttartify_change_to_dir = 0
+			vim.g.startify_change_to_vcs_root = 1
+			local ascii = pick_header(vim.fn.strftime("%H"))
+			vim.g.startify_custom_header = center(ascii)
+
+			-- local startify_group = vim.api.nvim_create_augroup("startify", { clear = true })
+			-- vim.api.nvim_create_autocmd({ "User" }, {
+			-- 	group = startify_group,
+			-- 	pattern = "StartifyReady",
+			-- 	callback = function()
+			-- 		vim.keymap.set("n", "-", function()
+			-- 			vim.cmd("bwipe")
+			-- 			vim.cmd("Dirvish")
+			-- 		end, { silent = true, buffer = true })
+			-- 	end,
+			-- })
+		end,
+	},
 }

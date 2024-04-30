@@ -27,13 +27,13 @@ in {
             in
               lib.concatStrings [
                 "$directory"
-                "$git_branch"
-                "$git_commit"
-                "$git_state"
-                "$git_metrics"
-                "$git_status"
-
-                # ----
+                (group [
+                  "$git_branch"
+                  "$git_commit"
+                  "$git_state"
+                  "$git_metrics"
+                  "$git_status"
+                ])
                 (
                   group [
                     "$nix_shell"
@@ -44,8 +44,6 @@ in {
                     "$env_var"
                   ]
                 )
-
-                # ----
                 (
                   group
                   [
@@ -59,8 +57,6 @@ in {
                     "$time"
                   ]
                 )
-
-                # ----
                 (group [
                   # "$package"
                   "$rust"
@@ -122,6 +118,9 @@ in {
             ┏╸${main_line}$line_break┗╸$character
           '';
           scan_timeout = 10;
+          directory = {
+            truncate = 0;
+          };
           character = {
             success_symbol = "[❯](bold green)[❯](bold blue)[❯](cyan)";
             error_symbol = "[❯](red)[❯](red)[❯](red)";
