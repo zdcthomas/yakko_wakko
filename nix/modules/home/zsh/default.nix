@@ -19,7 +19,8 @@ in {
       enableCompletion = true;
       history.extended = true;
       autocd = true;
-      initExtraFirst = let
+      initExtra = let
+        native = builtins.readFile ./zsh_extra_config.zsh;
         vi_mode_plugin = pkgs.fetchFromGitHub {
           owner = "jeffreytse";
           repo = "zsh-vi-mode";
@@ -38,14 +39,19 @@ in {
               fi
             }
 
-            PROMPT=$'┏╸%(?..%F{red}%?%f · )%B%~%b$(gitprompt)\n┗╸$(sign) '
+            function gp {
+              if [[ $_ZSH_GIT_PROMPT_STATUS_OUTPUT != "" ]]; then
+                echo -n "\n┃$_ZSH_GIT_PROMPT_STATUS_OUTPUT"
+              fi
+            }
+
+            PROMPT=$'┏╸%(?..%F{red}%?%f · )%B%~%b$(gp)\n┗╸$(sign) '
           '';
       in ''
         source ${vi_mode_plugin}/zsh-vi-mode.plugin.zsh
         ${prompt}
-
+        ${native}
       '';
-      initExtra = builtins.readFile ./zsh_extra_config.zsh;
       plugins = [
         {
           name = "fzf-tab";

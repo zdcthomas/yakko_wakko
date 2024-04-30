@@ -22,7 +22,23 @@ in {
     };
 
     programs = {
-      tmux = {
+      tmux = let
+        copy =
+          if pkgs.stdenv.isLinux
+          then "${pkgs.wl-clipboard}/bin/wl-copy"
+          else "pbcopy";
+        fzf-tmux-url = pkgs.tmuxPlugins.mkTmuxPlugin {
+          pluginName = "fzf-tmux-url";
+          rtpFilePath = "fzf-url.tmux";
+          version = "new";
+          src = pkgs.fetchFromGitHub {
+            owner = "wfxr";
+            repo = "tmux-fzf-url";
+            rev = "28ed7ce3c73a328d8463d4f4aaa6ccb851e520fa";
+            sha256 = "sha256-tl0SjG/CeolrN7OIHj6MgkB9lFmFgEuJevsSuwVs+78=";
+          };
+        };
+      in {
         enable = true;
         /*
         extraConfig = (builtins.readFile ./tmux.conf);
@@ -32,6 +48,22 @@ in {
         sensibleOnTop = false;
         historyLimit = 200000;
         customPaneNavigationAndResize = true;
+        plugins = with pkgs; [
+          tmuxPlugins.tmux-fzf
+          {
+            plugin = fzf-tmux-url;
+            # TODO: <25-04-24, zdcthomas> set to some config.custom.hm.browser value
+            extraConfig = ''
+              set -g @fzf-url-open "firefox"
+            '';
+          }
+          {
+            plugin = tmuxPlugins.tmux-thumbs;
+            extraConfig = ''
+              set -g @thumbs-command 'echo -n {} | ${copy}'
+            '';
+          }
+        ];
         keyMode = "vi";
         terminal = "$TERM";
         aggressiveResize = true;
@@ -98,7 +130,7 @@ in {
           bind-key -T copy-mode-vi DoubleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' "send-keys -M" "copy-mode -t'{mouse}'; send-keys -t'{mouse}' -X select-word"
           bind-key -T copy-mode-vi TripleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' "send-keys -M" "copy-mode -t'{mouse}'; send-keys -t'{mouse}' -X select-line"
 
-          bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'pbcopy'
+          bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel '${copy}'
           bind -T copy-mode-vi v send-keys -X begin-selection
           bind -T copy-mode-vi r send-keys -X rectangle-toggle
 

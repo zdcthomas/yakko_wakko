@@ -1,16 +1,15 @@
-{ config
-, inputs
-, pkgs
-, username
-, ...
-}:
-let
+{
+  config,
+  inputs,
+  pkgs,
+  username,
+  ...
+}: let
   management_scripts = import ../../nix_management_scripts_pkgs.nix {
     pkgs = pkgs;
     homeDirectory = config.home.homeDirectory;
   };
-in
-{
+in {
   imports = [
     ../../modules/home
   ];
@@ -29,7 +28,7 @@ in
     nix.enable = true;
     nvim.enable = true;
     ssh.enable = true;
-    starship.enable = true;
+    # starship.enable = true;
     tmux.enable = true;
     wezterm = {
       enable = true;

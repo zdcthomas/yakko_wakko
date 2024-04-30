@@ -35,6 +35,17 @@ return {
 			-- calling `setup` is optional for customization
 			local fzf = require("fzf-lua")
 			fzf.setup({
+				actions = {
+					files = {
+						-- instead of the default action 'actions.file_edit_or_qf'
+						-- it's important to define all other actions here as this
+						-- table does not get merged with the global defaults
+						["default"] = fzf.actions.file_edit,
+						["alt-j"] = fzf.actions.file_split,
+						["alt-l"] = fzf.actions.file_vsplit,
+						["alt-q"] = fzf.actions.file_sel_to_qf,
+					},
+				},
 				git = {
 					bcommits = {
 						prompt = "logs:",
