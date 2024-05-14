@@ -59,7 +59,7 @@ Module.setup = function(capabilities, common_on_attach)
 						-- experimental = { enable = true },
 					},
 					files = {
-						excludeDirs = { "./relay-ui" },
+						excludeDirs = { "./relay-ui", ".direnv" },
 					},
 				},
 			},

@@ -57,18 +57,17 @@ in
       };
     };
     config = let
-      packages = with pkgs;
-      # it'd be super super cool to wrap all these so they're only available in the nvim process
+      localPacks = with pkgs;
         [
-          fzf
-          cfg.package
           # zathura
-          # boxes
+          boxes
+          fzf
           fd
           jq
-          ripgrep
           silver-searcher
           shfmt
+
+          hello
           prettierd
           # entirely for dap rust codelldb
           python3
@@ -94,6 +93,15 @@ in
           marksman
           glow
         ];
+      defaultPackage = pkgs.symlinkJoin {
+        name = "nvim";
+        paths = [cfg.package];
+        buildInputs = [pkgs.makeWrapper];
+        postBuild = ''
+          wrapProgram $out/bin/nvim \
+            --prefix PATH : ${makeBinPath localPacks}
+        '';
+      };
     in
       mkIf cfg.enable {
         home = {
@@ -127,7 +135,7 @@ in
               };
             };
 
-          packages = packages;
+          packages = [defaultPackage];
         };
       };
   }

@@ -7,11 +7,12 @@
     (
       pkgs.writers.writeBashBin "dar-switch" ''
         echo $1
-        if [ -z "$1" ]; then
+        if [ $1 ]; then
           echo "using configuration $1"
-          nix build "${homeDirectory}/yakko_wakko#darwinConfigurations.$1.system" && ${homeDirectory}/yakko_wakko/result/sw/bin/darwin-rebuild switch --flake ${homeDirectory}/yakko_wakko
+          nix build "/Users/zdcthomas/yakko_wakko#darwinConfigurations.$1.system" && /Users/zdcthomas/yakko_wakko/result/sw/bin/darwin-rebuild switch --flake /Users/zdcthomas/yakko_wakko
         else
-          nix build "${homeDirectory}/yakko_wakko#darwinConfigurations.$(hostname -s).system" && ${homeDirectory}/yakko_wakko/result/sw/bin/darwin-rebuild switch --flake ${homeDirectory}/yakko_wakko
+          echo "using configuration for $(hostname -s)"
+          nix build "/Users/zdcthomas/yakko_wakko#darwinConfigurations.$(hostname -s).system" && /Users/zdcthomas/yakko_wakko/result/sw/bin/darwin-rebuild switch --flake /Users/zdcthomas/yakko_wakko
         fi
       ''
     ))

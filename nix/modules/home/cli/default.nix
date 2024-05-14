@@ -26,7 +26,7 @@ in {
         jq
         ijq
         pandoc
-        ripgrep
+        unstable.ripgrep
         sd
         silver-searcher
         skim

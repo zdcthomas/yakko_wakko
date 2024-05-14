@@ -384,6 +384,16 @@ return {
 							section = "めいれい",
 						},
 						{
+							action = "Lazy",
+							name = "Lazy",
+							section = "めいれい",
+						},
+						{
+							action = "lua require('neogit').open({ kind = 'replace' })",
+							name = "Git",
+							section = "めいれい",
+						},
+						{
 							action = "qall",
 							name = "Quit Neovim",
 							section = "めいれい",

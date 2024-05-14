@@ -1,5 +1,5 @@
 /*
-  Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked into git
+Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked into git
 */
 {
   description = "Hopefully this _is_ my final form";
@@ -72,224 +72,216 @@
     };
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , darwin
-    , nixos-hardware
-    , ...
-    } @ inputs:
-    let
-      # overlays add/change values in pkgs, e.g
-      # change neovim version/ add NUR
-      overlays = import ./nix/overlays { inherit inputs; };
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    darwin,
+    nixos-hardware,
+    ...
+  } @ inputs: let
+    # overlays add/change values in pkgs, e.g
+    # change neovim version/ add NUR
+    overlays = import ./nix/overlays {inherit inputs;};
 
-      mk_home_username_and_dir =
-        { username
-        , homeDirectoryPrefix ? "/Users/"
-        ,
-        }: { config
-           , pkgs
-           , ...
-           }: {
-          home.username = username;
-          home.homeDirectory = homeDirectoryPrefix + username;
+    mk_home_username_and_dir = {
+      username,
+      homeDirectoryPrefix ? "/Users/",
+    }: {
+      config,
+      pkgs,
+      ...
+    }: {
+      home.username = username;
+      home.homeDirectory = homeDirectoryPrefix + username;
 
-          # This value determines the NixOS release from which the default
-          # settings for stateful data, like file locations and database versions
-          # on your system were taken. It‘s perfectly fine and recommended to leave
-          # this value at the release version of the first install of this system.
-          # Before changing this value read the documentation for this option
-          # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-          home.stateVersion = "22.05"; # Did you read the comment?
+      # This value determines the NixOS release from which the default
+      # settings for stateful data, like file locations and database versions
+      # on your system were taken. It‘s perfectly fine and recommended to leave
+      # this value at the release version of the first install of this system.
+      # Before changing this value read the documentation for this option
+      # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+      home.stateVersion = "22.05"; # Did you read the comment?
+    };
+    mk_pkgs_conf = {
+      system,
+      overlays ? [],
+    }:
+      import nixpkgs {
+        system = system;
+        config = {
+          allowUnfree = true;
         };
-      mk_pkgs_conf =
-        { system
-        , overlays ? [ ]
-        ,
-        }:
-        import nixpkgs {
-          system = system;
-          config = {
-            allowUnfree = true;
-          };
-          overlays = overlays;
-        };
-
-      mkMachine =
-        { username
-        , system
-        , overlays ? [ ]
-        , homeDirectoryPrefix ? "/Users/"
-        ,
-        }: {
-          username = username;
-          pkgs = mk_pkgs_conf {
-            system = system;
-            overlays = overlays;
-          };
-          home = mk_home_username_and_dir {
-            username = username;
-            homeDirectoryPrefix = homeDirectoryPrefix;
-          };
-          system = system;
-        };
-
-      home-serv = mkMachine {
-        username = "sadfrog";
-        system = "x86_64-linux";
-        homeDirectoryPrefix = "/home/";
+        overlays = overlays;
       };
 
-      work = mkMachine {
-        username = "zdcthomas";
-        system = "aarch64-darwin";
+    mkMachine = {
+      username,
+      system,
+      overlays ? [],
+      homeDirectoryPrefix ? "/Users/",
+    }: {
+      username = username;
+      pkgs = mk_pkgs_conf {
+        system = system;
+        overlays = overlays;
       };
-
-      personal = mkMachine {
-        username = "zacharythomas";
-        system = "x86_64-darwin";
+      home = mk_home_username_and_dir {
+        username = username;
+        homeDirectoryPrefix = homeDirectoryPrefix;
       };
+      system = system;
+    };
 
-      mkDarConf =
-        { username
-        , pkgs
-        , home
-        , system
-        ,
-        }: { darwinModules
-           , homeModules
-           ,
-           }:
-        darwin.lib.darwinSystem {
-          system = system;
-          modules =
-            darwinModules
-            ++ [
-              { nixpkgs = pkgs; }
-              home-manager.darwinModule
-              {
-                home-manager = {
-                  users.${username} = { ... }: {
-                    imports =
-                      [
-                        home
-                      ]
-                      ++ homeModules;
-                  };
+    home-serv = mkMachine {
+      username = "sadfrog";
+      system = "x86_64-linux";
+      homeDirectoryPrefix = "/home/";
+    };
+
+    work = mkMachine {
+      username = "zdcthomas";
+      system = "aarch64-darwin";
+    };
+
+    personal = mkMachine {
+      username = "zacharythomas";
+      system = "x86_64-darwin";
+    };
+
+    mkDarConf = {
+      username,
+      pkgs,
+      home,
+      system,
+    }: {
+      darwinModules,
+      homeModules,
+    }:
+      darwin.lib.darwinSystem {
+        system = system;
+        modules =
+          darwinModules
+          ++ [
+            {nixpkgs = pkgs;}
+            home-manager.darwinModule
+            {
+              home-manager = {
+                users.${username} = {...}: {
+                  imports =
+                    [
+                      home
+                    ]
+                    ++ homeModules;
                 };
-              }
-            ];
-        };
-
-      inherit (nixpkgs) lib;
-    in
-    {
-      darwinConfigurations = {
-        /*
-          ------------------------
-        */
-        /*
-          |    Work config       |
-        */
-        /*
-          ------------------------
-        */
-
-        Zacharys-MacBook-Pro =
-          let
-            username = "zdcthomas";
-          in
-          darwin.lib.darwinSystem rec {
-            system = "aarch64-darwin";
-            specialArgs = {
-              inherit system username overlays inputs;
-            };
-            modules = [
-              { nixpkgs.overlays = overlays; }
-              home-manager.darwinModule
-              ./nix/hosts/work/dar_conf.nix
-            ];
-          };
-
-        /*
-          -----------------------
-        */
-        /*
-          |    Home config       |
-        */
-        /*
-          -----------------------
-        */
-        Prime =
-          let
-            username = "zacharythomas";
-          in
-          darwin.lib.darwinSystem rec {
-            system = "x86_64-darwin";
-            specialArgs = {
-              inherit system username overlays inputs;
-            };
-            modules = [
-              { nixpkgs.overlays = overlays; }
-              home-manager.darwinModule
-              ./nix/hosts/prime/dar_conf.nix
-            ];
-
-          };
-        # mkDarConf
-        # personal
-        # {
-        #   darwinModules = [./nix/hosts/prime/dar_conf.nix];
-        #   homeModules = [./home.nix ./nix/personal.hm.nix ./nix/modules/home];
-        # };
+              };
+            }
+          ];
       };
-      nixosConfigurations = {
-        #  ------------------
-        #  |    Thinkpad    |
-        #  ------------------
-        nixos = nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
+
+    inherit (nixpkgs) lib;
+  in {
+    darwinConfigurations = {
+      /*
+      ------------------------
+      */
+      /*
+      |    Work config       |
+      */
+      /*
+      ------------------------
+      */
+
+      Zacharys-MacBook-Pro = let
+        username = "zdcthomas";
+      in
+        darwin.lib.darwinSystem rec {
+          system = "aarch64-darwin";
           specialArgs = {
-            inherit inputs;
-            inherit overlays;
-            inherit system;
-            username = "zdcthomas";
+            inherit system username overlays inputs;
           };
           modules = [
-            nixos-hardware.nixosModules.lenovo-thinkpad
-            inputs.hyprland.nixosModules.default
-            ({ ... }: {
-              nixpkgs.overlays =
-                overlays
-                ++ [
-                  # inputs.neovim-nightly-overlay.overlay
-                ];
-            })
-            ./nix/hosts/thinkpad/configuration.nix
+            {nixpkgs.overlays = overlays;}
+            home-manager.darwinModule
+            ./nix/hosts/work/dar_conf.nix
           ];
         };
-        #  ---------------------
-        #  |    Home Server    |
-        #  ---------------------
-        lar =
-          nixpkgs.lib.nixosSystem
-            rec {
-              system = "x86_64-linux";
-              specialArgs = {
-                inherit inputs overlays system;
-              };
-              modules = [
-                ({ ... }: {
-                  nixpkgs.overlays = overlays;
-                })
-                ./nix/hosts/lar/configuration.nix
-                ./nix/hosts/lar/hardware-configuration.nix
-              ];
-            };
-      };
+
+      /*
+      -----------------------
+      */
+      /*
+      |    Home config       |
+      */
+      /*
+      -----------------------
+      */
+      Prime = let
+        username = "zacharythomas";
+      in
+        darwin.lib.darwinSystem rec {
+          system = "x86_64-darwin";
+          specialArgs = {
+            inherit system username overlays inputs;
+          };
+          modules = [
+            {nixpkgs.overlays = overlays;}
+            home-manager.darwinModule
+            ./nix/hosts/prime/dar_conf.nix
+          ];
+        };
+      # mkDarConf
+      # personal
+      # {
+      #   darwinModules = [./nix/hosts/prime/dar_conf.nix];
+      #   homeModules = [./home.nix ./nix/personal.hm.nix ./nix/modules/home];
+      # };
     };
+    nixosConfigurations = {
+      #  ------------------
+      #  |    Thinkpad    |
+      #  ------------------
+      nixos = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs;
+          inherit overlays;
+          inherit system;
+          username = "zdcthomas";
+        };
+        modules = [
+          nixos-hardware.nixosModules.lenovo-thinkpad
+          inputs.hyprland.nixosModules.default
+          ({...}: {
+            nixpkgs.overlays =
+              overlays
+              ++ [
+                # inputs.neovim-nightly-overlay.overlay
+              ];
+          })
+          ./nix/hosts/thinkpad/configuration.nix
+        ];
+      };
+      #  ---------------------
+      #  |    Home Server    |
+      #  ---------------------
+      lar =
+        nixpkgs.lib.nixosSystem
+        rec {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs overlays system;
+          };
+          modules = [
+            ({...}: {
+              nixpkgs.overlays = overlays;
+            })
+            ./nix/hosts/lar/configuration.nix
+            ./nix/hosts/lar/hardware-configuration.nix
+          ];
+        };
+    };
+  };
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
