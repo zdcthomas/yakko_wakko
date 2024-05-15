@@ -27,9 +27,9 @@
   ];
 
   nix = {
-    package = pkgs.lib.mkForce pkgs.unstable.nixUnstable;
     settings = {
-      allowed-users = ["zdcthomas"];
+      allowed-users = ["root" username];
+      trusted-users = ["root" username];
       experimental-features = ["nix-command" "flakes"];
     };
   };

@@ -73,7 +73,7 @@ in {
           name = "_git";
           src = pkgs.fetchurl {
             url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
-            sha256 = "sha256-9gddKDJQeF7c8JKBmSvea0vMQ+stynRIjYgKUvdlnAk=";
+            sha256 = "sha256-zspIBpZDxsRaP21hi2Zvh4rF+JsXk0yBvcHpDJivLjI=";
           };
         }
         {

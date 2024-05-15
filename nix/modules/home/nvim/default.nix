@@ -60,7 +60,6 @@ in
       localPacks = with pkgs;
         [
           # zathura
-          boxes
           fzf
           fd
           jq
