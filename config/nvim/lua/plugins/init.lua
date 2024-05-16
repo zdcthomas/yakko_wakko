@@ -35,9 +35,10 @@ return {
 			-- shortcuts for the actions you see at the top of the buffer
 			-- set to '' to unset. Unset mappings will be removed from the help header
 			keymaps = {
-				replace = "<C-enter>",
+				replace = "<c-z>",
 				qflist = "<C-q>",
 				gotoLocation = "<enter>",
+				syncLocations = "<C-s>",
 				close = "<C-x>",
 			},
 

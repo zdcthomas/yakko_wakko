@@ -66,12 +66,6 @@
       "aws-vpn-client"
     ];
     taps = [
-      "homebrew/bundle"
-      "homebrew/cask"
-      "homebrew/cask-drivers"
-      "homebrew/cask-fonts"
-      "homebrew/core"
-      "homebrew/services"
       # "koekeishiya/formulae" # yabai
     ];
   };
