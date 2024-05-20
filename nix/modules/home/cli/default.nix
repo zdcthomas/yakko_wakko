@@ -65,11 +65,11 @@ in {
       };
     };
     programs = {
-      carapace = {
-        enable = true;
-        enableZshIntegration = true;
-        enableBashIntegration = true;
-      };
+      # carapace = {
+      #   enable = true;
+      #   enableZshIntegration = true;
+      #   enableBashIntegration = true;
+      # };
       direnv = {
         enable = true;
         enableZshIntegration = true;

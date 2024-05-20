@@ -12,7 +12,7 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    # home.packages = [pkgs.carapace];
+    home.packages = [pkgs.carapace];
     programs.zsh = {
       enable = true;
       enableAutosuggestions = true;
@@ -54,28 +54,27 @@ in {
 
             PROMPT=$'┏╸%(?..%F{red}%?%f · )%B%~%b$(gp)$(extra)\n┗╸$(sign) '
           '';
+        fzf-tab = pkgs.fetchFromGitHub {
+          owner = "Aloxaf";
+          repo = "fzf-tab";
+          rev = "c7fb028ec0bbc1056c51508602dbd61b0f475ac3";
+          sha256 = "1b4pksrc573aklk71dn2zikiymsvq19bgvamrdffpf7azpq6kxl2";
+        };
       in ''
         source ${vi_mode_plugin}/zsh-vi-mode.plugin.zsh
         ${prompt}
         ${native}
+        source <(${pkgs.carapace}/bin/carapace _carapace)
+        . ${fzf-tab}/fzf-tab.plugin.zsh
       '';
       plugins = [
-        {
-          name = "fzf-tab";
-          src = pkgs.fetchFromGitHub {
-            owner = "Aloxaf";
-            repo = "fzf-tab";
-            rev = "bf3ef5588af6d3bf7cc60f2ad2c1c95bca216241";
-            sha256 = "1b4pksrc573aklk71dn2zikiymsvq19bgvamrdffpf7azpq6kxl2";
-          };
-        }
-        {
-          name = "_git";
-          src = pkgs.fetchurl {
-            url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
-            sha256 = "sha256-zspIBpZDxsRaP21hi2Zvh4rF+JsXk0yBvcHpDJivLjI=";
-          };
-        }
+        # {
+        #   name = "_git";
+        #   src = pkgs.fetchurl {
+        #     url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
+        #     sha256 = "sha256-zspIBpZDxsRaP21hi2Zvh4rF+JsXk0yBvcHpDJivLjI=";
+        #   };
+        # }
         {
           name = "zsh-history-substring-search";
           src = pkgs.fetchFromGitHub {
@@ -90,8 +89,8 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "zsh-users";
             repo = "zsh-syntax-highlighting";
-            rev = "0.7.1";
-            sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
+            rev = "0.8.0";
+            sha256 = "sha256-iJdWopZwHpSyYl5/FQXEW7gl/SrKaYDEtTH9cGP7iPo=";
           };
         }
         {
@@ -100,7 +99,7 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "chisui";
             repo = "zsh-nix-shell";
-            rev = "v0.7.0";
+            rev = "v0.8.0";
             sha256 = "sha256-oQpYKBt0gmOSBgay2HgbXiDoZo5FoUKwyHSlUrOAP5E=";
           };
         }
@@ -109,8 +108,8 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "woefe";
             repo = "git-prompt.zsh";
-            rev = "v2.3.0";
-            sha256 = "i5UemJNwlKjMJzStkUc1XHNm/kZQfC5lvtz6/Y0AwRU=";
+            rev = "v2.4.0";
+            sha256 = "sha256-Q7Dp6Xgt5gvkWZL+htDmGYk9RTglOWrrbl6Wf6q/qjY=";
           };
         }
         {

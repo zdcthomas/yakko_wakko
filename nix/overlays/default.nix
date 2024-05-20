@@ -18,6 +18,7 @@
     xdg-desktop-portal-hyprland = inputs.hyprland.packages.${prev.system}.xdg-desktop-portal-hyprland;
     hurl_2 = import ./hurl.nix {pkgs = prev;};
     ldtk = import ./ldtk.nix {pkgs = prev;};
+    carapace = import ./carapace.nix {pkgs = prev;};
     keymapp = import ./keymapp.nix {pkgs = prev;};
     pragmataPro = import ./pp.nix {
       pkgs = prev;

@@ -79,15 +79,31 @@
     };
 
     defaults = {
-      NSGlobalDomain.NSAutomaticWindowAnimationsEnabled = false;
+      NSGlobalDomain = {
+        AppleShowAllFiles = true;
+        # NSAutomaticWindowAnimationsEnabled = false;
+        NSAutomaticCapitalizationEnabled = false;
+        NSAutomaticDashSubstitutionEnabled = false;
+        NSAutomaticPeriodSubstitutionEnabled = false;
+        NSAutomaticQuoteSubstitutionEnabled = false;
+        NSAutomaticSpellingCorrectionEnabled = false;
+        AppleKeyboardUIMode = 3;
+      };
       finder = {
         AppleShowAllExtensions = true;
+        AppleShowAllFiles = true;
+        ShowPathbar = true;
+        ShowStatusBar = true;
       };
+      screensaver.askForPassword = true;
 
       dock = {
+        appswitcher-all-displays = true;
         autohide = true;
         show-recents = true;
         tilesize = 45;
+        magnification = true;
+        showhidden = true;
       };
     };
   };
