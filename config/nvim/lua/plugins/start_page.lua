@@ -400,7 +400,7 @@ return {
 						},
 					},
 					-- starter.sections.telescope(),
-					starter.sections.recent_files(10, true),
+					starter.sections.recent_files(9, true),
 				},
 
 				-- Header to be displayed before items. Converted to single string via
@@ -419,6 +419,7 @@ return {
 				content_hooks = {
 					starter.gen_hook.adding_bullet("|> "),
 					starter.gen_hook.aligning("center", "center"),
+					starter.gen_hook.indexing("all", { "めいれい" }),
 				},
 
 				-- Characters to update query. Each character will have special buffer
