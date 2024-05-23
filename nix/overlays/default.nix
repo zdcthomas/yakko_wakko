@@ -17,6 +17,10 @@
     split-monitor-workspaces = inputs.split-monitor-workspaces.packages.${prev.system}.split-monitor-workspaces;
     xdg-desktop-portal-hyprland = inputs.hyprland.packages.${prev.system}.xdg-desktop-portal-hyprland;
     hurl_2 = import ./hurl.nix {pkgs = prev;};
+    diagon = import ./diagon.nix {
+      pkgs = prev;
+      unstable = inputs.unstable.legacyPackages.${prev.system};
+    };
     ldtk = import ./ldtk.nix {pkgs = prev;};
     carapace = import ./carapace.nix {pkgs = prev;};
     keymapp = import ./keymapp.nix {pkgs = prev;};

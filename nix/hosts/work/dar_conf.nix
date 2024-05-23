@@ -4,6 +4,7 @@
   username,
   inputs,
   overlays,
+  workHostName,
   ...
 }: {
   users.users.${username} = {
@@ -72,6 +73,7 @@
 
   services.nix-daemon.enable = true;
 
+  networking.hostName = workHostName;
   system = {
     keyboard = {
       enableKeyMapping = true;

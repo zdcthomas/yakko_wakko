@@ -21,16 +21,19 @@ in {
       };
       packages = with pkgs; [
         btop
+        diagon
         fd
+        graph-easy
         htop
-        jq
         ijq
+        jq
         pandoc
-        unstable.ripgrep
+        plantuml
         sd
         silver-searcher
         skim
         tree
+        unstable.ripgrep
         unzip
         wget
         zip

@@ -60,6 +60,7 @@ in
       localPacks = with pkgs;
         [
           # zathura
+          graph-easy
           fzf
           fd
           jq
@@ -70,6 +71,8 @@ in
           prettierd
           # entirely for dap rust codelldb
           python3
+          vscode-langservers-extracted
+          nodePackages.typescript-language-server
         ]
         ++ optionals cfg.language_servers.nix [
           # nixpkgs-fmt
@@ -125,6 +128,7 @@ in
               };
             }
             // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+              # TODO: <22-05-24, zdcthomas> add linux bin
               ".local/share/lldb/" = {
                 source = pkgs.fetchzip {
                   url = "https://github.com/vadimcn/codelldb/releases/download/v1.10.0/codelldb-aarch64-darwin.vsix#lldb.zip";

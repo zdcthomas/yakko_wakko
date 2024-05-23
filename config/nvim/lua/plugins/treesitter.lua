@@ -6,6 +6,7 @@ return {
 		cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
 		dependencies = {
 			"JoosepAlviste/nvim-ts-context-commentstring",
+			{ "nushell/tree-sitter-nu" },
 		},
 		opts = {
 			indent = { enable = true },

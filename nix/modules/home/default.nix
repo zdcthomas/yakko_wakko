@@ -16,6 +16,7 @@
     ./kitty
     ./music_making.nix
     ./nix
+    ./nushell
     ./nvim
     ./picom.nix
     ./polybar.nix

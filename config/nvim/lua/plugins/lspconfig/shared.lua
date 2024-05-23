@@ -107,10 +107,13 @@ Module.common_on_attach = function(client, bufnr)
 
 	if client.server_capabilities.codeLensProvider then
 		vim.keymap.set("n", "<Leader>cl", vim.lsp.codelens.run, opts)
-		vim.api.nvim_create_autocmd(
-			{ "BufEnter", "CursorHold", "InsertLeave" },
-			{ buffer = bufnr, callback = vim.lsp.codelens.refresh, group = Module.lspconfig_augroup }
-		)
+		vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.codelens.refresh({ bufnr = bufnr })
+			end,
+			group = Module.lspconfig_augroup,
+		})
 	end
 
 	if client.server_capabilities.documentFormattingProvider then

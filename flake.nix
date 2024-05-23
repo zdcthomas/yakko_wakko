@@ -105,102 +105,19 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
       home.stateVersion = "22.05"; # Did you read the comment?
     };
-    mk_pkgs_conf = {
-      system,
-      overlays ? [],
-    }:
-      import nixpkgs {
-        system = system;
-        config = {
-          allowUnfree = true;
-        };
-        overlays = overlays;
-      };
-
-    mkMachine = {
-      username,
-      system,
-      overlays ? [],
-      homeDirectoryPrefix ? "/Users/",
-    }: {
-      username = username;
-      pkgs = mk_pkgs_conf {
-        system = system;
-        overlays = overlays;
-      };
-      home = mk_home_username_and_dir {
-        username = username;
-        homeDirectoryPrefix = homeDirectoryPrefix;
-      };
-      system = system;
-    };
-
-    home-serv = mkMachine {
-      username = "sadfrog";
-      system = "x86_64-linux";
-      homeDirectoryPrefix = "/home/";
-    };
-
-    work = mkMachine {
-      username = "zdcthomas";
-      system = "aarch64-darwin";
-    };
-
-    personal = mkMachine {
-      username = "zacharythomas";
-      system = "x86_64-darwin";
-    };
-
-    mkDarConf = {
-      username,
-      pkgs,
-      home,
-      system,
-    }: {
-      darwinModules,
-      homeModules,
-    }:
-      darwin.lib.darwinSystem {
-        system = system;
-        modules =
-          darwinModules
-          ++ [
-            {nixpkgs = pkgs;}
-            home-manager.darwinModule
-            {
-              home-manager = {
-                users.${username} = {...}: {
-                  imports =
-                    [
-                      home
-                    ]
-                    ++ homeModules;
-                };
-              };
-            }
-          ];
-      };
 
     inherit (nixpkgs) lib;
   in {
-    darwinConfigurations = {
-      /*
-      ------------------------
-      */
-      /*
-      |    Work config       |
-      */
-      /*
-      ------------------------
-      */
-
-      Zacharys-MacBook-Pro = let
+    darwinConfigurations = let
+      workHostName = "Zacharys-MacBook-Pro";
+    in {
+      "${workHostName}" = let
         username = "zdcthomas";
       in
         darwin.lib.darwinSystem rec {
           system = "aarch64-darwin";
           specialArgs = {
-            inherit system username overlays inputs;
+            inherit system username overlays inputs workHostName;
           };
           modules = [
             {nixpkgs.overlays = overlays;}
@@ -209,15 +126,6 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
           ];
         };
 
-      /*
-      -----------------------
-      */
-      /*
-      |    Home config       |
-      */
-      /*
-      -----------------------
-      */
       Prime = let
         username = "zacharythomas";
       in
@@ -232,12 +140,6 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
             ./nix/hosts/prime/dar_conf.nix
           ];
         };
-      # mkDarConf
-      # personal
-      # {
-      #   darwinModules = [./nix/hosts/prime/dar_conf.nix];
-      #   homeModules = [./home.nix ./nix/personal.hm.nix ./nix/modules/home];
-      # };
     };
     nixosConfigurations = {
       #  ------------------

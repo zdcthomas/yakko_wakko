@@ -103,11 +103,11 @@ return {
 								add = { "function () ", " end" },
 							},
 							["p"] = {
-								add = { "vim.pretty_print(", ")" },
-								find = "vim%.pretty_print%b()",
-								delete = "^(vim%.pretty_print%()().-(%))()$",
+								add = { "vim.print(", ")" },
+								find = "vim%.print%b()",
+								delete = "^(vim%.print%()().-(%))()$",
 								change = {
-									target = "^(vim%.pretty_print%()().-(%))()$",
+									target = "^(vim%.print%()().-(%))()$",
 								},
 							},
 						},
