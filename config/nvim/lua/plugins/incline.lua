@@ -2,7 +2,7 @@ return {
 	"b0o/incline.nvim",
 	lazy = false,
 	cond = false,
-	config = {
+	opts = {
 		-- debounce_threshold = {
 		-- 	falling = 50,
 		-- 	rising = 10,

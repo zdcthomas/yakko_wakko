@@ -76,7 +76,7 @@ return {
 			},
 			{
 				"SmiteshP/nvim-navic",
-				requires = "neovim/nvim-lspconfig",
+				dependencies = { "neovim/nvim-lspconfig" },
 			},
 			{ "weilbith/nvim-code-action-menu", cmd = "CodeActionMenu" },
 			"j-hui/fidget.nvim",

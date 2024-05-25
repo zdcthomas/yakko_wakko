@@ -73,6 +73,9 @@ in
           python3
           vscode-langservers-extracted
           nodePackages.typescript-language-server
+          # for luasnip
+          luajitPackages.jsregexp
+          tree-sitter
         ]
         ++ optionals cfg.language_servers.nix [
           # nixpkgs-fmt

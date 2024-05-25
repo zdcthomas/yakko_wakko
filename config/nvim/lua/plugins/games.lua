@@ -2,6 +2,13 @@ return {
 	{ "seandewar/nvimesweeper", cmd = "Nvimesweeper" },
 	{ "Eandrju/cellular-automaton.nvim", cmd = "CellularAutomaton" },
 	{
+		"rktjmp/playtime.nvim",
+		cmd = {
+			"Playtime",
+		},
+		opts = {},
+	},
+	{
 		"jim-fx/sudoku.nvim",
 		cmd = "Sudoku",
 		config = function()

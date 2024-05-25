@@ -14,7 +14,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       tmuxPlugins.tmux-fzf
-      tmux
+      # unstable.tmux
       dmux
     ];
     home.file = {
@@ -48,6 +48,7 @@ in {
         sensibleOnTop = false;
         historyLimit = 200000;
         customPaneNavigationAndResize = true;
+        package = pkgs.unstable.tmux;
         plugins = with pkgs; [
           tmuxPlugins.tmux-fzf
           {
@@ -65,15 +66,18 @@ in {
           }
         ];
         keyMode = "vi";
-        terminal = "$TERM";
+        terminal = "screen-256color";
         aggressiveResize = true;
         escapeTime = 0;
         extraConfig = ''
           # undercurl support
           set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+          set -sg terminal-overrides "*:RGB"
           set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
           set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
 
+
+          set-option -g focus-events on
           set-option -g status "on"
           set -g status-justify centre
           set -g status-position top
