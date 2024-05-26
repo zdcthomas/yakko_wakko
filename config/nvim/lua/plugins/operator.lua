@@ -26,7 +26,7 @@ local function search(lines)
 	if #lines > 1 then
 		return
 	end
-	require("telescope.builtin").grep_string({ search = lines[1] })
+	require("fzf-lua").grep({ search = lines[1] })
 end
 
 return {

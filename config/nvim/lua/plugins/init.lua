@@ -146,9 +146,13 @@ return {
 				require("fzf-lua").complete_path()
 			end, { silent = true, desc = "Fuzzy complete path" })
 
-			vim.keymap.set({ "n" }, "<leader>P", function()
+			vim.keymap.set({ "n" }, "<leader>p", function()
 				require("fzf-lua").files()
 			end, { silent = true, desc = "fzf find files" })
+
+			vim.keymap.set({ "n" }, "<leader>F", function()
+				require("fzf-lua").live_grep()
+			end, { silent = true, desc = "fzf find" })
 		end,
 
 		config = function()
