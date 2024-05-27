@@ -1,8 +1,8 @@
+# TODO: <27-05-24, zdcthomas> hyprcursor
 {
   config,
   pkgs,
   lib,
-  inputs,
   ...
 }: let
   cfg = config.custom.hm.hyprland;
@@ -16,7 +16,7 @@
     lib.attrsets.mapAttrs
     (name: value: ("#" + value + "FF"))
     config.colorScheme.colors;
-  swaylock = pkgs.swaylock-effects;
+  # swaylock = pkgs.swaylock-effects;
   templateFile = import ../../../templateFile.nix {inherit pkgs;};
 in {
   options = {
@@ -36,77 +36,86 @@ in {
       font = "FiraCode";
       actions = true;
     };
-    programs.swaylock = {
+    services.hypridle = {
       enable = true;
-      package = swaylock;
       settings = {
-        # color = col.base0D;
-        clock = true;
-        effect-pixelate = 20;
-        fade-in = 0.2;
-        image = "${../../../../images/wallpapers/alleyway.png}";
-        font-size = 24;
-        indicator-idle-visible = true;
-        indicator = true;
-        indicator-caps-lock = true;
-        indicator-radius = 100;
-        indicator-thickness = 20;
-        line-color = col.base05 + "60";
-        ring-color = col.base06 + "60";
-        inside-color = col.base07 + "60";
-        show-failed-attempts = true;
+        general = {
+          after_sleep_cmd = "hyprctl dispatch dpms on";
+          ignore_dbus_inhibit = false;
+          lock_cmd = "hyprlock";
+        };
 
-        bs-hl-color = col.base04;
-        key-hl-color = col.base06;
-        separator-color = col.base00;
-        text-color = col.base00;
-
-        inside-clear-color = col.base03;
-        line-clear-color = col.base03;
-        ring-clear-color = col.base01;
-
-        inside-ver-color = col.base0B;
-        line-ver-color = col.base0D;
-        ring-ver-color = col.base0B;
-
-        inside-wrong-color = col.base0C;
-        line-wrong-color = col.base0A;
-        ring-wrong-color = col.base0E;
+        listener = [
+          {
+            timeout = 180;
+            on-timeout = "brightnessctl -c backlight s 50%";
+            on-resume = "brightnessctl -c backlight s 100%";
+          }
+          {
+            timeout = 300;
+            on-timeout = "hyprlock";
+          }
+          {
+            timeout = 1200;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
       };
     };
 
-    services.swayidle = {
+    services.hyprpaper = {
       enable = true;
-      systemdTarget = "hyprland-session.target";
-      timeouts = [
-        {
-          timeout = 290;
-          command = "${pkgs.libnotify}/bin/notify-send 'Locking in 10 seconds' -t 10000";
-        }
-        {
-          timeout = 300;
-          command = "${swaylock}/bin/swaylock -f";
-        }
-        # {
-        #   timeout = 600;
-        #   command = "${pkgs.hyprland}/bin/hyprctl 'output * dpms off'";
-        #   resumeCommand = "${pkgs.hyprland}/bin/hyprctl 'output * dpms on'";
-        # }
-      ];
-      events = [
-        {
-          event = "before-sleep";
-          command = "${swaylock}/bin/swaylock -f";
-        }
-        # {
-        #   event = "after-resume";
-        #   command = "hyprctl dispatch dpms on";
-        # }
-      ];
-    };
 
-    home.file = {
-      ".config/hypr/hyprpaper.conf".source = ./hyprpaper.conf;
+      settings = let
+        wp = ../../../../images/wallpapers/alleyway.png;
+      in {
+        splash = false;
+
+        preload = ["${wp}"];
+
+        wallpaper = [
+          ",${wp}"
+        ];
+      };
+    };
+    programs = {
+      hyprlock = {
+        enable = true;
+        settings = {
+          general = {
+            disable_loading_bar = true;
+            grace = 300;
+            hide_cursor = true;
+            no_fade_in = false;
+          };
+
+          background = [
+            {
+              path = "${../../../../images/wallpapers/alleyway.png}";
+              blur_passes = 3;
+              blur_size = 8;
+            }
+          ];
+
+          input-field = [
+            {
+              # TODO: <27-05-24, zdcthomas> stylix
+              size = "200, 50";
+              position = "0, -80";
+              monitor = "";
+              dots_center = true;
+              fade_on_empty = false;
+              font_color = "rgb(202, 211, 245)";
+              inner_color = "rgb(91, 96, 120)";
+              outer_color = "rgb(24, 25, 38)";
+              outline_thickness = 5;
+              placeholder_text = ''Welcome Back'';
+              shadow_passes = 2;
+            }
+          ];
+        };
+      };
     };
 
     custom.hm = {
@@ -118,7 +127,9 @@ in {
     wayland.windowManager.hyprland = {
       enable = true;
       # enableNvidiaPatches = true;
-      systemdIntegration = true;
+      systemd = {
+        enable = true;
+      };
       xwayland.enable = true;
       # recommendedEnvironment = true;
       plugins = [
@@ -145,7 +156,6 @@ in {
           inputRaise = "${pkgs.alsa-utils}/bin/amixer set Capture 10%+";
           brightnessLower = "${pkgs.brightnessctl}/bin/brightnessctl set 4%-";
           brightnessRaise = "${pkgs.brightnessctl}/bin/brightnessctl set 4%+";
-          hyprpaper = "${pkgs.hyprpaper}/bin/hyprpaper &";
           wlsunset = "${pkgs.wlsunset}/bin/wlsunset -l 40.7 -L -74.0 -s 15:00&";
           udiskie = "${pkgs.udiskie}/bin/udiskie &";
           grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
@@ -176,7 +186,7 @@ in {
             "-Dexperimental=true"
           ];
       }))
-      eww-wayland
+      eww
       hyprland-contrib.grimblast
       udiskie
       udisks
@@ -191,7 +201,6 @@ in {
       libnotify
       swww
       networkmanagerapplet
-      hyprpaper
       pamixer
 
       pavucontrol

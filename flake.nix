@@ -13,7 +13,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
     };
     hyprland = {
-      url = "github:hyprwm/Hyprland";
+      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     };
     anyrun = {
       url = "github:Kirottu/anyrun";
@@ -34,7 +34,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
         nixpkgs.follows = "nixpkgs";
       };
     };
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     discord = {
       url = "github:InternetUnexplorer/discord-overlay";
@@ -49,7 +49,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dmux = {
@@ -145,28 +145,27 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       #  ------------------
       #  |    Thinkpad    |
       #  ------------------
-       nixos = nixpkgs.lib.nixosSystem rec {
-         system = "x86_64-linux";
-         specialArgs = {
-           inherit inputs;
-           inherit overlays;
-           inherit system;
-           username = "zdcthomas";
-         };
-         modules = [
-           nixos-hardware.nixosModules.lenovo-thinkpad
-           inputs.hyprland.nixosModules.default
-           ({...}: {
-             nixpkgs.overlays =
-               overlays
-               ++ [
-                 # inputs.neovim-nightly-overlay.overlay
-               ];
-           })
-           ./nix/hosts/thinkpad/configuration.nix
-         ];
-       };
-             
+      nixos = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs;
+          inherit overlays;
+          inherit system;
+          username = "zdcthomas";
+        };
+        modules = [
+          nixos-hardware.nixosModules.lenovo-thinkpad
+          inputs.hyprland.nixosModules.default
+          ({...}: {
+            nixpkgs.overlays =
+              overlays
+              ++ [
+                # inputs.neovim-nightly-overlay.overlay
+              ];
+          })
+          ./nix/hosts/thinkpad/configuration.nix
+        ];
+      };
 
       opt = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";

@@ -19,7 +19,6 @@ in
       zdct.de =
         mkOption
         {
-          
           type = types.enum [
             "i3"
             "hyprland"

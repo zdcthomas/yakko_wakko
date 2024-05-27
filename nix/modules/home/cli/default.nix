@@ -114,7 +114,10 @@ in {
       };
       eza = {
         enable = true;
-        enableAliases = true;
+        enableZshIntegration = true;
+        enableBashIntegration = true;
+        enableFishIntegration = true;
+        enableNushellIntegration = true;
         /*
         ls = "${pkgs.exa}/bin/exa";
         */
