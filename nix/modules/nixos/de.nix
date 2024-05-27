@@ -30,6 +30,12 @@ in
       (
         mkIf (cfg == "i3")
         {
+          services.displayManager = {
+            autoLogin = {
+              enable = true;
+              user = "zdcthomas";
+            };
+          };
           # Enable the X11 windowing system.
           services.xserver = {
             enable = true;
@@ -38,10 +44,10 @@ in
             autorun = true;
             displayManager = {
               defaultSession = "none+i3";
-              autoLogin = {
-                enable = true;
-                user = "zdcthomas";
-              };
+              # autoLogin = {
+              #   enable = true;
+              #   user = "zdcthomas";
+              # };
               lightdm = {
                 enable = true;
               };

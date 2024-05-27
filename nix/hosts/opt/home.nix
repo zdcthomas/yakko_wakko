@@ -29,6 +29,7 @@ in {
     #  enable = true;
     #};
     anyrun.enable = true;
+    foot.enable = true;
     # game_dev.enable = true;
     alacritty.enable = true;
     bash.enable = true;
@@ -42,6 +43,7 @@ in {
     tmux.enable = true;
     wezterm = {
       enable = true;
+      opacity = "0.7";
     };
     zathura.enable = true;
     zsh.enable = true;

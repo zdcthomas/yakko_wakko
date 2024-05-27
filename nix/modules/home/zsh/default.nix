@@ -15,7 +15,9 @@ in {
     home.packages = [pkgs.carapace];
     programs.zsh = {
       enable = true;
-      enableAutosuggestions = true;
+      autosuggestion = {
+        enable = true;
+      };
       enableCompletion = true;
       history.extended = true;
       autocd = true;

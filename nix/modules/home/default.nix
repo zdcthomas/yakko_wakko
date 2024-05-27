@@ -7,6 +7,7 @@
     ./firefox.nix
     ./fish
     ./font.nix
+    ./foot
     ./game_dev.nix
     ./git
     ./hammerspoon.nix

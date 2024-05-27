@@ -79,7 +79,7 @@ args @ {
   # Enable networking
   networking = {
     networkmanager.enable = true;
-    hostName = "opt"; # Define your hostname.
+    hostName = username; # Define your hostname.
   };
 
   # Set your time zone.
@@ -114,9 +114,9 @@ args @ {
   # };
 
   services = {
-    xserver.displayManager.autoLogin = {
+    displayManager.autoLogin = {
       enable = true;
-      user = "opt";
+      user = username;
     };
     printing.enable = true;
 
