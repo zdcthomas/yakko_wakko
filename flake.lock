@@ -885,6 +885,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_9": {
+      "locked": {
+        "lastModified": 1715447595,
+        "narHash": "sha256-VsVAUQOj/cS1LCOmMjAGeRksXIAdPnFIjCQ0XLkCsT0=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "062ca2a9370a27a35c524dc82d540e6e9824b652",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "locked": {
         "lastModified": 1709073950,
@@ -897,6 +913,24 @@
       "original": {
         "owner": "nix-community",
         "repo": "NUR",
+        "type": "github"
+      }
+    },
+    "phinger-hypr": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_9"
+      },
+      "locked": {
+        "lastModified": 1715636322,
+        "narHash": "sha256-66UJUns0ZEk3TdvUi0+4WY9nhTFZusSPca1saM8JbiI=",
+        "owner": "Jappie3",
+        "repo": "hyprcursor-phinger",
+        "rev": "3b8f975e16ffb6ff18ccf86481e6274a8d08893b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Jappie3",
+        "repo": "hyprcursor-phinger",
         "type": "github"
       }
     },
@@ -919,6 +953,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_8",
         "nur": "nur",
+        "phinger-hypr": "phinger-hypr",
         "split-monitor-workspaces": "split-monitor-workspaces",
         "unstable": "unstable"
       }

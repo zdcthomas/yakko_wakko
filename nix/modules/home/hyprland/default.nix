@@ -80,6 +80,7 @@ in {
       };
     };
     programs = {
+      hyprcursor-phinger.enable = true;
       hyprlock = {
         enable = true;
         settings = {
@@ -178,6 +179,12 @@ in {
       in
         builtins.readFile (templateFile "hyprconf" ./hyprland.conf data);
     };
+    # home.pointerCursor = {
+    #   name = "phinger-cursors-light";
+    #   package = pkgs.phinger-cursors;
+    #   size = 32;
+    #   gtk.enable = true;
+    # };
     home.packages = with pkgs; [
       (waybar.overrideAttrs (oldAttrs: {
         mesonFlags =

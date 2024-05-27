@@ -14,6 +14,7 @@
 in {
   imports = [
     ../../modules/home
+    inputs.phinger-hypr.homeManagerModules.hyprcursor-phinger
   ];
 
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
