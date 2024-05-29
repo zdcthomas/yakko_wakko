@@ -5,6 +5,23 @@
   ...
 }: let
   cfg = config.custom.hm.zsh;
+  zsh-syntax-highlighting = with pkgs;
+    stdenv.mkDerivation rec {
+      version = "0.8.0";
+      pname = "zsh-syntax-highlighting";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "zsh-users";
+        repo = "zsh-syntax-highlighting";
+        rev = version;
+        sha256 = "sha256-iJdWopZwHpSyYl5/FQXEW7gl/SrKaYDEtTH9cGP7iPo=";
+      };
+
+      strictDeps = true;
+      buildInputs = [zsh];
+
+      installFlags = ["PREFIX=$(out)"];
+    };
 in {
   options = {
     custom.hm.zsh = {
@@ -20,6 +37,10 @@ in {
       };
       enableCompletion = true;
       history.extended = true;
+      syntaxHighlighting = {
+        enable = true;
+        package = zsh-syntax-highlighting;
+      };
       autocd = true;
       initExtra = let
         native = builtins.readFile ./zsh_extra_config.zsh;
@@ -70,13 +91,13 @@ in {
         . ${fzf-tab}/fzf-tab.plugin.zsh
       '';
       plugins = [
-        # {
-        #   name = "_git";
-        #   src = pkgs.fetchurl {
-        #     url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
-        #     sha256 = "sha256-zspIBpZDxsRaP21hi2Zvh4rF+JsXk0yBvcHpDJivLjI=";
-        #   };
-        # }
+        {
+          name = "_git";
+          src = pkgs.fetchurl {
+            url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
+            sha256 = "sha256-zspIBpZDxsRaP21hi2Zvh4rF+JsXk0yBvcHpDJivLjI=";
+          };
+        }
         {
           name = "zsh-history-substring-search";
           src = pkgs.fetchFromGitHub {
@@ -84,15 +105,6 @@ in {
             repo = "zsh-history-substring-search";
             rev = "v1.1.0";
             sha256 = "sha256-GSEvgvgWi1rrsgikTzDXokHTROoyPRlU0FVpAoEmXG4=";
-          };
-        }
-        {
-          name = "zsh-syntax-highlighting";
-          src = pkgs.fetchFromGitHub {
-            owner = "zsh-users";
-            repo = "zsh-syntax-highlighting";
-            rev = "0.8.0";
-            sha256 = "sha256-iJdWopZwHpSyYl5/FQXEW7gl/SrKaYDEtTH9cGP7iPo=";
           };
         }
         {
@@ -112,15 +124,6 @@ in {
             repo = "git-prompt.zsh";
             rev = "v2.4.0";
             sha256 = "sha256-Q7Dp6Xgt5gvkWZL+htDmGYk9RTglOWrrbl6Wf6q/qjY=";
-          };
-        }
-        {
-          name = "zsh-autosuggestions";
-          src = pkgs.fetchFromGitHub {
-            owner = "zsh-users";
-            repo = "zsh-autosuggestions";
-            rev = "v0.7.0";
-            sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
           };
         }
       ];
