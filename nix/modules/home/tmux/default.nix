@@ -44,7 +44,7 @@ in {
         extraConfig = (builtins.readFile ./tmux.conf);
         */
         /**/
-        # shell = "${pkgs.zsh}/bin/zsh";
+        shell = "${pkgs.zsh}/bin/zsh";
         sensibleOnTop = false;
         historyLimit = 200000;
         customPaneNavigationAndResize = true;
@@ -75,6 +75,7 @@ in {
           set -sg terminal-overrides "*:RGB"
           set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
           set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
+          bind -r -N "Run Dmux" f run-shell "${pkgs.dmux}"
 
 
           set-option -g focus-events on
