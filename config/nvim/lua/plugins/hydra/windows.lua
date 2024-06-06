@@ -10,7 +10,6 @@ local window_hint = [[
 return {
 	config = {
 		hint = {
-			border = "rounded",
 			position = "bottom",
 		},
 		color = "pink",

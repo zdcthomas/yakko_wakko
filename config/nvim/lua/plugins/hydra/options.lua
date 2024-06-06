@@ -37,7 +37,6 @@ return {
 		color = "amaranth",
 		invoke_on_body = true,
 		hint = {
-			border = "rounded",
 			position = "top-right",
 			funcs = {
 				number = option_check("number"),
