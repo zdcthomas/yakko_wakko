@@ -27,7 +27,9 @@ Module.rebuild_hydra = function()
 				show_name = true,
 				type = "window",
 				position = "top-right",
-				border = "rounded",
+				float_opts = {
+					border = "double",
+				},
 			},
 		},
 		mode = "n",

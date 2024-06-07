@@ -1,3 +1,4 @@
+# https://github.com/LudovicoPiero/dotfiles/blob/main/cells/workstations/nixosProfiles/greetd/default.nix
 {
   de,
   lib,

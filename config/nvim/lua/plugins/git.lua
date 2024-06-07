@@ -5,7 +5,6 @@ local function setup_hydra()
 			invoke_on_body = true,
 			hint = {
 				position = "bottom",
-				border = "rounded",
 			},
 			on_exit = function()
 				vim.cmd("echo") -- clear the echo area

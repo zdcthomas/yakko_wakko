@@ -8,6 +8,7 @@
 --  -------------------
 
 local meh = { "alt", "ctrl" }
+local huh = { "cmd", "ctrl" }
 local super = { "cmd", "alt", "ctrl" }
 local preferedTerminal = "wezterm"
 local preferedBrowser = "Firefox"
@@ -87,10 +88,6 @@ hs.hotkey.bind(meh, "Return", function()
 	wm.windowMaximize(0)
 end)
 
-hs.hotkey.bind(meh, "right", function()
-	wm.moveWindowToPosition(wm.screenPositions.right)
-end)
-
 hs.hotkey.bind(super, "Right", function()
 	hs.window.focusedWindow():moveOneScreenEast()
 end)
@@ -99,24 +96,33 @@ hs.hotkey.bind(super, "Left", function()
 	hs.window.focusedWindow():moveOneScreenWest()
 end)
 
-hs.hotkey.bind(meh, "left", function()
+hs.hotkey.bind(meh, "h", function()
 	wm.moveWindowToPosition(wm.screenPositions.left)
 end)
-
-hs.hotkey.bind(meh, "u", function()
-	wm.moveWindowToPosition(wm.screenPositions.topLeft)
+hs.hotkey.bind(meh, "l", function()
+	wm.moveWindowToPosition(wm.screenPositions.right)
 end)
-
-hs.hotkey.bind(meh, "i", function()
-	wm.moveWindowToPosition(wm.screenPositions.topRight)
-end)
-
-hs.hotkey.bind(meh, "k", function()
-	wm.moveWindowToPosition(wm.screenPositions.bottomRight)
-end)
-
 hs.hotkey.bind(meh, "j", function()
-	wm.moveWindowToPosition(wm.screenPositions.bottomLeft)
+	wm.moveWindowToPosition(wm.screenPositions.bottom)
 end)
+hs.hotkey.bind(meh, "k", function()
+	wm.moveWindowToPosition(wm.screenPositions.top)
+end)
+
+-- hs.hotkey.bind(meh, "u", function()
+-- 	wm.moveWindowToPosition(wm.screenPositions.topLeft)
+-- end)
+--
+-- hs.hotkey.bind(meh, "i", function()
+-- 	wm.moveWindowToPosition(wm.screenPositions.topRight)
+-- end)
+--
+-- hs.hotkey.bind(meh, "k", function()
+-- 	wm.moveWindowToPosition(wm.screenPositions.bottomRight)
+-- end)
+--
+-- hs.hotkey.bind(meh, "j", function()
+-- 	wm.moveWindowToPosition(wm.screenPositions.bottomLeft)
+-- end)
 
 -- local yabai = require("yabai")
