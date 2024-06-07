@@ -158,6 +158,7 @@ in {
     */
     packages = with pkgs; [
       dwarf-fortress-packages.dwarf-fortress-full
+      diagon
       keymapp
       spotify-player
       fltrdr

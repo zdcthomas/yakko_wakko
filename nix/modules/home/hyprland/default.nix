@@ -26,6 +26,10 @@ in {
   };
   config = lib.mkIf cfg.enable {
     # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
+    services.cliphist = {
+      enable = true;
+      systemdTarget = "hyprland-session.target";
+    };
     services.mako = {
       enable = true;
       borderRadius = 10;
@@ -90,6 +94,28 @@ in {
             hide_cursor = true;
             no_fade_in = false;
           };
+          label = [
+            {
+              text = "Hello";
+              color = "rgba(${col.base07}, 1.0)";
+              font_family = "PragmataPro";
+              font_size = 64;
+              text_align = "center";
+              halign = "center";
+              valign = "center";
+              position = "0, 160";
+            }
+            {
+              text = "$TIME";
+              color = "rgba(${col.base07}, 1.0)";
+              font_family = "PragmataPro";
+              font_size = 32;
+              text_align = "center";
+              halign = "center";
+              valign = "center";
+              position = "0, 75";
+            }
+          ];
 
           background = [
             {
@@ -158,6 +184,7 @@ in {
           brightnessLower = "${pkgs.brightnessctl}/bin/brightnessctl set 4%-";
           brightnessRaise = "${pkgs.brightnessctl}/bin/brightnessctl set 4%+";
           wlsunset = "${pkgs.wlsunset}/bin/wlsunset -l 40.7 -L -74.0 -s 15:00&";
+          cliphist = "${pkgs.cliphist}/bin/cliphist";
           udiskie = "${pkgs.udiskie}/bin/udiskie &";
           grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
           openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";

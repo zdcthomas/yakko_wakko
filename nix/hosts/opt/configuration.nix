@@ -47,6 +47,19 @@ args @ {
       pragmataPro
     ];
   };
+  networking.extraHosts = let
+    domains = [
+      "x"
+      "facebook"
+      "instagram"
+    ];
+  in
+    pkgs.lib.concatMapStringsSep "\n"
+    (domain: ''
+      127.0.0.1 ${domain}.com
+      127.0.0.1 www.${domain}.com
+    '')
+    domains;
 
   zdct = {
     de = "hyprland";
@@ -253,4 +266,30 @@ args @ {
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
+
+  hardware.bluetooth = {
+    enable = true;
+    package = pkgs.bluez5-experimental;
+    #hsphfpd.enable = true;
+    powerOnBoot = true;
+    disabledPlugins = ["sap"];
+    settings = {
+      General = {
+        JustWorksRepairing = "always";
+        MultiProfile = "multiple";
+      };
+    };
+  };
+  services.blueman.enable = true;
+
+  environment.etc = {
+    "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
+      bluez_monitor.properties = {
+        ["bluez5.enable-sbc-xq"] = true,
+        ["bluez5.enable-msbc"] = true,
+        ["bluez5.enable-hw-volume"] = true,
+        ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+      }
+    '';
+  };
 }

@@ -88,7 +88,6 @@ in {
         ${prompt}
         ${native}
         source <(${pkgs.carapace}/bin/carapace _carapace)
-        . ${fzf-tab}/fzf-tab.plugin.zsh
       '';
       plugins = [
         {
