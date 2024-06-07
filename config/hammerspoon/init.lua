@@ -88,13 +88,13 @@ hs.hotkey.bind(meh, "Return", function()
 	wm.windowMaximize(0)
 end)
 
--- hs.hotkey.bind(super, "Right", function()
--- 	hs.window.focusedWindow():moveOneScreenEast()
--- end)
---
--- hs.hotkey.bind(super, "Left", function()
--- 	hs.window.focusedWindow():moveOneScreenWest()
--- end)
+hs.hotkey.bind(super, "Right", function()
+	hs.window.focusedWindow():moveOneScreenEast()
+end)
+
+hs.hotkey.bind(super, "Left", function()
+	hs.window.focusedWindow():moveOneScreenWest()
+end)
 
 hs.hotkey.bind(meh, "h", function()
 	wm.moveWindowToPosition(wm.screenPositions.left)
