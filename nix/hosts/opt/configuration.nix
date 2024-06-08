@@ -281,6 +281,13 @@ args @ {
     };
   };
   services.blueman.enable = true;
+  services.udev = {
+    enable = true;
+    extraRules = ''
+      # CMSIS-DAP for microbit
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE:="666"
+    '';
+  };
 
   environment.etc = {
     "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''

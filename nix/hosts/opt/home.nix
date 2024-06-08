@@ -183,6 +183,10 @@ in {
       weechat
       openssh
 
+      gdb
+      minicom
+      usbutils
+
       calibre
       jp2a
       vhs

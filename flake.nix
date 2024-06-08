@@ -186,6 +186,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
             nixpkgs.overlays =
               overlays;
           })
+          nixos-hardware.nixosModules.framework-16-7040-amd
           ./nix/hosts/opt/configuration.nix
         ];
       };
