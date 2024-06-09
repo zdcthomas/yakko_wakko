@@ -44,6 +44,7 @@ in {
     wezterm = {
       enable = true;
       opacity = "0.7";
+      font-size = "10";
     };
     zathura.enable = true;
     zsh.enable = true;

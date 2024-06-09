@@ -3,6 +3,7 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }: let
   cfg = config.custom.hm.hyprland;
@@ -160,6 +161,7 @@ in {
       xwayland.enable = true;
       # recommendedEnvironment = true;
       plugins = [
+        inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
         # inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
         # inputs.hyprland-plugins.packages.${pkgs.system}.hyprwinwrap
       ];
@@ -197,8 +199,8 @@ in {
                 in
                   builtins.toString (x + 1 - (c * 10));
               in ''
-                bind = $mainMod, ${ws}, workspace, ${toString (x + 1)}
-                bind = $mainMod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
+                bind = $mainMod, ${ws}, split-workspace, ${toString (x + 1)}
+                bind = $mainMod SHIFT, ${ws}, split-movetoworkspace, ${toString (x + 1)}
               ''
             )
             10);

@@ -61,7 +61,7 @@ return {
 				"tsx",
 				"typescript",
 				"vim",
-				"vimdoc",
+				-- "vimdoc",
 			},
 			highlight = {
 				enable = true,
