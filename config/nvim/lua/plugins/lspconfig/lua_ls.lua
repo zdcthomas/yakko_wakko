@@ -4,15 +4,15 @@ Module.setup = function(capabilities, common_on_attach)
 	local runtime_path = vim.split(package.path, ";")
 	table.insert(runtime_path, "lua/?.lua")
 	table.insert(runtime_path, "lua/?/init.lua")
-	require("neodev").setup({
-		library = { plugins = { "nvim-dap-ui" }, types = true },
-		override = function(root_dir, library)
-			if root_dir:find("/etc/nixos", 1, true) == 1 then
-				library.enabled = true
-				library.plugins = true
-			end
-		end,
-	})
+	-- require("neodev").setup({
+	-- 	library = { plugins = { "nvim-dap-ui" }, types = true },
+	-- 	override = function(root_dir, library)
+	-- 		if root_dir:find("/etc/nixos", 1, true) == 1 then
+	-- 			library.enabled = true
+	-- 			library.plugins = true
+	-- 		end
+	-- 	end,
+	-- })
 
 	-- then setup your lsp server as usual
 	local lspconfig = require("lspconfig")

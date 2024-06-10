@@ -3,6 +3,7 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }: let
   cfg = config.custom.hm.hyprland;
@@ -26,6 +27,10 @@ in {
   };
   config = lib.mkIf cfg.enable {
     # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
+    services.cliphist = {
+      enable = true;
+      systemdTarget = "hyprland-session.target";
+    };
     services.mako = {
       enable = true;
       borderRadius = 10;
@@ -69,13 +74,15 @@ in {
 
       settings = let
         wp = ../../../../images/wallpapers/alleyway.png;
+        sd = ../../../../images/wallpapers/summer-day.png;
+        sn = ../../../../images/wallpapers/summer-night.png;
       in {
         splash = false;
 
-        preload = ["${wp}"];
+        preload = ["${wp}" "${sn}" "${sd}"];
 
         wallpaper = [
-          ",${wp}"
+          ",${sn}"
         ];
       };
     };
@@ -90,6 +97,28 @@ in {
             hide_cursor = true;
             no_fade_in = false;
           };
+          label = [
+            {
+              text = "Hello";
+              color = "rgba(${col.base07}, 1.0)";
+              font_family = "PragmataPro";
+              font_size = 64;
+              text_align = "center";
+              halign = "center";
+              valign = "center";
+              position = "0, 160";
+            }
+            {
+              text = "$TIME";
+              color = "rgba(${col.base07}, 1.0)";
+              font_family = "PragmataPro";
+              font_size = 32;
+              text_align = "center";
+              halign = "center";
+              valign = "center";
+              position = "0, 75";
+            }
+          ];
 
           background = [
             {
@@ -134,6 +163,7 @@ in {
       xwayland.enable = true;
       # recommendedEnvironment = true;
       plugins = [
+        inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
         # inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
         # inputs.hyprland-plugins.packages.${pkgs.system}.hyprwinwrap
       ];
@@ -158,6 +188,7 @@ in {
           brightnessLower = "${pkgs.brightnessctl}/bin/brightnessctl set 4%-";
           brightnessRaise = "${pkgs.brightnessctl}/bin/brightnessctl set 4%+";
           wlsunset = "${pkgs.wlsunset}/bin/wlsunset -l 40.7 -L -74.0 -s 15:00&";
+          cliphist = "${pkgs.cliphist}/bin/cliphist";
           udiskie = "${pkgs.udiskie}/bin/udiskie &";
           grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
           openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";
@@ -170,8 +201,8 @@ in {
                 in
                   builtins.toString (x + 1 - (c * 10));
               in ''
-                bind = $mainMod, ${ws}, workspace, ${toString (x + 1)}
-                bind = $mainMod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
+                bind = $mainMod, ${ws}, split-workspace, ${toString (x + 1)}
+                bind = $mainMod SHIFT, ${ws}, split-movetoworkspace, ${toString (x + 1)}
               ''
             )
             10);

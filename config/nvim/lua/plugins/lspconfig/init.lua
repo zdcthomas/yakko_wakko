@@ -82,10 +82,6 @@ return {
 			"j-hui/fidget.nvim",
 			"kosayoda/nvim-lightbulb",
 			{ "dodomorandi/rust-tools.nvim", dependencies = { "mfussenegger/nvim-dap" } },
-			{
-				"folke/neodev.nvim",
-				ft = "lua",
-			},
 		},
 		config = setup_lspconfig,
 	},

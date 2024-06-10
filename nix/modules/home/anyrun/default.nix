@@ -78,6 +78,8 @@ in {
             shell
             dictionary
             translate
+            stdin
+            websearch
           ];
           layer = "overlay";
           closeOnClick = true;

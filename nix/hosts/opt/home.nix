@@ -34,7 +34,7 @@ in {
     alacritty.enable = true;
     bash.enable = true;
     cli.enable = true;
-    fish.enable = true;
+    # fish.enable = true;
     git.enable = true;
     hyprland.enable = true;
     # music_making.enable = true;
@@ -44,6 +44,7 @@ in {
     wezterm = {
       enable = true;
       opacity = "0.7";
+      font-size = "10";
     };
     zathura.enable = true;
     zsh.enable = true;
@@ -158,6 +159,7 @@ in {
     */
     packages = with pkgs; [
       dwarf-fortress-packages.dwarf-fortress-full
+      diagon
       keymapp
       spotify-player
       fltrdr
@@ -181,6 +183,10 @@ in {
       nurl
       weechat
       openssh
+
+      gdb
+      minicom
+      usbutils
 
       calibre
       jp2a
