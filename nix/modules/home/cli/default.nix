@@ -116,7 +116,7 @@ in {
         enable = true;
         enableZshIntegration = true;
         enableBashIntegration = true;
-        enableFishIntegration = true;
+        # enableFishIntegration = true;
         enableNushellIntegration = true;
         /*
         ls = "${pkgs.exa}/bin/exa";
@@ -152,7 +152,7 @@ in {
         tmux.enableShellIntegration = true;
         enableBashIntegration = true;
         enableZshIntegration = true;
-        enableFishIntegration = true;
+        # enableFishIntegration = true;
       };
     };
   };

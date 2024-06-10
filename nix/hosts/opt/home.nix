@@ -34,7 +34,7 @@ in {
     alacritty.enable = true;
     bash.enable = true;
     cli.enable = true;
-    fish.enable = true;
+    # fish.enable = true;
     git.enable = true;
     hyprland.enable = true;
     # music_making.enable = true;

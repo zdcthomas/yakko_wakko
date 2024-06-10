@@ -74,13 +74,15 @@ in {
 
       settings = let
         wp = ../../../../images/wallpapers/alleyway.png;
+        sd = ../../../../images/wallpapers/summer-day.png;
+        sn = ../../../../images/wallpapers/summer-night.png;
       in {
         splash = false;
 
-        preload = ["${wp}"];
+        preload = ["${wp}" "${sn}" "${sd}"];
 
         wallpaper = [
-          ",${wp}"
+          ",${sn}"
         ];
       };
     };
