@@ -190,7 +190,7 @@ require("luasnip").get_snippets("lua", { type = "snippets" })
 ls.add_snippets("lua", {
 	postfix(
 		".pr",
-		fmt([[Pr("{}", {})]], {
+		fmt([[vim.print("{}", {})]], {
 			dyn_i(2, function(_, parent)
 				return parent.snippet.env.POSTFIX_MATCH
 			end),
@@ -201,7 +201,7 @@ ls.add_snippets("lua", {
 	),
 	s(
 		"pr",
-		fmt([[Pr("{}", {})]], {
+		fmt([[vim.print("{}", {})]], {
 			rep(1),
 			i(1),
 		})
@@ -293,13 +293,17 @@ ls.add_snippets("norg", {
 	),
 }, { key = "norg" })
 
-ls.add_snippets("ts", {
+ls.add_snippets("typescript", {
 	postfix(
-		{ trig = ".log", match_pattern = non_space },
-		d(1, function(_, snippet)
-			local content = snippet.env.POSTFIX_MATCH
-			return sn(nil, t("console.log(" .. content .. ")"))
-		end)
+		{ trig = ".l", match_pattern = non_space },
+		fmt([[console.log("{}", {})]], {
+			dyn_i(2, function(_, parent)
+				return parent.snippet.env.POSTFIX_MATCH
+			end),
+			dyn_i(1, function(_, parent)
+				return parent.snippet.env.POSTFIX_MATCH
+			end),
+		})
 	),
 }, { key = "typescriptreact" })
 ls.add_snippets("nix", {
