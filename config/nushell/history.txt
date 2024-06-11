@@ -1,0 +1,9 @@
+n
+vim `Library/Application Support/nushell/`
+nix
+v
+n
+nvim
+nvim Library/
+tmux a
+exit

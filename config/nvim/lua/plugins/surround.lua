@@ -129,8 +129,8 @@ return {
 				desc = "setup surround for eliixr",
 			})
 		end,
-		config = function()
-			require("nvim-surround").setup({})
-		end,
+		opts = {
+			move_cursor = "sticky",
+		},
 	},
 }
