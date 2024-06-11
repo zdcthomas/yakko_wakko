@@ -1,113 +1,3 @@
-# mode
-# mode.main
-# mode.main.binding
-# mode.main.binding.cmd-7
-# mode.main.binding.cmd-7.0
-# mode.main.binding.alt-ctrl-cmd-k
-# mode.main.binding.alt-ctrl-cmd-k.0
-# mode.main.binding.alt-e
-# mode.main.binding.alt-e.0
-# mode.main.binding.alt-ctrl-cmd-j
-# mode.main.binding.alt-ctrl-cmd-j.0
-# mode.main.binding.ctrl-cmd-j
-# mode.main.binding.ctrl-cmd-j.0
-# mode.main.binding.cmd-2
-# mode.main.binding.cmd-2.0
-# mode.main.binding.cmd-9
-# mode.main.binding.cmd-9.0
-# mode.main.binding.cmd-shift-f
-# mode.main.binding.cmd-shift-f.0
-# mode.main.binding.cmd-shift-j
-# mode.main.binding.cmd-shift-j.0
-# mode.main.binding.cmd-shift-r
-# mode.main.binding.cmd-shift-r.0
-# mode.main.binding.cmd-1
-# mode.main.binding.cmd-1.0
-# mode.main.binding.alt-s
-# mode.main.binding.alt-s.0
-# mode.main.binding.cmd-6
-# mode.main.binding.cmd-6.0
-# mode.main.binding.cmd-3
-# mode.main.binding.cmd-3.0
-# mode.main.binding.cmd-5
-# mode.main.binding.cmd-5.0
-# mode.main.binding.alt-ctrl-cmd-p
-# mode.main.binding.alt-ctrl-cmd-p.0
-# mode.main.binding.alt-ctrl-cmd-h
-# mode.main.binding.alt-ctrl-cmd-h.0
-# mode.main.binding.alt-ctrl-cmd-l
-# mode.main.binding.alt-ctrl-cmd-l.0
-# mode.main.binding.ctrl-cmd-r
-# mode.main.binding.ctrl-cmd-r.0
-# mode.main.binding.cmd-shift-1
-# mode.main.binding.cmd-shift-1.0
-# mode.main.binding.cmd-shift-1.1
-# mode.main.binding.cmd-0
-# mode.main.binding.cmd-0.0
-# mode.main.binding.cmd-shift-5
-# mode.main.binding.cmd-shift-5.0
-# mode.main.binding.cmd-shift-5.1
-# mode.main.binding.cmd-shift-7
-# mode.main.binding.cmd-shift-7.0
-# mode.main.binding.cmd-shift-7.1
-# mode.main.binding.ctrl-cmd-h
-# mode.main.binding.ctrl-cmd-h.0
-# mode.main.binding.cmd-shift-3
-# mode.main.binding.cmd-shift-3.0
-# mode.main.binding.cmd-shift-3.1
-# mode.main.binding.cmd-shift-8
-# mode.main.binding.cmd-shift-8.0
-# mode.main.binding.cmd-shift-8.1
-# mode.main.binding.cmd-shift-6
-# mode.main.binding.cmd-shift-6.0
-# mode.main.binding.cmd-shift-6.1
-# mode.main.binding.ctrl-cmd-l
-# mode.main.binding.ctrl-cmd-l.0
-# mode.main.binding.cmd-shift-0
-# mode.main.binding.cmd-shift-0.0
-# mode.main.binding.cmd-shift-0.1
-# mode.main.binding.cmd-shift-4
-# mode.main.binding.cmd-shift-4.0
-# mode.main.binding.cmd-shift-4.1
-# mode.main.binding.alt-ctrl-cmd-n
-# mode.main.binding.alt-ctrl-cmd-n.0
-# mode.main.binding.alt-w
-# mode.main.binding.alt-w.0
-# mode.main.binding.cmd-8
-# mode.main.binding.cmd-8.0
-# mode.main.binding.ctrl-cmd-k
-# mode.main.binding.ctrl-cmd-k.0
-# mode.main.binding.cmd-shift-9
-# mode.main.binding.cmd-shift-9.0
-# mode.main.binding.cmd-shift-9.1
-# mode.main.binding.ctrl-cmd-space
-# mode.main.binding.ctrl-cmd-space.0
-# mode.main.binding.cmd-shift-l
-# mode.main.binding.cmd-shift-l.0
-# mode.main.binding.cmd-shift-2
-# mode.main.binding.cmd-shift-2.0
-# mode.main.binding.cmd-shift-2.1
-# mode.main.binding.cmd-4
-# mode.main.binding.cmd-4.0
-# mode.resize
-# mode.resize.binding
-# mode.resize.binding.esc
-# mode.resize.binding.esc.0
-# mode.resize.binding.j
-# mode.resize.binding.j.0
-# mode.resize.binding.h
-# mode.resize.binding.h.0
-# mode.resize.binding.enter
-# mode.resize.binding.enter.0
-# mode.resize.binding.k
-# mode.resize.binding.k.0
-# mode.resize.binding.l
-# mode.resize.binding.l.0
-
-
-
-
-
 after-login-command = []
 after-startup-command = []
 start-at-login = true
@@ -169,36 +59,36 @@ cmd-ctrl-k = 'focus up'
 cmd-ctrl-l = 'focus right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
-cmd-ctrl-alt-h = 'move left'
-cmd-ctrl-alt-j = 'move down'
-cmd-ctrl-alt-k = 'move up'
-cmd-ctrl-alt-l = 'move right'
+ctrl-alt-h = 'move left'
+ctrl-alt-j = 'move down'
+ctrl-alt-k = 'move up'
+ctrl-alt-l = 'move right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
 alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-cmd-1 = 'workspace 1'
-cmd-2 = 'workspace 2'
-cmd-3 = 'workspace 3'
-cmd-4 = 'workspace 4'
-cmd-5 = 'workspace 5'
-cmd-6 = 'workspace 6'
-cmd-7 = 'workspace 7'
-cmd-8 = 'workspace 8'
-cmd-9 = 'workspace 9'
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-cmd-shift-1 = [ 'move-node-to-workspace 1', 'workspace 1' ]
-cmd-shift-2 = [ 'move-node-to-workspace 2', 'workspace 2' ]
-cmd-shift-3 = [ 'move-node-to-workspace 3', 'workspace 3' ]
-cmd-shift-4 = [ 'move-node-to-workspace 4', 'workspace 4' ]
-cmd-shift-5 = [ 'move-node-to-workspace 5', 'workspace 5' ]
-cmd-shift-6 = [ 'move-node-to-workspace 6', 'workspace 6' ]
-cmd-shift-7 = [ 'move-node-to-workspace 7', 'workspace 7' ]
-cmd-shift-8 = [ 'move-node-to-workspace 8', 'workspace 8' ]
-cmd-shift-9 = [ 'move-node-to-workspace 9', 'workspace 9' ]
+alt-shift-1 = [ 'move-node-to-workspace 1', 'workspace 1' ]
+alt-shift-2 = [ 'move-node-to-workspace 2', 'workspace 2' ]
+alt-shift-3 = [ 'move-node-to-workspace 3', 'workspace 3' ]
+alt-shift-4 = [ 'move-node-to-workspace 4', 'workspace 4' ]
+alt-shift-5 = [ 'move-node-to-workspace 5', 'workspace 5' ]
+alt-shift-6 = [ 'move-node-to-workspace 6', 'workspace 6' ]
+alt-shift-7 = [ 'move-node-to-workspace 7', 'workspace 7' ]
+alt-shift-8 = [ 'move-node-to-workspace 8', 'workspace 8' ]
+alt-shift-9 = [ 'move-node-to-workspace 9', 'workspace 9' ]
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
