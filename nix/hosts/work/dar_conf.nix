@@ -65,9 +65,14 @@
       "firefox"
       */
       "aws-vpn-client"
+      "aerospace"
     ];
     taps = [
       # "koekeishiya/formulae" # yabai
+      "nikitabobko/tap"
+
+      "homebrew/bundle"
+      "homebrew/services"
     ];
   };
 

@@ -21,6 +21,7 @@ in {
   custom.hm = {
     alacritty.enable = true;
     bash.enable = true;
+    aerospace.enable = true;
     nushell.enable = true;
     cli.enable = true;
     fish.enable = true;
