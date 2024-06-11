@@ -53,7 +53,7 @@ Module.setup = function(capabilities, common_on_attach)
 					-- 	enable = true,
 					-- },
 					checkOnSave = {
-						command = "clippy",
+						-- command = "clippy",
 					},
 					diagnostics = {
 						-- experimental = { enable = true },

@@ -160,6 +160,7 @@ in {
     packages = with pkgs; [
       dwarf-fortress-packages.dwarf-fortress-full
       diagon
+      overskride
       keymapp
       spotify-player
       fltrdr

@@ -62,6 +62,8 @@ in
           # zathura
           graph-easy
           fzf
+          deno
+          gcc
           fd
           jq
           silver-searcher

@@ -120,6 +120,8 @@ in {
             # on-click = "alacritty -e nmtui";
           };
           bluetooth = {
+            "on-click" = "${pkgs.blueberry}/bin/blueberry";
+            "on-click-right" = "${pkgs.overskride}/bin/overskride";
             format = " {status}";
             "format-connected" = " {device_alias}";
             "format-connected-battery" = " {device_alias} {device_battery_percentage}%";
