@@ -63,9 +63,11 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
     };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-      # Neovim 0.9.0
-      inputs.neovim-flake.url = "github:neovim/neovim?dir=contrib&rev=27fb62988e922c2739035f477f93cc052a4fee1e";
+      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.neovim-src = {
+        url = "github:neovim/neovim?dir=contrib&rev=27fb62988e922c2739035f477f93cc052a4fee1e";
+        flake = false;
+      };
     };
     nur = {
       url = "github:nix-community/NUR";

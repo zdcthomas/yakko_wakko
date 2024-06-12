@@ -183,6 +183,7 @@ in {
           micMute = "${pkgs.pamixer}/bin/pamixer --default-source -t";
           volumeLower = "${pkgs.pamixer}/bin/pamixer -d 5";
           volumeRaise = "${pkgs.pamixer}/bin/pamixer -i 5";
+          bluetooh_app = "${pkgs.overskride}/bin/overskride";
           inputLower = "${pkgs.alsa-utils}/bin/amixer set Capture 10%-";
           inputRaise = "${pkgs.alsa-utils}/bin/amixer set Capture 10%+";
           brightnessLower = "${pkgs.brightnessctl}/bin/brightnessctl set 4%-";
@@ -225,6 +226,7 @@ in {
           ];
       }))
       eww
+      blueberry
       hyprland-contrib.grimblast
       udiskie
       udisks

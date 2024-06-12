@@ -63,6 +63,9 @@ return {
 				"vim",
 				-- "vimdoc",
 			},
+			disable = {
+				"vimdoc",
+			},
 			highlight = {
 				enable = true,
 				additional_vim_regex_highlighting = { "org" },
