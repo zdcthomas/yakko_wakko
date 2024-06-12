@@ -150,6 +150,10 @@ return {
 				require("fzf-lua").files()
 			end, { silent = true, desc = "fzf find files" })
 
+			vim.keymap.set({ "n" }, "<leader>b", function()
+				require("fzf-lua").buffers()
+			end, { silent = true, desc = "fzf find files" })
+
 			vim.keymap.set({ "n" }, "<leader>F", function()
 				require("fzf-lua").live_grep()
 			end, { silent = true, desc = "fzf find" })
