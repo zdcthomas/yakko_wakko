@@ -1,7 +1,7 @@
 return {
 	{
 		"NStefan002/screenkey.nvim",
-		cmd = "Screenkey",
+		cmd = { "Screenkey" },
 		version = "*",
 		config = {
 			win_opts = {

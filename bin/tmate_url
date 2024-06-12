@@ -1,8 +1,0 @@
-#!bin/bash
-tmate_url () {
-  url="$(tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh}')"
-  echo "$url" | tr -d '\n' | pbcopy
-  echo "Copied tmate url for $TMATE_PAIR_NAME:"
-  echo "$url"
-}
-tmate_url

@@ -61,11 +61,11 @@ return {
 				"tsx",
 				"typescript",
 				"vim",
-				-- "vimdoc",
-			},
-			disable = {
 				"vimdoc",
 			},
+			-- disable = {
+			-- 	"vimdoc",
+			-- },
 			highlight = {
 				enable = true,
 				additional_vim_regex_highlighting = { "org" },

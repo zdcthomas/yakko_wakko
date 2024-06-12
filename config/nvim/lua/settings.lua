@@ -105,3 +105,9 @@ vim.cmd([[
   sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=DiagnosticLineNrInfo
   sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=DiagnosticLineNrHint
 ]])
+
+vim.api.nvim_create_user_command("Pair", function()
+	-- require("neoscroll")
+	require("screenkey").toggle()
+	require("relative-toggle")
+end, {})

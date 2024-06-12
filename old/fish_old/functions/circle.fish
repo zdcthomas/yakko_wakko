@@ -1,1 +1,0 @@
-/nix/store/da2msfizjq51yj291qr3b67ppwh37in2-home-manager-files/.config/fish/functions/circle.fish
