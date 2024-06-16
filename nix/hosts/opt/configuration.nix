@@ -133,6 +133,14 @@ args @ {
   # };
 
   services = {
+    fprintd = {
+      enable = true;
+    };
+    # libinput = {
+    #   enable = true;
+    #   touchpad.disableWhileTyping = true;
+    #   mouse.disableWhileTyping = true;
+    # };
     displayManager.autoLogin = {
       enable = true;
       user = username;
