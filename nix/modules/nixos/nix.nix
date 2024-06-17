@@ -20,33 +20,29 @@ in {
       # extraOptions = ''
       #   experimental-features = nix-command flakes
       # '';
+
+      # Map registries to channels
+      # Very useful when using legacy commands
+      nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
+
+      # Add each flake input as a registry
+      # To make nix3 commands consistent with the flake
       registry = lib.mapAttrs (_: v: {flake = v;}) inputs;
       settings = {
         warn-dirty = false;
         auto-optimise-store = true;
         builders-use-substitutes = true;
-        experimental-features = ["nix-command" "flakes"];
+        experimental-features = ["nix-command" "flakes" "repl-flake"];
         flake-registry = "/etc/nix/registry.json";
         trusted-users = [username];
         keep-derivations = true;
         keep-outputs = true;
-        substituters = [
-          "https://anyrun.cachix.org"
-          "https://nix-community.cachix.org"
-          "https://hyprland.cachix.org"
-        ];
-
-        trusted-public-keys = [
-          "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
-          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-          "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-        ];
       };
-      # gc = {
-      #   automatic = true;
-      #   dates = "weekly";
-      #   options = "--delete-older-than 7d";
-      # };
+      gc = {
+        automatic = true;
+        dates = "weekly";
+        options = "--delete-older-than 7d";
+      };
 
       optimise = {
         automatic = true;

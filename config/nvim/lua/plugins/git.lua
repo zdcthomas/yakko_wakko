@@ -16,7 +16,9 @@ local function setup_hydra()
 			{
 				"g",
 				function()
-					require("neogit").open({ kind = "replace" })
+					vim.schedule(function()
+						vim.cmd("Neogit")
+					end)
 				end,
 				{ exit = true, nowait = true },
 			},
@@ -127,6 +129,7 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		event = "BufReadPost",
+		tag = "v0.9.0",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -170,19 +173,35 @@ return {
 						vim.keymap.set(mode, l, r, opts)
 					end
 
-					map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<cr>", { desc = "Stage hunk under cursor" })
-					map("n", "<leader>gA", gs.stage_buffer, { desc = "Stage entire buffer" })
+					map("n", "<leader>ga", gs.stage_hunk)
+					map("n", "<leader>gr", gs.reset_hunk)
+					map("v", "<leader>ga", function()
+						gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+					end)
+					map("v", "<leader>gr", function()
+						gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+					end)
 
-					map("n", "<leader>gr", gs.undo_stage_hunk, { desc = "Undo changes to a hunk" })
-					map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<cr>", { desc = "Stage hunk under cursor" })
 					map("n", "<leader>gA", gs.stage_buffer, { desc = "Stage entire buffer" })
-					map("n", "<leader>gr", gs.undo_stage_hunk, { desc = "Undo changes to a hunk" })
 
 					map({ "n", "v" }, "<leader>gu", ":Gitsigns reset_hunk<cr>", { desc = "Undo the staging of a hunk" })
 					map("n", "<leader>gU", gs.reset_buffer, { desc = "Undo the staging of buffer" })
 
-					map("n", "<leader>gn", gs.next_hunk, { desc = "Next hunkk" })
-					map("n", "<leader>gp", gs.prev_hunk, { desc = "Previous hunk" })
+					map("n", "<leader>gn", function()
+						if vim.wo.diff then
+							vim.cmd.normal({ "<leader>gn", bang = true })
+						else
+							gs.nav_hunk("next", { count = 1 })
+						end
+					end)
+
+					map("n", "<leader>gp", function()
+						if vim.wo.diff then
+							vim.cmd.normal({ "<leader>gp", bang = true })
+						else
+							gs.nav_hunk("prev", { count = 1 })
+						end
+					end)
 
 					map("n", "<leader>gs", gs.preview_hunk, { desc = "Show hunk diff" })
 
@@ -194,6 +213,10 @@ return {
 					-- map("n", "<leader>gd", function()
 					-- 	gs.diffthis("~")
 					-- end, { desc = "Show side by side git diff" })
+					map("n", "<leader>gd", gs.diffthis)
+					map("n", "<leader>gD", function()
+						gs.diffthis("~")
+					end)
 
 					map("n", "<leader>gtd", gs.toggle_deleted, { desc = "show deleted" })
 
@@ -655,8 +678,21 @@ return {
 	{ "tpope/vim-fugitive", cmd = { "Git" } },
 	{
 		"NeogitOrg/neogit",
-		cmd = { "NeoGit" },
+		cmd = { "Neogit" },
 		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+		init = function()
+			vim.keymap.set("n", "<Leader>gg", "<cmd>Neogit<cr>")
+
+			local neogit_group = vim.api.nvim_create_augroup("NeogitGroup", { clear = true })
+			vim.api.nvim_create_autocmd("FileType", {
+				group = neogit_group,
+				pattern = { "NeogitStatus" },
+				callback = function()
+					vim.cmd([[set noreadonly]])
+				end,
+				desc = "Map q to close specific, read only buffers",
+			})
+		end,
 		config = function()
 			require("neogit").setup({
 				disable_commit_confirmation = false,

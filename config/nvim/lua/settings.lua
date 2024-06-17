@@ -28,7 +28,15 @@ vim.opt.hlsearch = false
 vim.opt.ignorecase = true
 vim.opt.inccommand = "nosplit"
 vim.opt.modeline = false
-vim.opt.mouse = { h = true, a = true }
+vim.opt.mouse = {
+	n = false,
+	v = false,
+	i = false,
+	c = false,
+	h = false,
+	a = false,
+	r = false,
+}
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 5
@@ -105,9 +113,3 @@ vim.cmd([[
   sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=DiagnosticLineNrInfo
   sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=DiagnosticLineNrHint
 ]])
-
-vim.api.nvim_create_user_command("Pair", function()
-	-- require("neoscroll")
-	require("screenkey").toggle()
-	require("relative-toggle")
-end, {})
