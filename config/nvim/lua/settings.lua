@@ -28,7 +28,15 @@ vim.opt.hlsearch = false
 vim.opt.ignorecase = true
 vim.opt.inccommand = "nosplit"
 vim.opt.modeline = false
-vim.opt.mouse = { h = true, a = true }
+vim.opt.mouse = {
+	n = false,
+	v = false,
+	i = false,
+	c = false,
+	h = false,
+	a = false,
+	r = false,
+}
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 5

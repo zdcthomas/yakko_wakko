@@ -10,12 +10,13 @@ args @ {
   username,
   ...
 }: {
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
-    clean.extraArgs = "--keep-since 4d --keep 3";
-    flake = "/home/${username}/yakko_wakko";
-  };
+  # programs.nh = {
+  #   enable = true;
+  #   clean.enable = true;
+  #   clean.extraArgs = "--keep-since 4d --keep 3";
+  #   flake = "/home/${username}/yakko_wakko";
+  # };
+
   fonts = {
     enableDefaultPackages = true;
     fontconfig = {
@@ -97,7 +98,10 @@ args @ {
 
   # Enable networking
   networking = {
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      wifi.powersave = true;
+    };
     hostName = username; # Define your hostname.
   };
 
@@ -132,15 +136,22 @@ args @ {
   #   xkbVariant = "";
   # };
 
+  powerManagement.enable = true; # Enables hibernate?
+  powerManagement.cpuFreqGovernor = "powersave";
   services = {
+    power-profiles-daemon.enable = false;
+    tlp.enable = true;
     fprintd = {
       enable = true;
     };
-    # libinput = {
-    #   enable = true;
-    #   touchpad.disableWhileTyping = true;
-    #   mouse.disableWhileTyping = true;
-    # };
+    keyd = {
+      enable = false;
+    };
+    libinput = {
+      enable = true;
+      touchpad.disableWhileTyping = true;
+      mouse.disableWhileTyping = true;
+    };
     displayManager.autoLogin = {
       enable = true;
       user = username;
@@ -186,13 +197,15 @@ args @ {
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.opt = {
+  users.users.${username} = {
     isNormalUser = true;
     description = "Zachary Thomas";
     # extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
     extraGroups = ["audio" "input" "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
+      libinput
+      framework-tool
       kate
       git
       (
