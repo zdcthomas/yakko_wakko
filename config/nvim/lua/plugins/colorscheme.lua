@@ -1,12 +1,11 @@
 return {
 	{
-		"folke/tokyonight.nvim",
+		"slugbyte/lackluster.nvim",
 		lazy = false,
 		priority = 1000,
-		opts = {},
 	},
 	{
-		"eldritch-theme/eldritch.nvim",
+		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
 		opts = {},
@@ -153,6 +152,9 @@ return {
 	{
 		"ellisonleao/gruvbox.nvim",
 		priority = 1000,
+		init = function()
+			vim.cmd.colorscheme("gruvbox")
+		end,
 		opts = {
 			undercurl = true,
 			underline = true,

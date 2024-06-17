@@ -50,19 +50,19 @@ outer.right =      10
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-slash = 'layout tiles horizontal vertical'
-alt-comma = 'layout accordion horizontal vertical'
+# alt-comma = 'layout accordion horizontal vertical'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-cmd-ctrl-h = 'focus left'
-cmd-ctrl-j = 'focus down'
-cmd-ctrl-k = 'focus up'
-cmd-ctrl-l = 'focus right'
+cmd-alt-h = 'focus left'
+cmd-alt-j = 'focus down'
+cmd-alt-k = 'focus up'
+cmd-alt-l = 'focus right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
-ctrl-alt-h = 'move left'
-ctrl-alt-j = 'move down'
-ctrl-alt-k = 'move up'
-ctrl-alt-l = 'move right'
+cmd-ctrl-alt-h = 'move left'
+cmd-ctrl-alt-j = 'move down'
+cmd-ctrl-alt-k = 'move up'
+cmd-ctrl-alt-l = 'move right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
 alt-shift-minus = 'resize smart -50'
