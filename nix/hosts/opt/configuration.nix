@@ -58,7 +58,9 @@ args @ {
     domains = [
       "x"
       "facebook"
-      # "instagram"
+      "instagram"
+      "youtube"
+      "reddit"
     ];
   in
     pkgs.lib.concatMapStringsSep "\n"
@@ -204,6 +206,7 @@ args @ {
     shell = pkgs.zsh;
     extraGroups = ["audio" "input" "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
+      qmk
       libinput
       framework-tool
       kate
@@ -310,6 +313,9 @@ args @ {
   # services.blueman.enable = true;
   services.udev = {
     enable = true;
+    packages = [
+      pkgs.qmk-udev-rules
+    ];
     extraRules = ''
       # CMSIS-DAP for microbit
       SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE:="666"

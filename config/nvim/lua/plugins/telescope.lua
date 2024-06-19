@@ -173,70 +173,70 @@ local function live_search()
 end
 
 return {
-	-- {
-	-- 	"debugloop/telescope-undo.nvim",
-	-- 	dependencies = { -- note how they're inverted to above example
-	-- 		{
-	-- 			"nvim-telescope/telescope.nvim",
-	-- 			dependencies = { "nvim-lua/plenary.nvim" },
-	-- 		},
-	-- 	},
-	-- 	keys = {
-	-- 		{ -- lazy style key map
-	-- 			"<leader>uu",
-	-- 			"<cmd>Telescope undo<cr>",
-	-- 			desc = "undo history",
-	-- 		},
-	-- 	},
-	-- 	config = function()
-	-- 		require("telescope").setup({
-	-- 			extensions = {
-	-- 				undo = {
-	-- 					mappings = {
-	-- 						i = {
-	--
-	-- 							["<cr>"] = require("telescope-undo.actions").restore,
-	-- 							["<S-cr>"] = require("telescope-undo.actions").yank_deletions,
-	-- 							["<C-cr>"] = require("telescope-undo.actions").yank_additions,
-	-- 						},
-	-- 						n = {
-	-- 							["y"] = require("telescope-undo.actions").yank_additions,
-	-- 							["Y"] = require("telescope-undo.actions").yank_deletions,
-	-- 							["<cr>"] = require("telescope-undo.actions").restore,
-	-- 						},
-	-- 					},
-	-- 				},
-	-- 				-- no other extensions here, they can have their own spec too
-	-- 			},
-	-- 		})
-	-- 		require("telescope").load_extension("undo")
-	-- 	end,
-	-- },
-	-- {
-	-- 	"nvim-telescope/telescope.nvim",
-	-- 	cmd = "Telescope",
-	-- 	dependencies = {
-	-- 		"nvim-lua/popup.nvim",
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"nvim-tree/nvim-web-devicons",
-	-- 		"debugloop/telescope-undo.nvim",
-	-- 		{ "nvim-telescope/telescope-fzf-native.nvim", build = fzf_make_command },
-	-- 	},
-	-- 	init = function()
-	-- 		local default_opts = { noremap = true, silent = true }
-	--
-	-- 		vim.keymap.set("n", "<leader>p", find_files, { silent = true, desc = "Find files" })
-	-- 		-- vim.keymap.set("n", "<leader>P", find_all_files, { silent = true, desc = "Find files" })
-	-- 		vim.keymap.set("n", "<leader>b", function()
-	-- 			require("telescope.builtin").buffers()
-	-- 		end, default_opts)
-	-- 		vim.keymap.set("n", "<leader>F", live_search, default_opts)
-	-- 		vim.keymap.set("n", "<leader>*", function()
-	-- 			require("telescope.builtin").grep_string()
-	-- 		end, default_opts)
-	-- 	end,
-	-- 	config = function()
-	-- 		setup()
-	-- 	end,
-	-- },
+	{
+		"debugloop/telescope-undo.nvim",
+		dependencies = { -- note how they're inverted to above example
+			{
+				"nvim-telescope/telescope.nvim",
+				dependencies = { "nvim-lua/plenary.nvim" },
+			},
+		},
+		keys = {
+			{ -- lazy style key map
+				"<leader>uu",
+				"<cmd>Telescope undo<cr>",
+				desc = "undo history",
+			},
+		},
+		config = function()
+			require("telescope").setup({
+				extensions = {
+					undo = {
+						mappings = {
+							i = {
+
+								["<cr>"] = require("telescope-undo.actions").restore,
+								["<S-cr>"] = require("telescope-undo.actions").yank_deletions,
+								["<C-cr>"] = require("telescope-undo.actions").yank_additions,
+							},
+							n = {
+								["y"] = require("telescope-undo.actions").yank_additions,
+								["Y"] = require("telescope-undo.actions").yank_deletions,
+								["<cr>"] = require("telescope-undo.actions").restore,
+							},
+						},
+					},
+					-- no other extensions here, they can have their own spec too
+				},
+			})
+			require("telescope").load_extension("undo")
+		end,
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		cmd = "Telescope",
+		dependencies = {
+			"nvim-lua/popup.nvim",
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons",
+			"debugloop/telescope-undo.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = fzf_make_command },
+		},
+		init = function()
+			local default_opts = { noremap = true, silent = true }
+
+			vim.keymap.set("n", "<leader>p", find_files, { silent = true, desc = "Find files" })
+			-- vim.keymap.set("n", "<leader>P", find_all_files, { silent = true, desc = "Find files" })
+			vim.keymap.set("n", "<leader>b", function()
+				require("telescope.builtin").buffers()
+			end, default_opts)
+			vim.keymap.set("n", "<leader>F", live_search, default_opts)
+			vim.keymap.set("n", "<leader>*", function()
+				require("telescope.builtin").grep_string()
+			end, default_opts)
+		end,
+		config = function()
+			setup()
+		end,
+	},
 }

@@ -2,7 +2,7 @@ local conf = {}
 local startify = "startify"
 local dashboard = "dashboard"
 local mini = "mini"
-local starter = mini
+local starter = dashboard
 
 local function center(list)
 	return vim.fn["startify#center"](list)
