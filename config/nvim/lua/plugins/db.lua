@@ -16,8 +16,9 @@ return {
 			vim.g.db_ui_use_nerd_fonts = 1
 		end,
 		config = function()
+			local db_group = vim.api.nvim_create_augroup("DadBodZdct", { clear = true })
 			vim.api.nvim_create_autocmd({ "FileType" }, {
-				group = surround_group,
+				group = db_group,
 				pattern = { "sql", "mysql", "plsql" },
 				callback = function()
 					require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })

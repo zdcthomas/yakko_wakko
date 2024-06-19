@@ -1,5 +1,17 @@
 local Module = {}
 
+local function preview_location_callback(_, result)
+	if result == nil or vim.tbl_isempty(result) then
+		return nil
+	end
+	vim.lsp.util.preview_location(result[1], { border = "rounded" })
+end
+
+function PeekDefinition()
+	local params = vim.lsp.util.make_position_params()
+	return vim.lsp.buf_request(0, "textDocument/definition", params, preview_location_callback)
+end
+
 local function window_splittable(mode, map, func, opts)
 	vim.keymap.set(mode, map, function()
 		local key = vim.fn.getcharstr()
@@ -86,8 +98,8 @@ Module.common_on_attach = function(client, bufnr)
 		group = Module.lspconfig_augroup,
 	})
 
-	local function buf_set_option(...)
-		vim.api.nvim_buf_set_option(bufnr, ...)
+	local function buf_set_option(name, value)
+		vim.api.nvim_set_option_value(name, value, { buf = bufnr })
 	end
 
 	local opts = { silent = false, buffer = bufnr }
@@ -97,12 +109,11 @@ Module.common_on_attach = function(client, bufnr)
 	vim.keymap.set({ "i", "s" }, "<c-l>", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "gl", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "gr", "<cmd>Glance references<CR>", opts)
-	vim.keymap.set({ "x", "n" }, "<Leader>ca", "<cmd>CodeActionMenu<cr>", opts)
-	vim.keymap.set("i", "<c-a>", "<cmd>CodeActionMenu<cr>", opts)
+	vim.keymap.set({ "x", "n" }, "<leader>ca", vim.lsp.buf.code_action, opts)
 	vim.keymap.set("n", "gd", "<cmd>Glance definitions<CR>", opts)
 	vim.keymap.set("n", "gt", "<cmd>Glance type_definitions<CR>", opts)
 	vim.keymap.set("n", "gi", "<cmd>Glance implementations<CR>", opts)
-	vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
+	vim.keymap.set("n", "gh", PeekDefinition, opts)
 	vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
 
 	if client.server_capabilities.codeLensProvider then

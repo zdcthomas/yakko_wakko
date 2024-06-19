@@ -49,7 +49,7 @@ function M.show(namespace, bufnr, diagnostics, source)
 		bufnr = { bufnr, "n" },
 		diagnostics = {
 			diagnostics,
-			vim.tbl_islist,
+			vim.isList,
 			"a list of diagnostics",
 		},
 	})

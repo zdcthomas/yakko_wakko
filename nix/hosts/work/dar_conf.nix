@@ -46,6 +46,8 @@
       "awscurl"
       "json-table"
       "bazel"
+      "borders"
+      "sketchybar"
     ];
     casks = [
       "hammerspoon"

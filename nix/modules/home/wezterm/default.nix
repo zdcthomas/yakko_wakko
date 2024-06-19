@@ -42,9 +42,16 @@ in
               selection_fg = col_hash.base0F;
             };
           };
-          extraConfig = ''
+          extraConfig = let
+            window_decorations =
+              if pkgs.stdenv.isDarwin
+              then ''"RESIZE"''
+              else ''"TITLE | RESIZE"'';
+          in ''
+            local WINDOW_DECORATION = ${window_decorations}
             local FONT_SIZE = ${cfg.font-size}
             local DEFAULT_OPACITY = ${cfg.opacity}
+
             ${builtins.readFile ./wezterm.lua}
           '';
         };

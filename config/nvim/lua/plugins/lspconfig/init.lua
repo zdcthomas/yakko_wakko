@@ -51,17 +51,6 @@ local function setup_lspconfig()
 end
 
 return {
-	-- {
-	-- 	"simrat39/symbols-outline.nvim",
-	-- 	cmd = {
-	-- 		"SymbolsOutlineClose",
-	-- 		"SymbolsOutlineOpen",
-	-- 		"SymbolsOutline",
-	-- 	},
-	-- 	config = function()
-	-- 		require("symbols-outline").setup()
-	-- 	end,
-	-- },
 	{
 		"neovim/nvim-lspconfig",
 		event = "BufReadPre",
@@ -78,7 +67,6 @@ return {
 				"SmiteshP/nvim-navic",
 				dependencies = { "neovim/nvim-lspconfig" },
 			},
-			{ "weilbith/nvim-code-action-menu", cmd = "CodeActionMenu" },
 			"j-hui/fidget.nvim",
 			"kosayoda/nvim-lightbulb",
 			{ "dodomorandi/rust-tools.nvim", dependencies = { "mfussenegger/nvim-dap" } },
