@@ -59,8 +59,8 @@ args @ {
       "x"
       "facebook"
       "instagram"
-      "youtube"
-      "reddit"
+      # "youtube"
+      # "reddit"
     ];
   in
     pkgs.lib.concatMapStringsSep "\n"
@@ -323,6 +323,14 @@ args @ {
   };
 
   environment.etc = {
+    "libinput/local-overrides".quirks.text = ''
+      [Framework Laptop 16 Keyboard Module]
+      MatchName=Framework Laptop 16 Keyboard Module*
+      MatchUdevType=keyboard
+      MatchDMIModalias=dmi:*svnFramework:pnLaptop16*
+      AttrKeyboardIntegration=internal
+    '';
+
     "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
       bluez_monitor.properties = {
         ["bluez5.enable-sbc-xq"] = true,
