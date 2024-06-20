@@ -323,7 +323,7 @@ args @ {
   };
 
   environment.etc = {
-    "libinput/local-overrides".quirks.text = ''
+    "libinput/local-overrides.quirks".text = ''
       [Framework Laptop 16 Keyboard Module]
       MatchName=Framework Laptop 16 Keyboard Module*
       MatchUdevType=keyboard

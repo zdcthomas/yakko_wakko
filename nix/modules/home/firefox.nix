@@ -207,6 +207,7 @@ in
             };
             extensions = with pkgs.nur.repos.rycee.firefox-addons; [
               vimium
+              onetab
               ublock-origin
 
               onepassword-password-manager
