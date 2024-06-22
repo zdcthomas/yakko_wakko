@@ -30,6 +30,7 @@ in {
     #};
     anyrun.enable = true;
     foot.enable = true;
+    zellij.enable = true;
     # game_dev.enable = true;
     alacritty.enable = true;
     bash.enable = true;

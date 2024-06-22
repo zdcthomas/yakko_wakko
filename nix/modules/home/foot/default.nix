@@ -20,7 +20,13 @@ in {
           # term = "xterm-256color";
 
           font = "PragmataPro Mono Liga";
+          font-bold = "PragmataPro Mono Liga:weight=bold";
+          font-italic = "PragmataPro Mono Liga:slant=italic";
+          font-bold-italic = "PragmataPro Mono Liga";
           dpi-aware = "yes";
+          # colors = {
+          #   alpha = "0.9";
+          # };
         };
 
         mouse = {
