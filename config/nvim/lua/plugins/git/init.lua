@@ -13,7 +13,7 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
-		-- tag = "v0.9.0",
+		branch = "release-please--branches--main",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -36,12 +36,15 @@ return {
 						vim.keymap.set(mode, l, r, opts)
 					end
 
+					local nav_hunk_opts = {
+						greedy = false,
+					}
 					-- Navigation
 					map("n", "<leader>gn", function()
 						-- if vim.wo.diff then
 						-- 	vim.cmd.normal({ "]c", bang = true })
 						-- else
-						gitsigns.nav_hunk("next")
+						gitsigns.nav_hunk("next", nav_hunk_opts)
 						-- end
 					end)
 
@@ -49,7 +52,7 @@ return {
 						-- if vim.wo.diff then
 						-- 	vim.cmd.normal({ "[c", bang = true })
 						-- else
-						gitsigns.nav_hunk("prev")
+						gitsigns.nav_hunk("prev", nav_hunk_opts)
 						-- end
 					end)
 
@@ -86,7 +89,7 @@ return {
 					follow_files = true,
 				},
 				auto_attach = true,
-				attach_to_untracked = false,
+				attach_to_untracked = true,
 				current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
 				current_line_blame_opts = {
 					virt_text = true,

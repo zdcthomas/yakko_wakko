@@ -22,6 +22,8 @@ vim.opt.fillchars = {
 	vertleft = "╣",
 	vertright = "╠",
 	verthoriz = "╬",
+	-- stl = "─",
+	-- stlnc = "─",
 }
 vim.opt.hidden = true
 vim.opt.hlsearch = false

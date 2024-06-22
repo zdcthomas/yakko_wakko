@@ -5,7 +5,7 @@ return {
 		"stevearc/aerial.nvim",
 	},
 	opts = {
-		extensions = { "quickfix", "man" },
+		extensions = { "quickfix", "man", "oil", "lazy" },
 		disabled_filetypes = { "startify" },
 		options = {
 			theme = "auto",
@@ -14,8 +14,8 @@ return {
 			refresh = {
 				statusline = 200, -- Note these are in mili second and default is 1000
 			},
-			-- component_separators = { left = "", right = "" },
-			-- globalstatus = true,
+			component_separators = { left = "", right = "" },
+			globalstatus = true,
 		},
 		sections = {
 			lualine_a = {
