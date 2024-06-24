@@ -45,7 +45,11 @@ vim.opt.runtimepath:prepend(lazypath)
 
 -- Defines a list of plugins to pull down and use, as well as their
 -- configurations.
-require("lazy").setup("plugins", {
+require("lazy").setup({
+	spec = {
+		-- import your plugins
+		{ import = "plugins" },
+	},
 	dev = {
 		-- directory where you store your local plugin projects
 		path = "~/dev",
@@ -54,15 +58,17 @@ require("lazy").setup("plugins", {
 	},
 	defaults = {
 		lazy = true,
+		-- have outdated releases, which may break your Neovim install.
+		version = false, -- always use the latest git commit
 	},
 	ui = {
 		title = "Plugins!",
 		border = "double",
 	},
 	install = { colorscheme = { "everforest", "habamax" } },
-	readme = {
-		enabled = false,
-	},
+	-- readme = {
+	-- 	enabled = true,
+	-- },
 	performance = {
 		cache = {
 			enabled = true,

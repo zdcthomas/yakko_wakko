@@ -38,6 +38,7 @@ in {
       enable = true;
       font-size = "13";
     };
+    zellij.enable = true;
     zsh.enable = true;
   };
   home = {

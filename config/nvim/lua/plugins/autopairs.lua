@@ -1,8 +1,5 @@
 return {
 	{
-		"Ultimate-autopair.nvim",
-	},
-	{
 		"windwp/nvim-autopairs",
 
 		event = "InsertEnter",

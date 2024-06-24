@@ -29,4 +29,3 @@ themes {
 
 
 theme "nord"
-default_layout "dev"
