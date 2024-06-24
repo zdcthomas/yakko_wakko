@@ -6,9 +6,8 @@ local config = {}
 if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
-config.color_scheme = "Gruvbox Dark (Gogh)"
 
-config.font = wezterm.font("PragmataPro Mono Liga")
+config.color_scheme = "Gruvbox Dark (Gogh)"
 ---@diagnostic disable-next-line: undefined-global
 config.window_decorations = WINDOW_DECORATION
 config.enable_wayland = true
@@ -25,6 +24,30 @@ config.window_padding = {
 	right = 2,
 	top = 2,
 	bottom = 2,
+}
+config.warn_about_missing_glyphs = false
+local font_name = "PragmataPro Mono Liga"
+
+local function font_with_fallback(name, params)
+	local names = { name, "Iosevka Nerd Font" }
+	return wezterm.font_with_fallback(names, params)
+end
+
+config.font = wezterm.font(font_name)
+config.font_rules = {
+	{
+		italic = true,
+		font = font_with_fallback(font_name, { italic = true, bold = true }),
+	},
+	{
+		italic = true,
+		intensity = "Bold",
+		font = font_with_fallback(font_name, { italic = true, bold = true }),
+	},
+	{
+		intensity = "Bold",
+		font = font_with_fallback(font_name, { bold = true }),
+	},
 }
 
 local function recompute_opacity(window)

@@ -18,6 +18,7 @@ in {
         pragmataPro
         noto-fonts
         noto-fonts-cjk-sans
+        iosevka
       ];
     };
 

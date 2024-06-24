@@ -64,18 +64,18 @@ in {
 
             function extra {
               if [[ $_EXTRA_PROMPT_STUFF != "" ]]; then
-                echo -n "\n┃$_EXTRA_PROMPT_STUFF"
+                echo -n "\n│$_EXTRA_PROMPT_STUFF"
               fi
             }
 
 
             function gp {
               if [[ $_ZSH_GIT_PROMPT_STATUS_OUTPUT != "" ]]; then
-                echo -n "\n┃$_ZSH_GIT_PROMPT_STATUS_OUTPUT"
+                echo -n "\n│$_ZSH_GIT_PROMPT_STATUS_OUTPUT"
               fi
             }
 
-            PROMPT=$'┏╸%(?..%F{red}%?%f · )%B%~%b$(gp)$(extra)\n┗╸$(sign) '
+            PROMPT=$'┌╴%(?..%F{red}%?%f · )%B%~%b$(gp)$(extra)\n└╴$(sign) '
           '';
         fzf-tab = pkgs.fetchFromGitHub {
           owner = "Aloxaf";

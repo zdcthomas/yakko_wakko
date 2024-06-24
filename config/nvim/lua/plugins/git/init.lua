@@ -1,119 +1,3 @@
-local function setup_hydra()
-	local hydra = {
-		config = {
-			color = "pink",
-			invoke_on_body = true,
-			hint = {
-				position = "bottom",
-			},
-			on_exit = function()
-				vim.cmd("echo") -- clear the echo area
-			end,
-		},
-		mode = "n",
-		heads = {
-
-			{
-				"g",
-				function()
-					vim.schedule(function()
-						vim.cmd("Neogit")
-					end)
-				end,
-				{ exit = true, nowait = true },
-			},
-			{
-				"n",
-				function()
-					if vim.wo.diff then
-						return "]c"
-					end
-					vim.schedule(function()
-						require("gitsigns").next_hunk()
-					end)
-					return "<Ignore>"
-				end,
-				{ expr = true },
-			},
-			{
-				"p",
-				function()
-					if vim.wo.diff then
-						return "[c"
-					end
-					vim.schedule(function()
-						require("gitsigns").prev_hunk()
-					end)
-					return "<Ignore>"
-				end,
-				{ expr = true },
-			},
-			{ "a", ":Gitsigns stage_hunk<CR>", { silent = true } },
-			{
-				"r",
-				function()
-					require("gitsigns").undo_stage_hunk()
-				end,
-			},
-			{
-				"u",
-				function()
-					require("gitsigns").reset_hunk()
-				end,
-			},
-			{
-				"D",
-				function()
-					require("gitsigns").diffthis("~")
-				end,
-			},
-			{
-				"A",
-				function()
-					require("gitsigns").stage_buffer()
-				end,
-			},
-			{
-				"s",
-				function()
-					require("gitsigns").preview_hunk()
-				end,
-			},
-			{
-				"b",
-				function()
-					require("gitsigns").blame_line()
-				end,
-			},
-			{
-				"Q",
-				function()
-					require("gitsigns").setqflist("all")
-				end,
-				{ nowait = true },
-			},
-			-- {
-			-- 	"B",
-			-- 	function()
-			-- 		gitsigns.blame_line({ full = true })
-			-- 	end,
-			-- },
-			{
-				"/",
-				function()
-					require("gitsigns").show()
-				end,
-				{ exit = true },
-			}, -- show the base of the file
-			{ "<Esc>", nil, { exit = true, nowait = true } },
-			{ "]q", ":cn<CR>" },
-			{ "[q", ":cp<CR>" },
-		},
-	}
-
-	require("plugins.hydra.global_hydra").add_g_hydra({ key = "g", hydra = hydra, desc = "Git" })
-end
-
 return {
 
 	{
@@ -128,111 +12,107 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		event = "BufReadPost",
-		tag = "v0.9.0",
+		lazy = false,
+		branch = "release-please--branches--main",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
 		config = function()
 			require("gitsigns").setup({
-				signcolumn = false,
-				attach_to_untracked = true,
-				numhl = true,
 				signs = {
-					add = { hl = "GitSignsAdd", text = ">", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-					change = {
-						hl = "GitSignsChange",
-						text = "│",
-						numhl = "GitSignsChangeNr",
-						linehl = "GitSignsChangeLn",
-					},
-					delete = {
-						hl = "GitSignsDelete",
-						text = "-",
-						numhl = "GitSignsDeleteNr",
-						linehl = "GitSignsDeleteLn",
-					},
-					topdelete = {
-						hl = "GitSignsDelete",
-						text = "‾",
-						numhl = "GitSignsDeleteNr",
-						linehl = "GitSignsDeleteLn",
-					},
-					changedelete = {
-						hl = "GitSignsChange",
-						text = "~",
-						numhl = "GitSignsChangeNr",
-						linehl = "GitSignsChangeLn",
-					},
+					add = { text = "┃" },
+					change = { text = "┃" },
+					delete = { text = "_" },
+					topdelete = { text = "‾" },
+					changedelete = { text = "~" },
+					untracked = { text = "┆" },
 				},
 				on_attach = function(bufnr)
-					local gs = package.loaded.gitsigns
+					local gitsigns = require("gitsigns")
+
 					local function map(mode, l, r, opts)
 						opts = opts or {}
 						opts.buffer = bufnr
 						vim.keymap.set(mode, l, r, opts)
 					end
 
-					map("n", "<leader>ga", gs.stage_hunk)
-					map("n", "<leader>gr", gs.reset_hunk)
-					map("v", "<leader>ga", function()
-						gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
-					map("v", "<leader>gr", function()
-						gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
-
-					map("n", "<leader>gA", gs.stage_buffer, { desc = "Stage entire buffer" })
-
-					map({ "n", "v" }, "<leader>gu", ":Gitsigns reset_hunk<cr>", { desc = "Undo the staging of a hunk" })
-					map("n", "<leader>gU", gs.reset_buffer, { desc = "Undo the staging of buffer" })
-
+					local nav_hunk_opts = {
+						greedy = false,
+					}
+					-- Navigation
 					map("n", "<leader>gn", function()
-						if vim.wo.diff then
-							vim.cmd.normal({ "<leader>gn", bang = true })
-						else
-							gs.nav_hunk("next", { count = 1 })
-						end
+						-- if vim.wo.diff then
+						-- 	vim.cmd.normal({ "]c", bang = true })
+						-- else
+						gitsigns.nav_hunk("next", nav_hunk_opts)
+						-- end
 					end)
 
 					map("n", "<leader>gp", function()
-						if vim.wo.diff then
-							vim.cmd.normal({ "<leader>gp", bang = true })
-						else
-							gs.nav_hunk("prev", { count = 1 })
-						end
+						-- if vim.wo.diff then
+						-- 	vim.cmd.normal({ "[c", bang = true })
+						-- else
+						gitsigns.nav_hunk("prev", nav_hunk_opts)
+						-- end
 					end)
 
-					map("n", "<leader>gs", gs.preview_hunk, { desc = "Show hunk diff" })
-
+					-- Actions
+					map("n", "<leader>ga", gitsigns.stage_hunk)
+					map("n", "<leader>gr", gitsigns.reset_hunk)
+					map("v", "<leader>gs", function()
+						gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+					end)
+					map("v", "<leader>gr", function()
+						gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+					end)
+					map("n", "<leader>gA", gitsigns.stage_buffer)
+					map("n", "<leader>gu", gitsigns.undo_stage_hunk)
+					map("n", "<leader>gR", gitsigns.reset_buffer)
+					map("n", "<leader>gp", gitsigns.preview_hunk)
 					map("n", "<leader>gb", function()
-						gs.blame_line({ full = true })
-					end, { desc = "Show full git blame" })
-					map("n", "<leader>gtb", gs.toggle_current_line_blame, { desc = "show git blame line" })
-
-					-- map("n", "<leader>gd", function()
-					-- 	gs.diffthis("~")
-					-- end, { desc = "Show side by side git diff" })
-					map("n", "<leader>gd", gs.diffthis)
-					map("n", "<leader>gD", function()
-						gs.diffthis("~")
+						gitsigns.blame_line({ full = true })
+					end)
+					map("n", "<leader>gtb", gitsigns.toggle_current_line_blame)
+					map("n", "<leader>hd", gitsigns.diffthis)
+					map("n", "<leader>hD", function()
+						gitsigns.diffthis("~")
 					end)
 
-					map("n", "<leader>gtd", gs.toggle_deleted, { desc = "show deleted" })
-
-					map("n", "<leader>gc", function()
-						gs.setqflist("all")
-					end, { desc = "Send changes to quickfix list" })
-
-					map(
-						{ "o", "x" },
-						"ih",
-						":<C-U>Gitsigns select_hunk<CR>",
-						{ desc = "expand visual selection to hunk" }
-					)
+					-- Text object
+					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
 				end,
+				signcolumn = false, -- Toggle with `:Gitsigns toggle_signs`
+				numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
+				linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+				word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
+				watch_gitdir = {
+					follow_files = true,
+				},
+				auto_attach = true,
+				attach_to_untracked = true,
+				current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+				current_line_blame_opts = {
+					virt_text = true,
+					virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+					delay = 1000,
+					ignore_whitespace = false,
+					virt_text_priority = 100,
+				},
+				current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
+				sign_priority = 6,
+				update_debounce = 100,
+				status_formatter = nil, -- Use default
+				max_file_length = 40000, -- Disable if file is longer than this (in lines)
+				preview_config = {
+					-- Options passed to nvim_open_win
+					border = "single",
+					style = "minimal",
+					relative = "cursor",
+					row = 0,
+					col = 1,
+				},
 			})
-			setup_hydra()
+			require("plugins.git.git_hydra")
 		end,
 	},
 	{
@@ -676,31 +556,31 @@ return {
 		end,
 	},
 	{ "tpope/vim-fugitive", cmd = { "Git" } },
-	{
-		"NeogitOrg/neogit",
-		cmd = { "Neogit" },
-		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
-		init = function()
-			vim.keymap.set("n", "<Leader>gg", "<cmd>Neogit<cr>")
-
-			local neogit_group = vim.api.nvim_create_augroup("NeogitGroup", { clear = true })
-			vim.api.nvim_create_autocmd("FileType", {
-				group = neogit_group,
-				pattern = { "NeogitStatus" },
-				callback = function()
-					vim.cmd([[set noreadonly]])
-				end,
-				desc = "Map q to close specific, read only buffers",
-			})
-		end,
-		config = function()
-			require("neogit").setup({
-				disable_commit_confirmation = false,
-				integrations = {
-					diffview = true,
-					telescope = true,
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"NeogitOrg/neogit",
+	-- 	cmd = { "Neogit" },
+	-- 	dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+	-- 	init = function()
+	-- 		vim.keymap.set("n", "<Leader>gg", "<cmd>Neogit<cr>")
+	--
+	-- 		local neogit_group = vim.api.nvim_create_augroup("NeogitGroup", { clear = true })
+	-- 		vim.api.nvim_create_autocmd("FileType", {
+	-- 			group = neogit_group,
+	-- 			pattern = { "NeogitStatus" },
+	-- 			callback = function()
+	-- 				vim.cmd([[set noreadonly]])
+	-- 			end,
+	-- 			desc = "Map q to close specific, read only buffers",
+	-- 		})
+	-- 	end,
+	-- 	config = function()
+	-- 		require("neogit").setup({
+	-- 			disable_commit_confirmation = false,
+	-- 			integrations = {
+	-- 				diffview = true,
+	-- 				telescope = true,
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 }

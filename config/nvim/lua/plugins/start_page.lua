@@ -455,11 +455,12 @@ return {
 					header = vim.split(pick_header(vim.fn.strftime("%H")), "\n"),
 	         -- stylua: ignore
 					center = {
-	             { action = ":!dmux",                                            desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
-	             { action = " Telescope oldfiles only_cwd=true",                 desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
-	             { action = "lua require('neogit').open({ kind = 'replace' })",  desc = " Neogit",       desc_hl = "String", icon = " ", key = "g", },
-	             { action = ":Lazy",                                             desc = " Lazy",         desc_hl = "String", icon = " ", key = "l", },
-	             { action = ":q!",                                               desc = " Quit",         desc_hl = "String", icon = " ", key = "q", },
+	             { action = ":!dmux",                                           desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
+	             { action = " Telescope oldfiles only_cwd=true",                desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
+	             { action = "lua require('neogit').open({ kind = 'replace' })", desc = " Neogit",       desc_hl = "String", icon = " ", key = "g", },
+	             { action = ":Lazy",                                            desc = " Lazy",         desc_hl = "String", icon = " ", key = "l", },
+	             { action = ":q!",                                              desc = " Quit",         desc_hl = "String", icon = " ", key = "q", },
+	             { action = ":enew",                                            desc = " Empty Buffer", desc_hl = "String", icon = "[]", key = "e", },
 					},
 					footer = function()
 						local stats = require("lazy").stats()
