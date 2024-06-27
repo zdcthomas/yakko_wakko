@@ -13,6 +13,7 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
+		version = "v0.9.0",
 		branch = "release-please--branches--main",
 		dependencies = {
 			"nvim-lua/plenary.nvim",

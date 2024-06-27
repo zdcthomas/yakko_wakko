@@ -1,4 +1,3 @@
-# TODO: <27-05-24, zdcthomas> hyprcursor
 {
   config,
   pkgs,
@@ -87,7 +86,7 @@ in {
       };
     };
     programs = {
-      hyprcursor-phinger.enable = true;
+      # hyprcursor-phinger.enable = true;
       hyprlock = {
         enable = true;
         settings = {
