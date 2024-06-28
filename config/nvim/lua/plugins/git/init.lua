@@ -58,15 +58,15 @@ return {
 
 					-- Actions
 					map("n", "<leader>ga", gitsigns.stage_hunk)
-					map("n", "<leader>gr", gitsigns.reset_hunk)
+					map("n", "<leader>gu", gitsigns.reset_hunk)
 					map("v", "<leader>gs", function()
 						gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
 					end)
-					map("v", "<leader>gr", function()
+					map("v", "<leader>gu", function()
 						gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 					end)
 					map("n", "<leader>gA", gitsigns.stage_buffer)
-					map("n", "<leader>gu", gitsigns.undo_stage_hunk)
+					map("n", "<leader>gr", gitsigns.undo_stage_hunk)
 					map("n", "<leader>gR", gitsigns.reset_buffer)
 					map("n", "<leader>gP", gitsigns.preview_hunk)
 					map("n", "<leader>gb", function()
@@ -131,7 +131,7 @@ return {
 			local actions = require("diffview.actions")
 
 			require("diffview").setup({
-				enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
+				enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
 				view = {
 					-- Configure the layout and behavior of different types of views.
 					-- Available layouts:
