@@ -59,6 +59,12 @@ in {
             '';
           }
           {
+            plugin = tmuxPlugins.jump;
+            extraConfig = ''
+
+            '';
+          }
+          {
             plugin = tmuxPlugins.tmux-thumbs;
             extraConfig = ''
               set -g @thumbs-command 'echo -n {} | ${copy}'
