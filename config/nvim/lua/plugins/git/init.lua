@@ -14,7 +14,6 @@ return {
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
 		version = "v0.9.0",
-		branch = "release-please--branches--main",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -69,7 +68,7 @@ return {
 					map("n", "<leader>gA", gitsigns.stage_buffer)
 					map("n", "<leader>gu", gitsigns.undo_stage_hunk)
 					map("n", "<leader>gR", gitsigns.reset_buffer)
-					map("n", "<leader>gp", gitsigns.preview_hunk)
+					map("n", "<leader>gP", gitsigns.preview_hunk)
 					map("n", "<leader>gb", function()
 						gitsigns.blame_line({ full = true })
 					end)

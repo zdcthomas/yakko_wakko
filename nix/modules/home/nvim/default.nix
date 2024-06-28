@@ -68,15 +68,15 @@ in
           jq
           silver-searcher
           shfmt
-
-          hello
           prettierd
           # entirely for dap rust codelldb
           python3
           vscode-langservers-extracted
           nodePackages.typescript-language-server
+          lua
           # for luasnip
           luajitPackages.jsregexp
+          luajitPackages.luarocks-nix
           tree-sitter
         ]
         ++ optionals cfg.language_servers.nix [
