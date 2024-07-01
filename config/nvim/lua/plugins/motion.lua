@@ -4,12 +4,12 @@ return {
 		-- event = "VeryLazy",
 		opts = {
 			label = {
-				style = "overlay",
+				-- style = "overlay",
 				uppercase = false,
-				rainbow = {
-					enabled = true,
-					shade = 3,
-				},
+				-- rainbow = {
+				-- 	enabled = true,
+				-- 	shade = 3,
+				-- },
 			},
 			modes = {
 				search = {
