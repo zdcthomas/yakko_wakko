@@ -285,7 +285,7 @@ return {
 					launch_scene = true,
 				},
 			}
-			dap.adapters.rust = require("plugins.lspconfig.rust_tools").dap_adapter()
+			-- dap.adapters.rust = require("plugins.lspconfig.rust_tools").dap_adapter()
 			dap.configurations.rust = {
 				{
 					-- If you get an "Operation not permitted" error using this, try disabling YAMA:

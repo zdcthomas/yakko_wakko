@@ -11,7 +11,6 @@ local function setup_lspconfig()
 	local capabilities = require("plugins.lspconfig.shared").capabilities()
 
 	require("plugins.lspconfig.lua_ls").setup(capabilities, common_on_attach)
-	require("plugins.lspconfig.rust_tools").setup(capabilities, common_on_attach)
 	require("plugins.lspconfig.eslint").setup(capabilities, common_on_attach)
 	require("plugins.lspconfig.tsserver").setup(capabilities, common_on_attach)
 
@@ -52,6 +51,85 @@ end
 
 return {
 	{
+		"mrcjkb/rustaceanvim",
+		version = "^4", -- Recommended
+		lazy = false,
+		init = function()
+			vim.g.rustaceanvim = function()
+				local extension_path = vim.env.RUST_DAP
+
+				local codelldb_path = extension_path .. "adapter/codelldb"
+				local liblldb_path = extension_path .. "lldb/lib/liblldb"
+				local this_os = vim.loop.os_uname().sysname
+
+				liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
+				local cfg = require("rustaceanvim.config")
+				return {
+
+					tools = {
+						float_win_config = {
+							border = "rounded",
+						},
+					},
+					server = {
+						on_attach = function(client, bufnr)
+							require("plugins.lspconfig.shared").common_on_attach(client, bufnr)
+
+							local opts = { silent = false, buffer = bufnr }
+							vim.keymap.set("n", "gh", function()
+								vim.cmd.RustLsp("openDocs")
+							end, opts)
+
+							vim.keymap.set({ "n", "x" }, "J", function()
+								vim.cmd.RustLsp("joinLines")
+							end, opts)
+
+							vim.keymap.set({ "n", "x" }, "<leader>k", function()
+								vim.cmd.RustLsp("moveItem", "up")
+							end, opts)
+
+							vim.keymap.set({ "n", "x" }, "<leader>j", function()
+								vim.cmd.RustLsp("moveItem", "down")
+							end, opts)
+
+							vim.keymap.set({ "n", "x" }, "<leader>E", function()
+								vim.cmd.RustLsp("explainError")
+							end, opts)
+						end,
+						default_settings = {
+							-- rust-analyzer language server configuration
+							["rust-analyzer"] = {
+								typing = {
+									autoClosingAngleBrackets = {
+										enable = true,
+									},
+								},
+								trace = {
+									server = "verbose",
+								},
+								-- procMacro = {
+								-- 	enable = true,
+								-- },
+								-- checkOnSave = {
+								-- 	-- command = "clippy",
+								-- },
+								-- diagnostics = {
+								-- 	-- experimental = { enable = true },
+								-- },
+								files = {
+									excludeDirs = { "./relay-ui", ".direnv" },
+								},
+							},
+						},
+					},
+					dap = {
+						adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
+					},
+				}
+			end
+		end,
+	},
+	{
 		"neovim/nvim-lspconfig",
 		event = "BufReadPre",
 		dependencies = {
@@ -69,7 +147,6 @@ return {
 			},
 			"j-hui/fidget.nvim",
 			"kosayoda/nvim-lightbulb",
-			{ "dodomorandi/rust-tools.nvim", dependencies = { "mfussenegger/nvim-dap" } },
 		},
 		config = setup_lspconfig,
 	},
