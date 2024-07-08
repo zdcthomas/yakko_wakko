@@ -76,7 +76,7 @@ return {
 							require("plugins.lspconfig.shared").common_on_attach(client, bufnr)
 
 							local opts = { silent = false, buffer = bufnr }
-							vim.keymap.set("n", "gh", function()
+							vim.keymap.set("n", "gH", function()
 								vim.cmd.RustLsp("openDocs")
 							end, opts)
 

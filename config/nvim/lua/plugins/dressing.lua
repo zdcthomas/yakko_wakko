@@ -50,6 +50,7 @@ return {
 				-- Set to `false` to disable
 				mappings = {
 					["<Esc>"] = "Close",
+					["q"] = "Close",
 					["<C-c>"] = "Close",
 					["<CR>"] = "Confirm",
 				},
