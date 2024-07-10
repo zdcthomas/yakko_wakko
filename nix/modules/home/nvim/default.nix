@@ -65,6 +65,7 @@ in
           deno
           gcc
           fd
+          unstable.vscode-js-debug
           jq
           silver-searcher
           shfmt
@@ -113,7 +114,9 @@ in
       mkIf cfg.enable {
         home = {
           sessionVariables =
-            {}
+            {
+              JS_DAP = "${pkgs.unstable.vscode-js-debug}/bin/js-debug";
+            }
             // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux
             {
               RUST_DAP = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/";

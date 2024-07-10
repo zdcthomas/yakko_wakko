@@ -67,7 +67,7 @@ return {
 					end)
 					map("n", "<leader>gA", gitsigns.stage_buffer)
 					map("n", "<leader>gr", gitsigns.undo_stage_hunk)
-					map("n", "<leader>gR", gitsigns.reset_buffer)
+					map("n", "<leader>gU", gitsigns.reset_buffer)
 					map("n", "<leader>gP", gitsigns.preview_hunk)
 					map("n", "<leader>gb", function()
 						gitsigns.blame_line({ full = true })
