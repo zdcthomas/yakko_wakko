@@ -1,0 +1,7 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "hs",
+        "WINDOW_DECORATION"
+    ]
+}
