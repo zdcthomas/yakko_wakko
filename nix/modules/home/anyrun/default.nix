@@ -33,6 +33,30 @@ in {
           x = {fraction = 0.5;};
           y = {fraction = 0.2;};
         };
+        extraConfigFiles = {
+          "applications.ron".text = ''
+            Config(
+              terminal: Some("wezterm"),
+            )
+          '';
+          "websearch.ron".text = ''
+            Config(
+              prefix: "?",
+            )
+          '';
+          "shell.ron".text = ''
+            Config(
+             prefix: ">"
+            )
+          '';
+          "translate.ron".text = ''
+            Config(
+              prefix: ":tr",
+              language_delimiter: ">",
+              max_entries: 3,
+            )
+          '';
+        };
       };
     };
   };
