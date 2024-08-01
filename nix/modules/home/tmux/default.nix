@@ -58,12 +58,12 @@ in {
               set -g @fzf-url-open "firefox"
             '';
           }
-          {
-            plugin = tmuxPlugins.jump;
-            extraConfig = ''
-
-            '';
-          }
+          # {
+          #   plugin = tmuxPlugins.jump;
+          #   extraConfig = ''
+          #
+          #   '';
+          # }
           {
             plugin = tmuxPlugins.tmux-thumbs;
             extraConfig = ''
