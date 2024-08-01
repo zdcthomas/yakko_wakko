@@ -166,6 +166,8 @@ in {
       spotify-player
       fltrdr
       typst
+      anki-bin
+      mpv
 
       # hivelytracker # another one
       # helio-workstation # midi composer

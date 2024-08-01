@@ -52,7 +52,7 @@ end
 return {
 	{
 		"mrcjkb/rustaceanvim",
-		version = "^4", -- Recommended
+		version = "^5", -- Recommended
 		lazy = false,
 		init = function()
 			vim.g.rustaceanvim = function()
