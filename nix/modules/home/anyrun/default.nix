@@ -49,13 +49,13 @@ in {
              prefix: ">"
             )
           '';
-          "translate.ron".text = ''
-            Config(
-              prefix: ":tr",
-              language_delimiter: ">",
-              max_entries: 3,
-            )
-          '';
+          # "translate.ron".text = ''
+          #   Config(
+          #     prefix: ":",
+          #     language_delimiter: ">",
+          #     max_entries: 3,
+          #   )
+          # '';
         };
       };
     };
