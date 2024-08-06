@@ -97,6 +97,11 @@ map("c", "<C-k>", "<Up>", { silent = false })
 map("c", "<C-l>", "<Right>", { silent = false })
 map("c", "<C-d>", "<Del>", { silent = false })
 
+vim.api.nvim_create_user_command("Journal", function()
+	local path = vim.fn.strftime("~/Irulan/%Y/%m/%d-%a")
+	vim.cmd(":e " .. path)
+end, {})
+
 -- let g:mc = "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>"
 
 -- nnoremap cn *``cgn
