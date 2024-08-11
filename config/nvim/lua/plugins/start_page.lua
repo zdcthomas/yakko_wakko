@@ -389,8 +389,8 @@ return {
 							section = "めいれい",
 						},
 						{
-							action = "lua require('neogit').open({ kind = 'replace' })",
-							name = "Git",
+							action = "Journal",
+							name = "Journal",
 							section = "めいれい",
 						},
 						{
@@ -455,12 +455,12 @@ return {
 					header = vim.split(pick_header(vim.fn.strftime("%H")), "\n"),
 	         -- stylua: ignore
 					center = {
-	             { action = ":!dmux",                                           desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
-	             { action = " Telescope oldfiles only_cwd=true",                desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
-	             { action = "lua require('neogit').open({ kind = 'replace' })", desc = " Neogit",       desc_hl = "String", icon = " ", key = "g", },
-	             { action = ":Lazy",                                            desc = " Lazy",         desc_hl = "String", icon = " ", key = "l", },
-	             { action = ":q!",                                              desc = " Quit",         desc_hl = "String", icon = " ", key = "q", },
-	             { action = ":enew",                                            desc = " Empty Buffer", desc_hl = "String", icon = "[]", key = "e", },
+	             { action = ":!dmux",                            desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
+	             { action = " Telescope oldfiles only_cwd=true", desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
+	             { action = ":Journal",                          desc = " Jounral",      desc_hl = "String", icon = " ", key = "t", },
+	             { action = ":Lazy",                             desc = " Lazy",         desc_hl = "String", icon = " ", key = "l", },
+	             { action = ":q!",                               desc = " Quit",         desc_hl = "String", icon = " ", key = "q", },
+	             { action = ":enew",                             desc = " Empty Buffer", desc_hl = "String", icon = "[]", key = "e", },
 					},
 					footer = function()
 						local stats = require("lazy").stats()
@@ -487,7 +487,7 @@ return {
 				{ l = { "Lazy", ":Lazy" } },
 				{ d = { "Open dotfiles", ":!dmux ~/yakko_wakko" } },
 				{ D = { "Dmux", ":!dmux" } },
-				{ g = { "NeoGit", "lua require('neogit').open({ kind = 'replace' })" } },
+				{ t = { "Journal", ":Journal" } },
 			}
 
 			vim.g.startify_lists = {
