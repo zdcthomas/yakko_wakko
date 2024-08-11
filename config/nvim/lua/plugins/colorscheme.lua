@@ -8,7 +8,7 @@ return {
 		end,
 		opts = {
 			options = {
-				transparent = false,
+				transparent = true,
 			},
 		},
 	}, -- lazy
