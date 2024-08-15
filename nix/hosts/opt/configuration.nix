@@ -37,7 +37,7 @@ args @ {
       "facebook"
       "instagram"
       # "youtube"
-      # "reddit"
+      "reddit"
     ];
   in
     pkgs.lib.concatMapStringsSep "\n"

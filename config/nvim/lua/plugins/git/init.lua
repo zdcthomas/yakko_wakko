@@ -10,6 +10,7 @@ return {
 			require("gitlinker").setup()
 		end,
 	},
+	{ "https://github.com/tpope/vim-fugitive", cmd = { "Git" } },
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
