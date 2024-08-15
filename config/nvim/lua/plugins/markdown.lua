@@ -1,6 +1,22 @@
 return {
 	-- { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
 	{
+		"jghauser/follow-md-links.nvim",
+		ft = {
+			"markdown",
+		},
+	},
+
+	{
+		"richardbizik/nvim-toc",
+		ft = {
+			"markdown",
+		},
+		opts = {
+			toc_header = "Table of Contents",
+		},
+	},
+	{
 		"toppair/peek.nvim",
 		build = "deno task --quiet build:fast",
 		ft = { "markdown" },
