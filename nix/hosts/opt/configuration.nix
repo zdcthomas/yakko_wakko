@@ -35,9 +35,9 @@ args @ {
     domains = [
       "x"
       "facebook"
-      # "instagram"
+      "instagram"
       # "youtube"
-      # "reddit"
+      "reddit"
     ];
   in
     pkgs.lib.concatMapStringsSep "\n"
