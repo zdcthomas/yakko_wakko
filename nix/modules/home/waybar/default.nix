@@ -35,7 +35,7 @@ in {
           layer = "top"; # Waybar at top layer
           height = 30; # Waybar height (to be removed for auto height)
           spacing = 4; # Gaps between modules (4px)
-          modules-left = ["network" "tray" "pulseaudio" "idle_inhibitor" "bluetooth" "hyprland/submap"];
+          modules-left = ["network" "tray" "pulseaudio" "idle_inhibitor" "bluetooth" "custom/airpods" "hyprland/submap"];
           modules-center = ["hyprland/workspaces"];
           modules-right = ["cpu" "memory" "temperature" "backlight" "battery" "clock"];
           mpd = {
@@ -74,6 +74,21 @@ in {
           tray = {
             icon-size = 21;
             spacing = 10;
+          };
+          "custom/airpods" = {
+            format = "🎧";
+            on-click = pkgs.writeShellScript "hello-from-waybar" ''
+              AIRPODS="2C:18:09:F3:C6:E0"
+              DEVICES=$(bluetoothctl devices Connected)
+
+              if [[ "$DEVICES" == *"$AIRPODS"* ]]; then
+                  bluetoothctl disconnect $AIRPODS
+                  bluetoothctl block $AIRPODS
+              else
+                  bluetoothctl unblock $AIRPODS
+                  bluetoothctl connect $AIRPODS
+              fi
+            '';
           };
           clock = {
             tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
