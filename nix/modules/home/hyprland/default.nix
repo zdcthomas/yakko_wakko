@@ -76,13 +76,16 @@ in {
         wp = ../../../../images/wallpapers/alleyway.png;
         sd = ../../../../images/wallpapers/summer-day.png;
         sn = ../../../../images/wallpapers/summer-night.png;
+        wf = ../../../../images/wallpapers/waterfall.jpg;
+        fh = "~/Pictures/flower_home.jpeg";
+        ms = "~/Pictures/morning_sheets.jpeg";
       in {
         splash = false;
 
-        preload = ["${wp}" "${sn}" "${sd}"];
+        preload = ["${wp}" "${sn}" "${sd}" "${wf}" fh ms];
 
         wallpaper = [
-          ",${sn}"
+          ",${ms}"
         ];
       };
     };
