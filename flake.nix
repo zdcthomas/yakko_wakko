@@ -41,10 +41,6 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    discord = {
-      url = "github:InternetUnexplorer/discord-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";

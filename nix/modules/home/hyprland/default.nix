@@ -53,8 +53,8 @@ in {
         listener = [
           {
             timeout = 180;
-            on-timeout = "brightnessctl -c backlight s 50%";
-            on-resume = "brightnessctl -c backlight s 100%";
+            on-timeout = "brightnessctl -c backlight s 50%-";
+            on-resume = "brightnessctl -c backlight s 50%+";
           }
           {
             timeout = 300;
@@ -125,7 +125,7 @@ in {
 
           background = [
             {
-              path = "${../../../../images/wallpapers/alleyway.png}";
+              path = "${../../../../images/wallpapers/waterfall.jpg}";
               blur_passes = 3;
               blur_size = 8;
             }
@@ -170,6 +170,11 @@ in {
         # inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
         # inputs.hyprland-plugins.packages.${pkgs.system}.hyprwinwrap
       ];
+      settings = {
+        exec-once = [
+          "${pkgs.brightnessctl}/bin/brightnessctl set 50%"
+        ];
+      };
       extraConfig = let
         data = {
           rofi = "pkill rofi || ${pkgs.rofi-wayland}/bin/rofi -show drun";
