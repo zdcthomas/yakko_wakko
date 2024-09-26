@@ -14,7 +14,6 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
-		version = "v0.9.0",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
