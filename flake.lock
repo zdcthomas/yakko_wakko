@@ -109,26 +109,6 @@
         "type": "github"
       }
     },
-    "discord": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1726853443,
-        "narHash": "sha256-CYcrcRRG70Ftmalnq8r2cdbmCyS30bCuVbA3W3x19Mc=",
-        "owner": "InternetUnexplorer",
-        "repo": "discord-overlay",
-        "rev": "532130dddd11303223125567b6c9966a9fc9cd9b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "InternetUnexplorer",
-        "repo": "discord-overlay",
-        "type": "github"
-      }
-    },
     "dmux": {
       "inputs": {
         "cargo2nix": "cargo2nix",
@@ -1051,7 +1031,6 @@
         "ags": "ags",
         "anyrun": "anyrun",
         "darwin": "darwin",
-        "discord": "discord",
         "dmux": "dmux",
         "eza": "eza",
         "fenix": "fenix",

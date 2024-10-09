@@ -14,6 +14,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       git-absorb
+      lazygit
     ];
     programs = {
       gh = {
