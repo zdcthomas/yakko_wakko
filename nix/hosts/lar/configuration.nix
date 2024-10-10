@@ -12,12 +12,41 @@ in {
     ./hardware-configuration.nix
   ];
 
-  services.caddy = {
-    enable = true;
-    virtualHosts."localhost".extraConfig = ''
-      respond "Hello, world!"
-    '';
-  };
+  # services.caddy = {
+  #   enable = true;
+  #   # virtualHosts."localhost".extraConfig = ''
+  #   #   respond "Hello, world!"
+  #   # '';
+  #
+  #   configFile = pkgs.writeText "Caddyfile" ''
+  #     # Global options
+  #     {
+  #       admin off  # Disable admin interface for security
+  #     }
+  #
+  #     # Jellyfin service via Tailscale MagicDNS
+  #     jellyfin.lar.tail50bea.ts.net {
+  #       # Proxy requests to Jellyfin
+  #       reverse_proxy localhost:8096
+  #
+  #       # Optional: Enable HTTPS (Caddy will automatically manage certificates)
+  #       tls internal
+  #
+  #       # Optional: Add headers for security
+  #       header {
+  #         # Enable HSTS
+  #         Strict-Transport-Security "max-age=31536000;"
+  #         # Disable FLoC
+  #         Permissions-Policy "interest-cohort=()"
+  #       }
+  #
+  #       # Optional: Gzip compression for better performance
+  #       encode gzip
+  #     }
+  #
+  #     # You can add more services here as needed
+  #   '';
+  # };
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
@@ -127,6 +156,12 @@ in {
     docker
     docker-compose
     docker-client
+    dropbox-cli
+    (
+      pkgs.writeScriptBin "switch" ''
+        nixos-rebuild switch --flake ~/yakko_wakko --use-remote-sudo
+      ''
+    )
   ];
 
   services.openssh.enable = true;
@@ -137,7 +172,7 @@ in {
     firewall = {
       checkReversePath = "loose";
       trustedInterfaces = ["tailscale0"];
-      allowedTCPPorts = [8096 8920 8080 8123 63584 22 8080 64699];
+      allowedTCPPorts = [443 80 8096 8920 8080 8123 63584 22 8080 64699 9925 9926];
       allowedUDPPorts = [1900 7359 config.services.tailscale.port];
     };
   };

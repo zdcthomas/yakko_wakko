@@ -23,7 +23,7 @@
   custom.hm = {
     nvim = {
       enable = true;
-      package = pkgs.neovim-nightly;
+      # package = pkgs.neovim-nightly;
     };
 
     cli.enable = true;
@@ -38,6 +38,7 @@
 
   # stateVersion = "23.05";
   home = {
+    stateVersion = "23.05";
     username = username;
     homeDirectory = "/home/${username}";
   };
