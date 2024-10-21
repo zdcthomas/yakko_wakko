@@ -547,31 +547,31 @@ return {
 			})
 		end,
 	},
-	-- {
-	-- 	"NeogitOrg/neogit",
-	-- 	cmd = { "Neogit" },
-	-- 	dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
-	-- 	init = function()
-	-- 		vim.keymap.set("n", "<Leader>gg", "<cmd>Neogit<cr>")
-	--
-	-- 		local neogit_group = vim.api.nvim_create_augroup("NeogitGroup", { clear = true })
-	-- 		vim.api.nvim_create_autocmd("FileType", {
-	-- 			group = neogit_group,
-	-- 			pattern = { "NeogitStatus" },
-	-- 			callback = function()
-	-- 				vim.cmd([[set noreadonly]])
-	-- 			end,
-	-- 			desc = "Map q to close specific, read only buffers",
-	-- 		})
-	-- 	end,
-	-- 	config = function()
-	-- 		require("neogit").setup({
-	-- 			disable_commit_confirmation = false,
-	-- 			integrations = {
-	-- 				diffview = true,
-	-- 				telescope = true,
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
+	{
+		"NeogitOrg/neogit",
+		cmd = { "Neogit" },
+		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+		init = function()
+			vim.keymap.set("n", "<Leader>gg", "<cmd>Neogit<cr>")
+
+			local neogit_group = vim.api.nvim_create_augroup("NeogitGroup", { clear = true })
+			vim.api.nvim_create_autocmd("FileType", {
+				group = neogit_group,
+				pattern = { "NeogitStatus" },
+				callback = function()
+					vim.cmd([[set noreadonly]])
+				end,
+				desc = "Map q to close specific, read only buffers",
+			})
+		end,
+		config = function()
+			require("neogit").setup({
+				disable_commit_confirmation = false,
+				integrations = {
+					diffview = true,
+					telescope = true,
+				},
+			})
+		end,
+	},
 }
