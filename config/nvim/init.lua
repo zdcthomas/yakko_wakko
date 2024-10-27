@@ -76,12 +76,12 @@ require("lazy").setup({
 		rtp = {
 			disabled_plugins = {
 				-- "netrw",
-				"2html_plugin",
+				-- "2html_plugin",
 				"getscript",
 				"getscriptPlugin",
 				"gzip",
 				"logipat",
-				"tohtml",
+				-- "tohtml",
 				"tutor",
 				"tar",
 				"tarPlugin",
