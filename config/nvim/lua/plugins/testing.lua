@@ -27,7 +27,7 @@ return {
 				desc = "[n]eotest [R]un tests in a file",
 			},
 			{
-				"<leader>NR",
+				"<leader>nw",
 				function()
 					require("neotest").run.run(vim.loop.cwd())
 				end,
