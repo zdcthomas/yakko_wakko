@@ -36,6 +36,7 @@ in {
         unstable.ripgrep
         unzip
         wget
+        # wkhtmltopdf
         zip
       ];
       sessionVariables = {
