@@ -13,9 +13,23 @@ return {
 		},
 	}, -- lazy
 	{
+		"qaptoR-nvim/chocolatier.nvim",
+		priority = 1000,
+		config = true,
+		opts = {},
+		init = function()
+			-- vim.cmd.colorscheme("chocolatier")
+		end,
+	},
+	{
 		"slugbyte/lackluster.nvim",
 		lazy = false,
 		priority = 1000,
+	},
+	{
+		"yorik1984/newpaper.nvim",
+		priority = 1000,
+		config = true,
 	},
 	{
 		"folke/tokyonight.nvim",

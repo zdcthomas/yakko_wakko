@@ -32,6 +32,7 @@ in {
         sd
         silver-searcher
         skim
+        tldr
         tree
         unstable.ripgrep
         unzip

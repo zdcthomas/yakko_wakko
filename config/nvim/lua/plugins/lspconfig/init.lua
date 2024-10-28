@@ -12,9 +12,16 @@ local function setup_lspconfig()
 
 	require("plugins.lspconfig.lua_ls").setup(capabilities, common_on_attach)
 	require("plugins.lspconfig.eslint").setup(capabilities, common_on_attach)
-	require("plugins.lspconfig.tsserver").setup(capabilities, common_on_attach)
 
 	local lspconfig = require("lspconfig")
+
+	lspconfig.ts_ls.setup({
+		on_attach = function(client, bufnr)
+			-- client.server_capabilities.documentFormattingProvider = false
+			common_on_attach(client, bufnr)
+		end,
+		capabilities = capabilities,
+	})
 	lspconfig.solargraph.setup({
 		on_attach = common_on_attach,
 		capabilities = capabilities,

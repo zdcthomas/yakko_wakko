@@ -19,14 +19,14 @@ return {
 		},
 		config = function()
 			require("gitsigns").setup({
-				signs = {
-					add = { text = "┃" },
-					change = { text = "┃" },
-					delete = { text = "_" },
-					topdelete = { text = "‾" },
-					changedelete = { text = "~" },
-					untracked = { text = "┆" },
-				},
+				-- signs = {
+				-- 	add = { text = "┃" },
+				-- 	change = { text = "┃" },
+				-- 	delete = { text = "_" },
+				-- 	topdelete = { text = "‾" },
+				-- 	changedelete = { text = "~" },
+				-- 	untracked = { text = "┆" },
+				-- },
 				on_attach = function(bufnr)
 					local gitsigns = require("gitsigns")
 
@@ -85,22 +85,14 @@ return {
 				numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
 				linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
 				word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
-				watch_gitdir = {
-					follow_files = true,
-				},
+				-- watch_gitdir = {
+				-- 	follow_files = true,
+				-- },
 				auto_attach = true,
 				attach_to_untracked = true,
 				current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
-				current_line_blame_opts = {
-					virt_text = true,
-					virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-					delay = 1000,
-					ignore_whitespace = false,
-					virt_text_priority = 100,
-				},
-				current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
 				sign_priority = 6,
-				update_debounce = 100,
+				-- update_debounce = 100,
 				status_formatter = nil, -- Use default
 				max_file_length = 40000, -- Disable if file is longer than this (in lines)
 				preview_config = {
@@ -555,31 +547,31 @@ return {
 			})
 		end,
 	},
-	-- {
-	-- 	"NeogitOrg/neogit",
-	-- 	cmd = { "Neogit" },
-	-- 	dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
-	-- 	init = function()
-	-- 		vim.keymap.set("n", "<Leader>gg", "<cmd>Neogit<cr>")
-	--
-	-- 		local neogit_group = vim.api.nvim_create_augroup("NeogitGroup", { clear = true })
-	-- 		vim.api.nvim_create_autocmd("FileType", {
-	-- 			group = neogit_group,
-	-- 			pattern = { "NeogitStatus" },
-	-- 			callback = function()
-	-- 				vim.cmd([[set noreadonly]])
-	-- 			end,
-	-- 			desc = "Map q to close specific, read only buffers",
-	-- 		})
-	-- 	end,
-	-- 	config = function()
-	-- 		require("neogit").setup({
-	-- 			disable_commit_confirmation = false,
-	-- 			integrations = {
-	-- 				diffview = true,
-	-- 				telescope = true,
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
+	{
+		"NeogitOrg/neogit",
+		cmd = { "Neogit" },
+		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+		init = function()
+			vim.keymap.set("n", "<Leader>gg", "<cmd>Neogit<cr>")
+
+			local neogit_group = vim.api.nvim_create_augroup("NeogitGroup", { clear = true })
+			vim.api.nvim_create_autocmd("FileType", {
+				group = neogit_group,
+				pattern = { "NeogitStatus" },
+				callback = function()
+					vim.cmd([[set noreadonly]])
+				end,
+				desc = "Map q to close specific, read only buffers",
+			})
+		end,
+		config = function()
+			require("neogit").setup({
+				disable_commit_confirmation = false,
+				integrations = {
+					diffview = true,
+					telescope = true,
+				},
+			})
+		end,
+	},
 }
