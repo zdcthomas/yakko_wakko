@@ -174,6 +174,19 @@ in {
         exec-once = [
           "${pkgs.brightnessctl}/bin/brightnessctl set 50%"
         ];
+        misc = {
+          animate_manual_resizes = true;
+          disable_hyprland_logo = true;
+          disable_splash_rendering = true;
+          always_follow_on_dnd = true;
+          layers_hog_keyboard_focus = true;
+          enable_swallow = true;
+          swallow_regex = "^(Alacritty|wezterm|kitty|footclient)$";
+          focus_on_activate = true;
+          mouse_move_enables_dpms = true;
+          key_press_enables_dpms = true;
+          new_window_takes_over_fullscreen = 2;
+        };
       };
       extraConfig = let
         data = {
@@ -233,6 +246,7 @@ in {
             "-Dexperimental=true"
           ];
       }))
+      # hyprpanel
       eww
       blueberry
       hyprland-contrib.grimblast

@@ -1,6 +1,7 @@
 {inputs, ...}: [
   inputs.nur.overlay
   inputs.fenix.overlays.default
+  inputs.hyprpanel.overlay
 
   (final: prev: {
     dmux = inputs.dmux.packages.${prev.system}.default;

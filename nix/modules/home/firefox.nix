@@ -209,6 +209,7 @@ in
               vimium
               onetab
               ublock-origin
+              lingq-importer2
 
               onepassword-password-manager
               gruvbox-dark-theme

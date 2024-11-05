@@ -100,6 +100,19 @@ args @ {
   services = {
     power-profiles-daemon.enable = false;
     tlp.enable = true;
+    postgresql = {
+      enable = true;
+      ensureDatabases = [username];
+      # ensureUsers = [
+      #   {
+      #     name = username;
+      #   }
+      # ];
+      authentication = pkgs.lib.mkOverride 10 ''
+        #type database  DBuser  auth-method
+        local all       all     trust
+      '';
+    };
     fprintd = {
       enable = true;
     };
