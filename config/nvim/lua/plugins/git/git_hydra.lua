@@ -12,15 +12,15 @@ local hydra = {
 	mode = "n",
 	heads = {
 
-		{
-			"g",
-			function()
-				vim.schedule(function()
-					vim.cmd("Neogit")
-				end)
-			end,
-			{ exit = true, nowait = true },
-		},
+		-- {
+		-- 	"g",
+		-- 	function()
+		-- 		vim.schedule(function()
+		-- 			vim.cmd("Neogit")
+		-- 		end)
+		-- 	end,
+		-- 	{ exit = true, nowait = true },
+		-- },
 		{
 			"n",
 			function()

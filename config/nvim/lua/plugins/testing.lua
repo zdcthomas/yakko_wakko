@@ -51,12 +51,11 @@ return {
 		config = function()
 			require("neotest").setup({
 				icons = {
-					-- unknown = "",
-					-- passed = "",
-					-- failed = "",
-					running = nil,
-					-- skipped = "",
-					-- watching = "",
+					unknown = "",
+					passed = "",
+					failed = "",
+					skipped = "",
+					watching = "",
 					running_animated = {
 						"⠋",
 						"⠙",
@@ -82,13 +81,13 @@ return {
 					open = true,
 				},
 				adapters = {
+
+					require("rustaceanvim.neotest"),
 					require("neotest-jest")({
-						jestCommand = "npm test --",
-						jestConfigFile = "custom.jest.config.ts",
-						env = { CI = true },
-						cwd = function(path)
-							return vim.fn.getcwd()
-						end,
+						-- jestCommand = "npx jest",
+						-- cwd = function(path)
+						-- 	return vim.fn.getcwd()
+						-- end,
 					}),
 				},
 			})
