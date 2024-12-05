@@ -7,16 +7,6 @@ return {
 		},
 		keys = {
 
-			-- {
-			-- 	"z",
-			-- 	function()
-			-- 		require("which-key").show({
-			-- 			keys = "z",
-			-- 			loop = true, -- this will keep the popup open until you hit <esc>})
-			-- 		})
-			-- 	end,
-			-- 	desc = "Window thing test",
-			-- },
 			{
 				"<leader>?",
 				function()

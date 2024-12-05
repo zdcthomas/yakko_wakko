@@ -229,11 +229,16 @@ return {
 			-- vim.keymap.set("n", "<leader>P", find_all_files, { silent = true, desc = "Find files" })
 			vim.keymap.set("n", "<leader>b", function()
 				require("telescope.builtin").buffers()
-			end, default_opts)
-			vim.keymap.set("n", "<leader>F", live_search, default_opts)
+			end, vim.fn.extendnew({ desc = "Search buffers" }, default_opts))
+			vim.keymap.set(
+				"n",
+				"<leader>F",
+				live_search,
+				vim.fn.extendnew({ desc = "Search expression" }, default_opts)
+			)
 			vim.keymap.set("n", "<leader>*", function()
 				require("telescope.builtin").grep_string()
-			end, default_opts)
+			end, vim.fn.extendnew({ desc = "search word under cursor" }, default_opts))
 		end,
 		config = function()
 			setup()
