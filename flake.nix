@@ -6,7 +6,6 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
   inputs = {
     wezterm = {
       url = "github:wez/wezterm?dir=nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     ags = {
       url = "github:Aylur/ags";
@@ -17,10 +16,10 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       url = "github:Duckonaut/split-monitor-workspaces";
       inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
     };
-    hyprpanel = {
-      url = "github:Jas-SinghFSU/HyprPanel";
-      inputs.nixpkgs.follows = "unstable";
-    };
+    # hyprpanel = {
+    #   url = "github:M0NsTeRRR/HyprPanel";
+    #   # inputs.nixpkgs.follows = "nixos_unstable";
+    # };
     hyprland = {
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     };
@@ -43,8 +42,9 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
         nixpkgs.follows = "nixpkgs";
       };
     };
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixos_unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -54,7 +54,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dmux = {

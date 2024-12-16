@@ -24,6 +24,7 @@ in {
         diagon
         fd
         graph-easy
+        unstable.devenv
         htop
         ijq
         jq
