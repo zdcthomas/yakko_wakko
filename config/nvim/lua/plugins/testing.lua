@@ -36,9 +36,16 @@ return {
 			{
 				"<leader>no",
 				function()
+					require("neotest").output.open({ enter = true })
+				end,
+				desc = "[n]eotest open [o]utput",
+			},
+			{
+				"<leader>nO",
+				function()
 					require("neotest").output_panel.toggle()
 				end,
-				desc = "[n]eotest toggle [o]utput panel",
+				desc = "[n]eotest toggle [O]utput panel",
 			},
 			{
 				"<leader>ns",
@@ -51,12 +58,11 @@ return {
 		config = function()
 			require("neotest").setup({
 				icons = {
-					-- unknown = "",
-					-- passed = "",
-					-- failed = "",
-					running = nil,
-					-- skipped = "",
-					-- watching = "",
+					unknown = "",
+					passed = "",
+					failed = "",
+					skipped = "",
+					watching = "",
 					running_animated = {
 						"⠋",
 						"⠙",
@@ -79,16 +85,15 @@ return {
 				},
 				quickfix = {
 					enabled = true,
-					open = true,
+					-- open = true,
 				},
 				adapters = {
+					require("rustaceanvim.neotest"),
 					require("neotest-jest")({
-						jestCommand = "npm test --",
-						jestConfigFile = "custom.jest.config.ts",
-						env = { CI = true },
-						cwd = function(path)
-							return vim.fn.getcwd()
-						end,
+						-- jestCommand = "npx jest",
+						-- cwd = function(path)
+						-- 	return vim.fn.getcwd()
+						-- end,
 					}),
 				},
 			})

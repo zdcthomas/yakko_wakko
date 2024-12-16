@@ -22,9 +22,6 @@ in
         # package = pkgs.lib.mkForce pkgs.nixVersions.nix_2_19;
 
         extraOptions = ''
-          keep-outputs = true
-          keep-derivations = true
-          auto-optimise-store = true
           # assuming the builder has a faster internet connection
           builders-use-substitutes = true
           experimental-features = nix-command flakes
@@ -32,3 +29,7 @@ in
       };
     };
   }
+# keep-outputs = true
+# keep-derivations = true
+# auto-optimise-store = true
+

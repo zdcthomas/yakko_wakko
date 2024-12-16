@@ -30,7 +30,9 @@ Module.hydra = Hydra({
 		color = "teal",
 		hint = {
 			position = "middle",
-			border = "rounded",
+			float_opts = {
+				border = "double",
+			},
 		},
 	},
 	mode = "n",
