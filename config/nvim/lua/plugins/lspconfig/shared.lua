@@ -1,36 +1,5 @@
 local Module = {}
 
-local function preview_location_callback(_, result)
-	if result == nil or vim.tbl_isempty(result) then
-		return nil
-	end
-	vim.lsp.util.preview_location(result[1], { border = "rounded" })
-end
-
-function PeekDefinition()
-	local params = vim.lsp.util.make_position_params()
-	return vim.lsp.buf_request(0, "textDocument/definition", params, preview_location_callback)
-end
-
-local function window_splittable(mode, map, func, opts)
-	vim.keymap.set(mode, map, function()
-		local key = vim.fn.getcharstr()
-		local cmd = {
-			j = ":rightbelow sp",
-			l = ":rightbelow vsp",
-			k = ":leftabove sp",
-			h = ":leftabove vsp",
-			t = "",
-		}
-		if cmd[key] == nil then
-			return
-		end
-		vim.cmd(cmd[key])
-
-		func()
-	end, opts)
-end
-
 Module.lspconfig_augroup = vim.api.nvim_create_augroup("LspConfigAuGroup", { clear = false })
 
 function Module.setup_dap_keybindings(bufnr)
@@ -74,9 +43,6 @@ function Module.capabilities()
 end
 
 Module.common_on_attach = function(client, bufnr)
-	-- if client.server_capabilities.documentSymbolProvider then
-	-- 	require("nvim-navic").attach(client, bufnr)
-	-- end
 	vim.api.nvim_clear_autocmds({ buffer = bufnr, group = Module.lspconfig_augroup })
 
 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -113,7 +79,6 @@ Module.common_on_attach = function(client, bufnr)
 	vim.keymap.set("n", "gd", "<cmd>Glance definitions<CR>", opts)
 	vim.keymap.set("n", "gt", "<cmd>Glance type_definitions<CR>", opts)
 	vim.keymap.set("n", "gi", "<cmd>Glance implementations<CR>", opts)
-	vim.keymap.set("n", "gh", PeekDefinition, opts)
 	vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
 
 	if client.server_capabilities.codeLensProvider then
