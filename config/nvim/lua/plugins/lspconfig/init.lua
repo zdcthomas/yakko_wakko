@@ -140,18 +140,6 @@ return {
 		"neovim/nvim-lspconfig",
 		event = "BufReadPre",
 		dependencies = {
-			{
-				"SmiteshP/nvim-navbuddy",
-				dependencies = {
-					"SmiteshP/nvim-navic",
-					"MunifTanjim/nui.nvim",
-				},
-				opts = { lsp = { auto_attach = true } },
-			},
-			{
-				"SmiteshP/nvim-navic",
-				dependencies = { "neovim/nvim-lspconfig" },
-			},
 			"j-hui/fidget.nvim",
 			"kosayoda/nvim-lightbulb",
 		},

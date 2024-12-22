@@ -74,9 +74,9 @@ function Module.capabilities()
 end
 
 Module.common_on_attach = function(client, bufnr)
-	if client.server_capabilities.documentSymbolProvider then
-		require("nvim-navic").attach(client, bufnr)
-	end
+	-- if client.server_capabilities.documentSymbolProvider then
+	-- 	require("nvim-navic").attach(client, bufnr)
+	-- end
 	vim.api.nvim_clear_autocmds({ buffer = bufnr, group = Module.lspconfig_augroup })
 
 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
