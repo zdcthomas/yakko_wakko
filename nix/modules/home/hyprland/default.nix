@@ -19,6 +19,8 @@
   # swaylock = pkgs.swaylock-effects;
   templateFile = import ../../../templateFile.nix {inherit pkgs;};
 in {
+  imports = [
+  ];
   options = {
     custom.hm.hyprland = {
       enable = lib.mkEnableOption "Enable custom hyprland";
@@ -173,6 +175,7 @@ in {
       settings = {
         exec-once = [
           "${pkgs.brightnessctl}/bin/brightnessctl set 50%"
+          "pkill waybar; waybar"
         ];
         misc = {
           animate_manual_resizes = true;
@@ -246,7 +249,6 @@ in {
             "-Dexperimental=true"
           ];
       }))
-      # hyprpanel
       eww
       blueberry
       hyprland-contrib.grimblast

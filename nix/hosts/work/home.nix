@@ -74,6 +74,7 @@ in {
           nerdfonts.override {
             fonts = [
               "Iosevka"
+              "JetBrains"
             ];
           }
         )

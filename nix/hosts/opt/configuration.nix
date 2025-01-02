@@ -29,22 +29,24 @@ args @ {
       noto-fonts
       noto-fonts-cjk-sans
       pragmataPro
+      (nerdfonts.override {fonts = ["JetBrainsMono"];})
+      jetbrains-mono
     ];
   };
-  networking.extraHosts = let
-    domains = [
-      "x"
-      "facebook"
-      "instagram"
-      "reddit"
-    ];
-  in
-    pkgs.lib.concatMapStringsSep "\n"
-    (domain: ''
-      127.0.0.1 ${domain}.com
-      127.0.0.1 www.${domain}.com
-    '')
-    domains;
+  # networking.extraHosts = let
+  #   domains = [
+  #     "x"
+  #     "facebook"
+  #     # "instagram"
+  #     # "reddit"
+  #   ];
+  # in
+  #   pkgs.lib.concatMapStringsSep "\n"
+  #   (domain: ''
+  #     127.0.0.1 ${domain}.com
+  #     127.0.0.1 www.${domain}.com
+  #   '')
+  #   domains;
 
   zdct = {
     de = "hyprland";
@@ -72,9 +74,11 @@ args @ {
   networking = {
     networkmanager = {
       enable = true;
-      wifi.powersave = true;
+      # wifi.powersave = true;
     };
     hostName = username; # Define your hostname.
+    # nameservers = ["100.100.100.100"]; #
+    # useHostResolvConf = true;
   };
 
   # Set your time zone.
@@ -98,21 +102,27 @@ args @ {
   powerManagement.enable = true; # Enables hibernate?
   powerManagement.cpuFreqGovernor = "powersave";
   services = {
+    # resolved = {
+    #   enable = true;
+    #   dnssec = "false"; # You might need this if you experience issues
+    #   domains = ["~."]; # Handle all DNS queries
+    #   fallbackDns = ["100.100.100.100"]; # Use Tailscale's DNS as fallback
+    # };
     power-profiles-daemon.enable = false;
     tlp.enable = true;
-    postgresql = {
-      enable = true;
-      ensureDatabases = [username];
-      # ensureUsers = [
-      #   {
-      #     name = username;
-      #   }
-      # ];
-      authentication = pkgs.lib.mkOverride 10 ''
-        #type database  DBuser  auth-method
-        local all       all     trust
-      '';
-    };
+    # postgresql = {
+    #   enable = true;
+    #   ensureDatabases = [username];
+    #   # ensureUsers = [
+    #   #   {
+    #   #     name = username;
+    #   #   }
+    #   # ];
+    #   authentication = pkgs.lib.mkOverride 10 ''
+    #     #type database  DBuser  auth-method
+    #     local all       all     trust
+    #   '';
+    # };
     fprintd = {
       enable = true;
     };
@@ -155,7 +165,7 @@ args @ {
   # Enable CUPS to print documents.
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security = {
     rtkit.enable = true;

@@ -87,7 +87,6 @@ return {
 			hint = [[
         ^ ^        LSP
         ^
-        _n_ NavBuddy! zoom
         _e_ Errors (in qf)
         _r_ References
         ^
@@ -102,8 +101,6 @@ return {
 				},
 			},
 			heads = {
-				-- { "o", ":SymbolsOutline<cr>", { exit = true, silent = true, desc = "symbol outline" } },
-				{ "n", ":Navbuddy<cr>", { exit = true, silent = true, desc = "symbol outline" } },
 				{
 					"e",
 					function()
