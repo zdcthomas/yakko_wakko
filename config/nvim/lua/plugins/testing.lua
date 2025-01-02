@@ -34,6 +34,13 @@ return {
 				desc = "[N]eotest [R]un tests in workspace",
 			},
 			{
+				"<leader>nd",
+				function()
+					require("neotest").run.run({ strategy = "dap" })
+				end,
+				desc = "[n]eotest with [d]ap",
+			},
+			{
 				"<leader>no",
 				function()
 					require("neotest").output.open({ enter = true })

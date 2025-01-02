@@ -8,6 +8,13 @@
     ],
     "description": "if statement"
   },
+  "line": {
+    "prefix": "line",
+    "body": [
+      "console.log(\"${1:$TM_FILENAME_BASE:$TM_LINE_NUMBER}\")"
+    ],
+    "description": "if statement"
+  },
   "elif": {
     "prefix": "else if",
     "body": [

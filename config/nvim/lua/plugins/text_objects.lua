@@ -87,7 +87,9 @@ return {
 	end,
 	config = function()
 		require("various-textobjs").setup({
-			useDefaultKeymaps = false,
+			keymaps = {
+				useDefaults = false,
+			},
 			lookForwardLines = 0, -- set to 0 to only look in the current line
 		})
 	end,

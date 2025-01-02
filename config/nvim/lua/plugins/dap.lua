@@ -11,60 +11,6 @@ end
 
 return {
 	{
-		"mxsdev/nvim-dap-vscode-js",
-		dependencies = { "mfussenegger/nvim-dap" },
-		ft = {
-			"ts",
-			"typescript",
-			"js",
-			"javascript",
-		},
-		config = function()
-			local extension_path = vim.env.JS_DAP
-			require("dap-vscode-js").setup({
-				-- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-				debugger_cmd = extension_path, -- Path to vscode-js-debug installation.
-				adapters = { "node-terminal" }, -- which adapters to register in nvim-dap
-				-- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
-				-- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
-				-- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
-			})
-			for _, language in ipairs({ "typescript", "javascript" }) do
-				require("dap").configurations[language] = {
-					{
-						type = "pwa-node",
-						request = "launch",
-						name = "Launch file",
-						program = "${file}",
-						cwd = "${workspaceFolder}",
-					},
-					{
-						type = "pwa-node",
-						request = "attach",
-						name = "Attach",
-						processId = require("dap.utils").pick_process,
-						cwd = "${workspaceFolder}",
-					},
-					{
-						type = "pwa-node",
-						request = "launch",
-						name = "Debug Jest Tests",
-						-- trace = true, -- include debugger info
-						runtimeExecutable = "node",
-						runtimeArgs = {
-							"./node_modules/jest/bin/jest.js",
-							"--runInBand",
-						},
-						rootPath = "${workspaceFolder}",
-						cwd = "${workspaceFolder}",
-						console = "integratedTerminal",
-						internalConsoleOptions = "neverOpen",
-					},
-				}
-			end
-		end,
-	},
-	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
 			"jbyuki/one-small-step-for-vimkind",
@@ -105,10 +51,12 @@ return {
 		        ^ ^Step^ ^ ^      ^ ^     Action
 		    ----^-^-^-^--^-^----  ^-^-------------------
 		        ^ ^back^ ^ ^     ^_t_: toggle breakpoint
-		        ^ ^ _K_^ ^        _T_: clear breakpoints
+		        ^ ^ ^ ^^ ^        _T_: clear breakpoints
 		    out _H_ ^ ^ _L_ into  _c_: continue
 		        ^ ^ _J_ ^ ^       _x_: terminate
-		        ^ ^over ^ ^     ^^_r_: open repl
+		        ^ ^over ^ ^     ^^_r_: run last 
+		                     ^^^^^_R_: Restart
+		                     ^^^^^_K_: Hover
 
 		        ^ ^  _q_: exit
 		    ]]
@@ -121,7 +69,9 @@ return {
 					invoke_on_body = true,
 					hint = {
 						type = "window",
-						border = "rounded",
+						float_opts = {
+							border = "double",
+						},
 						position = "top-right",
 					},
 				},
@@ -136,19 +86,26 @@ return {
 						{ desc = "step out" },
 					},
 					{
+						"R",
+						function()
+							require("dap").restart()
+						end,
+						{ desc = "Restart" },
+					},
+					{
 						"J",
 						function()
 							require("dap").step_over()
 						end,
 						{ desc = "step over" },
 					},
-					{
-						"K",
-						function()
-							require("dap").step_back()
-						end,
-						{ desc = "step back" },
-					},
+					-- {
+					-- 	"K",
+					-- 	function()
+					-- 		require("dap").step_back()
+					-- 	end,
+					-- 	{ desc = "step back" },
+					-- },
 					{
 						"L",
 						function()
@@ -185,11 +142,18 @@ return {
 						{ desc = "terminate" },
 					},
 					{
+						"K",
+						function()
+							require("dap.ui.widgets").hover()
+						end,
+						desc = "Hover",
+					},
+					{
 						"r",
 						function()
-							require("dap").repl.open()
+							require("dap").run_last()
 						end,
-						{ exit = true, desc = "open repl" },
+						{ exit = true, desc = "run last dap entry" },
 					},
 					{ "q", nil, { exit = true, nowait = true, desc = "exit" } },
 				},
@@ -312,11 +276,11 @@ return {
 				desc = "Terminate",
 			},
 			{
-				"<leader>dw",
+				"<leader>dh",
 				function()
 					require("dap.ui.widgets").hover()
 				end,
-				desc = "Widgets",
+				desc = "Hover",
 			},
 		},
 		config = function()
@@ -325,10 +289,58 @@ return {
         autocmd FileType dap-float nnoremap <buffer><silent> q <cmd>close!<CR>
       ]])
 			local dap = require("dap")
+
+			local extension_path = vim.env.JS_DAP
+			require("dap").adapters["pwa-node"] = {
+				type = "server",
+				host = "localhost",
+				port = "${port}",
+				executable = {
+					command = extension_path, -- "js-debug-adapter"
+					args = { "${port}" },
+				},
+			}
+			for _, language in ipairs({ "typescript", "javascript" }) do
+				require("dap").configurations[language] = {
+					{
+						type = "pwa-node",
+						request = "attach",
+						name = "Attach to node",
+						processId = require("dap.utils").pick_process,
+						cwd = "${workspaceFolder}",
+					},
+					{
+						type = "pwa-node",
+						request = "launch",
+						name = "Debug Jest Tests",
+						-- trace = true, -- include debugger info
+						runtimeExecutable = "node",
+						runtimeArgs = {
+							"./node_modules/jest/bin/jest.js",
+							"--runInBand",
+							"${file}",
+						},
+						rootPath = "${workspaceFolder}",
+						cwd = "${workspaceFolder}",
+						console = "integratedTerminal",
+						internalConsoleOptions = "neverOpen",
+						port = 8123,
+					},
+				}
+			end
 			dap.adapters.godot = {
 				type = "server",
 				host = "127.0.0.1",
 				port = 6006,
+			}
+			dap.adapters["pwa-node"] = {
+				type = "server",
+				host = "localhost",
+				port = "${port}", --let both ports be the same for now...
+				executable = {
+					command = "js-debug",
+					args = { "${port}" },
+				},
 			}
 			dap.configurations.gdscript = {
 				{

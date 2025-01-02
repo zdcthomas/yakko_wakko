@@ -70,6 +70,13 @@
     ],
     "description": "Log to the console"
   },
+  "record current position in log": {
+    "prefix": "line",
+    "body": [
+      "console.log(\"${1:$RELATIVE_FILEPATH:$TM_LINE_NUMBER}\")"
+    ],
+    "description": "record position in log"
+  },
   "Log warning to console": {
     "prefix": "warn",
     "body": [
