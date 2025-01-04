@@ -186,6 +186,7 @@ in {
     packages = with pkgs; [
       dwarf-fortress-packages.dwarf-fortress-full
       diagon
+      ghostty
       overskride
       keymapp
       spotify-player
