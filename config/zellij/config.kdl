@@ -4,7 +4,7 @@ simplified_ui true
 mouse_mode true
 copy_command "wl-copy"
 default_mode "locked"
-layout_dir "/home/zdcthomas/.config/zellij/layouts/"
+layout_dir "~/.config/zellij/layouts/"
 ui {
   pane_frames {
     hide_session_name true
@@ -26,6 +26,46 @@ themes {
         orange "#D08770"
     }
 }
+default_layout "zach.kdl"
+keybinds {
+  // locked clear-defaults=true {
+  //   bind "Ctrl Space" { SwitchToMode "Normal"; }
+  // }
 
+  shared_except "locked" {
+    bind "Enter" "Esc" { SwitchToMode "Locked"; }
+  }
 
-theme "nord"
+  normal  {
+    // bind "Esc" { SwitchToMode "Locked"; }
+    // bind "v" { NewPane "Right"; SwitchToMode "Locked"; }
+    // bind "s" { NewPane "Down"; SwitchToMode "Locked"; }
+    // bind "x" { CloseFocus; SwitchToMode "Locked"; }
+    // bind "c" { NewTab; SwitchToMode "Locked"; }
+    // bind "r" { SwitchToMode "Resize"; }
+    // bind "f" { Run "zellij" "run" "-f" "--" "zsh" { close_on_exit true; }; }
+    // bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
+    //
+    // bind "n" { MoveFocus "Left"; SwitchToMode "Locked"; }
+    // bind "e" { MoveFocus "Down"; SwitchToMode "Locked"; }
+    // bind "i" { MoveFocus "Up"; SwitchToMode "Locked"; }
+    // bind "o" { MoveFocus "Right"; SwitchToMode "Locked"; }
+    //
+    // bind "z" { ToggleFocusFullscreen; SwitchToMode "Locked"; }
+    //
+    // bind "d" { Detach; }
+    // bind "[" { SwitchToMode "Scroll"; }
+    //
+    bind "1" { GoToTab 1; SwitchToMode "Locked"; }
+    bind "2" { GoToTab 2; SwitchToMode "Locked"; }
+    bind "3" { GoToTab 3; SwitchToMode "Locked"; }
+    bind "4" { GoToTab 4; SwitchToMode "Locked"; }
+    bind "5" { GoToTab 5; SwitchToMode "Locked"; }
+    bind "6" { GoToTab 6; SwitchToMode "Locked"; }
+    bind "7" { GoToTab 7; SwitchToMode "Locked"; }
+    bind "8" { GoToTab 8; SwitchToMode "Locked"; }
+    bind "9" { GoToTab 9; SwitchToMode "Locked"; }
+  }
+}
+
+theme "gruvbox-dark"
