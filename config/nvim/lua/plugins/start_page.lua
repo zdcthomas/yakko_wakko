@@ -447,6 +447,7 @@ return {
 					-- winbar = false,
 				},
 				config = {
+					vertical_center = true,
 					-- week_header = {
 					-- 	enable = true, --boolean use a week header
 					-- 	-- concat  --concat string after time string line

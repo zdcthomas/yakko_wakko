@@ -46,7 +46,7 @@ return {
 						-- else
 						gitsigns.nav_hunk("next", nav_hunk_opts)
 						-- end
-					end)
+					end, { desc = "next hunk" })
 
 					map("n", "<leader>gp", function()
 						-- if vim.wo.diff then
@@ -54,32 +54,32 @@ return {
 						-- else
 						gitsigns.nav_hunk("prev", nav_hunk_opts)
 						-- end
-					end)
+					end, { desc = "previous hunk" })
 
 					-- Actions
-					map("n", "<leader>ga", gitsigns.stage_hunk)
-					map("n", "<leader>gu", gitsigns.reset_hunk)
-					map("v", "<leader>gs", function()
+					map("n", "<leader>ga", gitsigns.stage_hunk, { desc = "stage hunk" })
+					map("n", "<leader>gu", gitsigns.reset_hunk, { desc = "reset hunk" })
+					map("v", "<leader>ga", function()
 						gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
+					end, { desc = "stage hunk" })
 					map("v", "<leader>gu", function()
 						gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
-					map("n", "<leader>gA", gitsigns.stage_buffer)
-					map("n", "<leader>gr", gitsigns.undo_stage_hunk)
-					map("n", "<leader>gU", gitsigns.reset_buffer)
-					map("n", "<leader>gP", gitsigns.preview_hunk)
+					end, { desc = "reset hunk" })
+					map("n", "<leader>gA", gitsigns.stage_buffer, { desc = "stage buffer" })
+					-- map("n", "<leader>gr", gitsigns.undo_stage_hunk)
+					map("n", "<leader>gU", gitsigns.reset_buffer, { desc = "git reset buffer" })
+					map("n", "<leader>gP", gitsigns.preview_hunk, { desc = "git preview hunk" })
 					-- map("n", "<leader>gb", function()
 					-- 	gitsigns.blame_line({ full = true })
 					-- end)
-					map("n", "<leader>gtb", gitsigns.toggle_current_line_blame)
-					map("n", "<leader>hd", gitsigns.diffthis)
+					map("n", "<leader>gtb", gitsigns.toggle_current_line_blame, { desc = "toggle current line blame" })
+					map("n", "<leader>hd", gitsigns.diffthis, { desc = "show diff of hunk" })
 					map("n", "<leader>hD", function()
 						gitsigns.diffthis("~")
-					end)
+					end, { desc = "show diff of file" })
 
 					-- Text object
-					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "git hunk text object" })
 				end,
 				signcolumn = false, -- Toggle with `:Gitsigns toggle_signs`
 				numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
@@ -90,7 +90,7 @@ return {
 				-- },
 				auto_attach = true,
 				attach_to_untracked = true,
-				current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+				current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
 				sign_priority = 6,
 				-- update_debounce = 100,
 				status_formatter = nil, -- Use default

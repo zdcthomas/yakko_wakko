@@ -1,12 +1,13 @@
 layout {
-    pane // panes can be bare
-    pane command="htop" // panes can have arguments on the same line
-    pane {
-        // panes can have arguments inside child-braces
-        command "exa"
-        cwd "/"
+    pane split_direction="vertical" { // first logical container
+        // all these panes will be laid out vertically next to each other
+        pane command="nvim" {
+          args "."
+        }
+        pane split_direction="horizontal" { // second logical container
+        }
     }
-    pane command="ls" { // or a mixture of same-line and child-braces arguments
-        cwd "/"
+    pane size=1 borderless=true {
+        plugin location="zellij:status-bar"
     }
 }

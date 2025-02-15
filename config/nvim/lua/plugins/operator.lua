@@ -39,7 +39,7 @@ return {
 		config = function()
 			-- require("yop").setup({ debug_level = 1 })
 			require("yop").op_map({ "x", "n" }, "gs", sort, { desc = "sort operator" })
-			require("yop").op_map("n", "<leader>f", search, { dewc = "Search operator" })
+			require("yop").op_map("n", "<leader>f", search, { desc = "Search operator" })
 		end,
 	},
 }
