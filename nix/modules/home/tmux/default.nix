@@ -72,17 +72,18 @@ in {
           }
         ];
         keyMode = "vi";
-        terminal = "screen-256color";
+        # terminal = "screen-256color";
         aggressiveResize = true;
         escapeTime = 0;
         extraConfig = ''
-          # undercurl support
+          set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
+          set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
+
+          set -g default-terminal "xterm-256color"
+
+          set -ga terminal-overrides ",xterm-256color:Tc"
           set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
           set -sg terminal-overrides "*:RGB"
-          set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
-          set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
-          bind -r -N "Run Dmux" f run-shell "${pkgs.dmux}"
-
 
           set-option -g focus-events on
           set-option -g status "on"
