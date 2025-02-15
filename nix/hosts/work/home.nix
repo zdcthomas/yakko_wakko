@@ -38,7 +38,7 @@ in {
       enable = true;
       font-size = "13";
     };
-    # zellij.enable = true;
+    zellij.enable = true;
     zsh.enable = true;
   };
   home = {
@@ -74,7 +74,7 @@ in {
           nerdfonts.override {
             fonts = [
               "Iosevka"
-              "JetBrains"
+              # "JetBrains"
             ];
           }
         )

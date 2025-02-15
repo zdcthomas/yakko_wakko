@@ -226,19 +226,28 @@ return {
 			local default_opts = { noremap = true, silent = true }
 
 			vim.keymap.set("n", "<leader>p", find_files, { silent = true, desc = "Find files" })
+
 			vim.keymap.set(
 				"n",
 				"<leader>F",
 				live_search,
 				vim.fn.extendnew({ desc = "Search expression" }, default_opts)
 			)
-			vim.keymap.set("n", "<leader>tP", find_all_files, { silent = true, desc = "Find all files" })
+
+			vim.keymap.set("n", "<leader>tp", find_all_files, { silent = true, desc = "Find all files" })
+
+			vim.keymap.set("n", "<leader>th", function()
+				require("telescope.builtin").help_tags()
+			end, { silent = true, desc = "Search help tags" })
+
 			vim.keymap.set("n", "<leader>tb", function()
 				require("telescope.builtin").buffers()
 			end, vim.fn.extendnew({ desc = "Search buffers" }, default_opts))
+
 			vim.keymap.set("n", "<leader>to", function()
 				require("telescope.builtin").oldfiles()
 			end, vim.fn.extendnew({ desc = "Search recent files" }, default_opts))
+
 			vim.keymap.set("n", "<leader>t*", function()
 				require("telescope.builtin").grep_string()
 			end, vim.fn.extendnew({ desc = "search word under cursor" }, default_opts))

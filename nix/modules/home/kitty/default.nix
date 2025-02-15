@@ -44,7 +44,7 @@ in {
 
         # theme = "Everforest Dark Medium";
         enable = true;
-        theme = "Everforest Dark Medium";
+        themeFile = "everforest_dark_medium";
         # theme = "Galaxy";
         # theme = "Lavandula";
         # theme = "Royal";
