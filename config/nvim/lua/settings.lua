@@ -1,6 +1,5 @@
 vim.g.format_on_save = true
 -- This is NOT a builtin var of any meaning, grep for it in this repo to see how it works!
--- asdflkjasdflkj
 
 vim.opt.autoindent = true
 vim.opt.autoread = true
@@ -14,7 +13,6 @@ vim.opt.splitkeep = "cursor"
 vim.opt.equalalways = false
 vim.opt.expandtab = true
 vim.opt.spellfile = vim.fn.expand("~") .. "/.config/nvim/spell/en.utf-8.add"
-vim.opt.spell = true
 vim.opt.spelllang = { "en_us" }
 vim.opt.fillchars = {
 	eob = " ",
