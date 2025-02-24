@@ -59,12 +59,18 @@ vim.opt.undodir = vim.fn.expand("~/.nvim_undo/")
 vim.opt.undofile = true
 vim.opt.updatetime = 100
 vim.opt.virtualedit = "block"
-vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+
+---- Folds
+-- vim.opt.foldmethod = "expr"
+vim.opt.foldtext = ""
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = true
-vim.opt.foldlevel = 3
-vim.opt.foldlevelstart = 2
+vim.opt.foldnestmax = 4
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 1
 -- vim.g.markdown_folding = 2 -- enable markdown folding
+------
+
 vim.opt.wildmenu = true
 vim.opt.wrap = false
 vim.opt.cmdheight = 0
