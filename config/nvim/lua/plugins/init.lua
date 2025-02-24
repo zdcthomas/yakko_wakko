@@ -3,18 +3,20 @@
 --  --------------------------------------
 
 return {
+	{ "danilamihailov/beacon.nvim", event = "VeryLazy" }, -- lazy calls setup() by itself
+	{ "mechatroner/rainbow_csv", ft = "csv" },
 	{
 		"echasnovski/mini.splitjoin",
 		version = false,
-		keys = {
-			{ "gS", mode = { "n", "x" } },
-		},
+		keys = { {
+			"gS",
+			mode = { "x", "n" },
+		} },
 		config = function()
 			require("mini.splitjoin").setup()
 		end,
 	},
-	{ "mechatroner/rainbow_csv", ft = "csv" },
-
+	{ "rafcamlet/nvim-luapad", cmd = { "Luapad" }, dependencies = { "antoinemadec/FixCursorHold.nvim" } },
 	{
 		"MisanthropicBit/decipher.nvim",
 		opts = {

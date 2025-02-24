@@ -2,6 +2,7 @@ return {
 	{
 		"nvim-neotest/neotest",
 		dependencies = {
+			"mfussenegger/nvim-dap",
 			"nvim-neotest/neotest-jest",
 			"nvim-neotest/nvim-nio",
 			"nvim-lua/plenary.nvim",

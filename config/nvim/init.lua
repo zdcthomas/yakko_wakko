@@ -42,6 +42,9 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 vim.opt.runtimepath:prepend(lazypath)
+function GetPlugin(pluginName)
+	return require("lazy.core.config").spec.plugins[pluginName]
+end
 
 -- Defines a list of plugins to pull down and use, as well as their
 -- configurations.

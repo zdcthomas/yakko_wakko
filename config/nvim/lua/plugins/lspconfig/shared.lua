@@ -11,7 +11,12 @@ function Module.setup_dap_keybindings(bufnr)
 end
 
 function Module.capabilities()
-	local capabilities = require("cmp_nvim_lsp").default_capabilities()
+	local capabilities
+	if GetPlugin("blink.cmp") and GetPlugin("blink.cmp").enabled then
+		capabilities = require("blink.cmp").get_lsp_capabilities()
+	elseif GetPlugin("cmp") and GetPlugin("cmp").enabled then
+		capabilities = require("cmp_nvim_lsp").default_capabilities()
+	end
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 	capabilities.textDocument.completion.completionItem.resolveSupport = {
 		properties = {

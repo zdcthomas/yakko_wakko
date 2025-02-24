@@ -1,6 +1,7 @@
 return {
 	{
 		"jinh0/eyeliner.nvim",
+		-- Shows highlight of unique words when using `f`/`t`
 		lazy = false,
 		config = function()
 			require("eyeliner").setup({
@@ -29,6 +30,55 @@ return {
 				default_keymaps = true,
 			})
 		end,
+	},
+	{
+		"mizlan/iswap.nvim",
+		cmd = {
+			"ISwap",
+			"ISwapWith",
+			"ISwapNodeWith",
+			"ISwapNode",
+			"ISwapWithRight",
+			"ISwapWithLeft",
+			"ISwapNodeWithRight",
+			"ISwapNodeWithLeft",
+		},
+		keys = {
+			{
+				"<leader>sh",
+				":ISwapWithLeft<CR>",
+				desc = "[ s ]wap left",
+				silent = true,
+			},
+			{
+				"<leader>sl",
+				":ISwapWithRight<CR>",
+				desc = "[ s ]wap right",
+				silent = true,
+			},
+			{
+				"<leader>ss",
+				":ISwap<CR>",
+				desc = "[ s ]wap mode",
+				silent = true,
+			},
+			{
+				"<leader>s<cr>",
+				":ISwap<CR>",
+				desc = "[ s ]wap current with selection",
+				silent = true,
+			},
+			{
+				"<leader>sn",
+				":ISwapNodeWith<CR>",
+				desc = "[ s ]wap current [n]ode with selection",
+				silent = true,
+			},
+		},
+		opts = {
+			flash_style = false,
+			move_cursor = true,
+		},
 	},
 	{
 		"folke/flash.nvim",

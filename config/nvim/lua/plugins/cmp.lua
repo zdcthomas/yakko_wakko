@@ -1,4 +1,4 @@
--- If you start to lazy load cmp, this will break cause you're dumb
+-- If you start to lazy load cmp, this will break cause you're dumbcmp.lu
 -- sincerely, Zach from 17-10-2021
 --
 -- Okay old(younger) Zach, how about this prequire?? huh?
@@ -6,6 +6,9 @@
 --
 -- You are like baby, watch this
 -- Zach from 12-20-2022
+--
+-- Ok, I guess blink is a thing now, so I guess we're trying it out
+-- Zach from 24-2-2025
 
 local function snippet_func(args)
 	require("luasnip").lsp_expand(args.body)
@@ -74,7 +77,7 @@ return {
 	{
 		"saghen/blink.cmp",
 		-- optional: provides snippets for the snippet source
-		enabled = false,
+		enabled = true,
 		dependencies = {
 			"L3MON4D3/LuaSnip",
 			version = "v2.*",
@@ -94,11 +97,37 @@ return {
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		opts = {
+			-- selection = {
+			--   preselect = false,
+			--   },
 			-- 'default' for mappings similar to built-in completion
 			-- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
 			-- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
 			-- See the full "keymap" documentation for information on defining your own keymap.
-			keymap = { preset = "default" },
+			keymap = {
+				preset = "default",
+
+				-- -- show with a list of providers
+				["<CR>"] = { "select_and_accept", "fallback" },
+				["<C-p>"] = { "select_prev", "snippet_backward", "fallback" },
+				["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
+
+				-- optionally, separate cmdline and terminal keymaps
+			},
+
+			cmdline = {
+
+				keymap = {
+					preset = "super-tab",
+
+					-- sets <CR> to accept the item and run the command immediately
+					-- use `select_accept_and_enter` to accept the item or the first item if none are selected
+					-- ["<CR>"] = {},
+					--
+					-- [""] = { "select_prev", "snippet_backward", "fallback" },
+					-- ["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
+				},
+			},
 			completion = {
 				menu = {
 					draw = {
@@ -146,14 +175,14 @@ return {
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "lsp", "snippets", "path", "buffer" },
+				default = { "snippets", "lsp", "path", "buffer" },
 			},
 		},
 		opts_extend = { "sources.default" },
 	},
 	{
 		"hrsh7th/nvim-cmp",
-		-- enabled = false,
+		enabled = false,
 		-- wants = { "LuaSnip" },
 		event = "InsertEnter",
 		dependencies = {

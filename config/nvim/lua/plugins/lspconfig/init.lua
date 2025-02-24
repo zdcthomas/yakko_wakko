@@ -15,6 +15,18 @@ local function setup_lspconfig()
 
 	local lspconfig = require("lspconfig")
 
+	-- lspconfig["eslint"].setup({
+	-- 	on_attach = function(client, bufnr)
+	-- 		-- client.server_capabilities.documentFormattingProvider = false
+	-- 		common_on_attach(client, bufnr)
+	-- 	end,
+	-- 	capabilities = capabilities,
+	-- 	settings = {
+	-- 		experimental = {
+	-- 			useFlatConfig = false,
+	-- 		},
+	-- 	},
+	-- })
 	lspconfig.ts_ls.setup({
 		on_attach = function(client, bufnr)
 			-- client.server_capabilities.documentFormattingProvider = false
@@ -141,6 +153,7 @@ return {
 		event = "BufReadPre",
 		dependencies = {
 			"j-hui/fidget.nvim",
+			"saghen/blink.cmp",
 			"kosayoda/nvim-lightbulb",
 		},
 		config = setup_lspconfig,

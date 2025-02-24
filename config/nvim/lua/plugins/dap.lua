@@ -30,6 +30,9 @@ return {
 				dependencies = {
 					"hrsh7th/nvim-cmp",
 				},
+				cond = function()
+					return GetPlugin("cmp") and GetPlugin("cmp").enabled
+				end,
 				config = function()
 					require("cmp").setup({
 						enabled = function()
