@@ -1,9 +1,5 @@
 return {
 	-- { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
-	{
-		"OXY2DEV/markview.nvim",
-		lazy = false,
-	},
 	-- Your other plugins
 	{
 		"jakewvincent/mkdnflow.nvim",
