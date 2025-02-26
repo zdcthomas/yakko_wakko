@@ -149,14 +149,25 @@ return {
 			})
 		end,
 		opts = {
-			popup = {
-				border = "rounded",
-			},
-			src = {
-				cmp = {
+			completion = {
+				crates = {
 					enabled = true,
 				},
 			},
+			lsp = {
+				enabled = true,
+				actions = true,
+				completion = true,
+				hover = true,
+			},
+			popup = {
+				border = "rounded",
+			},
+			-- src = {
+			-- 	cmp = {
+			-- 		enabled = true,
+			-- 	},
+			-- },
 		},
 	},
 	{
@@ -164,8 +175,21 @@ return {
 		-- optional: provides snippets for the snippet source
 		enabled = true,
 		dependencies = {
-			"L3MON4D3/LuaSnip",
-			version = "v2.*",
+			{
+				"L3MON4D3/LuaSnip",
+				version = "v2.*",
+			},
+			{
+				"saecki/crates.nvim",
+			},
+
+			{
+				"saghen/blink.compat",
+				-- use the latest release, via version = '*', if you also use the latest release for blink.cmp
+				version = "*",
+				-- make sure to set opts so that lazy.nvim calls blink.compat's setup
+				opts = {},
+			},
 			{
 				"xzbdmw/colorful-menu.nvim",
 				opts = {},
@@ -289,9 +313,226 @@ return {
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "snippets", "lsp", "path", "buffer" },
+				default = { "snippets", "lsp", "path", "buffer", "crates" },
+				providers = {
+					crates = {
+						name = "crates",
+						module = "blink.compat.source",
+						opts = {},
+					},
+				},
 			},
 		},
 		opts_extend = { "sources.default" },
 	},
+
+	-- {
+	-- 	"hrsh7th/nvim-cmp",
+	-- 	enabled = false,
+	-- 	-- wants = { "LuaSnip" },
+	-- 	event = "InsertEnter",
+	-- 	dependencies = {
+	-- 		"L3MON4D3/LuaSnip",
+	-- 		"davidmh/cmp-nerdfonts",
+	-- 		"hrsh7th/cmp-buffer",
+	-- 		"hrsh7th/cmp-calc",
+	-- 		"hrsh7th/cmp-cmdline",
+	-- 		"hrsh7th/cmp-nvim-lsp",
+	-- 		"hrsh7th/cmp-path",
+	-- 		"onsails/lspkind-nvim",
+	-- 		"petertriho/cmp-git",
+	-- 		"saadparwaiz1/cmp_luasnip",
+	-- 		"windwp/nvim-autopairs",
+	-- 	},
+	-- 	config = function()
+	-- 		-- See lspconfig comment on why this is in a function wrapper
+	-- 		local cmp = require("cmp")
+	-- 		local luasnip = require("luasnip")
+	-- 		---@diagnostic disable-next-line: missing-fields
+	-- 		cmp.setup({
+	--
+	-- 			view = {
+	-- 				entries = {
+	-- 					follow_cursor = true,
+	-- 				},
+	-- 			},
+	-- 			snippet = {
+	-- 				expand = snippet_func,
+	-- 			},
+	-- 			preset = "codicons",
+	-- 			window = {
+	-- 				completion = cmp.config.window.bordered(),
+	-- 				documentation = cmp.config.window.bordered(),
+	-- 			},
+	-- 			---@diagnostic disable-next-line: missing-fields
+	-- 			formatting = {
+	-- 				format = require("lspkind").cmp_format({
+	-- 					maxwidth = 50,
+	-- 					mode = "symbol",
+	-- 					menu = {}, -- this is too help with rust menu width issues, see https://github.com/hrsh7th/nvim-cmp/issues/1154
+	-- 					symbol_map = {
+	-- 						nvim_lsp = "[LSP]",
+	-- 						Unit = "u",
+	-- 						Enum = "X|Y",
+	-- 						Snippet = "~",
+	-- 					},
+	-- 				}),
+	-- 			},
+	-- 			---@diagnostic disable-next-line: missing-fields
+	-- 			matching = { disallow_fuzzy_matching = false },
+	-- 			preselect = cmp.PreselectMode.None,
+	-- 			mapping = {
+	-- 				["<C-n>"] = cmp.mapping(function(fallback)
+	-- 					if luasnip.expand_or_jumpable() then
+	-- 						luasnip.expand_or_jump(1)
+	-- 					else
+	-- 						cmp.complete()
+	-- 					end
+	-- 				end, {
+	-- 					"i",
+	-- 					"s",
+	-- 				}),
+	-- 				["<C-p>"] = cmp.mapping(function(fallback)
+	-- 					if luasnip.expand_or_jumpable() then
+	-- 						luasnip.expand_or_jump(-1)
+	-- 					else
+	-- 						fallback()
+	-- 					end
+	-- 				end, {
+	-- 					"i",
+	-- 					"s",
+	-- 				}),
+	-- 				["<C-j>"] = cmp.mapping(function(fallback)
+	-- 					if cmp.visible() and cmp.get_selected_entry() then
+	-- 						cmp.scroll_docs(4)
+	-- 					elseif luasnip.choice_active() then
+	-- 						luasnip.change_choice(1)
+	-- 					else
+	-- 						fallback()
+	-- 					end
+	-- 				end, { "i", "c" }),
+	-- 				["<C-k>"] = cmp.mapping(function(fallback)
+	-- 					if cmp.visible() and cmp.get_selected_entry() then
+	-- 						cmp.scroll_docs(-4)
+	-- 					elseif luasnip.choice_active() then
+	-- 						luasnip.change_choice(-1)
+	-- 					else
+	-- 						fallback()
+	-- 					end
+	-- 				end, { "i", "c" }),
+	-- 				["<C-c>"] = cmp.mapping(cmp.mapping.close(), { "i", "c" }),
+	-- 				["<CR>"] = cmp.mapping({
+	-- 					i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false }),
+	-- 				}),
+	-- 				["<Tab>"] = cmp.mapping({
+	-- 					c = function(_)
+	-- 						if cmp.visible() then
+	-- 							cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+	-- 						else
+	-- 							if vim.fn.getcmdtype() == "/" then
+	-- 								cmp.complete()
+	-- 							else
+	-- 								feedkey("<Tab>", "tn")
+	-- 							end
+	-- 						end
+	-- 					end,
+	-- 					i = function(fallback)
+	-- 						if cmp.visible() then
+	-- 							cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+	-- 						-- elseif has_words_before() then
+	-- 						-- 	vim.fn.feedkeys(replace_termcodes("<Tab>"), "n")
+	-- 						else
+	-- 							fallback()
+	-- 						end
+	-- 					end,
+	-- 				}),
+	-- 				["<S-Tab>"] = cmp.mapping({
+	-- 					c = function(fallback)
+	-- 						if cmp.visible() then
+	-- 							cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+	-- 						else
+	-- 							if vim.fn.getcmdtype() == "/" then
+	-- 								cmp.complete()
+	-- 							else
+	-- 								fallback()
+	-- 							end
+	-- 						end
+	-- 					end,
+	-- 					i = function(fallback)
+	-- 						if cmp.visible() then
+	-- 							cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+	-- 						-- elseif has_words_before() then
+	-- 						-- 	vim.fn.feedkeys(replace_termcodes("<S-Tab>"), "n")
+	-- 						else
+	-- 							fallback()
+	-- 						end
+	-- 					end,
+	-- 				}),
+	-- 			},
+	-- 			sources = cmp.config.sources({
+	-- 				{ name = "nvim_lsp", priority = 9 },
+	-- 				{ name = "luasnip", priority = 8 },
+	-- 				{ name = "mkdnflow" },
+	-- 				{ name = "buffer", priority = 7, keyword_length = 3 },
+	-- 				{ name = "path", priority = 5 },
+	-- 				{ name = "nerdfonts" },
+	-- 				{ name = "crates" },
+	-- 			}, {
+	-- 				{ name = "calc" },
+	-- 			}),
+	-- 			experimental = {
+	-- 				-- This is super super buggy for whatever reason
+	-- 				ghost_text = {
+	-- 					enabled = true,
+	-- 					-- hl_group = "CmpGhostText",
+	-- 				},
+	-- 			},
+	-- 		})
+	--
+	-- 		---@diagnostic disable-next-line: missing-fields
+	-- 		cmp.setup.filetype("gitcommit", {
+	-- 			sources = cmp.config.sources({
+	-- 				{ name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
+	-- 			}, {
+	-- 				{ name = "buffer" },
+	-- 			}),
+	-- 		})
+	--
+	-- 		---@diagnostic disable-next-line: missing-fields
+	-- 		cmp.setup.cmdline({ "/", "?" }, {
+	-- 			sources = {
+	-- 				{ name = "buffer" },
+	-- 			},
+	-- 		})
+	--
+	-- 		---@diagnostic disable-next-line: missing-fields
+	-- 		cmp.setup.cmdline(":", {
+	-- 			mapping = cmp.mapping.preset.cmdline(),
+	-- 			sources = cmp.config.sources({
+	-- 				{ name = "path" },
+	-- 			}, {
+	-- 				{ name = "cmdline" },
+	-- 			}),
+	-- 		})
+	--
+	-- 		vim.cmd([[
+	--      " gray
+	--      highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
+	--      " blue
+	--      highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
+	--      highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
+	--      " light blue
+	--      highlight! CmpItemKindVariable guibg=NONE guifg=#9CDCFE
+	--      highlight! CmpItemKindInterface guibg=NONE guifg=#9CDCFE
+	--      highlight! CmpItemKindText guibg=NONE guifg=#9CDCFE
+	--      " pink
+	--      highlight! CmpItemKindFunction guibg=NONE guifg=#C586C0
+	--      highlight! CmpItemKindMethod guibg=NONE guifg=#C586C0
+	--      " front
+	--      highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
+	--      highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
+	--      highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
+	--    ]])
+	-- 	end,
+	-- },
 }
