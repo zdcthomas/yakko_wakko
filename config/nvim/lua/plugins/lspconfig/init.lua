@@ -11,7 +11,7 @@ local function setup_lspconfig()
 	local capabilities = require("plugins.lspconfig.shared").capabilities()
 
 	require("plugins.lspconfig.lua_ls").setup(capabilities, common_on_attach)
-	require("plugins.lspconfig.eslint").setup(capabilities, common_on_attach)
+	-- require("plugins.lspconfig.eslint").setup(capabilities, common_on_attach)
 
 	local lspconfig = require("lspconfig")
 

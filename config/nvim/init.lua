@@ -46,6 +46,10 @@ function GetPlugin(pluginName)
 	return require("lazy.core.config").spec.plugins[pluginName]
 end
 
+function PluginEnabled(pluginName)
+	return GetPlugin(pluginName) and GetPlugin(pluginName).enabled
+end
+
 -- Defines a list of plugins to pull down and use, as well as their
 -- configurations.
 require("lazy").setup({

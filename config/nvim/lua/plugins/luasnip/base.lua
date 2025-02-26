@@ -26,6 +26,18 @@ local conds = require("luasnip.extras.expand_conditions")
 local match_link = [[[%w%.%_%-%/%p%"%']+$]]
 local non_space = "%S+$"
 
+vim.keymap.set({ "i", "s" }, "<C-j>", function()
+	if ls.choice_active() then
+		ls.change_choice(1)
+	end
+end, { silent = true })
+
+vim.keymap.set({ "i", "s" }, "<C-k>", function()
+	if ls.choice_active() then
+		ls.change_choice(-1)
+	end
+end, { silent = true })
+
 ls.config.set_config({
 	updateevents = "TextChanged,TextChangedI",
 	delete_check_events = "TextChanged,InsertEnter",

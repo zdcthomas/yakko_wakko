@@ -14,7 +14,7 @@ function Module.capabilities()
 	local capabilities
 	if GetPlugin("blink.cmp") and GetPlugin("blink.cmp").enabled then
 		capabilities = require("blink.cmp").get_lsp_capabilities()
-	elseif GetPlugin("cmp") and GetPlugin("cmp").enabled then
+	elseif GetPlugin("nvim-cmp") and GetPlugin("nvim-cmp").enabled then
 		capabilities = require("cmp_nvim_lsp").default_capabilities()
 	end
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
