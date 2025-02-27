@@ -46,6 +46,12 @@ return {
 				preset = "default",
 
 				-- -- show with a list of providers
+				["<C-c>"] = { "cancel", "fallback" },
+				["<C-space>"] = {
+					function(cmp)
+						cmp.show({ providers = { "snippets" } })
+					end,
+				},
 				["<CR>"] = { "select_and_accept", "fallback" },
 				["<C-p>"] = { "select_prev", "snippet_backward", "fallback" },
 				["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
@@ -58,8 +64,19 @@ return {
 					"scroll_documentation_up",
 					"fallback",
 				},
-				["<Tab>"] = { "select_next", "fallback" },
-				["<S-Tab>"] = { "select_prev", "fallback" },
+				["<Tab>"] = {
+					-- TODO: <27-02-25, zdcthomas> do I like this?
+					function(cmp)
+						return cmp.select_next({ auto_insert = false })
+					end,
+					"fallback",
+				},
+				["<S-Tab>"] = {
+					function(cmp)
+						return cmp.select_prev({ auto_insert = false })
+					end,
+					"fallback",
+				},
 			},
 
 			cmdline = {
@@ -70,7 +87,7 @@ return {
 						},
 					},
 					menu = { auto_show = true },
-					ghost_text = { enabled = true },
+					-- ghost_text = { enabled = true },
 				},
 				keymap = {
 					preset = "super-tab",
@@ -79,7 +96,7 @@ return {
 				},
 			},
 			completion = {
-				list = { selection = { preselect = false, auto_insert = false } },
+				list = { selection = { preselect = false, auto_insert = true } },
 				menu = {
 					draw = {
 						columns = { { "kind_icon" }, { "label", gap = 1 } },
