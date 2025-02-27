@@ -48,6 +48,9 @@ function Module.capabilities()
 end
 
 Module.common_on_attach = function(client, bufnr)
+	if client.server_capabilities.inlayHintProvider then
+		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+	end
 	vim.api.nvim_clear_autocmds({ buffer = bufnr, group = Module.lspconfig_augroup })
 
 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
