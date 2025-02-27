@@ -234,35 +234,19 @@ return {
 			},
 
 			cmdline = {
-				-- menu = { auto_show = true },
 				completion = {
-					-- trigger = {
-					-- 	show_on_blocked_trigger_characters = {},
-					-- 	show_on_x_blocked_trigger_characters = {},
-					-- },
-					-- list = {
-					-- 	selection = {
-					-- 		-- When `true`, will automatically select the first item in the completion list
-					-- 		preselect = true,
-					-- 		-- When `true`, inserts the completion item automatically when selecting it
-					-- 		auto_insert = true,
-					-- 	},
-					-- },
-					-- Whether to automatically show the window when new completion items are available
+					list = {
+						selection = {
+							preselect = false,
+						},
+					},
 					menu = { auto_show = true },
-					-- Displays a preview of the selected item on the current line
 					ghost_text = { enabled = true },
 				},
 				keymap = {
 					preset = "super-tab",
 					["<Tab>"] = { "select_next", "fallback" },
-
-					-- sets <CR> to accept the item and run the command immediately
-					-- use `select_accept_and_enter` to accept the item or the first item if none are selected
-					-- ["<CR>"] = {},
-					--
-					-- [""] = { "select_prev", "snippet_backward", "fallback" },
-					-- ["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
+					["<S-Tab>"] = { "select_prev", "fallback" },
 				},
 			},
 			completion = {
