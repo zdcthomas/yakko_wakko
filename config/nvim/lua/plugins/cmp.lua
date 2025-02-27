@@ -7,7 +7,7 @@
 -- You are like baby, watch this
 -- Zach from 12-20-2022
 --
--- Ok, I guess blink is a thing now, so I guess we're trying it out
+-- Ok, I guess blink is a thing now, so I guess we're trying it out over in ./blink.lua
 -- Zach from 24-2-2025
 
 local function snippet_func(args)
