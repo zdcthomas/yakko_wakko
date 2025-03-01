@@ -2,7 +2,7 @@ return {
 	{
 		"saghen/blink.cmp",
 		-- optional: provides snippets for the snippet source
-		enabled = true,
+		-- enabled = true,
 		dependencies = {
 			{
 				"L3MON4D3/LuaSnip",
@@ -24,6 +24,7 @@ return {
 				opts = {},
 			},
 		},
+		event = "InsertEnter",
 
 		-- use a release tag to download pre-built binaries
 		version = "*",
