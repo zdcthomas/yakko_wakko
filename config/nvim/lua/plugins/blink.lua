@@ -144,7 +144,15 @@ return {
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
 				default = { "snippets", "lsp", "path", "buffer", "crates" },
+				per_filetype = {
+					org = { "orgmode" },
+				},
 				providers = {
+					orgmode = {
+						name = "Orgmode",
+						module = "orgmode.org.autocompletion.blink",
+						fallbacks = { "buffer" },
+					},
 					crates = {
 						name = "crates",
 						module = "blink.compat.source",

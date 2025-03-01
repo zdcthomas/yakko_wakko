@@ -1,12 +1,10 @@
 return {
 	{
 		"chipsenkbeil/org-roam.nvim",
-		tag = "0.1.0",
 		ft = { "org" },
 		dependencies = {
 			{
 				"nvim-orgmode/orgmode",
-				tag = "0.3.4",
 			},
 		},
 		config = function()
@@ -21,13 +19,33 @@ return {
 	},
 	{
 		"nvim-orgmode/orgmode",
-		event = "VeryLazy",
 		ft = { "org" },
+		keys = {
+			{
+				"<Space>oc",
+				function()
+					require("orgmode").action("capture.prompt")
+				end,
+			},
+			{
+				"<Space>oa",
+				function()
+					require("orgmode").action("agenda.prompt")
+				end,
+			},
+		},
 		config = function()
 			-- Setup orgmode
 			require("orgmode").setup({
-				org_agenda_files = "~/Irulan/wiki/**/*",
+				org_agenda_files = { "~/Irulan/wiki/**/*" },
 				org_default_notes_file = "~/Irulan/wiki/refile.org",
+				org_startup_folded = "showeverything",
+				mappings = {
+					org = {
+						org_do_demote = "_",
+						org_do_promote = "+",
+					},
+				},
 			})
 
 			-- NOTE: If you are using nvim-treesitter with ~ensure_installed = "all"~ option

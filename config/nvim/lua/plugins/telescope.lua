@@ -174,6 +174,36 @@ end
 
 return {
 	{
+		"nvim-orgmode/telescope-orgmode.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			"nvim-orgmode/orgmode",
+			"nvim-telescope/telescope.nvim",
+		},
+		config = function()
+			require("telescope").load_extension("orgmode")
+
+			vim.keymap.set(
+				"n",
+				"<leader>tOr",
+				require("telescope").extensions.orgmode.refile_heading,
+				{ desc = "[t]elescope [o]rg [r]efile" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>tOh",
+				require("telescope").extensions.orgmode.search_headings,
+				{ desc = "[t]elescope [o]rg [h]eadings" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>tOl",
+				require("telescope").extensions.orgmode.insert_link,
+				{ desc = "[t]elescope [o]rg insert [l]ink" }
+			)
+		end,
+	},
+	{
 		"debugloop/telescope-undo.nvim",
 		dependencies = { -- note how they're inverted to above example
 			{
