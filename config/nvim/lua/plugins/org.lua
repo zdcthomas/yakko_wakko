@@ -105,8 +105,8 @@ return {
 							},
 							j = {
 								description = "Journal",
-								template = { "*** %<%Y-%m-%d> %<%A>", "**** %U", "", "n%?" },
-								target = wiki_path("journal/%<%Y>/%<%m-%B>/%<%d>.org"),
+								template = { "* %<%Y-%m-%d> %<%A>", "%?" },
+								target = wiki_path("journal/%<%Y>/%<%m-%B>/%<%d>-%<%A>.org"),
 							},
 						},
 					},
