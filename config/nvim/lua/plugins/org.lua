@@ -2,7 +2,7 @@ local wiki = "~/Irulan/wiki"
 local wiki_path = function(path)
 	return ("%s/%s"):format(wiki, path)
 end
-local org_agenda_path = function(path)
+local function org_agenda_path(path)
 	local org_directory = wiki_path("agenda")
 	return ("%s/%s"):format(org_directory, path)
 end
@@ -47,7 +47,7 @@ return {
 			-- Setup orgmode
 			require("orgmode").setup({
 				org_agenda_files = { wiki_path("**/*") },
-				org_default_notes_file = org_agenda_path("/refile.org"),
+				org_default_notes_file = org_agenda_path("/personal.org"),
 				org_startup_folded = "content",
 				org_capture_templates = {
 					t = {
@@ -59,11 +59,19 @@ return {
 						subtemplates = {
 							n = {
 								description = "notes",
+								headline = "Notes",
 								template = "* %?",
 								target = org_agenda_path("work.org"),
 							},
 							t = {
 								description = "todos",
+								template = { "* TODO %?" },
+								headline = "Tasks",
+								target = org_agenda_path("work.org"),
+							},
+							T = {
+								description = "todos",
+								headline = "Tasks",
 								template = { "* TODO %?", " DEADLINE: %^{Deadline}T" },
 								target = org_agenda_path("work.org"),
 							},
@@ -105,8 +113,9 @@ return {
 							},
 							j = {
 								description = "Journal",
-								template = { "* %<%Y-%m-%d> %<%A>", "%?" },
-								target = wiki_path("journal/%<%Y>/%<%m-%B>/%<%d>-%<%A>.org"),
+								template = { "* %?" },
+								datetree = { reversed = true, tree_type = "day" },
+								target = wiki_path("journal.org"),
 							},
 						},
 					},
@@ -116,16 +125,18 @@ return {
 							t = {
 								description = "notes",
 								template = "* TODO %?",
-								target = [[ %(org_agenda_path(
-									"repos/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. ".org"
-								))]],
+								target = org_agenda_path("repos")
+									.. "/"
+									.. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+									.. ".org",
 							},
 							n = {
 								desciption = "todo",
 								template = "* %?",
-								target = [[%(org_agenda_path(
-                  "repos/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. ".org"
-                ))]],
+								target = org_agenda_path("repos")
+									.. "/"
+									.. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+									.. ".org",
 							},
 						},
 					},
