@@ -43,11 +43,11 @@ function Module.capabilities()
 	end
 	return capabilities
 end
+local function with_desc(opts, desc)
+	return vim.tbl_extend("keep", opts, { desc = desc })
+end
 
 Module.common_on_attach = function(client, bufnr)
-	if client.server_capabilities.inlayHintProvider then
-		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-	end
 	vim.api.nvim_clear_autocmds({ buffer = bufnr, group = Module.lspconfig_augroup })
 
 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -77,17 +77,23 @@ Module.common_on_attach = function(client, bufnr)
 
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
-	vim.keymap.set({ "i", "s" }, "<c-l>", vim.lsp.buf.signature_help, opts)
-	vim.keymap.set("n", "gl", vim.lsp.buf.signature_help, opts)
-	vim.keymap.set("n", "gr", "<cmd>Glance references<CR>", opts)
-	vim.keymap.set({ "x", "n" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-	vim.keymap.set("n", "gd", "<cmd>Glance definitions<CR>", opts)
-	vim.keymap.set("n", "gt", "<cmd>Glance type_definitions<CR>", opts)
-	vim.keymap.set("n", "gi", "<cmd>Glance implementations<CR>", opts)
-	vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
+	vim.keymap.set({ "i", "s" }, "<c-l>", vim.lsp.buf.signature_help, with_desc(opts, "Show Signature"))
+	vim.keymap.set("n", "gl", vim.lsp.buf.signature_help, with_desc(opts, "Show signature"))
+	vim.keymap.set("n", "gr", "<cmd>Glance references<CR>", with_desc(opts, "References"))
+	vim.keymap.set({ "x", "n" }, "<leader>ca", vim.lsp.buf.code_action, with_desc(opts, "Code action"))
+	vim.keymap.set("n", "gd", "<cmd>Glance definitions<CR>", with_desc(opts, "Definitions"))
+	vim.keymap.set("n", "gt", "<cmd>Glance type_definitions<CR>", with_desc(opts, "Type definitions"))
+	vim.keymap.set("n", "gi", "<cmd>Glance implementations<CR>", with_desc(opts, "Go to implementations"))
+	vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, with_desc(opts, "Lsp Rename"))
+
+	if client.server_capabilities.inlayHintProvider then
+		vim.keymap.set("n", "<Leader>li", function()
+			vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+		end, with_desc(opts, "Toggle inlay hints"))
+	end
 
 	if client.server_capabilities.codeLensProvider then
-		vim.keymap.set("n", "<Leader>cl", vim.lsp.codelens.run, opts)
+		vim.keymap.set("n", "<Leader>ll", vim.lsp.codelens.run, with_desc(opts, "Run code lens"))
 		vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
 			buffer = bufnr,
 			callback = function()
@@ -98,7 +104,7 @@ Module.common_on_attach = function(client, bufnr)
 	end
 
 	if client.server_capabilities.documentFormattingProvider then
-		vim.keymap.set("n", "<leader>gq", vim.lsp.buf.format, opts)
+		vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, with_desc(opts, "Formatting"))
 		vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 			buffer = bufnr,
 			callback = function()

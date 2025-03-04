@@ -5,6 +5,14 @@ return {
 		opts = {
 			preset = "modern",
 		},
+		config = function()
+			local wk = require("which-key")
+			wk.setup()
+			wk.add({
+				{ "<leader>l", group = "lsp" }, -- group
+				{ "<leader>d", group = "dap" }, -- group
+			})
+		end,
 		keys = {
 
 			{

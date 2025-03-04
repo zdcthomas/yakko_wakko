@@ -49,10 +49,17 @@ return {
 				org_agenda_files = { wiki_path("**/*") },
 				org_default_notes_file = org_agenda_path("/personal.org"),
 				org_startup_folded = "content",
+				org_adapt_indentation = false,
 				org_capture_templates = {
 					t = {
 						description = "Refile",
 						template = "* TODO %?\n",
+						headline = "Todos",
+					},
+					i = {
+						description = "Idea",
+						headline = "Ideas",
+						template = "* %?",
 					},
 					w = {
 						description = "Work",
@@ -80,10 +87,9 @@ return {
 					p = {
 						description = "personal",
 						subtemplates = {
-
 							p = {
 								description = "poetry",
-								template = "* %?\n# %u",
+								template = "* %? %u",
 								properties = {
 									edits = 0,
 									like = false,

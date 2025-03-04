@@ -14,26 +14,26 @@ local function setup_lspconfig()
 
 	local lspconfig = require("lspconfig")
 
-	lspconfig.eslint.setup({
-		on_attach = function(client, bufnr)
-			-- client.server_capabilities.documentFormattingProvider = false
-			common_on_attach(client, bufnr)
-		end,
-		capabilities = capabilities,
-		settings = {
-			format = false,
-		},
-		handlers = {
-			["eslint/probeFailed"] = function()
-				vim.notify("ESLint probe failed.", vim.log.levels.WARN)
-				return {}
-			end,
-			["eslint/noLibrary"] = function()
-				vim.notify("Unable to find ESLint library.", vim.log.levels.WARN)
-				return {}
-			end,
-		},
-	})
+	-- lspconfig.eslint.setup({
+	-- 	on_attach = function(client, bufnr)
+	-- 		-- client.server_capabilities.documentFormattingProvider = false
+	-- 		common_on_attach(client, bufnr)
+	-- 	end,
+	-- 	capabilities = capabilities,
+	-- 	settings = {
+	-- 		format = false,
+	-- 	},
+	-- 	handlers = {
+	-- 		["eslint/probeFailed"] = function()
+	-- 			vim.notify("ESLint probe failed.", vim.log.levels.WARN)
+	-- 			return {}
+	-- 		end,
+	-- 		["eslint/noLibrary"] = function()
+	-- 			vim.notify("Unable to find ESLint library.", vim.log.levels.WARN)
+	-- 			return {}
+	-- 		end,
+	-- 	},
+	-- })
 	lspconfig.ts_ls.setup({
 		on_attach = common_on_attach,
 		settings = {
