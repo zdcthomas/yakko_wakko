@@ -51,6 +51,10 @@ local function setup_lspconfig()
 		},
 		capabilities = capabilities,
 	})
+	lspconfig.gopls.setup({
+		on_attach = common_on_attach,
+		capabilities = capabilities,
+	})
 	lspconfig.solargraph.setup({
 		on_attach = common_on_attach,
 		capabilities = capabilities,
