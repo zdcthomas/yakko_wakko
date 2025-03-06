@@ -4,6 +4,18 @@
     "snippets": [
       {
         "language": [
+          "org"
+        ],
+        "path": "org.json"
+      },
+      {
+        "language": [
+          "go"
+        ],
+        "path": "go.json"
+      },
+      {
+        "language": [
           "eelixir",
           "heex"
         ],

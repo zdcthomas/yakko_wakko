@@ -123,8 +123,6 @@ return {
 				"markdown",
 				"markdown_inline",
 				"nix",
-				"norg",
-				"org",
 				"python",
 				"regex",
 				"ruby",

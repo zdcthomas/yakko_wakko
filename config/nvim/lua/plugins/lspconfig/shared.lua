@@ -88,7 +88,7 @@ Module.common_on_attach = function(client, bufnr)
 
 	if client.server_capabilities.inlayHintProvider then
 		vim.keymap.set("n", "<Leader>li", function()
-			vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
 		end, with_desc(opts, "Toggle inlay hints"))
 	end
 

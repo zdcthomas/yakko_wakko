@@ -4,12 +4,13 @@ return {
 		-- optional: provides snippets for the snippet source
 		-- enabled = true,
 		dependencies = {
+			"L3MON4D3/LuaSnip",
+			-- 	version = "v2.*",
+			-- },
+			"saecki/crates.nvim",
 			{
-				"L3MON4D3/LuaSnip",
-				version = "v2.*",
-			},
-			{
-				"saecki/crates.nvim",
+				"Kaiser-Yang/blink-cmp-git",
+				dependencies = { "nvim-lua/plenary.nvim" },
 			},
 
 			{
@@ -146,7 +147,7 @@ return {
 			sources = {
 				default = { "snippets", "lsp", "path", "buffer", "crates" },
 				per_filetype = {
-					org = { "orgmode" },
+					org = { "orgmode", "snippets", "path", "buffer" },
 				},
 				providers = {
 					orgmode = {
