@@ -72,7 +72,7 @@ return {
 					-- map("n", "<leader>gb", function()
 					-- 	gitsigns.blame_line({ full = true })
 					-- end)
-					map("n", "<leader>gtb", gitsigns.toggle_current_line_blame, { desc = "toggle current line blame" })
+					map("n", "<leader>gb", gitsigns.toggle_current_line_blame, { desc = "toggle current line blame" })
 					map("n", "<leader>hd", gitsigns.diffthis, { desc = "show diff of hunk" })
 					map("n", "<leader>hD", function()
 						gitsigns.diffthis("~")

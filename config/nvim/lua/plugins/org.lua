@@ -50,6 +50,13 @@ return {
 				org_default_notes_file = org_agenda_path("/personal.org"),
 				org_startup_folded = "content",
 				org_adapt_indentation = false,
+				org_todo_keywords = { "TODO", "EDIT(e)", "|", "DONE(d)", "DELEGATED(D)", "ABANDONED(a)" },
+				org_log_done = "note",
+				org_log_into_drawer = "LOGBOOK",
+				org_todo_keyword_faces = {
+					EDIT = ":foreground green :weight bold",
+					-- DELEGATED = ":background #FFFFFF :slant italic :underline on",
+				},
 				org_capture_templates = {
 					t = {
 						description = "Refile",
@@ -130,7 +137,10 @@ return {
 						subtemplates = {
 							t = {
 								description = "notes",
-								template = "* TODO %?",
+								template = {
+									"* TODO %?",
+									"- Captured on %u",
+								},
 								target = org_agenda_path("repos")
 									.. "/"
 									.. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")

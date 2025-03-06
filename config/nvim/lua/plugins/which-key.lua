@@ -5,11 +5,12 @@ return {
 		opts = {
 			preset = "modern",
 		},
-		config = function()
+		config = function(_, opts)
 			local wk = require("which-key")
-			wk.setup()
+			wk.setup(opts)
 			wk.add({
 				{ "<leader>l", group = "lsp" }, -- group
+				{ "<leader>g", group = "git" }, -- group
 				{ "<leader>d", group = "dap" }, -- group
 			})
 		end,
