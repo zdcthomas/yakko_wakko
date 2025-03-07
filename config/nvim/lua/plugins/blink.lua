@@ -4,6 +4,7 @@ return {
 		-- optional: provides snippets for the snippet source
 		-- enabled = true,
 		dependencies = {
+
 			"L3MON4D3/LuaSnip",
 			-- 	version = "v2.*",
 			-- },
@@ -54,7 +55,7 @@ return {
 						cmp.show({ providers = { "snippets" } })
 					end,
 				},
-				["<CR>"] = { "select_and_accept", "fallback" },
+				["<CR>"] = { "accept", "fallback" },
 				["<C-p>"] = { "select_prev", "snippet_backward", "fallback" },
 				["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
 				["<C-e>"] = { "hide" },

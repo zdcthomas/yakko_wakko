@@ -89,7 +89,8 @@ for key, _ in pairs(require("todo-comments.config").keywords) do
 end
 
 local todo_snippet_specs = {
-	{ { trig = "todo" }, { "TODO", "HACK", "FIX", "BUG", "ISSUE", "WARN", "INFO", "NOTE", "IDEA" } },
+	{ { trig = "todo" }, { "TODO", "HACK", "FIX", "BUG", "ISSUE", "WARN", "INFO", "NOTE", "IDEA", "QUESTION" } },
+	{ { trig = "ques" }, { "QUESTION" } },
 	{ { trig = "todoa" }, all_todo_types },
 	{ { trig = "fix" }, { "FIX", "BUG", "ISSUE", "FIXIT" } },
 	{ { trig = "hack" }, "HACK" },

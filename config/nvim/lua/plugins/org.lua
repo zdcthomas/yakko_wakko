@@ -60,7 +60,7 @@ return {
 				org_capture_templates = {
 					t = {
 						description = "Refile",
-						template = "* TODO %?\n",
+						template = { "* TODO %?", "SCHEDULED: %u" },
 						headline = "Todos",
 					},
 					i = {
@@ -79,16 +79,16 @@ return {
 							},
 							t = {
 								description = "todos",
-								template = { "* TODO %?" },
+								template = { "* TODO %?", "SCHEDULED: %u" },
 								headline = "Tasks",
 								target = org_agenda_path("work.org"),
 							},
-							T = {
-								description = "todos",
-								headline = "Tasks",
-								template = { "* TODO %?", " DEADLINE: %^{Deadline}T" },
-								target = org_agenda_path("work.org"),
-							},
+							-- T = {
+							-- 	description = "todos",
+							-- 	headline = "Tasks",
+							-- 	template = { "* TODO %?", "SCHEDULED: %u DEADLINE: %^{Deadline}T" },
+							-- 	target = org_agenda_path("work.org"),
+							-- },
 						},
 					},
 					p = {
@@ -106,7 +106,7 @@ return {
 							},
 							b = {
 								description = "Bull",
-								template = "* %?\n# %u",
+								template = { "* %?", "# %u" },
 								properties = {
 									edits = 0,
 									like = false,
@@ -116,7 +116,7 @@ return {
 							},
 							s = {
 								description = "Story ideas",
-								template = "* %?\n# %u",
+								template = { "* %?", "# %u" },
 								properties = {
 									edits = 0,
 									like = false,
@@ -136,7 +136,7 @@ return {
 						description = "per repo",
 						subtemplates = {
 							t = {
-								description = "notes",
+								description = "todo",
 								template = {
 									"* TODO %?",
 									"- Captured on %u",
@@ -147,8 +147,8 @@ return {
 									.. ".org",
 							},
 							n = {
-								desciption = "todo",
-								template = "* %?",
+								desciption = "notes",
+								template = { "* %? %u" },
 								target = org_agenda_path("repos")
 									.. "/"
 									.. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
@@ -159,8 +159,8 @@ return {
 				},
 				mappings = {
 					org = {
-						org_do_demote = "_",
-						org_do_promote = "+",
+						org_do_demote = "<leader><",
+						org_do_promote = "<leader>>",
 					},
 				},
 			})
