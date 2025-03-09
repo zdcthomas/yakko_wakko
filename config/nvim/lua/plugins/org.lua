@@ -42,20 +42,20 @@ return {
 			require("telescope").load_extension("orgmode")
 		end,
 	},
-	-- {
-	-- 	"chipsenkbeil/org-roam.nvim",
-	-- 	dependencies = {
-	-- 		"nvim-orgmode/orgmode",
-	-- 	},
-	-- 	opts = {
-	-- 		bindings = {
-	-- 			prefix = "<leader>r",
-	-- 		},
-	-- 		directory = "~/Irulan/wiki/roam",
-	-- 	},
-	-- 	event = { "VeryLazy" },
-	-- 	-- keys = { "<leader>r" },
-	-- },
+	{
+		"chipsenkbeil/org-roam.nvim",
+		dependencies = {
+			"nvim-orgmode/orgmode",
+		},
+		opts = {
+			bindings = {
+				prefix = "<leader>r",
+			},
+			directory = "~/Irulan/wiki/roam",
+		},
+		event = { "VeryLazy" },
+		-- keys = { "<leader>r" },
+	},
 	{
 		"nvim-orgmode/orgmode",
 		ft = { "org" },
@@ -77,7 +77,7 @@ return {
 		},
 		opts = {
 
-			org_agenda_files = { wiki_path("**/*") },
+			org_agenda_files = { org_agenda_path("**/*") },
 			org_default_notes_file = org_agenda_path("/personal.org"),
 			org_agenda_skip_deadline_if_done = true,
 			org_startup_folded = "content",
@@ -196,8 +196,8 @@ return {
 			},
 			mappings = {
 				org = {
-					org_do_demote = "<leader><",
-					org_do_promote = "<leader>>",
+					org_do_demote = "<leader>>",
+					org_do_promote = "<leader><",
 				},
 			},
 		},
