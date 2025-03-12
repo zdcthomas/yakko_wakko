@@ -77,14 +77,15 @@ Module.common_on_attach = function(client, bufnr)
 
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
-	vim.keymap.set({ "i", "s" }, "<c-l>", vim.lsp.buf.signature_help, with_desc(opts, "Show Signature"))
+	-- Moved into core
+	-- vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, with_desc(opts, "Lsp Rename"))
+	-- vim.keymap.set({ "i", "s" }, "<c-l>", vim.lsp.buf.signature_help, with_desc(opts, "Show Signature"))
+	-- vim.keymap.set({ "x", "n" }, "<leader>ca", vim.lsp.buf.code_action, with_desc(opts, "Code action"))
 	vim.keymap.set("n", "gl", vim.lsp.buf.signature_help, with_desc(opts, "Show signature"))
-	vim.keymap.set("n", "gr", "<cmd>Glance references<CR>", with_desc(opts, "References"))
-	vim.keymap.set({ "x", "n" }, "<leader>ca", vim.lsp.buf.code_action, with_desc(opts, "Code action"))
 	vim.keymap.set("n", "gd", "<cmd>Glance definitions<CR>", with_desc(opts, "Definitions"))
 	vim.keymap.set("n", "gt", "<cmd>Glance type_definitions<CR>", with_desc(opts, "Type definitions"))
-	vim.keymap.set("n", "gi", "<cmd>Glance implementations<CR>", with_desc(opts, "Go to implementations"))
-	vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, with_desc(opts, "Lsp Rename"))
+	vim.keymap.set("n", "gri", "<cmd>Glance implementations<CR>", with_desc(opts, "Go to implementations"))
+	vim.keymap.set("n", "grr", "<cmd>Glance references<CR>", with_desc(opts, "References"))
 
 	if client.server_capabilities.inlayHintProvider then
 		vim.keymap.set("n", "<Leader>li", function()
