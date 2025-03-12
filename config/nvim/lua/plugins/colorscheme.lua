@@ -1,11 +1,11 @@
 return {
 	{
 		"EdenEast/nightfox.nvim",
-		lazy = false,
+		-- lazy = false,
 		priority = 1000,
-		-- init = function()
-		-- 	vim.cmd("colorscheme nordfox")
-		-- end,
+		init = function()
+			vim.cmd("colorscheme duskfox")
+		end,
 		opts = {
 			options = {
 				transparent = true,
@@ -178,9 +178,10 @@ return {
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
+		-- lazy = false,
 		priority = 1000,
 		init = function()
-			vim.cmd.colorscheme("gruvbox")
+			-- vim.cmd.colorscheme("gruvbox")
 		end,
 		opts = {
 			undercurl = true,

@@ -138,7 +138,7 @@ return {
 							description = "poetry",
 							template = "* %? %u",
 							properties = {
-								empty_lines = 2,
+								empty_lines = 1,
 							},
 							headline = "Poetry",
 							target = wiki_path("writing/inbox.org"),

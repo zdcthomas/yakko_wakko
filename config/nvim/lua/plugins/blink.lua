@@ -9,6 +9,7 @@ return {
 			-- 	version = "v2.*",
 			-- },
 			"saecki/crates.nvim",
+			"rcarriga/cmp-dap",
 			{
 				"Kaiser-Yang/blink-cmp-git",
 				dependencies = { "nvim-lua/plenary.nvim" },
@@ -154,6 +155,7 @@ return {
 				default = { "snippets", "lsp", "path", "buffer", "crates" },
 				per_filetype = {
 					org = { "orgmode", "snippets", "path", "buffer" },
+					["dap-repl"] = { "dap" },
 				},
 				providers = {
 					orgmode = {
