@@ -156,6 +156,8 @@ return {
 				per_filetype = {
 					org = { "orgmode", "snippets", "path", "buffer" },
 					["dap-repl"] = { "dap" },
+					dapui_watches = { "dap" },
+					dapui_hover = { "dap" },
 					rust = { "crates", "lsp", "snippets", "path", "buffer" },
 				},
 				providers = {
