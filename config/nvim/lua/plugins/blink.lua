@@ -152,10 +152,11 @@ return {
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "snippets", "lsp", "path", "buffer", "crates" },
+				default = { "snippets", "lsp", "path", "buffer" },
 				per_filetype = {
 					org = { "orgmode", "snippets", "path", "buffer" },
 					["dap-repl"] = { "dap" },
+					rust = { "crates", "lsp", "snippets", "path", "buffer" },
 				},
 				providers = {
 					orgmode = {
