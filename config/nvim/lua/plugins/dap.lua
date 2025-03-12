@@ -15,7 +15,8 @@ return {
 		dependencies = {
 			"jbyuki/one-small-step-for-vimkind",
 			"theHamsta/nvim-dap-virtual-text",
-			"rcarriga/nvim-dap-ui",
+			-- "rcarriga/nvim-dap-ui",
+			{ "igorlfs/nvim-dap-view", opts = {} },
 			{
 				"nvim-telescope/telescope-dap.nvim",
 				dependencies = {
@@ -23,29 +24,6 @@ return {
 				},
 				config = function()
 					require("telescope").load_extension("dap")
-				end,
-			},
-			{
-				"rcarriga/cmp-dap",
-				dependencies = {
-					"hrsh7th/nvim-cmp",
-				},
-				cond = function()
-					return GetPlugin("cmp") and GetPlugin("cmp").enabled
-				end,
-				config = function()
-					require("cmp").setup({
-						enabled = function()
-							return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-								or require("cmp_dap").is_dap_buffer()
-						end,
-					})
-
-					require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
-						sources = {
-							{ name = "dap" },
-						},
-					})
 				end,
 			},
 		},
@@ -209,7 +187,7 @@ return {
 				desc = "Go to line (no execute)",
 			},
 			{
-				"<leader>di",
+				"<leader>dl",
 				function()
 					require("dap").step_into()
 				end,
@@ -218,26 +196,26 @@ return {
 			{
 				"<leader>dj",
 				function()
-					require("dap").down()
+					require("dap").step_over()
 				end,
 				desc = "Down",
 			},
 			{
 				"<leader>dk",
 				function()
-					require("dap").up()
+					require("dap").step_back()
 				end,
 				desc = "Up",
 			},
 			{
-				"<leader>dl",
+				"<leader>dR",
 				function()
 					require("dap").run_last()
 				end,
 				desc = "Run Last",
 			},
 			{
-				"<leader>do",
+				"<leader>dh",
 				function()
 					require("dap").step_out()
 				end,
@@ -272,14 +250,14 @@ return {
 				desc = "Session",
 			},
 			{
-				"<leader>dt",
+				"<leader>dx",
 				function()
 					require("dap").terminate()
 				end,
 				desc = "Terminate",
 			},
 			{
-				"<leader>dh",
+				"<leader>dK",
 				function()
 					require("dap.ui.widgets").hover()
 				end,
@@ -366,6 +344,19 @@ return {
 					args = {},
 				},
 			}
+			local dv = require("dap-view")
+			dap.listeners.before.attach["dap-view-config"] = function()
+				dv.open()
+			end
+			dap.listeners.before.launch["dap-view-config"] = function()
+				dv.open()
+			end
+			dap.listeners.before.event_terminated["dap-view-config"] = function()
+				dv.close()
+			end
+			dap.listeners.before.event_exited["dap-view-config"] = function()
+				dv.close()
+			end
 		end,
 	},
 	{

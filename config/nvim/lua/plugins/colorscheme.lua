@@ -4,7 +4,7 @@ return {
 		-- lazy = false,
 		priority = 1000,
 		init = function()
-			vim.cmd("colorscheme duskfox")
+			-- vim.cmd("colorscheme duskfox")
 		end,
 		opts = {
 			options = {
@@ -181,7 +181,7 @@ return {
 		-- lazy = false,
 		priority = 1000,
 		init = function()
-			-- vim.cmd.colorscheme("gruvbox")
+			vim.cmd.colorscheme("gruvbox")
 		end,
 		opts = {
 			undercurl = true,

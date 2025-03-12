@@ -72,6 +72,15 @@ local function setup_lspconfig()
 			common_on_attach(client, bufnr)
 		end,
 		capabilities = capabilities,
+		settings = {
+			["nil"] = {
+				nix = {
+					flake = {
+						autoArchive = false,
+					},
+				},
+			},
+		},
 	})
 	lspconfig.gdscript.setup({
 		on_attach = common_on_attach,

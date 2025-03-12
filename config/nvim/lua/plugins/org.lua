@@ -52,6 +52,11 @@ return {
 				prefix = "<leader>r",
 			},
 			directory = "~/Irulan/wiki/roam",
+			extensions = {
+				dailies = {
+					bindings = false,
+				},
+			},
 		},
 		event = { "VeryLazy" },
 		-- keys = { "<leader>r" },

@@ -1,6 +1,7 @@
 {inputs, ...}: [
   inputs.nur.overlay
   inputs.fenix.overlays.default
+  # inputs.neovim-nightly-overlay.overlays.default
 
   (final: prev: {
     dmux = inputs.dmux.packages.${prev.system}.default;
@@ -16,7 +17,7 @@
     split-monitor-workspaces = inputs.split-monitor-workspaces.packages.${prev.system}.split-monitor-workspaces;
     xdg-desktop-portal-hyprland = inputs.hyprland.packages.${prev.system}.xdg-desktop-portal-hyprland;
     wezterm = inputs.wezterm.packages.${prev.system}.default;
-    # neovim = inputs.neovim-nightly-overlay.packages.${prev.system}.default;
+    neovim = inputs.neovim-nightly-overlay.packages.${prev.system}.default;
     hurl_2 = import ./hurl.nix {pkgs = prev;};
     diagon = import ./diagon.nix {
       pkgs = prev;

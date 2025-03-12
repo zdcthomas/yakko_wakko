@@ -163,6 +163,7 @@ return {
 						module = "orgmode.org.autocompletion.blink",
 						fallbacks = { "buffer" },
 					},
+					dap = { name = "dap", module = "blink.compat.source" },
 					crates = {
 						name = "crates",
 						module = "blink.compat.source",
