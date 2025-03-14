@@ -1,17 +1,4 @@
 return {
-	-- {
-	-- 	"tpope/vim-surround",
-	-- 	keys = {
-	-- 		{ "ys", mode = "n" },
-	-- 		{ "yss", mode = "n" },
-	-- 		{ "ds", mode = "n" },
-	-- 		{ "cs", mode = "n" },
-	-- 		{ "S", mode = "x" },
-	-- 		{ "gS", mode = "x" },
-	-- 		{ "<c-g>s", mode = "i" },
-	-- 		{ "<c-g>S", mode = "i" },
-	-- 	},
-	-- },
 	{
 		"kylechui/nvim-surround",
 		keys = {
@@ -29,7 +16,36 @@ return {
 
 			vim.api.nvim_create_autocmd({ "FileType" }, {
 				group = surround_group,
-				pattern = "rust",
+				pattern = "org",
+				callback = function()
+					local get_input = require("nvim-surround.input").get_input
+					require("nvim-surround").buffer_setup({
+						surrounds = {
+							["s"] = {
+								add = function()
+									local result = get_input("Enter the language name: ")
+									if result then
+										return { { "#+begin_src " .. result, "" }, { "", "#+end_src" } }
+									end
+								end,
+							},
+							["l"] = {
+								add = function()
+									return {
+										{ "[[" },
+										{ "]]" },
+									}
+								end,
+							},
+						},
+					})
+				end,
+				desc = "setup surround for eliixr",
+			})
+
+			vim.api.nvim_create_autocmd({ "FileType" }, {
+				group = surround_group,
+				pattern = { "rust", "typescript", "typescriptreact" },
 				callback = function()
 					local get_input = require("nvim-surround.input").get_input
 					require("nvim-surround").buffer_setup({

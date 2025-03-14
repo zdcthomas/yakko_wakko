@@ -4,7 +4,7 @@ return {
 		-- optional: provides snippets for the snippet source
 		-- enabled = true,
 		dependencies = {
-
+			"bydlw98/blink-cmp-env",
 			"L3MON4D3/LuaSnip",
 			-- 	version = "v2.*",
 			-- },
@@ -148,11 +148,10 @@ return {
 				-- Adjusts spacing to ensure icons are aligned
 				nerd_font_variant = "mono",
 			},
-
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "snippets", "lsp", "path", "buffer" },
+				default = { "snippets", "lsp", "path", "buffer", "env" },
 				per_filetype = {
 					org = { "orgmode", "snippets", "path", "buffer" },
 					["dap-repl"] = { "dap" },
@@ -161,6 +160,10 @@ return {
 					rust = { "crates", "lsp", "snippets", "path", "buffer" },
 				},
 				providers = {
+					env = {
+						name = "Env",
+						module = "blink-cmp-env",
+					},
 					orgmode = {
 						name = "Orgmode",
 						module = "orgmode.org.autocompletion.blink",

@@ -43,7 +43,8 @@ return {
 		end,
 	},
 	{
-		"chipsenkbeil/org-roam.nvim",
+		"~/tmp/org-roam.nvim/",
+		dev = true,
 		dependencies = {
 			"nvim-orgmode/orgmode",
 		},
