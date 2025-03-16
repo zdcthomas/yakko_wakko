@@ -86,6 +86,9 @@ Module.common_on_attach = function(client, bufnr)
 	vim.keymap.set("n", "gt", "<cmd>Glance type_definitions<CR>", with_desc(opts, "Type definitions"))
 	vim.keymap.set("n", "gri", "<cmd>Glance implementations<CR>", with_desc(opts, "Go to implementations"))
 	vim.keymap.set("n", "grr", "<cmd>Glance references<CR>", with_desc(opts, "References"))
+	vim.keymap.set("n", "K", function()
+		vim.lsp.buf.hover({ border = "rounded" })
+	end, with_desc(opts, "References"))
 
 	if client.server_capabilities.inlayHintProvider then
 		vim.keymap.set("n", "<Leader>li", function()

@@ -79,7 +79,7 @@ vim.opt.cmdheight = 0
 vim.diagnostic.config({
 	header = false,
 	float = {
-		source = "always",
+		source = "if_many",
 		border = "rounded",
 	},
 	severity_sort = true,
