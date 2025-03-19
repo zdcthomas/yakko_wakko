@@ -48,10 +48,27 @@ return {
 			"nvim-orgmode/orgmode",
 		},
 		opts = {
+			database = {
+				update_on_save = true,
+			},
 			bindings = {
 				prefix = "<leader>r",
 			},
 			directory = "~/Irulan/wiki/roam",
+			templates = {
+				l = {
+					description = "link",
+					template = { "- [[%?]]", "* " },
+					target = "link-%[slug].org",
+				},
+				t = {
+					description = "thought",
+					template = { "* %?" },
+				},
+			},
+			org_files = {
+				org_agenda_path("/personal.org"),
+			},
 			extensions = {
 				dailies = {
 					bindings = false,
@@ -86,6 +103,7 @@ return {
 			org_default_notes_file = org_agenda_path("/personal.org"),
 			org_agenda_skip_deadline_if_done = true,
 			org_startup_folded = "content",
+			org_id_link_to_org_use_id = true,
 			org_adapt_indentation = false,
 			org_todo_keywords = {
 				"TODO(t)",
@@ -95,6 +113,7 @@ return {
 				"DONE(d)",
 				"DELEGATED(D)",
 				"ABANDONED(a)",
+				"ANSWERED(A)",
 			},
 			org_log_done = "note",
 			org_log_into_drawer = "LOGBOOK",

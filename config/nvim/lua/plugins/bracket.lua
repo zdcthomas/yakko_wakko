@@ -1,4 +1,5 @@
 local bracket_keys = {}
+
 local config = {
 	-- First-level elements are tables describing behavior of a target:
 	--
@@ -18,7 +19,7 @@ local config = {
 	location = { suffix = "l", options = {} },
 	quickfix = { suffix = "q", options = {} },
 	window = { suffix = "w", options = {} },
-	yank = { suffix = "y", options = {} },
+	yank = { suffix = "", options = {} },
 	oldfile = { suffix = "", options = {} },
 	diagnostic = { suffix = "", options = {} },
 	file = { suffix = "", options = {} },

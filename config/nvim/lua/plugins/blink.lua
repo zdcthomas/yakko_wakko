@@ -157,9 +157,15 @@ return {
 					["dap-repl"] = { "dap" },
 					dapui_watches = { "dap" },
 					dapui_hover = { "dap" },
-					rust = { "crates", "lsp", "snippets", "path", "buffer" },
+					rust = { "crates", "lsp", "snippets", "path", "buffer", "env" },
 				},
 				providers = {
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						-- make lazydev completions top priority (see `:h blink.cmp`)
+						score_offset = 100,
+					},
 					env = {
 						name = "Env",
 						module = "blink-cmp-env",
