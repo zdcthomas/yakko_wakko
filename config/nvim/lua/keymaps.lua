@@ -85,7 +85,19 @@ end, {
 	desc = "Send diagnostics to location list",
 })
 
-map("n", "<Leader>e", vim.diagnostic.open_float, { silent = false, desc = "Show diagnostic in float" })
+map("n", "<Leader>E", vim.diagnostic.open_float, { silent = false, desc = "Show diagnostic in float" })
+
+map("n", "<leader>e", function()
+	vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
+
+	vim.api.nvim_create_autocmd("CursorMoved", {
+		group = vim.api.nvim_create_augroup("line-diagnostics", { clear = true }),
+		callback = function()
+			vim.diagnostic.config({ virtual_lines = false, virtual_text = true })
+			return true
+		end,
+	})
+end, { desc = "show diagnostics virtually" })
 
 map("c", "<C-f>", '<C-R>=expand("%:p")<CR>', { silent = false })
 map("c", "<C-a>", "<Home>", { silent = false })
