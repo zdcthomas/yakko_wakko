@@ -1,4 +1,5 @@
 local wiki = "~/Irulan/wiki"
+local date_string = "%<%Y%m%d%H%M%S>"
 local wiki_path = function(path)
 	return ("%s/%s"):format(wiki, path)
 end
@@ -59,11 +60,12 @@ return {
 				l = {
 					description = "link",
 					template = { "- [[%?]]", "* " },
-					target = "link-%[slug].org",
+					target = "link-" .. date_string .. "-%[slug].org",
 				},
 				t = {
 					description = "thought",
 					template = { "* %?" },
+					target = date_string .. "-%[slug].org",
 				},
 			},
 			org_files = {
@@ -99,7 +101,7 @@ return {
 		},
 		opts = {
 
-			org_agenda_files = { org_agenda_path("**/*") },
+			org_agenda_files = { org_agenda_path("**/*"), wiki_path("writing/**/*") },
 			org_default_notes_file = org_agenda_path("/personal.org"),
 			org_agenda_skip_deadline_if_done = true,
 			org_startup_folded = "content",
@@ -120,6 +122,18 @@ return {
 			org_todo_keyword_faces = {
 				EDIT = ":foreground green :weight bold",
 				QUESTION = ":foreground green :weight bold",
+			},
+			org_agenda_custom_commands = {
+				w = {
+					description = "Writing to edit",
+					types = {
+						{
+							type = "tags_todo",
+							org_agenda_overriding_header = "Personal projects agenda",
+							org_agenda_files = { wiki_path("writing/inbox.org") },
+						},
+					},
+				},
 			},
 			org_capture_templates = {
 				t = {

@@ -110,6 +110,14 @@ local function setup()
 			-- },
 		},
 		extensions = {
+			emoji = {
+				action = function(emoji)
+					-- argument emoji is a table.
+					-- {name="", value="", cagegory="", description=""}
+
+					vim.api.nvim_put({ emoji.value }, "c", false, true)
+				end,
+			},
 			fzf = {
 				fuzzy = true, -- false will only do exact matching
 				override_generic_sorter = true, -- override the generic sorter
@@ -119,6 +127,7 @@ local function setup()
 		},
 	})
 	telescope.load_extension("undo")
+	telescope.load_extension("emoji")
 	telescope.load_extension("fzf")
 end
 local function find_all_files()
@@ -218,6 +227,7 @@ return {
 		dependencies = {
 			"nvim-lua/popup.nvim",
 			"nvim-lua/plenary.nvim",
+			"xiyaowong/telescope-emoji.nvim",
 			"nvim-tree/nvim-web-devicons",
 			"debugloop/telescope-undo.nvim",
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = fzf_make_command },
