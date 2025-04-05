@@ -151,13 +151,13 @@ return {
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "snippets", "lsp", "path", "buffer", "env" },
+				default = { "snippets", "lsp", "path", "buffer" },
 				per_filetype = {
 					org = { "orgmode", "snippets", "path", "buffer" },
 					["dap-repl"] = { "dap" },
 					dapui_watches = { "dap" },
 					dapui_hover = { "dap" },
-					rust = { "crates", "lsp", "snippets", "path", "buffer", "env" },
+					rust = { "crates", "lsp", "snippets", "path", "buffer" },
 				},
 				providers = {
 					lazydev = {
@@ -166,10 +166,10 @@ return {
 						-- make lazydev completions top priority (see `:h blink.cmp`)
 						score_offset = 100,
 					},
-					env = {
-						name = "Env",
-						module = "blink-cmp-env",
-					},
+					-- env = {
+					-- 	name = "Env",
+					-- 	module = "blink-cmp-env",
+					-- },
 					orgmode = {
 						name = "Orgmode",
 						module = "orgmode.org.autocompletion.blink",
