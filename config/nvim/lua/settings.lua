@@ -64,7 +64,7 @@ vim.opt.virtualedit = "block"
 ---- Folds
 -- vim.opt.foldmethod = "expr"
 vim.opt.foldtext = ""
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = true
 vim.opt.foldnestmax = 4
 vim.opt.foldlevel = 99

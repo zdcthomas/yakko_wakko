@@ -65,6 +65,20 @@ return {
 		end)
 
 		local text_obj_group = vim.api.nvim_create_augroup("TextObjectPluginGroup", { clear = true })
+
+		vim.api.nvim_create_autocmd("FileType", {
+			group = text_obj_group,
+			pattern = { "org" },
+			callback = function()
+				vim.keymap.set({ "o", "x" }, "aD", function()
+					require("various-textobjs").doubleSquareBrackets("outer")
+				end)
+				vim.keymap.set({ "o", "x" }, "iD", function()
+					require("various-textobjs").doubleSquareBrackets("inner")
+				end)
+			end,
+			desc = "Map q to close buffer",
+		})
 		vim.api.nvim_create_autocmd("FileType", {
 			group = text_obj_group,
 			pattern = { "md" },
