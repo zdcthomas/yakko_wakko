@@ -1,6 +1,7 @@
 vim.g.format_on_save = true
 -- This is NOT a builtin var of any meaning, grep for it in this repo to see how it works!
 
+-- vim.opt.winborder = "rounded"
 vim.opt.autoindent = true
 vim.opt.autoread = true
 vim.opt.backspace = { "indent", "eol", "start" }

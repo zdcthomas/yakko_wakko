@@ -271,6 +271,8 @@ return {
       ]])
 			local dap = require("dap")
 
+			-- require("dap").defaults.fallback.exception_breakpoints = { "Error", "Exception" }
+
 			local extension_path = vim.env.JS_DAP
 			require("dap").adapters["pwa-node"] = {
 				type = "server",

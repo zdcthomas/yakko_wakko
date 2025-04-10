@@ -37,12 +37,12 @@ for _, value in pairs(config) do
 end
 
 return {
-	{
-		"echasnovski/mini.bracketed",
-		version = false,
-		keys = bracket_keys,
-		config = function()
-			require("mini.bracketed").setup(config)
-		end,
-	},
+	-- {
+	-- 	"echasnovski/mini.bracketed",
+	-- 	version = false,
+	-- 	keys = bracket_keys,
+	-- 	config = function()
+	-- 		require("mini.bracketed").setup(config)
+	-- 	end,
+	-- },
 }

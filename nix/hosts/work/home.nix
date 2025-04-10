@@ -81,7 +81,6 @@ in {
         hurl_2
         awscli2
         git-remote-codecommit
-        nodePackages.aws-cdk
       ]
       ++ management_scripts;
   };
