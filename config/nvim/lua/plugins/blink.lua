@@ -153,10 +153,10 @@ return {
 						-- make lazydev completions top priority (see `:h blink.cmp`)
 						score_offset = 100,
 					},
-					env = {
-						name = "Env",
-						module = "blink-cmp-env",
-					},
+					-- env = {
+					-- 	name = "Env",
+					-- 	module = "blink-cmp-env",
+					-- },
 					orgmode = {
 						name = "Orgmode",
 						module = "orgmode.org.autocompletion.blink",

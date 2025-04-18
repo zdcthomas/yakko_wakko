@@ -56,18 +56,17 @@ return {
 				prefix = "<leader>r",
 			},
 			directory = "~/Irulan/wiki/roam",
-			templates = {
-				l = {
-					description = "link",
-					template = { "- [[%?]]", "* " },
-					target = "link-" .. date_string .. "-%[slug].org",
-				},
-				t = {
-					description = "thought",
-					template = { "* %?" },
-					target = date_string .. "-%[slug].org",
-				},
-			},
+			-- templates = {
+			-- 	l = {
+			-- 		description = "link",
+			-- 		template = { "- [[%?]]", "* " },
+			-- 		target = "link-%[slug].org",
+			-- 	},
+			-- 	t = {
+			-- 		description = "thought",
+			-- 		template = { "* %?" },
+			-- 	},
+			-- },
 			org_files = {
 				org_agenda_path("/personal.org"),
 			},
