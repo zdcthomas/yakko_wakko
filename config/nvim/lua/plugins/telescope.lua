@@ -151,7 +151,7 @@ local function find_files()
 		"rg",
 		"--files",
 		"--hidden",
-		"--no-ignore",
+		-- "--no-ignore",
 	}
 	for _key, value in pairs(ignore_paths) do
 		table.insert(find_command, #find_command + 1, "-g")

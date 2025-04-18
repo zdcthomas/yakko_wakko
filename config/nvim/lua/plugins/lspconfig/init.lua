@@ -166,7 +166,7 @@ return {
 								-- 	-- experimental = { enable = true },
 								-- },
 								files = {
-									excludeDirs = { "./relay-ui", ".direnv" },
+									excludeDirs = { "./relay-ui", ".direnv", ".devenv" },
 								},
 							},
 						},
