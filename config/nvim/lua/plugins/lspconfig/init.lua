@@ -105,7 +105,7 @@ return {
 		lazy = false,
 		init = function()
 			vim.g.rustaceanvim = function()
-				local extension_path = vim.env.RUST_DAP
+				local extension_path = vim.fn.expand(vim.env.RUST_DAP)
 
 				local codelldb_path = extension_path .. "adapter/codelldb"
 				local liblldb_path = extension_path .. "lldb/lib/liblldb"
@@ -116,6 +116,7 @@ return {
 				return {
 
 					tools = {
+						test_executor = "neotest",
 						float_win_config = {
 							border = "rounded",
 						},
@@ -153,6 +154,14 @@ return {
 										enable = true,
 									},
 								},
+
+								cargo = {
+									allFeatures = true,
+									loadOutDirsFromCheck = true,
+									buildScripts = {
+										enable = true,
+									},
+								},
 								trace = {
 									server = "verbose",
 								},
@@ -166,7 +175,19 @@ return {
 								-- 	-- experimental = { enable = true },
 								-- },
 								files = {
-									excludeDirs = { "./relay-ui", ".direnv", ".devenv" },
+									excludeDirs = {
+										"./relay-ui",
+										".devenv",
+										".direnv",
+										".git",
+										".github",
+										".gitlab",
+										"bin",
+										"node_modules",
+										"target",
+										"venv",
+										".venv",
+									},
 								},
 							},
 						},

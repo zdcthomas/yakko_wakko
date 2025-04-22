@@ -24,6 +24,7 @@ return { -- { "danilamihailov/beacon.nvim", event = "VeryLazy" }, -- lazy calls 
 			require("mini.splitjoin").setup()
 		end,
 	},
+	{ "tpope/vim-sleuth", event = { "VeryLazy" } },
 	{ "rafcamlet/nvim-luapad", cmd = { "Luapad" }, dependencies = { "antoinemadec/FixCursorHold.nvim" } },
 	{ "meznaric/key-analyzer.nvim", opts = {}, cmd = { "KeyAnalyzer" } },
 	{
