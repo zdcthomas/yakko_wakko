@@ -14,6 +14,7 @@
   "citruszest.nvim": { "branch": "main", "commit": "d12c99f937114b908e935a9cda1953bb8f16bcc8" },
   "cmp-dap": { "branch": "master", "commit": "ea92773e84c0ad3288c3bc5e452ac91559669087" },
   "colorful-menu.nvim": { "branch": "master", "commit": "f80feb8a6706f965321aff24d0ed3849f02a7f77" },
+  "conform.nvim": { "branch": "master", "commit": "372fc521f8421b7830ea6db4d6ea3bae1c77548c" },
   "crates.nvim": { "branch": "main", "commit": "73d2c590c74a0c582144987a4decb4a642755859" },
   "darkearth-nvim": { "branch": "main", "commit": "e5e14fa028512809a4efd2979e07b4225a7c242c" },
   "dashboard-nvim": { "branch": "master", "commit": "b0551fae871fc39454a67cca1adcf76fbe2f61f9" },
