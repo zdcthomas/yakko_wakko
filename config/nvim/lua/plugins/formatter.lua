@@ -1,7 +1,8 @@
 return {
 	{
 		"stevearc/conform.nvim",
-		lazy = false,
+		event = { "BufWrite" },
+		-- lazy = false,
 		opts = {
 			format_on_save = {
 				-- These options will be passed to conform.format()

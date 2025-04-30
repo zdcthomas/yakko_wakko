@@ -113,10 +113,13 @@ return {
 
 				liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
 				local cfg = require("rustaceanvim.config")
+				local adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path)
+				-- vim.print(adapter)
 				return {
 
 					tools = {
 						test_executor = "neotest",
+						-- enable_clippy = false,
 						float_win_config = {
 							border = "rounded",
 						},
@@ -154,7 +157,6 @@ return {
 										enable = true,
 									},
 								},
-
 								cargo = {
 									allFeatures = true,
 									loadOutDirsFromCheck = true,
@@ -193,7 +195,8 @@ return {
 						},
 					},
 					dap = {
-						adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
+						-- autoload_configurations = false,
+						adapter = adapter,
 					},
 				}
 			end
