@@ -82,7 +82,7 @@ local todo_snippet = function(context, aliases, opts)
 	return s(context, comment_node, opts) -- the final todo-snippet constructed from our parameters
 end
 
-all_todo_types = {}
+local all_todo_types = {}
 
 for key, _ in pairs(require("todo-comments.config").keywords) do
 	table.insert(all_todo_types, key)
