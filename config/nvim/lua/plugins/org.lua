@@ -76,22 +76,22 @@ return {
 				},
 			},
 		},
-		event = { "VeryLazy" },
-		-- keys = { "<leader>r" },
+		-- event = { "VeryLazy" },
+		keys = { { "<leader>rc", desc = "roam capture" }, { "<leader>rf", desc = "roam find" } },
 	},
 	{
 		"nvim-orgmode/orgmode",
 		ft = { "org" },
 		keys = {
 			{
-				"<Space>oc",
+				"<leader>oc",
 				function()
 					require("orgmode").action("capture.prompt")
 				end,
 				desc = "[o]rg [c]apture",
 			},
 			{
-				"<Space>oa",
+				"<leader>oa",
 				function()
 					require("orgmode").action("agenda.prompt")
 				end,

@@ -340,7 +340,7 @@ return {
 					-- If you get an "Operation not permitted" error using this, try disabling YAMA:
 					--  echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
 					name = "Attach to process",
-					type = "rust", -- Adjust this to match your adapter name (`dap.adapters.<name>`)
+					type = "codelldb", -- Adjust this to match your adapter name (`dap.adapters.<name>`)
 					request = "attach",
 					pid = require("dap.utils").pick_process,
 					args = {},

@@ -105,7 +105,7 @@ return {
 		lazy = false,
 		init = function()
 			vim.g.rustaceanvim = function()
-				local extension_path = vim.env.RUST_DAP
+				local extension_path = vim.fn.expand(vim.env.RUST_DAP)
 
 				local codelldb_path = extension_path .. "adapter/codelldb"
 				local liblldb_path = extension_path .. "lldb/lib/liblldb"
@@ -113,9 +113,13 @@ return {
 
 				liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
 				local cfg = require("rustaceanvim.config")
+				local adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path)
+				-- vim.print(adapter)
 				return {
 
 					tools = {
+						test_executor = "neotest",
+						-- enable_clippy = false,
 						float_win_config = {
 							border = "rounded",
 						},
@@ -153,6 +157,13 @@ return {
 										enable = true,
 									},
 								},
+								cargo = {
+									allFeatures = true,
+									loadOutDirsFromCheck = true,
+									buildScripts = {
+										enable = true,
+									},
+								},
 								trace = {
 									server = "verbose",
 								},
@@ -166,13 +177,26 @@ return {
 								-- 	-- experimental = { enable = true },
 								-- },
 								files = {
-									excludeDirs = { "./relay-ui", ".direnv", ".devenv" },
+									excludeDirs = {
+										"./relay-ui",
+										".devenv",
+										".direnv",
+										".git",
+										".github",
+										".gitlab",
+										"bin",
+										"node_modules",
+										"target",
+										"venv",
+										".venv",
+									},
 								},
 							},
 						},
 					},
 					dap = {
-						adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
+						-- autoload_configurations = false,
+						adapter = adapter,
 					},
 				}
 			end

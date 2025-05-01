@@ -1,8 +1,8 @@
 return {
 	"mfussenegger/nvim-lint",
-	dependencies = {
-		"williamboman/mason.nvim",
-	},
+	-- dependencies = {
+	-- 	"williamboman/mason.nvim",
+	-- },
 	init = function()
 		vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 			callback = function()
@@ -14,6 +14,8 @@ return {
 		require("lint").linters_by_ft = {
 			sh = { "shellcheck" },
 			nix = { "nix" },
+			yaml = { "actionlint" },
+			dockerfile = { "hadolint" },
 		}
 	end,
 }
