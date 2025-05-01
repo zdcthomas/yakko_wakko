@@ -1149,22 +1149,6 @@
     },
     "nixpkgs_10": {
       "locked": {
-        "lastModified": 1715447595,
-        "narHash": "sha256-VsVAUQOj/cS1LCOmMjAGeRksXIAdPnFIjCQ0XLkCsT0=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "062ca2a9370a27a35c524dc82d540e6e9824b652",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_11": {
-      "locked": {
         "lastModified": 1729265718,
         "narHash": "sha256-4HQI+6LsO3kpWTYuVGIzhJs1cetFcwT7quWCk/6rqeo=",
         "owner": "NixOS",
@@ -1290,11 +1274,11 @@
     },
     "nixpkgs_9": {
       "locked": {
-        "lastModified": 1734424634,
-        "narHash": "sha256-cHar1vqHOOyC7f1+tVycPoWTfKIaqkoe1Q6TnKzuti4=",
+        "lastModified": 1744463964,
+        "narHash": "sha256-LWqduOgLHCFxiTNYi3Uj5Lgz0SR+Xhw3kr/3Xd0GPTM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d3c42f187194c26d9f0309a8ecc469d6c878ce33",
+        "rev": "2631b0b7abcea6e640ce31cd78ea58910d31e650",
         "type": "github"
       },
       "original": {
@@ -1311,34 +1295,16 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1734645119,
-        "narHash": "sha256-EZBgqIVmEQpereef8PwNVkqZ724J07i0/j9S3xkYTGQ=",
+        "lastModified": 1744572059,
+        "narHash": "sha256-vEj6M+GQ5hHcRRq8AuMTPhrKHrWssnZNoFFZnMwgoBA=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "b0b6a0589045d85ae5dabc725338c869487f0d4c",
+        "rev": "501ade629bf05235b7083c3b943667eb65e2e065",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "NUR",
-        "type": "github"
-      }
-    },
-    "phinger-hypr": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_10"
-      },
-      "locked": {
-        "lastModified": 1715636322,
-        "narHash": "sha256-66UJUns0ZEk3TdvUi0+4WY9nhTFZusSPca1saM8JbiI=",
-        "owner": "Jappie3",
-        "repo": "hyprcursor-phinger",
-        "rev": "3b8f975e16ffb6ff18ccf86481e6274a8d08893b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Jappie3",
-        "repo": "hyprcursor-phinger",
         "type": "github"
       }
     },
@@ -1386,7 +1352,6 @@
         "nixos_unstable": "nixos_unstable",
         "nixpkgs": "nixpkgs_8",
         "nur": "nur",
-        "phinger-hypr": "phinger-hypr",
         "split-monitor-workspaces": "split-monitor-workspaces",
         "unstable": "unstable",
         "wezterm": "wezterm"
@@ -1676,7 +1641,7 @@
         "freetype2": "freetype2",
         "harfbuzz": "harfbuzz",
         "libpng": "libpng",
-        "nixpkgs": "nixpkgs_11",
+        "nixpkgs": "nixpkgs_10",
         "rust-overlay": "rust-overlay_3",
         "zlib": "zlib"
       },

@@ -93,6 +93,9 @@ return {
 			},
 			completion = {
 				list = { selection = { preselect = false, auto_insert = true } },
+				trigger = {
+					show_on_trigger_character = true,
+				},
 				menu = {
 					draw = {
 						columns = { { "kind_icon" }, { "label", gap = 1 } },

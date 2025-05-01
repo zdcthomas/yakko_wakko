@@ -22,7 +22,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 vim.api.nvim_create_autocmd("FileType", {
 	group = init_group_id,
-	pattern = { "help", "startuptime", "qf", "lspinfo", "man" },
+	pattern = { "help", "startuptime", "qf", "lspinfo" },
 	callback = function()
 		vim.keymap.set("n", "q", function()
 			vim.cmd([[close]])
