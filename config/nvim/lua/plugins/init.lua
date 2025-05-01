@@ -61,4 +61,6 @@ return { -- { "danilamihailov/beacon.nvim", event = "VeryLazy" }, -- lazy calls 
 			-- === Suggested Keymaps: ===
 		end,
 	},
+
+	{ "vuciv/golf", cmd = { "Golf" } },
 }

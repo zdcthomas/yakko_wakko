@@ -43,6 +43,7 @@ in {
       ];
       sessionVariables = {
         MANPATH = "/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
+        MANPAGER = "nvim -U NONE -N -i NONE +Man!";
         INFOPATH = "/opt/homebrew/share/info:${INFOPATH:-}";
 
         EDITOR = "nvim";
