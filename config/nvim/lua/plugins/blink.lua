@@ -92,6 +92,7 @@ return {
 				list = { selection = { preselect = false, auto_insert = true } },
 				trigger = {
 					show_on_trigger_character = true,
+					prefetch_on_insert = true,
 				},
 				menu = {
 					draw = {
