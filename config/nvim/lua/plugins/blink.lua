@@ -43,12 +43,9 @@ return {
 			keymap = {
 				preset = "default",
 				["<C-c>"] = { "cancel", "fallback" },
-				["<C-space>"] = {
-					function(cmp)
-						cmp.show({ providers = { "snippets" } })
-					end,
-				},
+				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
 				["<CR>"] = { "accept", "fallback" },
+				["<C-l>"] = { "show_signature", "hide_signature", "fallback" },
 				["<C-p>"] = { "select_prev", "snippet_backward", "fallback" },
 				["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
 				["<C-e>"] = { "hide" },
