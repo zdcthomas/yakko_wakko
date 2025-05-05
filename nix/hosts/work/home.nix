@@ -12,8 +12,6 @@
 in {
   imports = [
     ../../modules/home
-
-    inputs.phinger-hypr.homeManagerModules.hyprcursor-phinger
   ];
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
@@ -49,7 +47,7 @@ in {
       HOMEBREW_PREFIX = "/opt/homebrew";
       HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
       HOMEBREW_REPOSITORY = "/opt/homebrew";
-      PATH = "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:$HOME/bin";
+      PATH = "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:$HOME/bin:$HOME/.npm-global/bin";
     };
 
     packages = with pkgs;

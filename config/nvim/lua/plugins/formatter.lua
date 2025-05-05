@@ -20,7 +20,7 @@ return {
 				typescript = { "prettierd", "prettier", stop_after_first = true },
 				typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 				nix = { "alejandra" },
-				yaml = { "yamlfmt" },
+				-- yaml = { "yamlfmt" },
 				org = { "injected" },
 				markdown = { "injected" },
 			},

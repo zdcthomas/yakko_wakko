@@ -14,7 +14,6 @@
 in {
   imports = [
     ../../modules/home
-    # inputs.phinger-hypr.homeManagerModules.hyprcursor-phinger
   ];
   xdg = {
     desktopEntries = {

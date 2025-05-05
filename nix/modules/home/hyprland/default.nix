@@ -92,7 +92,6 @@ in {
       };
     };
     programs = {
-      # hyprcursor-phinger.enable = true;
       hyprlock = {
         enable = true;
         settings = {
