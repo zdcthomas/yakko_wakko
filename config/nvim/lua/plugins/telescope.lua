@@ -1,3 +1,21 @@
+local live_grep_in_glob = function(glob_pattern)
+	require("telescope.builtin").live_grep({
+		vimgrep_arguments = {
+			"rg",
+			"--color=never",
+			"--no-heading",
+			"--with-filename",
+			"--line-number",
+			"--column",
+			"--smart-case",
+			"--glob=" .. (glob_pattern or ""),
+		},
+	})
+end
+local find_it = function()
+	vim.ui.input({ prompt = "Glob: ", completion = "file", default = "**/*." }, live_grep_in_glob)
+end
+
 local _slow_to_load_in_TS = {
 	".*%.ex",
 	".*%.exs",
@@ -39,6 +57,11 @@ end
 
 local function setup()
 	local actions = require("telescope.actions")
+	local action_state = require("telescope.actions.state")
+	-- actions.test = function(prompt_bufnr)
+	-- 	local current_picker = action_state.get_current_picker(prompt_bufnr) -- picker state
+	-- 	vim.print(current_picker)
+	-- end
 	local telescope = require("telescope")
 
 	local action_layout = require("telescope.actions.layout")
@@ -80,7 +103,11 @@ local function setup()
 					["<down>"] = false,
 					["<up>"] = false,
 					["<c-x>"] = false,
-					["<c-v>"] = false,
+					["<c-v>"] = function(bufnr)
+						local line = action_state.get_current_picker(bufnr):_get_prompt()
+						-- local action_state = require("telescope.actions.state")
+						vim.print(line)
+					end,
 					["<c-t>"] = false,
 					["<m-q>"] = false,
 					["<c-f>"] = actions.to_fuzzy_refine,
@@ -176,8 +203,17 @@ end
 
 local function live_search()
 	require("telescope.builtin").live_grep(require("telescope.themes").get_ivy({
-		-- I'm not funny
-		prompt_title = "ウォルドはどこですか",
+		vimgrep_arguments = {
+			"rg",
+			"--color=never",
+			"--no-heading",
+			"--with-filename",
+			"--line-number",
+			"--column",
+			"--smart-case",
+			"--trim",
+		},
+		prompt_title = "ウォルドはどこですか", -- I'm not funny
 	}))
 end
 

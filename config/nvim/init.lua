@@ -114,4 +114,31 @@ require("autocmds")
 -- Defines global keymaps. `:h vim.keymap` and `:h map` to learn more!
 require("keymaps")
 
+Thing = function()
+	local count = 0
+	local todos = {}
+
+	local name = "/Users/zdcthomas/Irulan/wiki/writing/poetry/may_we.org"
+	local foo = require("orgmode").files.all_files[name]
+	vim.print(foo.index)
+	-- for key, value in pairs(foo) do
+	-- 	vim.print(key)
+	-- end
+	-- for file, content in pairs(require("orgmode").files.all_files) do
+	-- 	vim.print(file)
+	-- 	vim.print(content)
+	-- 	-- local headlines = require("orgmode.api").load(file).headlines
+	-- 	-- for _, value in pairs(headlines) do
+	-- 	-- 	todos[#todos + 1] = {
+	-- 	-- 		done = value.todo_type == "DONE",
+	-- 	-- 		file = file,
+	-- 	-- 	}
+	-- 	-- 	if value.todo_type == "DONE" then
+	-- 	-- 		count = count + 1
+	-- 	-- 	end
+	-- 	-- end
+	-- end
+	return count
+end
+
 -- vim.cmd.colorscheme("gruvbox")
