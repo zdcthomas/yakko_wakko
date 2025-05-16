@@ -118,6 +118,11 @@ vim.filetype.add({
 		nix = "nix",
 		hurl = "hurl",
 	},
+	pattern = {
+		[".*/.github/workflows/.*%.yml"] = "yaml.ghaction",
+	},
+	-- 	["*/.github/*.yaml"] = { "github", "yaml" },
+	-- },
 })
 
 vim.cmd([[

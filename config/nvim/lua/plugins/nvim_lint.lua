@@ -14,7 +14,7 @@ return {
 		require("lint").linters_by_ft = {
 			sh = { "shellcheck" },
 			nix = { "nix" },
-			yaml = { "actionlint" },
+			["yaml.ghaction"] = { "actionlint" },
 			dockerfile = { "hadolint" },
 		}
 	end,
