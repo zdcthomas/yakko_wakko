@@ -35,7 +35,15 @@ return {
 		"folke/tokyonight.nvim",
 		-- lazy = false,
 		priority = 1000,
-		opts = {},
+		init = function()
+			vim.cmd.colorscheme("tokyonight-storm")
+			-- vim.cmd.highlight("winseparator guibg=none, guifg=#888888")
+		end,
+		opts = {
+			on_colors = function(colors)
+				colors.border = colors.teal
+			end,
+		},
 	},
 	{
 		"nyngwang/nvimgelion",
@@ -180,9 +188,9 @@ return {
 		"ellisonleao/gruvbox.nvim",
 		-- lazy = false,
 		priority = 1000,
-		init = function()
-			vim.cmd.colorscheme("gruvbox")
-		end,
+		-- init = function()
+		-- 	vim.cmd.colorscheme("gruvbox")
+		-- end,
 		opts = {
 			undercurl = true,
 			underline = true,
