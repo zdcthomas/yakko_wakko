@@ -135,6 +135,14 @@ return {
 				},
 			},
 			org_capture_templates = {
+				l = {
+					description = "Links",
+					template = {
+						"* ",
+						"[[%?]]",
+					},
+					healine = "Links",
+				},
 				t = {
 					description = "Refile",
 					template = { "* TODO %?", "SCHEDULED: %u" },

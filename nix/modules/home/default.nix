@@ -12,6 +12,7 @@
     ./game_dev.nix
     ./git
     ./hammerspoon.nix
+    ./helix
     ./hyprland
     ./i3.nix
     ./imports.nix

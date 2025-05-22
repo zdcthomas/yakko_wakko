@@ -50,6 +50,7 @@ in {
     #  enable = true;
     #};
     anyrun.enable = true;
+    helix.enable = true;
     foot.enable = true;
     zellij.enable = true;
     # game_dev.enable = true;

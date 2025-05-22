@@ -84,40 +84,40 @@ in {
         enableZshIntegration = true;
         nix-direnv.enable = true;
       };
-      helix = {
-        enable = true;
-
-        defaultEditor = false;
-        languages = {
-          language = [
-            {
-              name = "rust";
-              auto-format = true;
-            }
-          ];
-        };
-        package = pkgs.helix;
-        settings = {
-          theme = "base16";
-          editor = {
-            line-number = "relative";
-            lsp.display-messages = true;
-            file-picker.hidden = false;
-            color-modes = true;
-            cursor-shape = {
-              insert = "bar";
-              normal = "block";
-              select = "underline";
-            };
-          };
-          keys.normal = {
-            space.space = "file_picker";
-            space.w = ":w";
-            space.q = ":q";
-            esc = ["collapse_selection" "keep_primary_selection"];
-          };
-        };
-      };
+      # helix = {
+      #   enable = true;
+      #
+      #   defaultEditor = false;
+      #   languages = {
+      #     language = [
+      #       {
+      #         name = "rust";
+      #         auto-format = true;
+      #       }
+      #     ];
+      #   };
+      #   package = pkgs.helix;
+      #   settings = {
+      #     theme = "base16";
+      #     editor = {
+      #       line-number = "relative";
+      #       lsp.display-messages = true;
+      #       file-picker.hidden = false;
+      #       color-modes = true;
+      #       cursor-shape = {
+      #         insert = "bar";
+      #         normal = "block";
+      #         select = "underline";
+      #       };
+      #     };
+      #     keys.normal = {
+      #       space.space = "file_picker";
+      #       space.w = ":w";
+      #       space.q = ":q";
+      #       esc = ["collapse_selection" "keep_primary_selection"];
+      #     };
+      #   };
+      # };
       eza = {
         enable = true;
         enableZshIntegration = true;

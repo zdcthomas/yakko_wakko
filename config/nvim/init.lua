@@ -27,7 +27,7 @@
 
 vim.loader.enable()
 vim.g.mapleader = " "
-vim.g.maplocalleader = ","
+vim.g.maplocalleader = "\\"
 
 -- Configuration for my package manager: [ Lazy.nvim ](https://github.com/folke/lazy.nvim.git)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

@@ -25,7 +25,15 @@ return { -- { "danilamihailov/beacon.nvim", event = "VeryLazy" }, -- lazy calls 
 		end,
 	},
 	-- { "tpope/vim-sleuth", event = { "VeryLazy" } },
-	{ "rafcamlet/nvim-luapad", cmd = { "Luapad" }, dependencies = { "antoinemadec/FixCursorHold.nvim" } },
+	{
+		"rafcamlet/nvim-luapad",
+		cmd = { "Luapad" },
+		dependencies = { "antoinemadec/FixCursorHold.nvim" },
+		opts = {
+			eval_on_change = false,
+			eval_on_move = true,
+		},
+	},
 	{ "meznaric/key-analyzer.nvim", opts = {}, cmd = { "KeyAnalyzer" } },
 	{
 		"bassamsdata/namu.nvim",
