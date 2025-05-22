@@ -19,6 +19,7 @@ in {
   custom.hm = {
     jujutsu.enable = true;
     alacritty.enable = true;
+    helix.enable = true;
     bash.enable = true;
     aerospace.enable = true;
     nushell.enable = true;

@@ -48,6 +48,9 @@ in {
             rulers = [80];
             auto-save = true;
             auto-format = true;
+            gutters = {
+              line-numbers = "relative";
+            };
             lsp = {
               enable = true;
               display-messages = true;

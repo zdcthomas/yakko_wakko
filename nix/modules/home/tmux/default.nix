@@ -146,12 +146,6 @@ in {
           #
           #   '';
           # }
-          {
-            plugin = tmuxPlugins.tmux-thumbs;
-            extraConfig = ''
-              set -g @thumbs-command 'echo -n {} | ${copy}'
-            '';
-          }
         ];
         keyMode = "vi";
         # terminal = "screen-256color";
@@ -160,6 +154,7 @@ in {
         extraConfig = ''
 
           set -g default-terminal "xterm-256color"
+          ${colorschemes.tokyo-storm}
           ${undercurl}
 
           set -ga terminal-overrides ",xterm-256color:Tc"
@@ -167,11 +162,6 @@ in {
           set -sg terminal-overrides "*:RGB"
 
           set-option -g focus-events on
-          set-option -g status "on"
-          set -g status-justify centre
-          set -g status-position top
-
-          ${colorschemes.tokyo-storm}
 
           bind M-l split-window -h -c "#{pane_current_path}"
           bind M-h split-window -hb -c "#{pane_current_path}"
