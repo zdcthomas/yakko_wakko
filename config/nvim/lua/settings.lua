@@ -131,3 +131,16 @@ vim.cmd([[
   sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=DiagnosticLineNrInfo
   sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=DiagnosticLineNrHint
 ]])
+
+function Foo()
+	local todos = 0
+	local all_files = require("orgmode.api").load()
+	for key, file in pairs(all_files) do
+		for key, headline in pairs(file.headlines) do
+			if headline.todo_type == "TODO" then
+				todos = todos + 1
+			end
+		end
+	end
+	vim.print(todos)
+end
