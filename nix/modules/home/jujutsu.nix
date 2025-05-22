@@ -24,19 +24,12 @@ in {
         enable = true;
         settings = {
           core.fsmonitor = "watchman";
-          ui.allow-filesets = true;
           user = {
-            name = "Bruno Bigras";
-            email = "bigras.bruno@gmail.com";
-          };
-          template-aliases = {
-            "format_short_signature(signature)" = "signature.username()";
+            name = "Zachary Thomas";
+            email = "zdcthoms@yahoo.com";
           };
         };
       };
     };
-    packages = with pkgs; [
-      watchman
-    ];
   };
 }

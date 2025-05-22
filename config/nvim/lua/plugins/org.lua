@@ -162,6 +162,12 @@ return {
 							template = "* %?",
 							target = org_agenda_path("work.org"),
 						},
+						a = {
+							description = "accomplishments",
+							headline = "Accomplishments",
+							template = { "* %?", "HAPPENED: %u" },
+							target = org_agenda_path("work.org"),
+						},
 						t = {
 							description = "todos",
 							template = { "* TODO %?", "SCHEDULED: %u" },

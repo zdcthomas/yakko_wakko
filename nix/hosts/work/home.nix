@@ -17,6 +17,7 @@ in {
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
 
   custom.hm = {
+    jujutsu.enable = true;
     alacritty.enable = true;
     bash.enable = true;
     aerospace.enable = true;

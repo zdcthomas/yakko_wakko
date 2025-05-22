@@ -16,6 +16,7 @@
     ./hyprland
     ./i3.nix
     ./imports.nix
+    ./jujutsu.nix
     ./kitty
     ./music_making.nix
     ./nix
