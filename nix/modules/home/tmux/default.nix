@@ -30,6 +30,16 @@ in {
         undercurl = ''
           set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
           set -as terminal-overrides ',*:Setulc=\E[58::2::::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
+          set -ga terminal-overrides ",xterm-256color:Tc"
+          set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+          set -sg terminal-overrides "*:RGB"
+        '';
+        terminal_overides = ''
+          set -g default-terminal "tmux-256color"
+          set-option -ga terminal-overrides ",xterm-256color:Tc"
+
+          # Allow undercurl escape sequences to pass through
+          set -as terminal-features ',xterm-256color:RGB'
         '';
         colorschemes = {
           gruvbox = ''
@@ -67,6 +77,9 @@ in {
 
             # bell
             set-window-option -g window-status-bell-style bg=colour167,fg=colour235 # bg=red, fg=bg
+
+            set -g status-justify "centre"
+            set -g status-position "top"
           '';
           tokyo-storm = ''
             #!/usr/bin/env bash
@@ -83,6 +96,7 @@ in {
 
             set -g status "on"
             set -g status-justify "left"
+            set -g status-position "top"
 
             set -g status-style "fg=#7aa2f7,bg=#1f2335"
 
@@ -154,12 +168,8 @@ in {
         extraConfig = ''
 
           set -g default-terminal "xterm-256color"
-          ${colorschemes.tokyo-storm}
-          ${undercurl}
-
-          set -ga terminal-overrides ",xterm-256color:Tc"
-          set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
-          set -sg terminal-overrides "*:RGB"
+          ${colorschemes.gruvbox}
+          ${terminal_overides}
 
           set-option -g focus-events on
 
