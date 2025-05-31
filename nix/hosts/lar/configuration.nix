@@ -70,9 +70,32 @@ in {
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+  services = {
+    komga = {
+      enable = true;
+      openFirewall = true;
+    };
+    anki-sync-server = {
+      enable = true;
+      users = [
+        {
+          username = "ChickPea";
+          password = "password";
+        }
+      ];
+      openFirewall = true;
+    };
+  };
 
+  programs = {
+    zsh = {
+      enable = true;
+    };
+  };
   users.users.sadfrog = {
     isNormalUser = true;
+
+    shell = pkgs.zsh;
     description = "Sad Frog";
     extraGroups = ["networkmanager" "wheel" "docker"];
     packages = with pkgs; [
