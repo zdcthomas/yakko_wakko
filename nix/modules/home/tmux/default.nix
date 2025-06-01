@@ -70,6 +70,9 @@ in {
 
             # bell
             set-window-option -g window-status-bell-style bg=colour167,fg=colour235 # bg=red, fg=bg
+
+            set -g status-justify "centre"
+            set -g status-position "top"
           '';
           tokyo-storm = ''
             #!/usr/bin/env bash
@@ -86,6 +89,7 @@ in {
 
             set -g status "on"
             set -g status-justify "left"
+            set -g status-position "top"
 
             set -g status-style "fg=#7aa2f7,bg=#1f2335"
 

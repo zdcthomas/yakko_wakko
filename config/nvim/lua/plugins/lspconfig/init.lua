@@ -87,6 +87,11 @@ local function setup_lspconfig()
 		capabilities = capabilities,
 	})
 
+	lspconfig.clojure_lsp.setup({
+		on_attach = common_on_attach,
+		capabilities = capabilities,
+	})
+
 	lspconfig.ocamllsp.setup({
 		on_attach = common_on_attach,
 		capabilities = capabilities,
