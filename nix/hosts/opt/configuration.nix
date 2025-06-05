@@ -190,7 +190,10 @@ args @ {
       git
       (
         pkgs.writeScriptBin "switch" ''
-          nixos-rebuild switch --flake ~/yakko_wakko#opt --use-remote-sudo -L
+          nixos-rebuild \
+            --flake ~/yakko_wakko#opt \
+            --use-remote-sudo -L \
+            switch
         ''
       )
 

@@ -15,7 +15,7 @@ in {
   };
   config = lib.mkIf cfg.enable {
     nix = {
-      package = pkgs.nixVersions.nix_2_18;
+      # package = pkgs.nixVersions.nix_2_18;
 
       # extraOptions = ''
       #   experimental-features = nix-command flakes
@@ -32,7 +32,7 @@ in {
         warn-dirty = false;
         auto-optimise-store = true;
         builders-use-substitutes = true;
-        experimental-features = ["nix-command" "flakes" "repl-flake"];
+        experimental-features = ["nix-command" "flakes"];
         flake-registry = "/etc/nix/registry.json";
         trusted-users = [username];
         keep-derivations = true;

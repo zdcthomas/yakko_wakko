@@ -28,18 +28,11 @@ in {
           then "${pkgs.wl-clipboard}/bin/wl-copy"
           else "pbcopy";
         undercurl = ''
+          set -ga terminal-overrides ",tmux-256color:Tc"
           set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
           set -as terminal-overrides ',*:Setulc=\E[58::2::::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
-          set -ga terminal-overrides ",xterm-256color:Tc"
           set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
           set -sg terminal-overrides "*:RGB"
-        '';
-        terminal_overides = ''
-          set -g default-terminal "tmux-256color"
-          set-option -ga terminal-overrides ",xterm-256color:Tc"
-
-          # Allow undercurl escape sequences to pass through
-          set -as terminal-features ',xterm-256color:RGB'
         '';
         colorschemes = {
           gruvbox = ''
@@ -167,9 +160,9 @@ in {
         escapeTime = 0;
         extraConfig = ''
 
-          set -g default-terminal "xterm-256color"
-          ${colorschemes.gruvbox}
-          ${terminal_overides}
+          set -g default-terminal "tmux-256color"
+          ${colorschemes.tokyo-storm}
+          ${undercurl}
 
           set-option -g focus-events on
 

@@ -40,6 +40,7 @@ return {
 			-- vim.cmd.highlight("winseparator guibg=none, guifg=#888888")
 		end,
 		opts = {
+			transparent = true,
 			on_colors = function(colors)
 				colors.border = colors.teal
 			end,
