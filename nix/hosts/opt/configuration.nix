@@ -102,6 +102,10 @@ args @ {
   powerManagement.enable = true; # Enables hibernate?
   powerManagement.cpuFreqGovernor = "powersave";
   services = {
+    komga = {
+      enable = true;
+      user = username;
+    };
     # resolved = {
     #   enable = true;
     #   dnssec = "false"; # You might need this if you experience issues
