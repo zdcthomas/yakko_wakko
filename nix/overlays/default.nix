@@ -9,7 +9,6 @@
     eza = inputs.eza.packages.${prev.system}.default;
     ags = inputs.ags.packages.${prev.system}.default;
     anyrun = inputs.anyrun.packages.${prev.system}.anyrun;
-    ghostty = inputs.ghostty.packages.${prev.system}.default;
     qutebrowser = prev.qutebrowser.override {enableWideVine = true;};
     hyprland-contrib = inputs.hyprland-contrib.packages.${prev.system};
     unstable = inputs.unstable.legacyPackages.${prev.system};

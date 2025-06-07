@@ -36,7 +36,7 @@ return {
 		-- lazy = false,
 		priority = 1000,
 		init = function()
-			vim.cmd.colorscheme("tokyonight-storm")
+			-- vim.cmd.colorscheme("tokyonight-storm")
 			-- vim.cmd.highlight("winseparator guibg=none, guifg=#888888")
 		end,
 		opts = {
@@ -189,9 +189,9 @@ return {
 		"ellisonleao/gruvbox.nvim",
 		-- lazy = false,
 		priority = 1000,
-		-- init = function()
-		-- 	vim.cmd.colorscheme("gruvbox")
-		-- end,
+		init = function()
+			vim.cmd.colorscheme("gruvbox")
+		end,
 		opts = {
 			undercurl = true,
 			underline = true,

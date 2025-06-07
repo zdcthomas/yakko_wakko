@@ -7,7 +7,10 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
-config.color_scheme = "Tokyo Night Storm"
+config.color_scheme = "Gruvbox Dark (Gogh)"
+-- config.color_scheme = "Gruvbox (Gogh)"
+-- config.color_scheme = "Gruvbox dark, soft (base16)'"
+-- config.color_scheme = "Tokyo Night Storm"
 ---@diagnostic disable-next-line: undefined-global
 config.window_decorations = WINDOW_DECORATION
 config.enable_wayland = true

@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   username,
   inputs,
   overlays,
@@ -23,7 +24,7 @@
       ];
     };
   };
-  fonts.fonts = [
+  fonts.packages = [
     pkgs.pragmataPro
   ];
 
@@ -82,6 +83,7 @@
 
   networking.hostName = workHostName;
   system = {
+    stateVersion = 5;
     keyboard = {
       enableKeyMapping = true;
       remapCapsLockToControl = true;
