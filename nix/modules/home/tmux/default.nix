@@ -237,6 +237,7 @@ in {
 
           set -g default-terminal "tmux-256color"
           ${undercurl}
+          set -g status-position "top"
 
           set-option -g focus-events on
 

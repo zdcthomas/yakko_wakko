@@ -6,6 +6,14 @@ return {
 		cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter-textobjects",
+			{
+				"JoosepAlviste/nvim-ts-context-commentstring",
+				config = function()
+					require("ts_context_commentstring").setup({
+						enable_autocmd = false,
+					})
+				end,
+			},
 			{ "nushell/tree-sitter-nu" },
 		},
 		opts = {

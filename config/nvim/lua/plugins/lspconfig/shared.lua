@@ -109,15 +109,16 @@ Module.common_on_attach = function(client, bufnr)
 
 	if client.server_capabilities.documentFormattingProvider then
 		vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, with_desc(opts, "Formatting"))
-		vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-			buffer = bufnr,
-			callback = function()
-				if vim.g.format_on_save then
-					vim.lsp.buf.format()
-				end
-			end,
-			group = Module.lspconfig_augroup,
-		})
+		-- Don't need this here because conform does it for us
+		-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+		-- 	buffer = bufnr,
+		-- 	callback = function()
+		-- 		if vim.g.format_on_save then
+		-- 			vim.lsp.buf.format()
+		-- 		end
+		-- 	end,
+		-- 	group = Module.lspconfig_augroup,
+		-- })
 	end
 end
 
