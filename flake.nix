@@ -7,9 +7,6 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
     wezterm = {
       url = "github:wez/wezterm?dir=nix";
     };
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-    };
     ags = {
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
