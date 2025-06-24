@@ -11,17 +11,17 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    split-monitor-workspaces = {
-      url = "github:Duckonaut/split-monitor-workspaces";
-      inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
-    };
+    # split-monitor-workspaces = {
+    #   url = "github:Duckonaut/split-monitor-workspaces";
+    #   inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
+    # };
     # hyprpanel = {
     #   url = "github:M0NsTeRRR/HyprPanel";
     #   # inputs.nixpkgs.follows = "nixos_unstable";
     # };
-    hyprland = {
-      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-    };
+    # hyprland = {
+    #   url = "github:hyprwm/Hyprland";
+    # };
     anyrun = {
       url = "github:Kirottu/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,10 +30,10 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
       url = "github:hyprwm/contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
+    # hyprland-plugins = {
+    #   url = "github:hyprwm/hyprland-plugins";
+    #   inputs.hyprland.follows = "hyprland";
+    # };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     eza = {
       url = "github:eza-community/eza/v0.11.0";
@@ -161,7 +161,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
         };
         modules = [
           nixos-hardware.nixosModules.lenovo-thinkpad
-          inputs.hyprland.nixosModules.default
+          # inputs.hyprland.nixosModules.default
           ({...}: {
             nixpkgs.overlays =
               overlays
@@ -182,7 +182,7 @@ Every file used from anything in a flake _MUST_ and I repeat, _MUST_ be checked 
           username = "opt";
         };
         modules = [
-          inputs.hyprland.nixosModules.default
+          # inputs.hyprland.nixosModules.default
           ({...}: {
             nixpkgs.overlays =
               overlays;
