@@ -3,11 +3,7 @@ return {
 		"windwp/nvim-autopairs",
 
 		event = "InsertEnter",
-		-- dependencies = {
-		-- 	"hrsh7th/nvim-cmp",
-		-- },
 
-		-- event = "InsertEnter",
 		config = function()
 			local autopairs = require("nvim-autopairs")
 			autopairs.setup({
@@ -25,12 +21,6 @@ return {
 					return opts.char == ">"
 				end),
 			})
-
-			-- autopairs.get_rule('"')[1]:with_pair(cond.not_before_regex("(")):with_pair(cond.not_filetypes({"l"}))
-
-			-- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-			-- local cmp = require("cmp")
-			-- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 		end,
 	},
 }
