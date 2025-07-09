@@ -106,7 +106,6 @@ end
 return {
 	{
 		"mrcjkb/rustaceanvim",
-		version = "^5", -- Recommended
 		lazy = false,
 		init = function()
 			vim.g.rustaceanvim = function()
@@ -119,6 +118,8 @@ return {
 				liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
 				local cfg = require("rustaceanvim.config")
 				local adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path)
+				vim.print("adapter", adapter)
+				require("dap").adapters["codelldb"] = adapter
 				-- vim.print(adapter)
 				return {
 
@@ -201,7 +202,7 @@ return {
 					},
 					dap = {
 						-- autoload_configurations = false,
-						adapter = adapter,
+						adapter = false,
 					},
 				}
 			end

@@ -305,7 +305,8 @@ ls.add_snippets("norg", {
 	),
 }, { key = "norg" })
 
-ls.add_snippets("typescript", {
+local ts_snipets = {
+
 	postfix(
 		{ trig = ".l", match_pattern = non_space },
 		fmt([[console.log("{}", {})]], {
@@ -317,7 +318,11 @@ ls.add_snippets("typescript", {
 			end),
 		})
 	),
-}, { key = "typescriptreact" })
+}
+
+ls.add_snippets("typescript", ts_snipets, { key = "typescriptreact" })
+ls.add_snippets("typescriptreact", ts_snipets, { key = "typescriptreact" })
+
 ls.add_snippets("nix", {
 	s(
 		"module",
@@ -462,3 +467,7 @@ require("luasnip.loaders.from_vscode").lazy_load({
 })
 require("plugins.luasnip.todo_comments")
 require("plugins.luasnip.choice_popup")
+
+vim.keymap.set("i", "<C-n>", function()
+	require("luasnip").expand_auto()
+end, {})
