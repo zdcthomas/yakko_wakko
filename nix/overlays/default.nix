@@ -1,6 +1,7 @@
 {inputs, ...}: [
   inputs.nur.overlay
   inputs.fenix.overlays.default
+  inputs.hyprpanel.overlay
   # inputs.neovim-nightly-overlay.overlays.default
 
   (final: prev: {

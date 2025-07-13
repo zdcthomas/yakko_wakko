@@ -101,6 +101,11 @@ in {
             hide_cursor = true;
             no_fade_in = false;
           };
+          authentication = {
+            fingerprint = {
+              enabled = true;
+            };
+          };
           label = [
             {
               text = "Hello";
@@ -175,6 +180,7 @@ in {
         exec-once = [
           "${pkgs.brightnessctl}/bin/brightnessctl set 50%"
           "pkill waybar; waybar"
+          # "hyprpanel"
         ];
         misc = {
           animate_manual_resizes = true;
@@ -248,6 +254,7 @@ in {
             "-Dexperimental=true"
           ];
       }))
+      hyprpanel
       eww
       blueberry
       hyprland-contrib.grimblast
