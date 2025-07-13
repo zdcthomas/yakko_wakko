@@ -1,9 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
 	event = "BufReadPost",
-	dependencies = {
-		"stevearc/aerial.nvim",
-	},
 	opts = {
 		extensions = { "quickfix", "man", "oil", "lazy" },
 		disabled_filetypes = { "startify" },
@@ -54,7 +51,7 @@ return {
 		tabline = {
 			lualine_a = { "mode" },
 			lualine_b = { "branch" },
-			lualine_c = { "aerial" },
+			lualine_c = {},
 			lualine_x = {},
 			lualine_y = {},
 			lualine_z = { "windows" },

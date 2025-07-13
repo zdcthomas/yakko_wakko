@@ -141,11 +141,11 @@ return {
 			sources = {
 				default = { "snippets", "lsp", "path", "buffer" },
 				per_filetype = {
-					org = { "orgmode", "snippets", "path", "buffer" },
+					org = { "orgmode", "snippets", "path" },
 					["dap-repl"] = { "dap" },
 					dapui_watches = { "dap" },
 					dapui_hover = { "dap" },
-					-- rust = { "crates", "lsp", "snippets", "path", "buffer" },
+					-- rust       = { "crates", "lsp", "snippets", "path", "buffer" },
 				},
 				providers = {
 					lazydev = {
