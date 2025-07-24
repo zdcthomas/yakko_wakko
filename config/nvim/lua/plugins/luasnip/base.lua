@@ -320,7 +320,7 @@ local ts_snipets = {
 	),
 }
 
-ls.add_snippets("typescript", ts_snipets, { key = "typescriptreact" })
+ls.add_snippets("typescript", ts_snipets, { key = "typescript" })
 ls.add_snippets("typescriptreact", ts_snipets, { key = "typescriptreact" })
 
 ls.add_snippets("nix", {

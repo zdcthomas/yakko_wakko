@@ -118,7 +118,6 @@ return {
 				liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
 				local cfg = require("rustaceanvim.config")
 				local adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path)
-				vim.print("adapter", adapter)
 				require("dap").adapters["codelldb"] = adapter
 				-- vim.print(adapter)
 				return {
