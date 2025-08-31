@@ -254,7 +254,6 @@ in {
             "-Dexperimental=true"
           ];
       }))
-      hyprpanel
       eww
       blueberry
       hyprland-contrib.grimblast

@@ -129,10 +129,11 @@ args @ {
     # };
     fprintd = {
       enable = true;
-      tod = {
-        enable = true;
-        driver = pkgs.libfprint-2-tod1-goodix;
-      };
+      # tod = {
+      #   enable = true;
+      #   # driver = pkgs.libfprint-2-tod1-vfs0090;
+      #   driver = pkgs.libfprint-2-tod1-goodix;
+      # };
     };
     keyd = {
       enable = false;
@@ -307,5 +308,8 @@ args @ {
         ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
       }
     '';
+  };
+  virtualisation.docker = {
+    enable = true;
   };
 }
