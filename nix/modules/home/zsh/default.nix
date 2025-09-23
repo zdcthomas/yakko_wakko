@@ -1,9 +1,5 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{ config, pkgs, lib, ... }:
+let
   cfg = config.custom.hm.zsh;
   zsh-syntax-highlighting = with pkgs;
     stdenv.mkDerivation rec {
@@ -18,23 +14,19 @@
       };
 
       strictDeps = true;
-      buildInputs = [zsh];
+      buildInputs = [ zsh ];
 
-      installFlags = ["PREFIX=$(out)"];
+      installFlags = [ "PREFIX=$(out)" ];
     };
 in {
   options = {
-    custom.hm.zsh = {
-      enable = lib.mkEnableOption "Enable custom zsh";
-    };
+    custom.hm.zsh = { enable = lib.mkEnableOption "Enable custom zsh"; };
   };
   config = lib.mkIf cfg.enable {
-    home.packages = [pkgs.carapace];
+    home.packages = [ pkgs.carapace ];
     programs.zsh = {
       enable = true;
-      autosuggestion = {
-        enable = true;
-      };
+      autosuggestion = { enable = true; };
       enableCompletion = true;
       history.extended = true;
       syntaxHighlighting = {
@@ -50,33 +42,32 @@ in {
           rev = "287efa19ec492b2f24bb93d1f4eaac3049743a63";
           sha256 = "sha256-HMfC4s7KW4bO7H6RYzLnSARoFr1Ez89Z2VGONKMpGbw=";
         };
-        prompt =
-          if config.custom.hm.starship.enable
-          then ""
-          else ''
-            function sign {
-              if [[ -v IN_NIX_SHELL ]]; then
-                echo -n "%F{blue}n%f%F{cyan}i%f%F{green}x%f"
-              else
-                echo -n "%F{blue}❯%f%F{cyan}❯%f%F{green}❯%f"
-              fi
-            }
+        prompt = if config.custom.hm.starship.enable then
+          ""
+        else ''
+          function sign {
+            if [[ -v IN_NIX_SHELL ]]; then
+              echo -n "%F{blue}n%f%F{cyan}i%f%F{green}x%f"
+            else
+              echo -n "%F{blue}❯%f%F{cyan}❯%f%F{green}❯%f"
+            fi
+          }
 
-            function extra {
-              if [[ $_EXTRA_PROMPT_STUFF != "" ]]; then
-                echo -n "\n│$_EXTRA_PROMPT_STUFF"
-              fi
-            }
+          function extra {
+            if [[ $_EXTRA_PROMPT_STUFF != "" ]]; then
+              echo -n "\n│$_EXTRA_PROMPT_STUFF"
+            fi
+          }
 
 
-            function gp {
-              if [[ $_ZSH_GIT_PROMPT_STATUS_OUTPUT != "" ]]; then
-                echo -n "\n│$_ZSH_GIT_PROMPT_STATUS_OUTPUT"
-              fi
-            }
+          function gp {
+            if [[ $_ZSH_GIT_PROMPT_STATUS_OUTPUT != "" ]]; then
+              echo -n "\n│$_ZSH_GIT_PROMPT_STATUS_OUTPUT"
+            fi
+          }
 
-            PROMPT=$'┌╴%(?..%F{red}%?%f · )%B%~%b$(gp)$(extra)\n└╴$(sign) '
-          '';
+          PROMPT=$'┌╴%(?..%F{red}%?%f · )%B%~%b$(gp)$(extra)\n└╴$(sign) '
+        '';
         fzf-tab = pkgs.fetchFromGitHub {
           owner = "Aloxaf";
           repo = "fzf-tab";
@@ -93,7 +84,8 @@ in {
         {
           name = "_git";
           src = pkgs.fetchurl {
-            url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
+            url =
+              "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh";
             sha256 = "sha256-zspIBpZDxsRaP21hi2Zvh4rF+JsXk0yBvcHpDJivLjI=";
           };
         }

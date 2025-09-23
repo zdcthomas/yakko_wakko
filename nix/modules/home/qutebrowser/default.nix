@@ -1,11 +1,5 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.qutebrowser;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.qutebrowser;
 in {
   options = {
     custom.hm.qutebrowser = {
@@ -18,7 +12,8 @@ in {
         enable = true;
         enableDefaultBindings = true;
         quickmarks = {
-          home-manager = "https://nix-community.github.io/home-manager/options.html";
+          home-manager =
+            "https://nix-community.github.io/home-manager/options.html";
           nixos-packages = "https://search.nixos.org/packages";
           options = "https://search.nixos.org/options";
           wikipedia = "https://en.wikipedia.org";
@@ -26,7 +21,8 @@ in {
           lobsters = "https://lobste.rs";
         };
         searchEngines = {
-          w = "https://en.wikipedia.org/wiki/Special:Search?search={}&go=Go&ns0=1";
+          w =
+            "https://en.wikipedia.org/wiki/Special:Search?search={}&go=Go&ns0=1";
           aw = "https://wiki.archlinux.org/?search={}";
           nw = "https://nixos.wiki/index.php?search={}";
           g = "https://www.google.com/search?hl=en&q={}";

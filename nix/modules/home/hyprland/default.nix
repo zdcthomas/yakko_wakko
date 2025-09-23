@@ -1,26 +1,17 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
+{ config, pkgs, lib, inputs, ... }:
+let
   cfg = config.custom.hm.hyprland;
 
   col =
-    lib.attrsets.mapAttrs
-    (name: value: (lib.strings.removePrefix "#" value))
+    lib.attrsets.mapAttrs (name: value: (lib.strings.removePrefix "#" value))
     config.colorScheme.colors;
 
-  col_hash =
-    lib.attrsets.mapAttrs
-    (name: value: ("#" + value + "FF"))
+  col_hash = lib.attrsets.mapAttrs (name: value: ("#" + value + "FF"))
     config.colorScheme.colors;
   # swaylock = pkgs.swaylock-effects;
-  templateFile = import ../../../templateFile.nix {inherit pkgs;};
+  templateFile = import ../../../templateFile.nix { inherit pkgs; };
 in {
-  imports = [
-  ];
+  imports = [ ];
   options = {
     custom.hm.hyprland = {
       enable = lib.mkEnableOption "Enable custom hyprland";
@@ -84,11 +75,9 @@ in {
       in {
         splash = false;
 
-        preload = ["${wp}" "${sn}" "${sd}" "${wf}" fh ms];
+        preload = [ "${wp}" "${sn}" "${sd}" "${wf}" fh ms ];
 
-        wallpaper = [
-          ",${ms}"
-        ];
+        wallpaper = [ ",${ms}" ];
       };
     };
     programs = {
@@ -101,11 +90,7 @@ in {
             hide_cursor = true;
             no_fade_in = false;
           };
-          authentication = {
-            fingerprint = {
-              enabled = true;
-            };
-          };
+          authentication = { fingerprint = { enabled = true; }; };
           label = [
             {
               text = "Hello";
@@ -129,30 +114,26 @@ in {
             }
           ];
 
-          background = [
-            {
-              path = "${../../../../images/wallpapers/waterfall.jpg}";
-              blur_passes = 3;
-              blur_size = 8;
-            }
-          ];
+          background = [{
+            path = "${../../../../images/wallpapers/waterfall.jpg}";
+            blur_passes = 3;
+            blur_size = 8;
+          }];
 
-          input-field = [
-            {
-              # TODO: <27-05-24, zdcthomas> stylix
-              size = "200, 50";
-              position = "0, -80";
-              monitor = "";
-              dots_center = true;
-              fade_on_empty = false;
-              font_color = "rgb(202, 211, 245)";
-              inner_color = "rgb(91, 96, 120)";
-              outer_color = "rgb(24, 25, 38)";
-              outline_thickness = 5;
-              placeholder_text = ''Welcome Back'';
-              shadow_passes = 2;
-            }
-          ];
+          input-field = [{
+            # TODO: <27-05-24, zdcthomas> stylix
+            size = "200, 50";
+            position = "0, -80";
+            monitor = "";
+            dots_center = true;
+            fade_on_empty = false;
+            font_color = "rgb(202, 211, 245)";
+            inner_color = "rgb(91, 96, 120)";
+            outer_color = "rgb(24, 25, 38)";
+            outline_thickness = 5;
+            placeholder_text = "Welcome Back";
+            shadow_passes = 2;
+          }];
         };
       };
     };
@@ -166,9 +147,7 @@ in {
     wayland.windowManager.hyprland = {
       enable = true;
       # enableNvidiaPatches = true;
-      systemd = {
-        enable = true;
-      };
+      systemd = { enable = true; };
       xwayland.enable = true;
       # recommendedEnvironment = true;
       plugins = [
@@ -200,14 +179,17 @@ in {
         data = {
           rofi = "pkill rofi || ${pkgs.rofi-wayland}/bin/rofi -show drun";
           wezterm = "${pkgs.wezterm}/bin/wezterm";
-          rofi_power_menu = "${pkgs.rofi-wayland}/bin/rofi -show p -modi p:'rofi-power-menu'";
+          rofi_power_menu =
+            "${pkgs.rofi-wayland}/bin/rofi -show p -modi p:'rofi-power-menu'";
           wofi = "pkill wofi || ${pkgs.wofi}/bin/wofi --show drun -n";
-          tofi = "${pkgs.tofi}/bin/tofi-drun -c ~/.config/tofi/tofi.launcher.conf";
+          tofi =
+            "${pkgs.tofi}/bin/tofi-drun -c ~/.config/tofi/tofi.launcher.conf";
           mainMod = "SUPER";
           firefox = "${pkgs.firefox}/bin/firefox";
           thunar = "${pkgs.xfce.thunar}/bin/thunar";
           alacritty = "${pkgs.alacritty}/bin/alacritty";
-          hyprPickerCmd = "${pkgs.hyprpicker}/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy";
+          hyprPickerCmd =
+            "${pkgs.hyprpicker}/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy";
           speakerMute = "${pkgs.pamixer}/bin/pamixer -t";
           micMute = "${pkgs.pamixer}/bin/pamixer --default-source -t";
           volumeLower = "${pkgs.pamixer}/bin/pamixer -d 5";
@@ -224,21 +206,19 @@ in {
           openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";
           anyrun = "${pkgs.anyrun}/bin/anyrun";
           col = col;
-          workspaceBindings = builtins.concatStringsSep "\n" (builtins.genList (
-              x: let
-                ws = let
-                  c = (x + 1) / 10;
-                in
-                  builtins.toString (x + 1 - (c * 10));
+          workspaceBindings = builtins.concatStringsSep "\n" (builtins.genList
+            (x:
+              let
+                ws = let c = (x + 1) / 10;
+                in builtins.toString (x + 1 - (c * 10));
               in ''
                 bind = $mainMod, ${ws}, workspace, ${toString (x + 1)}
-                bind = $mainMod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
-              ''
-            )
-            10);
+                bind = $mainMod SHIFT, ${ws}, movetoworkspace, ${
+                  toString (x + 1)
+                }
+              '') 10);
         };
-      in
-        builtins.readFile (templateFile "hyprconf" ./hyprland.conf data);
+      in builtins.readFile (templateFile "hyprconf" ./hyprland.conf data);
     };
     # home.pointerCursor = {
     #   name = "phinger-cursors-light";
@@ -248,11 +228,7 @@ in {
     # };
     home.packages = with pkgs; [
       (waybar.overrideAttrs (oldAttrs: {
-        mesonFlags =
-          oldAttrs.mesonFlags
-          ++ [
-            "-Dexperimental=true"
-          ];
+        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
       }))
       eww
       blueberry
@@ -261,7 +237,7 @@ in {
       udisks
       xwayland
 
-      (pkgs.libsForQt5.callPackage ./xwaylandvideobridge.nix {})
+      (pkgs.libsForQt5.callPackage ./xwaylandvideobridge.nix { })
       wl-gammactl
       wl-clipboard
       brightnessctl

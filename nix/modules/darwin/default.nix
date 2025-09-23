@@ -1,5 +1,1 @@
-{
-  imports = [
-    ./yabai.nix
-  ];
-}
+{ imports = [ ./yabai.nix ]; }

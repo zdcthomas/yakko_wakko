@@ -1,11 +1,5 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.music_making;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.music_making;
 in {
   options = {
     custom.hm.music_making = {

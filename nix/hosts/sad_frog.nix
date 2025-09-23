@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{ config, pkgs, ... }: {
   imports = [
     # Include the results of the hardware scan.
     /etc/nixos/hardware-configuration.nix
@@ -10,7 +6,7 @@
   ];
 
   nix = {
-    trustedUsers = ["root"];
+    trustedUsers = [ "root" ];
     extraOptions = ''
       experimental-features = nix-command flakes
     '';

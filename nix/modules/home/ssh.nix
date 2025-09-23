@@ -1,22 +1,15 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.ssh;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.ssh;
 in {
   options = {
-    custom.hm.ssh = {
-      enable = lib.mkEnableOption "Enable custom ssh";
-    };
+    custom.hm.ssh = { enable = lib.mkEnableOption "Enable custom ssh"; };
   };
   config = lib.mkIf cfg.enable {
     home = {
-      packages = with pkgs; [
-        # openssh
-      ];
+      packages = with pkgs;
+        [
+          # openssh
+        ];
     };
     programs.ssh = {
       compression = true;

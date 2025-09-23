@@ -1,8 +1,6 @@
-{
-  pkgs,
-  unstable,
-}:
-with pkgs; let
+{ pkgs, unstable, }:
+with pkgs;
+let
   antlr = fetchFromGitHub {
     owner = "antlr";
     repo = "antlr4";
@@ -29,43 +27,37 @@ with pkgs; let
     rev = "56c3f46cf286051096d9295118c048219fe0d776";
     hash = "sha256-xH0htDZd2UihLn7PHKLjEYETzcBSeJFOMNredTqlCW8=";
   };
-in
-  stdenv.mkDerivation rec {
-    pname = "diagon";
-    version = "1.1.158";
+in stdenv.mkDerivation rec {
+  pname = "diagon";
+  version = "1.1.158";
 
-    src = fetchFromGitHub {
-      owner = "ArthurSonzogni";
-      repo = "Diagon";
-      rev = "1e80fb5c3faff5c4a207ca360b830a9609516349";
-      hash = "sha256-gyMIFFT6v5YF2T4KulmgOjqWDctxwzCUFDbG7Nrj0Nw=";
-    };
+  src = fetchFromGitHub {
+    owner = "ArthurSonzogni";
+    repo = "Diagon";
+    rev = "1e80fb5c3faff5c4a207ca360b830a9609516349";
+    hash = "sha256-gyMIFFT6v5YF2T4KulmgOjqWDctxwzCUFDbG7Nrj0Nw=";
+  };
 
-    nativeBuildInputs = [
-      unstable.boost184
-      cmake
-      jdk
-    ];
+  nativeBuildInputs = [ unstable.boost184 cmake jdk ];
 
-    cmakeBuildDir = "build";
-    preConfigure = ''
-      mkdir -p $cmakeBuildDir
-      ln -s ${antlr-jar} $cmakeBuildDir/antlr.jar
-    '';
+  cmakeBuildDir = "build";
+  preConfigure = ''
+    mkdir -p $cmakeBuildDir
+    ln -s ${antlr-jar} $cmakeBuildDir/antlr.jar
+  '';
 
-    cmakeFlags = [
-      "-DFETCHCONTENT_SOURCE_DIR_JSON=${json}"
-      "-DFETCHCONTENT_SOURCE_DIR_ANTLR=${antlr}"
-      "-DFETCHCONTENT_SOURCE_DIR_KGT=${kgt}"
-      "-DFETCHCONTENT_FULLY_DISCONNECTED=true"
-    ];
+  cmakeFlags = [
+    "-DFETCHCONTENT_SOURCE_DIR_JSON=${json}"
+    "-DFETCHCONTENT_SOURCE_DIR_ANTLR=${antlr}"
+    "-DFETCHCONTENT_SOURCE_DIR_KGT=${kgt}"
+    "-DFETCHCONTENT_FULLY_DISCONNECTED=true"
+  ];
 
-    meta =
-      src.meta
-      // {
-        description = "An interactive interpreter that transforms markdown-style expression into an ascii-art representation";
-        license = lib.licenses.mit;
-        maintainers = [lib.maintainers.petertrotman];
-        mainProgram = "diagon";
-      };
-  }
+  meta = src.meta // {
+    description =
+      "An interactive interpreter that transforms markdown-style expression into an ascii-art representation";
+    license = lib.licenses.mit;
+    maintainers = [ lib.maintainers.petertrotman ];
+    mainProgram = "diagon";
+  };
+}

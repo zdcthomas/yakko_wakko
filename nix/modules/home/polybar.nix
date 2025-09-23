@@ -1,10 +1,5 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
+{ config, pkgs, lib, inputs, ... }:
+let
   cfg = config.custom.hm.polybar;
 
   ac = "#1E88E5";
@@ -137,7 +132,8 @@ in {
 
         "module/distro-icon" = {
           type = "custom/script";
-          exec = "${pkgs.coreutils}/bin/uname -r | ${pkgs.coreutils}/bin/cut -d- -f1";
+          exec =
+            "${pkgs.coreutils}/bin/uname -r | ${pkgs.coreutils}/bin/cut -d- -f1";
           interval = 999999999;
 
           format = " <label>";

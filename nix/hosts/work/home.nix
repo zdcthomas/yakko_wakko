@@ -1,18 +1,11 @@
-{
-  config,
-  inputs,
-  pkgs,
-  username,
-  ...
-}: let
+{ config, inputs, pkgs, username, ... }:
+let
   management_scripts = import ../../nix_management_scripts_pkgs.nix {
     pkgs = pkgs;
     homeDirectory = config.home.homeDirectory;
   };
 in {
-  imports = [
-    ../../modules/home
-  ];
+  imports = [ ../../modules/home ];
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
 
@@ -49,7 +42,8 @@ in {
       HOMEBREW_PREFIX = "/opt/homebrew";
       HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
       HOMEBREW_REPOSITORY = "/opt/homebrew";
-      PATH = "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:$HOME/bin:$HOME/.npm-global/bin";
+      PATH =
+        "$PATH:$HOME/.cargo/bin/:$HOME/.local/share/bob/nvim-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:$HOME/bin:$HOME/.npm-global/bin";
     };
 
     packages = with pkgs;
@@ -71,18 +65,15 @@ in {
         dmux
         # go
         rustup
-        (
-          nerdfonts.override {
-            fonts = [
-              "Iosevka"
-              # "JetBrains"
-            ];
-          }
-        )
+        (nerdfonts.override {
+          fonts = [
+            "Iosevka"
+            # "JetBrains"
+          ];
+        })
         hurl_2
         awscli2
         git-remote-codecommit
-      ]
-      ++ management_scripts;
+      ] ++ management_scripts;
   };
 }

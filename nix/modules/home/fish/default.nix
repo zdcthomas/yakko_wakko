@@ -1,15 +1,8 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
-  cfg = config.custom.hm.fish;
+{ config, pkgs, lib, ... }:
+let cfg = config.custom.hm.fish;
 in {
   options = {
-    custom.hm.fish = {
-      enable = lib.mkEnableOption "Enable custom fish";
-    };
+    custom.hm.fish = { enable = lib.mkEnableOption "Enable custom fish"; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -17,9 +10,7 @@ in {
       fish = {
         enable = true;
         functions = {
-          /*
-          Move this to local bin idealy
-          */
+          # Move this to local bin idealy
           fish_user_key_bindings = ''
 
             # Execute this once per mode that emacs bindings should be used in
@@ -79,17 +70,15 @@ in {
             open https://circleci.com/gh/"$org_and_repo"/tree/"$branch"
           '';
         };
-        plugins = [
-          {
-            name = "foreign-env";
-            src = pkgs.fetchFromGitHub {
-              owner = "oh-my-fish";
-              repo = "plugin-foreign-env";
-              rev = "dddd9213272a0ab848d474d0cbde12ad034e65bc";
-              sha256 = "er1KI2xSUtTlQd9jZl1AjqeArrfBxrgBLcw5OqinuAM=";
-            };
-          }
-        ];
+        plugins = [{
+          name = "foreign-env";
+          src = pkgs.fetchFromGitHub {
+            owner = "oh-my-fish";
+            repo = "plugin-foreign-env";
+            rev = "dddd9213272a0ab848d474d0cbde12ad034e65bc";
+            sha256 = "er1KI2xSUtTlQd9jZl1AjqeArrfBxrgBLcw5OqinuAM=";
+          };
+        }];
         shellInit = ''
           set __fish_git_prompt_color_branch yellow
           set __fish_git_prompt_color_upstream_ahead green

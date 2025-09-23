@@ -1,16 +1,8 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.picom;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.picom;
 in {
   options = {
-    custom.hm.picom = {
-      enable = lib.mkEnableOption "Enable custom picom";
-    };
+    custom.hm.picom = { enable = lib.mkEnableOption "Enable custom picom"; };
   };
   config = lib.mkIf cfg.enable {
     services.picom = {

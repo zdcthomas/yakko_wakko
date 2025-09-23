@@ -1,11 +1,5 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.jujutsu;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.jujutsu;
 in {
   options = {
     custom.hm.jujutsu = {
@@ -13,11 +7,7 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    home = {
-      packages = with pkgs; [
-        watchman
-      ];
-    };
+    home = { packages = with pkgs; [ watchman ]; };
 
     programs = {
       jujutsu = {

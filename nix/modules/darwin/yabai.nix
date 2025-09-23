@@ -1,16 +1,8 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.zdct.yabai;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.zdct.yabai;
 in {
   options = {
-    custom.zdct.yabai = {
-      enable = lib.mkEnableOption "Enable custom yabai";
-    };
+    custom.zdct.yabai = { enable = lib.mkEnableOption "Enable custom yabai"; };
   };
   config = lib.mkIf cfg.enable {
     services.yabai = {

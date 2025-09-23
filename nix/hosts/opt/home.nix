@@ -1,20 +1,11 @@
-{
-  config,
-  modulesPath,
-  pkgs,
-  overlays,
-  lib,
-  inputs,
-  ...
-}: let
+{ config, modulesPath, pkgs, overlays, lib, inputs, ... }:
+let
   management_scripts = import ../../nix_management_scripts_pkgs.nix {
     pkgs = pkgs;
     homeDirectory = config.home.homeDirectory;
   };
 in {
-  imports = [
-    ../../modules/home
-  ];
+  imports = [ ../../modules/home ];
   xdg = {
     desktopEntries = {
       imv-dir = {
@@ -24,7 +15,7 @@ in {
         icon = "imv-dir";
         terminal = false;
         type = "Application";
-        categories = ["Graphics"];
+        categories = [ "Graphics" ];
       };
     };
 
@@ -82,39 +73,39 @@ in {
       bookmarks = [
         {
           name = "github";
-          tags = ["git"];
+          tags = [ "git" ];
           keyword = "git";
           url = "https://github.com";
         }
         {
           name = "hey";
-          tags = ["email" "hey"];
+          tags = [ "email" "hey" ];
           keyword = "hey";
           url = "https://app.hey.com/";
         }
         {
           name = "example nixos configurations";
-          tags = ["nixos" "nix"];
+          tags = [ "nixos" "nix" ];
           keyword = "example config";
           url = "https://nixos.wiki/wiki/Configuration_Collection";
         }
 
         {
           name = "hyprland wiki";
-          tags = ["wiki" "hyprland"];
+          tags = [ "wiki" "hyprland" ];
           keyword = "hyprland";
           url = "https://wiki.hyprland.org/";
         }
         {
           name = "wikipedia";
-          tags = ["wiki"];
+          tags = [ "wiki" ];
           keyword = "wiki";
           url = "https://en.wikipedia.org";
         }
 
         {
           name = "i3 docs";
-          tags = ["i3"];
+          tags = [ "i3" ];
           keyword = "i3";
           url = "https://i3wm.org/docs/user-contributed/lzap-config.html";
         }
@@ -124,12 +115,12 @@ in {
           bookmarks = [
             {
               name = "Hacker News";
-              tags = ["news" "tech"];
+              tags = [ "news" "tech" ];
               url = "https://news.ycombinator.com/";
             }
             {
               name = "Lobsters";
-              tags = ["news" "tech"];
+              tags = [ "news" "tech" ];
               url = "https://lobste.rs";
             }
           ];
@@ -140,22 +131,23 @@ in {
           bookmarks = [
             {
               name = "Packages search";
-              tags = ["search" "nix"];
+              tags = [ "search" "nix" ];
               url = "https://search.nixos.org/packages";
             }
             {
               name = "Options search";
-              tags = ["search" "nix"];
+              tags = [ "search" "nix" ];
               url = "https://search.nixos.org/options";
             }
             {
               name = "Home Manager Appendix";
-              tags = ["wiki" "nix"];
-              url = "https://nix-community.github.io/home-manager/options.xhtml";
+              tags = [ "wiki" "nix" ];
+              url =
+                "https://nix-community.github.io/home-manager/options.xhtml";
             }
             {
               name = "wiki";
-              tags = ["wiki" "nix"];
+              tags = [ "wiki" "nix" ];
               url = "https://nixos.wiki/";
             }
           ];
@@ -165,9 +157,7 @@ in {
   };
   news.display = "show";
   home = {
-    sessionVariables = {
-      ANKI_WAYLAND = "1";
-    };
+    sessionVariables = { ANKI_WAYLAND = "1"; };
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
     # when a new Home Manager release introduces backwards
@@ -176,13 +166,9 @@ in {
     # You can update Home Manager without changing this value. See
     # the Home Manager release notes for a list of state version
     # changes in each release.
-    /*
-    stateVersion = "22.05";
-    */
+    # stateVersion = "22.05";
 
-    /*
-    extraOutputsToInstall = [ "man" ];
-    */
+    # extraOutputsToInstall = [ "man" ];
     packages = with pkgs; [
       dwarf-fortress-packages.dwarf-fortress-full
       diagon
@@ -265,15 +251,13 @@ in {
     # changes in each release.
     stateVersion = "23.05";
 
-    /*
-    symlink the config directory. I know this isn't the nix way, but it's
-    * ridiculous to invent another layer of rconfiguration languages
-    */
+    # symlink the config directory. I know this isn't the nix way, but it's
+    # ridiculous to invent another layer of rconfiguration languages
 
     keyboard = {
       # variant = "colemak";
       layout = "us";
-      options = ["caps:escape"];
+      options = [ "caps:escape" ];
     };
   };
 

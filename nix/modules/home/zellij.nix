@@ -1,30 +1,19 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.zellij;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.zellij;
 in {
   options = {
-    custom.hm.zellij = {
-      enable = lib.mkEnableOption "Enable custom zellij";
-    };
+    custom.hm.zellij = { enable = lib.mkEnableOption "Enable custom zellij"; };
   };
   config = lib.mkIf cfg.enable {
-    home.sessionVariables = {
-      ZELLIJ_AUTO_ATTACH = "true";
-    };
+    home.sessionVariables = { ZELLIJ_AUTO_ATTACH = "true"; };
     home = {
       file = {
         ".config/zellij/" = {
-          source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zellij";
+          source = config.lib.file.mkOutOfStoreSymlink
+            "${config.home.homeDirectory}/yakko_wakko/config/zellij";
         };
       };
-      packages = with pkgs; [
-        zellij
-      ];
+      packages = with pkgs; [ zellij ];
     };
 
     # programs.zellij = {

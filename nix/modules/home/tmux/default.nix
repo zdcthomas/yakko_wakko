@@ -1,15 +1,8 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
-  cfg = config.custom.hm.tmux;
+{ config, pkgs, lib, ... }:
+let cfg = config.custom.hm.tmux;
 in {
   options = {
-    custom.hm.tmux = {
-      enable = lib.mkEnableOption "Enable custom tmux";
-    };
+    custom.hm.tmux = { enable = lib.mkEnableOption "Enable custom tmux"; };
   };
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
@@ -18,15 +11,16 @@ in {
       dmux
     ];
     home.file = {
-      ".config/dmux/dmux.conf.toml".source = ../../../../config/dmux/dmux.conf.toml;
+      ".config/dmux/dmux.conf.toml".source =
+        ../../../../config/dmux/dmux.conf.toml;
     };
 
     programs = {
       tmux = let
-        copy =
-          if pkgs.stdenv.isLinux
-          then "${pkgs.wl-clipboard}/bin/wl-copy"
-          else "pbcopy";
+        copy = if pkgs.stdenv.isLinux then
+          "${pkgs.wl-clipboard}/bin/wl-copy"
+        else
+          "pbcopy";
         undercurl = ''
           set -ga terminal-overrides ",tmux-256color:Tc"
           set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
@@ -197,10 +191,7 @@ in {
         };
       in {
         enable = true;
-        /*
-        extraConfig = (builtins.readFile ./tmux.conf);
-        */
-        /**/
+        # extraConfig = (builtins.readFile ./tmux.conf);
         shell = "${pkgs.zsh}/bin/zsh";
         sensibleOnTop = false;
         historyLimit = 200000;

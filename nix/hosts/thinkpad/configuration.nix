@@ -1,15 +1,7 @@
-#  ----------------------------------------------------------------
+# ----------------------------------------------------------------
 #  |    L580 (type 20LW, 20LX) Laptops (ThinkPad) - Type 20LW |
 #  ----------------------------------------------------------------
-args @ {
-  config,
-  pkgs,
-  overlays,
-  inputs,
-  lib,
-  username,
-  ...
-}: {
+args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
   # config.z.de = "i3";
   zdct = {
     de = "hyprland";
@@ -25,9 +17,7 @@ args @ {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.${username} = import ./home.nix;
-  home-manager.extraSpecialArgs = {
-    inherit overlays inputs username;
-  };
+  home-manager.extraSpecialArgs = { inherit overlays inputs username; };
 
   # virtualisation.docker.enable = true;
   environment.etc.nixpkgs.source = inputs.nixpkgs;
@@ -58,7 +48,7 @@ args @ {
     # Enable networking
     networkmanager.enable = true;
 
-    firewall.allowedTCPPorts = [8080];
+    firewall.allowedTCPPorts = [ 8080 ];
   };
 
   # Set your time zone.
@@ -102,10 +92,10 @@ args @ {
       #   </match>
       # '';
       defaultFonts = {
-        monospace = ["PragmataPro Mono Liga"];
-        sansSerif = ["PragmataPro"];
-        serif = ["PragmataPro"];
-        emoji = ["PragmataPro"];
+        monospace = [ "PragmataPro Mono Liga" ];
+        sansSerif = [ "PragmataPro" ];
+        serif = [ "PragmataPro" ];
+        emoji = [ "PragmataPro" ];
       };
     };
 
@@ -125,9 +115,7 @@ args @ {
       nssmdns = true;
       openFirewall = true;
     };
-    udisks2 = {
-      enable = true;
-    };
+    udisks2 = { enable = true; };
     mysql = {
       enable = true;
       package = pkgs.mariadb;
@@ -139,9 +127,7 @@ args @ {
     journald.extraConfig = "SystemMaxUse=1G";
     locate.enable = true;
 
-    tailscale = {
-      enable = true;
-    };
+    tailscale = { enable = true; };
 
     printing.enable = true;
     blueman.enable = true;
@@ -169,7 +155,7 @@ args @ {
     package = pkgs.bluez5-experimental;
     #hsphfpd.enable = true;
     powerOnBoot = true;
-    disabledPlugins = ["sap"];
+    disabledPlugins = [ "sap" ];
     settings = {
       General = {
         JustWorksRepairing = "always";
@@ -186,15 +172,13 @@ args @ {
   users.users.${username} = {
     isNormalUser = true;
     description = "Zachary Thomas";
-    extraGroups = ["audio" "input" "networkmanager" "wheel" "docker"];
+    extraGroups = [ "audio" "input" "networkmanager" "wheel" "docker" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
       dwarf-fortress-packages.dwarf-fortress-full
-      (
-        pkgs.writeScriptBin "switch" ''
-          nixos-rebuild switch --flake ~/yakko_wakko --use-remote-sudo
-        ''
-      )
+      (pkgs.writeScriptBin "switch" ''
+        nixos-rebuild switch --flake ~/yakko_wakko --use-remote-sudo
+      '')
       soulseekqt
       alsa-utils
       pulsemixer
@@ -217,16 +201,14 @@ args @ {
   };
   programs.ssh.startAgent = true;
 
-  programs.zsh = {
-    enable = true;
-  };
+  programs.zsh = { enable = true; };
 
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;
     # Certain features, including CLI integration and system authentication support,
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = [username];
+    polkitPolicyOwners = [ username ];
   };
 
   documentation = {

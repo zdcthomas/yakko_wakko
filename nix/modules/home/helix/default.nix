@@ -1,25 +1,15 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.helix;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.helix;
 in {
   options = {
-    custom.hm.helix = {
-      enable = lib.mkEnableOption "Enable custom helix";
-    };
+    custom.hm.helix = { enable = lib.mkEnableOption "Enable custom helix"; };
   };
   config = lib.mkIf cfg.enable {
     programs = {
       helix = {
         enable = true;
         languages = {
-          language-server.nixd = {
-            command = "${lib.getExe pkgs.nixd}";
-          };
+          language-server.nixd = { command = "${lib.getExe pkgs.nixd}"; };
           language = [
             # {
             #   name = "typescript";
@@ -36,7 +26,7 @@ in {
             # }
             {
               name = "nix";
-              language-servers = ["nixd"];
+              language-servers = [ "nixd" ];
               formatter.binary = "${lib.getExe pkgs.nixfmt-classic}";
               formatter.command = "nixfmt";
             }
@@ -45,7 +35,7 @@ in {
         settings = {
           editor = {
             color-modes = true;
-            rulers = [80];
+            rulers = [ 80 ];
             auto-save = true;
             auto-format = true;
             line-number = "relative";

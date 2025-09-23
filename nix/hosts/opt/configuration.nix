@@ -1,12 +1,4 @@
-args @ {
-  config,
-  pkgs,
-  overlays,
-  inputs,
-  lib,
-  username,
-  ...
-}: {
+args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
   fonts = {
     enableDefaultPackages = true;
     fontconfig = {
@@ -15,10 +7,10 @@ args @ {
       hinting.enable = true;
       hinting.autohint = true;
       defaultFonts = {
-        monospace = ["PragmataPro Mono Liga"];
-        sansSerif = ["PragmataPro"];
-        serif = ["PragmataPro"];
-        emoji = ["PragmataPro"];
+        monospace = [ "PragmataPro Mono Liga" ];
+        sansSerif = [ "PragmataPro" ];
+        serif = [ "PragmataPro" ];
+        emoji = [ "PragmataPro" ];
       };
     };
 
@@ -29,7 +21,7 @@ args @ {
       noto-fonts
       noto-fonts-cjk-sans
       pragmataPro
-      (nerdfonts.override {fonts = ["JetBrainsMono"];})
+      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
       jetbrains-mono
     ];
   };
@@ -62,9 +54,7 @@ args @ {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.${username} = import ./home.nix;
-  home-manager.extraSpecialArgs = {
-    inherit overlays inputs username;
-  };
+  home-manager.extraSpecialArgs = { inherit overlays inputs username; };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -135,9 +125,7 @@ args @ {
       #   driver = pkgs.libfprint-2-tod1-goodix;
       # };
     };
-    keyd = {
-      enable = false;
-    };
+    keyd = { enable = false; };
     libinput = {
       enable = true;
       touchpad.disableWhileTyping = true;
@@ -149,13 +137,9 @@ args @ {
     };
     printing.enable = true;
 
-    udisks2 = {
-      enable = true;
-    };
+    udisks2 = { enable = true; };
 
-    tailscale = {
-      enable = true;
-    };
+    tailscale = { enable = true; };
 
     pipewire = {
       enable = true;
@@ -190,21 +174,19 @@ args @ {
     description = "Zachary Thomas";
     # extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
-    extraGroups = ["audio" "input" "networkmanager" "wheel" "docker"];
+    extraGroups = [ "audio" "input" "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       qmk
       libinput
       framework-tool
       kate
       git
-      (
-        pkgs.writeScriptBin "switch" ''
-          nixos-rebuild \
-            --flake ~/yakko_wakko#opt \
-            --use-remote-sudo -L \
-            switch
-        ''
-      )
+      (pkgs.writeScriptBin "switch" ''
+        nixos-rebuild \
+          --flake ~/yakko_wakko#opt \
+          --use-remote-sudo -L \
+          switch
+      '')
 
       soulseekqt
       alsa-utils
@@ -229,23 +211,19 @@ args @ {
 
   programs = {
     firefox.enable = true;
-    zsh = {
-      enable = true;
-    };
+    zsh = { enable = true; };
 
     _1password.enable = true;
     _1password-gui = {
       enable = true;
       # Certain features, including CLI integration and system authentication support,
       # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-      polkitPolicyOwners = [username];
+      polkitPolicyOwners = [ username ];
     };
   };
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Allow unfree packages
-  nixpkgs = {
-    config.allowUnfree = true;
-  };
+  nixpkgs = { config.allowUnfree = true; };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -253,10 +231,11 @@ args @ {
   environment = {
     etc.nixpkgs.source = inputs.nixpkgs;
 
-    systemPackages = with pkgs; [
-      #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-      #  wget
-    ];
+    systemPackages = with pkgs;
+      [
+        #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+        #  wget
+      ];
   };
 
   # This value determines the NixOS release from which the default
@@ -272,7 +251,7 @@ args @ {
     package = pkgs.bluez5-experimental;
     #hsphfpd.enable = true;
     powerOnBoot = true;
-    disabledPlugins = ["sap"];
+    disabledPlugins = [ "sap" ];
     settings = {
       General = {
         JustWorksRepairing = "always";
@@ -282,9 +261,7 @@ args @ {
   };
   services.udev = {
     enable = true;
-    packages = [
-      pkgs.qmk-udev-rules
-    ];
+    packages = [ pkgs.qmk-udev-rules ];
     extraRules = ''
       # CMSIS-DAP for microbit
       SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE:="666"
@@ -309,7 +286,5 @@ args @ {
       }
     '';
   };
-  virtualisation.docker = {
-    enable = true;
-  };
+  virtualisation.docker = { enable = true; };
 }

@@ -1,16 +1,8 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.anyrun;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.anyrun;
 in {
   options = {
-    custom.hm.anyrun = {
-      enable = lib.mkEnableOption "Enable custom anyrun";
-    };
+    custom.hm.anyrun = { enable = lib.mkEnableOption "Enable custom anyrun"; };
   };
   config = lib.mkIf cfg.enable {
     programs = {
@@ -30,8 +22,8 @@ in {
           layer = "overlay";
           closeOnClick = true;
           showResultsImmediately = true;
-          x = {fraction = 0.5;};
-          y = {fraction = 0.2;};
+          x = { fraction = 0.5; };
+          y = { fraction = 0.2; };
         };
         extraConfigFiles = {
           "applications.ron".text = ''

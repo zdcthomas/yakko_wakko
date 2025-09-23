@@ -1,7 +1,4 @@
-{
-  pkgs,
-  inputs,
-}:
+{ pkgs, inputs, }:
 pkgs.stdenv.mkDerivation {
   pname = "PragmataPro";
   version = "0.829";

@@ -1,16 +1,8 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.i3;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.i3;
 in {
   options = {
-    custom.hm.i3 = {
-      enable = lib.mkEnableOption "Enable custom i3 config";
-    };
+    custom.hm.i3 = { enable = lib.mkEnableOption "Enable custom i3 config"; };
   };
   config = lib.mkIf cfg.enable {
     custom.hm = {
@@ -35,7 +27,7 @@ in {
 
       config = rec {
         modifier = "Mod4";
-        bars = [];
+        bars = [ ];
 
         window = {
           border = 0;
@@ -55,7 +47,8 @@ in {
           "XF86MonBrightnessUp" = "exec brightnessctl set 4%+";
           "${modifier}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
           "${modifier}+d" = "exec ${pkgs.rofi}/bin/rofi -modi drun -show drun";
-          "${modifier}+p" = "exec ${pkgs.rofi}/bin/rofi -show p -modi p:'rofi-power-menu'";
+          "${modifier}+p" =
+            "exec ${pkgs.rofi}/bin/rofi -show p -modi p:'rofi-power-menu'";
           "${modifier}+Tab" = "exec ${pkgs.rofi}/bin/rofi -show window";
           "${modifier}+b" = "exec ${pkgs.firefox}/bin/firefox";
           "${modifier}+Shift+x" = "exec systemctl suspend";

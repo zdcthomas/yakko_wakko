@@ -1,46 +1,21 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
-  cfg = config.custom.hm.kitty;
+{ config, pkgs, lib, ... }:
+let cfg = config.custom.hm.kitty;
 in {
   options = {
-    custom.hm.kitty = {
-      enable = lib.mkEnableOption "Enable custom kitty";
-    };
+    custom.hm.kitty = { enable = lib.mkEnableOption "Enable custom kitty"; };
   };
   config = lib.mkIf cfg.enable {
     programs = {
       kitty = {
-        /*
-        cool kitty colors
-        */
-        /*
-        Forest Night
-        */
-        /*
-        kanagawabones
-        */
-        /*
-        Nova
-        */
-        /*
-        Obsidian
-        */
-        /*
-        Rose Pine
-        */
-        /*
-        moonlight
-        */
-        /*
-        Flat
-        */
-        /*
-        zenwritten_dark
-        */
+        # cool kitty colors
+        # Forest Night
+        # kanagawabones
+        # Nova
+        # Obsidian
+        # Rose Pine
+        # moonlight
+        # Flat
+        # zenwritten_dark
 
         # theme = "Everforest Dark Medium";
         enable = true;

@@ -1,11 +1,5 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.nushell;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.nushell;
 in {
   options = {
     custom.hm.nushell = {
@@ -16,11 +10,12 @@ in {
     home = {
       file = {
         "Library/Application Support/nushell/" = {
-          source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/nushell";
+          source = config.lib.file.mkOutOfStoreSymlink
+            "${config.home.homeDirectory}/yakko_wakko/config/nushell";
         };
       };
 
-      packages = [pkgs.nushell];
+      packages = [ pkgs.nushell ];
     };
     # programs.nushell = {
     #   enable = true;

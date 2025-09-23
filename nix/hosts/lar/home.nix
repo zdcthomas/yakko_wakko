@@ -1,13 +1,4 @@
-{
-  config,
-  username,
-  modulesPath,
-  pkgs,
-  overlays,
-  lib,
-  inputs,
-  ...
-}: {
+{ config, username, modulesPath, pkgs, overlays, lib, inputs, ... }: {
   imports = [
     # ../../nix.hm
     # ../../bash.hm
@@ -48,9 +39,7 @@
       lshw
       beets
       nodejs-18_x
-      /*
-      expressvpn
-      */
+      # expressvpn
     ];
 
     # file = {

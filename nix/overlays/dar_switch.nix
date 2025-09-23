@@ -1,4 +1,5 @@
-{pkgs}: {}
+{ pkgs }:
+{ }
 # pkgs.writeShellScriptBin "dar-switch" ''
 #   if [ -z "$1" ]; then
 #     echo "using configuration $1"

@@ -1,21 +1,11 @@
-{ config
-, modulesPath
-, pkgs
-, overlays
-, lib
-, inputs
-, ...
-}:
+{ config, modulesPath, pkgs, overlays, lib, inputs, ... }:
 let
   management_scripts = import ../../nix_management_scripts_pkgs.nix {
     pkgs = pkgs;
     homeDirectory = config.home.homeDirectory;
   };
-in
-{
-  imports = [
-    ../../modules/home
-  ];
+in {
+  imports = [ ../../modules/home ];
 
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
   # colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
@@ -25,9 +15,7 @@ in
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-light-soft;
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   custom.hm = {
-    qutebrowser = {
-      enable = true;
-    };
+    qutebrowser = { enable = true; };
     anyrun.enable = true;
     game_dev.enable = true;
     alacritty.enable = true;
@@ -127,7 +115,8 @@ in
             {
               name = "Home Manager Appendix";
               tags = [ "wiki" "nix" ];
-              url = "https://nix-community.github.io/home-manager/options.xhtml";
+              url =
+                "https://nix-community.github.io/home-manager/options.xhtml";
             }
             {
               name = "wiki";
@@ -149,13 +138,9 @@ in
     # You can update Home Manager without changing this value. See
     # the Home Manager release notes for a list of state version
     # changes in each release.
-    /*
-      stateVersion = "22.05";
-    */
+    # stateVersion = "22.05";
 
-    /*
-      extraOutputsToInstall = [ "man" ];
-    */
+    # extraOutputsToInstall = [ "man" ];
     packages = with pkgs; [
       dwarf-fortress-packages.dwarf-fortress-full
       keymapp
@@ -230,10 +215,8 @@ in
     # changes in each release.
     stateVersion = "23.05";
 
-    /*
-      symlink the config directory. I know this isn't the nix way, but it's
-      * ridiculous to invent another layer of rconfiguration languages
-    */
+    # symlink the config directory. I know this isn't the nix way, but it's
+    # ridiculous to invent another layer of rconfiguration languages
 
     keyboard = {
       # variant = "colemak";

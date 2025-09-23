@@ -1,16 +1,8 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: let
-  cfg = config.custom.hm.font;
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.custom.hm.font;
 in {
   options = {
-    custom.hm.font = {
-      enable = lib.mkEnableOption "Enable custom font";
-    };
+    custom.hm.font = { enable = lib.mkEnableOption "Enable custom font"; };
   };
   config = lib.mkIf cfg.enable {
     home = {

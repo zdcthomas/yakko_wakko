@@ -1,25 +1,14 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
-  cfg = config.custom.hm.bash;
+{ config, pkgs, lib, ... }:
+let cfg = config.custom.hm.bash;
 in {
   options = {
-    custom.hm.bash = {
-      enable = lib.mkEnableOption "Enable custom bash";
-    };
+    custom.hm.bash = { enable = lib.mkEnableOption "Enable custom bash"; };
   };
   config = {
     programs.bash = {
       enable = true;
       enableCompletion = true;
-      shellOptions = [
-        "histappend"
-        "checkwinsize"
-        "extglob"
-      ];
+      shellOptions = [ "histappend" "checkwinsize" "extglob" ];
       initExtra = ''
         bind '"\e[A": history-search-backward'
         bind '"\e[B": history-search-forward'
