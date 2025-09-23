@@ -66,14 +66,27 @@ local function setup_lspconfig()
 		end,
 		capabilities = capabilities,
 	})
+	-- lspconfig.nixd.setup({
+	-- 	on_attach = common_on_attach,
+	-- 	settings = {
+	-- 		nixd = {
+	-- 			formatting = {
+	-- 				command = { "nixfmt" },
+	-- 			},
+	-- 		},
+	-- 	},
+	-- })
 	lspconfig.nil_ls.setup({
 		on_attach = function(client, bufnr)
-			client.server_capabilities.documentFormattingProvider = false
+			-- client.server_capabilities.documentFormattingProvider = false
 			common_on_attach(client, bufnr)
 		end,
 		capabilities = capabilities,
 		settings = {
 			["nil"] = {
+				formatting = {
+					command = { "nixfmt" },
+				},
 				nix = {
 					flake = {
 						autoArchive = false,
@@ -172,9 +185,9 @@ return {
 								trace = {
 									server = "verbose",
 								},
-								-- procMacro = {
-								-- 	enable = true,
-								-- },
+								procMacro = {
+									enable = true,
+								},
 								-- checkOnSave = {
 								-- 	-- command = "clippy",
 								-- },

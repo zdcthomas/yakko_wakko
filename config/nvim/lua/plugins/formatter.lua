@@ -19,7 +19,7 @@ return {
 				javascript = { "prettierd", "prettier", stop_after_first = true },
 				-- typescript = { "prettierd", "prettier", stop_after_first = true },
 				typescriptreact = { "prettierd", "prettier", stop_after_first = true },
-				nix = { "alejandra" },
+				-- nix = { "alejandra" },
 				-- yaml = { "yamlfmt" },
 				org = { "injected" },
 				markdown = { "injected" },

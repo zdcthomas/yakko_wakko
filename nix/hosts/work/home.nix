@@ -54,6 +54,7 @@ in {
 
     packages = with pkgs;
       [
+        d2
         nurl
         deno
         nix-init

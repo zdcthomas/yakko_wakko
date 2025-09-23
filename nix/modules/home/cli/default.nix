@@ -20,6 +20,7 @@ in {
         ".boxes".source = ../../../../config/boxes;
       };
       packages = with pkgs; [
+        nixfmt-rfc-style
         btop
         diagon
         fd
