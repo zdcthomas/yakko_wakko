@@ -1,4 +1,13 @@
-args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
+args@{
+  config,
+  pkgs,
+  overlays,
+  inputs,
+  lib,
+  username,
+  ...
+}:
+{
   fonts = {
     enableDefaultPackages = true;
     fontconfig = {
@@ -25,20 +34,19 @@ args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
       jetbrains-mono
     ];
   };
-  # networking.extraHosts = let
-  #   domains = [
-  #     "x"
-  #     "facebook"
-  #     # "instagram"
-  #     # "reddit"
-  #   ];
-  # in
-  #   pkgs.lib.concatMapStringsSep "\n"
-  #   (domain: ''
-  #     127.0.0.1 ${domain}.com
-  #     127.0.0.1 www.${domain}.com
-  #   '')
-  #   domains;
+  networking.extraHosts =
+    let
+      domains = [
+        "x"
+        # "facebook"
+        "instagram"
+        # "reddit"
+      ];
+    in
+    pkgs.lib.concatMapStringsSep "\n" (domain: ''
+      127.0.0.1 ${domain}.com
+      127.0.0.1 www.${domain}.com
+    '') domains;
 
   zdct = {
     de = "hyprland";
@@ -125,7 +133,9 @@ args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
       #   driver = pkgs.libfprint-2-tod1-goodix;
       # };
     };
-    keyd = { enable = false; };
+    keyd = {
+      enable = false;
+    };
     libinput = {
       enable = true;
       touchpad.disableWhileTyping = true;
@@ -137,9 +147,13 @@ args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
     };
     printing.enable = true;
 
-    udisks2 = { enable = true; };
+    udisks2 = {
+      enable = true;
+    };
 
-    tailscale = { enable = true; };
+    tailscale = {
+      enable = true;
+    };
 
     pipewire = {
       enable = true;
@@ -174,7 +188,13 @@ args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
     description = "Zachary Thomas";
     # extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
-    extraGroups = [ "audio" "input" "networkmanager" "wheel" "docker" ];
+    extraGroups = [
+      "audio"
+      "input"
+      "networkmanager"
+      "wheel"
+      "docker"
+    ];
     packages = with pkgs; [
       qmk
       libinput
@@ -211,7 +231,9 @@ args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
 
   programs = {
     firefox.enable = true;
-    zsh = { enable = true; };
+    zsh = {
+      enable = true;
+    };
 
     _1password.enable = true;
     _1password-gui = {
@@ -221,9 +243,14 @@ args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
       polkitPolicyOwners = [ username ];
     };
   };
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   # Allow unfree packages
-  nixpkgs = { config.allowUnfree = true; };
+  nixpkgs = {
+    config.allowUnfree = true;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -231,11 +258,10 @@ args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
   environment = {
     etc.nixpkgs.source = inputs.nixpkgs;
 
-    systemPackages = with pkgs;
-      [
-        #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-        #  wget
-      ];
+    systemPackages = with pkgs; [
+      #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      #  wget
+    ];
   };
 
   # This value determines the NixOS release from which the default
@@ -286,5 +312,7 @@ args@{ config, pkgs, overlays, inputs, lib, username, ... }: {
       }
     '';
   };
-  virtualisation.docker = { enable = true; };
+  virtualisation.docker = {
+    enable = true;
+  };
 }
