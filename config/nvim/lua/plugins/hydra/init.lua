@@ -78,7 +78,6 @@ return {
 		-- local venn = require("plugins.hydra.venn")
 		local glob_hyd = require("plugins.hydra.global_hydra")
 
-		vim.print("hello")
 		glob_hyd.add_g_hydra({ key = "w", hydra = windows, desc = "Window managment" })
 		glob_hyd.add_g_hydra({ key = "o", hydra = options, desc = "Options" })
 		-- glob_hyd.add_g_hydra({ key = "v", hydra = venn, desc = "Draw diagrams" })

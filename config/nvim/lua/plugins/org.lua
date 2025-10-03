@@ -214,7 +214,7 @@ return {
 						},
 						j = {
 							description = "Journal",
-							template = { "* %?" },
+							template = { "%?" },
 							datetree = { reversed = true, tree_type = "day" },
 							target = wiki_path("writing/journal.org"),
 						},
