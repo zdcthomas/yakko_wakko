@@ -37,9 +37,9 @@ args@{
   networking.extraHosts =
     let
       domains = [
-        "x"
+        # "x"
         # "facebook"
-        "instagram"
+        # "instagram"
         # "reddit"
       ];
     in

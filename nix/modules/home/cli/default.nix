@@ -1,6 +1,13 @@
-{ config, pkgs, lib, ... }:
-let cfg = config.custom.hm.cli;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  cfg = config.custom.hm.cli;
+in
+{
   options = {
     custom.hm.cli = {
       enable = lib.mkEnableOption "Enable a bunch of usefull cli tools";
@@ -10,15 +17,14 @@ in {
     home = {
       file = {
         "${config.xdg.configHome}/zk/" = {
-          source = config.lib.file.mkOutOfStoreSymlink
-            "${config.home.homeDirectory}/yakko_wakko/config/zk";
+          source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/zk";
         };
         ".boxes".source = ../../../../config/boxes;
       };
       packages = with pkgs; [
         nixfmt-rfc-style
         btop
-        diagon
+        # diagon
         fd
         graph-easy
         devenv
@@ -49,8 +55,7 @@ in {
         # Move these to fzf program config
         FZF_ALT_C_COMMAND = "fd -t d";
         FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
-        FZF_CTRL_T_OPTS =
-          "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
+        FZF_CTRL_T_OPTS = "--preview '(bat {} || tree -C {}) 2> /dev/null | head -200'";
         FZF_DEFAULT_COMMAND = "fd --hidden --type f";
         FZF_DEFAULT_OPTS = "--reverse --border=rounded";
       };
@@ -61,8 +66,7 @@ in {
         gco = "git switch";
         prBranch = "${pkgs.gh} pr view --json url | ${pkgs.jq} -r .url";
         lg = "${pkgs.lazygit}/bin/lazygit";
-        gsw = ''
-          ${pkgs.git}/bin/git branch --sort=-committerdate | grep -v "^*" |  ${pkgs.fzf}/bin/fzf --height=20% --reverse --info=inline | xargs ${pkgs.git}/bin/git checkout'';
+        gsw = ''${pkgs.git}/bin/git branch --sort=-committerdate | grep -v "^*" |  ${pkgs.fzf}/bin/fzf --height=20% --reverse --info=inline | xargs ${pkgs.git}/bin/git checkout'';
         gs = "git status";
         ".." = "cd ..";
         "..." = "cd ../..";
@@ -135,7 +139,9 @@ in {
 
       bat = {
         enable = true;
-        config = { theme = "1337"; };
+        config = {
+          theme = "1337";
+        };
       };
 
       fzf = {

@@ -1,4 +1,5 @@
-{ inputs, ... }: [
+{ inputs, ... }:
+[
   inputs.nur.overlay
   inputs.fenix.overlays.default
   # inputs.hyprpanel.overlay
@@ -12,7 +13,10 @@
     anyrun = inputs.anyrun.packages.${prev.system}.anyrun;
     qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
     hyprland-contrib = inputs.hyprland-contrib.packages.${prev.system};
-    unstable = inputs.unstable.legacyPackages.${prev.system};
+    unstable = import inputs.unstable {
+      system = prev.system;
+      config.allowUnfree = true;
+    };
 
     # split-monitor-workspaces = inputs.split-monitor-workspaces.packages.${prev.system}.split-monitor-workspaces;
     # xdg-desktop-portal-hyprland = inputs.hyprland.packages.${prev.system}.xdg-desktop-portal-hyprland;
@@ -20,10 +24,10 @@
     neovim = inputs.neovim-nightly-overlay.packages.${prev.system}.default;
     hurl_2 = import ./hurl.nix { pkgs = prev; };
     nuekit = import ./nuekit.nix { pkgs = prev; };
-    diagon = import ./diagon.nix {
-      pkgs = prev;
-      unstable = inputs.unstable.legacyPackages.${prev.system};
-    };
+    # diagon = import ./diagon.nix {
+    #   pkgs = prev;
+    #   unstable = inputs.unstable.legacyPackages.${prev.system};
+    # };
     ldtk = import ./ldtk.nix { pkgs = prev; };
     carapace = import ./carapace.nix { pkgs = prev; };
     keymapp = import ./keymapp.nix { pkgs = prev; };
