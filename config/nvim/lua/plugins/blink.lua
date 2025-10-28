@@ -1,5 +1,6 @@
 return {
 	{
+
 		"saghen/blink.cmp",
 		-- optional: provides snippets for the snippet source
 		-- enabled = true,
@@ -47,7 +48,8 @@ return {
 				["<CR>"] = { "accept", "fallback" },
 				["<C-l>"] = { "show_signature", "hide_signature", "fallback" },
 				["<C-p>"] = { "select_prev", "snippet_backward", "fallback" },
-				["<C-n>"] = { "select_next", "snippet_forward", "fallback" },
+				["<C-n>"] = { "select_next", "snippet_forward", "show", "fallback" },
+				["<C-d>"] = { "show_documentation", "hide_documentation" },
 				["<C-e>"] = { "hide" },
 				["<C-j>"] = {
 					"scroll_documentation_down",

@@ -10,110 +10,138 @@ local function setup_lspconfig()
 	local common_on_attach = require("plugins.lspconfig.shared").common_on_attach
 	local capabilities = require("plugins.lspconfig.shared").capabilities()
 
-	require("plugins.lspconfig.lua_ls").setup(capabilities, common_on_attach)
+	-- Set global defaults for all LSP servers
+	vim.lsp.config("*", {
+		capabilities = capabilities,
+		root_markers = { ".git" },
+	})
 
-	local lspconfig = require("lspconfig")
+	-- Define LSP configurations using the new format
+	local lsps = {
+		-- Lua Language Server with custom configuration
+		{
+			"lua_ls",
+			{
+				on_attach = function(client, bufnr)
+					client.server_capabilities.documentFormattingProvider = false
+					common_on_attach(client, bufnr)
+				end,
+				on_init = function(client)
+					local path = client.workspace_folders[1].name
+					if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
+						return
+					end
 
-	-- lspconfig.eslint.setup({
-	-- 	on_attach = function(client, bufnr)
-	-- 		-- client.server_capabilities.documentFormattingProvider = false
-	-- 		common_on_attach(client, bufnr)
-	-- 	end,
-	-- 	capabilities = capabilities,
-	-- 	settings = {
-	-- 		format = false,
-	-- 	},
-	-- 	handlers = {
-	-- 		["eslint/probeFailed"] = function()
-	-- 			vim.notify("ESLint probe failed.", vim.log.levels.WARN)
-	-- 			return {}
-	-- 		end,
-	-- 		["eslint/noLibrary"] = function()
-	-- 			vim.notify("Unable to find ESLint library.", vim.log.levels.WARN)
-	-- 			return {}
-	-- 		end,
-	-- 	},
-	-- })
-	lspconfig.ts_ls.setup({
-		on_attach = common_on_attach,
-		settings = {
-			typescript = {
-				inlayHints = {
-					includeInlayParameterNameHints = "all",
-					includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-					includeInlayFunctionParameterTypeHints = true,
-					includeInlayVariableTypeHints = true,
-					includeInlayPropertyDeclarationTypeHints = true,
-					includeInlayFunctionLikeReturnTypeHints = true,
-					includeInlayEnumMemberValueHints = true,
-				},
-			},
-		},
-		capabilities = capabilities,
-	})
-	lspconfig.gopls.setup({
-		on_attach = common_on_attach,
-		capabilities = capabilities,
-	})
-	lspconfig.solargraph.setup({
-		on_attach = common_on_attach,
-		capabilities = capabilities,
-	})
-	lspconfig.nushell.setup({
-		on_attach = function(client, bufnr)
-			-- client.server_capabilities.documentFormattingProvider = false
-			common_on_attach(client, bufnr)
-		end,
-		capabilities = capabilities,
-	})
-	-- lspconfig.nixd.setup({
-	-- 	on_attach = common_on_attach,
-	-- 	settings = {
-	-- 		nixd = {
-	-- 			formatting = {
-	-- 				command = { "nixfmt" },
-	-- 			},
-	-- 		},
-	-- 	},
-	-- })
-	lspconfig.nil_ls.setup({
-		on_attach = function(client, bufnr)
-			-- client.server_capabilities.documentFormattingProvider = false
-			common_on_attach(client, bufnr)
-		end,
-		capabilities = capabilities,
-		settings = {
-			["nil"] = {
-				formatting = {
-					command = { "nixfmt" },
-				},
-				nix = {
-					flake = {
-						autoArchive = false,
+					client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+						runtime = {
+							version = "LuaJIT",
+						},
+						workspace = {
+							checkThirdParty = false,
+							library = {
+								vim.env.VIMRUNTIME,
+							},
+						},
+					})
+				end,
+				settings = {
+					Lua = {
+						runtime = {
+							version = "LuaJIT",
+							path = vim.split(package.path, ";"),
+						},
+						workspace = {
+							checkThirdParty = false,
+							library = {
+								[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+								[vim.fn.stdpath("config") .. "/lua"] = true,
+							},
+						},
+						telemetry = {
+							enable = false,
+						},
+						diagnostics = {
+							globals = { "vim", "hs" },
+						},
+						completion = {
+							callSnippet = "Replace",
+						},
 					},
 				},
 			},
 		},
-	})
-	lspconfig.gdscript.setup({
-		on_attach = common_on_attach,
-		capabilities = capabilities,
-	})
+		-- TypeScript/JavaScript
+		{
+			"ts_ls",
+			{
+				on_attach = common_on_attach,
+				settings = {
+					typescript = {
+						inlayHints = {
+							includeInlayParameterNameHints = "all",
+							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+							includeInlayFunctionParameterTypeHints = true,
+							includeInlayVariableTypeHints = true,
+							includeInlayPropertyDeclarationTypeHints = true,
+							includeInlayFunctionLikeReturnTypeHints = true,
+							includeInlayEnumMemberValueHints = true,
+						},
+					},
+				},
+			},
+		},
+		-- Go
+		{ "gopls", { on_attach = common_on_attach } },
+		-- Ruby
+		{ "solargraph", { on_attach = common_on_attach } },
+		-- Nushell
+		{
+			"nushell",
+			{
+				on_attach = function(client, bufnr)
+					common_on_attach(client, bufnr)
+				end,
+			},
+		},
+		-- Nix
+		{
+			"nil_ls",
+			{
+				on_attach = function(client, bufnr)
+					common_on_attach(client, bufnr)
+				end,
+				settings = {
+					["nil"] = {
+						formatting = {
+							command = { "nixfmt" },
+						},
+						nix = {
+							flake = {
+								autoArchive = false,
+							},
+						},
+					},
+				},
+			},
+		},
+		-- GDScript
+		{ "gdscript", { on_attach = common_on_attach } },
+		-- Clojure
+		{ "clojure_lsp", { on_attach = common_on_attach } },
+		-- OCaml
+		{ "ocamllsp", { on_attach = common_on_attach } },
+		-- Markdown
+		{ "marksman", { on_attach = common_on_attach } },
+	}
 
-	lspconfig.clojure_lsp.setup({
-		on_attach = common_on_attach,
-		capabilities = capabilities,
-	})
-
-	lspconfig.ocamllsp.setup({
-		on_attach = common_on_attach,
-		capabilities = capabilities,
-	})
-
-	lspconfig.marksman.setup({
-		on_attach = common_on_attach,
-		capabilities = capabilities,
-	})
+	-- Configure and enable all LSP servers
+	for _, lsp in ipairs(lsps) do
+		local name, config = lsp[1], lsp[2]
+		if config then
+			vim.lsp.config(name, config)
+		end
+		vim.lsp.enable(name)
+	end
 end
 
 return {

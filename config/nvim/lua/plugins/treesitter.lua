@@ -33,13 +33,11 @@ return {
 					-- -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
 					separator = "-",
 					zindex = 20, -- The Z-index of the context window
-					-- on_attach = function(bufnr)
-					-- 	if vim.fn.winheight(0) < 25 then
-					-- 		return false
-					-- 	end
-					-- 	local fts = { rust = true }
-					-- 	return fts[vim.bo[bufnr].filetype] or false
-					-- end,
+					on_attach = function(bufnr)
+						if vim.fn.winheight(0) < 25 then
+							return false
+						end
+					end,
 				},
 			},
 			{
