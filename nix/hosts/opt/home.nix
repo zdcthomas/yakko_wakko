@@ -1,11 +1,23 @@
-{ config, modulesPath, pkgs, overlays, lib, inputs, ... }:
+{
+  config,
+  modulesPath,
+  pkgs,
+  overlays,
+  lib,
+  inputs,
+  ...
+}:
 let
   management_scripts = import ../../nix_management_scripts_pkgs.nix {
     pkgs = pkgs;
     homeDirectory = config.home.homeDirectory;
   };
-in {
+in
+{
   imports = [ ../../modules/home ];
+
+  # Allow unfree packages in home-manager
+  nixpkgs.config.allowUnfree = true;
   xdg = {
     desktopEntries = {
       imv-dir = {
@@ -79,20 +91,29 @@ in {
         }
         {
           name = "hey";
-          tags = [ "email" "hey" ];
+          tags = [
+            "email"
+            "hey"
+          ];
           keyword = "hey";
           url = "https://app.hey.com/";
         }
         {
           name = "example nixos configurations";
-          tags = [ "nixos" "nix" ];
+          tags = [
+            "nixos"
+            "nix"
+          ];
           keyword = "example config";
           url = "https://nixos.wiki/wiki/Configuration_Collection";
         }
 
         {
           name = "hyprland wiki";
-          tags = [ "wiki" "hyprland" ];
+          tags = [
+            "wiki"
+            "hyprland"
+          ];
           keyword = "hyprland";
           url = "https://wiki.hyprland.org/";
         }
@@ -115,12 +136,18 @@ in {
           bookmarks = [
             {
               name = "Hacker News";
-              tags = [ "news" "tech" ];
+              tags = [
+                "news"
+                "tech"
+              ];
               url = "https://news.ycombinator.com/";
             }
             {
               name = "Lobsters";
-              tags = [ "news" "tech" ];
+              tags = [
+                "news"
+                "tech"
+              ];
               url = "https://lobste.rs";
             }
           ];
@@ -131,23 +158,34 @@ in {
           bookmarks = [
             {
               name = "Packages search";
-              tags = [ "search" "nix" ];
+              tags = [
+                "search"
+                "nix"
+              ];
               url = "https://search.nixos.org/packages";
             }
             {
               name = "Options search";
-              tags = [ "search" "nix" ];
+              tags = [
+                "search"
+                "nix"
+              ];
               url = "https://search.nixos.org/options";
             }
             {
               name = "Home Manager Appendix";
-              tags = [ "wiki" "nix" ];
-              url =
-                "https://nix-community.github.io/home-manager/options.xhtml";
+              tags = [
+                "wiki"
+                "nix"
+              ];
+              url = "https://nix-community.github.io/home-manager/options.xhtml";
             }
             {
               name = "wiki";
-              tags = [ "wiki" "nix" ];
+              tags = [
+                "wiki"
+                "nix"
+              ];
               url = "https://nixos.wiki/";
             }
           ];
@@ -157,7 +195,9 @@ in {
   };
   news.display = "show";
   home = {
-    sessionVariables = { ANKI_WAYLAND = "1"; };
+    sessionVariables = {
+      ANKI_WAYLAND = "1";
+    };
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
     # when a new Home Manager release introduces backwards
@@ -170,8 +210,9 @@ in {
 
     # extraOutputsToInstall = [ "man" ];
     packages = with pkgs; [
+      unstable.claude-code
       dwarf-fortress-packages.dwarf-fortress-full
-      diagon
+      # diagon
       overskride
       keymapp
       spotify-player

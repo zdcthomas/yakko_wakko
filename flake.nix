@@ -2,7 +2,9 @@
 {
   description = "Hopefully this _is_ my final form";
   inputs = {
-    wezterm = { url = "github:wez/wezterm?dir=nix"; };
+    wezterm = {
+      url = "github:wez/wezterm?dir=nix";
+    };
     ags = {
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,7 +35,9 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     eza = {
       url = "github:eza-community/eza/v0.11.0";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -62,22 +66,39 @@
       #   flake = false;
       # };
     };
-    nur = { url = "github:nix-community/NUR"; };
-    nix-colors = { url = "github:misterio77/nix-colors"; };
+    nur = {
+      url = "github:nix-community/NUR";
+    };
+    nix-colors = {
+      url = "github:misterio77/nix-colors";
+    };
     font = {
       url = "git+ssh://git@github.com/zdcthomas/PP.git?shallow=1";
       flake = false;
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, nixos-hardware, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      darwin,
+      nixos-hardware,
+      ...
+    }@inputs:
     let
       # overlays add/change values in pkgs, e.g
       # change neovim version/ add NUR
       overlays = import ./nix/overlays { inherit inputs; };
 
-      mk_home_username_and_dir = { username, homeDirectoryPrefix ? "/Users/", }:
-        { config, pkgs, ... }: {
+      mk_home_username_and_dir =
+        {
+          username,
+          homeDirectoryPrefix ? "/Users/",
+        }:
+        { config, pkgs, ... }:
+        {
           home.username = username;
           home.homeDirectory = homeDirectoryPrefix + username;
 
@@ -91,83 +112,106 @@
         };
 
       inherit (nixpkgs) lib;
-    in {
-      darwinConfigurations = let workHostName = "Zacharys-MacBook-Pro";
-      in {
-        "${workHostName}" = let username = "zdcthomas";
-        in darwin.lib.darwinSystem rec {
-          system = "aarch64-darwin";
+
+      mkNixosHost =
+        {
+          hostname,
+          username,
+          system ? "x86_64-linux",
+          hardwareModules ? [ ],
+          extraOverlays ? [ ],
+        }:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
           specialArgs = {
-            inherit system username overlays inputs workHostName;
+            inherit
+              inputs
+              overlays
+              system
+              username
+              ;
           };
           modules = [
-            { nixpkgs.overlays = overlays; }
-            home-manager.darwinModule
-            ./nix/hosts/work/dar_conf.nix
-          ];
+            { nixpkgs.overlays = overlays ++ extraOverlays; }
+          ] ++ hardwareModules ++ [ ./nix/hosts/${hostname}/configuration.nix ];
         };
+    in
+    {
+      darwinConfigurations =
+        let
+          workHostName = "Zacharys-MacBook-Pro";
+        in
+        {
+          "${workHostName}" =
+            let
+              username = "zdcthomas";
+            in
+            darwin.lib.darwinSystem rec {
+              system = "aarch64-darwin";
+              specialArgs = {
+                inherit
+                  system
+                  username
+                  overlays
+                  inputs
+                  workHostName
+                  ;
+              };
+              modules = [
+                { nixpkgs.overlays = overlays; }
+                home-manager.darwinModule
+                ./nix/hosts/work/dar_conf.nix
+              ];
+            };
 
-        Prime = let username = "zacharythomas";
-        in darwin.lib.darwinSystem rec {
-          system = "x86_64-darwin";
-          specialArgs = { inherit system username overlays inputs; };
-          modules = [
-            { nixpkgs.overlays = overlays; }
-            home-manager.darwinModule
-            ./nix/hosts/prime/dar_conf.nix
-          ];
+          Prime =
+            let
+              username = "zacharythomas";
+            in
+            darwin.lib.darwinSystem rec {
+              system = "x86_64-darwin";
+              specialArgs = {
+                inherit
+                  system
+                  username
+                  overlays
+                  inputs
+                  ;
+              };
+              modules = [
+                { nixpkgs.overlays = overlays; }
+                home-manager.darwinModule
+                ./nix/hosts/prime/dar_conf.nix
+              ];
+            };
         };
-      };
       nixosConfigurations = {
         #  ------------------
         #  |    Thinkpad    |
         #  ------------------
-        nixos = nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-            inherit overlays;
-            inherit system;
-            username = "zdcthomas";
-          };
-          modules = [
-            nixos-hardware.nixosModules.lenovo-thinkpad
-            # inputs.hyprland.nixosModules.default
-            ({ ... }: {
-              nixpkgs.overlays = overlays ++ [
-                # inputs.neovim-nightly-overlay.overlay
-              ];
-            })
-            ./nix/hosts/thinkpad/configuration.nix
-          ];
+        nixos = mkNixosHost {
+          hostname = "thinkpad";
+          username = "zdcthomas";
+          hardwareModules = [ nixos-hardware.nixosModules.lenovo-thinkpad ];
+          # extraOverlays = [ inputs.neovim-nightly-overlay.overlay ];
         };
 
-        opt = nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-            inherit overlays;
-            inherit system;
-            username = "opt";
-          };
-          modules = [
-            # inputs.hyprland.nixosModules.default
-            ({ ... }: { nixpkgs.overlays = overlays; })
-            nixos-hardware.nixosModules.framework-16-7040-amd
-            ./nix/hosts/opt/configuration.nix
-          ];
+        #  ------------------
+        #  |    Framework   |
+        #  ------------------
+        opt = mkNixosHost {
+          hostname = "opt";
+          username = "opt";
+          hardwareModules = [ nixos-hardware.nixosModules.framework-16-7040-amd ];
         };
+
         #  ---------------------
         #  |    Home Server    |
         #  ---------------------
-        lar = nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs overlays system; };
-          modules = [
-            ({ ... }: { nixpkgs.overlays = overlays; })
-            ./nix/hosts/lar/configuration.nix
-            ./nix/hosts/lar/hardware-configuration.nix
-          ];
+        lar = mkNixosHost {
+          hostname = "lar";
+          username = "sadfrog";
+          hardwareModules = [ ./nix/hosts/lar/hardware-configuration.nix ];
         };
       };
     };

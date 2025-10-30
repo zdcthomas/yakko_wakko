@@ -1,8 +1,19 @@
-{ config, pkgs, lib, inputs, username, ... }:
-let cfg = config.zdct.nix;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  username,
+  ...
+}:
+let
+  cfg = config.zdct.nix;
+in
+{
   options = {
-    zdct.nix = { enable = lib.mkEnableOption "Enable custom nix"; };
+    zdct.nix = {
+      enable = lib.mkEnableOption "Enable custom nix";
+    };
   };
   config = lib.mkIf cfg.enable {
     nix = {
@@ -14,8 +25,7 @@ in {
 
       # Map registries to channels
       # Very useful when using legacy commands
-      nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
-        config.nix.registry;
+      nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
 
       # Add each flake input as a registry
       # To make nix3 commands consistent with the flake
@@ -24,7 +34,10 @@ in {
         warn-dirty = false;
         auto-optimise-store = true;
         builders-use-substitutes = true;
-        experimental-features = [ "nix-command" "flakes" ];
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
         flake-registry = "/etc/nix/registry.json";
         trusted-users = [ username ];
         keep-derivations = true;

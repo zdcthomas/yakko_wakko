@@ -1,4 +1,4 @@
-{ pkgs, unstable, }:
+{ pkgs, unstable }:
 with pkgs;
 let
   antlr = fetchFromGitHub {
@@ -27,7 +27,8 @@ let
     rev = "56c3f46cf286051096d9295118c048219fe0d776";
     hash = "sha256-xH0htDZd2UihLn7PHKLjEYETzcBSeJFOMNredTqlCW8=";
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "diagon";
   version = "1.1.158";
 
@@ -38,7 +39,10 @@ in stdenv.mkDerivation rec {
     hash = "sha256-gyMIFFT6v5YF2T4KulmgOjqWDctxwzCUFDbG7Nrj0Nw=";
   };
 
-  nativeBuildInputs = [ unstable.boost184 cmake jdk ];
+  nativeBuildInputs = [
+    cmake
+    jdk
+  ];
 
   cmakeBuildDir = "build";
   preConfigure = ''
@@ -54,8 +58,7 @@ in stdenv.mkDerivation rec {
   ];
 
   meta = src.meta // {
-    description =
-      "An interactive interpreter that transforms markdown-style expression into an ascii-art representation";
+    description = "An interactive interpreter that transforms markdown-style expression into an ascii-art representation";
     license = lib.licenses.mit;
     maintainers = [ lib.maintainers.petertrotman ];
     mainProgram = "diagon";
