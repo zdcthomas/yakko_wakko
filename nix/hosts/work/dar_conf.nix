@@ -1,4 +1,14 @@
-{ pkgs, lib, config, username, inputs, overlays, workHostName, ... }: {
+{
+  pkgs,
+  lib,
+  config,
+  username,
+  inputs,
+  overlays,
+  workHostName,
+  ...
+}:
+{
   users.users.${username} = {
     home = "/Users/${username}";
     shell = pkgs.zsh;
@@ -7,20 +17,35 @@
     useGlobalPkgs = true;
     # useUserPackages = true;
     extraSpecialArgs = { inherit overlays inputs username; };
-    users.${username} = { ... }: { imports = [ ./home.nix ]; };
+    users.${username} =
+      { ... }:
+      {
+        imports = [ ./home.nix ];
+      };
   };
   fonts.packages = [ pkgs.pragmataPro ];
 
   nix = {
     settings = {
-      allowed-users = [ "root" username ];
-      trusted-users = [ "root" username ];
-      experimental-features = [ "nix-command" "flakes" ];
+      allowed-users = [
+        "root"
+        username
+      ];
+      trusted-users = [
+        "root"
+        username
+      ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
   };
   homebrew = {
     enable = true;
-    onActivation = { cleanup = "zap"; };
+    onActivation = {
+      cleanup = "zap";
+    };
 
     brews = [
       # "yabai"
@@ -29,6 +54,7 @@
       "json-table"
       "bazel"
       "borders"
+      "acli"
       "sketchybar"
     ];
     casks = [
@@ -46,6 +72,7 @@
     taps = [
       # "koekeishiya/formulae" # yabai
       "nikitabobko/tap"
+      "atlassian/homebrew-acli"
 
       "homebrew/bundle"
       "homebrew/services"
