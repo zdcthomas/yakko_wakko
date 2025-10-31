@@ -32,12 +32,44 @@ in
     };
 
     mimeApps.defaultApplications = {
+      # Images
       "image/png" = "imv-dir.desktop";
       "image/jpeg" = "imv-dir.desktop";
       "image/gif" = "imv-dir.desktop";
       "image/bmp" = "imv-dir.desktop";
       "image/tiff" = "imv-dir.desktop";
+      "image/webp" = "imv-dir.desktop";
+      "image/svg+xml" = "imv-dir.desktop";
       "image/x-icon" = "imv-dir.desktop";
+
+      # Documents
+      "application/pdf" = "org.pwmt.zathura.desktop";
+      "application/epub" = "org.pwmt.zathura.desktop";
+      "application/epub+zip" = "org.pwmt.zathura.desktop";
+
+      # Video
+      "video/mp4" = "mpv.desktop";
+      "video/x-matroska" = "mpv.desktop";
+      "video/webm" = "mpv.desktop";
+      "video/mpeg" = "mpv.desktop";
+      "video/x-msvideo" = "mpv.desktop";
+
+      # Audio
+      "audio/mpeg" = "mpv.desktop";
+      "audio/flac" = "mpv.desktop";
+      "audio/x-wav" = "mpv.desktop";
+      "audio/ogg" = "mpv.desktop";
+      "audio/mp4" = "mpv.desktop";
+
+      # Web
+      "text/html" = "firefox.desktop";
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
+      "x-scheme-handler/about" = "firefox.desktop";
+      "x-scheme-handler/unknown" = "firefox.desktop";
+
+      # Directories
+      "inode/directory" = "thunar.desktop";
     };
   };
 
@@ -56,7 +88,7 @@ in
     helix.enable = true;
     foot.enable = true;
     zellij.enable = true;
-    # game_dev.enable = true;
+    game_dev.enable = true;
     alacritty.enable = true;
     bash.enable = true;
     cli.enable = true;
