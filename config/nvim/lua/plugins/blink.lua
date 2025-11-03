@@ -6,6 +6,7 @@ return {
 		-- enabled = true,
 		dependencies = {
 			"bydlw98/blink-cmp-env",
+			{ "disrupted/blink-cmp-conventional-commits" },
 			"L3MON4D3/LuaSnip",
 			-- 	version = "v2.*",
 			-- },
@@ -143,6 +144,7 @@ return {
 			sources = {
 				default = { "snippets", "lsp", "path", "buffer" },
 				per_filetype = {
+					gitcommit = { "conventional_commits" },
 					org = { "orgmode", "snippets", "path" },
 					["dap-repl"] = { "dap" },
 					dapui_watches = { "dap" },
@@ -150,6 +152,16 @@ return {
 					-- rust       = { "crates", "lsp", "snippets", "path", "buffer" },
 				},
 				providers = {
+					conventional_commits = {
+						name = "Conventional Commits",
+						module = "blink-cmp-conventional-commits",
+						enabled = function()
+							return vim.bo.filetype == "gitcommit"
+						end,
+						---@module 'blink-cmp-conventional-commits'
+						---@type blink-cmp-conventional-commits.Options
+						opts = {}, -- none so far
+					},
 					lazydev = {
 						name = "LazyDev",
 						module = "lazydev.integrations.blink",
