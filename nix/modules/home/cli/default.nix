@@ -24,7 +24,7 @@ in
       packages = with pkgs; [
         nixfmt-rfc-style
         btop
-        # diagon
+        diagon
         fd
         graph-easy
         devenv

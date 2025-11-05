@@ -144,7 +144,7 @@ return {
 			sources = {
 				default = { "snippets", "lsp", "path", "buffer" },
 				per_filetype = {
-					gitcommit = { "conventional_commits" },
+					gitcommit = { "conventional_commits", "buffer", "path", "snippets" },
 					org = { "orgmode", "snippets", "path" },
 					["dap-repl"] = { "dap" },
 					dapui_watches = { "dap" },

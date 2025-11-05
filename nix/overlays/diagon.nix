@@ -10,7 +10,7 @@ let
   };
 
   antlr-jar = fetchurl {
-    url = "http://www.antlr.org/download/antlr-4.11.1-complete.jar";
+    url = "https://www.antlr.org/download/antlr-4.11.1-complete.jar";
     hash = "sha256-YpdeGStK8mIrcrXwExVT7jy86X923CpBYy3MVeJUc+E=";
   };
 
@@ -44,6 +44,10 @@ stdenv.mkDerivation rec {
     jdk
   ];
 
+  buildInputs = [
+    boost
+  ];
+
   cmakeBuildDir = "build";
   preConfigure = ''
     mkdir -p $cmakeBuildDir
@@ -51,6 +55,7 @@ stdenv.mkDerivation rec {
   '';
 
   cmakeFlags = [
+    "-DCMAKE_BUILD_TYPE=Release"
     "-DFETCHCONTENT_SOURCE_DIR_JSON=${json}"
     "-DFETCHCONTENT_SOURCE_DIR_ANTLR=${antlr}"
     "-DFETCHCONTENT_SOURCE_DIR_KGT=${kgt}"

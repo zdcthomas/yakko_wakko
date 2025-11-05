@@ -101,6 +101,131 @@ map("c", "<C-k>", "<Up>", { silent = false })
 map("c", "<C-l>", "<Right>", { silent = false })
 map("c", "<C-d>", "<Del>", { silent = false })
 
+-- map("x", "<leader>ad", function()
+-- 	-- Helper function to convert region to text
+-- 	local function region_to_text(region)
+-- 		local text = ""
+-- 		local maxcol = vim.v.maxcol
+-- 		for line, cols in vim.spairs(region) do
+-- 			local endcol = cols[2] == maxcol and -1 or cols[2]
+-- 			local chunk = vim.api.nvim_buf_get_text(0, line, cols[1], line, endcol, {})[1]
+-- 			text = ("%s%s\n"):format(text, chunk)
+-- 		end
+-- 		return text
+-- 	end
+--
+-- 	-- Get the visual selection
+-- 	local region = vim.region(0, "'<", "'>", vim.fn.visualmode(), true)
+-- 	local selected_text = region_to_text(region)
+--
+-- 	-- Diagon subcommands
+-- 	local diagon_types = {
+-- 		"Math",
+-- 		"Sequence",
+-- 		"Tree",
+-- 		"Frame",
+-- 		"Table",
+-- 		"GraphPlanar",
+-- 		"GraphDAG",
+-- 		"Flowchart",
+-- 	}
+--
+-- 	-- Show selection menu
+-- 	vim.ui.select(diagon_types, {
+-- 		prompt = "Select Diagon diagram type:",
+-- 		format_item = function(item)
+-- 			return item
+-- 		end,
+-- 	}, function(choice)
+-- 		if not choice then
+-- 			return -- User cancelled
+-- 		end
+--
+-- 		-- Check if diagon is available
+-- 		if vim.fn.executable("diagon") ~= 1 then
+-- 			vim.notify("diagon not found in PATH. Please install it.", vim.log.levels.ERROR)
+-- 			return
+-- 		end
+--
+-- 		-- local cmd = string.format("'<,'>!diagon %s", choice)
+-- 		-- vim.cmd(cmd)
+--
+-- 		-- Run diagon with selected text
+-- 		local cmd = string.format("diagon %s", choice)
+-- 		vim.print("selected_text", selected_text)
+-- 		local output = vim.fn.system(cmd, selected_text)
+-- 		vim.print(output)
+--
+-- 		-- Check for errors
+-- 		if vim.v.shell_error ~= 0 then
+-- 			vim.notify(string.format("diagon error: %s", output), vim.log.levels.ERROR)
+-- 			return
+-- 		end
+--
+-- 		-- Insert diagram below selection
+-- 		local diagram_lines = vim.split(output, "\n", { plain = true, trimempty = false })
+--
+-- 		-- Remove trailing empty line if present
+-- 		if diagram_lines[#diagram_lines] == "" then
+-- 			table.remove(diagram_lines)
+-- 		end
+--
+-- 		-- Wrap diagram based on filetype
+-- 		local filetype = vim.bo.filetype
+-- 		local wrapped_lines = {}
+--
+-- 		if filetype == "markdown" then
+-- 			-- Markdown code block
+-- 			table.insert(wrapped_lines, "```")
+-- 			vim.list_extend(wrapped_lines, diagram_lines)
+-- 			table.insert(wrapped_lines, "```")
+-- 		elseif filetype == "org" then
+-- 			-- Org mode source block
+-- 			table.insert(wrapped_lines, "#+begin_src")
+-- 			vim.list_extend(wrapped_lines, diagram_lines)
+-- 			table.insert(wrapped_lines, "#+end_src")
+-- 		else
+-- 			-- Comment block for other filetypes
+-- 			local commentstring = vim.bo.commentstring
+-- 			if commentstring and commentstring ~= "" then
+-- 				-- Parse commentstring (e.g., "// %s" or "/* %s */")
+-- 				local comment_start = commentstring:match("^(.*)%%s")
+-- 				local comment_end = commentstring:match("%%s(.*)$")
+--
+-- 				if comment_start and comment_end then
+-- 					-- Multi-line comment style (e.g., /* */)
+-- 					if comment_start:match("%S") and comment_end:match("%S") then
+-- 						table.insert(wrapped_lines, comment_start:gsub("%%s", ""):match("^%s*(.-)%s*$"))
+-- 						vim.list_extend(wrapped_lines, diagram_lines)
+-- 						table.insert(wrapped_lines, comment_end:match("^%s*(.-)%s*$"))
+-- 					else
+-- 						-- Single-line comment style (e.g., //, #)
+-- 						local prefix = comment_start:match("^%s*(.-)%s*$")
+-- 						for _, line in ipairs(diagram_lines) do
+-- 							table.insert(wrapped_lines, prefix .. " " .. line)
+-- 						end
+-- 					end
+-- 				else
+-- 					-- Fallback: no comment style, just insert as-is
+-- 					wrapped_lines = diagram_lines
+-- 				end
+-- 			else
+-- 				-- No commentstring defined, insert as-is
+-- 				wrapped_lines = diagram_lines
+-- 			end
+-- 		end
+--
+-- 		-- Insert below the selection
+-- 		vim.api.nvim_buf_set_lines(0, end_line, end_line, false, { "" })
+-- 		vim.api.nvim_buf_set_lines(0, end_line + 1, end_line + 1, false, wrapped_lines)
+--
+-- 		-- Move cursor to start of inserted diagram
+-- 		vim.api.nvim_win_set_cursor(0, { end_line + 2, 0 })
+--
+-- 		vim.notify(string.format("Generated %s diagram", choice), vim.log.levels.INFO)
+-- 	end)
+-- end, { silent = true, desc = "Generate ASCII diagram with Diagon" })
+
 -- let g:mc = "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>"
 
 -- nnoremap cn *``cgn

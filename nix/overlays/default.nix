@@ -24,10 +24,7 @@
     neovim = inputs.neovim-nightly-overlay.packages.${prev.system}.default;
     hurl_2 = import ./hurl.nix { pkgs = prev; };
     nuekit = import ./nuekit.nix { pkgs = prev; };
-    # diagon = import ./diagon.nix {
-    #   pkgs = prev;
-    #   unstable = inputs.unstable.legacyPackages.${prev.system};
-    # };
+    diagon = import ./diagon.nix { pkgs = prev; };
     ldtk = import ./ldtk.nix { pkgs = prev; };
     carapace = import ./carapace.nix { pkgs = prev; };
     keymapp = import ./keymapp.nix { pkgs = prev; };
