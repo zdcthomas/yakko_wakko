@@ -20,14 +20,18 @@ in
         enable = true;
         extraCss = builtins.readFile "${./default.css}";
         config = {
-          plugins = with inputs.anyrun.packages.${pkgs.system}; [
-            applications
-            rink
-            shell
-            dictionary
-            translate
-            stdin
-            websearch
+          plugins = [
+            # applications
+            # rink
+            # shell
+            # dictionary
+            # translate
+            # stdin
+            # websearch
+            "libapplications.so"
+            "libsymbols.so"
+            "libshell.so"
+            "libtranslate.so"
           ];
           layer = "overlay";
           closeOnClick = true;
@@ -43,6 +47,17 @@ in
           "applications.ron".text = ''
             Config(
               terminal: Some("wezterm"),
+            )
+          '';
+          "symbols.ron".text = ''
+            Config(
+              prefix: "sym",
+              // Custom user defined symbols to be included along the unicode symbols
+              symbols: {
+                // "name": "text to be copied"
+                "shrug": "¯\\_(ツ)_/¯",
+              },
+              max_entries: 3,
             )
           '';
           "websearch.ron".text = ''

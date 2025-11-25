@@ -10,7 +10,7 @@
     # hyprland = inputs.hyprland.packages.${prev.system}.hyprland;
     eza = inputs.eza.packages.${prev.system}.default;
     ags = inputs.ags.packages.${prev.system}.default;
-    anyrun = inputs.anyrun.packages.${prev.system}.anyrun;
+    # anyrun = inputs.anyrun.packages.${prev.system}.anyrun;
     qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
     hyprland-contrib = inputs.hyprland-contrib.packages.${prev.system};
     unstable = import inputs.unstable {
