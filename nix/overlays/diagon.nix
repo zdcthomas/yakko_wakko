@@ -1,4 +1,4 @@
-{ pkgs, unstable }:
+{ pkgs }:
 with pkgs;
 let
   antlr = fetchFromGitHub {

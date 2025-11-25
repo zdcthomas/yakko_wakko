@@ -1,6 +1,14 @@
-{ config, pkgs, lib, ... }:
-let cfg = config.custom.hm.nvim;
-in with lib; {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  cfg = config.custom.hm.nvim;
+in
+with lib;
+{
   options = {
     custom.hm.nvim = {
       enable = mkEnableOption "Custom Nvim config";
@@ -50,82 +58,106 @@ in with lib; {
       };
     };
   };
-  config = let
-    localPacks = with pkgs;
-      [
-        # zathura
-        graph-easy
-        fzf
-        deno
-        gcc
-        fd
-        unstable.vscode-js-debug
-        jq
-        silver-searcher
-        shfmt
-        prettierd
-        # entirely for dap rust codelldb
-        python3
-        vscode-langservers-extracted
-        nodePackages.typescript-language-server
-        lua
-        # for luasnip
-        luajitPackages.jsregexp
-        luajitPackages.luarocks-nix
-        tree-sitter
-      ] ++ optionals cfg.language_servers.nix [
-        # nixpkgs-fmt
-        alejandra
-        statix
-        nixd
-        nil
-      ] ++ optionals cfg.language_servers.lua [ stylua lua-language-server ]
-      ++ optionals cfg.language_servers.yml [
-        yamlfmt
-      ]
-      # ++ optionals pkgs.stdenv.isLinux [
-      #   vscode-extensions.vadimcn.vscode-lldb
-      # ]
-      ++ optionals cfg.language_servers.markdown [ marksman glow ];
-    defaultPackage = pkgs.symlinkJoin {
-      name = "nvim";
-      paths = [ cfg.package ];
-      buildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/nvim \
-          --prefix PATH : ${makeBinPath localPacks}
-      '';
-    };
-  in mkIf cfg.enable {
-    home = {
-      sessionVariables = {
-        JS_DAP = "${pkgs.unstable.vscode-js-debug}/bin/js-debug";
-      } // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
-        RUST_DAP =
-          "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/";
-      } // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
-        RUST_DAP = "~/.local/share/lldb/extension/";
+  config =
+    let
+      localPacks =
+        with pkgs;
+        [
+          # zathura
+          graph-easy
+          fzf
+          deno
+          gcc
+          fd
+          unstable.vscode-js-debug
+          jq
+          silver-searcher
+          shfmt
+          prettierd
+          # entirely for dap rust codelldb
+          python3
+          vscode-langservers-extracted
+          nodePackages.typescript-language-server
+          lua
+          # for luasnip
+          luajitPackages.jsregexp
+          luajitPackages.luarocks-nix
+          tree-sitter
+        ]
+        ++ optionals cfg.language_servers.nix [
+          # nixpkgs-fmt
+          alejandra
+          statix
+          nixd
+          nil
+        ]
+        ++ optionals cfg.language_servers.lua [
+          stylua
+          lua-language-server
+        ]
+        ++ optionals cfg.language_servers.yml [
+          yamlfmt
+        ]
+        # ++ optionals pkgs.stdenv.isLinux [
+        #   vscode-extensions.vadimcn.vscode-lldb
+        # ]
+        ++ optionals cfg.language_servers.markdown [
+          marksman
+          glow
+        ];
+      defaultPackage = pkgs.symlinkJoin {
+        name = "nvim";
+        paths = [ cfg.package ];
+        buildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/nvim \
+            --prefix PATH : ${makeBinPath localPacks}
+        '';
       };
-      shellAliases = { n = "nvim"; };
-
-      file = {
-        ".config/nvim/" = {
-          source = config.lib.file.mkOutOfStoreSymlink
-            "${config.home.homeDirectory}/yakko_wakko/config/nvim";
+    in
+    mkIf cfg.enable {
+      home = {
+        sessionVariables = {
+          JS_DAP = "${pkgs.unstable.vscode-js-debug}/bin/js-debug";
+        }
+        // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
+          RUST_DAP = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/";
+        }
+        // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+          RUST_DAP = "~/.local/share/lldb/extension/";
         };
-      } // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
-        # TODO: <22-05-24, zdcthomas> add linux bin
-        ".local/share/lldb/" = {
-          source = pkgs.fetchzip {
-            url =
-              "https://github.com/vadimcn/codelldb/releases/download/v1.10.0/codelldb-aarch64-darwin.vsix#lldb.zip";
-            hash = "sha256-IJr3PJDGZ5EpAzJ6uwRs0NJcdEGiZfke5pwghjfFYEY=";
-            stripRoot = false;
+        shellAliases = {
+          n = "nvim";
+        };
+        # activation.mySymlinks = lib.mkAfter ''
+        #   rm -rf ${config.home.homeDirectory}/.config/nvim
+        #
+        #   ln -sf \\
+        #
+        #   ${config.home.homeDirectory}/yakko_wakko/config/nvim \\
+        #
+        #   ${config.home.homeDirectory}/.config/nvim
+        #
+        # '';
+
+        file = {
+          ".config/nvim/" = {
+            source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/yakko_wakko/config/nvim";
+            recursive = false;
+          };
+        }
+        // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+          # TODO: <22-05-24, zdcthomas> add linux bin
+          ".local/share/lldb/" = {
+            source = pkgs.fetchzip {
+              url = "https://github.com/vadimcn/codelldb/releases/download/v1.10.0/codelldb-aarch64-darwin.vsix#lldb.zip";
+              hash = "sha256-IJr3PJDGZ5EpAzJ6uwRs0NJcdEGiZfke5pwghjfFYEY=";
+              stripRoot = false;
+            };
           };
         };
-      };
 
-      packages = [ defaultPackage ];
+        packages = [ defaultPackage ];
+      };
     };
-  };
 }
