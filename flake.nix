@@ -5,6 +5,10 @@
     wezterm = {
       url = "github:wez/wezterm?dir=nix";
     };
+    # stylix = {
+    #   url = "github:nix-community/stylix/release-24.11";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     ags = {
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,7 +43,7 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos_unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     fenix = {
@@ -47,11 +51,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     darwin = {
-      url = "github:nix-darwin/nix-darwin/nix-darwin-24.11";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dmux = {
@@ -85,6 +89,7 @@
       home-manager,
       darwin,
       nixos-hardware,
+      # stylix,
       ...
     }@inputs:
     let
@@ -131,9 +136,15 @@
               username
               ;
           };
-          modules = [
-            { nixpkgs.overlays = overlays ++ extraOverlays; }
-          ] ++ hardwareModules ++ [ ./nix/hosts/${hostname}/configuration.nix ];
+          modules =
+            [
+              { nixpkgs.overlays = overlays ++ extraOverlays; }
+            ]
+            ++ hardwareModules
+            ++ [
+              ./nix/hosts/${hostname}/configuration.nix
+              # stylix.nixosModules.stylix
+            ];
         };
     in
     {
@@ -219,11 +230,9 @@
     extra-substituters = [
       "https://cache.nixos.org?priority=10"
       "https://nix-community.cachix.org"
-      "https://anyrun.cachix.org"
       "https://hyprland.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="

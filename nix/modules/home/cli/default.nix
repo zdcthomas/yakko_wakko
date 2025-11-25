@@ -38,7 +38,7 @@ in
         skim
         tldr
         tree
-        unstable.ripgrep
+        ripgrep
         unzip
         wget
         # wkhtmltopdf

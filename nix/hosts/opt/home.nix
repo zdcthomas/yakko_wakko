@@ -245,6 +245,9 @@ in
       unstable.claude-code
       dwarf-fortress-packages.dwarf-fortress-full
       # diagon
+      # ASCII diagram tools
+      plantuml
+      ditaa
       overskride
       keymapp
       spotify-player
