@@ -24,7 +24,7 @@ in
       packages = with pkgs; [
         nixfmt-rfc-style
         btop
-        diagon
+        # diagon
         fd
         graph-easy
         devenv
@@ -38,7 +38,7 @@ in
         skim
         tldr
         tree
-        unstable.ripgrep
+        ripgrep
         unzip
         wget
         # wkhtmltopdf

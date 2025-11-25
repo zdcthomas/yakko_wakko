@@ -1,11 +1,18 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.custom.hm.waybar;
-  col = lib.attrsets.mapAttrs (name: value: ("#" + value))
-    config.colorScheme.colors;
-in {
+  col = lib.attrsets.mapAttrs (name: value: ("#" + value)) config.colorScheme.colors;
+in
+{
   options = {
-    custom.hm.waybar = { enable = lib.mkEnableOption "Enable custom waybar"; };
+    custom.hm.waybar = {
+      enable = lib.mkEnableOption "Enable custom waybar";
+    };
   };
   config = lib.mkIf cfg.enable {
     programs.waybar = {
@@ -30,26 +37,37 @@ in {
             "idle_inhibitor"
             "bluetooth"
             "custom/airpods"
+            "custom/mouse-toggle"
             "hyprland/submap"
           ];
           modules-center = [ "hyprland/workspaces" ];
-          modules-right =
-            [ "cpu" "memory" "temperature" "backlight" "battery" "clock" ];
+          modules-right = [
+            "cpu"
+            "memory"
+            "temperature"
+            "backlight"
+            "battery"
+            "clock"
+          ];
           mpd = {
-            format =
-              "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ";
+            format = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ";
             format-disconnected = "Disconnected ";
-            format-stopped =
-              "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ";
+            format-stopped = "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ";
             unknown-tag = "N/A";
             interval = 2;
-            consume-icons = { on = " "; };
+            consume-icons = {
+              on = " ";
+            };
             random-icons = {
               off = ''<span color="${col.base0C}"></span> '';
               on = " ";
             };
-            repeat-icons = { on = " "; };
-            single-icons = { on = "1 "; };
+            repeat-icons = {
+              on = " ";
+            };
+            single-icons = {
+              on = "1 ";
+            };
             state-icons = {
               paused = "";
               playing = "";
@@ -83,6 +101,42 @@ in {
               fi
             '';
           };
+          "custom/mouse-toggle" = {
+            format = "{}";
+            interval = 1;
+            exec = pkgs.writeShellScript "gamemode-status" ''
+              HYPRGAMEMODE=$(hyprctl getoption animations:enabled | awk 'NR==1{print $2}')
+              if [ "$HYPRGAMEMODE" = 1 ] ; then
+                echo "🎮"
+              else
+                echo "🎮"
+              fi
+            '';
+            on-click = pkgs.writeShellScript "toggle-gamemode" ''
+              HYPRGAMEMODE=$(hyprctl getoption animations:enabled | awk 'NR==1{print $2}')
+              if [ "$HYPRGAMEMODE" = 1 ] ; then
+                  hyprctl --batch "\
+                      keyword animations:enabled 0;\
+                      keyword animation borderangle,0; \
+                      keyword decoration:shadow:enabled 0;\
+                      keyword decoration:blur:enabled 0;\
+                      keyword decoration:fullscreen_opacity 1;\
+                      keyword general:gaps_in 0;\
+                      keyword general:gaps_out 0;\
+                      keyword general:border_size 1;\
+                      keyword decoration:rounding 0;\
+                      keyword input:touchpad:disable_while_typing 0"
+                  hyprctl notify 1 5000 "rgb(40a02b)" "Gamemode [ON]"
+                  exit
+              else
+                  hyprctl notify 1 5000 "rgb(d20f39)" "Gamemode [OFF]"
+                  hyprctl reload
+                  exit 0
+              fi
+              exit 1
+            '';
+            tooltip = "Toggle gamemode (animations + mouse lock)";
+          };
           clock = {
             tooltip-format = ''
               <big>{:%Y %B}</big>
@@ -93,16 +147,32 @@ in {
             format = "{usage}% ";
             tooltip = false;
           };
-          memory = { format = "{}% "; };
+          memory = {
+            format = "{}% ";
+          };
           temperature = {
             critical-threshold = 80;
             format-critical = "{temperatureC}°C";
             format = "{temperatureC}°C";
-            format-icons = [ "" "" "" ];
+            format-icons = [
+              ""
+              ""
+              ""
+            ];
           };
           backlight = {
             format = "{icon}";
-            format-icons = [ "" "" "" "" "" "" "" "" "" ];
+            format-icons = [
+              ""
+              ""
+              ""
+              ""
+              ""
+              ""
+              ""
+              ""
+              ""
+            ];
           };
           battery = {
             states = {
@@ -113,9 +183,17 @@ in {
             format-charging = "{capacity}% ";
             format-plugged = "{capacity}% ";
             format-alt = "{time} {icon}";
-            format-icons = [ "" "" "" "" "" ];
+            format-icons = [
+              ""
+              ""
+              ""
+              ""
+              ""
+            ];
           };
-          "battery#bat2" = { bat = "BAT2"; };
+          "battery#bat2" = {
+            bat = "BAT2";
+          };
           network = {
             format-wifi = "{essid}:{signalStrength}%";
             format-ethernet = "{ipaddr}/{cidr} ";
@@ -126,12 +204,11 @@ in {
             # on-click = "alacritty -e nmtui";
           };
           bluetooth = {
-            "on-click" = "${pkgs.blueberry}/bin/blueberry";
+            "on-click" = "${pkgs.blueman}/bin/blueman-manager";
             "on-click-right" = "${pkgs.overskride}/bin/overskride";
             format = " {status}";
             "format-connected" = " {device_alias}";
-            "format-connected-battery" =
-              " {device_alias} {device_battery_percentage}%";
+            "format-connected-battery" = " {device_alias} {device_battery_percentage}%";
             # // "format-device-preference" = [ "device1" "device2" ], // preference list deciding the displayed device;
             "tooltip-format" = ''
               {controller_alias}	{controller_address}
@@ -143,8 +220,7 @@ in {
               {num_connections} connected
 
               {device_enumerate}'';
-            "tooltip-format-enumerate-connected" =
-              "{device_alias}	{device_address}";
+            "tooltip-format-enumerate-connected" = "{device_alias}	{device_address}";
             "tooltip-format-enumerate-connected-battery" =
               "{device_alias}	{device_address}	{device_battery_percentage}%";
           };
@@ -152,13 +228,16 @@ in {
             format = "{volume}% {icon}";
             "format-muted" = "";
             "on-click" = "helvum";
-            "format-icons" = [ "" "" "" ];
+            "format-icons" = [
+              ""
+              ""
+              ""
+            ];
           };
           pulseaudio = {
             format = "{volume}% {icon} {format_source}";
             format-bluetooth = "{volume}% {icon} {format_source}";
-            format-bluetooth-muted =
-              "{format-source-muted} {icon} {format_source}";
+            format-bluetooth-muted = "{format-source-muted} {icon} {format_source}";
             format-muted = " {format_source}";
             format-source = "{volume}% ";
             format-source-muted = "";
@@ -169,7 +248,11 @@ in {
               phone = "";
               portable = "";
               car = "";
-              default = [ "" "" "" ];
+              default = [
+                ""
+                ""
+                ""
+              ];
             };
             on-click = "pavucontrol";
           };

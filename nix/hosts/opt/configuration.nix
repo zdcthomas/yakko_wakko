@@ -30,7 +30,7 @@ args@{
       noto-fonts
       noto-fonts-cjk-sans
       pragmataPro
-      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+      nerd-fonts.jetbrains-mono
       jetbrains-mono
     ];
   };
@@ -103,6 +103,9 @@ args@{
     komga = {
       enable = true;
       user = username;
+      settings = {
+        port = 8080;
+      };
     };
     # resolved = {
     #   enable = true;
@@ -199,7 +202,6 @@ args@{
       qmk
       libinput
       framework-tool
-      kate
       git
       (pkgs.writeScriptBin "switch" ''
         nixos-rebuild \
@@ -243,10 +245,14 @@ args@{
       polkitPolicyOwners = [ username ];
     };
   };
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    max-jobs = 4;  # Limit parallel builds
+    cores = 2;     # Limit cores per build job
+  };
   # Allow unfree packages
   nixpkgs = {
     config.allowUnfree = true;

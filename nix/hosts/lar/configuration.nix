@@ -1,6 +1,14 @@
-{ config, pkgs, overlays, inputs, ... }:
-let username = "sadfrog";
-in {
+{
+  config,
+  pkgs,
+  overlays,
+  inputs,
+  ...
+}:
+let
+  username = "sadfrog";
+in
+{
   imports = [
     inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
@@ -69,24 +77,34 @@ in {
     };
     anki-sync-server = {
       enable = true;
-      users = [{
-        username = "ChickPea";
-        password = "password";
-      }];
+      users = [
+        {
+          username = "ChickPea";
+          password = "password";
+        }
+      ];
       openFirewall = true;
     };
   };
 
-  programs = { zsh = { enable = true; }; };
+  programs = {
+    zsh = {
+      enable = true;
+    };
+  };
   users.users.sadfrog = {
     isNormalUser = true;
 
     shell = pkgs.zsh;
     description = "Sad Frog";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+    ];
     packages = with pkgs; [
       (pkgs.writeScriptBin "switch" ''
-        nixos-rebuild switch --flake ~/yakko_wakko --use-remote-sudo
+        nixos-rebuild switch --flake ~/yakko_wakko --use-remote-sudo --impure
       '')
       tailscale
       gcc
@@ -123,7 +141,9 @@ in {
 
   nixpkgs.config.allowUnfree = true;
 
-  nix = { extraOptions = "experimental-features = nix-command flakes"; };
+  nix = {
+    extraOptions = "experimental-features = nix-command flakes";
+  };
 
   environment.systemPackages = with pkgs; [
     docker
@@ -143,9 +163,25 @@ in {
     firewall = {
       checkReversePath = "loose";
       trustedInterfaces = [ "tailscale0" ];
-      allowedTCPPorts =
-        [ 443 80 8096 8920 8080 8123 63584 22 8080 64699 9925 9926 ];
-      allowedUDPPorts = [ 1900 7359 config.services.tailscale.port ];
+      allowedTCPPorts = [
+        443
+        80
+        8096
+        8920
+        8080
+        8123
+        63584
+        22
+        8080
+        64699
+        9925
+        9926
+      ];
+      allowedUDPPorts = [
+        1900
+        7359
+        config.services.tailscale.port
+      ];
     };
   };
   # Open ports in the firewall.
