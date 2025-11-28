@@ -13,11 +13,17 @@ return {
 			notifier = { enabled = false },
 			quickfile = { enabled = true },
 			scope = { enabled = false },
+			lazygit = {
+				configure = true,
+			},
 			scroll = { enabled = false },
 			statuscolumn = { enabled = false },
 			words = { enabled = true },
 		},
 		init = function()
+			vim.keymap.set("n", "<leader>gg", function()
+				Snacks.lazygit()
+			end, { desc = "Launch lazygit" })
 			vim.api.nvim_create_autocmd("User", {
 				pattern = "VeryLazy",
 				callback = function()
