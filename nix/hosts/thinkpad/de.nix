@@ -1,4 +1,11 @@
-{ de, lib, config, pkgs, inputs, ... }:
+{
+  de,
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.zdct.de;
   art = lib.strings.concatStringsSep "\n" [
@@ -7,10 +14,15 @@ let
     "─▄▄──█░░░░░░░░░░░█──▄▄─"
     "█▄▄█─█░░▀░░┬░░▀░░█─█▄▄█"
   ];
-in with lib; {
+in
+with lib;
+{
   options = {
     zdct.de = mkOption {
-      type = types.enum [ "i3" "hyprland" ];
+      type = types.enum [
+        "i3"
+        "hyprland"
+      ];
       default = "i3";
     };
   };
@@ -28,10 +40,14 @@ in with lib; {
             enable = true;
             user = "zdcthomas";
           };
-          lightdm = { enable = true; };
+          lightdm = {
+            enable = true;
+          };
         };
 
-        desktopManager = { xterm.enable = false; };
+        desktopManager = {
+          xterm.enable = false;
+        };
 
         windowManager.i3.enable = true;
       };
@@ -51,8 +67,7 @@ in with lib; {
         enable = true;
         settings = {
           default_session = {
-            command = ''
-              ${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${pkgs.hyprland}/bin/Hyprland -g "${art}" --remember --user-menu --asterisks'';
+            command = ''${pkgs.tuigreet}/bin/tuigreet --cmd ${pkgs.hyprland}/bin/Hyprland -g "${art}" --remember --user-menu --asterisks'';
           };
         };
       };

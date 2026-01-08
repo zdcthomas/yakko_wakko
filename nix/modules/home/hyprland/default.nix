@@ -183,8 +183,14 @@ in
       settings = {
         exec-once = [
           "${pkgs.brightnessctl}/bin/brightnessctl set 50%"
+          "nm-applet &"
+          "blueman-applet"
+          "${pkgs.wlsunset}/bin/wlsunset -l 40.7 -L -74.0 -s 15:00&"
+          "${pkgs.udiskie}/bin/udiskie &"
+          "xwaylandvideobridge"
+          "wl-paste --type text --watch $cliphist store #Stores only text data"
+          "wl-paste --type image --watch $cliphist store #Stores only image data"
           "pkill waybar; waybar"
-          # "hyprpanel"
         ];
         misc = {
           animate_manual_resizes = true;
@@ -203,9 +209,9 @@ in
       extraConfig =
         let
           data = {
-            rofi = "pkill rofi || ${pkgs.rofi-wayland}/bin/rofi -show drun";
+            rofi = "pkill rofi || ${pkgs.rofi}/bin/rofi -show drun";
             wezterm = "${pkgs.wezterm}/bin/wezterm";
-            rofi_power_menu = "${pkgs.rofi-wayland}/bin/rofi -show p -modi p:'rofi-power-menu'";
+            rofi_power_menu = "${pkgs.rofi}/bin/rofi -show p -modi p:'rofi-power-menu'";
             wofi = "pkill wofi || ${pkgs.wofi}/bin/wofi --show drun -n";
             tofi = "${pkgs.tofi}/bin/tofi-drun -c ~/.config/tofi/tofi.launcher.conf";
             mainMod = "SUPER";
@@ -222,12 +228,11 @@ in
             inputRaise = "${pkgs.alsa-utils}/bin/amixer set Capture 10%+";
             brightnessLower = "${pkgs.brightnessctl}/bin/brightnessctl set 4%-";
             brightnessRaise = "${pkgs.brightnessctl}/bin/brightnessctl set 4%+";
-            wlsunset = "${pkgs.wlsunset}/bin/wlsunset -l 40.7 -L -74.0 -s 15:00&";
             cliphist = "${pkgs.cliphist}/bin/cliphist";
-            udiskie = "${pkgs.udiskie}/bin/udiskie &";
             grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
             openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";
             anyrun = "${pkgs.anyrun}/bin/anyrun";
+            yofi = "${pkgs.yofi}/bin/yofi";
             col = col;
             workspaceBindings = builtins.concatStringsSep "\n" (
               builtins.genList (
@@ -266,7 +271,7 @@ in
       udisks
       xwayland
 
-      (pkgs.libsForQt5.callPackage ./xwaylandvideobridge.nix { })
+      # (pkgs.libsForQt5.callPackage ./xwaylandvideobridge.nix { })
       wl-gammactl
       wl-clipboard
       brightnessctl

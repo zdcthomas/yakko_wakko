@@ -210,7 +210,7 @@ args@{
           switch
       '')
 
-      soulseekqt
+      nicotine-plus
       alsa-utils
       pulsemixer
       alsa-lib
@@ -231,7 +231,26 @@ args@{
 
   # Install firefox.
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
+    config = {
+      common = {
+        default = [ "gtk" ];
+      };
+      hyprland = {
+        default = [
+          "hyprland"
+          "gtk"
+        ];
+      };
+    };
+  };
   programs = {
+
     firefox.enable = true;
     zsh = {
       enable = true;
@@ -250,8 +269,8 @@ args@{
       "nix-command"
       "flakes"
     ];
-    max-jobs = 4;  # Limit parallel builds
-    cores = 2;     # Limit cores per build job
+    max-jobs = 4; # Limit parallel builds
+    cores = 2; # Limit cores per build job
   };
   # Allow unfree packages
   nixpkgs = {

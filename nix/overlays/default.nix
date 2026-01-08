@@ -1,6 +1,6 @@
 { inputs, ... }:
 [
-  inputs.nur.overlay
+  inputs.nur.overlays.default
   inputs.fenix.overlays.default
   # inputs.hyprpanel.overlay
   # inputs.neovim-nightly-overlay.overlays.default
@@ -8,7 +8,7 @@
   (final: prev: {
     dmux = inputs.dmux.packages.${prev.system}.default;
     # hyprland = inputs.hyprland.packages.${prev.system}.hyprland;
-    eza = inputs.eza.packages.${prev.system}.default;
+    # eza = inputs.eza.packages.${prev.system}.default;
     ags = inputs.ags.packages.${prev.system}.default;
     # anyrun = inputs.anyrun.packages.${prev.system}.anyrun;
     qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
@@ -27,7 +27,7 @@
     diagon = import ./diagon.nix { pkgs = prev; };
     ldtk = import ./ldtk.nix { pkgs = prev; };
     carapace = import ./carapace.nix { pkgs = prev; };
-    keymapp = import ./keymapp.nix { pkgs = prev; };
+    # keymapp = import ./keymapp.nix { pkgs = prev; };
     pragmataPro = import ./pp.nix {
       pkgs = prev;
       inherit inputs;

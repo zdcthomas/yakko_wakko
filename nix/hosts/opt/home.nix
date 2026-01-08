@@ -85,7 +85,7 @@ in
     # qutebrowser = {
     #  enable = true;
     #};
-    anyrun.enable = true;
+    anyrun.enable = false;
     helix.enable = true;
     foot.enable = true;
     zellij.enable = true;
@@ -299,7 +299,7 @@ in
           # Latest
           temurin-jre-bin
           zulu
-          graalvm-ce
+          graalvmPackages.graalvm-ce
         ];
       })
 
@@ -339,6 +339,27 @@ in
   };
 
   programs = {
+    yofi = {
+      enable = true;
+
+      settings = {
+        # bg_border_color = "blue";
+        # bg_color = "0x272822ee";
+        corner_radius = "10 10 10 10";
+        font = "PragmataPro";
+        # font_size = 24;
+        # force_window = false;
+        # height = 512;
+        # input_text = {
+        #   # bg_color = "0x75715eff";
+        #   # font_color = "0xf8f8f2ff";
+        #   margin = "5";
+        #   padding = "1.7 -4";
+        # };
+        # width = 400;
+      };
+    };
+    retroarch.enable = true;
     direnv = {
       enable = true;
       enableZshIntegration = true;

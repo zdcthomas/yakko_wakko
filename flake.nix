@@ -43,7 +43,7 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos_unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     fenix = {
@@ -51,11 +51,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     darwin = {
-      url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dmux = {
@@ -136,15 +136,14 @@
               username
               ;
           };
-          modules =
-            [
-              { nixpkgs.overlays = overlays ++ extraOverlays; }
-            ]
-            ++ hardwareModules
-            ++ [
-              ./nix/hosts/${hostname}/configuration.nix
-              # stylix.nixosModules.stylix
-            ];
+          modules = [
+            { nixpkgs.overlays = overlays ++ extraOverlays; }
+          ]
+          ++ hardwareModules
+          ++ [
+            ./nix/hosts/${hostname}/configuration.nix
+            # stylix.nixosModules.stylix
+          ];
         };
     in
     {
