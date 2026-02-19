@@ -124,13 +124,9 @@ local function setup_lspconfig()
 				},
 			},
 		},
-		-- GDScript
 		{ "gdscript", { on_attach = common_on_attach } },
-		-- Clojure
 		{ "clojure_lsp", { on_attach = common_on_attach } },
-		-- OCaml
 		{ "ocamllsp", { on_attach = common_on_attach } },
-		-- Markdown
 		{ "marksman", { on_attach = common_on_attach } },
 	}
 
