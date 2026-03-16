@@ -32,10 +32,6 @@
       url = "github:hyprwm/contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # hyprland-plugins = {
-    #   url = "github:hyprwm/hyprland-plugins";
-    #   inputs.hyprland.follows = "hyprland";
-    # };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     eza = {
       url = "github:eza-community/eza/v0.11.0";
@@ -64,11 +60,6 @@
     };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
-      # inputs.nixpkgs.follows = "nixpkgs";
-      # inputs.neovim-src = {
-      #   url = "github:neovim/neovim?dir=contrib&rev=27fb62988e922c2739035f477f93cc052a4fee1e";
-      #   flake = false;
-      # };
     };
     nur = {
       url = "github:nix-community/NUR";
@@ -93,8 +84,6 @@
       ...
     }@inputs:
     let
-      # overlays add/change values in pkgs, e.g
-      # change neovim version/ add NUR
       overlays = import ./nix/overlays { inherit inputs; };
 
       mk_home_username_and_dir =
