@@ -63,7 +63,7 @@
       # "alacritty"
       # "iterm2"
       # "slack"
-      "docker"
+      # "docker"
       "kitty"
       # "firefox"
       "aws-vpn-client"

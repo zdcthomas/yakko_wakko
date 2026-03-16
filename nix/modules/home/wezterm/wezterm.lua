@@ -88,4 +88,5 @@ config.skip_close_confirmation_for_processes_named = {
 	"nu",
 }
 
+config.disable_default_mouse_bindings = false
 return config

@@ -136,14 +136,15 @@
               username
               ;
           };
-          modules = [
-            { nixpkgs.overlays = overlays ++ extraOverlays; }
-          ]
-          ++ hardwareModules
-          ++ [
-            ./nix/hosts/${hostname}/configuration.nix
-            # stylix.nixosModules.stylix
-          ];
+          modules =
+            [
+              { nixpkgs.overlays = overlays ++ extraOverlays; }
+            ]
+            ++ hardwareModules
+            ++ [
+              ./nix/hosts/${hostname}/configuration.nix
+              # stylix.nixosModules.stylix
+            ];
         };
     in
     {
@@ -169,7 +170,7 @@
               };
               modules = [
                 { nixpkgs.overlays = overlays; }
-                home-manager.darwinModule
+                home-manager.darwinModules.default
                 ./nix/hosts/work/dar_conf.nix
               ];
             };
@@ -190,7 +191,7 @@
               };
               modules = [
                 { nixpkgs.overlays = overlays; }
-                home-manager.darwinModule
+                home-manager.darwinModules.default
                 ./nix/hosts/prime/dar_conf.nix
               ];
             };

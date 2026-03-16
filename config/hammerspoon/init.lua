@@ -14,6 +14,10 @@ local preferedTerminal = "wezterm"
 local preferedBrowser = "Firefox"
 local scarlett = "Scarlett 2i2 USB"
 
+hs.hotkey.bind({ "ctrl" }, "D", function()
+	hs.grid.show()
+end)
+
 --  ---------------
 --  |    Utils    |
 --  ---------------

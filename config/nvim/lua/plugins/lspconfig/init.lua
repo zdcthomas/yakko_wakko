@@ -92,6 +92,7 @@ local function setup_lspconfig()
 		},
 		-- Go
 		{ "gopls", { on_attach = common_on_attach } },
+		{ "terraform_lsp", { on_attach = common_on_attach } },
 		-- Ruby
 		{ "solargraph", { on_attach = common_on_attach } },
 		-- Nushell
@@ -179,7 +180,7 @@ return {
 								vim.cmd.RustLsp("openDocs")
 							end, opts)
 
-							vim.keymap.set({ "n", "x" }, "J", function()
+							vim.keymap.set({ "n", "x" }, "gJ", function()
 								vim.cmd.RustLsp("joinLines")
 							end, opts)
 
@@ -213,6 +214,9 @@ return {
 								trace = {
 									server = "verbose",
 								},
+								rustc = {
+									source = "discover",
+								},
 								procMacro = {
 									enable = true,
 								},
@@ -242,7 +246,7 @@ return {
 					},
 					dap = {
 						-- autoload_configurations = false,
-						adapter = false,
+						adapter = adapter,
 					},
 				}
 			end

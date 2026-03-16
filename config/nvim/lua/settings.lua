@@ -80,14 +80,14 @@ vim.opt.cmdheight = 0
 vim.diagnostic.config({
 	header = false,
 	float = {
-		source = "if_many",
+		-- source = "if_many",
 		border = "rounded",
 	},
 	severity_sort = true,
 	signs = false,
 	underline = true,
 	update_in_insert = true,
-	virtual_text = true,
+	-- virtual_text = true,
 })
 
 -- doesn't work right since most ftplugins redefine formatoptions
