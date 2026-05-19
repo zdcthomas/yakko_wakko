@@ -115,7 +115,7 @@ in {
         dmux
 
         # qflipper  BROKEN
-        du-dust
+        dust
         ffmpeg_5
         flyctl
         font-awesome_5

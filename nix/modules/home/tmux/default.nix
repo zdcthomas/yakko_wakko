@@ -202,7 +202,7 @@ in
               owner = "saysjonathan";
               repo = "dwm.tmux";
               rev = "master";
-              sha256 = "sha256-Gl9v0YPYRhyeHhZ+j1JbpMeJGN8yf3O+qTjq+oWq198=";
+              sha256 = "sha256-fYWIm8AJog0cnAbSV1Ql2nF1Bb+MfPivfBDK1etf8v4=";
             };
             installPhase = ''
               mkdir -p $out/lib

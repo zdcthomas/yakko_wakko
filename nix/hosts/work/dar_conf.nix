@@ -79,7 +79,7 @@
     ];
   };
 
-  services.nix-daemon.enable = true;
+  system.primaryUser = username;
 
   networking.hostName = workHostName;
   system = {

@@ -60,7 +60,7 @@ in
         deno
         nix-init
         font-awesome_5
-        du-dust
+        dust
         gnumake
         go
         graphviz
