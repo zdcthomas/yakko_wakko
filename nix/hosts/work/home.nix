@@ -73,7 +73,7 @@ in
         # go
         rustup
         nerd-fonts.iosevka
-        hurl_2
+        # hurl_2
         awscli2
         git-remote-codecommit
       ]

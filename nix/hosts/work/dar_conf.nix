@@ -25,6 +25,8 @@
   };
   fonts.packages = [ pkgs.pragmataPro ];
 
+  ids.gids.nixbld = 30000;
+
   nix = {
     settings = {
       allowed-users = [

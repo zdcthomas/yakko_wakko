@@ -204,9 +204,10 @@ in
               rev = "master";
               sha256 = "sha256-fYWIm8AJog0cnAbSV1Ql2nF1Bb+MfPivfBDK1etf8v4=";
             };
+            dontBuild = true;
             installPhase = ''
               mkdir -p $out/lib
-              cp dwm.tmux $out/lib/
+              cp lib/dwm.tmux $out/lib/
             '';
           };
         in
