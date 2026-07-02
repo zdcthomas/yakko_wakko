@@ -41,6 +41,7 @@
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    claude-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos_unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     fenix = {
       url = "github:nix-community/fenix";

@@ -243,7 +243,7 @@ in
 
     # extraOutputsToInstall = [ "man" ];
     packages = with pkgs; [
-      unstable.claude-code
+      claude-nixpkgs.claude-code
       dwarf-fortress-packages.dwarf-fortress-full
       # diagon
       # ASCII diagram tools

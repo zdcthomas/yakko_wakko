@@ -195,20 +195,20 @@ in
               sha256 = "sha256-tl0SjG/CeolrN7OIHj6MgkB9lFmFgEuJevsSuwVs+78=";
             };
           };
-          dwm-tmux = pkgs.stdenv.mkDerivation {
-            pname = "dwm-tmux";
-            version = "unstable";
-            src = pkgs.fetchFromGitHub {
-              owner = "saysjonathan";
-              repo = "dwm.tmux";
-              rev = "master";
-              sha256 = "sha256-Gl9v0YPYRhyeHhZ+j1JbpMeJGN8yf3O+qTjq+oWq198=";
-            };
-            installPhase = ''
-              mkdir -p $out/lib
-              cp dwm.tmux $out/lib/
-            '';
-          };
+          # dwm-tmux = pkgs.stdenv.mkDerivation {
+          #   pname = "dwm-tmux";
+          #   version = "unstable";
+          #   src = pkgs.fetchFromGitHub {
+          #     owner = "saysjonathan";
+          #     repo = "dwm.tmux";
+          #     rev = "master";
+          #     sha256 = "sha256-8QfOhTGofwSJoIq25TUwjwr0a3x4H2AOfBg/0ai767g=";
+          #   };
+          #   installPhase = ''
+          #     mkdir -p $out/lib
+          #     cp dwm.tmux $out/lib/
+          #   '';
+          # };
         in
         {
           enable = true;
@@ -246,8 +246,6 @@ in
           aggressiveResize = true;
           escapeTime = 0;
           extraConfig = ''
-            # dwm.tmux - tiling pane manager
-            source-file ${dwm-tmux}/lib/dwm.tmux
 
             set -g default-terminal "tmux-256color"
             ${undercurl}

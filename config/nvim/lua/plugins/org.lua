@@ -1,5 +1,4 @@
 local wiki = "~/Irulan/wiki"
-local date_string = "%<%Y%m%d%H%M%S>"
 local wiki_path = function(path)
 	return ("%s/%s"):format(wiki, path)
 end
@@ -18,11 +17,11 @@ return {
 		},
 		keys = {
 			{
-				"<leader>tOr",
+				"<leader>or",
 				function()
 					require("telescope").extensions.orgmode.refile_heading()
 				end,
-				desc = "[t]elescope [o]rg [r]efile",
+				desc = "[o]rg [r]efile (fuzzy, works in capture/agenda too)",
 			},
 			{
 				"<leader>tOh",
@@ -95,12 +94,28 @@ return {
 				function()
 					require("orgmode").action("agenda.prompt")
 				end,
-				desc = "[o]rg [a]genda",
+				desc = "[o]rg [a]genda prompt",
+			},
+			{
+				-- <leader>oA would be shadowed by orgmode's buffer-local
+				-- org_toggle_archive_tag in org files, so use w for "week"
+				"<leader>ow",
+				function()
+					require("orgmode").action("agenda.open_by_key", "d")
+				end,
+				desc = "[o]rg dashboard: [w]eek + inbox",
+			},
+			{
+				"<leader>oi",
+				function()
+					vim.cmd.edit(vim.fn.expand(org_agenda_path("inbox.org")))
+				end,
+				desc = "[o]rg [i]nbox",
 			},
 		},
 		opts = {
 
-			org_agenda_files = { org_agenda_path("**/*"), wiki_path("writing/**/*") },
+			org_agenda_files = { org_agenda_path("**/*.org"), wiki_path("writing/**/*.org") },
 			org_default_notes_file = org_agenda_path("/personal.org"),
 			org_agenda_skip_deadline_if_done = true,
 			org_startup_folded = "content",
@@ -123,6 +138,22 @@ return {
 				QUESTION = ":foreground green :weight bold",
 			},
 			org_agenda_custom_commands = {
+				-- week agenda only shows SCHEDULED/DEADLINE items, so the
+				-- dashboard adds a block for the (unscheduled) inbox
+				d = {
+					description = "Dashboard: week + inbox",
+					types = {
+						{
+							type = "agenda",
+							org_agenda_overriding_header = "This week",
+						},
+						{
+							type = "tags_todo",
+							org_agenda_overriding_header = "Inbox — to process",
+							org_agenda_files = { org_agenda_path("inbox.org") },
+						},
+					},
+				},
 				w = {
 					description = "Writing to edit",
 					types = {
@@ -137,16 +168,13 @@ return {
 			org_capture_templates = {
 				l = {
 					description = "Links",
-					template = {
-						"* ",
-						"[[%?]]",
-					},
-					healine = "Links",
+					template = "* [[%?]]",
+					headline = "Links",
 				},
 				t = {
-					description = "Refile",
-					template = { "* TODO %?", "SCHEDULED: %u" },
-					headline = "Todos",
+					description = "Inbox (refile later)",
+					template = { "* TODO %?", ":PROPERTIES:", ":CREATED: %U", ":END:" },
+					target = org_agenda_path("inbox.org"),
 				},
 				i = {
 					description = "Idea",
@@ -165,12 +193,12 @@ return {
 						a = {
 							description = "accomplishments",
 							headline = "Accomplishments",
-							template = { "* %?", "HAPPENED: %u" },
+							template = { "* %?", ":PROPERTIES:", ":HAPPENED: %U", ":END:" },
 							target = org_agenda_path("work.org"),
 						},
 						t = {
 							description = "todos",
-							template = { "* TODO %?", "SCHEDULED: %u" },
+							template = { "* TODO %?", ":PROPERTIES:", ":CREATED: %U", ":END:" },
 							headline = "Tasks",
 							target = org_agenda_path("work.org"),
 						},
@@ -196,7 +224,7 @@ return {
 						},
 						b = {
 							description = "Bull",
-							template = { "* %?", "# %u" },
+							template = { "* %?", "%U" },
 							properties = {
 								empty_lines = 2,
 							},
@@ -205,7 +233,7 @@ return {
 						},
 						s = {
 							description = "Story ideas",
-							template = { "* %?", "# %u" },
+							template = { "* %?", "%U" },
 							properties = {
 								empty_lines = 2,
 							},
@@ -223,32 +251,36 @@ return {
 				r = {
 					description = "per repo",
 					subtemplates = {
+						-- %() is evaluated at capture time, so the target follows the
+						-- current cwd instead of the cwd when the plugin first loaded
 						t = {
 							description = "todo",
-							template = {
-								"* TODO %?",
-								"- Captured on %u",
-							},
+							template = { "* TODO %?", ":PROPERTIES:", ":CREATED: %U", ":END:" },
 							target = org_agenda_path("repos")
-								.. "/"
-								.. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-								.. ".org",
+								.. "/%(return vim.fn.fnamemodify(vim.fn.getcwd(), ':t')).org",
 						},
 						n = {
-							desciption = "notes",
+							description = "notes",
 							template = { "* %? %u" },
 							target = org_agenda_path("repos")
-								.. "/"
-								.. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-								.. ".org",
+								.. "/%(return vim.fn.fnamemodify(vim.fn.getcwd(), ':t')).org",
 						},
 					},
 				},
 			},
 			mappings = {
+				-- native refile prompts disabled in favor of the global <leader>or
+				-- telescope refile, which works in org files, capture buffers, and agenda
 				org = {
 					org_do_demote = "<leader>>",
 					org_do_promote = "<leader><",
+					org_refile = false,
+				},
+				capture = {
+					org_capture_refile = false,
+				},
+				agenda = {
+					org_agenda_refile = false,
 				},
 			},
 		},

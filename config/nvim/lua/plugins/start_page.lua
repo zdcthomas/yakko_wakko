@@ -460,7 +460,9 @@ return {
 					center = {
 	             { action = ":!dmux",                                                   desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
 	             { action = " Telescope oldfiles only_cwd=true",                        desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
-	             { action = function() require("orgmode").action("capture.prompt") end, desc = " Journal",      desc_hl = "String", icon = " ", key = "t", },
+	             { action = function() require("orgmode").action("capture.prompt") end, desc = " Capture",      desc_hl = "String", icon = " ", key = "c", },
+	             { action = function() require("orgmode").action("agenda.open_by_key", "d") end, desc = " Week + inbox", desc_hl = "String", icon = " ", key = "a", },
+	             { action = "edit ~/Irulan/wiki/agenda/inbox.org",                       desc = " Inbox",        desc_hl = "String", icon = " ", key = "i", },
 	             { action = ":Lazy",                                                    desc = " Lazy",         desc_hl = "String", icon = " ", key = "l", },
 	             { action = ":q!",                                                      desc = " Quit",         desc_hl = "String", icon = " ", key = "q", },
 	             { action = ":enew",                                                    desc = " Empty Buffer", desc_hl = "String", icon = "[]", key = "e", },

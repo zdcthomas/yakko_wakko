@@ -13,6 +13,10 @@
       system = prev.system;
       config.allowUnfree = true;
     };
+    claude-nixpkgs = import inputs.claude-nixpkgs {
+      system = prev.system;
+      config.allowUnfree = true;
+    };
 
     wezterm = inputs.wezterm.packages.${prev.system}.default;
     neovim = inputs.neovim-nightly-overlay.packages.${prev.system}.default;

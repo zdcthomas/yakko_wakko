@@ -87,7 +87,7 @@ vim.diagnostic.config({
 	signs = false,
 	underline = true,
 	update_in_insert = true,
-	-- virtual_text = true,
+	virtual_text = true,
 })
 
 -- doesn't work right since most ftplugins redefine formatoptions

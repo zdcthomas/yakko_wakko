@@ -19,7 +19,6 @@ return {
 				paths = true,
 				tables = true,
 				yaml = false,
-				cmp = false,
 			},
 			-- SAMPLE FOLDTEXT CONFIGURATION RECIPE WITH COMMENTS
 			-- Other config options
@@ -55,7 +54,6 @@ return {
 				},
 			},
 			-- Other config options
-			filetypes = { md = true, rmd = true, markdown = true },
 			create_dirs = true,
 			perspective = {
 				priority = "first",
@@ -87,29 +85,22 @@ return {
 				end,
 				create_on_follow_failure = true,
 			},
-			new_file_template = {
-				use_template = true,
-				placeholders = {
-					before = {
-						title = "link_title",
-						date = "os_date",
-					},
-					after = {},
-				},
-				template = [[
----
-title: {{title}}
-date: {{date}}
----
-          ]],
-			},
-			to_do = {
-				symbols = { " ", "-", "X" },
-				update_parents = true,
-				not_started = " ",
-				in_progress = "-",
-				complete = "X",
-			},
+			-- 			new_file_template = {
+			-- 				use_template = true,
+			-- 				placeholders = {
+			-- 					before = {
+			-- 						title = "link_title",
+			-- 						date = "os_date",
+			-- 					},
+			-- 					after = {},
+			-- 				},
+			-- 				template = [[
+			-- ---
+			-- title: {{title}}
+			-- date: {{date}}
+			-- ---
+			--           ]],
+			-- 			},
 			tables = {
 				trim_whitespace = true,
 				format_on_move = true,
