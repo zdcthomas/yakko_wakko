@@ -439,6 +439,13 @@ return {
 		cond = starter == dashboard,
 		lazy = false,
 		opts = function()
+			-- plain file scan (no orgmode load), so cheap enough to run at startup
+			local ok, org_stats = pcall(require, "utils.org_stats")
+			local stats = ok and org_stats.collect() or { inbox = {}, due = {} }
+			local function counted(desc, n)
+				return n > 0 and ("%s (%d)"):format(desc, n) or desc
+			end
+
 			local opts = {
 				theme = "doom",
 				shortcut_type = "number",
@@ -461,18 +468,28 @@ return {
 	             { action = ":!dmux",                                                   desc = " Dmux",         desc_hl = "String", icon = " ", key = "d", },
 	             { action = " Telescope oldfiles only_cwd=true",                        desc = " Recent files", desc_hl = "String", icon = " ", key = "o", },
 	             { action = function() require("orgmode").action("capture.prompt") end, desc = " Capture",      desc_hl = "String", icon = " ", key = "c", },
-	             { action = function() require("orgmode").action("agenda.open_by_key", "d") end, desc = " Week + inbox", desc_hl = "String", icon = " ", key = "a", },
-	             { action = "edit ~/Irulan/wiki/agenda/inbox.org",                       desc = " Inbox",        desc_hl = "String", icon = " ", key = "i", },
+	             { action = function() require("orgmode").action("agenda.open_by_key", "d") end, desc = counted(" Week + inbox", #stats.due), desc_hl = "String", icon = " ", key = "a", },
+	             { action = "edit ~/Irulan/wiki/agenda/inbox.org",                       desc = counted(" Inbox", #stats.inbox), desc_hl = "String", icon = " ", key = "i", },
 	             { action = ":Lazy",                                                    desc = " Lazy",         desc_hl = "String", icon = " ", key = "l", },
 	             { action = ":q!",                                                      desc = " Quit",         desc_hl = "String", icon = " ", key = "q", },
 	             { action = ":enew",                                                    desc = " Empty Buffer", desc_hl = "String", icon = "[]", key = "e", },
 					},
 					footer = function()
-						local stats = require("lazy").stats()
-						local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-						return {
-							"⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
+						local lazy_stats = require("lazy").stats()
+						local ms = (math.floor(lazy_stats.startuptime * 100 + 0.5) / 100)
+						local lines = {
+							"⚡ Neovim loaded "
+								.. lazy_stats.loaded
+								.. "/"
+								.. lazy_stats.count
+								.. " plugins in "
+								.. ms
+								.. "ms",
 						}
+						if ok then
+							vim.list_extend(lines, org_stats.footer_lines(stats))
+						end
+						return lines
 					end,
 				},
 			}
