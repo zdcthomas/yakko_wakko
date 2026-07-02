@@ -60,7 +60,7 @@ in
         deno
         nix-init
         font-awesome_5
-        du-dust
+        dust
         gnumake
         go
         graphviz
@@ -73,7 +73,7 @@ in
         # go
         rustup
         nerd-fonts.iosevka
-        hurl_2
+        # hurl_2
         awscli2
         git-remote-codecommit
       ]

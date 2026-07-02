@@ -19,8 +19,7 @@
     };
 
     wezterm = inputs.wezterm.packages.${prev.system}.default;
-    neovim = inputs.neovim-nightly-overlay.packages.${prev.system}.default;
-    hurl_2 = import ./hurl.nix { pkgs = prev; };
+    # hurl_2 = import ./hurl.nix { pkgs = prev; };
     nuekit = import ./nuekit.nix { pkgs = prev; };
     diagon = import ./diagon.nix { pkgs = prev; };
     ldtk = import ./ldtk.nix { pkgs = prev; };

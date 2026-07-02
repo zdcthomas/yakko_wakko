@@ -195,20 +195,21 @@ in
               sha256 = "sha256-tl0SjG/CeolrN7OIHj6MgkB9lFmFgEuJevsSuwVs+78=";
             };
           };
-          # dwm-tmux = pkgs.stdenv.mkDerivation {
-          #   pname = "dwm-tmux";
-          #   version = "unstable";
-          #   src = pkgs.fetchFromGitHub {
-          #     owner = "saysjonathan";
-          #     repo = "dwm.tmux";
-          #     rev = "master";
-          #     sha256 = "sha256-8QfOhTGofwSJoIq25TUwjwr0a3x4H2AOfBg/0ai767g=";
-          #   };
-          #   installPhase = ''
-          #     mkdir -p $out/lib
-          #     cp dwm.tmux $out/lib/
-          #   '';
-          # };
+          dwm-tmux = pkgs.stdenv.mkDerivation {
+            pname = "dwm-tmux";
+            version = "unstable";
+            src = pkgs.fetchFromGitHub {
+              owner = "saysjonathan";
+              repo = "dwm.tmux";
+              rev = "master";
+              sha256 = "sha256-fYWIm8AJog0cnAbSV1Ql2nF1Bb+MfPivfBDK1etf8v4=";
+            };
+            dontBuild = true;
+            installPhase = ''
+              mkdir -p $out/lib
+              cp lib/dwm.tmux $out/lib/
+            '';
+          };
         in
         {
           enable = true;

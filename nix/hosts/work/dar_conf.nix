@@ -25,6 +25,8 @@
   };
   fonts.packages = [ pkgs.pragmataPro ];
 
+  ids.gids.nixbld = 30000;
+
   nix = {
     settings = {
       allowed-users = [
@@ -79,7 +81,7 @@
     ];
   };
 
-  services.nix-daemon.enable = true;
+  system.primaryUser = username;
 
   networking.hostName = workHostName;
   system = {
