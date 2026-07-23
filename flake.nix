@@ -33,12 +33,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    eza = {
-      url = "github:eza-community/eza/v0.11.0";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     claude-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
