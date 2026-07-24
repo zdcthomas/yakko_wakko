@@ -254,6 +254,12 @@ in
 
             set-option -g focus-events on
 
+            # PREFIX f: open a project workspace with dmux
+            # </dev/null: dmux reads a workspace path from stdin when it's a
+            # non-tty pipe, which is what run-shell provides — an empty read
+            # makes it canonicalize("") and die. A char device opts out.
+            bind f run-shell -b "dmux -d ~/dev </dev/null"
+
             bind M-l split-window -h -c "#{pane_current_path}"
             bind M-h split-window -hb -c "#{pane_current_path}"
 
