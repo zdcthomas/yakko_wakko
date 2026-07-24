@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(readlink:*)",
+      "Bash(nix log *)",
+      "Bash(nix *)",
+      "WebFetch(domain:nix-community.github.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:man.archlinux.org)",
+      "Read(//home/opt/.local/share/nvim/lazy/orgmode/**)",
+      "Read(//home/opt/.local/share/nvim/lazy/telescope-orgmode.nvim/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
