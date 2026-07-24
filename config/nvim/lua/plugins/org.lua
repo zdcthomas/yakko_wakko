@@ -40,6 +40,47 @@ return {
 		},
 		config = function()
 			require("telescope").load_extension("orgmode")
+
+			-- Workarounds for an upstream bug: refile_heading runs the refile
+			-- while the picker is still open. orgmode's hidden edit window then
+			-- steals focus, telescope tears down the prompt, and the refile ends
+			-- with "Invalid window id" (reported as a false "Refile failed")
+			-- followed by a crash in the adapter's close of the dead picker.
+
+			-- 1. close the picker before refiling (standard telescope ordering)
+			local lib_actions = require("telescope-orgmode.lib.actions")
+			local execute_refile = lib_actions.execute_refile
+			lib_actions.execute_refile = function(...)
+				local t_actions = require("telescope.actions")
+				local prompt_bufnr = vim.api.nvim_get_current_buf()
+				if vim.bo[prompt_bufnr].filetype == "TelescopePrompt" then
+					t_actions.close(prompt_bufnr)
+				end
+				-- 2. guard the adapter's follow-up close of the now-dead picker;
+				-- registered here because every new picker clears replacements
+				local t_state = require("telescope.actions.state")
+				t_actions.close:replace_if(function(bufnr)
+					return t_state.get_current_picker(bufnr) == nil
+				end, function() end)
+				return execute_refile(...)
+			end
+
+			-- 3. orgmode's edit_file() helper ends by restoring focus to the
+			-- window that was current when the refile started (the capture
+			-- float or picker prompt), which may be gone by then; tolerate it
+			local utils = require("orgmode.utils")
+			local edit_file = utils.edit_file
+			utils.edit_file = function(...)
+				local handle = edit_file(...)
+				local close = handle.close
+				handle.close = function(...)
+					local ok, err = pcall(close, ...)
+					if not ok and not tostring(err):match("Invalid window id") then
+						error(err)
+					end
+				end
+				return handle
+			end
 		end,
 	},
 	{
@@ -112,6 +153,33 @@ return {
 				end,
 				desc = "[o]rg [i]nbox",
 			},
+			{
+				-- inbox processing: move the heading under the cursor into a
+				-- brand new agenda file (e.g. repos/traddle) created on the spot
+				"<leader>of",
+				function()
+					local api = require("orgmode.api")
+					local ok, current = pcall(api.current)
+					local source = ok and current:get_closest_headline() or nil
+					if not source then
+						vim.notify("No org heading under cursor", vim.log.levels.WARN)
+						return
+					end
+					vim.ui.input({ prompt = "New agenda file (e.g. repos/traddle): " }, function(input)
+						if not input or vim.trim(input) == "" then
+							return
+						end
+						local name = vim.trim(input):gsub("%.org$", "")
+						local path = vim.fn.expand(org_agenda_path(name .. ".org"))
+						if vim.fn.filereadable(path) == 0 then
+							vim.fn.mkdir(vim.fs.dirname(path), "p")
+							vim.fn.writefile({ "#+TITLE: " .. vim.fn.fnamemodify(path, ":t:r"), "" }, path)
+						end
+						api.refile({ source = source, destination = api.load(path) })
+					end)
+				end,
+				desc = "[o]rg re[f]ile to new [f]ile",
+			},
 		},
 		opts = {
 
@@ -175,6 +243,13 @@ return {
 					description = "Inbox (refile later)",
 					template = { "* TODO %?", ":PROPERTIES:", ":CREATED: %U", ":END:" },
 					target = org_agenda_path("inbox.org"),
+				},
+				s = {
+					-- unscheduled, so it stays out of the week agenda and
+					-- dashboard; filter tags views with -someday if needed
+					description = "Someday/maybe",
+					template = { "* TODO %?", ":PROPERTIES:", ":CREATED: %U", ":END:" },
+					target = org_agenda_path("someday.org"),
 				},
 				i = {
 					description = "Idea",
