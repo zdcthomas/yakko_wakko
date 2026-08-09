@@ -4,7 +4,6 @@
     <title>Newsboat - Exported Feeds</title>
   </head>
   <body>
-    <outline type="rss" xmlUrl="https://aquariumdrunkard.com/feed/" htmlUrl="https://aquariumdrunkard.com/" title="Aquarium Drunkard" text="Aquarium Drunkard"/>
     <outline type="rss" xmlUrl="https://excavatedshellac.com/feed/" htmlUrl="https://excavatedshellac.com/" title="Excavated Shellac" text="Excavated Shellac"/>
     <outline type="rss" xmlUrl="https://thequietus.com/feed" htmlUrl="https://thequietus.com/" title="The Quietus" text="The Quietus"/>
     <outline type="rss" xmlUrl="https://toneglow.substack.com/feed" htmlUrl="https://toneglow.substack.com/" title="Tone Glow" text="Tone Glow"/>

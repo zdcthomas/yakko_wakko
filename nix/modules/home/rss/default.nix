@@ -40,11 +40,6 @@ in
       #       "${config.home.homeDirectory}/yakko_wakko/nix/modules/home/rss/urls";
       urls = [
         {
-          url = "https://aquariumdrunkard.com/feed/";
-          title = "Aquarium Drunkard";
-          tags = [ "music" ];
-        }
-        {
           url = "https://excavatedshellac.com/feed/";
           title = "Excavated Shellac";
           tags = [ "music" ];
