@@ -4,11 +4,12 @@
     <title>Newsboat - Exported Feeds</title>
   </head>
   <body>
-    <outline type="rss" xmlUrl="https://aquariumdrunkard.com/feed/" htmlUrl="" title="Aquarium Drunkard" text="Aquarium Drunkard"/>
-    <outline type="rss" xmlUrl="https://excavatedshellac.com/feed/" htmlUrl="" title="Excavated Shellac" text="Excavated Shellac"/>
-    <outline type="rss" xmlUrl="https://thequietus.com/feed" htmlUrl="" title="The Quietus" text="The Quietus"/>
-    <outline type="rss" xmlUrl="https://toneglow.substack.com/feed" htmlUrl="" title="Tone Glow" text="Tone Glow"/>
-    <outline type="rss" xmlUrl="https://daily.bandcamp.com/feed" htmlUrl="" title="Bandcamp Daily" text="Bandcamp Daily"/>
-    <outline type="rss" xmlUrl="https://www.hearingthings.co/latest/rss/" htmlUrl="" title="Hearing Things" text="Hearing Things"/>
+    <outline type="rss" xmlUrl="https://aquariumdrunkard.com/feed/" htmlUrl="https://aquariumdrunkard.com/" title="Aquarium Drunkard" text="Aquarium Drunkard"/>
+    <outline type="rss" xmlUrl="https://excavatedshellac.com/feed/" htmlUrl="https://excavatedshellac.com/" title="Excavated Shellac" text="Excavated Shellac"/>
+    <outline type="rss" xmlUrl="https://thequietus.com/feed" htmlUrl="https://thequietus.com/" title="The Quietus" text="The Quietus"/>
+    <outline type="rss" xmlUrl="https://toneglow.substack.com/feed" htmlUrl="https://toneglow.substack.com/" title="Tone Glow" text="Tone Glow"/>
+    <outline type="rss" xmlUrl="https://daily.bandcamp.com/feed" htmlUrl="https://daily.bandcamp.com/" title="Bandcamp Daily" text="Bandcamp Daily"/>
+    <outline type="rss" xmlUrl="https://www.hearingthings.co/latest/rss/" htmlUrl="https://www.hearingthings.co/" title="Hearing Things" text="Hearing Things"/>
+    <outline type="rss" xmlUrl="https://astralcodexten.substack.com/feed" htmlUrl="https://www.astralcodexten.com/" title="Astral Codex Ten" text="Astral Codex Ten"/>
   </body>
 </opml>

@@ -69,6 +69,11 @@ in
           title = "Hearing Things";
           tags = [ "music" ];
         }
+        {
+          url = "https://astralcodexten.substack.com/feed";
+          title = "Astral Codex Ten";
+          tags = [ "blog" ];
+        }
       ];
 
       extraConfig = ''
