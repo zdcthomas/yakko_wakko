@@ -26,6 +26,7 @@
     ./polybar.nix
     ./qutebrowser
     ./rofi
+    ./rss
     ./ssh.nix
     ./starship.nix
     ./tmux

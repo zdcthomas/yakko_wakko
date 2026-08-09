@@ -58,6 +58,42 @@ This is one of my first theme-ings
 
 ---
 
+## RSS
+
+Terminal RSS reading via [newsboat](https://newsboat.org/), managed by the
+`custom.hm.rss` home-manager module in
+[`nix/modules/home/rss/`](/nix/modules/home/rss/default.nix). Feeds are all
+tagged `music` for now.
+
+**Adding a feed:** add an entry to `programs.newsboat.urls` in
+`nix/modules/home/rss/default.nix`, rebuild, then regenerate the OPML export:
+
+```sh
+newsboat -e > nix/modules/home/rss/feeds.opml
+```
+
+`feeds.opml` is a build artifact of the nix-managed url list — regenerate it,
+don't hand-edit it. Import it elsewhere with `newsboat -i feeds.opml` or via
+any reader's OPML import.
+
+**Podcasts:** press `e` on an article to enqueue its enclosure, then run
+`podboat` to download/play (saves to `~/Downloads/podcasts`). The macro `,v`
+streams the current article's link straight into mpv without downloading.
+
+**GUI:** setting `custom.hm.rss.gui.enable = true` installs
+[NewsFlash](https://gitlab.com/news-flash/news_flash_gtk) for articles with
+embedded players that a terminal can't render. NewsFlash keeps its own
+database and does not stay in sync with newsboat — import `feeds.opml` into it
+manually, and re-import after the feed list changes.
+
+**No feed available** (checked 2026-08-09, nothing to subscribe to): Point of
+Departure (static site), Perfect Sound Forever.
+
+**Note:** The Quietus sits behind Cloudflare and rejects non-browser user
+agents, so the module sets a Firefox `user-agent` string.
+
+---
+
 ## What's the name?
 
 Ever watch the [Animaniacs](https://www.youtube.com/watch?v=CWnWwN1z_UM)?

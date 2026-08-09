@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<opml version="1.0">
+  <head>
+    <title>Newsboat - Exported Feeds</title>
+  </head>
+  <body>
+    <outline type="rss" xmlUrl="https://aquariumdrunkard.com/feed/" htmlUrl="" title="Aquarium Drunkard" text="Aquarium Drunkard"/>
+    <outline type="rss" xmlUrl="https://excavatedshellac.com/feed/" htmlUrl="" title="Excavated Shellac" text="Excavated Shellac"/>
+    <outline type="rss" xmlUrl="https://thequietus.com/feed" htmlUrl="" title="The Quietus" text="The Quietus"/>
+    <outline type="rss" xmlUrl="https://toneglow.substack.com/feed" htmlUrl="" title="Tone Glow" text="Tone Glow"/>
+    <outline type="rss" xmlUrl="https://daily.bandcamp.com/feed" htmlUrl="" title="Bandcamp Daily" text="Bandcamp Daily"/>
+    <outline type="rss" xmlUrl="https://www.hearingthings.co/latest/rss/" htmlUrl="" title="Hearing Things" text="Hearing Things"/>
+  </body>
+</opml>
