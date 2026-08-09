@@ -43,15 +43,22 @@ in
         keep-derivations = true;
         keep-outputs = true;
       };
-      gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 7d";
-      };
+      # gc is handled by nh clean below, which can keep a fixed number of
+      # generations rather than only a time window
+      gc.automatic = false;
 
       optimise = {
         automatic = true;
         dates = [ "04:00" ];
+      };
+    };
+
+    programs.nh = {
+      enable = true;
+      clean = {
+        enable = true;
+        dates = "weekly";
+        extraArgs = "--keep 5 --keep-since 7d";
       };
     };
   };

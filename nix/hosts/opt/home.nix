@@ -244,6 +244,8 @@ in
     # extraOutputsToInstall = [ "man" ];
     packages = with pkgs; [
       claude-nixpkgs.claude-code
+      # chromium-based browser for the Claude in Chrome extension
+      brave
       dwarf-fortress-packages.dwarf-fortress-full
       # diagon
       # ASCII diagram tools
