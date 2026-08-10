@@ -98,7 +98,10 @@ in
     hyprland.enable = true;
     # music_making.enable = true;
     nix.enable = true;
-    rss.enable = true;
+    rss = {
+      enable = true;
+      gui.enable = true;
+    };
     # ssh.enable = true;
     tmux.enable = true;
     wezterm = {
