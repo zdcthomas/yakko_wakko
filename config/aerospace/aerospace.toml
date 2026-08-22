@@ -7,8 +7,6 @@ after-startup-command = [
     'exec-and-forget borders active_color=0xaa00a56c inactive_color=0x00333333 width=6',
 ]
 
-accordion-padding = 30
-
 # Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
 
@@ -53,7 +51,6 @@ outer.right =      10
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-slash = 'layout tiles horizontal vertical'
-# alt-comma = 'layout accordion horizontal vertical'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
 cmd-alt-h = 'focus left'
@@ -115,4 +112,30 @@ backspace = ['close-all-windows-but-current', 'mode main']
 # alt-shift-j = ['join-with down', 'mode main']
 # alt-shift-k = ['join-with up', 'mode main']
 # alt-shift-l = ['join-with right', 'mode main']
+
+# Window rules — run when a window first appears.
+# See: https://nikitabobko.github.io/AeroSpace/guide#on-window-detected-callback
+# Find an app's id with: aerospace list-apps
+
+# Apps that tile badly — let them float.
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.calculator'
+run = 'layout floating'
+
+# Pin apps to workspaces, e.g.:
+# [[on-window-detected]]
+# if.app-id = 'com.tinyspeck.slackmacgap'
+# run = 'move-node-to-workspace 3'
 
