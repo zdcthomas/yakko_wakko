@@ -248,6 +248,8 @@ in
     # extraOutputsToInstall = [ "man" ];
     packages = with pkgs; [
       claude-nixpkgs.claude-code
+      # terminal multiplexer that tracks coding-agent state per pane
+      herdr
       # chromium-based browser for the Claude in Chrome extension
       brave
       dwarf-fortress-packages.dwarf-fortress-full

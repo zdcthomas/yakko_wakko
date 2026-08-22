@@ -5,6 +5,7 @@
 
   (final: prev: {
     dmux = inputs.dmux.packages.${prev.system}.default;
+    herdr = inputs.herdr.packages.${prev.system}.default;
 
     ags = inputs.ags.packages.${prev.system}.default;
     qutebrowser = prev.qutebrowser.override { enableWideVine = true; };

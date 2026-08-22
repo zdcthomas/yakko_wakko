@@ -53,6 +53,11 @@
       url = "github:zdcthomas/dmux";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # NOTE: deliberately *not* following nixpkgs: herdr builds against
+    # nixos-unstable + rust-overlay (zig_0_15, pinned rust toolchain)
+    herdr = {
+      url = "github:herdrdev/herdr";
+    };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
     };

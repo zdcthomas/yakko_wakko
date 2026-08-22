@@ -3,8 +3,8 @@
   margin: 0;
   padding: 0;
   border-radius: 0;
-  font-family: "Terminus", "Lilex Nerd Font";
-  font-size: 11pt;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 10pt;
   padding-bottom: 0;
 }
 
@@ -19,130 +19,150 @@ window#waybar {
   color: @lavender;
 }
 
-window#waybar.solo {
-  background-color: @bg;
-  color: @lavender;
-}
-
-window#waybar.solo #workspaces button {
-  border-radius: 5px;
-}
-
-#tray {
-  margin: 5px 0 5px 5px;
-  /* padding-left: 10px; */
-  border-radius: 7px;
-  border: 2px solid @border;
-  background-color: @bg;
-}
-
-#network {
-  margin: 5px 5px 5px 0;
-  padding-left: 7px;
-  padding-right: 12px;
-  border-radius: 7px;
-  border: 2px solid @border;
-  background-color: @bg;
-  color: @lavender;
-}
-/* #network.wifi, */
-/* #network.ethernet { */
-/*   color: @green; */
-/* } */
-#network.linked {
-  color: @sky;
-}
-#network.disconnected,
-#network.disabled {
-  color: @red;
-  border: 2px solid @border
-}
-
+/* Every module gets the same pill: bordered, filled, 3px away from its neighbours
+   and from the screen edges. Bottom margin is 0 so the pills hang flush with the
+   bottom of the bar; the 2px top margin plus the font size above is what sets the
+   bar's 26px height, so raising either means raising `height` in default.nix. */
+#tray,
+#network,
 #pulseaudio,
 #keyboard-state,
-#wireplumber,
 #cpu,
 #memory,
 #temperature,
 #backlight,
-#battery {
-  margin: 5px;
+#battery,
+#bluetooth,
+#idle_inhibitor,
+#custom-airpods,
+#custom-mouse-toggle,
+#submap,
+#clock,
+#workspaces {
+  margin: 2px 3px 0 3px;
   padding-left: 7px;
   padding-right: 12px;
-  border-radius: 10px;
+  border-radius: 7px;
   border: 2px solid @border;
-  /* color: @peach; */
   background-color: @bg;
+  color: @lavender;
+}
+
+/* Modules whose contents are a single glyph don't want the asymmetric padding. */
+#tray,
+#idle_inhibitor,
+#custom-airpods,
+#custom-mouse-toggle,
+#workspaces {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+#network.linked {
+  color: @sky;
+}
+
+#network.disconnected,
+#network.disabled {
+  color: @red;
 }
 
 #cpu {
-  color: @peach
+  color: @peach;
 }
 
 #backlight {
-  color: @sky
+  color: @sky;
 }
 
 #temperature {
-  color: @maroon
+  color: @maroon;
+}
+
+#temperature.critical {
+  color: @red;
 }
 
 #memory {
-  color: @lavender
+  color: @lavender;
 }
 
 #pulseaudio {
-  color: @rosewater
+  color: @rosewater;
 }
 
-#custom-playerctl {
-  margin: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 7px;
-  color: @lavender;
-  background-color: @bg;
+#pulseaudio.muted,
+#pulseaudio.source-muted {
+  color: @dark-fg;
 }
 
-#custom-cafeine {
-  margin: 5px;
-  padding-left: 10px;
-  padding-right: 15px;
-  border-radius: 7px;
-  color: @lavender;
-  background-color: @bg;
+#bluetooth.connected {
+  color: @sky;
 }
 
-/* #pulseaudio.muted { */
-/*   background-color: @red; */
-/*   color: @dark-fg; */
-/* } */
-
-#clock {
-  margin: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 7px;
-  color: @lavender;
-  background-color: @bg;
-
-  border-radius: 7px;
-  border: 2px solid @border;
+#bluetooth.disabled,
+#bluetooth.off {
+  color: @dark-fg;
 }
 
-#workspaces {
-  margin: 5px;
-  /* padding-left: 10px; */
-  /* padding-right: 5px; */
-  border-radius: 7px;
-  border: 2px solid @border;
-  background-color: @bg;
+#idle_inhibitor.activated {
+  color: @peach;
+}
+
+#custom-mouse-toggle.active {
+  color: @green;
+}
+
+#custom-mouse-toggle.inactive {
+  color: @dark-fg;
+}
+
+#submap {
+  color: @peach;
+}
+
+#battery.warning:not(.charging) {
+  color: @peach;
+}
+
+#battery.critical:not(.charging) {
+  color: @red;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @green;
+}
+
+@keyframes blink {
+  to {
+    background-color: @red;
+    color: @bg;
+  }
 }
 
 #workspaces button {
   color: @peach;
+  padding: 0 5px;
+}
+
+#workspaces button:hover {
+  color: @fg;
+  background-color: @bg-hover;
+  border-radius: 5px;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 #workspaces button.active {
   color: @fg;
+}
+
+#workspaces button.urgent {
+  color: @red;
 }

@@ -28,8 +28,9 @@ in
       settings = {
         top = {
           layer = "top"; # Waybar at top layer
-          height = 30; # Waybar height (to be removed for auto height)
-          spacing = 4; # Gaps between modules (4px)
+          height = 26; # Matches the font size and pill margins in style.css
+          spacing = 0; # Gaps come from CSS margins, not here
+          reload_style_on_change = true;
           modules-left = [
             "network"
             "tray"
@@ -49,31 +50,9 @@ in
             "battery"
             "clock"
           ];
-          mpd = {
-            format = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ";
-            format-disconnected = "Disconnected ";
-            format-stopped = "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ";
-            unknown-tag = "N/A";
-            interval = 2;
-            consume-icons = {
-              on = " ";
-            };
-            random-icons = {
-              off = ''<span color="${col.base0C}"></span> '';
-              on = " ";
-            };
-            repeat-icons = {
-              on = " ";
-            };
-            single-icons = {
-              on = "1 ";
-            };
-            state-icons = {
-              paused = "";
-              playing = "";
-            };
-            tooltip-format = "MPD (connected)";
-            tooltip-format-disconnected = "MPD (disconnected)";
+          "hyprland/workspaces" = {
+            on-click = "activate";
+            sort-by-number = true;
           };
           idle_inhibitor = {
             format = "{icon}";
@@ -83,33 +62,38 @@ in
             };
           };
           tray = {
-            icon-size = 21;
+            icon-size = 16;
             spacing = 10;
           };
           "custom/airpods" = {
             format = "🎧";
-            on-click = pkgs.writeShellScript "hello-from-waybar" ''
+            tooltip = false;
+            on-click = pkgs.writeShellScript "toggle-airpods" ''
               AIRPODS="2C:18:09:F3:C6:E0"
-              DEVICES=$(bluetoothctl devices Connected)
+              BLUETOOTHCTL="${pkgs.bluez}/bin/bluetoothctl"
+              DEVICES=$($BLUETOOTHCTL devices Connected)
 
               if [[ "$DEVICES" == *"$AIRPODS"* ]]; then
-                  bluetoothctl disconnect $AIRPODS
-                  bluetoothctl block $AIRPODS
+                  $BLUETOOTHCTL disconnect $AIRPODS
+                  $BLUETOOTHCTL block $AIRPODS
               else
-                  bluetoothctl unblock $AIRPODS
-                  bluetoothctl connect $AIRPODS
+                  $BLUETOOTHCTL unblock $AIRPODS
+                  $BLUETOOTHCTL connect $AIRPODS
               fi
             '';
           };
           "custom/mouse-toggle" = {
             format = "{}";
-            interval = 1;
+            return-type = "json";
+            # No polling: the on-click handler signals waybar to re-read state.
+            interval = "once";
+            signal = 8;
             exec = pkgs.writeShellScript "gamemode-status" ''
               HYPRGAMEMODE=$(hyprctl getoption animations:enabled | awk 'NR==1{print $2}')
               if [ "$HYPRGAMEMODE" = 1 ] ; then
-                echo "🎮"
+                printf '{"text":"🎮","class":"inactive","tooltip":"Gamemode off - click to disable animations"}\n'
               else
-                echo "🎮"
+                printf '{"text":"🎮","class":"active","tooltip":"Gamemode on - click to restore animations"}\n'
               fi
             '';
             on-click = pkgs.writeShellScript "toggle-gamemode" ''
@@ -127,15 +111,13 @@ in
                       keyword decoration:rounding 0;\
                       keyword input:touchpad:disable_while_typing 0"
                   hyprctl notify 1 5000 "rgb(40a02b)" "Gamemode [ON]"
-                  exit
               else
                   hyprctl notify 1 5000 "rgb(d20f39)" "Gamemode [OFF]"
                   hyprctl reload
-                  exit 0
               fi
-              exit 1
+              # Tell the status module above to re-read the new state.
+              ${pkgs.procps}/bin/pkill -RTMIN+8 waybar
             '';
-            tooltip = "Toggle gamemode (animations + mouse lock)";
           };
           clock = {
             tooltip-format = ''
@@ -151,9 +133,12 @@ in
             format = "{}% ";
           };
           temperature = {
-            critical-threshold = 80;
-            format-critical = "{temperatureC}°C";
-            format = "{temperatureC}°C";
+            # k10temp/Tctl. Absolute path because hwmonN indices shuffle across boots.
+            hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
+            input-filename = "temp1_input";
+            critical-threshold = 85;
+            format-critical = "{icon} {temperatureC}°C";
+            format = "{icon} {temperatureC}°C";
             format-icons = [
               ""
               ""
@@ -191,9 +176,6 @@ in
               ""
             ];
           };
-          "battery#bat2" = {
-            bat = "BAT2";
-          };
           network = {
             format-wifi = "{essid}:{signalStrength}%";
             format-ethernet = "{ipaddr}/{cidr} ";
@@ -201,7 +183,7 @@ in
             format-linked = "{ifname} (No IP) ";
             format-disconnected = "Disconnected ⚠";
             format-alt = "{ifname}: {ipaddr}/{cidr}";
-            # on-click = "alacritty -e nmtui";
+            on-click = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
           };
           bluetooth = {
             "on-click" = "${pkgs.blueman}/bin/blueman-manager";
@@ -224,16 +206,6 @@ in
             "tooltip-format-enumerate-connected-battery" =
               "{device_alias}	{device_address}	{device_battery_percentage}%";
           };
-          wireplumber = {
-            format = "{volume}% {icon}";
-            "format-muted" = "";
-            "on-click" = "helvum";
-            "format-icons" = [
-              ""
-              ""
-              ""
-            ];
-          };
           pulseaudio = {
             format = "{volume}% {icon} {format_source}";
             format-bluetooth = "{volume}% {icon} {format_source}";
@@ -254,7 +226,7 @@ in
                 ""
               ];
             };
-            on-click = "pavucontrol";
+            on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
           };
         };
       };
