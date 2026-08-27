@@ -1,6 +1,6 @@
 { pkgs, config, lib, ... }:
 let
-  hex = color: ("#" + config.colorScheme.colors.${color});
+  hex = color: ("#" + config.colorScheme.palette.${color});
   cfg = config.custom.hm.alacritty;
 in with lib; {
   options = {

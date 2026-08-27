@@ -62,7 +62,7 @@ in
   time.timeZone = "America/Denver";
   i18n.defaultLocale = "en_US.utf8";
   sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;

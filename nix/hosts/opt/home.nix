@@ -17,8 +17,8 @@ in
 {
   imports = [ ../../modules/home ];
 
-  # Allow unfree packages in home-manager
-  nixpkgs.config.allowUnfree = true;
+  # NOTE: unfree is allowed system-wide in configuration.nix; with
+  # home-manager.useGlobalPkgs any nixpkgs.* set here is ignored.
   xdg = {
     desktopEntries = {
       imv-dir = {

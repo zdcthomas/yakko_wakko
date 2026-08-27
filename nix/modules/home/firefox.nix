@@ -1,5 +1,52 @@
 { pkgs, lib, config, ... }:
-let cfg = config.custom.hm.firefox;
+let
+  cfg = config.custom.hm.firefox;
+
+  # Firefox's `Bookmarks` policy is additive: it only ever touches the entries
+  # it created (guid prefixes PolB-/PolF-), so bookmarks added by hand survive
+  # restarts. Contrast profiles.<p>.bookmarks, which re-imports the generated
+  # html with replace:true on every launch and wipes anything not declared here.
+  #
+  # The price is a flat shape — a placement of "toolbar" or "menu" plus at most
+  # one folder level.
+  toPolicy = placement: folder: node:
+    if node ? url then
+      [
+        ({
+          Title = node.name;
+          URL = node.url;
+          Placement = placement;
+        } // lib.optionalAttrs (folder != null) { Folder = folder; })
+      ]
+    else if folder != null then
+      throw ''
+        custom.hm.firefox.bookmarks: directory "${node.name}" sits inside "${folder}".
+        Firefox's Bookmarks policy only supports one folder level, so flatten it.''
+    else
+      lib.concatMap
+      (toPolicy (if node.toolbar then "toolbar" else "menu") node.name)
+      node.bookmarks;
+
+  bookmarkPolicies = lib.concatMap (toPolicy "menu" null) cfg.bookmarks;
+
+  # The policy has no keyword field, so each bookmark keyword becomes a search
+  # alias instead. "%s" in the url marks the query, as the option docs describe;
+  # urls without one simply jump to the page.
+  leaves = node:
+    if node ? url then [ node ] else lib.concatMap leaves node.bookmarks;
+
+  slug = s: lib.replaceStrings [ " " ] [ "-" ] (lib.toLower s);
+
+  # Keyed by a "bookmark-" prefixed id so these can never collide with a
+  # builtin engine id (our "wikipedia" bookmark would otherwise hit one).
+  keywordEngines = lib.listToAttrs (map (b:
+    lib.nameValuePair "bookmark-${slug b.name}" {
+      name = b.name;
+      urls = [{
+        template = lib.replaceStrings [ "%s" ] [ "{searchTerms}" ] b.url;
+      }];
+      definedAliases = [ "@${slug b.keyword}" ];
+    }) (lib.filter (b: b.keyword != null) (lib.concatMap leaves cfg.bookmarks)));
 in with lib; {
   options = {
     custom.hm.firefox = {
@@ -25,13 +72,20 @@ in with lib; {
               tags = mkOption {
                 type = types.listOf types.str;
                 default = [ ];
-                description = "Bookmark tags.";
+                description = ''
+                  Bookmark tags. Currently inert: Firefox's Bookmarks policy
+                  has no tag field, so these are kept only as documentation.
+                '';
               };
 
               keyword = mkOption {
                 type = types.nullOr types.str;
                 default = null;
-                description = "Bookmark search keyword.";
+                description = ''
+                  Bookmark search keyword. Rendered as a search engine alias
+                  ("@keyword"), since the Bookmarks policy has no keyword field.
+                  Spaces are replaced with dashes.
+                '';
               };
 
               url = mkOption {
@@ -103,8 +157,14 @@ in with lib; {
           ]
         '';
         description = ''
-          Preloaded bookmarks. Note, this may silently overwrite any
-          previously existing bookmarks!
+          Bookmarks to keep present. Applied through Firefox's Bookmarks
+          policy, which manages only its own entries — bookmarks you add by
+          hand are left alone. Removing an entry here removes it from Firefox;
+          deleting one by hand just gets it re-added on the next launch.
+
+          Directories become a folder under the bookmarks toolbar (when
+          `toolbar` is set) or the bookmarks menu. Only one folder level is
+          supported.
         '';
       };
     };
@@ -113,11 +173,12 @@ in with lib; {
     programs.firefox = {
       enable = true;
       package = cfg.package;
+      policies.Bookmarks = bookmarkPolicies;
       profiles = {
         zdcthomas = {
           search = {
             force = true;
-            engines = {
+            engines = keywordEngines // {
               "Nix Package Search" = {
                 urls = [{
                   template = "https://search.nixos.org/packages";
@@ -143,13 +204,13 @@ in with lib; {
                   template =
                     "https://nixos.wiki/index.php?search={searchTerms}";
                 }];
-                iconUpdateURL = "https://nixos.wiki/favicon.png";
+                icon = "https://nixos.wiki/favicon.png";
                 updateInterval = 24 * 60 * 60 * 1000; # every day
                 definedAliases = [ "@nw" ];
               };
 
-              "Bing".metaData.hidden = true;
-              "Google".metaData.alias =
+              "bing".metaData.hidden = true;
+              "google".metaData.alias =
                 "@g"; # builtin engines only support specifying one additional alias
             };
           };
@@ -184,7 +245,7 @@ in with lib; {
             "app.normandy.api_url" = "";
             "network.connectivity-service.enabled" = false;
           };
-          extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+          extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
             vimium
             onetab
             ublock-origin
@@ -193,7 +254,10 @@ in with lib; {
             onepassword-password-manager
             gruvbox-dark-theme
           ];
-          bookmarks = cfg.bookmarks;
+          # NOTE: deliberately not using profiles.<p>.bookmarks — it sets
+          # browser.places.importBookmarksHTML, which re-imports with
+          # replace:true on every launch. cfg.bookmarks goes through
+          # policies.Bookmarks above instead, which is additive.
         };
       };
     };

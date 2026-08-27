@@ -10,9 +10,9 @@ let
 
   col = lib.attrsets.mapAttrs (
     name: value: (lib.strings.removePrefix "#" value)
-  ) config.colorScheme.colors;
+  ) config.colorScheme.palette;
 
-  col_hash = lib.attrsets.mapAttrs (name: value: ("#" + value + "FF")) config.colorScheme.colors;
+  col_hash = lib.attrsets.mapAttrs (name: value: ("#" + value + "FF")) config.colorScheme.palette;
   # swaylock = pkgs.swaylock-effects;
   templateFile = import ../../../templateFile.nix { inherit pkgs; };
 in
@@ -27,17 +27,19 @@ in
     # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
     services.cliphist = {
       enable = true;
-      systemdTarget = "hyprland-session.target";
+      systemdTargets = "hyprland-session.target";
     };
     services.mako = {
       enable = true;
-      borderRadius = 10;
-      defaultTimeout = 4000; # milliseconds
-      anchor = "top-right";
-      backgroundColor = col_hash.base00;
-      borderColor = col_hash.base07;
-      font = "FiraCode";
-      actions = true;
+      settings = {
+        border-radius = 10;
+        default-timeout = 4000; # milliseconds
+        anchor = "top-right";
+        background-color = col_hash.base00;
+        border-color = col_hash.base07;
+        font = "FiraCode";
+        actions = true;
+      };
     };
     services.hypridle = {
       enable = true;

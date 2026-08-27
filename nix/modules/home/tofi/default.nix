@@ -3,7 +3,7 @@ let
   cfg = config.custom.hm.tofi;
 
   col = lib.attrsets.mapAttrs (name: value: ("#" + value))
-    config.colorScheme.colors;
+    config.colorScheme.palette;
   templateFile = import ../../../templateFile.nix { inherit pkgs; };
 in {
   options = {

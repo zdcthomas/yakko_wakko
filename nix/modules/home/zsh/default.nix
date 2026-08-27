@@ -34,7 +34,7 @@ in {
         package = zsh-syntax-highlighting;
       };
       autocd = true;
-      initExtra = let
+      initContent = let
         native = builtins.readFile ./zsh_extra_config.zsh;
         vi_mode_plugin = pkgs.fetchFromGitHub {
           owner = "jeffreytse";

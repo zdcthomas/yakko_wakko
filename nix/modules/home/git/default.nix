@@ -23,14 +23,20 @@ in {
         };
       };
 
+      diff-so-fancy = {
+        enable = true;
+        enableGitIntegration = true;
+      };
+
       git = {
         enable = true;
-        userName = "zdcthomas";
-        userEmail = "zdcthomas@yahoo.com";
-        diff-so-fancy.enable = true;
         # difftastic.enable = true;
-        iniContent.merge.conflictstyle = "diff3";
-        extraConfig = {
+        settings = {
+          user = {
+            name = "zdcthomas";
+            email = "zdcthomas@yahoo.com";
+          };
+          merge = { conflictstyle = "diff3"; };
           core = { editor = "nvim"; };
           init = { defaultBranch = "main"; };
           commit = { verbose = true; };
@@ -48,13 +54,13 @@ in {
           url = {
             "https://github.com/" = { insteadOf = [ "gh:" "github:" ]; };
           };
-        };
-        aliases = {
-          co = "switch";
-          cnv = "commit --no-verify";
-          ap = "add --patch";
-          l =
-            "log --graph --pretty='%Cred%h%Creset - %C(bold blue)<%an>%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)' --abbrev-commit --date=relative";
+          alias = {
+            co = "switch";
+            cnv = "commit --no-verify";
+            ap = "add --patch";
+            l =
+              "log --graph --pretty='%Cred%h%Creset - %C(bold blue)<%an>%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)' --abbrev-commit --date=relative";
+          };
         };
         ignores = [
           "*.swp"

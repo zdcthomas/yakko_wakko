@@ -3,7 +3,7 @@ let
   cfg = config.custom.hm.wezterm;
 
   col_hash = lib.attrsets.mapAttrs (name: value: ("#" + value))
-    config.colorScheme.colors;
+    config.colorScheme.palette;
 in with lib; {
   options = {
     custom.hm.wezterm = {

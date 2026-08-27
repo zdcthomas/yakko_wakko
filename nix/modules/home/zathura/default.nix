@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, ... }:
 let
   cfg = config.custom.hm.zathura;
-  col = config.colorScheme.colors;
+  col = config.colorScheme.palette;
 in {
   options = {
     custom.hm.zathura = {

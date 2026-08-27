@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.custom.hm.waybar;
-  col = lib.attrsets.mapAttrs (name: value: ("#" + value)) config.colorScheme.colors;
+  col = lib.attrsets.mapAttrs (name: value: ("#" + value)) config.colorScheme.palette;
 in
 {
   options = {

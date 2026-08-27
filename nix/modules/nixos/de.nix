@@ -70,7 +70,7 @@ in with lib; {
         settings = {
           default_session = {
             command = ''
-              ${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${pkgs.hyprland}/bin/Hyprland -g "${art}" --remember --user-menu --asterisks'';
+              ${pkgs.tuigreet}/bin/tuigreet --cmd ${pkgs.hyprland}/bin/Hyprland -g "${art}" --remember --user-menu --asterisks'';
           };
         };
       };
