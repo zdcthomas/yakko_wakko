@@ -250,6 +250,9 @@ in
       claude-nixpkgs.claude-code
       # terminal multiplexer that tracks coding-agent state per pane
       herdr
+      # herdr's claude integration hook is a python3 script; without it the
+      # hook exits silently and agents never resume after a server restart
+      python3
       # chromium-based browser for the Claude in Chrome extension
       brave
       dwarf-fortress-packages.dwarf-fortress-full
@@ -372,6 +375,14 @@ in
       enable = true;
       enableZshIntegration = true;
       nix-direnv.enable = true;
+      # Trust every git worktree herdr creates. A fresh worktree's .envrc is
+      # unallowed, so a coding agent opening in one lands in a shell with no
+      # bun, no node and no pinned Playwright browsers, and burns its first
+      # moves hunting for a toolchain that is right there in the flake. Herdr
+      # has no post-create hook to run `direnv allow` in, and the worktrees are
+      # checkouts of repos already trusted at their source, so the trust is
+      # granted here once rather than by hand every time.
+      config.whitelist.prefix = [ "/home/opt/.herdr/worktrees" ];
     };
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
