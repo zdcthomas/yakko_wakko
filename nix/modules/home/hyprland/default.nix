@@ -190,8 +190,7 @@ in
           "${pkgs.wlsunset}/bin/wlsunset -l 40.7 -L -74.0 -s 15:00&"
           "${pkgs.udiskie}/bin/udiskie &"
           "xwaylandvideobridge"
-          "wl-paste --type text --watch $cliphist store #Stores only text data"
-          "wl-paste --type image --watch $cliphist store #Stores only image data"
+          # clipboard watching is handled by services.cliphist
           "pkill waybar; waybar"
         ];
         misc = {
@@ -225,12 +224,13 @@ in
             micMute = "${pkgs.pamixer}/bin/pamixer --default-source -t";
             volumeLower = "${pkgs.pamixer}/bin/pamixer -d 5";
             volumeRaise = "${pkgs.pamixer}/bin/pamixer -i 5";
-            bluetooh_app = "${pkgs.overskride}/bin/overskride";
+            bluetooth_app = "${pkgs.overskride}/bin/overskride";
             inputLower = "${pkgs.alsa-utils}/bin/amixer set Capture 10%-";
             inputRaise = "${pkgs.alsa-utils}/bin/amixer set Capture 10%+";
             brightnessLower = "${pkgs.brightnessctl}/bin/brightnessctl set 4%-";
             brightnessRaise = "${pkgs.brightnessctl}/bin/brightnessctl set 4%+";
             cliphist = "${pkgs.cliphist}/bin/cliphist";
+            cliphistPick = "${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu -p clipboard | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
             grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
             openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";
             anyrun = "${pkgs.anyrun}/bin/anyrun";
@@ -280,7 +280,6 @@ in
       hyprpicker
       inotify-tools
       libnotify
-      swww
       networkmanagerapplet
       pamixer
 
@@ -289,8 +288,6 @@ in
       imv
 
       wofi
-
-      swayidle
     ];
   };
 }
