@@ -5,8 +5,6 @@
 {
   config,
   lib,
-  pkgs,
-  username,
   ...
 }:
 {
@@ -15,25 +13,10 @@
     # home-manager side turning its own module off.
     programs.firefox.enable = lib.mkForce false;
 
-    # This list has a single definition in configuration.nix, so replacing it
-    # wholesale is safe here. It drops the soulseek client and the hardware
-    # tooling, and keeps the editor, git and enough audio control to fix a
-    # silent machine. `switch` stays: a mode is not a trap.
-    users.users.${username}.packages = lib.mkForce (
-      with pkgs;
-      [
-        git
-        vim
-        alsa-utils
-        pamixer
-        (pkgs.writeScriptBin "switch" ''
-          nixos-rebuild \
-            --flake ~/yakko_wakko#opt \
-            --use-remote-sudo -L \
-            switch
-        '')
-      ]
-    );
-
+    # The user's package list is trimmed in hosts/opt/configuration.nix,
+    # gated on zdct.mode. It cannot be replaced from here: useUserPackages
+    # makes home-manager append home.packages to that same list, so an
+    # mkForce takes the editor and the terminal down with the soulseek
+    # client -- which is exactly what it did.
   };
 }

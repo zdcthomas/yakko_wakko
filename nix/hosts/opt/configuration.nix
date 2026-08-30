@@ -199,33 +199,40 @@ args@{
       "wheel"
       "docker"
     ];
-    packages = with pkgs; [
-      qmk
-      libinput
-      framework-tool
-      git
-      (pkgs.writeScriptBin "switch" ''
-        nixos-rebuild \
-          --flake ~/yakko_wakko#opt \
-          --use-remote-sudo -L \
-          switch
-      '')
+    # NOTE: home-manager.useUserPackages is on, so home-manager appends the
+    # user's home.packages to this list. Never mkForce it from a mode: that
+    # silently drops the editor, the terminal and everything else
+    # home-manager installs. Gate entries with lib.optionals instead.
+    packages =
+      (with pkgs; [
+        git
+        vim
+        # Enough audio control to fix a silent machine.
+        alsa-utils
+        pamixer
+        (pkgs.writeScriptBin "switch" ''
+          nixos-rebuild \
+            --flake ~/yakko_wakko#opt \
+            --use-remote-sudo -L \
+            switch
+        '')
+      ])
+      # Hardware tooling, a compiler and a soulseek client are not what
+      # `writing` is for.
+      ++ lib.optionals (config.zdct.mode != "writing") (with pkgs; [
+        qmk
+        libinput
+        framework-tool
 
-      nicotine-plus
-      alsa-utils
-      pulsemixer
-      alsa-lib
-      alsa-utils
-      pamixer
-      vim
-      gcc
-      pamixer
-      mpd
-      helvum
-      xwayland
+        nicotine-plus
+        alsa-lib
+        gcc
+        mpd
+        helvum
+        xwayland
 
-      #  thunderbird
-    ];
+        #  thunderbird
+      ]);
   };
 
   # Enable automatic login for the user.
