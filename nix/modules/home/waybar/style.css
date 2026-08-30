@@ -3,7 +3,11 @@
   margin: 0;
   padding: 0;
   border-radius: 0;
-  font-family: "JetBrainsMono Nerd Font";
+  /* The non-Mono PragmataPro variants carry the Nerd Font PUA icon range that
+     "PragmataPro Mono Liga" omits, so the bar's glyph modules render from the
+     same family as the text. PragmataPro stops short of the Material Design
+     icons at U+F0001+, hence the second family. */
+  font-family: "PragmataPro Liga", "JetBrainsMono Nerd Font";
   font-size: 10pt;
   padding-bottom: 0;
 }
@@ -58,6 +62,26 @@ window#waybar {
   padding-right: 7px;
 }
 
+/* Resting-state hues. The right-hand modules all set their own colour, so
+   without these the left half falls back to @lavender and reads as flat text.
+   State rules below carry an extra class and so still win over these. */
+#network {
+  color: @blue;
+}
+
+#bluetooth {
+  color: @sky;
+}
+
+#custom-airpods {
+  color: @pink;
+}
+
+/* Toggles idle dim and light up when engaged, same as #custom-mouse-toggle. */
+#idle_inhibitor {
+  color: @dark-fg;
+}
+
 #network.linked {
   color: @sky;
 }
@@ -88,7 +112,7 @@ window#waybar {
 }
 
 #pulseaudio {
-  color: @rosewater;
+  color: @flamingo;
 }
 
 #pulseaudio.muted,
@@ -147,7 +171,7 @@ window#waybar {
 }
 
 #workspaces button {
-  color: @peach;
+  color: @dark-fg;
   padding: 0 5px;
 }
 
@@ -160,7 +184,7 @@ window#waybar {
 }
 
 #workspaces button.active {
-  color: @fg;
+  color: @peach;
 }
 
 #workspaces button.urgent {

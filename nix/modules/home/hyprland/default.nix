@@ -37,7 +37,8 @@ in
         anchor = "top-right";
         background-color = col_hash.base00;
         border-color = col_hash.base07;
-        font = "FiraCode";
+        text-color = col_hash.base05;
+        font = "PragmataPro 11";
         actions = true;
       };
     };
@@ -145,15 +146,16 @@ in
 
           input-field = [
             {
-              # TODO: <27-05-24, zdcthomas> stylix
               size = "200, 50";
               position = "0, -80";
               monitor = "";
               dots_center = true;
               fade_on_empty = false;
-              font_color = "rgb(202, 211, 245)";
-              inner_color = "rgb(91, 96, 120)";
-              outer_color = "rgb(24, 25, 38)";
+              font_color = "rgb(${col.base05})";
+              inner_color = "rgb(${col.base02})";
+              outer_color = "rgb(${col.base00})";
+              check_color = "rgb(${col.base0A})";
+              fail_color = "rgb(${col.base08})";
               outline_thickness = 5;
               placeholder_text = "Welcome Back";
               shadow_passes = 2;
@@ -256,12 +258,34 @@ in
         in
         builtins.readFile (templateFile "hyprconf" ./hyprland.conf data);
     };
-    # home.pointerCursor = {
-    #   name = "phinger-cursors-light";
-    #   package = pkgs.phinger-cursors;
-    #   size = 32;
-    #   gtk.enable = true;
-    # };
+    # Size matches `env = XCURSOR_SIZE,24` in hyprland.conf; change both together.
+    home.pointerCursor = {
+      name = "phinger-cursors-dark";
+      package = pkgs.phinger-cursors;
+      size = 24;
+      gtk.enable = true;
+    };
+
+    # GTK_THEME=Adwaita:dark in hyprland.conf only reaches GTK3 and leaves icons
+    # unthemed, which is why thunar/blueman/nm-connection-editor look unstyled.
+    gtk = {
+      enable = true;
+      theme = {
+        name = "Gruvbox-Dark";
+        package = pkgs.gruvbox-gtk-theme;
+      };
+      iconTheme = {
+        name = "Papirus-Dark";
+        package = pkgs.papirus-icon-theme;
+      };
+      font = {
+        name = "PragmataPro";
+        size = 11;
+      };
+    };
+
+    # libadwaita/GTK4 apps ignore the theme name and only honour this.
+    dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
     home.packages = with pkgs; [
       (waybar.overrideAttrs (oldAttrs: {
         mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];

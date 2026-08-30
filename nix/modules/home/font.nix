@@ -8,9 +8,10 @@ in {
     home = {
       packages = with pkgs; [
         pragmataPro
+        # coverage fallbacks only -- everything in the configs asks for a
+        # PragmataPro variant by name
         noto-fonts
         noto-fonts-cjk-sans
-        iosevka
       ];
     };
 

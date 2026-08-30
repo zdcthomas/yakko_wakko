@@ -19,7 +19,9 @@ args@{
         monospace = [ "PragmataPro Mono Liga" ];
         sansSerif = [ "PragmataPro" ];
         serif = [ "PragmataPro" ];
-        emoji = [ "PragmataPro" ];
+        # PragmataPro has no colour emoji; Noto Color Emoji arrives via
+        # enableDefaultPackages above.
+        emoji = [ "Noto Color Emoji" ];
       };
     };
 
@@ -30,6 +32,9 @@ args@{
       noto-fonts
       noto-fonts-cjk-sans
       pragmataPro
+      # Not referenced by any config any more, but PragmataPro's icon range
+      # stops before the Material Design block at U+F0001+ that
+      # nvim-web-devicons and friends use -- keep it as the glyph fallback.
       nerd-fonts.jetbrains-mono
       jetbrains-mono
     ];
@@ -61,6 +66,9 @@ args@{
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+  # Move unmanaged files aside instead of aborting the switch when a newly
+  # enabled module wants to own a path that already exists on disk.
+  home-manager.backupFileExtension = "hm-bak";
   home-manager.users.${username} = import ./home.nix;
   home-manager.extraSpecialArgs = { inherit overlays inputs username; };
 

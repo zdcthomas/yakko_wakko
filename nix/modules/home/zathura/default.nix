@@ -33,9 +33,9 @@ in {
 
         # zathurarc-dark
 
-        set font "inconsolata 15"
+        set font "PragmataPro Mono Liga 15"
         set default-bg "#${col.base00}" #00
-        set default-fg "#${col.base01}" #01
+        set default-fg "#${col.base05}" #05
 
         set statusbar-fg "#${col.base04}" #04
         set statusbar-bg "#${col.base02}" #01

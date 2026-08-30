@@ -14,5 +14,6 @@
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "outputStyle": "ASD-STE100"
 }

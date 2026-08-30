@@ -31,12 +31,16 @@ config.window_padding = {
 config.warn_about_missing_glyphs = false
 local font_name = "PragmataPro Mono Liga"
 
+-- The Mono variants drop the Nerd Font PUA range; the non-Mono one carries it,
+-- so it backs up the primary face for icon glyphs. PragmataPro has no Material
+-- Design icons (U+F0001+), which nvim-web-devicons leans on, so a patched font
+-- backs that up in turn.
 local function font_with_fallback(name, params)
-	local names = { name, "Iosevka Nerd Font" }
+	local names = { name, "PragmataPro Liga", "JetBrainsMono Nerd Font" }
 	return wezterm.font_with_fallback(names, params)
 end
 
-config.font = wezterm.font(font_name)
+config.font = font_with_fallback(font_name)
 config.font_rules = {
 	{
 		italic = true,

@@ -21,7 +21,7 @@ in
         enable = true;
         theme = "gruvbox-dark-soft";
         plugins = [ pkgs.rofi-power-menu ];
-        font = "FiraCode";
+        font = "PragmataPro Liga 12";
         extraConfig = {
           disable-history = true;
           show-icons = true;

@@ -7,6 +7,14 @@
 let
   cfg = config.custom.hm.waybar;
   col = lib.attrsets.mapAttrs (name: value: ("#" + value)) config.colorScheme.palette;
+
+  # Nerd Font glyphs as JSON escapes rather than literal characters: a bare
+  # glyph is easy to drop when this file is edited, and waybar silently hides
+  # any module whose format string comes out empty. Codepoints are in the
+  # PragmataPro icon range that style.css selects.
+  icon = codepoint: builtins.fromJSON ''"\u${codepoint}"'';
+  iconHeadphones = icon "f025"; # nf-fa-headphones
+  iconGamepad = icon "f11b"; # nf-fa-gamepad
 in
 {
   options = {
@@ -66,7 +74,7 @@ in
             spacing = 10;
           };
           "custom/airpods" = {
-            format = "🎧";
+            format = iconHeadphones;
             tooltip = false;
             on-click = pkgs.writeShellScript "toggle-airpods" ''
               AIRPODS="2C:18:09:F3:C6:E0"
@@ -91,9 +99,9 @@ in
             exec = pkgs.writeShellScript "gamemode-status" ''
               HYPRGAMEMODE=$(hyprctl getoption animations:enabled | awk 'NR==1{print $2}')
               if [ "$HYPRGAMEMODE" = 1 ] ; then
-                printf '{"text":"🎮","class":"inactive","tooltip":"Gamemode off - click to disable animations"}\n'
+                printf '{"text":"${iconGamepad}","class":"inactive","tooltip":"Gamemode off - click to disable animations"}\n'
               else
-                printf '{"text":"🎮","class":"active","tooltip":"Gamemode on - click to restore animations"}\n'
+                printf '{"text":"${iconGamepad}","class":"active","tooltip":"Gamemode on - click to restore animations"}\n'
               fi
             '';
             on-click = pkgs.writeShellScript "toggle-gamemode" ''
@@ -232,23 +240,27 @@ in
       };
 
       style = ''
+        /* Names follow base16 semantics: base08 is red, base09 orange, base0A
+           yellow, base0B green, base0C cyan, base0D blue, base0E magenta.
+           Keep them that way -- style.css leans on `red` meaning danger and
+           `green` meaning healthy. */
         @define-color bg-hover ${col.base01};
         @define-color bg ${col.base00};
-        @define-color blue ${col.base08};
-        @define-color sky ${col.base08};
-        @define-color red ${col.base0E};
-        @define-color pink ${col.base09};
-        @define-color lavender ${col.base0B};
-        @define-color rosewater ${col.base05};
+        @define-color blue ${col.base0D};
+        @define-color sky ${col.base0C};
+        @define-color red ${col.base08};
+        @define-color pink ${col.base0E};
+        @define-color lavender ${col.base05};
+        @define-color rosewater ${col.base06};
         @define-color flamingo ${col.base0A};
-        @define-color fg ${col.base0F};
-        @define-color green ${col.base0D};
+        @define-color fg ${col.base07};
+        @define-color green ${col.base0B};
         @define-color dark-fg ${col.base03};
-        @define-color peach ${col.base0C};
+        @define-color peach ${col.base09};
         @define-color gray2 ${col.base04};
         @define-color black4 ${col.base02};
         @define-color black3 ${col.base00};
-        @define-color maroon ${col.base09};
+        @define-color maroon ${col.base0F};
         @define-color border @dark-fg;
 
         ${builtins.readFile ./style.css}
