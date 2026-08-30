@@ -250,6 +250,11 @@ in with lib; {
             onetab
             ublock-origin
             lingq-importer2
+            # Options live in browser.storage.local; the extension reads no
+            # managed storage, so its block sets cannot be declared here.
+            # Set them once in the options page, then keep a copy with the
+            # "Export Options to JSON File" button.
+            leechblock-ng
 
             onepassword-password-manager
             gruvbox-dark-theme
