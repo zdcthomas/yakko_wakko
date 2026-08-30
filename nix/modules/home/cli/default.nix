@@ -39,6 +39,9 @@ in
         tldr
         tree
         ripgrep
+        # This module already links ~/.config/zk, but nothing installed the
+        # binary the config belongs to.
+        zk
         unzip
         wget
         # wkhtmltopdf

@@ -249,15 +249,29 @@ in
 
     # extraOutputsToInstall = [ "man" ];
     #
-    # `writing` is a whitelist, and the first list is all of it: something to
-    # read a source in, and music. Everything below it -- browsers, chat,
-    # games, the whole toolchain -- belongs to the other two modes. Terminal
-    # and editor come from the custom.hm.* modules, not from here.
+    # `writing` is a whitelist, and the first list is all of it. Everything
+    # below it -- browsers, chat, games, the whole toolchain -- belongs to the
+    # other two modes. The terminal, the editor and the usual shell tools
+    # (eza, bat, fzf, fd, ripgrep, jq, tree ...) come from the custom.hm.*
+    # modules, which stay on in every mode, so none of them are listed here.
     packages =
       (with pkgs; [
+        # Read a source, and play music.
         zathura
         mpv
         spotify-player
+
+        # Prose tooling. typst compiles a draft to PDF, which zathura above
+        # then opens; pandoc comes from custom.hm.cli.
+        typst
+        # Terminal speed-reader, for reading a draft back.
+        fltrdr
+
+        # Shell odds and ends the cli module leaves out.
+        file
+        # A TUI mixer. pamixer is a one-shot command with no display, which is
+        # awkward when the only thing playing is in another window.
+        pulsemixer
       ])
       ++ lib.optionals (config.custom.hm.mode != "writing") (with pkgs; [
       claude-nixpkgs.claude-code
@@ -275,8 +289,6 @@ in
       ditaa
       overskride
       keymapp
-      fltrdr
-      typst
       anki-bin
 
       # hivelytracker # another one
