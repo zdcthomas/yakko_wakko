@@ -5,6 +5,7 @@
     ./anyrun
     ./bash
     ./cli
+    ./dictionary.nix
     ./firefox.nix
     ./fish
     ./font.nix
@@ -18,6 +19,7 @@
     ./imports.nix
     ./jujutsu.nix
     ./kitty
+    ./mode.nix
     ./music_making.nix
     ./nix
     ./nushell

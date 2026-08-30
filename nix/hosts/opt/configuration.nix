@@ -39,23 +39,16 @@ args@{
       jetbrains-mono
     ];
   };
-  networking.extraHosts =
-    let
-      domains = [
-        # "x"
-        # "facebook"
-        # "instagram"
-        # "reddit"
-      ];
-    in
-    pkgs.lib.concatMapStringsSep "\n" (domain: ''
-      127.0.0.1 ${domain}.com
-      127.0.0.1 www.${domain}.com
-    '') domains;
-
+  # The old hosts-file blocklist lived here. It is gone: it could not match
+  # subdomains, and switching it on and off cost an edit and a rebuild, which
+  # is why every domain in it ended up commented out. blocky does the same job
+  # per mode. See CONTEXT.md and nix/modules/nixos/modes.
   zdct = {
     de = "hyprland";
     nix.enable = true;
+    # `making` is this configuration; `open` and `writing` are specialisations,
+    # so `making` is what the boot menu selects by default.
+    modes.enable = true;
   };
   imports = [
     # Include the results of the hardware scan.

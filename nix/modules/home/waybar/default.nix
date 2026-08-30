@@ -15,6 +15,28 @@ let
   icon = codepoint: builtins.fromJSON ''"\u${codepoint}"'';
   iconHeadphones = icon "f025"; # nf-fa-headphones
   iconGamepad = icon "f11b"; # nf-fa-gamepad
+
+  # One glyph per mode. A typewriter and a sofa would read better, but both
+  # live in the Material Design block at U+F0001+ that PragmataPro does not
+  # cover, so they would render from the fallback family at a different weight
+  # beside the two icons above.
+  iconPencil = icon "f040"; # nf-fa-pencil -- writing
+  iconCode = icon "f121"; # nf-fa-code -- making
+  iconCoffee = icon "f0f4"; # nf-fa-coffee -- open
+
+  # The mode is read from /etc/yakko-mode rather than passed in from Nix, so
+  # the bar shows what the running system actually is. Each mode is its own
+  # boot entry, so this never changes while waybar is up.
+  modeStatus = pkgs.writeShellScript "waybar-mode" ''
+    mode=$(cat /etc/yakko-mode 2>/dev/null || echo unknown)
+    case "$mode" in
+      writing) icon='${iconPencil}' ;;
+      making)  icon='${iconCode}' ;;
+      open)    icon='${iconCoffee}' ;;
+      *)       icon='?' ;;
+    esac
+    printf '{"text":"%s","class":"%s","tooltip":"mode: %s"}\n' "$icon" "$mode" "$mode"
+  '';
 in
 {
   options = {
@@ -40,6 +62,7 @@ in
           spacing = 0; # Gaps come from CSS margins, not here
           reload_style_on_change = true;
           modules-left = [
+            "custom/mode"
             "network"
             "tray"
             "pulseaudio"
@@ -72,6 +95,13 @@ in
           tray = {
             icon-size = 16;
             spacing = 10;
+          };
+          "custom/mode" = {
+            format = "{}";
+            return-type = "json";
+            # The mode cannot change without a reboot, so one read is enough.
+            interval = "once";
+            exec = modeStatus;
           };
           "custom/airpods" = {
             format = iconHeadphones;

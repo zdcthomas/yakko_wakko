@@ -21,6 +21,9 @@
 
     wezterm = inputs.wezterm.packages.${prev.stdenv.hostPlatform.system}.default;
     # hurl_2 = import ./hurl.nix { pkgs = prev; };
+    # Public-domain StarDict dictionaries for sdcv. Built here rather than
+    # fetched, because none of the three sources ship in StarDict format.
+    stardictDictionaries = prev.callPackage ../pkgs/dictionaries { };
     nuekit = import ./nuekit.nix { pkgs = prev; };
     diagon = import ./diagon.nix { pkgs = prev; };
     ldtk = import ./ldtk.nix { pkgs = prev; };

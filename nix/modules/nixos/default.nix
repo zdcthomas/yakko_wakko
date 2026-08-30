@@ -1,1 +1,1 @@
-{ imports = [ ./de.nix ./nix.nix ]; }
+{ imports = [ ./de.nix ./modes ./nix.nix ]; }

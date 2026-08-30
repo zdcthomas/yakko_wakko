@@ -39,6 +39,7 @@ window#waybar {
 #bluetooth,
 #idle_inhibitor,
 #custom-airpods,
+#custom-mode,
 #custom-mouse-toggle,
 #submap,
 #clock,
@@ -56,10 +57,26 @@ window#waybar {
 #tray,
 #idle_inhibitor,
 #custom-airpods,
+#custom-mode,
 #custom-mouse-toggle,
 #workspaces {
   padding-left: 7px;
   padding-right: 7px;
+}
+
+/* One colour per mode. The class is the mode name, straight from
+   /etc/yakko-mode. Colour rather than text: a label stops being read within
+   days, and this is the only indicator `writing` gets. */
+#custom-mode.writing {
+  color: @flamingo;
+}
+
+#custom-mode.making {
+  color: @green;
+}
+
+#custom-mode.open {
+  color: @peach;
 }
 
 /* Resting-state hues. The right-hand modules all set their own colour, so

@@ -93,6 +93,8 @@ in
     alacritty.enable = true;
     bash.enable = true;
     cli.enable = true;
+    # WordNet, Moby Thesaurus and GCIDE, offline, in every mode. `dict <word>`.
+    dictionary.enable = true;
     # fish.enable = true;
     git.enable = true;
     hyprland.enable = true;
@@ -246,7 +248,18 @@ in
     # stateVersion = "22.05";
 
     # extraOutputsToInstall = [ "man" ];
-    packages = with pkgs; [
+    #
+    # `writing` is a whitelist, and the first list is all of it: something to
+    # read a source in, and music. Everything below it -- browsers, chat,
+    # games, the whole toolchain -- belongs to the other two modes. Terminal
+    # and editor come from the custom.hm.* modules, not from here.
+    packages =
+      (with pkgs; [
+        zathura
+        mpv
+        spotify-player
+      ])
+      ++ lib.optionals (config.custom.hm.mode != "writing") (with pkgs; [
       claude-nixpkgs.claude-code
       # terminal multiplexer that tracks coding-agent state per pane
       herdr
@@ -262,11 +275,9 @@ in
       ditaa
       overskride
       keymapp
-      spotify-player
       fltrdr
       typst
       anki-bin
-      mpv
 
       # hivelytracker # another one
       # helio-workstation # midi composer
@@ -278,7 +289,6 @@ in
       ags
       eza
       texlive.combined.scheme-full
-      zathura
       bashInteractive
       font-awesome_5
       gnumake
@@ -321,13 +331,17 @@ in
 
       # xdg-utils
       discord
+
+      # The desktop client, for the two modes that already have a browser.
+      # `writing` gets spotify-player above instead: same music, no storefront.
+      spotify
       # (fenix.complete.withComponents [
       #   "cargo"
       #   "clippy"
       #   "rust-src"
       #   "rustc"
       # ])
-    ];
+      ]);
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
