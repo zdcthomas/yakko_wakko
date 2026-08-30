@@ -46,8 +46,8 @@ args@{
   zdct = {
     de = "hyprland";
     nix.enable = true;
-    # `making` is this configuration; `open` and `writing` are specialisations,
-    # so `making` is what the boot menu selects by default.
+    # `open` is this configuration; `making` and `writing` are specialisations,
+    # so `open` is what the boot menu selects by default.
     modes.enable = true;
   };
   imports = [

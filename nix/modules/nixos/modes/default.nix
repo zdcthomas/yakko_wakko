@@ -3,7 +3,7 @@
 # See CONTEXT.md for what a mode is, and docs/adr/0001-reboot-only-mode-switching.md
 # for why switching costs a reboot and nothing cheaper.
 #
-# `making` is the parent configuration, so it is the default boot entry. `open`
+# `open` is the parent configuration, so it is the default boot entry. `making`
 # and `writing` are specialisations, and each one only forces `zdct.mode`. The
 # per-mode files below react to that value, so there is exactly one place that
 # decides which mode is active.
@@ -30,7 +30,7 @@ in
         "making"
         "writing"
       ];
-      default = "making";
+      default = "open";
       description = ''
         The active mode. The parent configuration keeps the default, and each
         specialisation forces its own value. Published at /etc/yakko-mode so
@@ -101,8 +101,8 @@ in
       };
 
       specialisation = {
-        open.configuration = {
-          zdct.mode = lib.mkForce "open";
+        making.configuration = {
+          zdct.mode = lib.mkForce "making";
         };
         writing.configuration = {
           zdct.mode = lib.mkForce "writing";
