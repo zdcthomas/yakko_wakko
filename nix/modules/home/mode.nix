@@ -38,7 +38,9 @@ in
     (lib.mkIf (cfg.mode == "writing") {
       # Nothing that opens a page, a feed or a store.
       custom.hm.firefox.enable = lib.mkForce false;
-      custom.hm.rss.enable = lib.mkForce false;
+      # Stops the weekly timer too. The issues already on disk stay readable in
+      # foliate; this only stops new feed fetches.
+      custom.hm.news.enable = lib.mkForce false;
       custom.hm.game_dev.enable = lib.mkForce false;
       programs.retroarch.enable = lib.mkForce false;
 

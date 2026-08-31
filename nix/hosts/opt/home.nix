@@ -32,6 +32,17 @@ in
       };
     };
 
+    # Without this, home-manager writes no ~/.config/mimeapps.list at all and
+    # every association below is dead config. It was off until now, so the
+    # live handlers came from a hand-edited ~/.config/mimeapps.list instead.
+    #
+    # Turning it on makes that file a read-only store symlink. Two results:
+    #   - `xdg-mime default ...` stops working, and an app can no longer
+    #     register itself. Declare the association here instead.
+    #   - Activation refuses to overwrite the existing plain file. Move it
+    #     away once: `mv ~/.config/mimeapps.list{,.bak}`.
+    # The entries that file held are all folded in below.
+    mimeApps.enable = true;
     mimeApps.defaultApplications = {
       # Images
       "image/png" = "imv-dir.desktop";
@@ -43,10 +54,32 @@ in
       "image/svg+xml" = "imv-dir.desktop";
       "image/x-icon" = "imv-dir.desktop";
 
-      # Documents
-      "application/pdf" = "org.pwmt.zathura.desktop";
-      "application/epub" = "org.pwmt.zathura.desktop";
-      "application/epub+zip" = "org.pwmt.zathura.desktop";
+      # Documents. One reader for everything.
+      #
+      # foliate does render PDF -- it bundles the whole of pdf.js -- but its
+      # desktop file does not list application/pdf, so it will never win this
+      # type by itself. This entry is the override that gives it to foliate
+      # anyway: a [Default Applications] line wins over what a desktop file
+      # claims.
+      #
+      # zathura is still installed and still the faster reader for a big
+      # technical PDF. Reach for it by name, or swap this line back.
+      "application/pdf" = "com.github.johnfactotum.Foliate.desktop";
+      # Non-standard, but some tools still emit it.
+      "application/epub" = "com.github.johnfactotum.Foliate.desktop";
+      "application/epub+zip" = "com.github.johnfactotum.Foliate.desktop";
+      # mobi, and the azw3/KF8 that Kindle exports.
+      "application/x-mobipocket-ebook" = "com.github.johnfactotum.Foliate.desktop";
+      "application/vnd.amazon.mobi8-ebook" = "com.github.johnfactotum.Foliate.desktop";
+      # FictionBook, plain and zipped.
+      "application/x-fictionbook+xml" = "com.github.johnfactotum.Foliate.desktop";
+      "application/x-zip-compressed-fb2" = "com.github.johnfactotum.Foliate.desktop";
+      # Comic archives. zathura-cb also opens these; foliate paginates them
+      # better and remembers your place.
+      "application/vnd.comicbook+zip" = "com.github.johnfactotum.Foliate.desktop";
+      # opds:// links. An OPDS catalog is the RSS feed of a book server, and
+      # foliate is an OPDS client. Click a catalog link, get the library.
+      "x-scheme-handler/opds" = "com.github.johnfactotum.Foliate.desktop";
 
       # Video
       "video/mp4" = "mpv.desktop";
@@ -68,9 +101,23 @@ in
       "x-scheme-handler/https" = "firefox.desktop";
       "x-scheme-handler/about" = "firefox.desktop";
       "x-scheme-handler/unknown" = "firefox.desktop";
+      "x-scheme-handler/chrome" = "firefox.desktop";
+      "application/xhtml+xml" = "firefox.desktop";
+      "application/x-extension-htm" = "firefox.desktop";
+      "application/x-extension-html" = "firefox.desktop";
+      "application/x-extension-shtml" = "firefox.desktop";
+      "application/x-extension-xhtml" = "firefox.desktop";
+      "application/x-extension-xht" = "firefox.desktop";
 
-      # Directories
+      # Directories and archives
       "inode/directory" = "thunar.desktop";
+      "application/zip" = "thunar.desktop";
+
+      # Claude Code writes this desktop entry into
+      # ~/.local/share/applications and used to register it by editing
+      # mimeapps.list. That file is read-only now, so declare it here or the
+      # claude-cli:// links from the web app stop opening.
+      "x-scheme-handler/claude-cli" = "claude-code-url-handler.desktop";
     };
   };
 
@@ -100,9 +147,12 @@ in
     hyprland.enable = true;
     # music_making.enable = true;
     nix.enable = true;
-    rss = {
+    # Feeds arrive as a weekly EPUB in ~/Books/News, not as a reader to check.
+    # Feed list and schedule live in the module.
+    news = {
       enable = true;
-      gui.enable = true;
+      # newsboat, on the same feed list the weekly EPUB is built from.
+      reader.enable = true;
     };
     # ssh.enable = true;
     tmux.enable = true;
@@ -258,6 +308,12 @@ in
       (with pkgs; [
         # Read a source, and play music.
         zathura
+        # The epub/mobi/azw3/fb2/cbz handler set in mimeApps above. It belongs
+        # in this list, not the one below: the handler has to exist in every
+        # mode, or xdg-open finds nothing in writing mode. It reads dictd, so
+        # the offline WordNet and GCIDE from custom.hm.dictionary answer
+        # word lookups without a network.
+        foliate
         mpv
         spotify-player
 
@@ -313,6 +369,10 @@ in
       minicom
       usbutils
 
+      # Kept for one-off jobs: format conversion and metadata fixing. Nothing
+      # imports or serves a library any more; books are read straight out of
+      # ~/Books. The news module calls ebook-convert by store path, so it does
+      # not depend on this entry.
       calibre
       jp2a
       vhs
