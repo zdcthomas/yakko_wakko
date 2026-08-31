@@ -79,14 +79,41 @@ in
     {
       environment.etc."yakko-mode".text = "${config.zdct.mode}\n";
 
-      # Boot menu legibility. systemd-boot builds each title as
-      # `distroName (specialisation)`, and distroName comes from the parent
-      # configuration, so the mode can never lead the title and the parent
-      # entry carries no specialisation part at all. What is left is the
-      # version line, which defaults to the full NixOS release string and is
-      # identical on every entry. Replacing it with the mode name is what
-      # makes one row distinguishable from the next.
+      # Boot menu legibility, part one: the version line. It defaults to the
+      # full NixOS release string, which is identical on every entry of a
+      # generation. The mode name tells the three rows apart, and the rewrite
+      # below reads it back out for the parent entry.
       system.nixos.label = config.zdct.mode;
+
+      # Boot menu legibility, part two: the title. systemd-boot's builder
+      # hardcodes `title <distroName> (<specialisation>)`, and distroName is
+      # one global value, so the mode can only ever land in the parentheses.
+      # Rewriting the entries after the builder writes them is the only way to
+      # lead with the mode without renaming the distribution.
+      #
+      # The mode comes from the specialisation name for the two
+      # specialisations, and from system.nixos.label for the parent entry. A
+      # generation built before modes existed matches neither, so it keeps its
+      # plain `NixOS` title instead of getting a mode it never had. Running the
+      # rewrite over an already-rewritten title changes nothing.
+      boot.loader.systemd-boot.extraInstallCommands =
+        let
+          sed = "${pkgs.gnused}/bin/sed";
+        in
+        ''
+          for entry in ${config.boot.loader.efi.efiSysMountPoint}/loader/entries/nixos-generation-*.conf; do
+            [ -e "$entry" ] || continue
+            mode=$(${sed} -n 's/^title .*(\(.*\))$/\1/p' "$entry")
+            if [ -z "$mode" ]; then
+              mode=$(${sed} -n 's/^version .* \(open\|making\|writing\) (Linux .*/\1/p' "$entry")
+            fi
+            case "$mode" in
+              open|making|writing)
+                ${sed} -i "s|^title .*|title $mode (${config.system.nixos.distroName})|" "$entry"
+                ;;
+            esac
+          done
+        '';
 
       # Home-manager runs as a NixOS module here, so the mode reaches the user
       # environment through one option rather than through a file read at

@@ -65,13 +65,6 @@ args@{
   home-manager.users.${username} = import ./home.nix;
   home-manager.extraSpecialArgs = { inherit overlays inputs username; };
 
-  # The boot menu titles every entry `<distroName> (<specialisation>)`, so a
-  # long distroName pushes the mode off to the right of a wall of identical
-  # text. Shortening it to the machine's own name is the only way to bring the
-  # mode close to the front. This name also becomes NAME in /etc/os-release,
-  # so neofetch says "opt" rather than "NixOS".
-  system.nixos.distroName = "opt";
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
