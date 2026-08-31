@@ -79,6 +79,15 @@ in
     {
       environment.etc."yakko-mode".text = "${config.zdct.mode}\n";
 
+      # Boot menu legibility. systemd-boot builds each title as
+      # `distroName (specialisation)`, and distroName comes from the parent
+      # configuration, so the mode can never lead the title and the parent
+      # entry carries no specialisation part at all. What is left is the
+      # version line, which defaults to the full NixOS release string and is
+      # identical on every entry. Replacing it with the mode name is what
+      # makes one row distinguishable from the next.
+      system.nixos.label = config.zdct.mode;
+
       # Home-manager runs as a NixOS module here, so the mode reaches the user
       # environment through one option rather than through a file read at
       # activation time.
