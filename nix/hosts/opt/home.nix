@@ -314,6 +314,13 @@ in
         # the offline WordNet and GCIDE from custom.hm.dictionary answer
         # word lookups without a network.
         foliate
+        # A second reader, on trial against foliate. koreader draws no web
+        # engine at all -- crengine for epub/mobi/azw3/fb2, mupdf for pdf/cbz --
+        # so it covers the same handler set as foliate above. It is here rather
+        # than in the list below for the same reason foliate is: reading has to
+        # work in writing mode. It also keeps per-book reading statistics,
+        # which foliate does not.
+        koreader
         mpv
         spotify-player
 
