@@ -1,3 +1,16 @@
+-- word count for the daily-500-words component; skips #+ front matter
+-- lines so only prose counts toward the goal
+local function prose_words()
+	local words = 0
+	for _, line in ipairs(vim.api.nvim_buf_get_lines(0, 0, -1, false)) do
+		if not line:match("^%s*#%+") then
+			local _, n = line:gsub("%S+", "")
+			words = words + n
+		end
+	end
+	return words
+end
+
 return {
 	"nvim-lualine/lualine.nvim",
 	event = "BufReadPost",
@@ -36,7 +49,23 @@ return {
 					colored = true,
 				},
 			},
-			lualine_x = { "location", "progress" },
+			lualine_x = {
+				{
+					-- daily-500-words progress; only shows in files under
+					-- writing/500-words/ so the statusline stays quiet elsewhere
+					function()
+						return ("%d/500 words"):format(prose_words())
+					end,
+					cond = function()
+						return vim.api.nvim_buf_get_name(0):find("/writing/500%-words/") ~= nil
+					end,
+					color = function()
+						return prose_words() >= 500 and { fg = "#9ece6a" } or nil
+					end,
+				},
+				"location",
+				"progress",
+			},
 			lualine_y = { "encoding" },
 			lualine_z = { { "filetype", colored = false } },
 		},
