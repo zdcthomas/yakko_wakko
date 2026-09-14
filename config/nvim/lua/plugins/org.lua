@@ -7,6 +7,25 @@ local function org_agenda_path(path)
 	return ("%s/%s"):format(org_directory, path)
 end
 
+-- today's daily-500-words entry, created with front matter on first access.
+-- global because capture targets' %() strings are evaluated by orgmode
+-- outside this file's closure
+_G.OrgToday500Words = function()
+	local dir = vim.fn.expand(wiki_path("writing/500-words"))
+	local date = os.date("%Y-%m-%d")
+	local path = ("%s/%s.org"):format(dir, date)
+	if vim.fn.filereadable(path) == 0 then
+		vim.fn.mkdir(dir, "p")
+		vim.fn.writefile({
+			"#+TITLE: " .. date,
+			"#+DATE: <" .. date .. ">",
+			"#+EDITED: no",
+			"",
+		}, path)
+	end
+	return path
+end
+
 return {
 
 	{
@@ -154,8 +173,15 @@ return {
 				desc = "[o]rg [i]nbox",
 			},
 			{
+				"<leader>o5",
+				function()
+					vim.cmd.edit(_G.OrgToday500Words())
+				end,
+				desc = "[o]rg today's [5]00 words",
+			},
+			{
 				-- inbox processing: move the heading under the cursor into a
-				-- brand new agenda file (e.g. repos/traddle) created on the spot
+				-- brand new agenda file (e.g. work/traddle) created on the spot
 				"<leader>of",
 				function()
 					local api = require("orgmode.api")
@@ -165,7 +191,7 @@ return {
 						vim.notify("No org heading under cursor", vim.log.levels.WARN)
 						return
 					end
-					vim.ui.input({ prompt = "New agenda file (e.g. repos/traddle): " }, function(input)
+					vim.ui.input({ prompt = "New agenda file (e.g. work/traddle): " }, function(input)
 						if not input or vim.trim(input) == "" then
 							return
 						end
@@ -179,6 +205,104 @@ return {
 					end)
 				end,
 				desc = "[o]rg re[f]ile to new [f]ile",
+			},
+			{
+				-- poems, posts, and projects are whole files, not headings, so
+				-- "capture" for them creates the file and opens it for editing
+				"<leader>on",
+				function()
+					local kinds = {
+						{ label = "Work project", dir = "work", skeleton = { "* Notes", "", "* Tasks" } },
+						{
+							label = "Personal project",
+							dir = "personal/projects",
+							skeleton = { "* Notes", "", "* Tasks" },
+						},
+						{ label = "Blog post", dir = "personal/blog" },
+						{ label = "Poem", dir = "personal/poetry" },
+					}
+					vim.ui.select(kinds, {
+						prompt = "New org file",
+						format_item = function(kind)
+							return kind.label
+						end,
+					}, function(kind)
+						if not kind then
+							return
+						end
+						vim.ui.input({ prompt = kind.label .. " name: " }, function(input)
+							if not input or vim.trim(input) == "" then
+								return
+							end
+							local title = vim.trim(input):gsub("%.org$", "")
+							local slug = title:lower():gsub("%s+", "-")
+							local path = vim.fn.expand(org_agenda_path(("%s/%s.org"):format(kind.dir, slug)))
+							if vim.fn.filereadable(path) == 0 then
+								vim.fn.mkdir(vim.fs.dirname(path), "p")
+								local lines = { "#+TITLE: " .. title, "#+CATEGORY: " .. slug, "" }
+								vim.list_extend(lines, kind.skeleton or {})
+								vim.fn.writefile(lines, path)
+							end
+							vim.cmd.edit(path)
+						end)
+					end)
+				end,
+				desc = "[o]rg [n]ew project/poem/post file",
+			},
+			{
+				"<leader>oo",
+				function()
+					require("telescope.builtin").find_files({
+						prompt_title = "Org files",
+						search_dirs = {
+							vim.fn.expand(wiki_path("agenda")),
+							vim.fn.expand(wiki_path("writing")),
+						},
+					})
+				end,
+				desc = "[o]rg [o]pen file",
+			},
+			{
+				"<leader>os",
+				function()
+					local root = vim.fn.expand("~/Irulan")
+					local function git(args, on_ok)
+						vim.system(vim.list_extend({ "git", "-C", root }, args), { text = true }, function(out)
+							if out.code ~= 0 then
+								vim.schedule(function()
+									local detail = vim.trim((out.stderr or "") .. (out.stdout or ""))
+									vim.notify(
+										("Irulan git %s failed:\n%s"):format(args[1], detail),
+										vim.log.levels.ERROR
+									)
+								end)
+								return
+							end
+							on_ok(out)
+						end)
+					end
+					-- commit what's on screen, not just what's on disk
+					vim.cmd("silent! wall")
+					git({ "add", "-A" }, function()
+						git({ "status", "--porcelain" }, function(status)
+							local function push()
+								git({ "push" }, function()
+									vim.schedule(function()
+										vim.notify("Irulan synced")
+									end)
+								end)
+							end
+							if status.stdout == "" then
+								-- nothing new to commit; push anyway in case an
+								-- earlier commit never made it out
+								push()
+							else
+								git({ "commit", "-m", os.date("%Y-%m-%d") }, push)
+							end
+						end)
+					end)
+				end,
+				desc = "[o]rg [s]ync: commit + push Irulan",
 			},
 		},
 		opts = {
@@ -234,94 +358,29 @@ return {
 				},
 			},
 			org_capture_templates = {
-				l = {
-					description = "Links",
-					template = "* [[%?]]",
-					headline = "Links",
-				},
 				t = {
 					description = "Inbox (refile later)",
 					template = { "* TODO %?", ":PROPERTIES:", ":CREATED: %U", ":END:" },
 					target = org_agenda_path("inbox.org"),
 				},
-				s = {
-					-- unscheduled, so it stays out of the week agenda and
-					-- dashboard; filter tags views with -someday if needed
-					description = "Someday/maybe",
-					template = { "* TODO %?", ":PROPERTIES:", ":CREATED: %U", ":END:" },
-					target = org_agenda_path("someday.org"),
+				p = {
+					description = "Personal thought",
+					template = { "* %?", "%U" },
+					properties = {
+						empty_lines = 1,
+					},
+					target = org_agenda_path("personal/thoughts.org"),
 				},
-				i = {
-					description = "Idea",
-					headline = "Ideas",
-					template = "* %?",
+				j = {
+					description = "Journal",
+					template = { "%?" },
+					datetree = { reversed = true, tree_type = "day" },
+					target = wiki_path("writing/journal.org"),
 				},
 				w = {
-					description = "Work",
-					subtemplates = {
-						n = {
-							description = "notes",
-							headline = "Notes",
-							template = "* %?",
-							target = org_agenda_path("work.org"),
-						},
-						a = {
-							description = "accomplishments",
-							headline = "Accomplishments",
-							template = { "* %?", ":PROPERTIES:", ":HAPPENED: %U", ":END:" },
-							target = org_agenda_path("work.org"),
-						},
-						t = {
-							description = "todos",
-							template = { "* TODO %?", ":PROPERTIES:", ":CREATED: %U", ":END:" },
-							headline = "Tasks",
-							target = org_agenda_path("work.org"),
-						},
-						-- T = {
-						-- 	description = "todos",
-						-- 	headline = "Tasks",
-						-- 	template = { "* TODO %?", "SCHEDULED: %u DEADLINE: %^{Deadline}T" },
-						-- 	target = org_agenda_path("work.org"),
-						-- },
-					},
-				},
-				p = {
-					description = "personal",
-					subtemplates = {
-						p = {
-							description = "poetry",
-							template = "* %? %u",
-							properties = {
-								empty_lines = 1,
-							},
-							headline = "Poetry",
-							target = wiki_path("writing/inbox.org"),
-						},
-						b = {
-							description = "Bull",
-							template = { "* %?", "%U" },
-							properties = {
-								empty_lines = 2,
-							},
-							headline = "Thoughts",
-							target = wiki_path("writing/inbox.org"),
-						},
-						s = {
-							description = "Story ideas",
-							template = { "* %?", "%U" },
-							properties = {
-								empty_lines = 2,
-							},
-							headline = "Stories",
-							target = wiki_path("writing/inbox.org"),
-						},
-						j = {
-							description = "Journal",
-							template = { "%?" },
-							datetree = { reversed = true, tree_type = "day" },
-							target = wiki_path("writing/journal.org"),
-						},
-					},
+					description = "Daily 500 Words",
+					template = { "%?" },
+					target = "%(return OrgToday500Words())",
 				},
 				r = {
 					description = "per repo",
