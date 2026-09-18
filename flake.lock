@@ -753,7 +753,8 @@
         "nixpkgs": "nixpkgs_5",
         "nur": "nur",
         "unstable": "unstable",
-        "wezterm": "wezterm"
+        "wezterm": "wezterm",
+        "writ": "writ"
       }
     },
     "rust-analyzer-src": {
@@ -935,6 +936,23 @@
         "owner": "wez",
         "repo": "wezterm",
         "type": "github"
+      }
+    },
+    "writ": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789756036,
+        "narHash": "sha256-3vtZ32cq6yI4qpqolb9ZJiwLmah4Cl1MPXnv569+PFw=",
+        "ref": "refs/heads/main",
+        "rev": "e63ec3b66cb56ee504ed5b6ae9088f08a546d5a7",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/jcswart/writ.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/jcswart/writ.git"
       }
     },
     "zlib": {
