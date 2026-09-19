@@ -4,6 +4,7 @@
     ./alacritty.nix
     ./anyrun
     ./bash
+    ./claude
     ./cli
     ./dictionary.nix
     ./firefox.nix

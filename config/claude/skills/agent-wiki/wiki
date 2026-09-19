@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# Token-cheap lookup over a local markdown wiki of durable findings.
+# Contains no knowledge of any particular wiki's contents or location.
+set -uo pipefail
+
+usage() {
+  cat <<'EOF'
+wiki path              print the wiki root, or nothing if not on this machine
+wiki search <terms>    matching lines, with file:line. Start here.
+wiki digest            every note's one-line summary. Cheapest overview.
+wiki show <name>       one note's summary and its "## Use" block
+wiki list              note names only
+wiki stale             notes containing values likely to have drifted
+EOF
+}
+
+find_root() {
+  if [ -n "${AGENT_WIKI_DIR:-}" ] && [ -f "$AGENT_WIKI_DIR/INDEX.md" ]; then
+    printf '%s\n' "$AGENT_WIKI_DIR"; return 0
+  fi
+  local cfg="${XDG_CONFIG_HOME:-$HOME/.config}/agent-wiki/path"
+  if [ -f "$cfg" ]; then
+    local p; p=$(head -1 "$cfg")
+    [ -f "$p/INDEX.md" ] && { printf '%s\n' "$p"; return 0; }
+  fi
+  # shallow discovery: $HOME/*/agent_wiki/INDEX.md, then $HOME/agent_wiki
+  local hit
+  hit=$(find "$HOME" -maxdepth 3 -type f -name INDEX.md -path '*agent_wiki*' 2>/dev/null | head -1)
+  [ -n "$hit" ] && { dirname "$hit"; return 0; }
+  return 1
+}
+
+ROOT=$(find_root) || { echo "no wiki found on this machine" >&2; exit 2; }
+SEARCH=$(command -v rg >/dev/null 2>&1 && echo rg || echo grep)
+
+notes() { find "$ROOT" -name '*.md' -not -name INDEX.md | sort; }
+
+# a note's summary is its first non-empty line after the "# title" line
+summary_of() {
+  awk 'NR>1 && NF && $0 !~ /^#/ { print; exit }' "$1"
+}
+
+cmd=${1:-}; shift 2>/dev/null || true
+case "$cmd" in
+  path) printf '%s\n' "$ROOT" ;;
+
+  search)
+    [ $# -gt 0 ] || { usage; exit 1; }
+    if [ "$SEARCH" = rg ]; then
+      rg --line-number --no-heading --smart-case --max-columns 400 \
+         --color never -- "$*" "$ROOT" | sed "s|^$ROOT/||"
+    else
+      grep -rn --color=never -i -- "$*" "$ROOT" | sed "s|^$ROOT/||"
+    fi
+    ;;
+
+  digest)
+    notes | while read -r f; do
+      printf '%-46s %s\n' "$(basename "$f" .md)" "$(summary_of "$f")"
+    done
+    ;;
+
+  show)
+    [ $# -gt 0 ] || { usage; exit 1; }
+    f=$(notes | grep -m1 -- "$1") || { echo "no note matching '$1'" >&2; exit 1; }
+    echo "== ${f#$ROOT/}"
+    summary_of "$f"
+    awk '/^## Use/{f=1;next} /^## /{f=0} f' "$f"
+    ;;
+
+  list) notes | sed "s|^$ROOT/||" ;;
+
+  # values that tend to rot: bare counts, versions, sizes, "as of" dates
+  stale)
+    if [ "$SEARCH" = rg ]; then
+      rg --line-number --no-heading --color never \
+        -e '\bas of\b' -e '\b[0-9]+ (books|authors|tags|files|containers|services)\b' \
+        -e '\bv?[0-9]+\.[0-9]+\.[0-9]+\b' -e '\b[0-9]+(\.[0-9]+)? ?(GB|MB|TB)\b' \
+        "$ROOT" | sed "s|^$ROOT/||"
+    else
+      echo "stale check needs ripgrep" >&2; exit 2
+    fi
+    ;;
+
+  ''|-h|--help|help) usage ;;
+  *) usage; exit 1 ;;
+esac
