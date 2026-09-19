@@ -61,7 +61,8 @@ in
 
   time.timeZone = "America/Denver";
   i18n.defaultLocale = "en_US.utf8";
-  sound.enable = true;
+  # `sound.enable` was removed upstream; pipewire below is what actually
+  # configures audio here.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -74,6 +75,11 @@ in
     komga = {
       enable = true;
       openFirewall = true;
+      # 25.11 moved komga's config under `settings` and gave it no default, while
+      # openFirewall reads `settings.server.port`. Enabling komga without this
+      # errors with "option `services.komga.settings' was accessed but has no
+      # value defined".
+      settings.server.port = 8080;
     };
     anki-sync-server = {
       enable = true;
@@ -197,6 +203,9 @@ in
   system.stateVersion = "22.05"; # Did you read the comment?
 
   virtualisation.docker.enable = true;
+  # The default docker_28 is marked insecure in 25.11, not for a CVE but because
+  # "docker_28 has been unmaintained since November 2025, use docker_29 or newer".
+  virtualisation.docker.package = pkgs.docker_29;
 
   # virtualisation.oci-containers = {
   #   backend = "docker";

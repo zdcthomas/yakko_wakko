@@ -38,7 +38,8 @@
       ffmpeg
       lshw
       beets
-      nodejs-18_x
+      # nodejs-18_x is gone from nixpkgs; Node 18 reached EOL in April 2025.
+      nodejs
       # expressvpn
     ];
 
