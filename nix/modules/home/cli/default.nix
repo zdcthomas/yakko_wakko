@@ -44,6 +44,7 @@ in
         zk
         unzip
         wget
+        writ
         # wkhtmltopdf
         zip
       ];

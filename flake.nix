@@ -71,6 +71,11 @@
       url = "git+ssh://git@github.com/zdcthomas/PP.git?shallow=1";
       flake = false;
     };
+    # Private repo, so fetched over ssh instead of fetchFromGitHub.
+    writ = {
+      url = "git+ssh://git@github.com/jcswart/writ.git?shallow=1";
+      flake = false;
+    };
   };
 
   outputs =
