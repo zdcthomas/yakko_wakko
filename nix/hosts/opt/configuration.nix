@@ -100,6 +100,22 @@ args@{
 
   powerManagement.enable = true; # Enables hibernate?
   powerManagement.cpuFreqGovernor = "powersave";
+
+  # hardware-configuration.nix leaves swapDevices empty, which on 14GiB made the
+  # machine unusable rather than merely slow: with nowhere to put anonymous
+  # pages the kernel reclaims the page cache instead, and the page cache holds
+  # the mapped code of everything running. Each process then re-reads its own
+  # executable off disk to run a few instructions. It never OOMs, it just
+  # crawls -- see the 23:37-23:41 window on 2026-09-14. zram is somewhere for
+  # those pages to go that is not the disk. Defaults are 50% of RAM and zstd.
+  zramSwap.enable = true;
+
+  # zram only buys time; something still has to kill whatever is eating RAM.
+  # systemd.oomd.enable is already true by default, but all three slice options
+  # default to false, so every cgroup ships ManagedOOM*=auto ("do nothing") and
+  # the daemon supervises nothing. User slices are where the hogs live.
+  systemd.oomd.enableUserSlices = true;
+
   services = {
     komga = {
       enable = true;
