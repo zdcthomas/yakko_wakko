@@ -10,7 +10,8 @@
       "WebFetch(domain:man.archlinux.org)",
       "Read(//home/opt/.local/share/nvim/lazy/orgmode/**)",
       "Read(//home/opt/.local/share/nvim/lazy/telescope-orgmode.nvim/**)",
-      "WebFetch(domain:www.onorca.dev)"
+      "WebFetch(domain:www.onorca.dev)",
+      "mcp__serena__initial_instructions"
     ],
     "deny": [],
     "ask": []

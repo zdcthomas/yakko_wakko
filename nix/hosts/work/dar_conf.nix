@@ -46,7 +46,12 @@
   homebrew = {
     enable = true;
     onActivation = {
-      cleanup = "zap";
+      # Homebrew 7 removed `brew bundle --cleanup`; it is a subcommand now.
+      # nix-darwin's 25.11 branch still passes the dead flag, which aborts
+      # activation before home-manager runs. master is fixed, so restore
+      # "zap" after the next nix-darwin release bump. Until then, clean up
+      # by hand with: brew bundle cleanup --force --zap --file=<Brewfile>
+      cleanup = "none";
     };
 
     brews = [
@@ -55,9 +60,10 @@
       "awscurl"
       "json-table"
       "bazel"
-      "borders"
       "acli"
-      "sketchybar"
+      # borders and sketchybar were dropped when Homebrew 7 started refusing
+      # their untrusted felixkratz/formulae tap. Neither was in use. To bring
+      # one back, re-add it and run: brew trust felixkratz/formulae
     ];
     casks = [
       "hammerspoon"

@@ -56,6 +56,7 @@ in
       with pkgs;
       [
         d2
+        mdslw
         nurl
         deno
         nix-init

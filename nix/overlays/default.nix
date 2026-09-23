@@ -53,6 +53,7 @@
     diagon = import ./diagon.nix { pkgs = prev; };
     ldtk = import ./ldtk.nix { pkgs = prev; };
     carapace = import ./carapace.nix { pkgs = prev; };
+    mdslw = import ./mdslw.nix { pkgs = prev; };
     writ = import ./writ.nix {
       pkgs = prev;
       inherit inputs;

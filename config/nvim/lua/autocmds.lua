@@ -56,7 +56,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	group = init_group_id,
 	callback = function()
-		vim.opt.formatoptions = vim.tbl_extend("force", vim.opt.formatoptions:get(), {
+		vim.opt_local.formatoptions = vim.tbl_extend("force", vim.opt_local.formatoptions:get(), {
 			o = false, -- O and o, don't continue comments
 			r = true, -- Pressing Enter will continue comments
 		})
@@ -117,5 +117,5 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	callback = function()
 		vim.opt_local.textwidth = 80
 	end,
-	desc = "Delete entry from Quickfix list",
+	desc = "Set textwidth for prose filetypes",
 })

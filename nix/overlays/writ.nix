@@ -2,7 +2,7 @@
 with pkgs;
 stdenvNoCC.mkDerivation {
   pname = "writ";
-  version = "0.1.0";
+  version = (lib.importJSON "${inputs.writ}/package.json").version;
 
   src = inputs.writ;
 

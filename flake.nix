@@ -219,6 +219,30 @@
           hardwareModules = [ ./nix/hosts/lar/hardware-configuration.nix ];
         };
       };
+
+      # Language servers on the shell PATH for tooling outside nvim's wrapper
+      # (Claude Code LSP plugins, Serena).
+      devShells =
+        lib.genAttrs
+          [
+            "aarch64-darwin"
+            "x86_64-darwin"
+            "x86_64-linux"
+          ]
+          (
+            system:
+            let
+              pkgs = nixpkgs.legacyPackages.${system};
+            in
+            {
+              default = pkgs.mkShell {
+                packages = [
+                  pkgs.nixd
+                  pkgs.lua-language-server
+                ];
+              };
+            }
+          );
     };
   nixConfig = {
     extra-substituters = [
