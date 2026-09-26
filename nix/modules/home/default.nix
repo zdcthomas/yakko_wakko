@@ -22,6 +22,7 @@
     ./kitty
     ./mode.nix
     ./music_making.nix
+    ./nicotine.nix
     ./nix
     ./nushell
     ./nvim

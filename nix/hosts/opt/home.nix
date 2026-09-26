@@ -149,6 +149,11 @@ in
     git.enable = true;
     hyprland.enable = true;
     # music_making.enable = true;
+    # Watches the Nicotine+ download folder and files finished downloads into
+    # ~/Books, ~/Audio and ~/Videos. Audio is one triage bucket, sorted onward
+    # by hand. Nothing is set in Nicotine+ itself; its own post-download hooks
+    # cannot do this correctly. See the module.
+    nicotine.enable = true;
     nix.enable = true;
     # Feeds arrive as a weekly EPUB in ~/Books/News, not as a reader to check.
     # Feed list and schedule live in the module.
