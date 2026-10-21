@@ -69,6 +69,16 @@ args@{
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Claude Desktop's two system-side requirements. Both are here rather than
+  # in home.nix because neither is something a user profile can turn on.
+  #
+  # The app stores its session through the Secret Service API, which a full
+  # desktop environment provides and a bare Wayland compositor does not --
+  # without a keyring Hyprland leaves it asking for a login on every start.
+  services.gnome.gnome-keyring.enable = true;
+  # Cowork runs its sandbox in a VM and talks to it over vsock.
+  boot.kernelModules = [ "vhost_vsock" ];
+
   # The AGS bar reads the battery through UPower (AstalBattery); without the
   # daemon its battery pill and meter stay hidden.
   services.upower.enable = true;

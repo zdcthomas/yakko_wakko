@@ -58,6 +58,24 @@
     herdr = {
       url = "github:herdrdev/herdr";
     };
+    # HEY's own CLI/TUI (`hey`). Not in nixpkgs.
+    # NOTE: deliberately *not* following nixpkgs: it pins a Go 1.27
+    # toolchain from nixpkgs-unstable (see its nix/go.nix).
+    hey-cli = {
+      url = "github:basecamp/hey-cli";
+    };
+    # Anthropic ships Claude Desktop for Linux as a .deb from their own APT
+    # repo and nothing else, so nixpkgs has no claude-desktop; this flake
+    # repackages that beta. Picked over the other wrappers for the two things
+    # a Hyprland session needs: native Wayland rendering, and gnome-keyring
+    # standing in for a desktop environment's Secret Service so the login
+    # survives a restart.
+    #
+    # NOTE: deliberately *not* following nixpkgs, same as herdr above -- it
+    # builds against nixos-unstable and this flake is on 25.11.
+    claude-desktop = {
+      url = "github:B-Shinchan/claude-desktop-nixos";
+    };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
     };

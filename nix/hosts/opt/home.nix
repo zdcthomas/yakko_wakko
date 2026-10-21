@@ -348,11 +348,17 @@ in
       ])
       ++ lib.optionals (config.custom.hm.mode != "writing") (with pkgs; [
       claude-nixpkgs.claude-code
+      # the desktop app, repackaged from Anthropic's Linux .deb -- see the
+      # claude-desktop input in flake.nix. Needs the keyring and vhost_vsock
+      # bits in configuration.nix beside it.
+      claude-desktop
       # terminal multiplexer that tracks coding-agent state per pane
       herdr
       # herdr's claude integration hook is a python3 script; without it the
       # hook exits silently and agents never resume after a server restart
       python3
+      # HEY email from the terminal: `hey`, `hey tui`. See the hey-cli input.
+      hey-cli
       # chromium-based browser for the Claude in Chrome extension
       brave
       dwarf-fortress-packages.dwarf-fortress-full
