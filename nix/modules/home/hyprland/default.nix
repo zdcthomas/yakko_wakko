@@ -30,7 +30,8 @@ in
       systemdTargets = "hyprland-session.target";
     };
     services.mako = {
-      enable = true;
+      # The AGS bar is the notification daemon where a host turns it on.
+      enable = !config.custom.hm.ags.enable;
       settings = {
         border-radius = 10;
         default-timeout = 4000; # milliseconds
@@ -168,7 +169,8 @@ in
     custom.hm = {
       tofi.enable = true;
       rofi.enable = true;
-      waybar.enable = true;
+      # The AGS bar replaces waybar where a host turns it on.
+      waybar.enable = lib.mkDefault (!config.custom.hm.ags.enable);
     };
 
     wayland.windowManager.hyprland = {
@@ -193,8 +195,9 @@ in
           "${pkgs.udiskie}/bin/udiskie &"
           "xwaylandvideobridge"
           # clipboard watching is handled by services.cliphist
-          "pkill waybar; waybar"
-        ];
+        ]
+        # The AGS bar starts as a systemd user service instead.
+        ++ lib.optional config.custom.hm.waybar.enable "pkill waybar; waybar";
         misc = {
           animate_manual_resizes = true;
           disable_hyprland_logo = true;
@@ -232,6 +235,11 @@ in
             brightnessLower = "${pkgs.brightnessctl}/bin/brightnessctl set 4%-";
             brightnessRaise = "${pkgs.brightnessctl}/bin/brightnessctl set 4%+";
             cliphist = "${pkgs.cliphist}/bin/cliphist";
+            restartBar =
+              if config.custom.hm.ags.enable then
+                "systemctl --user restart ags-bar"
+              else
+                "pkill waybar && waybar &";
             cliphistPick = "${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu -p clipboard | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
             grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
             openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";

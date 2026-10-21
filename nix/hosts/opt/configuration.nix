@@ -69,6 +69,10 @@ args@{
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # The AGS bar reads the battery through UPower (AstalBattery); without the
+  # daemon its battery pill and meter stay hidden.
+  services.upower.enable = true;
+
   # Enable networking
   networking = {
     networkmanager = {

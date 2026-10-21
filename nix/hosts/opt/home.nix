@@ -148,6 +148,8 @@ in
     # fish.enable = true;
     git.enable = true;
     hyprland.enable = true;
+    # The AGS top bar (nix/modules/home/ags); turns waybar off.
+    ags.enable = true;
     # music_making.enable = true;
     # Watches the Nicotine+ download folder and files finished downloads into
     # ~/Books, ~/Audio and ~/Videos. Audio is one triage bucket, sorted onward

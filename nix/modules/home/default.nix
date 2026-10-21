@@ -36,6 +36,7 @@
     ./tmux
     ./tofi
     ./waybar
+    ./ags
     ./wezterm
     ./zathura
     ./zellij.nix

@@ -7,7 +7,20 @@
     dmux = inputs.dmux.packages.${prev.stdenv.hostPlatform.system}.default;
     herdr = inputs.herdr.packages.${prev.stdenv.hostPlatform.system}.default;
 
-    ags = inputs.ags.packages.${prev.stdenv.hostPlatform.system}.default;
+    # The bare package carries only astal-io/3/4; every gi://Astal* service a
+    # bar imports must be on its typelib path, so they ride in here.
+    ags = inputs.ags.packages.${prev.stdenv.hostPlatform.system}.default.override {
+      extraPackages = with inputs.ags.inputs.astal.packages.${prev.stdenv.hostPlatform.system}; [
+        hyprland
+        battery
+        wireplumber
+        network
+        tray
+        bluetooth
+        mpris
+        notifd
+      ];
+    };
     qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
 
     # Force foliate onto XWayland. Under Hyprland its WebKit view stops
