@@ -1,15 +1,22 @@
 // The top bar: waybar's pill layout, with a capsule in the centre that holds
-// the workspaces, the focused window, the time, and a dashboard popover.
+// the workspaces and the focused window. The clock sits at the far right.
 import app from "ags/gtk4/app"
 import Astal from "gi://Astal?version=4.0"
 import Gtk from "gi://Gtk?version=4.0"
 import Gdk from "gi://Gdk?version=4.0"
 import Pango from "gi://Pango"
-import { For, createBinding, createComputed, onCleanup, type Accessor } from "ags"
+import {
+  For,
+  createBinding,
+  createComputed,
+  onCleanup,
+  type Accessor,
+} from "ags"
 import * as s from "./services"
 import AstalTray from "gi://AstalTray"
 import AstalMpris from "gi://AstalMpris"
 import { History } from "./Notifications"
+import { RICES, applyRice, rice } from "./rices"
 
 function Tray({ cls = "tray" }: { cls?: string }) {
   const tray = AstalTray.get_default()
@@ -59,15 +66,48 @@ function Brightness() {
 }
 
 // One row per toggle in the dropdown: glyph, name, and its on/off state.
-function Toggle(props: { glyph: string; name: string; on: Accessor<boolean>; onClicked: () => void }) {
+function Toggle(props: {
+  glyph: string
+  name: string
+  on: Accessor<boolean>
+  onClicked: () => void
+}) {
   return (
-    <button class={props.on((o) => (o ? "toggle-row on" : "toggle-row"))} onClicked={props.onClicked}>
+    <button
+      class={props.on((o) => (o ? "toggle-row on" : "toggle-row"))}
+      onClicked={props.onClicked}
+    >
       <box spacing={10}>
         <label label={props.glyph} widthChars={2} />
         <label label={props.name} hexpand xalign={0} />
         <label label={props.on((o) => (o ? "on" : "off"))} />
       </box>
     </button>
+  )
+}
+
+// The rice picker in the gear dropdown: one row per look, with its swatch.
+function RicePicker() {
+  return (
+    <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+      <label class="section" label="Rice" xalign={0} />
+      {RICES.map((r) => (
+        <button
+          class={rice((cur) => (cur === r.name ? "toggle-row on" : "toggle-row"))}
+          onClicked={() => applyRice(r.name)}
+        >
+          <box spacing={10}>
+            <box class="swatch" spacing={0} valign={Gtk.Align.CENTER}>
+              {r.swatch.map((c) => (
+                <box css={`background: ${c}; min-width: 9px; min-height: 12px;`} />
+              ))}
+            </box>
+            <label label={r.name} hexpand xalign={0} />
+            <label label={rice((cur) => (cur === r.name ? "\uf00c" : ""))} />
+          </box>
+        </button>
+      ))}
+    </box>
   )
 }
 
@@ -88,13 +128,39 @@ function Toggles() {
     <menubutton class="pill toggles">
       <box spacing={6}>
         <label label={"\uf013"} />
-        <label class="active" label={active} visible={active((a) => a !== "")} />
+        <label
+          class="active"
+          label={active}
+          visible={active((a) => a !== "")}
+        />
       </box>
       <popover>
-        <box class="dash" orientation={Gtk.Orientation.VERTICAL} spacing={4} widthRequest={220}>
-          <Toggle glyph={glyphs.airpods} name="AirPods" on={s.airpods} onClicked={s.toggleAirpods} />
-          <Toggle glyph={glyphs.awake} name="Keep screen on" on={s.keepAwake} onClicked={s.toggleKeepAwake} />
-          <Toggle glyph={glyphs.gamemode} name="Game mode" on={s.gamemode} onClicked={s.toggleGamemode} />
+        <box
+          class="dash"
+          orientation={Gtk.Orientation.VERTICAL}
+          spacing={4}
+          widthRequest={220}
+        >
+          <Toggle
+            glyph={glyphs.airpods}
+            name="AirPods"
+            on={s.airpods}
+            onClicked={s.toggleAirpods}
+          />
+          <Toggle
+            glyph={glyphs.awake}
+            name="Keep screen on"
+            on={s.keepAwake}
+            onClicked={s.toggleKeepAwake}
+          />
+          <Toggle
+            glyph={glyphs.gamemode}
+            name="Game mode"
+            on={s.gamemode}
+            onClicked={s.toggleGamemode}
+          />
+          <Gtk.Separator />
+          <RicePicker />
         </box>
       </popover>
     </menubutton>
@@ -130,12 +196,33 @@ function System() {
         ))}
       </box>
       <popover>
-        <box class="dash" orientation={Gtk.Orientation.VERTICAL} spacing={10} widthRequest={260}>
+        <box
+          class="dash"
+          orientation={Gtk.Orientation.VERTICAL}
+          spacing={10}
+          widthRequest={260}
+        >
           {SYS.map((m) => (
-            <box class={m.value((v) => `meter ${level(v, m.warn, m.crit)}`)} spacing={8}>
-              <label class="meter-label" label={m.label} widthChars={5} xalign={0} />
-              <levelbar hexpand valign={Gtk.Align.CENTER} value={m.value((v) => Math.min(v, 100) / 100)} />
-              <label label={m.value((v) => `${v}${m.unit}`)} widthChars={5} xalign={1} />
+            <box
+              class={m.value((v) => `meter ${level(v, m.warn, m.crit)}`)}
+              spacing={8}
+            >
+              <label
+                class="meter-label"
+                label={m.label}
+                widthChars={5}
+                xalign={0}
+              />
+              <levelbar
+                hexpand
+                valign={Gtk.Align.CENTER}
+                value={m.value((v) => Math.min(v, 100) / 100)}
+              />
+              <label
+                label={m.value((v) => `${v}${m.unit}`)}
+                widthChars={5}
+                xalign={1}
+              />
             </box>
           ))}
         </box>
@@ -151,7 +238,9 @@ function Mic() {
       class={s.micMuted((m) => (m ? "pill mic muted" : "pill mic live"))}
       visible={s.recording}
       onClicked={s.toggleMic}
-      tooltipText={s.micMuted((m) => (m ? "microphone muted" : "microphone live"))}
+      tooltipText={s.micMuted((m) =>
+        m ? "microphone muted" : "microphone live",
+      )}
     >
       <label label={s.micMuted((m) => (m ? "\uf131" : "\uf130"))} />
     </button>
@@ -166,7 +255,9 @@ function NowPlaying() {
       <For each={s.spotify}>
         {(p: AstalMpris.Player) => {
           const scroll = new Gtk.EventControllerScroll({
-            flags: Gtk.EventControllerScrollFlags.VERTICAL | Gtk.EventControllerScrollFlags.DISCRETE,
+            flags:
+              Gtk.EventControllerScrollFlags.VERTICAL |
+              Gtk.EventControllerScrollFlags.DISCRETE,
           })
           scroll.connect("scroll", (_c, _dx, dy) => {
             if (dy > 0) p.next()
@@ -175,17 +266,26 @@ function NowPlaying() {
           })
           const artist = createBinding(p, "artist")
           const title = createBinding(p, "title")
-          const track = createComputed(() => (artist() ? `${title()} — ${artist()}` : title()))
+          const track = createComputed(() =>
+            artist() ? `${title()} — ${artist()}` : title(),
+          )
           return (
             <button
               class="np"
               $={(self) => self.add_controller(scroll)}
-              visible={createBinding(p, "playbackStatus")((st) => st === AstalMpris.PlaybackStatus.PLAYING)}
+              visible={createBinding(
+                p,
+                "playbackStatus",
+              )((st) => st === AstalMpris.PlaybackStatus.PLAYING)}
               onClicked={() => p.pause()}
             >
               <box spacing={6}>
                 <label class="np-glyph" label={"\uf001"} />
-                <label label={track} maxWidthChars={32} ellipsize={Pango.EllipsizeMode.END} />
+                <label
+                  label={track}
+                  maxWidthChars={32}
+                  ellipsize={Pango.EllipsizeMode.END}
+                />
               </box>
             </button>
           )
@@ -199,38 +299,29 @@ function Meter({ label, value }: { label: string; value: Accessor<number> }) {
   return (
     <box class="meter" spacing={8}>
       <label class="meter-label" label={label} widthChars={5} xalign={0} />
-      <levelbar hexpand valign={Gtk.Align.CENTER} value={value((v) => v / 100)} />
+      <levelbar
+        hexpand
+        valign={Gtk.Align.CENTER}
+        value={value((v) => v / 100)}
+      />
       <label label={value((v) => `${v}%`)} widthChars={4} xalign={1} />
     </box>
   )
 }
 
-function Dashboard() {
+// The clock, at the far right of the bar. Click it for the month calendar.
+// Gtk.Calendar has no intrinsic element, so it goes in as a class component.
+function Clock() {
   return (
-    <box class="dash" orientation={Gtk.Orientation.VERTICAL} spacing={10} widthRequest={320}>
-      <label class="dash-date" xalign={0} label={s.clock("%A %d %B")} />
-      <Meter label="cpu" value={s.cpu} />
-      <Meter label="mem" value={s.mem} />
-      <Meter label="bat" value={s.batPct} />
-      <box spacing={8}>
-        <label class="slider-icon" label={"\uf185"} widthChars={2} />
-        <slider
-          hexpand
-          value={s.brightness((b) => b / 100)}
-          onChangeValue={({ value }) => s.setBrightness(value * 100)}
-        />
-      </box>
-      <box spacing={8}>
-        <button onClicked={s.toggleMute}>
-          <image iconName={s.volumeIcon} />
-        </button>
-        <slider
-          hexpand
-          value={s.volume((v) => v / 100)}
-          onChangeValue={({ value }) => s.setVolume(value)}
-        />
-      </box>
-    </box>
+    <menubutton class="pill clock">
+      <label class="time" label={s.clock("%H:%M")} />
+      <popover>
+        <box class="dash" orientation={Gtk.Orientation.VERTICAL} spacing={8}>
+          <label class="dash-date" xalign={0} label={s.clock("%A %d %B")} />
+          <Gtk.Calendar />
+        </box>
+      </popover>
+    </menubutton>
   )
 }
 
@@ -255,13 +346,11 @@ function Capsule() {
         label={s.focusedClient((c) => c?.title ?? "desktop")}
       />
       <NowPlaying />
-      <label class="submap" label={s.submap} visible={s.submap((m) => m !== "")} />
-      <menubutton class="clock-btn">
-        <label class="time" label={s.clock("%H:%M")} />
-        <popover>
-          <Dashboard />
-        </popover>
-      </menubutton>
+      <label
+        class="submap"
+        label={s.submap}
+        visible={s.submap((m) => m !== "")}
+      />
     </box>
   )
 }
@@ -285,12 +374,16 @@ export default function Bar({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
     >
       <centerbox>
         <box $type="start">
-          <label class={`pill mode ${s.mode}`} label={s.modeIcon} tooltipText={`mode: ${s.mode}`} />
+          <label
+            class={`pill mode ${s.mode}`}
+            label={s.modeIcon}
+            tooltipText={`mode: ${s.mode}`}
+          />
           <box class="pill" spacing={6}>
             <image iconName={s.netIcon} />
             {s.ssid && <label label={s.ssid} />}
           </box>
-          <Tray cls="pill" />
+          <Tray cls="pill tray" />
           <Toggles />
           <History />
         </box>
@@ -299,7 +392,11 @@ export default function Bar({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
         </box>
         <box $type="end">
           <Mic />
-          <button class="pill" onClicked={s.toggleMute} tooltipText={s.outputDesc}>
+          <button
+            class="pill"
+            onClicked={s.toggleMute}
+            tooltipText={s.outputDesc}
+          >
             <box spacing={4}>
               <image iconName={s.volumeIcon} />
               <label
@@ -317,6 +414,7 @@ export default function Bar({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
             <image iconName={s.batIcon} />
             <label label={s.batText} />
           </box>
+          <Clock />
         </box>
       </centerbox>
     </window>

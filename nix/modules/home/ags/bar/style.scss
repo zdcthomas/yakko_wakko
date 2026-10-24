@@ -3,9 +3,37 @@
 // healthy, same as waybar's style.css.
 @use "palette" as *;
 
+// Every colour below is a CSS variable, so a rice from rices.ts can restyle
+// the running bar: it re-declares these after this sheet (see applyRice).
+// The defaults are the nix-colors palette. The last block are shape knobs.
+window, popover {
+  --bg: #{$bg};
+  --bg1: #{$bg1};
+  --bg2: #{$bg2};
+  --bg3: #{$bg3};
+  --fg: #{$fg};
+  --fg-bright: #{$fg-bright};
+  --red: #{$red};
+  --orange: #{$orange};
+  --yellow: #{$yellow};
+  --green: #{$green};
+  --aqua: #{$aqua};
+  --blue: #{$blue};
+  --purple: #{$purple};
+  --pill-bg: #{$bg};
+  --pill-border: #{$bg2};
+  --cap-bg: #{$bg};
+  --cap-border: #{$bg2};
+  --pill-radius: 7px;
+  --cap-radius: 999px;
+  --dot-radius: 999px;
+  --pop-radius: 14px;
+  --shadow: none;
+}
+
 window {
   background: transparent;
-  color: $fg;
+  color: var(--fg);
   // The non-Mono PragmataPro carries the Nerd Font PUA range the glyph
   // labels use; JetBrainsMono covers what it lacks.
   font-family: "PragmataPro Liga", "JetBrainsMono Nerd Font";
@@ -28,52 +56,83 @@ menubutton > button {
 .pill {
   margin: 2px 3px 0 3px;
   padding: 0 9px;
-  border-radius: 7px;
-  border: 2px solid $bg2;
-  background: $bg;
+  border-radius: var(--pill-radius);
+  border: 2px solid var(--pill-border);
+  background: var(--pill-bg);
+  box-shadow: var(--shadow);
 }
-.toggles .active { color: $green; }
+.toggles .active { color: var(--green); }
 
 // One colour per mode; the class is the mode name from /etc/yakko-mode.
-.mode.writing { color: $yellow; }
-.mode.making { color: $green; }
-.mode.open { color: $orange; }
+.mode.writing { color: var(--yellow); }
+.mode.making { color: var(--green); }
+.mode.open { color: var(--orange); }
 
 .capsule {
   margin: 2px 3px 0 3px;
   padding: 0 14px;
-  border-radius: 999px;
-  border: 2px solid $bg2;
-  background: $bg;
+  border-radius: var(--cap-radius);
+  border: 2px solid var(--cap-border);
+  background: var(--cap-bg);
+  box-shadow: var(--shadow);
 
   .dot {
     min-width: 8px;
     min-height: 8px;
-    border-radius: 999px;
-    background: $bg3;
+    border-radius: var(--dot-radius);
+    background: var(--bg3);
     transition: min-width 160ms ease;
   }
   .dot.active {
     min-width: 22px;
-    background: $aqua;
+    background: var(--aqua);
   }
-  .title { color: $fg-bright; }
-  .submap { color: $red; font-weight: bold; }
-  .time { font-weight: bold; color: $fg-bright; }
+  .title { color: var(--fg-bright); }
+  .submap { color: var(--red); font-weight: bold; }
+}
+
+.clock .time { font-weight: bold; color: var(--fg-bright); }
+
+// GTK draws the month grid as buttons; the selected day and today need to
+// read against var(--bg), and the header arrows must not keep their default frame.
+calendar {
+  background: transparent;
+  color: var(--fg);
+
+  > header {
+    border: none;
+    background: transparent;
+    > label { color: var(--fg-bright); font-weight: bold; }
+  }
+  label.day-name { color: var(--bg3); }
+  > grid > label {
+    border-radius: 6px;
+    padding: 2px 4px;
+  }
+  > grid > label.other-month { color: var(--bg3); }
+  > grid > label:selected {
+    background: var(--aqua);
+    color: var(--bg);
+  }
+  > grid > label.today {
+    color: var(--aqua);
+    font-weight: bold;
+  }
+  > grid > label.today:selected { color: var(--bg); }
 }
 
 popover > contents {
-  background: $bg;
-  border: 1px solid $bg2;
-  border-radius: 14px;
-  color: $fg;
+  background: var(--bg);
+  border: 1px solid var(--bg2);
+  border-radius: var(--pop-radius);
+  color: var(--fg);
 }
 
 .dash {
   padding: 8px;
-  .dash-date { font-size: 12pt; color: $fg-bright; }
-  .meter-label { color: $bg3; }
-  scale trough highlight { background: $aqua; }
+  .dash-date { font-size: 12pt; color: var(--fg-bright); }
+  .meter-label { color: var(--bg3); }
+  scale trough highlight { background: var(--aqua); }
 }
 
 // Not `.toggle`: GTK puts that class on every menubutton's inner button,
@@ -81,20 +140,20 @@ popover > contents {
 .toggle-row {
   padding: 4px 8px;
   border-radius: 8px;
-  color: $fg;
+  color: var(--fg);
 }
-.toggle-row:hover { background: $bg1; }
-.toggle-row.on { color: $green; }
+.toggle-row:hover { background: var(--bg1); }
+.toggle-row.on { color: var(--green); }
 
 // ---- meters ------------------------------------------------------------------
 // GTK tags a filled block with an offset class (low/high/full) that wins over
 // `.filled`, and draws a bordered trough, so all of those are restyled here.
 // This covers the dashboard meters as well as the four in the system pill.
 levelbar {
-  trough { border: none; padding: 0; background: $bg2; border-radius: 2px; }
+  trough { border: none; padding: 0; background: var(--bg2); border-radius: 2px; }
   block { border: none; border-radius: 2px; }
   block.empty { background: transparent; }
-  block.filled, block.low, block.high, block.full { background: $aqua; }
+  block.filled, block.low, block.high, block.full { background: var(--aqua); }
 }
 levelbar.mini {
   trough { min-width: 4px; min-height: 14px; }
@@ -102,19 +161,19 @@ levelbar.mini {
   block { min-width: 4px; min-height: 0; }
 }
 levelbar.warn, .meter.warn levelbar {
-  block.filled, block.low, block.high, block.full { background: $yellow; }
+  block.filled, block.low, block.high, block.full { background: var(--yellow); }
 }
 levelbar.crit, .meter.crit levelbar {
-  block.filled, block.low, block.high, block.full { background: $red; }
+  block.filled, block.low, block.high, block.full { background: var(--red); }
 }
 
 // ---- microphone --------------------------------------------------------------
-.mic.live { color: $red; border-color: $red; }
-.mic.muted { color: $bg3; }
+.mic.live { color: var(--red); border-color: var(--red); }
+.mic.muted { color: var(--bg3); }
 
 // ---- now playing -------------------------------------------------------------
-.capsule .np { color: $green; }
-.capsule .np .np-glyph { color: $green; }
+.capsule .np { color: var(--green); }
+.capsule .np .np-glyph { color: var(--green); }
 
 // ---- notifications -----------------------------------------------------------
 // Popups keep mako's look: base00 card, base07 border, 10px corners.
@@ -122,15 +181,45 @@ window.popups { margin: 8px; }
 .notif {
   padding: 8px 12px;
   border-radius: 10px;
-  border: 2px solid $fg-bright;
-  background: $bg;
-  .notif-app { color: $bg3; font-size: 9pt; }
-  .notif-time { color: $bg3; font-size: 9pt; }
-  .notif-summary { color: $fg-bright; font-weight: bold; }
-  .notif-body { color: $fg; }
+  border: 2px solid var(--fg-bright);
+  background: var(--bg);
+  .notif-app { color: var(--bg3); font-size: 9pt; }
+  .notif-time { color: var(--bg3); font-size: 9pt; }
+  .notif-summary { color: var(--fg-bright); font-weight: bold; }
+  .notif-body { color: var(--fg); }
 }
-.notif.urgent { border-color: $red; }
-.dash .notif { border-width: 1px; border-color: $bg2; }
-.dash .clear { color: $bg3; padding: 0 6px; }
-.dash .clear:hover { color: $fg-bright; }
-.dash .empty { color: $bg3; }
+.notif.urgent { border-color: var(--red); }
+.dash .notif { border-width: 1px; border-color: var(--bg2); }
+.dash .clear { color: var(--bg3); padding: 0 6px; }
+.dash .clear:hover { color: var(--fg-bright); }
+.dash .empty { color: var(--bg3); }
+
+// ---- rice picker ---------------------------------------------------------------
+.dash .section { color: var(--bg3); font-size: 9pt; margin: 4px 8px 2px; }
+.dash separator { background: var(--bg2); min-height: 1px; margin: 4px 0; }
+.swatch { border: 1px solid var(--bg2); min-width: 36px; min-height: 12px; }
+
+// ---- click feedback ----------------------------------------------------------
+// A pressed button sinks a little and takes a tint at once; on release the
+// tint fades out over 250ms, so even a quick tap shows. The transition that
+// applies is the target state's, hence `none` on :active. (alpha() goes
+// through as a string: Sass would read it as its own function.) A menubutton stays
+// lightly tinted while its popover is open (:checked).
+button,
+menubutton > button {
+  transition: background-color 250ms ease-out, box-shadow 120ms ease-out;
+}
+button:active,
+menubutton > button:active {
+  background-color: #{"alpha(var(--fg), 0.22)"};
+  transform: scale(0.94);
+  transition: none;
+}
+menubutton > button:checked { background-color: #{"alpha(var(--fg), 0.12)"}; }
+// A hard-shadow rice (Brutalist, Riso) presses flat into the page.
+.pill:active, menubutton.pill > button:active { box-shadow: none; }
+
+// The tint fills the inner button, so a menubutton pill moves its padding
+// inside: otherwise the edge of the pill would not light up.
+menubutton.pill { padding: 0; }
+menubutton.pill > button { padding: 0 9px; border-radius: var(--pill-radius); }
