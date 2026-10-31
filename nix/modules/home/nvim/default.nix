@@ -104,6 +104,7 @@ with lib;
         ++ optionals cfg.language_servers.markdown [
           marksman
           glow
+          mdslw
         ];
       defaultPackage = pkgs.symlinkJoin {
         name = "nvim";

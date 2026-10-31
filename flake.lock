@@ -941,10 +941,10 @@
     "writ": {
       "flake": false,
       "locked": {
-        "lastModified": 1790038386,
-        "narHash": "sha256-TfOEnHCr2Jy1FLJKpVxlNtl4asOh6AV0Xd15UJUeUdQ=",
+        "lastModified": 1790622141,
+        "narHash": "sha256-2VRPmNib1cDCww0hbhr2hMekT2ELWfeOPSRN1VTf+Go=",
         "ref": "refs/heads/main",
-        "rev": "751d5b4a676ce83feb039d4dd4b07839cbe781a7",
+        "rev": "e9148764585e1e2213688001d5da9759e6180bcf",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/jcswart/writ.git"
