@@ -17,6 +17,8 @@ import AstalTray from "gi://AstalTray"
 import AstalMpris from "gi://AstalMpris"
 import { History } from "./Notifications"
 import { RICES, applyRice, rice } from "./rices"
+import Timer from "./Timer"
+import MediaCard from "./Media"
 
 function Tray({ cls = "tray" }: { cls?: string }) {
   const tray = AstalTray.get_default()
@@ -62,6 +64,19 @@ function Brightness() {
       <label label={"\uf185"} />
       <label label={s.brightness((b) => `${b}%`)} />
     </box>
+  )
+}
+
+// The network pill: click it to open nmgui. nm-applet's own menu stays in
+// the tray.
+function Network() {
+  return (
+    <button class="pill net" onClicked={s.openNetApp} tooltipText="networks (nmgui)">
+      <box spacing={6}>
+        <image iconName={s.netIcon} />
+        {s.ssid && <label label={s.ssid} />}
+      </box>
+    </button>
   )
 }
 
@@ -247,7 +262,7 @@ function Mic() {
   )
 }
 
-// Spotify's track, only while it plays. Click pauses (which hides it);
+// Spotify's track, while it plays or is paused. Click opens the media card;
 // scroll skips forward or back.
 function NowPlaying() {
   return (
@@ -269,15 +284,14 @@ function NowPlaying() {
           const track = createComputed(() =>
             artist() ? `${title()} — ${artist()}` : title(),
           )
+          const status = createBinding(p, "playbackStatus")
           return (
-            <button
-              class="np"
+            <menubutton
+              class={status((st) =>
+                st === AstalMpris.PlaybackStatus.PLAYING ? "np" : "np paused",
+              )}
               $={(self) => self.add_controller(scroll)}
-              visible={createBinding(
-                p,
-                "playbackStatus",
-              )((st) => st === AstalMpris.PlaybackStatus.PLAYING)}
-              onClicked={() => p.pause()}
+              visible={status((st) => st !== AstalMpris.PlaybackStatus.STOPPED)}
             >
               <box spacing={6}>
                 <label class="np-glyph" label={"\uf001"} />
@@ -287,7 +301,12 @@ function NowPlaying() {
                   ellipsize={Pango.EllipsizeMode.END}
                 />
               </box>
-            </button>
+              <popover>
+                <box class="dash">
+                  <MediaCard player={p} />
+                </box>
+              </popover>
+            </menubutton>
           )
         }}
       </For>
@@ -379,10 +398,7 @@ export default function Bar({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
             label={s.modeIcon}
             tooltipText={`mode: ${s.mode}`}
           />
-          <box class="pill" spacing={6}>
-            <image iconName={s.netIcon} />
-            {s.ssid && <label label={s.ssid} />}
-          </box>
+          <Network />
           <Tray cls="pill tray" />
           <Toggles />
           <History />
@@ -414,6 +430,7 @@ export default function Bar({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
             <image iconName={s.batIcon} />
             <label label={s.batText} />
           </box>
+          <Timer />
           <Clock />
         </box>
       </centerbox>

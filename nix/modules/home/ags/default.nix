@@ -60,6 +60,7 @@ let
     fi
   '';
 
+
   # `ags bundle` turns ./bar into one gjs executable, so nothing reads
   # ~/.config/ags and nothing compiles at login. pkgs.ags is the overlay's,
   # which carries the Astal service libraries the bar imports.
@@ -78,11 +79,19 @@ let
       mkdir -p $out/bin
       ags bundle app.tsx $out/bin/ags-bar \
         --define "AIRPODS_TOGGLE='${airpodsToggle}'" \
-        --define "GAMEMODE_TOGGLE='${gamemodeToggle}'"
+        --define "GAMEMODE_TOGGLE='${gamemodeToggle}'" \
+        --define "NET_APP='${lib.getExe pkgs.nmgui}'"
     '';
     # brightnessctl, hyprctl and systemd-inhibit come from the session PATH.
+    # notify-send is for the timer; curl fetches cover art.
     preFixup = ''
-      gappsWrapperArgs+=(--prefix PATH : ${lib.makeBinPath [ pkgs.brightnessctl ]})
+      gappsWrapperArgs+=(--prefix PATH : ${
+        lib.makeBinPath [
+          pkgs.brightnessctl
+          pkgs.libnotify
+          pkgs.curl
+        ]
+      })
     '';
   };
 in
@@ -90,7 +99,12 @@ in
   options.custom.hm.ags.enable = lib.mkEnableOption "the AGS top bar";
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ bar ];
+    custom.hm.barService = "ags-bar";
+    # nmgui, which the network pill opens, is also on PATH to start by hand.
+    home.packages = [
+      bar
+      pkgs.nmgui
+    ];
 
     # Restart it with `systemctl --user restart ags-bar`.
     systemd.user.services.ags-bar = {

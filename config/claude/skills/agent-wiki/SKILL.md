@@ -51,8 +51,20 @@ Write the note when you find the fact, not at the end of the session. Check
 `wiki digest` first — if a note covers the topic, update it rather than adding a
 second one.
 
+Before you write, ask: **would a session that is not doing this task need this?**
+If only this task needs it, it is work state: put it on the task's card, ticket or
+PR, not in the wiki.
+
 One file per topic, short kebab-case name, system prefix first so globs narrow
-fast (`foo-auth-model.md`, not `auth-model-in-foo.md`).
+fast (`foo-auth-model.md`, not `auth-model-in-foo.md`). Name the note after the
+system or mechanism, never after a customer, ticket, project phase or one-time
+effort: `relay-magnite.md`, not `acme-magnite-ask.md`. A fact you found while
+helping one customer goes in the system's note, with the customer's IDs as single
+lines. Facts about a project you build go in that project's own docs; the wiki
+keeps only what applies outside the project.
+
+No story: no "The ask", timeline, Slack quotes or "what we tried" sections. Keep
+a dead end only as a "not true" fact.
 
 Use this skeleton. It exists so partial reads work:
 
@@ -120,6 +132,7 @@ A consolidation pass, run when lint or the index shows drift:
   them read as a history.
 - Rewrite long or dated index hooks into one stable line.
 - Move work state (PR status, next steps, "in progress") to the task tracker.
+- Fold notes named after a task or customer into the system notes they describe.
 - Link orphans from the notes they relate to.
 - Log the pass: `wiki log lint <what changed>`.
 

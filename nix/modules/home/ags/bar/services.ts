@@ -206,3 +206,32 @@ const mpris = AstalMpris.get_default()
 export const spotify = createBinding(mpris, "players")((ps) =>
   ps.filter((p) => p.busName === "org.mpris.MediaPlayer2.spotify"),
 )
+
+// Start Spotify playing, for the timer. With no Spotify open, have Hyprland
+// start it (so it is not a child of the bar) and press play once its MPRIS
+// player shows up; give up after 30s.
+export function playMusic() {
+  const find = () => mpris.players.find((p) => p.busName === "org.mpris.MediaPlayer2.spotify")
+  const p = find()
+  if (p) return p.play()
+  execAsync(["hyprctl", "dispatch", "exec", "spotify"]).catch(console.error)
+  let id = 0
+  const stop = () => id && (mpris.disconnect(id), (id = 0))
+  id = mpris.connect("player-added", () => {
+    const p = find()
+    if (!p) return
+    stop()
+    // A fresh Spotify drops a play sent before it has loaded the last track.
+    setTimeout(() => p.play(), 2000)
+  })
+  setTimeout(stop, 30000)
+}
+
+// ---- network app -------------------------------------------------------------
+// nmgui's store path, from ../default.nix like the toggle scripts. Without the
+// define (`ags run` from the repo) the click does nothing.
+declare const NET_APP: string
+const netApp = typeof NET_APP === "string" ? NET_APP : "true"
+// Started detached, so the app outlives a bar restart.
+export const openNetApp = () =>
+  execAsync(["systemd-run", "--user", "--collect", "--quiet", netApp]).catch(console.error)

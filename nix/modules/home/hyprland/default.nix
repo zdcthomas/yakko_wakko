@@ -22,6 +22,14 @@ in
     custom.hm.hyprland = {
       enable = lib.mkEnableOption "Enable custom hyprland";
     };
+    # Set by the bar module a host turns on (ags or quickshell), so this
+    # module does not need to know each bar. Two bars on one host fail here,
+    # as two definitions of a unique option.
+    custom.hm.barService = lib.mkOption {
+      type = lib.types.nullOr (lib.types.uniq lib.types.str);
+      default = null;
+      description = "systemd user service of the bar that draws the top bar and notifications.";
+    };
   };
   config = lib.mkIf cfg.enable {
     # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
@@ -30,8 +38,8 @@ in
       systemdTargets = "hyprland-session.target";
     };
     services.mako = {
-      # The AGS bar is the notification daemon where a host turns it on.
-      enable = !config.custom.hm.ags.enable;
+      # A custom bar is the notification daemon where a host turns one on.
+      enable = config.custom.hm.barService == null;
       settings = {
         border-radius = 10;
         default-timeout = 4000; # milliseconds
@@ -169,8 +177,8 @@ in
     custom.hm = {
       tofi.enable = true;
       rofi.enable = true;
-      # The AGS bar replaces waybar where a host turns it on.
-      waybar.enable = lib.mkDefault (!config.custom.hm.ags.enable);
+      # A custom bar replaces waybar where a host turns one on.
+      waybar.enable = lib.mkDefault (config.custom.hm.barService == null);
     };
 
     wayland.windowManager.hyprland = {
@@ -236,8 +244,8 @@ in
             brightnessRaise = "${pkgs.brightnessctl}/bin/brightnessctl set 4%+";
             cliphist = "${pkgs.cliphist}/bin/cliphist";
             restartBar =
-              if config.custom.hm.ags.enable then
-                "systemctl --user restart ags-bar"
+              if config.custom.hm.barService != null then
+                "systemctl --user restart ${config.custom.hm.barService}"
               else
                 "pkill waybar && waybar &";
             cliphistPick = "${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu -p clipboard | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";

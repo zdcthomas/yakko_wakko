@@ -148,8 +148,11 @@ in
     # fish.enable = true;
     git.enable = true;
     hyprland.enable = true;
-    # The AGS top bar (nix/modules/home/ags); turns waybar off.
+    # The AGS top bar (nix/modules/home/ags); turns waybar and mako off. The
+    # Quickshell port (nix/modules/home/quickshell) is the alternative: swap
+    # the two lines to try it.
     ags.enable = true;
+    # quickshell.enable = true;
     # music_making.enable = true;
     # Watches the Nicotine+ download folder and files finished downloads into
     # ~/Books, ~/Audio and ~/Videos. Audio is one triage bucket, sorted onward

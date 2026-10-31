@@ -27,6 +27,7 @@
         notifd
       ];
     };
+    quickshell = inputs.quickshell.packages.${prev.stdenv.hostPlatform.system}.default;
     qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
 
     # Force foliate onto XWayland. Under Hyprland its WebKit view stops

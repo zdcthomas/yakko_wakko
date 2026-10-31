@@ -24,6 +24,12 @@
     # hyprland = {
     #   url = "github:hyprwm/Hyprland";
     # };
+    # Pinned to a release tag: nixpkgs 25.11 carries 0.2.1, which lacks the
+    # Networking module the Quickshell bar reads the wifi SSID from.
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/quickshell/quickshell?ref=refs/tags/v0.3.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     anyrun = {
       url = "github:Kirottu/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";

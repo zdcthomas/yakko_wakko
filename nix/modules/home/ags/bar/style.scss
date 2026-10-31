@@ -92,6 +92,8 @@ menubutton > button {
 }
 
 .clock .time { font-weight: bold; color: var(--fg-bright); }
+// The timer pill turns yellow once it runs out, until its popover opens.
+.timer.done { color: var(--yellow); border-color: var(--yellow); }
 
 // GTK draws the month grid as buttons; the selected day and today need to
 // read against var(--bg), and the header arrows must not keep their default frame.
@@ -174,6 +176,27 @@ levelbar.crit, .meter.crit levelbar {
 // ---- now playing -------------------------------------------------------------
 .capsule .np { color: var(--green); }
 .capsule .np .np-glyph { color: var(--green); }
+.capsule .np.paused, .capsule .np.paused .np-glyph { color: var(--bg3); }
+.capsule menubutton.np > button { padding: 0; background: none; box-shadow: none; }
+
+// The media card in the now-playing popover.
+.media .cover {
+  min-width: 96px;
+  min-height: 96px;
+  border-radius: 8px;
+  background-color: var(--bg2);
+  background-size: cover;
+  background-position: center;
+}
+.media .media-title { font-size: 12pt; font-weight: bold; color: var(--fg-bright); }
+.media .media-artist { color: var(--bg3); }
+.media .media-player { color: var(--green); }
+.media .media-time { font-size: 9pt; color: var(--bg3); }
+.media .media-btn { padding: 2px 8px; border-radius: 6px; background: none; box-shadow: none; outline: none; }
+.media .media-btn:hover { background: var(--bg1); }
+.media scale.media-seek trough { min-height: 4px; border-radius: 2px; background: var(--bg2); }
+.media scale.media-seek highlight { border-radius: 2px; background: var(--fg); }
+.media scale.media-seek slider { min-width: 0; min-height: 0; margin: 0; background: none; box-shadow: none; }
 
 // ---- notifications -----------------------------------------------------------
 // Popups keep mako's look: base00 card, base07 border, 10px corners.
