@@ -18,5 +18,10 @@ in {
       source = config.lib.file.mkOutOfStoreSymlink
         "${config.home.homeDirectory}/yakko_wakko/config/claude/skills/agent-wiki";
     };
+
+    home.file.".claude/skills/kanboard" = {
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/yakko_wakko/config/claude/skills/kanboard";
+    };
   };
 }

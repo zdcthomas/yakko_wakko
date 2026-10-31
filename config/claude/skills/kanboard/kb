@@ -1,0 +1,190 @@
+#!/usr/bin/env bash
+# Token-cheap Kanboard JSON-RPC client for agent use.
+# Holds no board's address, credentials or layout: it reads them at runtime.
+set -uo pipefail
+
+usage() {
+  cat <<'EOF'
+kb projects                       project ids and names
+kb columns <project>              column ids for one project
+kb categories <project>           category ids for one project
+kb board <project>                open tasks, grouped by column
+kb show <task_id>                 one task, with its comments
+kb search <project> <query>       searchTasks, e.g. 'status:open category:Bug'
+kb new <project> <column> <category> <title> [description]
+kb move <task_id> <column>        move within the task's own project
+kb comment <task_id> <text>
+kb call <method> [json-params]    raw JSON-RPC escape hatch
+
+<project>, <column> and <category> take an id or a name. Names match
+case-insensitively, exact first, then as a prefix.
+
+Config: KANBOARD_URL, KANBOARD_USER and KANBOARD_TOKEN, or a file holding
+them at $KANBOARD_ENV_FILE, else ~/.config/kanboard-agent.env.
+EOF
+}
+
+load_config() {
+  if [ -z "${KANBOARD_URL:-}" ]; then
+    local f="${KANBOARD_ENV_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/kanboard-agent.env}"
+    [ -f "$f" ] || { echo "no kanboard config: set KANBOARD_URL or write $f" >&2; exit 2; }
+    set -a; . "$f"; set +a
+  fi
+  : "${KANBOARD_URL:?KANBOARD_URL is empty}"
+  : "${KANBOARD_USER:?KANBOARD_USER is empty}"
+  : "${KANBOARD_TOKEN:?KANBOARD_TOKEN is empty}"
+}
+
+# call <method> [params-json] -> the .result member, or exit 1 with the error
+call() {
+  local payload out err
+  payload=$(jq -nc --arg m "$1" --argjson p "${2:-null}" \
+    '{jsonrpc:"2.0",id:1,method:$m,params:$p}')
+  out=$(curl -s -u "$KANBOARD_USER:$KANBOARD_TOKEN" -H 'Content-Type: application/json' \
+    --max-time 20 -d "$payload" "$KANBOARD_URL")
+  [ -n "$out" ] || { echo "kb: no response from the board" >&2; exit 1; }
+  err=$(printf '%s' "$out" | jq -r '.error.message // empty' 2>/dev/null)
+  [ -z "$err" ] || { echo "kb: $1 failed: $err" >&2; exit 1; }
+  printf '%s' "$out" | jq '.result'
+}
+
+# pick <json> <name> <id-field> <label-field> -> one id
+# exact match on the label first, then a prefix match
+pick() {
+  printf '%s' "$1" | jq -r --arg w "$2" --arg i "$3" --arg l "$4" '
+    [ .[] | {id: .[$i], label: (.[$l] // "" | ascii_downcase)} ] as $rows
+    | ($w | ascii_downcase) as $w
+    | ( [ $rows[] | select(.label == $w) ]
+      + [ $rows[] | select(.label | startswith($w)) ] )
+    | .[0].id // empty'
+}
+
+resolve_project() {
+  [[ $1 =~ ^[0-9]+$ ]] && { printf '%s\n' "$1"; return; }
+  local id
+  id=$(call getMyProjectsList | jq -r --arg w "$1" '
+    to_entries
+    | map({id: .key, label: (.value | ascii_downcase)}) as $rows
+    | ($w | ascii_downcase) as $w
+    | ( [ $rows[] | select(.label == $w) ]
+      + [ $rows[] | select(.label | startswith($w)) ]
+      + [ $rows[] | select(.label | contains($w)) ] )
+    | .[0].id // empty')
+  [ -n "$id" ] || { echo "kb: no project matching '$1'" >&2; exit 1; }
+  printf '%s\n' "$id"
+}
+
+resolve_column() {
+  [[ $2 =~ ^[0-9]+$ ]] && { printf '%s\n' "$2"; return; }
+  local id
+  id=$(pick "$(call getColumns "$(jq -nc --argjson p "$1" '{project_id:$p}')")" "$2" id title)
+  [ -n "$id" ] || { echo "kb: no column matching '$2' on project $1" >&2; exit 1; }
+  printf '%s\n' "$id"
+}
+
+resolve_category() {
+  [[ $2 =~ ^[0-9]+$ ]] && { printf '%s\n' "$2"; return; }
+  local id
+  id=$(pick "$(call getAllCategories "$(jq -nc --argjson p "$1" '{project_id:$p}')")" "$2" id name)
+  [ -n "$id" ] || { echo "kb: no category matching '$2' on project $1" >&2; exit 1; }
+  printf '%s\n' "$id"
+}
+
+need() { [ "$1" -ge "$2" ] || { usage; exit 1; }; }
+
+load_config
+cmd=${1:-}; shift 2>/dev/null || true
+
+case "$cmd" in
+  projects)
+    call getMyProjectsList | jq -r 'to_entries[] | "\(.key)\t\(.value)"' | sort -n
+    ;;
+
+  columns)
+    need $# 1
+    call getColumns "$(jq -nc --argjson p "$(resolve_project "$1")" '{project_id:$p}')" \
+      | jq -r '.[] | "\(.id)\t\(.title)"'
+    ;;
+
+  categories)
+    need $# 1
+    call getAllCategories "$(jq -nc --argjson p "$(resolve_project "$1")" '{project_id:$p}')" \
+      | jq -r '.[] | "\(.id)\t\(.name)"'
+    ;;
+
+  board)
+    need $# 1
+    pid=$(resolve_project "$1")
+    cols=$(call getColumns "$(jq -nc --argjson p "$pid" '{project_id:$p}')")
+    tasks=$(call getAllTasks "$(jq -nc --argjson p "$pid" '{project_id:$p,status_id:1}')")
+    jq -rn --argjson c "$cols" --argjson t "$tasks" '
+      $c[] as $col
+      | "== \($col.title)",
+        ( [ $t[] | select(.column_id == $col.id) ]
+          | if length == 0 then "  (empty)"
+            else .[] | "  #\(.id)\t\(.title)" end )'
+    ;;
+
+  show)
+    need $# 1
+    task=$(call getTask "$(jq -nc --argjson t "$1" '{task_id:$t}')")
+    pid=$(printf '%s' "$task" | jq -r '.project_id')
+    cols=$(call getColumns "$(jq -nc --argjson p "$pid" '{project_id:$p}')")
+    cats=$(call getAllCategories "$(jq -nc --argjson p "$pid" '{project_id:$p}')")
+    printf '%s' "$task" | jq -r --argjson c "$cols" --argjson g "$cats" '
+      . as $t
+      | "#\($t.id)\t\($t.title)",
+        "project \($t.project_id)  column \(($c[] | select(.id == $t.column_id) | .title) // "?")  category \((($g[] | select(.id == $t.category_id) | .name)) // "none")",
+        "",
+        ($t.description // "")'
+    echo "-- comments"
+    call getAllComments "$(jq -nc --argjson t "$1" '{task_id:$t}')" \
+      | jq -r 'if length == 0 then "  (none)"
+               else .[] | "  \(if (.name // "") == "" then .username else .name end): \(.comment)" end'
+    ;;
+
+  search)
+    need $# 2
+    pid=$(resolve_project "$1"); shift
+    call searchTasks "$(jq -nc --argjson p "$pid" --arg q "$*" '{project_id:$p,query:$q}')" \
+      | jq -r 'if length == 0 then "(no match -- check the keyword spelling, an unknown keyword silently matches nothing)" else .[] | "#\(.id)\t\(.title)" end'
+    ;;
+
+  new)
+    need $# 4
+    pid=$(resolve_project "$1")
+    col=$(resolve_column "$pid" "$2")
+    cat=$(resolve_category "$pid" "$3")
+    call createTask "$(jq -nc --argjson p "$pid" --argjson c "$col" --argjson g "$cat" \
+      --arg t "$4" --arg d "${5:-}" \
+      '{project_id:$p,column_id:$c,category_id:$g,title:$t,description:$d}')"
+    ;;
+
+  move)
+    need $# 2
+    task=$(call getTask "$(jq -nc --argjson t "$1" '{task_id:$t}')")
+    pid=$(printf '%s' "$task" | jq -r '.project_id')
+    swim=$(printf '%s' "$task" | jq -r '.swimlane_id')
+    col=$(resolve_column "$pid" "$2")
+    # all five arguments are required; omitting swimlane_id or position fails
+    call moveTaskPosition "$(jq -nc --argjson p "$pid" --argjson t "$1" \
+      --argjson c "$col" --argjson s "$swim" \
+      '{project_id:$p,task_id:$t,column_id:$c,position:1,swimlane_id:$s}')"
+    ;;
+
+  comment)
+    need $# 2
+    uid=$(call getMe | jq -r '.id')
+    tid=$1; shift
+    call createComment "$(jq -nc --argjson t "$tid" --argjson u "$uid" --arg c "$*" \
+      '{task_id:$t,user_id:$u,content:$c}')"
+    ;;
+
+  call)
+    need $# 1
+    call "$1" "${2:-null}"
+    ;;
+
+  ''|-h|--help|help) usage ;;
+  *) usage; exit 1 ;;
+esac

@@ -6,10 +6,12 @@ set -uo pipefail
 usage() {
   cat <<'EOF'
 wiki path              print the wiki root, or nothing if not on this machine
-wiki search <terms>    matching lines, with file:line. Start here.
+wiki search <terms>    matching lines in notes, with file:line. Start here.
 wiki digest            every note's one-line summary. Cheapest overview.
 wiki show <name>       one note's summary and its "## Use" block
 wiki list              note names only
+wiki log [op title]    no args: recent log entries. With args: append one.
+wiki lint              structural checks: links, index shards, skeleton
 wiki stale             notes containing values likely to have drifted
 EOF
 }
@@ -25,7 +27,7 @@ find_root() {
   fi
   # shallow discovery: $HOME/*/agent_wiki/INDEX.md, then $HOME/agent_wiki
   local hit
-  hit=$(find "$HOME" -maxdepth 3 -type f -name INDEX.md -path '*agent_wiki*' 2>/dev/null | head -1)
+  hit=$(find "$HOME" -maxdepth 3 -type f -path '*/agent_wiki/INDEX.md' 2>/dev/null | head -1)
   [ -n "$hit" ] && { dirname "$hit"; return 0; }
   return 1
 }
@@ -33,11 +35,73 @@ find_root() {
 ROOT=$(find_root) || { echo "no wiki found on this machine" >&2; exit 2; }
 SEARCH=$(command -v rg >/dev/null 2>&1 && echo rg || echo grep)
 
-notes() { find "$ROOT" -name '*.md' -not -name INDEX.md | sort; }
+# notes are every .md except indexes, the log, and raw sources
+notes() {
+  find "$ROOT" -name '*.md' -not -name INDEX.md -not -name log.md \
+    -not -path "$ROOT/raw/*" | sort
+}
 
 # a note's summary is its first non-empty line after the "# title" line
 summary_of() {
   awk 'NR>1 && NF && $0 !~ /^#/ { print; exit }' "$1"
+}
+
+lint() {
+  local errors=0 tmp; tmp=$(mktemp -d); trap 'rm -rf "$tmp"' RETURN
+  notes > "$tmp/notes"
+  sed 's|.*/||; s|\.md$||' "$tmp/notes" | sort > "$tmp/names"
+
+  section() { # <title> <file> <is_error>
+    [ -s "$2" ] || return 0
+    printf '\n%s (%s)\n' "$1" "$(wc -l < "$2")"; sed 's/^/  /' "$2"
+    [ "$3" = 1 ] && errors=1
+    return 0
+  }
+
+  # [[target]] or [[target|label]] or [[dir/target]] that names no note
+  while read -r f; do
+    grep -oE '\[\[[^]|]+' "$f" | sed 's/^\[\[//; s|.*/||' | sort -u | while read -r t; do
+      grep -qxF -- "$t" "$tmp/names" || echo "${f#$ROOT/} -> [[$t]]"
+    done
+  done < "$tmp/notes" > "$tmp/broken"
+
+  # each note directory holds an INDEX.md that lists every note in it once
+  : > "$tmp/unindexed"; : > "$tmp/dangling"; : > "$tmp/dupes"; : > "$tmp/long"
+  for d in $(sed 's|/[^/]*$||' "$tmp/notes" | sort -u); do
+    local idx="$d/INDEX.md" rel="${d#$ROOT/}"
+    if [ ! -f "$idx" ]; then echo "$rel/ has no INDEX.md" >> "$tmp/unindexed"; continue; fi
+    grep -oE '\]\([^)]+\.md\)' "$idx" | sed 's/^](//; s/)$//' > "$tmp/links"
+    grep -x -- "$d/[^/]*\.md" "$tmp/notes" | while read -r n; do
+      grep -qxF -- "${n##*/}" "$tmp/links" || echo "${n#$ROOT/}"
+    done >> "$tmp/unindexed"
+    sort "$tmp/links" | uniq -d | sed "s|^|$rel/INDEX.md lists twice: |" >> "$tmp/dupes"
+    while read -r l; do
+      [ "$l" = INDEX.md ] || [ -f "$d/$l" ] || echo "$rel/INDEX.md -> $l" >> "$tmp/dangling"
+    done < "$tmp/links"
+    local lines; lines=$(wc -l < "$idx")
+    [ "$lines" -gt 150 ] && echo "$rel/INDEX.md is $lines lines; shard it" >> "$tmp/long"
+    awk -v f="$rel/INDEX.md" 'length > 300 { print f ":" NR " hook is " length " chars; rewrite it" }' "$idx" >> "$tmp/long"
+  done
+
+  # notes that no other note links to (indexes do not count)
+  notes | xargs grep -hoE '\[\[[^]|]+' | sed 's/^\[\[//; s|.*/||' | sort -u > "$tmp/linked"
+  comm -23 "$tmp/names" "$tmp/linked" > "$tmp/orphans"
+
+  while read -r f; do grep -q '^## Use' "$f" || echo "${f#$ROOT/}"; done < "$tmp/notes" > "$tmp/nouse"
+
+  # the wiki never points at agent project memory
+  notes | xargs grep -lnE '\.claude/projects/[^ ]*/memory' | sed "s|^$ROOT/||" > "$tmp/memory"
+
+  section "BROKEN LINKS" "$tmp/broken" 1
+  section "NOT IN ITS INDEX" "$tmp/unindexed" 1
+  section "INDEX ENTRY WITH NO FILE" "$tmp/dangling" 1
+  section "DUPLICATE INDEX ENTRIES" "$tmp/dupes" 1
+  section "LINKS TO PROJECT MEMORY" "$tmp/memory" 1
+  section "OVERSIZED INDEX" "$tmp/long" 0
+  section "NO ## Use BLOCK" "$tmp/nouse" 0
+  section "ORPHANS (no inbound [[link]])" "$tmp/orphans" 0
+  if [ "$errors" = 0 ]; then echo; echo "lint: no errors"; else echo; echo "lint: errors found" >&2; fi
+  return "$errors"
 }
 
 cmd=${1:-}; shift 2>/dev/null || true
@@ -48,9 +112,9 @@ case "$cmd" in
     [ $# -gt 0 ] || { usage; exit 1; }
     if [ "$SEARCH" = rg ]; then
       rg --line-number --no-heading --smart-case --max-columns 400 \
-         --color never -- "$*" "$ROOT" | sed "s|^$ROOT/||"
+         --color never --glob '!raw/**' --glob '!log.md' -- "$*" "$ROOT" | sed "s|^$ROOT/||"
     else
-      grep -rn --color=never -i -- "$*" "$ROOT" | sed "s|^$ROOT/||"
+      grep -rn --color=never -i --exclude-dir=raw --exclude=log.md -- "$*" "$ROOT" | sed "s|^$ROOT/||"
     fi
     ;;
 
@@ -70,10 +134,22 @@ case "$cmd" in
 
   list) notes | sed "s|^$ROOT/||" ;;
 
+  log)
+    if [ $# -eq 0 ]; then
+      [ -f "$ROOT/log.md" ] && grep '^## \[' "$ROOT/log.md" | tail -20
+    else
+      [ $# -ge 2 ] || { echo "usage: wiki log <op> <title>" >&2; exit 1; }
+      op=$1; shift
+      printf '## [%s] %s | %s\n' "$(date +%F)" "$op" "$*" >> "$ROOT/log.md"
+    fi
+    ;;
+
+  lint) lint ;;
+
   # values that tend to rot: bare counts, versions, sizes, "as of" dates
   stale)
     if [ "$SEARCH" = rg ]; then
-      rg --line-number --no-heading --color never \
+      rg --line-number --no-heading --color never --glob '!raw/**' --glob '!log.md' \
         -e '\bas of\b' -e '\b[0-9]+ (books|authors|tags|files|containers|services)\b' \
         -e '\bv?[0-9]+\.[0-9]+\.[0-9]+\b' -e '\b[0-9]+(\.[0-9]+)? ?(GB|MB|TB)\b' \
         "$ROOT" | sed "s|^$ROOT/||"

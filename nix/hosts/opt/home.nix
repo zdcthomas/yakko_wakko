@@ -148,7 +148,17 @@ in
     # fish.enable = true;
     git.enable = true;
     hyprland.enable = true;
+    # The AGS top bar (nix/modules/home/ags); turns waybar and mako off. The
+    # Quickshell port (nix/modules/home/quickshell) is the alternative: swap
+    # the two lines to try it.
+    ags.enable = true;
+    # quickshell.enable = true;
     # music_making.enable = true;
+    # Watches the Nicotine+ download folder and files finished downloads into
+    # ~/Books, ~/Audio and ~/Videos. Audio is one triage bucket, sorted onward
+    # by hand. Nothing is set in Nicotine+ itself; its own post-download hooks
+    # cannot do this correctly. See the module.
+    nicotine.enable = true;
     nix.enable = true;
     # Feeds arrive as a weekly EPUB in ~/Books/News, not as a reader to check.
     # Feed list and schedule live in the module.
@@ -341,11 +351,17 @@ in
       ])
       ++ lib.optionals (config.custom.hm.mode != "writing") (with pkgs; [
       claude-nixpkgs.claude-code
+      # the desktop app, repackaged from Anthropic's Linux .deb -- see the
+      # claude-desktop input in flake.nix. Needs the keyring and vhost_vsock
+      # bits in configuration.nix beside it.
+      claude-desktop
       # terminal multiplexer that tracks coding-agent state per pane
       herdr
       # herdr's claude integration hook is a python3 script; without it the
       # hook exits silently and agents never resume after a server restart
       python3
+      # HEY email from the terminal: `hey`, `hey tui`. See the hey-cli input.
+      hey-cli
       # chromium-based browser for the Claude in Chrome extension
       brave
       dwarf-fortress-packages.dwarf-fortress-full

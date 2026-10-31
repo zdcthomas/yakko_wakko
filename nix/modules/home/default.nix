@@ -22,6 +22,7 @@
     ./kitty
     ./mode.nix
     ./music_making.nix
+    ./nicotine.nix
     ./nix
     ./nushell
     ./nvim
@@ -35,6 +36,7 @@
     ./tmux
     ./tofi
     ./waybar
+    ./ags
     ./wezterm
     ./zathura
     ./zellij.nix

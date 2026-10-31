@@ -22,6 +22,14 @@ in
     custom.hm.hyprland = {
       enable = lib.mkEnableOption "Enable custom hyprland";
     };
+    # Set by the bar module a host turns on (ags or quickshell), so this
+    # module does not need to know each bar. Two bars on one host fail here,
+    # as two definitions of a unique option.
+    custom.hm.barService = lib.mkOption {
+      type = lib.types.nullOr (lib.types.uniq lib.types.str);
+      default = null;
+      description = "systemd user service of the bar that draws the top bar and notifications.";
+    };
   };
   config = lib.mkIf cfg.enable {
     # https://git.sr.ht/~misterio/nix-config/tree/main/item/home/misterio/features/desktop/common/wayland-wm/waybar.nix
@@ -30,7 +38,8 @@ in
       systemdTargets = "hyprland-session.target";
     };
     services.mako = {
-      enable = true;
+      # A custom bar is the notification daemon where a host turns one on.
+      enable = config.custom.hm.barService == null;
       settings = {
         border-radius = 10;
         default-timeout = 4000; # milliseconds
@@ -168,7 +177,8 @@ in
     custom.hm = {
       tofi.enable = true;
       rofi.enable = true;
-      waybar.enable = true;
+      # A custom bar replaces waybar where a host turns one on.
+      waybar.enable = lib.mkDefault (config.custom.hm.barService == null);
     };
 
     wayland.windowManager.hyprland = {
@@ -193,8 +203,9 @@ in
           "${pkgs.udiskie}/bin/udiskie &"
           "xwaylandvideobridge"
           # clipboard watching is handled by services.cliphist
-          "pkill waybar; waybar"
-        ];
+        ]
+        # The AGS bar starts as a systemd user service instead.
+        ++ lib.optional config.custom.hm.waybar.enable "pkill waybar; waybar";
         misc = {
           animate_manual_resizes = true;
           disable_hyprland_logo = true;
@@ -232,6 +243,11 @@ in
             brightnessLower = "${pkgs.brightnessctl}/bin/brightnessctl set 4%-";
             brightnessRaise = "${pkgs.brightnessctl}/bin/brightnessctl set 4%+";
             cliphist = "${pkgs.cliphist}/bin/cliphist";
+            restartBar =
+              if config.custom.hm.barService != null then
+                "systemctl --user restart ${config.custom.hm.barService}"
+              else
+                "pkill waybar && waybar &";
             cliphistPick = "${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu -p clipboard | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
             grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
             openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";

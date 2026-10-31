@@ -67,6 +67,7 @@ with lib;
           graph-easy
           fzf
           deno
+          mdslw
           gcc
           fd
           unstable.vscode-js-debug

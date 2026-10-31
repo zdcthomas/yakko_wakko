@@ -6,8 +6,28 @@
   (final: prev: {
     dmux = inputs.dmux.packages.${prev.stdenv.hostPlatform.system}.default;
     herdr = inputs.herdr.packages.${prev.stdenv.hostPlatform.system}.default;
+    hey-cli = inputs.hey-cli.packages.${prev.stdenv.hostPlatform.system}.default;
 
-    ags = inputs.ags.packages.${prev.stdenv.hostPlatform.system}.default;
+    # `.default` is the FHS wrapper, which carries QEMU and OVMF so Cowork's
+    # VM works. `.pure` is the same app without them -- swap to it if the
+    # closure is not worth a feature you do not use.
+    claude-desktop = inputs.claude-desktop.packages.${prev.stdenv.hostPlatform.system}.default;
+
+    # The bare package carries only astal-io/3/4; every gi://Astal* service a
+    # bar imports must be on its typelib path, so they ride in here.
+    ags = inputs.ags.packages.${prev.stdenv.hostPlatform.system}.default.override {
+      extraPackages = with inputs.ags.inputs.astal.packages.${prev.stdenv.hostPlatform.system}; [
+        hyprland
+        battery
+        wireplumber
+        network
+        tray
+        bluetooth
+        mpris
+        notifd
+      ];
+    };
+    quickshell = inputs.quickshell.packages.${prev.stdenv.hostPlatform.system}.default;
     qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
 
     # Force foliate onto XWayland. Under Hyprland its WebKit view stops
