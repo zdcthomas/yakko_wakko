@@ -10,9 +10,19 @@ let
     pkgs = pkgs;
     homeDirectory = config.home.homeDirectory;
   };
+  # See the kevel-nix input in flake.nix for why it is not a flake input.
+  # getFlake refuses a string that refers to a store path, so the context is
+  # dropped; the path is already in the store, because the input was fetched.
+  kevelNix = builtins.getFlake (
+    builtins.unsafeDiscardStringContext "path:${inputs.kevel-nix}?narHash=${inputs.kevel-nix.narHash}"
+  );
 in
 {
-  imports = [ ../../modules/home ];
+  imports = [
+    ../../modules/home
+    # Every package in kevel-nix's list.
+    kevelNix.homeManagerModules.default
+  ];
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
 

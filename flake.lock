@@ -500,6 +500,23 @@
         "type": "github"
       }
     },
+    "kevel-nix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794346034,
+        "narHash": "sha256-ZI1rNlXchc59E5EUo+AdQE5Ir1NZuQph1pnKIINvJKE=",
+        "ref": "refs/heads/main",
+        "rev": "c120f66a85083994180124c4153cf00a07f695e2",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/zdcthomas/kevel-nix.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/zdcthomas/kevel-nix.git"
+      }
+    },
     "libpng": {
       "flake": false,
       "locked": {
@@ -837,6 +854,7 @@
         "hey-cli": "hey-cli",
         "home-manager": "home-manager",
         "hyprland-contrib": "hyprland-contrib",
+        "kevel-nix": "kevel-nix",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-colors": "nix-colors",
         "nixos-hardware": "nixos-hardware",
@@ -845,8 +863,7 @@
         "nur": "nur",
         "quickshell": "quickshell",
         "unstable": "unstable",
-        "wezterm": "wezterm",
-        "writ": "writ"
+        "wezterm": "wezterm"
       }
     },
     "rust-analyzer-src": {
@@ -1028,23 +1045,6 @@
         "owner": "wez",
         "repo": "wezterm",
         "type": "github"
-      }
-    },
-    "writ": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1790622141,
-        "narHash": "sha256-2VRPmNib1cDCww0hbhr2hMekT2ELWfeOPSRN1VTf+Go=",
-        "ref": "refs/heads/main",
-        "rev": "e9148764585e1e2213688001d5da9759e6180bcf",
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/jcswart/writ.git"
-      },
-      "original": {
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/jcswart/writ.git"
       }
     },
     "zlib": {

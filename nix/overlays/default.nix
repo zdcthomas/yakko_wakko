@@ -74,10 +74,6 @@
     ldtk = import ./ldtk.nix { pkgs = prev; };
     carapace = import ./carapace.nix { pkgs = prev; };
     mdslw = import ./mdslw.nix { pkgs = prev; };
-    writ = import ./writ.nix {
-      pkgs = prev;
-      inherit inputs;
-    };
     pragmataPro = import ./pp.nix {
       pkgs = prev;
       inherit inputs;
