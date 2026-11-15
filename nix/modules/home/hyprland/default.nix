@@ -251,6 +251,63 @@ in
             cliphistPick = "${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu -p clipboard | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
             grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
             openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";
+            # Viture Beast XR glasses, matched by EDID description so the
+            # rules follow them to whichever USB-C slot they are plugged into.
+            glasses = "desc:Visitech AS VITURE Beast";
+            # Turns the laptop panel off so only the glasses show anything, and
+            # back on. Refuses to turn the panel off when the glasses are not
+            # connected, so the bind never leaves you with no screen.
+            glassesOnly = toString (
+              pkgs.writeShellScript "hypr-glasses-only" ''
+                jq=${pkgs.jq}/bin/jq
+                if hyprctl monitors -j | $jq -e '.[] | select(.name == "eDP-1")' >/dev/null; then
+                  if hyprctl monitors -j | $jq -e '.[] | select(.description == "Visitech AS VITURE Beast")' >/dev/null; then
+                    hyprctl keyword monitor "eDP-1,disable"
+                  else
+                    ${pkgs.libnotify}/bin/notify-send "Glasses not connected" "Laptop screen stays on."
+                  fi
+                else
+                  # Re-reading the config restores the eDP-1 monitor rule.
+                  hyprctl reload
+                fi
+              ''
+            );
+            # Searchable list of every bind that has a description (bindd),
+            # read live from `hyprctl binds -j`; picking one runs it. Binds
+            # without a description, mouse binds and submap binds stay out.
+            keybindMenu = toString (
+              pkgs.writeShellScript "hypr-keybind-menu" ''
+                jq=${pkgs.jq}/bin/jq
+                binds=$(hyprctl binds -j | $jq -c '[.[] | select(.has_description and .submap == "" and (.mouse | not))]')
+                count=$($jq length <<<"$binds")
+                [ "$count" -gt 0 ] || exit 0
+
+                pick=$($jq -r '
+                  def bit($n): ((. / $n) | floor) % 2 == 1;
+                  def mods: .modmask as $m
+                    | [ (if ($m | bit(64)) then "SUPER" else empty end),
+                        (if ($m | bit(4))  then "CTRL"  else empty end),
+                        (if ($m | bit(8))  then "ALT"   else empty end),
+                        (if ($m | bit(1))  then "SHIFT" else empty end) ];
+                  def keyname: {
+                      "bracketleft": "[", "bracketright": "]",
+                      "braceleft": "{", "braceright": "}",
+                      "Return": "Enter", "TAB": "Tab", "space": "Space",
+                      "XF86AudioMute": "Mute", "XF86AudioMicMute": "MicMute",
+                      "XF86AudioLowerVolume": "Vol-", "XF86AudioRaiseVolume": "Vol+",
+                      "XF86MonBrightnessDown": "Bright-", "XF86MonBrightnessUp": "Bright+"
+                    }[.] // (if length == 1 then ascii_upcase else . end);
+                  def pad($n): . + (" " * ([$n - length, 1] | max));
+                  .[] | "\(.description | pad(42))\((mods + [.key | keyname]) | join(" + "))"
+                ' <<<"$binds" | ${pkgs.rofi}/bin/rofi -dmenu -i -p keybinds -format i)
+
+                case "$pick" in ""|*[!0-9]*) exit 0 ;; esac
+                [ "$pick" -lt "$count" ] || exit 0
+                dispatcher=$($jq -r ".[$pick].dispatcher" <<<"$binds")
+                arg=$($jq -r ".[$pick].arg" <<<"$binds")
+                exec hyprctl dispatch "$dispatcher" "$arg"
+              ''
+            );
             anyrun = "${pkgs.anyrun}/bin/anyrun";
             yofi = "${pkgs.yofi}/bin/yofi";
             col = col;
@@ -265,8 +322,8 @@ in
                     builtins.toString (x + 1 - (c * 10));
                 in
                 ''
-                  bind = $mainMod, ${ws}, workspace, ${toString (x + 1)}
-                  bind = $mainMod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
+                  bindd = $mainMod, ${ws}, Go to workspace ${toString (x + 1)}, workspace, ${toString (x + 1)}
+                  bindd = $mainMod SHIFT, ${ws}, Move window to workspace ${toString (x + 1)}, movetoworkspace, ${toString (x + 1)}
                 ''
               ) 10
             );
