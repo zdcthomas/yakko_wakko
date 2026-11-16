@@ -500,23 +500,6 @@
         "type": "github"
       }
     },
-    "kevel-nix": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1794346034,
-        "narHash": "sha256-ZI1rNlXchc59E5EUo+AdQE5Ir1NZuQph1pnKIINvJKE=",
-        "ref": "refs/heads/main",
-        "rev": "c120f66a85083994180124c4153cf00a07f695e2",
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/zdcthomas/kevel-nix.git"
-      },
-      "original": {
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/zdcthomas/kevel-nix.git"
-      }
-    },
     "libpng": {
       "flake": false,
       "locked": {
@@ -854,7 +837,6 @@
         "hey-cli": "hey-cli",
         "home-manager": "home-manager",
         "hyprland-contrib": "hyprland-contrib",
-        "kevel-nix": "kevel-nix",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-colors": "nix-colors",
         "nixos-hardware": "nixos-hardware",

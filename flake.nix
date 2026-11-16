@@ -95,16 +95,6 @@
       url = "git+ssh://git@github.com/zdcthomas/PP.git?shallow=1";
       flake = false;
     };
-    # Private packages that must not show up in this public repo; the list
-    # lives in kevel-nix. `flake = false` on purpose: a flake input's own
-    # inputs are written into this repo's public flake.lock, and kevel-nix's
-    # inputs are private repos. As a plain source, the lock records only
-    # kevel-nix itself. nix/hosts/work/home.nix loads it with
-    # builtins.getFlake, which reads kevel-nix's own (private) flake.lock.
-    kevel-nix = {
-      url = "git+ssh://git@github.com/zdcthomas/kevel-nix.git?shallow=1";
-      flake = false;
-    };
   };
 
   outputs =
