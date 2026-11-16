@@ -78,6 +78,7 @@ alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
+alt-0 = 'workspace 10' # lives on the glasses, see workspace-to-monitor-force-assignment
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = [ 'move-node-to-workspace 1', 'workspace 1' ]
@@ -89,12 +90,24 @@ alt-shift-6 = [ 'move-node-to-workspace 6', 'workspace 6' ]
 alt-shift-7 = [ 'move-node-to-workspace 7', 'workspace 7' ]
 alt-shift-8 = [ 'move-node-to-workspace 8', 'workspace 8' ]
 alt-shift-9 = [ 'move-node-to-workspace 9', 'workspace 9' ]
+alt-shift-0 = [ 'move-node-to-workspace 10', 'workspace 10' ]
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
 cmd-alt-ctrl-n = 'move-workspace-to-monitor --wrap-around next'
 cmd-alt-ctrl-p = 'move-workspace-to-monitor --wrap-around prev'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#focus-monitor
+cmd-alt-n = 'focus-monitor --wrap-around next'
+cmd-alt-p = 'focus-monitor --wrap-around prev'
+
+# Send the focused window to the other monitor and follow it
+cmd-alt-shift-n = ['move-node-to-monitor --wrap-around next', 'focus-monitor --wrap-around next']
+cmd-alt-shift-p = ['move-node-to-monitor --wrap-around prev', 'focus-monitor --wrap-around prev']
+
+# Toggle display mirroring (see bin/toggle-mirror.swift)
+cmd-ctrl-alt-m = 'exec-and-forget /usr/bin/swift ~/.config/aerospace/bin/toggle-mirror.swift'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 cmd-ctrl-alt-semicolon = 'mode service'
@@ -103,7 +116,7 @@ cmd-ctrl-alt-semicolon = 'mode service'
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'mode main'] # reset layout
+r = ['flatten-workspace-tree', 'layout h_tiles', 'mode main'] # reset layout: one flat row of tiles, also leaves accordion
 #s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
 backspace = ['close-all-windows-but-current', 'mode main']
@@ -112,6 +125,11 @@ backspace = ['close-all-windows-but-current', 'mode main']
 # alt-shift-j = ['join-with down', 'mode main']
 # alt-shift-k = ['join-with up', 'mode main']
 # alt-shift-l = ['join-with right', 'mode main']
+
+# Workspace 10 stays on the glasses; falls back to the main display when they are unplugged.
+# See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+[workspace-to-monitor-force-assignment]
+10 = ['VITURE', 'main']
 
 # Window rules — run when a window first appears.
 # See: https://nikitabobko.github.io/AeroSpace/guide#on-window-detected-callback
