@@ -1,3 +1,4 @@
+config-version = 2
 after-login-command = []
 start-at-login = true
 enable-normalization-flatten-containers = true
@@ -5,7 +6,17 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 after-startup-command = [
     # 'exec-and-forget /opt/homebrew/opt/sketchybar/bin/sketchybar',
     'exec-and-forget borders active_color=0xaa00a56c inactive_color=0x00333333 width=6',
+    # The workspace that exists at startup gets an accordion root, whatever
+    # default-root-container-layout says. Put it back to tiles.
+    'layout --workspace 1 --root h_tiles',
+    'layout --workspace 10 --root h_tiles',
 ]
+
+# With config-version = 2 the list is explicit, no longer inferred from the bindings.
+persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+
+# Keep the pointer on the monitor that has focus. It is hard to find on the glasses.
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 # Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
@@ -103,8 +114,8 @@ cmd-alt-n = 'focus-monitor --wrap-around next'
 cmd-alt-p = 'focus-monitor --wrap-around prev'
 
 # Send the focused window to the other monitor and follow it
-cmd-alt-shift-n = ['move-node-to-monitor --wrap-around next', 'focus-monitor --wrap-around next']
-cmd-alt-shift-p = ['move-node-to-monitor --wrap-around prev', 'focus-monitor --wrap-around prev']
+cmd-alt-shift-n = 'move-node-to-monitor --focus-follows-window --wrap-around next'
+cmd-alt-shift-p = 'move-node-to-monitor --focus-follows-window --wrap-around prev'
 
 # Toggle display mirroring (see bin/toggle-mirror.swift)
 cmd-ctrl-alt-m = 'exec-and-forget /usr/bin/swift ~/.config/aerospace/bin/toggle-mirror.swift'
@@ -116,7 +127,7 @@ cmd-ctrl-alt-semicolon = 'mode service'
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'layout h_tiles', 'mode main'] # reset layout: one flat row of tiles, also leaves accordion
+r = ['flatten-workspace-tree', 'layout --root h_tiles', 'mode main'] # reset layout: one flat row of tiles, also leaves accordion
 #s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
 backspace = ['close-all-windows-but-current', 'mode main']
