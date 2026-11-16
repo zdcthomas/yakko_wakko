@@ -345,6 +345,8 @@ in
 
         # Shell odds and ends the cli module leaves out.
         file
+        # dig and nslookup, for when DNS breaks. It breaks in every mode.
+        dnsutils
         # A TUI mixer. pamixer is a one-shot command with no display, which is
         # awkward when the only thing playing is in another window.
         pulsemixer
