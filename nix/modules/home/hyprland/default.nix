@@ -251,6 +251,64 @@ in
             cliphistPick = "${pkgs.cliphist}/bin/cliphist list | ${pkgs.rofi}/bin/rofi -dmenu -p clipboard | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
             grimblast = "${pkgs.hyprland-contrib.grimblast}/bin/grimblast";
             openFirefox = "[workspace 2 silent] ${pkgs.firefox}/bin/firefox";
+            # Viture Beast XR glasses, matched by EDID description so the
+            # rules follow them to whichever USB-C slot they are plugged into.
+            glasses = "desc:Visitech AS VITURE Beast";
+            # Turns the laptop panel off so only the glasses show anything, and
+            # back on. Refuses to turn the panel off when the glasses are not
+            # connected; hypr-glasses-watch (below) turns it back on if the
+            # glasses disconnect while it is off.
+            glassesOnly = toString (
+              pkgs.writeShellScript "hypr-glasses-only" ''
+                jq=${pkgs.jq}/bin/jq
+                if hyprctl monitors -j | $jq -e '.[] | select(.name == "eDP-1")' >/dev/null; then
+                  if hyprctl monitors -j | $jq -e '.[] | select(.description == "Visitech AS VITURE Beast")' >/dev/null; then
+                    hyprctl keyword monitor "eDP-1,disable"
+                  else
+                    ${pkgs.libnotify}/bin/notify-send "Glasses not connected" "Laptop screen stays on."
+                  fi
+                else
+                  # Re-reading the config restores the eDP-1 monitor rule.
+                  hyprctl reload
+                fi
+              ''
+            );
+            # Searchable list of every bind that has a description (bindd),
+            # read live from `hyprctl binds -j`; picking one runs it. Binds
+            # without a description, mouse binds and submap binds stay out.
+            keybindMenu = toString (
+              pkgs.writeShellScript "hypr-keybind-menu" ''
+                jq=${pkgs.jq}/bin/jq
+                binds=$(hyprctl binds -j | $jq -c '[.[] | select(.has_description and .submap == "" and (.mouse | not))]')
+                count=$($jq length <<<"$binds")
+                [ "$count" -gt 0 ] || exit 0
+
+                pick=$($jq -r '
+                  def bit($n): ((. / $n) | floor) % 2 == 1;
+                  def mods: .modmask as $m
+                    | [ (if ($m | bit(64)) then "SUPER" else empty end),
+                        (if ($m | bit(4))  then "CTRL"  else empty end),
+                        (if ($m | bit(8))  then "ALT"   else empty end),
+                        (if ($m | bit(1))  then "SHIFT" else empty end) ];
+                  def keyname: {
+                      "bracketleft": "[", "bracketright": "]",
+                      "braceleft": "{", "braceright": "}",
+                      "Return": "Enter", "TAB": "Tab", "space": "Space",
+                      "XF86AudioMute": "Mute", "XF86AudioMicMute": "MicMute",
+                      "XF86AudioLowerVolume": "Vol-", "XF86AudioRaiseVolume": "Vol+",
+                      "XF86MonBrightnessDown": "Bright-", "XF86MonBrightnessUp": "Bright+"
+                    }[.] // (if length == 1 then ascii_upcase else . end);
+                  def pad($n): . + (" " * ([$n - length, 1] | max));
+                  .[] | "\(.description | pad(42))\((mods + [.key | keyname]) | join(" + "))"
+                ' <<<"$binds" | ${pkgs.rofi}/bin/rofi -dmenu -i -p keybinds -format i)
+
+                case "$pick" in ""|*[!0-9]*) exit 0 ;; esac
+                [ "$pick" -lt "$count" ] || exit 0
+                dispatcher=$($jq -r ".[$pick].dispatcher" <<<"$binds")
+                arg=$($jq -r ".[$pick].arg" <<<"$binds")
+                exec hyprctl dispatch "$dispatcher" "$arg"
+              ''
+            );
             anyrun = "${pkgs.anyrun}/bin/anyrun";
             yofi = "${pkgs.yofi}/bin/yofi";
             col = col;
@@ -265,8 +323,8 @@ in
                     builtins.toString (x + 1 - (c * 10));
                 in
                 ''
-                  bind = $mainMod, ${ws}, workspace, ${toString (x + 1)}
-                  bind = $mainMod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
+                  bindd = $mainMod, ${ws}, Go to workspace ${toString (x + 1)}, workspace, ${toString (x + 1)}
+                  bindd = $mainMod SHIFT, ${ws}, Move window to workspace ${toString (x + 1)}, movetoworkspace, ${toString (x + 1)}
                 ''
               ) 10
             );
@@ -274,6 +332,49 @@ in
         in
         builtins.readFile (templateFile "hyprconf" ./hyprland.conf data);
     };
+    # Glasses-only mode (SUPER+ALT+G) turns eDP-1 off. If the glasses then
+    # disconnect, nothing is left to show the session, so this watches
+    # Hyprland's event socket and re-reads the config (which turns eDP-1 back
+    # on) when a monitor goes away while eDP-1 is off and the glasses are gone.
+    systemd.user.services.hypr-glasses-watch =
+      let
+        hyprctl = "${config.wayland.windowManager.hyprland.finalPackage}/bin/hyprctl";
+        jq = "${pkgs.jq}/bin/jq";
+        watch = pkgs.writeShellScript "hypr-glasses-watch" ''
+          restore_if_dark() {
+            monitors=$(${hyprctl} monitors -j)
+            ${jq} -e '.[] | select(.name == "eDP-1")' >/dev/null <<<"$monitors" && return
+            ${jq} -e '.[] | select(.description == "Visitech AS VITURE Beast")' >/dev/null <<<"$monitors" && return
+            echo "eDP-1 is off and the glasses are gone: reloading the config"
+            ${hyprctl} reload
+          }
+          # Covers glasses that left while this service was not running.
+          restore_if_dark
+          ${pkgs.socat}/bin/socat -U - "UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" |
+            while IFS= read -r event; do
+              case "$event" in
+                monitorremoved*)
+                  sleep 1
+                  restore_if_dark
+                  ;;
+              esac
+            done
+        '';
+      in
+      {
+        Unit = {
+          Description = "Turn the laptop screen back on when the XR glasses disconnect in glasses-only mode";
+          PartOf = [ "hyprland-session.target" ];
+          After = [ "hyprland-session.target" ];
+        };
+        Service = {
+          ExecStart = "${watch}";
+          Restart = "always";
+          RestartSec = 2;
+        };
+        Install.WantedBy = [ "hyprland-session.target" ];
+      };
+
     # Size matches `env = XCURSOR_SIZE,24` in hyprland.conf; change both together.
     home.pointerCursor = {
       name = "phinger-cursors-dark";
