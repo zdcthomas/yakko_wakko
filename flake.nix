@@ -59,6 +59,15 @@
       url = "github:zdcthomas/dmux";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Spec editor where humans write and agents suggest. Follows our nixpkgs:
+    # the build pins only Cargo.lock, so any recent rustPlatform works. The
+    # package also holds the Neovim plugin (share/redline/nvim), which
+    # config/nvim/lua/plugins/redline.lua loads, so the plugin always matches
+    # the CLI.
+    redline = {
+      url = "github:zdcthomas/redline";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # NOTE: deliberately *not* following nixpkgs: herdr builds against
     # nixos-unstable + rust-overlay (zig_0_15, pinned rust toolchain)
     herdr = {

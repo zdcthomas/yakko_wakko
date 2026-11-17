@@ -823,6 +823,26 @@
         "url": "https://git.outfoxxed.me/quickshell/quickshell"
       }
     },
+    "redline": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794404378,
+        "narHash": "sha256-m+4U7KQpbwu8uFpLpKr9Q+QngMutvBEANV8Bcuab9hk=",
+        "owner": "zdcthomas",
+        "repo": "redline",
+        "rev": "b4ba7eaef1a9635dc47e2421bffda768cc7f32fd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zdcthomas",
+        "repo": "redline",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "ags": "ags",
@@ -844,6 +864,7 @@
         "nixpkgs": "nixpkgs_7",
         "nur": "nur",
         "quickshell": "quickshell",
+        "redline": "redline",
         "unstable": "unstable",
         "wezterm": "wezterm"
       }

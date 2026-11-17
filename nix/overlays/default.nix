@@ -7,6 +7,7 @@
     dmux = inputs.dmux.packages.${prev.stdenv.hostPlatform.system}.default;
     herdr = inputs.herdr.packages.${prev.stdenv.hostPlatform.system}.default;
     hey-cli = inputs.hey-cli.packages.${prev.stdenv.hostPlatform.system}.default;
+    redline = inputs.redline.packages.${prev.stdenv.hostPlatform.system}.redline;
 
     # `.default` is the FHS wrapper, which carries QEMU and OVMF so Cowork's
     # VM works. `.pure` is the same app without them -- swap to it if the

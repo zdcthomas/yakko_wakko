@@ -364,6 +364,9 @@ in
       python3
       # HEY email from the terminal: `hey`, `hey tui`. See the hey-cli input.
       hey-cli
+      # Spec editor where agents suggest edits. It is not in the writing list
+      # above because it needs an agent, and claude-code is only in this list.
+      redline
       # chromium-based browser for the Claude in Chrome extension
       brave
       dwarf-fortress-packages.dwarf-fortress-full

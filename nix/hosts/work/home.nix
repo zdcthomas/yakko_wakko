@@ -75,6 +75,7 @@ in
         weechat
         zk
         dmux
+        redline
         # go
         rustup
         nerd-fonts.iosevka
