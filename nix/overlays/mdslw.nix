@@ -1,13 +1,16 @@
 { pkgs }:
 with pkgs;
 let
-  version = "0.17.2";
+  version = "0.18.0-unstable-2026-11-12";
 
+  # My fork of razziel89/mdslw: upstream 0.18.0 plus a fix that keeps the
+  # final newline when reading from stdin. The fork's main carries the fix;
+  # pin a commit on it.
   src = fetchFromGitHub {
-    owner = "razziel89";
+    owner = "zdcthomas";
     repo = "mdslw";
-    rev = version;
-    hash = "sha256-4iSQS13tMglOV8nWBw7Zxi8+DcKHKGl99cuHKvOIE7s=";
+    rev = "31b2f3a1d87a22d535aea89e01afe373c06041f0";
+    hash = "sha256-m8GHpUwTHvt8ONcv6v4L6nT48cwuhP8qUlRMlfvm0yg=";
   };
 
   # build.rs downloads these from cldr-json main at build time, which the
@@ -47,7 +50,7 @@ rustPlatform.buildRustPackage {
   pname = "mdslw";
   inherit version src;
 
-  cargoHash = "sha256-emaBv9b9WjFKbyN5V0A5N8NHea8YMBvj256gv9P116E=";
+  cargoHash = "sha256-mcaiu6rLcR4TtOysMiEOVGPXFvGYlU/y/U4SGqUizSk=";
 
   # Replace the downloading build script with one that points include_dir! at
   # the pre-built language files.
@@ -61,7 +64,7 @@ rustPlatform.buildRustPackage {
 
   meta = {
     description = "Prepare your markdown for easy diff'ability by adding line breaks after every sentence";
-    homepage = "https://github.com/razziel89/mdslw";
+    homepage = "https://github.com/zdcthomas/mdslw";
     license = lib.licenses.gpl3Plus;
     mainProgram = "mdslw";
   };
