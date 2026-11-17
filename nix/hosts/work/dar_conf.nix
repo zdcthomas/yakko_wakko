@@ -76,6 +76,7 @@
       # "firefox"
       "aws-vpn-client"
       "aerospace"
+      "handy" # local speech-to-text dictation
     ];
     taps = [
       # "koekeishiya/formulae" # yabai

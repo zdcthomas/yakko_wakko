@@ -27,6 +27,9 @@ in
     bash.enable = true;
     aerospace.enable = true;
     nushell.enable = true;
+    # Symlinks config/claude/skills into ~/.claude/skills. Any machine that
+    # builds this module gets the same skills.
+    claude.enable = true;
     cli.enable = true;
     fish.enable = true;
     font.enable = true;
