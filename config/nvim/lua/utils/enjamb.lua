@@ -1,20 +1,20 @@
--- gq for markdown through mdslw (one sentence per line).
+-- gq for markdown through enjamb, my fork of mdslw (one sentence per line).
 --
--- mdslw only treats lines as a table when it sees the header row and the
+-- enjamb only treats lines as a table when it sees the header row and the
 -- delimiter row. Given body rows alone (gqq on a row, a visual selection, gq}
 -- from mid-table), it parses them as a paragraph and splits each row at every
 -- sentence end. So a gq range that touches a table grows to cover the whole
--- table. mdslw passes a whole table through unchanged.
+-- table. enjamb passes a whole table through unchanged.
 --
--- mdslw also drops trailing blank lines, so gqap used to delete the blank line
+-- enjamb also drops trailing blank lines, so gqap used to delete the blank line
 -- after the paragraph and merge it with the next one. Blank lines at either
--- end of the range are kept out of mdslw and put back afterwards.
+-- end of the range are kept out of enjamb and put back afterwards.
 --
 -- Vim also calls formatexpr for 'textwidth' auto-wrap in insert mode. Table
 -- rows are not wrapped there; everything else falls back to the internal wrap.
 local M = {}
 
-M.cmd = { "mdslw", "--max-width", "100" }
+M.cmd = { "enjamb", "--max-width", "100" }
 
 local table_query
 
@@ -89,7 +89,7 @@ function M.formatexpr()
 	local body = vim.list_slice(lines, lead + 1, #lines - trail)
 	local out = vim.fn.systemlist(M.cmd, body)
 	if vim.v.shell_error ~= 0 then
-		vim.notify("mdslw failed:\n" .. table.concat(out, "\n"), vim.log.levels.ERROR)
+		vim.notify("enjamb failed:\n" .. table.concat(out, "\n"), vim.log.levels.ERROR)
 		return 0
 	end
 

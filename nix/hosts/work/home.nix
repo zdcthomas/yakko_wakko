@@ -63,7 +63,7 @@ in
       with pkgs;
       [
         d2
-        mdslw
+        enjamb
         nurl
         deno
         nix-init

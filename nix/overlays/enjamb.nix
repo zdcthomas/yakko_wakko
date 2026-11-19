@@ -1,16 +1,17 @@
 { pkgs }:
 with pkgs;
 let
-  version = "0.18.0-unstable-2026-11-12";
+  version = "0.18.0-unstable-2026-11-19";
 
-  # My fork of razziel89/mdslw: upstream 0.18.0 plus a fix that keeps the
-  # final newline when reading from stdin. The fork's main carries the fix;
-  # pin a commit on it.
+  # enjamb: my fork of razziel89/mdslw, renamed. Upstream 0.18.0 plus a fix
+  # that keeps the final newline when reading from stdin. The binary is
+  # enjamb; .mdslw.toml, the mdslw-ignore comments and the MDSLW_* variables
+  # keep their names. Pin a commit on the fork's main.
   src = fetchFromGitHub {
     owner = "zdcthomas";
-    repo = "mdslw";
-    rev = "31b2f3a1d87a22d535aea89e01afe373c06041f0";
-    hash = "sha256-m8GHpUwTHvt8ONcv6v4L6nT48cwuhP8qUlRMlfvm0yg=";
+    repo = "enjamb";
+    rev = "e39e01d73b739e4352cae9f0b93e833a7ffe9431";
+    hash = "sha256-crjltgiebMQJMQQzPGGz+eal3a4xZoTe1ixG9FLouy8=";
   };
 
   # build.rs downloads these from cldr-json main at build time, which the
@@ -26,7 +27,7 @@ let
     it = "sha256-p+ULlpB00qLEhIv2ccSXK48cu9LvfvVRv0vzUzsJg8Y=";
   };
 
-  langDir = runCommand "mdslw-lang-${version}" { nativeBuildInputs = [ jq ]; } (
+  langDir = runCommand "enjamb-lang-${version}" { nativeBuildInputs = [ jq ]; } (
     ''
       mkdir $out
       cp ${src}/src/lang/ac $out/ac
@@ -47,10 +48,10 @@ let
   );
 in
 rustPlatform.buildRustPackage {
-  pname = "mdslw";
+  pname = "enjamb";
   inherit version src;
 
-  cargoHash = "sha256-mcaiu6rLcR4TtOysMiEOVGPXFvGYlU/y/U4SGqUizSk=";
+  cargoHash = "sha256-lZ/1f8xVlYBlmw9jiFDa3/LrEfJEpurJZ4Aynm3w6w0=";
 
   # Replace the downloading build script with one that points include_dir! at
   # the pre-built language files.
@@ -64,8 +65,8 @@ rustPlatform.buildRustPackage {
 
   meta = {
     description = "Prepare your markdown for easy diff'ability by adding line breaks after every sentence";
-    homepage = "https://github.com/zdcthomas/mdslw";
+    homepage = "https://github.com/zdcthomas/enjamb";
     license = lib.licenses.gpl3Plus;
-    mainProgram = "mdslw";
+    mainProgram = "enjamb";
   };
 }

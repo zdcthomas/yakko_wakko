@@ -67,7 +67,7 @@ with lib;
           graph-easy
           fzf
           deno
-          mdslw
+          enjamb
           gcc
           fd
           unstable.vscode-js-debug
@@ -105,7 +105,7 @@ with lib;
         ++ optionals cfg.language_servers.markdown [
           marksman
           glow
-          mdslw
+          enjamb
         ];
       defaultPackage = pkgs.symlinkJoin {
         name = "nvim";
